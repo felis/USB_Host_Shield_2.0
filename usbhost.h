@@ -9,7 +9,7 @@
 
 
 /* SPI initialization */
-template< typename CLK, typename MOSI, typename MISO > class SPi
+template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SPi
 {
   public:
     static void init() {
@@ -17,6 +17,7 @@ template< typename CLK, typename MOSI, typename MISO > class SPi
       CLK::SetDirWrite();
       MOSI::SetDirWrite();
       MISO::SetDirRead();
+      SPI_SS::SetDirWrite();
       /* mode 00 (CPOL=0, CPHA=0) master, fclk/2. Mode 11 (CPOL=11, CPHA=11) is also supported by MAX3421E */
       SPCR = 0x50;
       SPSR = 0x01;
@@ -28,10 +29,10 @@ template< typename CLK, typename MOSI, typename MISO > class SPi
 
 /* SPI pin definitions. see avrpins.h   */
 #if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
-typedef SPi< Pb1, Pb2, Pb3 > spi;
+typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 #endif
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
-typedef SPi< Pb5, Pb3, Pb4 > spi;
+typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #endif
 
 template< typename SS, typename INTR > class MAX3421e /* : public spi */
@@ -45,7 +46,7 @@ template< typename SS, typename INTR > class MAX3421e /* : public spi */
     uint8_t* bytesRd( uint8_t reg, uint8_t nbytes, uint8_t* data_p );
     uint8_t gpioRd();
     uint16_t reset();
-    uint8_t init();
+    int8_t init();
 };
 /* constructor */
 template< typename SS, typename INTR >
@@ -156,7 +157,7 @@ uint16_t MAX3421e< SS, INTR >::reset()
 }
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
-uint8_t MAX3421e< SS, INTR >::init()
+int8_t MAX3421e< SS, INTR >::init()
 {
   if( reset() == 0 ) { //OSCOKIRQ hasn't asserted in time
     return ( -1 );

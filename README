@@ -1,5 +1,5 @@
 This is Rev.2.0 of MAX3421E-based USB Host Library for Arduino. At the moment, this repo contains current development copy
 of the code facilitating developer's exchange. For those not involved in the project, the code in its' current state doesn't bear any value.
-In other words, nothing works yet.
+In other words, nothing works yet. The project-related activity is blogged at http://www.circuitsathome.com
 
 The code uses slightly modified Konstantin Chizhov's AVR pin templates, see the original here -> https://github.com/KonstantinChizhov/AvrProjects
