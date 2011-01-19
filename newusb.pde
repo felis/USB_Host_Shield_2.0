@@ -7,7 +7,8 @@ MAX3421e<P10, P9> Max;
 void setup() {
   Serial.begin( 115200 );
   Serial.println("\r\nStart");
-  if ( Max.reset() == -1 ) {
+
+  if ( Max.init() == -1 ) {
     Serial.println("OSCOKIRQ failed to assert");
     while(1);
   }

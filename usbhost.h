@@ -55,6 +55,11 @@ MAX3421e< SS, INTR >::MAX3421e()
   /* pin and peripheral setup */
   SS::SetDirWrite();
   SS::Set();
+  /**/
+  /* For shield rev.1.xx uncomment following two lines */
+  P7::SetDirWrite();
+  P7::Set();
+  /**/
   spi::init();
   INTR::SetDirRead();
   /* MAX3421E - full-duplex SPI, level interrupt */
