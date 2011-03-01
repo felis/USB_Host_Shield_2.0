@@ -9,7 +9,9 @@
 /* pin numbers to port numbers */
 
 //#define MAX_SS    10
-#define MAX_INT   9
+//#define MAX_INT   3			// Black Widdow
+#define MAX_INT   9		// Duemielanove
+
 #define MAX_GPX   8
 //#define MAX_RESET 7
 //
@@ -144,7 +146,8 @@
 #define bmFRAMEIRQ      0x40
 #define bmHXFRDNIRQ     0x80
 
-#define rHIEN       0xd0    //26<<3
+#define rHIEN			0xd0    //26<<3
+
 /* HIEN Bits */
 #define bmBUSEVENTIE    0x01
 #define bmRWUIE         0x02
@@ -155,7 +158,8 @@
 #define bmFRAMEIE       0x40
 #define bmHXFRDNIE      0x80
 
-#define rMODE       0xd8    //27<<3
+#define rMODE			0xd8    //27<<3
+
 /* MODE Bits */
 #define bmHOST          0x01
 #define bmLOWSPEED      0x02
@@ -191,6 +195,7 @@
 #define tokISOOUT 0x60  // HS=0, ISO=1, OUTNIN=1, SETUP=0
 
 #define rHRSL       0xf8    //31<<3
+
 /* HRSL Bits */
 #define bmRCVTOGRD  0x10
 #define bmSNDTOGRD  0x20
@@ -198,6 +203,7 @@
 #define bmJSTATUS   0x80
 #define bmSE0       0x00    //SE0 - disconnect state
 #define bmSE1       0xc0    //SE1 - illegal state       
+
 /* Host error result codes, the 4 LSB's in the HRSL register */
 #define hrSUCCESS   0x00
 #define hrBUSY      0x01

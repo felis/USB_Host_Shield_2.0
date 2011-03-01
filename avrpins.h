@@ -106,6 +106,27 @@ MAKE_PORT(PORTD, DDRD, PIND, Portd, 'D')
 #ifdef USE_PORTE
 MAKE_PORT(PORTE, DDRE, PINE, Porte, 'E')
 #endif
+#ifdef USE_PORTF
+MAKE_PORT(PORTF, DDRF, PINF, Portf, 'F')
+#endif
+#ifdef USE_PORTG
+MAKE_PORT(PORTG, DDRG, PING, Portg, 'G')
+#endif
+#ifdef USE_PORTH
+MAKE_PORT(PORTH, DDRH, PINH, Porth, 'H')
+#endif
+#ifdef USE_PORTJ
+MAKE_PORT(PORTJ, DDRJ, PINJ, Portj, 'J')
+#endif
+#ifdef USE_PORTK
+MAKE_PORT(PORTK, DDRK, PINK, Portk, 'K')
+#endif
+#ifdef USE_PORTQ
+MAKE_PORT(PORTQ, DDRQ, PINQ, Portq, 'Q')
+#endif
+#ifdef USE_PORTR
+MAKE_PORT(PORTR, DDRR, PINR, Portr, 'R')
+#endif
 
 #ifdef USE_TCCR0A
 MAKE_TCCR(TCCR0A, Tccr0a)
@@ -348,7 +369,74 @@ template<typename Tp_pin, typename Tc_bit>
 //typedef Tp_Tc<Pb2, Tc1b> P10;  //Arduino pin 10
 //typedef Tp_Tc<Pb3, Tc2a> P11;  //Arduino pin 11
 
-//Arduino pin numbers
+/* Arduino pin definitions  */
+#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
+
+//  "Mega" Arduino pin numbers 
+
+#define P0  Pe0
+#define P1  Pe1
+#define P2  Pe4
+#define P3  Pe5
+#define P4  Pg5
+#define P5  Pe5
+#define P6  Ph3 
+#define P7  Ph4
+
+#define P8  Ph5
+#define P9  Ph6
+#define P10  Pb4
+#define P11  Pb5
+#define P12  Pb6
+#define P13  Pb7
+
+#define P14  Pj1
+#define P15  Pj0
+#define P16  Ph1
+#define P17  Ph0
+#define P18  Pd3
+#define P19  Pd2
+#define P20  Pd1
+#define P21  Pd0 
+
+#define P22 Pa0
+#define P23 Pa1
+#define P24 Pa2
+#define P25 Pa3
+#define P26 Pa4
+#define P27 Pa5
+#define P28 Pa6
+#define P29 Pa7
+#define P30 Pc7
+#define P31 Pc6
+#define P32 Pc5
+#define P33 Pc4
+#define P34 Pc3
+#define P35 Pc2
+#define P36 Pc1
+#define P37 Pc0
+
+#define P38 Pd7
+#define P39 Pg2
+#define P40 Pg1
+#define P41 Pg0
+#define P42 Pl7
+#define P43 Pl6
+#define P44 Pl5
+#define P45 Pl4
+#define P46 Pl3
+#define P47 Pl2
+#define P48 Pl1
+#define P49 Pl0
+#define P50 Pb3
+#define P51 Pb2
+#define P52 Pb1
+#define P53 Pb0
+
+#endif  //"Mega" pin definitions
+
+#if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
+//"Classical" Arduino pin numbers
 
 #define P0  Pd0
 #define P1  Pd1
@@ -372,5 +460,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P17  Pc3
 #define P18  Pc4
 #define P19  Pc5
+
+#endif
 
 #endif //_avrpins_h_

@@ -193,12 +193,12 @@ int8_t MAX3421e< SS, INTR >::Init()
 	regWr( rMODE, bmDPPULLDN|bmDMPULLDN|bmHOST );      // set pull-downs, Host
   
 	regWr( rHIEN, bmCONDETIE|bmFRAMEIE );                                             //connection detection
+
     /* check if device is connected */
     regWr( rHCTL,bmSAMPLEBUS );                                             // sample USB bus
     while(!(regRd( rHCTL ) & bmSAMPLEBUS ));                                //wait for sample operation to finish
-    busprobe();                                                             //check if anything is connected
 
-//	Serial.println(getVbusState(), HEX);
+	busprobe();                                                             //check if anything is connected
 
     regWr( rHIRQ, bmCONDETIRQ );                                            //clear connection detect interrupt                 
     regWr( rCPUCTL, 0x01 );                                                 //enable interrupt pin
@@ -210,33 +210,33 @@ template< typename SS, typename INTR >
 void MAX3421e< SS, INTR >::busprobe()
 {
 	byte bus_sample;
-    bus_sample = regRd( rHRSL );            //Get J,K status
-    bus_sample &= ( bmJSTATUS|bmKSTATUS );      //zero the rest of the byte
-    switch( bus_sample ) {                          //start full-speed or low-speed host 
+    bus_sample = regRd( rHRSL );							//Get J,K status
+    bus_sample &= ( bmJSTATUS|bmKSTATUS );					//zero the rest of the byte
+    switch( bus_sample ) {									//start full-speed or low-speed host 
         case( bmJSTATUS ):
             if(( regRd( rMODE ) & bmLOWSPEED ) == 0 ) {
-                regWr( rMODE, MODE_FS_HOST );       //start full-speed host
+                regWr( rMODE, MODE_FS_HOST );				//start full-speed host
                 vbusState = FSHOST;
             }
             else {
-                regWr( rMODE, MODE_LS_HOST);        //start low-speed host
+                regWr( rMODE, MODE_LS_HOST);				//start low-speed host
                 vbusState = LSHOST;
             }
             break;
         case( bmKSTATUS ):
             if(( regRd( rMODE ) & bmLOWSPEED ) == 0 ) {
-                regWr( rMODE, MODE_LS_HOST );       //start low-speed host
+                regWr( rMODE, MODE_LS_HOST );				//start low-speed host
                 vbusState = LSHOST;
             }
             else {
-                regWr( rMODE, MODE_FS_HOST );       //start full-speed host
+                regWr( rMODE, MODE_FS_HOST );				//start full-speed host
                 vbusState = FSHOST;
             }
             break;
-        case( bmSE1 ):              //illegal state
+        case( bmSE1 ):										//illegal state
             vbusState = SE1;
             break;
-        case( bmSE0 ):              //disconnected state
+        case( bmSE0 ):										//disconnected state
             vbusState = SE0;
             break;
         }//end switch( bus_sample )
