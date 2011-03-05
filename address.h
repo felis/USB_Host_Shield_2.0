@@ -50,14 +50,16 @@ struct UsbDevice
 {
 	EP_RECORD		*epinfo;		// endpoint info pointer
 	uint8_t			address;		// address
+	bool			lowspeed;		// indicates if a device is the low speed one
 	uint8_t			devclass;		// device class
 };
 
 class AddressPool
 {
 public:
-	virtual uint8_t AllocAddress(UsbDeviceAddress parent, bool is_hub = false, uint8_t port = 0) = 0;
-	virtual void FreeAddress(UsbDeviceAddress addr) = 0;
+	virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) = 0;
+	virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) = 0;
+	virtual void FreeAddress(uint8_t addr) = 0;
 };
 
 typedef void (*UsbDeviceHandleFunc)(UsbDevice *pdev);
@@ -66,7 +68,7 @@ typedef void (*UsbDeviceHandleFunc)(UsbDevice *pdev);
 #define ADDR_ERROR_INVALID_ADDRESS		0xFF
 
 template <const uint8_t MAX_DEVICES_ALLOWED>
-class AddressPoolImpl
+class AddressPoolImpl : public AddressPool
 {
 	EP_RECORD	dev0ep;						//Endpoint data structure used during enumeration for uninitialized device
 
@@ -79,7 +81,7 @@ class AddressPoolImpl
 	void InitEntry(uint8_t index)
 	{
 		thePool[index].address	= 0;
-		thePool[index].devclass = 0;
+		thePool[index].lowspeed = 0;
 		thePool[index].epinfo	= &dev0ep;
 	};
 	// Returns thePool index for a given address
@@ -146,7 +148,7 @@ public:
 		InitAllAddresses();
 	};
 	// Returns a pointer to a specified address entry
-	UsbDevice* GetUsbDevicePtr(uint8_t addr)
+	virtual UsbDevice* GetUsbDevicePtr(uint8_t addr)
 	{
 		if (!addr)
 			return thePool;

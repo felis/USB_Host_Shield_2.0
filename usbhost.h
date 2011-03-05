@@ -209,7 +209,7 @@ int8_t MAX3421e< SS, INTR >::Init()
 template< typename SS, typename INTR >
 void MAX3421e< SS, INTR >::busprobe()
 {
-	byte bus_sample;
+	uint8_t bus_sample;
     bus_sample = regRd( rHRSL );							//Get J,K status
     bus_sample &= ( bmJSTATUS|bmKSTATUS );					//zero the rest of the byte
     switch( bus_sample ) {									//start full-speed or low-speed host 
@@ -249,14 +249,15 @@ uint8_t MAX3421e< SS, INTR >::Task( void )
 	uint8_t pinvalue;
     //Serial.print("Vbus state: ");
     //Serial.println( vbusState, HEX );
-    pinvalue = digitalRead( MAX_INT );    
+    pinvalue = INTR::Read();
+    //pinvalue = digitalRead( MAX_INT );    
     if( pinvalue  == LOW ) {
         rcode = IntHandler();
     }
-    pinvalue = digitalRead( MAX_GPX );
-    if( pinvalue == LOW ) {
-        GpxHandler();
-    }
+//    pinvalue = digitalRead( MAX_GPX );
+//    if( pinvalue == LOW ) {
+//        GpxHandler();
+//    }
 //    usbSM();                                //USB state machine                            
     return( rcode );   
 }   
@@ -277,17 +278,17 @@ uint8_t MAX3421e< SS, INTR >::IntHandler()
     regWr( rHIRQ, HIRQ_sendback );
     return( HIRQ_sendback );
 }
-template< typename SS, typename INTR >
-uint8_t MAX3421e< SS, INTR >::GpxHandler()
-{
-	uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
-//    if( GPINIRQ & bmGPINIRQ7 ) {            //vbus overload
-//        vbusPwr( OFF );                     //attempt powercycle
-//        delay( 1000 );
-//        vbusPwr( ON );
-//        regWr( rGPINIRQ, bmGPINIRQ7 );
-//    }       
-    return( GPINIRQ );
-}
+//template< typename SS, typename INTR >
+//uint8_t MAX3421e< SS, INTR >::GpxHandler()
+//{
+//	uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
+////    if( GPINIRQ & bmGPINIRQ7 ) {            //vbus overload
+////        vbusPwr( OFF );                     //attempt powercycle
+////        delay( 1000 );
+////        vbusPwr( ON );
+////        regWr( rGPINIRQ, bmGPINIRQ7 );
+////    }       
+//    return( GPINIRQ );
+//}
 
 #endif //_USBHOST_H_

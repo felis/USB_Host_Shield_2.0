@@ -63,7 +63,7 @@ class USBHub : USBDeviceConfig
 	uint8_t		bAddress;				// address
 	uint8_t		bNbrPorts;				// number of ports
 	uint8_t		bInitState;				// initialization state variable
-	uint8_t		bPortResetCounter;		// number of ports reset
+//	uint8_t		bPortResetCounter;		// number of ports reset
 	uint32_t	qNextPollTime;			// next poll time
 	bool		bPollEnable;			// poll enable flag
 
@@ -73,12 +73,12 @@ class USBHub : USBDeviceConfig
 public:
 	USBHub(USB *p);
 
-	virtual uint8_t Init(uint8_t addr);
-	virtual uint8_t Release(uint8_t addr);
+	virtual uint8_t Init(uint8_t parent, uint8_t port);
+	virtual uint8_t Release();
 	virtual uint8_t Poll();
 };
 
-void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port);
+void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);
 
 
 // ---------------------------------

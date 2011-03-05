@@ -169,7 +169,12 @@ uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t*
 	uint8_t rcode;
 	uint8_t pktsize;
 
-	//Serial.println("iT");
+	Serial.print("iT");
+
+	Serial.print(" A:");
+	Serial.print(addr, HEX);
+	Serial.print(" E:");
+	Serial.print(ep, HEX);
 
 	UsbDevice *p = addrPool.GetUsbDevicePtr(addr);
 
@@ -180,6 +185,26 @@ uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t*
 		return USB_ERROR_EPINFO_IS_NULL;
 
 	EP_RECORD *pep = &p->epinfo[ep];
+
+////////////////////////////////////////////////////////////////////////////////////////
+	regWr( rPERADDR, addr );                    //set peripheral address
+
+	uint8_t	mode = regRd( rMODE );
+
+	//if (p->lowspeed)
+	//	regWr( rMODE, mode | bmHUBPRE );                    //set HUBPRE = 1 for low speed devices
+	//else
+	//	regWr( rMODE, mode & ~bmHUBPRE );                   //set HUBPRE = 0 for full speed devices
+	
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+	Serial.print(" E:");
+	Serial.print(pep->epAddr, HEX);
+	Serial.print(" M:");
+	Serial.print(pep->MaxPktSize, HEX);
+	Serial.print(" T:");
+	Serial.println(pep->rcvToggle, HEX);
 
 	uint8_t maxpktsize = pep->MaxPktSize; 
 
@@ -236,6 +261,18 @@ uint8_t USB::outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t
 
  	if (!p->epinfo)
 		return USB_ERROR_EPINFO_IS_NULL;
+
+///////////////////////////////////////////////////////////////////////////
+	regWr( rPERADDR, addr );                    //set peripheral address
+
+	//uint8_t	mode = regRd( rMODE );
+
+	//if (p->lowspeed)
+	//	regWr( rMODE, mode | bmHUBPRE );                    //set HUBPRE = 1 for low speed devices
+	//else
+	//	regWr( rMODE, mode & ~bmHUBPRE );                   //set HUBPRE = 0 for full speed devices
+	
+///////////////////////////////////////////////////////////////////////////
 
 	uint8_t maxpktsize = pep->MaxPktSize; 
  
@@ -388,27 +425,34 @@ void USB::Task( void )      //USB state machine
         case USB_DETACHED_SUBSTATE_INITIALIZE:
 			Serial.println("INIT");
             init();
+			for (uint8_t i=0; i<USB_NUMDEVICES; i++)
+			{
+				if (devConfig[i])
+				{
+					rcode = devConfig[i]->Release();
+				}
+			} //for
             usb_task_state = USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE;
             break;
         case USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE:     //just sit here
-			Serial.println("WFD");
+			//Serial.println("WFD");
             break;
         case USB_DETACHED_SUBSTATE_ILLEGAL:             //just sit here
 			Serial.println("ILL");
             break;
         case USB_ATTACHED_SUBSTATE_SETTLE:              //setlle time for just attached device                  
-			Serial.println("STL");
+			//Serial.println("STL");
             if( delay < millis() ) {
                 usb_task_state = USB_ATTACHED_SUBSTATE_RESET_DEVICE;
             }
             break;
         case USB_ATTACHED_SUBSTATE_RESET_DEVICE:
-			Serial.println("RES");
+			//Serial.println("RES");
             regWr( rHCTL, bmBUSRST );									//issue bus reset
             usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_RESET_COMPLETE;
             break;
         case USB_ATTACHED_SUBSTATE_WAIT_RESET_COMPLETE:
-			Serial.println("RCOMP");
+			//Serial.println("RCOMP");
             if(( regRd( rHCTL ) & bmBUSRST ) == 0 ) 
 			{
                 tmpdata = regRd( rMODE ) | bmSOFKAENAB;                 //start SOF generation
@@ -418,10 +462,11 @@ void USB::Task( void )      //USB state machine
             }
             break;
         case USB_ATTACHED_SUBSTATE_WAIT_SOF:  //todo: change check order
-			Serial.println("WSOF");
+			//Serial.println("WSOF");
             if( regRd( rHIRQ ) & bmFRAMEIRQ ) {                         //when first SOF received we can continue
               if( delay < millis() ) {                                  //20ms passed
-                usb_task_state = USB_STATE_ADDRESSING;
+                usb_task_state = USB_STATE_CONFIGURING;
+                //usb_task_state = USB_STATE_ADDRESSING;
                 //usb_task_state = USB_ATTACHED_SUBSTATE_GET_DEVICE_DESCRIPTOR_SIZE;
               }
             }
@@ -429,20 +474,20 @@ void USB::Task( void )      //USB state machine
         case USB_STATE_ADDRESSING:
 			Serial.println("ADR");
 		
-			rcode = Addressing(&tmpaddr);
+			//rcode = Addressing(0, 0, &tmpaddr);
 
-			if (rcode == hrSUCCESS)
-		        usb_task_state = USB_STATE_CONFIGURING;
-			else
-			{
-				usb_error = rcode;
-		        usb_task_state = USB_STATE_ERROR;
-			}
+			//if (rcode == hrSUCCESS)
+		 //       usb_task_state = USB_STATE_CONFIGURING;
+			//else
+			//{
+			//	usb_error = rcode;
+		 //       usb_task_state = USB_STATE_ERROR;
+			//}
             break;
         case USB_STATE_CONFIGURING:
 			Serial.print("CNF");
 			
-			rcode = Configuring(tmpaddr);
+			rcode = Configuring(0, 0);
 
 			if (rcode)
 			{
@@ -456,88 +501,74 @@ void USB::Task( void )      //USB state machine
 				usb_task_state = USB_STATE_RUNNING;
             break;
         case USB_STATE_RUNNING:
-			Serial.println("RUN");
+			//Serial.println("RUN");
             break;
         case USB_STATE_ERROR:
             break;
     } // switch( usb_task_state )
 }    
 
-uint8_t USB::Addressing(uint8_t *address)
+uint8_t USB::DefaultAddressing()
 {
-	uint8_t rcode = hrSUCCESS, buf[8];
+	uint8_t		buf[12];
+	uint8_t		rcode;
+	UsbDevice	*p = NULL;
 
-	Serial.println("Adrsng");
+	Serial.println("Dfl");
 
-	UsbDevice *p = addrPool.GetUsbDevicePtr(0);
+	// Get pointer to pseudo device with address 0 assigned
+	p = addrPool.GetUsbDevicePtr(0);
 
 	if (!p)
-        return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+		return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
 	if (!p->epinfo)
 	{
 		Serial.println("epinfo");
 		return USB_ERROR_EPINFO_IS_NULL;
 	}
-	Serial.print("addr:");
-	Serial.println(p->address, HEX);
-	Serial.print("ep:");
-	Serial.println(p->epinfo->epAddr, HEX);
 
-	//p->epinfo->MaxPktSize = 8;
+	// Allocate new address according to device class
+	uint8_t bAddress = addrPool.AllocAddress(0, false, 0);
 
-	Serial.print("Max:");
-	Serial.println(p->epinfo->MaxPktSize, HEX);
-
-	rcode = getDevDescr( 0, 0, 8, (uint8_t*)buf );
-
-    if( rcode == 0 ) 
-	{
-		Serial.println("OK!");
-        p->epinfo->MaxPktSize = ((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
-		p->devclass = ((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass;
-    }
-    else 
-	{
-		Serial.println("getDevDesc:");
-        return rcode;
-    }
-
-	uint8_t addr = addrPool.AllocAddress(0, (p->devclass == 0x09) ? true : false);
-
-	if (!addr)
+	if (!bAddress)
 		return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
-	Serial.print("Addr:");
-	Serial.println(addr,HEX);
+	// Assign new address to the device
+	rcode = setAddr( 0, 0, bAddress );
 
-    rcode = setAddr( 0, 0, addr );
-
-	if (!rcode)
+	if (rcode)
 	{
-		*address = addr;
-	}
-	else
-	{
+		addrPool.FreeAddress(bAddress);
+		bAddress = 0;
 		Serial.print("setAddr:");
 		Serial.println(rcode, HEX);
 		return rcode;
 	}
-	return rcode;
-}
 
-uint8_t USB::Configuring(uint8_t addr)
+	Serial.print("Addr:");
+	Serial.println(bAddress, HEX);
+	return 0;
+};
+
+uint8_t USB::Configuring(uint8_t parent, uint8_t port)
 {
 	static uint8_t dev_index = 0;
-	uint8_t rcode = 0, buf[8];
+	uint8_t rcode = 0;
 
 	for (; devConfigIndex<USB_NUMDEVICES; devConfigIndex++)
 	{
-		rcode = devConfig[devConfigIndex]->Init(addr);
+		if (!devConfig[devConfigIndex])
+			continue;
 
-		Serial.println(".");
+		rcode = devConfig[devConfigIndex]->Init(parent, port);
 
-		if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED)
+		if (!rcode)
+		{
+			devConfigIndex = 0;
+			return 0;
+		}
+		if (!(rcode == USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED || rcode == USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE))
 		{
 			// in case of an error dev_index should be reset to 0
 			//		in order to start from the very beginning the 
@@ -550,7 +581,12 @@ uint8_t USB::Configuring(uint8_t addr)
 	}
 	// if we get here that means that the device class is not supported by any of registered classes
 	devConfigIndex = 0;
-	return 0;
+	rcode = DefaultAddressing();
+
+	if (rcode)
+		Serial.println("Dfl fail");
+
+	return rcode;
 }
 
 //class UsbHub
@@ -764,3 +800,105 @@ void USB::PrintHubStatus(/*USB *usbptr,*/ uint8_t addr)
 	Serial.println((buf[2] & bmHUB_STATUS_C_OVER_CURRENT) > 0, DEC);
 	Serial.println("");
 }
+
+
+#if !defined( USB_METHODS_INLINE )
+//get device descriptor
+ uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit ) {
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr, nak_limit ));
+}
+//get configuration descriptor  
+ uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr, unsigned int nak_limit ) {
+        return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr, nak_limit ));
+}
+//get string descriptor
+ uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, unsigned int nuint8_ts, uint8_t index, unsigned int langid, uint8_t* dataptr, unsigned int nak_limit ) {
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr, nak_limit ));
+}
+//set address 
+ uint8_t USB::setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr, unsigned int nak_limit ) {
+    return( ctrlReq( oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL, nak_limit ));
+}
+//set configuration
+ uint8_t USB::setConf( uint8_t addr, uint8_t ep, uint8_t conf_value, unsigned int nak_limit ) {
+    return( ctrlReq( addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL, nak_limit ));         
+}
+//class requests
+ uint8_t USB::setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol, unsigned int nak_limit ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_PROTOCOL, protocol, 0x00, interface, 0x0000, NULL, nak_limit ));
+}
+ uint8_t USB::getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr, unsigned int nak_limit ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_PROTOCOL, 0x00, 0x00, interface, 0x0001, dataptr, nak_limit ));        
+}
+//get HID report descriptor 
+ uint8_t USB::getReportDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00, HID_DESCRIPTOR_REPORT, 0x0000, nbytes, dataptr, nak_limit ));
+}
+ uint8_t USB::setReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit ) {
+    return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, report_id, report_type, interface, nbytes, dataptr, nak_limit ));
+}
+ uint8_t USB::getReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit ) { // ** RI 04/11/09
+    return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, report_id, report_type, interface, nbytes, dataptr, nak_limit ));
+}
+/* returns one byte of data in dataptr */
+ uint8_t USB::getIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t* dataptr, unsigned int nak_limit ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_IDLE, reportID, 0, interface, 0x0001, dataptr, nak_limit ));    
+}
+ uint8_t USB::setIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t duration, unsigned int nak_limit ) {
+           return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_IDLE, reportID, duration, interface, 0x0000, NULL, nak_limit ));
+          }
+
+// uint8_t ctrlReq( 
+		//uint8_t			addr, 
+		//uint8_t			ep, 
+		//uint8_t			bmReqType,	
+		//uint8_t			bRequest, 
+		//uint8_t			wValLo, 
+		//uint8_t			wValHi, 
+		//unsigned int		wInd, 
+		//unsigned int		nbytes, 
+		//uint8_t*			dataptr, 
+		//unsigned int		nak_limit = USB_NAK_LIMIT );
+
+// Clear Hub Feature
+ uint8_t USB::ClearHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit ) 
+{
+	return( ctrlReq( addr, ep, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, NULL, nak_limit ));
+}
+// Clear Port Feature
+ uint8_t USB::ClearPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel, unsigned int nak_limit ) 
+{
+	return( ctrlReq( addr, ep, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, NULL, nak_limit ));
+}
+// Get Hub Descriptor
+ uint8_t USB::GetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t index, uint16_t nbytes, uint8_t *dataptr, unsigned int nak_limit ) 
+{
+	return( ctrlReq( addr, ep, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, dataptr, nak_limit ));
+}
+// Get Hub Status
+ uint8_t USB::GetHubStatus( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, dataptr, nak_limit ));
+}
+// Get Port Status
+ uint8_t USB::GetPortStatus( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+{
+	//Serial.println(bmREQ_GET_PORT_STATUS, BIN);
+    return( ctrlReq( addr, ep, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, dataptr, nak_limit ));
+}
+// Set Hub Descriptor
+ uint8_t USB::SetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, dataptr, nak_limit ));
+}
+// Set Hub Feature
+ uint8_t USB::SetHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, NULL, nak_limit ));
+}
+// Set Port Feature
+ uint8_t USB::SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel, unsigned int nak_limit ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, NULL, nak_limit ));
+}
+#endif // !defined(USB_METHODS_INLINE)

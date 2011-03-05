@@ -2,6 +2,8 @@
 #ifndef _usb_h_
 #define _usb_h_
 
+#define USB_METHODS_INLINE
+
 #include <inttypes.h>
 #include "avrpins.h"
 #include "max3421e.h"
@@ -135,13 +137,22 @@
 #define USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL			0xD5
 #define USB_ERROR_EPINFO_IS_NULL					0xD6
 #define USB_ERROR_INVALID_ARGUMENT					0xD7
+#define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD8
+
+//class USBDeviceConfig
+//{
+//public:
+//	virtual uint8_t Init(uint8_t addr) = 0;
+//	virtual uint8_t Release(uint8_t addr) = 0;
+//	virtual uint8_t Poll() = 0;
+//};
 
 class USBDeviceConfig
 {
 public:
-	virtual uint8_t Init(uint8_t addr) = 0;
-	virtual uint8_t Release(uint8_t addr) = 0;
-	virtual uint8_t Poll() = 0;
+	virtual uint8_t Init(uint8_t parent, uint8_t port)	= 0;
+	virtual uint8_t Release()	= 0;
+	virtual uint8_t Poll()		= 0;
 };
 
 
@@ -250,6 +261,10 @@ class USB : public MAX3421E
     public:
         USB( void );
 
+		AddressPool& GetAddressPool()
+		{
+			return (AddressPool&)addrPool;
+		};
 		uint8_t RegisterDeviceClass(USBDeviceConfig *pdev)
 		{
 			for (uint8_t i=0; i<USB_NUMDEVICES; i++)
@@ -319,14 +334,15 @@ class USB : public MAX3421E
 
         void Task( void );
 
-		uint8_t Addressing(uint8_t *address);
-		uint8_t Configuring(uint8_t addr);
+		uint8_t DefaultAddressing();
+
+		uint8_t Configuring(uint8_t parent, uint8_t port);
 		
     private:
         void init();
 };
 
-
+#if defined(USB_METHODS_INLINE)
 //get device descriptor
 inline uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit ) {
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr, nak_limit ));
@@ -425,4 +441,6 @@ inline uint8_t USB::SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8
 {
     return( ctrlReq( addr, ep, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, NULL, nak_limit ));
 }
+#endif // defined(USB_METHODS_INLINE)
+
 #endif //_usb_h_

@@ -5,47 +5,119 @@ USBHub::USBHub(USB *p) :
 		bAddress(0), 
 		bNbrPorts(0), 
 		bInitState(0), 
-		bPortResetCounter(1),
+//		bPortResetCounter(1),
 		qNextPollTime(0),
 		bPollEnable(false)
 {
 	epInfo[0].epAddr		= 0;
 	epInfo[0].MaxPktSize	= 8;
-	epInfo[0].sndToggle	= bmSNDTOG0;   //set DATA0/1 toggles to 0
-	epInfo[0].rcvToggle	= bmRCVTOG0;
+	epInfo[0].sndToggle		= bmSNDTOG0;   //set DATA0/1 toggles to 0
+	epInfo[0].rcvToggle		= bmRCVTOG0;
 
 	epInfo[1].epAddr		= 1;
 	epInfo[1].MaxPktSize	= 1;
 	epInfo[1].Interval		= 0xff;
-	epInfo[1].sndToggle	= bmSNDTOG0;   //set DATA0/1 toggles to 0
-	epInfo[1].rcvToggle	= bmRCVTOG0;
+	epInfo[1].sndToggle		= bmSNDTOG0;   //set DATA0/1 toggles to 0
+	epInfo[1].rcvToggle		= bmRCVTOG0;
 
 	if (pUsb)
 		pUsb->RegisterDeviceClass(this);
 }
 
-uint8_t USBHub::Init(uint8_t addr)
+uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 {
-	uint8_t	buf[8];
-	uint8_t	rcode;
+	uint8_t		buf[32];
+	uint8_t		rcode;
+	UsbDevice	*p = NULL;
+	EP_RECORD	*oldep_ptr = NULL;
+	uint8_t		len = 0;
+	uint16_t	cd_len = 0;
+
+	AddressPool	&addrPool = pUsb->GetAddressPool();
 
 	switch (bInitState)
 	{
 	case 0:
 		Serial.println("Init");
 
-		bAddress = addr;
+		if (bAddress)
+			return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
-		rcode = pUsb->getDevDescr( addr, 0, 8, (uint8_t*)buf );
+		// Get pointer to pseudo device with address 0 assigned
+		p = addrPool.GetUsbDevicePtr(0);
+
+		if (!p)
+			return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+
+		if (!p->epinfo)
+		{
+			Serial.println("epinfo");
+			return USB_ERROR_EPINFO_IS_NULL;
+		}
+
+		// Save old pointer to EP_RECORD of address 0
+		oldep_ptr = p->epinfo;
+
+		// Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
+		p->epinfo = epInfo;
+
+		// Get device descriptor
+		rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
+
+		if  (!rcode)
+			len = (buf[0] > 32) ? 32 : buf[0];
+
+		if( rcode ) 
+		{
+			// Restore p->epinfo
+			p->epinfo = oldep_ptr;
+
+			Serial.println("getDevDesc:");
+			return rcode;
+		}
+
+		// Extract device class from device descriptor
+		// If device class is not a hub return
+		if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass != 0x09)
+			return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+
+		// Allocate new address according to device class
+		bAddress = addrPool.AllocAddress(parent, (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x09) ? true : false, port);
+
+		if (!bAddress)
+			return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
+
+		// Extract Max Packet Size from the device descriptor
+		epInfo[0].MaxPktSize = ((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; 
+
+		// Assign new address to the device
+		rcode = pUsb->setAddr( 0, 0, bAddress );
+
+		if (rcode)
+		{
+			// Restore p->epinfo
+			p->epinfo = oldep_ptr;
+			addrPool.FreeAddress(bAddress);
+			bAddress = 0;
+			Serial.print("setAddr:");
+			Serial.println(rcode, HEX);
+			return rcode;
+		}
+
+		Serial.print("Addr:");
+		Serial.println(bAddress, HEX);
+
+		// Restore p->epinfo
+		p->epinfo = oldep_ptr;
+
+		if (len)
+			rcode = pUsb->getDevDescr( bAddress, 0, len, (uint8_t*)buf );
 
 		if(rcode) 
 			goto FailGetDevDescr;
 
-		// Return if the device is not a hub
-		if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass != 0x09)
-			return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-
-		rcode = pUsb->setDevTableEntry(addr, epInfo);
+		// Assign epInfo to epinfo pointer
+		rcode = pUsb->setDevTableEntry(bAddress, epInfo);
 
 		if (rcode)
 			goto FailSetDevTblEntry;
@@ -54,28 +126,44 @@ uint8_t USBHub::Init(uint8_t addr)
 
 	case 1:
 		// Get hub descriptor
-		rcode = pUsb->GetHubDescriptor(addr, 0, 0, 8, buf);
+		rcode = pUsb->GetHubDescriptor(bAddress, 0, 0, 8, buf);
 
 		if (rcode)
 			goto FailGetHubDescr;
 
 		// Save number of ports for future use
 		bNbrPorts = ((HubDescriptor*)buf)->bNbrPorts;
-		
+
 		bInitState = 2;
 
 	case 2:
 		// Read configuration Descriptor in Order To Obtain Proper Configuration Value
-		rcode = pUsb->getConfDescr(addr, 0, 8, 0, buf);
+		rcode = pUsb->getConfDescr(bAddress, 0, 8, 0, buf);
 
+		if (!rcode)
+		{
+			cd_len = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
+			rcode = pUsb->getConfDescr(bAddress, 0, cd_len, 0, buf);
+		}
 		if (rcode)
 			goto FailGetConfDescr;
+
+		// The following code is of no practical use in real life applications.
+		// It only intended for the usb protocol sniffer to properly parse hub-class requests.
+		{
+			uint8_t buf2[24];
+
+			rcode = pUsb->getConfDescr(bAddress, 0, buf[0], 0, buf2);
+
+			if (rcode)
+				goto FailGetConfDescr;
+		}
 
 		Serial.print("Conf val:");
 		Serial.println(buf[5], HEX);
 
 		// Set Configuration Value
-		rcode = pUsb->setConf(addr, 0, buf[5]);
+		rcode = pUsb->setConf(bAddress, 0, buf[5]);
 
 		if (rcode)
 			goto FailSetConfDescr;
@@ -87,49 +175,12 @@ uint8_t USBHub::Init(uint8_t addr)
 	case 3:
 		// Power on all ports
 		for (uint8_t j=1; j<=bNbrPorts; j++)
-			pUsb->HubPortPowerOn(addr, j);
+			pUsb->HubPortPowerOn(bAddress, j);
 
 		Serial.println("Ports powered");
 
 		bPollEnable = true;
 		bInitState = 0;
-//		bInitState = 4;
-
-	//case 4:
-	//	Serial.print("RC:");
-	//	Serial.println(bPortResetCounter, DEC);
-
-	//	for (; bPortResetCounter<=bNbrPorts; bPortResetCounter++)
-	//	{
-	//		HubEvent	evt;
-	//		rcode = pUsb->GetPortStatus(addr, 0, bPortResetCounter, 4, evt.evtBuff);
-
-	//		if (rcode) 
-	//			goto FailGetPortStatus;
-
-	//		Serial.print("RC:");
-	//		Serial.println(bPortResetCounter, DEC);
-	//		Serial.print("\tSt:");
-	//		Serial.print(evt.bmStatus, BIN);
-	//		Serial.print("\tCh:");
-	//		Serial.println(evt.bmChange, BIN);
-
-	//		// Initiate reset only if there is a device plugged into the port
-	//		if (evt.bmStatus & bmHUB_PORT_STATUS_PORT_CONNECTION)
-	//		{
-	//			Serial.print("Con:");
-	//			Serial.println(bPortResetCounter, DEC);
-
-	//			pUsb->HubPortReset(addr, bPortResetCounter);
-	//			bPollEnable = true;
-	//			
-	//			if (bPortResetCounter < bNbrPorts)
-	//				bPortResetCounter ++;
-
-	//			return USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE;
-	//		}
-	//	} // for
-//		bPortResetCounter = 1;
 	}
 	bInitState = 0;
 	return 0;
@@ -163,11 +214,13 @@ Fail:
 	return rcode;
 }
 
-uint8_t USBHub::Release(uint8_t addr)
+uint8_t USBHub::Release()
 {
+	pUsb->GetAddressPool().FreeAddress(bAddress);
+
 	bAddress			= 0;
 	bNbrPorts			= 0;
-	bPortResetCounter	= 0;
+//	bPortResetCounter	= 0;
 	qNextPollTime		= 0;
 	bPollEnable			= false;
 	return 0;
@@ -182,7 +235,8 @@ uint8_t USBHub::Poll()
 
 	if (qNextPollTime <= millis())
 	{
-		Serial.println("Poll");
+		Serial.print("Poll:");
+		Serial.println(bAddress, HEX);
 
 		rcode = GetHubStatus(bAddress);
 		if (rcode)
@@ -190,7 +244,7 @@ uint8_t USBHub::Poll()
 			Serial.print("HubStatus:");
 			Serial.println(rcode,HEX);
 		}
-		qNextPollTime = millis() + 10;
+		qNextPollTime = millis() + 100;
 	}
 	return rcode;
 }
@@ -273,10 +327,10 @@ void USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 	//Serial.print("Con:");
 	//Serial.println(bmHUB_PORT_EVENT_CONNECT, HEX);
 
-	Serial.print("Rc:");
-	Serial.println(bmHUB_PORT_EVENT_RESET_COMPLETE, HEX);
+	//Serial.print("Rc:");
+	//Serial.println(bmHUB_PORT_EVENT_RESET_COMPLETE, HEX);
 
-	PrintHubPortStatus(pUsb, addr, port);
+	PrintHubPortStatus(pUsb, addr, port, true);
 
 	switch (evt.bmEvent)
 	{
@@ -300,23 +354,17 @@ void USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_RESET | HUB_FEATURE_C_PORT_CONNECTION);
 
 		// Check if device is a low-speed device
-
+		if (evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED)
 		{
-			uint8_t new_addr;
+			UsbDevice *p = pUsb->GetAddressPool().GetUsbDevicePtr(addr);
 
-			delay(20);
-
-			// Begin addressing
-			pUsb->Addressing(&new_addr);
+			if (p)
+				p->lowspeed = true;
 		}
 
-		//uint8_t new_addr = addrPool.AllocAddress(addr, true, port);
-		//rcode = pUsb->setAddr(0, 0, new_addr);
-		//if (rcode)
-		//{
-		//	Serial.print("ERR:");
-		//	Serial.println(rcode, HEX);
-		//}
+		delay(50);
+
+		pUsb->Configuring(addr, port);
 		break;
 
 	// Suspended or resuming state
@@ -335,7 +383,7 @@ void USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 }
 
 
-void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port)
+void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes)
 {
 	uint8_t		rcode = 0;
 	HubEvent	evt;
@@ -372,6 +420,9 @@ void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port)
 	Serial.print("INDICATOR:\t");
 	Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_INDICATOR) > 0, DEC);
 
+	if (!print_changes)
+		return;
+
 	Serial.println("\nChange");
 	Serial.print("CONNECTION:\t");
 	Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_CONNECTION) > 0, DEC);
@@ -384,137 +435,3 @@ void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port)
 	Serial.print("RESET:\t\t");
 	Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_RESET) > 0, DEC);
 }
-
-
-#if 0
-        case USB_STATE_ADDRESSING:
-			Serial.println("ADRESSING");
-			{
-			UsbDevice *p = addrPool.GetUsbDevicePtr(0);
-
-			if (p)
-			{
-				uint8_t addr = addrPool.AllocAddress(0, (p->devclass == 0x09) ? true : false);
-
-				if (addr)
-				{
-					Serial.print("Addr:");
-					Serial.println(addr,HEX);
-
-					UsbDevice *p0 = p;
-
-                    rcode = setAddr( 0, 0, addr );
-
-					if (rcode)
-					{
-						Serial.println(rcode, HEX);
-						break;
-					}
-					p = addrPool.GetUsbDevicePtr(addr);
-
-					usb_task_state = USB_STATE_CONFIGURING;
-
-				} // if (addr)
-			} // if (p)
-			}
-   //         for( i = 1; i < USB_NUMDEVICES; i++ ) 
-			//{
-   //             if ( devtable[ i ].epinfo == NULL ) 
-			//	{
-   //                 devtable[ i ].epinfo = devtable[ 0 ].epinfo;        //set correct MaxPktSize
-   //                                                                     //temporary record
-   //                                                                     //until plugged with real device endpoint structure
-			//		devtable[ i ].devclass = devtable[ 0 ].devclass;
-
-   //                 rcode = setAddr( 0, 0, i );
-
-   //                 if( rcode == 0 ) 
-			//		{
-   //                     tmpaddr = i;
-
-			//			if (devtable[i].devclass == USB_CLASS_HUB)
-			//			{
-			//				Serial.println("USB_CLASS_HUB");
-
-			//				uint8_t		buf[8];
-
-			//				rcode = GetHubDescriptor(i, 0, 0, 8, buf);
-
-			//				if (rcode == 0)
-			//				{
-			//					// Increment number of hubs found
-			//					numHubs ++;
-
-			//					// Insert hub address into a first available hub array entry
-			//					for (uint8_t j=0; j<HUB_MAX_HUBS; j++)
-			//					{
-			//						if (hubs[j].bAddress == 0)
-			//						{
-			//							hubs[j].bAddress	= i;
-			//							hubs[j].bNbrPorts	= ((HubDescriptor*)buf)->bNbrPorts;
-			//							break;
-			//						}
-			//					} // for
-			//					
-			//				} // if (rcode == 0)
-			//			}
-			//			usb_task_state = USB_STATE_CONFIGURING;
-   //                 }
-   //                 else 
-			//		{
-   //                     usb_error = USB_STATE_ADDRESSING;          //set address error
-   //                     usb_task_state = USB_STATE_ERROR;
-   //                 }
-   //                 break;  //break if address assigned or error occured during address assignment attempt                      
-
-   //             } // if( devtable[ i ].epinfo == NULL ) 
-   //         }   //for( i = 1; i < USB_NUMDEVICES; i++)
-
-            if( usb_task_state == USB_STATE_ADDRESSING )			//no vacant place in devtable
-			{     
-                usb_error = 0xfe;
-                usb_task_state = USB_STATE_ERROR;
-            }
-            break;
-        case USB_STATE_CONFIGURING:
-			Serial.print("CONFIGURING...");
-
-			//// Hub Configuration Code
-			//if (devtable[1].devclass == USB_CLASS_HUB)
-			//{
-			//	Serial.println("HUB");
-
-			//	// Read configuration Descriptor in Order To Obtain Proper Configuration Value
-			//	uint8_t	buf[8];
-			//	rcode = getConfDescr(1, 0, 8, 0, buf);
-
-			//	if (rcode)
-			//	{
-			//		Serial.print("getConfDescr:");
-			//		Serial.println(rcode, HEX);
-			//	}
-
-			//	Serial.print("Conf val:");
-			//	Serial.println(buf[5], HEX);
-
-			//	// Set Configuration Value
-			//	rcode = setConf(1, 0, buf[5]);
-
-			//	if (rcode)
-			//	{
-			//		Serial.print("setConf:");
-			//		Serial.println(rcode, HEX);
-			//	}
-
-			//	Serial.println("Hub configured");
-
-			//	// Enter Port Configuring State
-			//	usb_task_state = USB_STATE_HUB_PORT_POWERED_OFF;
-			//	//usb_task_state = USB_STATE_HUB_PORT_DISABLED;
-			//	break;
-
-			//} //if (devtable[i].devclass == USB_CLASS_HUB)
-			usb_task_state = USB_STATE_RUNNING;
-			Serial.println("Configured");
-            break;
-#endif
