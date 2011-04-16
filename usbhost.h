@@ -249,7 +249,7 @@ uint8_t MAX3421e< SS, INTR >::Task( void )
 	uint8_t pinvalue;
     //Serial.print("Vbus state: ");
     //Serial.println( vbusState, HEX );
-    pinvalue = INTR::Read();
+    pinvalue = INTR::IsSet(); //Read();
     //pinvalue = digitalRead( MAX_INT );    
     if( pinvalue  == LOW ) {
         rcode = IntHandler();

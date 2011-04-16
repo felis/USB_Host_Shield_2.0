@@ -138,23 +138,17 @@
 #define USB_ERROR_EPINFO_IS_NULL					0xD6
 #define USB_ERROR_INVALID_ARGUMENT					0xD7
 #define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD8
-
-//class USBDeviceConfig
-//{
-//public:
-//	virtual uint8_t Init(uint8_t addr) = 0;
-//	virtual uint8_t Release(uint8_t addr) = 0;
-//	virtual uint8_t Poll() = 0;
-//};
+#define USB_ERROR_INVALID_MAX_PKT_SIZE				0xD9
+#define USB_ERROR_EP_NOT_FOUND_IN_TBL				0xDA
 
 class USBDeviceConfig
 {
 public:
-	virtual uint8_t Init(uint8_t parent, uint8_t port)	= 0;
+	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
 	virtual uint8_t Release()	= 0;
 	virtual uint8_t Poll()		= 0;
+	virtual uint8_t GetAddress() = 0;
 };
-
 
 #define USB_XFER_TIMEOUT		5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
 #define USB_NAK_LIMIT			32000   //NAK limit for a transfer. o meand NAKs are not counted
@@ -162,8 +156,8 @@ public:
 #define USB_SETTLE_DELAY		200     //settle delay in milliseconds
 #define USB_NAK_NOWAIT			1       //used in Richard's PS2/Wiimote code
 
-#define USB_NUMDEVICES			6		//number of USB devices
-#define HUB_MAX_HUBS			5		// maximum number of hubs that can be attached to the host controller
+#define USB_NUMDEVICES			64		//number of USB devices
+#define HUB_MAX_HUBS			7		// maximum number of hubs that can be attached to the host controller
 #define HUB_PORT_RESET_DELAY	20		// hub port reset delay 10 ms recomended, can be up to 20 ms
 
 /* USB state machine states */
@@ -208,12 +202,12 @@ typedef struct {
     unsigned int    wLength;                //   6      Depends on bRequest
 } SETUP_PKT, *PSETUP_PKT;
 
-/* device record structure */
-typedef struct 
-{
-    EP_RECORD		*epinfo;		//device endpoint information
-    uint8_t			devclass;       //device class    
-} DEV_RECORD;
+///* device record structure */
+//typedef struct 
+//{
+//    EpInfo			*epinfo;		//device endpoint information
+//    uint8_t			devclass;       //device class    
+//} DEV_RECORD;
 
 
 struct HubDescriptor
@@ -237,29 +231,29 @@ struct HubDescriptor
 };
 
 
+// Base class for incomming data parser
+class UsbReadParser
+{
+public:
+	virtual void Parse(const uint8_t len, const uint8_t *pbuf, const uint16_t &offset) = 0;
+};
+
 
 //typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widdow
 typedef MAX3421e<P10, P9>		MAX3421E;		// Duemielanove
 
 class USB : public MAX3421E
 {
-//data structures    
-/* device table. Filled during enumeration              */
-/* index corresponds to device address                  */
-/* each entry contains pointer to endpoint structure    */
-/* and device class to use in various places            */             
-//DEV_RECORD devtable[ USB_NUMDEVICES + 1 ];
-//EP_RECORD dev0ep;         //Endpoint data structure used during enumeration for uninitialized device
-
-//byte usb_task_state;
-
-
 		AddressPoolImpl<USB_NUMDEVICES>		addrPool;
 		USBDeviceConfig*					devConfig[USB_NUMDEVICES];
 		uint8_t								devConfigIndex;
+		uint8_t								bmHubPre;
 
     public:
         USB( void );
+
+		void SetHubPreMask()	{ bmHubPre |= bmHUBPRE; };
+		void ResetHubPreMask()	{ bmHubPre &= (~bmHUBPRE); };
 
 		AddressPool& GetAddressPool()
 		{
@@ -284,163 +278,156 @@ class USB : public MAX3421E
 		uint8_t getUsbTaskState( void );
         void setUsbTaskState( uint8_t state );
 
-        EP_RECORD* getDevTableEntry( uint8_t addr, uint8_t ep );
-        uint8_t setDevTableEntry( uint8_t addr, EP_RECORD* eprecord_ptr );
+        EpInfo* getEpInfoEntry( uint8_t addr, uint8_t ep );
+        uint8_t setEpInfoEntry( uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr );
 
-        uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, unsigned int wInd, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
+        uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, unsigned int wInd, unsigned int nbytes, uint8_t* dataptr);
 
 		/* Control requests */
-        uint8_t getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t getStrDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t index, unsigned int langid, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t setConf( uint8_t addr, uint8_t ep, uint8_t conf_value, unsigned int nak_limit = USB_NAK_LIMIT );
+        uint8_t getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr );
+        uint8_t getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr );
+        uint8_t getStrDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t index, unsigned int langid, uint8_t* dataptr );
+        uint8_t setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr );
+        uint8_t setConf( uint8_t addr, uint8_t ep, uint8_t conf_value );
         /**/
-        uint8_t setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t getReportDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t setReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-	    uint8_t getReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t getIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t setIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t duration, unsigned int nak_limit = USB_NAK_LIMIT );
+        uint8_t setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol );
+        uint8_t getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr );
+        uint8_t getReportDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr );
+        uint8_t setReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr );
+	    uint8_t getReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr );
+        uint8_t getIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t* dataptr );
+        uint8_t setIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t duration );
         /**/
-        uint8_t ctrlData( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, boolean direction, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t ctrlStatus( uint8_t ep, boolean direction, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data, unsigned int nak_limit = USB_NAK_LIMIT );
-        uint8_t dispatchPkt( uint8_t token, uint8_t ep, unsigned int nak_limit = USB_NAK_LIMIT );
+        uint8_t ctrlData( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, boolean direction );
+        uint8_t ctrlStatus( uint8_t ep, boolean direction, uint16_t nak_limit );
+        uint8_t inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data );
+        uint8_t outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data );
+        uint8_t dispatchPkt( uint8_t token, uint8_t ep, uint16_t nak_limit );
 
 		// Hub Methods
-		uint8_t ClearHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t ClearPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel = 0, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t GetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t index, uint16_t nbytes, uint8_t *dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t GetHubStatus( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t GetPortStatus( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t SetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t SetHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit = USB_NAK_LIMIT );
-		uint8_t SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel = 0, unsigned int nak_limit = USB_NAK_LIMIT );
+		uint8_t ClearHubFeature( uint8_t addr, uint8_t ep, uint8_t fid );
+		uint8_t ClearPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel = 0 );
+		uint8_t GetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t index, uint16_t nbytes, uint8_t *dataptr );
+		uint8_t GetHubStatus( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr );
+		uint8_t GetPortStatus( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr );
+		uint8_t SetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr );
+		uint8_t SetHubFeature( uint8_t addr, uint8_t ep, uint8_t fid );
+		uint8_t SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel = 0 );
 
 		uint8_t HubPortPowerOn(uint8_t addr, uint8_t port);
 		uint8_t HubPortReset(uint8_t addr, uint8_t port);
 		uint8_t HubClearPortFeatures(uint8_t addr, uint8_t port, uint8_t bm_features);
 
-		uint8_t GetNumDevices();
-		uint8_t	GetNumHubs();
-
-		uint8_t PollHubs();
-		uint8_t PollHub();
-
 		void PrintHubStatus(/*USB *usbptr,*/ uint8_t addr);
 
         void Task( void );
 
-		uint8_t DefaultAddressing();
-
-		uint8_t Configuring(uint8_t parent, uint8_t port);
+		uint8_t DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed);
+		uint8_t Configuring(uint8_t parent, uint8_t port, bool lowspeed);
+		uint8_t ReleaseDevice(uint8_t addr);
 		
+		//typedef void (*USBREADCALLBACK)(uint16_t nbytes, uint8_t *data, uint16_t offset);
+
+		//uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
+		//				 uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBREADCALLBACK pf);
+
+		uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
+						 uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, UsbReadParser *p);
+
     private:
         void init();
+		uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_limit);
+		uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t *data);
+		uint8_t InTransfer (EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t* data);
 };
 
-#if defined(USB_METHODS_INLINE)
+//#if defined(USB_METHODS_INLINE)
 //get device descriptor
-inline uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit ) {
-    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr, nak_limit ));
+inline uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr ) {
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr ));
 }
 //get configuration descriptor  
-inline uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr, unsigned int nak_limit ) {
-        return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr, nak_limit ));
+inline uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr ) {
+        return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr ));
 }
 //get string descriptor
-inline uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, unsigned int nuint8_ts, uint8_t index, unsigned int langid, uint8_t* dataptr, unsigned int nak_limit ) {
-    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr, nak_limit ));
+inline uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, unsigned int nuint8_ts, uint8_t index, unsigned int langid, uint8_t* dataptr ) {
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr ));
 }
 //set address 
-inline uint8_t USB::setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr, unsigned int nak_limit ) {
-    return( ctrlReq( oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL, nak_limit ));
+inline uint8_t USB::setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr ) {
+    return( ctrlReq( oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL ));
 }
 //set configuration
-inline uint8_t USB::setConf( uint8_t addr, uint8_t ep, uint8_t conf_value, unsigned int nak_limit ) {
-    return( ctrlReq( addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL, nak_limit ));         
+inline uint8_t USB::setConf( uint8_t addr, uint8_t ep, uint8_t conf_value ) {
+    return( ctrlReq( addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL ));         
 }
 //class requests
-inline uint8_t USB::setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol, unsigned int nak_limit ) {
-        return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_PROTOCOL, protocol, 0x00, interface, 0x0000, NULL, nak_limit ));
+inline uint8_t USB::setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_PROTOCOL, protocol, 0x00, interface, 0x0000, NULL ));
 }
-inline uint8_t USB::getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr, unsigned int nak_limit ) {
-        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_PROTOCOL, 0x00, 0x00, interface, 0x0001, dataptr, nak_limit ));        
+inline uint8_t USB::getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_PROTOCOL, 0x00, 0x00, interface, 0x0001, dataptr ));        
 }
 //get HID report descriptor 
-inline uint8_t USB::getReportDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, unsigned int nak_limit ) {
-        return( ctrlReq( addr, ep, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00, HID_DESCRIPTOR_REPORT, 0x0000, nbytes, dataptr, nak_limit ));
+inline uint8_t USB::getReportDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00, HID_DESCRIPTOR_REPORT, 0x0000, nbytes, dataptr ));
 }
-inline uint8_t USB::setReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit ) {
-    return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, report_id, report_type, interface, nbytes, dataptr, nak_limit ));
+inline uint8_t USB::setReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr ) {
+    return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, report_id, report_type, interface, nbytes, dataptr ));
 }
-inline uint8_t USB::getReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr, unsigned int nak_limit ) { // ** RI 04/11/09
-    return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, report_id, report_type, interface, nbytes, dataptr, nak_limit ));
+inline uint8_t USB::getReport( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t interface, uint8_t report_type, uint8_t report_id, uint8_t* dataptr ) { 
+    return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, report_id, report_type, interface, nbytes, dataptr ));
 }
 /* returns one byte of data in dataptr */
-inline uint8_t USB::getIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t* dataptr, unsigned int nak_limit ) {
-        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_IDLE, reportID, 0, interface, 0x0001, dataptr, nak_limit ));    
+inline uint8_t USB::getIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t* dataptr ) {
+        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_IDLE, reportID, 0, interface, 0x0001, dataptr ));    
 }
-inline uint8_t USB::setIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t duration, unsigned int nak_limit ) {
-           return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_IDLE, reportID, duration, interface, 0x0000, NULL, nak_limit ));
+inline uint8_t USB::setIdle( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t reportID, uint8_t duration ) {
+           return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_IDLE, reportID, duration, interface, 0x0000, NULL ));
           }
 
-// uint8_t ctrlReq( 
-		//uint8_t			addr, 
-		//uint8_t			ep, 
-		//uint8_t			bmReqType,	
-		//uint8_t			bRequest, 
-		//uint8_t			wValLo, 
-		//uint8_t			wValHi, 
-		//unsigned int		wInd, 
-		//unsigned int		nbytes, 
-		//uint8_t*			dataptr, 
-		//unsigned int		nak_limit = USB_NAK_LIMIT );
 
 // Clear Hub Feature
-inline uint8_t USB::ClearHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit ) 
+inline uint8_t USB::ClearHubFeature( uint8_t addr, uint8_t ep, uint8_t fid ) 
 {
-	return( ctrlReq( addr, ep, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, NULL, nak_limit ));
+	return( ctrlReq( addr, ep, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, NULL ));
 }
 // Clear Port Feature
-inline uint8_t USB::ClearPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel, unsigned int nak_limit ) 
+inline uint8_t USB::ClearPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel ) 
 {
-	return( ctrlReq( addr, ep, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, NULL, nak_limit ));
+	return( ctrlReq( addr, ep, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, NULL ));
 }
 // Get Hub Descriptor
-inline uint8_t USB::GetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t index, uint16_t nbytes, uint8_t *dataptr, unsigned int nak_limit ) 
+inline uint8_t USB::GetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t index, uint16_t nbytes, uint8_t *dataptr ) 
 {
-	return( ctrlReq( addr, ep, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, dataptr, nak_limit ));
+	return( ctrlReq( addr, ep, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, dataptr ));
 }
 // Get Hub Status
-inline uint8_t USB::GetHubStatus( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+inline uint8_t USB::GetHubStatus( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr ) 
 {
-    return( ctrlReq( addr, ep, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, dataptr, nak_limit ));
+    return( ctrlReq( addr, ep, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, dataptr ));
 }
 // Get Port Status
-inline uint8_t USB::GetPortStatus( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+inline uint8_t USB::GetPortStatus( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
 {
-	//Serial.println(bmREQ_GET_PORT_STATUS, BIN);
-    return( ctrlReq( addr, ep, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, dataptr, nak_limit ));
+    return( ctrlReq( addr, ep, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, dataptr ));
 }
 // Set Hub Descriptor
-inline uint8_t USB::SetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr, unsigned int nak_limit ) 
+inline uint8_t USB::SetHubDescriptor( uint8_t addr, uint8_t ep, uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
 {
-    return( ctrlReq( addr, ep, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, dataptr, nak_limit ));
+    return( ctrlReq( addr, ep, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, dataptr ));
 }
 // Set Hub Feature
-inline uint8_t USB::SetHubFeature( uint8_t addr, uint8_t ep, uint8_t fid, unsigned int nak_limit ) 
+inline uint8_t USB::SetHubFeature( uint8_t addr, uint8_t ep, uint8_t fid ) 
 {
-    return( ctrlReq( addr, ep, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, NULL, nak_limit ));
+    return( ctrlReq( addr, ep, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, NULL ));
 }
 // Set Port Feature
-inline uint8_t USB::SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel, unsigned int nak_limit ) 
+inline uint8_t USB::SetPortFeature( uint8_t addr, uint8_t ep, uint8_t fid, uint8_t port, uint8_t sel ) 
 {
-    return( ctrlReq( addr, ep, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, NULL, nak_limit ));
+    return( ctrlReq( addr, ep, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, NULL ));
 }
-#endif // defined(USB_METHODS_INLINE)
+//#endif // defined(USB_METHODS_INLINE)
 
 #endif //_usb_h_

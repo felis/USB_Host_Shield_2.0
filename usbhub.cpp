@@ -1,35 +1,34 @@
 #include "usbhub.h"
 
+bool USBHub::bResetInitiated = false;
+
 USBHub::USBHub(USB *p) : 
 		pUsb(p), 
 		bAddress(0), 
 		bNbrPorts(0), 
 		bInitState(0), 
-//		bPortResetCounter(1),
 		qNextPollTime(0),
 		bPollEnable(false)
 {
 	epInfo[0].epAddr		= 0;
-	epInfo[0].MaxPktSize	= 8;
-	epInfo[0].sndToggle		= bmSNDTOG0;   //set DATA0/1 toggles to 0
-	epInfo[0].rcvToggle		= bmRCVTOG0;
+	epInfo[0].maxPktSize	= 8;
+	epInfo[0].epAttribs		= 0;
+	epInfo[0].bmNakPower	= USB_NAK_MAX_POWER;
 
 	epInfo[1].epAddr		= 1;
-	epInfo[1].MaxPktSize	= 1;
-	epInfo[1].Interval		= 0xff;
-	epInfo[1].sndToggle		= bmSNDTOG0;   //set DATA0/1 toggles to 0
-	epInfo[1].rcvToggle		= bmRCVTOG0;
+	epInfo[1].maxPktSize	= 1;
+	epInfo[1].epAttribs		= 0;
 
 	if (pUsb)
 		pUsb->RegisterDeviceClass(this);
 }
 
-uint8_t USBHub::Init(uint8_t parent, uint8_t port)
+uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
 	uint8_t		buf[32];
 	uint8_t		rcode;
 	UsbDevice	*p = NULL;
-	EP_RECORD	*oldep_ptr = NULL;
+	EpInfo		*oldep_ptr = NULL;
 	uint8_t		len = 0;
 	uint16_t	cd_len = 0;
 
@@ -38,8 +37,6 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 	switch (bInitState)
 	{
 	case 0:
-		Serial.println("Init");
-
 		if (bAddress)
 			return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
@@ -50,10 +47,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 			return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
 		if (!p->epinfo)
-		{
-			Serial.println("epinfo");
 			return USB_ERROR_EPINFO_IS_NULL;
-		}
 
 		// Save old pointer to EP_RECORD of address 0
 		oldep_ptr = p->epinfo;
@@ -61,8 +55,12 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 		// Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
 		p->epinfo = epInfo;
 
+		p->lowspeed = lowspeed;
+
 		// Get device descriptor
 		rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
+
+		p->lowspeed = false;
 
 		if  (!rcode)
 			len = (buf[0] > 32) ? 32 : buf[0];
@@ -71,8 +69,6 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 		{
 			// Restore p->epinfo
 			p->epinfo = oldep_ptr;
-
-			Serial.println("getDevDesc:");
 			return rcode;
 		}
 
@@ -88,7 +84,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 			return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
 		// Extract Max Packet Size from the device descriptor
-		epInfo[0].MaxPktSize = ((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; 
+		epInfo[0].maxPktSize = ((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; 
 
 		// Assign new address to the device
 		rcode = pUsb->setAddr( 0, 0, bAddress );
@@ -99,13 +95,8 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 			p->epinfo = oldep_ptr;
 			addrPool.FreeAddress(bAddress);
 			bAddress = 0;
-			Serial.print("setAddr:");
-			Serial.println(rcode, HEX);
 			return rcode;
 		}
-
-		Serial.print("Addr:");
-		Serial.println(bAddress, HEX);
 
 		// Restore p->epinfo
 		p->epinfo = oldep_ptr;
@@ -117,7 +108,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 			goto FailGetDevDescr;
 
 		// Assign epInfo to epinfo pointer
-		rcode = pUsb->setDevTableEntry(bAddress, epInfo);
+		rcode = pUsb->setEpInfoEntry(bAddress, 2, epInfo);
 
 		if (rcode)
 			goto FailSetDevTblEntry;
@@ -159,16 +150,11 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 				goto FailGetConfDescr;
 		}
 
-		Serial.print("Conf val:");
-		Serial.println(buf[5], HEX);
-
 		// Set Configuration Value
 		rcode = pUsb->setConf(bAddress, 0, buf[5]);
 
 		if (rcode)
 			goto FailSetConfDescr;
-
-		Serial.println("Hub configured");
 
 		bInitState = 3;
 
@@ -177,8 +163,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 		for (uint8_t j=1; j<=bNbrPorts; j++)
 			pUsb->HubPortPowerOn(bAddress, j);
 
-		Serial.println("Ports powered");
-
+		pUsb->SetHubPreMask();
 		bPollEnable = true;
 		bInitState = 0;
 	}
@@ -186,31 +171,24 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port)
 	return 0;
 
 FailGetDevDescr:
-	Serial.print("getDevDescr:");
 	goto Fail;
 
 FailSetDevTblEntry:
-	Serial.print("setDevTblEn:");
 	goto Fail;
 
 FailGetHubDescr:
-	Serial.print("getHub:");
 	goto Fail;
 
 FailGetConfDescr:
-	Serial.print("getConf:");
 	goto Fail;
 
 FailSetConfDescr:
-	Serial.print("setConf:");
 	goto Fail;
 
 FailGetPortStatus:
-	Serial.print("GetPortStatus:");
 	goto Fail;
 
 Fail:
-	Serial.println(rcode, HEX);
 	return rcode;
 }
 
@@ -218,9 +196,11 @@ uint8_t USBHub::Release()
 {
 	pUsb->GetAddressPool().FreeAddress(bAddress);
 
+	if (bAddress == 0x41)
+		pUsb->SetHubPreMask();
+
 	bAddress			= 0;
 	bNbrPorts			= 0;
-//	bPortResetCounter	= 0;
 	qNextPollTime		= 0;
 	bPollEnable			= false;
 	return 0;
@@ -235,51 +215,27 @@ uint8_t USBHub::Poll()
 
 	if (qNextPollTime <= millis())
 	{
-		Serial.print("Poll:");
 		Serial.println(bAddress, HEX);
 
 		rcode = GetHubStatus(bAddress);
-		if (rcode)
-		{
-			Serial.print("HubStatus:");
-			Serial.println(rcode,HEX);
-		}
 		qNextPollTime = millis() + 100;
 	}
 	return rcode;
 }
-
-
-//bmHUB_PORT_STATUS_C_PORT_CONNECTION		
-//bmHUB_PORT_STATUS_C_PORT_ENABLE			
-//bmHUB_PORT_STATUS_C_PORT_SUSPEND		
-//bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT	
-//bmHUB_PORT_STATUS_C_PORT_RESET			
 
 uint8_t USBHub::GetHubStatus(uint8_t addr)
 {
 	uint8_t		rcode;
 	uint8_t		buf[8];
 
-//  uint8_t inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data, unsigned int nak_limit = USB_NAK_LIMIT );
-	//Serial.println(devtable[1].epinfo->epAddr, HEX);
-
-	rcode = pUsb->inTransfer(addr, 1, 1, buf, 1);
+	rcode = pUsb->inTransfer(addr, 1, 1, buf);
 
 	if (rcode)
-	{
-		Serial.print("inTransfer:");
-		Serial.println(rcode, HEX);
 		return rcode;
-	}
-	Serial.print("Int:");
-	Serial.println(buf[0],HEX);
-
-	//return 0;
 
 	if (buf[0] & 0x01)		// Hub Status Change
 	{
-		pUsb->PrintHubStatus(addr);
+		//pUsb->PrintHubStatus(addr);
 		//rcode = GetHubStatus(1, 0, 1, 4, buf);
 		//if (rcode)
 		//{
@@ -298,90 +254,90 @@ uint8_t USBHub::GetHubStatus(uint8_t addr)
 			rcode = pUsb->GetPortStatus(addr, 0, port, 4, evt.evtBuff);
 
 			if (rcode)
-			{
-				Serial.print("GetPortStatus err:");
-				Serial.println(rcode, HEX);
-				Serial.print("on port:");
-				Serial.println(port, DEC);
 				continue;
-			}
-			HubPortStatusChange(addr, port, evt);
+
+			rcode = HubPortStatusChange(addr, port, evt);
+
+			if (rcode == HUB_ERROR_PORT_HAS_BEEN_RESET)
+				return 0;
+
+			if (rcode)
+				return rcode;
 		}
+	} // for
+
+	for (uint8_t port=1; port<=bNbrPorts; port++)
+	{
+		HubEvent	evt;
+		evt.bmEvent = 0;
+
+		rcode = pUsb->GetPortStatus(addr, 0, port, 4, evt.evtBuff);
+
+		if (rcode)
+			continue;
+
+		if ((evt.bmStatus & bmHUB_PORT_STATE_CHECK_DISABLED) != bmHUB_PORT_STATE_DISABLED)
+			continue;
+
+		// Emulate connection event for the port
+		evt.bmChange |= bmHUB_PORT_STATUS_C_PORT_CONNECTION;
+
+		rcode = HubPortStatusChange(addr, port, evt);
+
+		if (rcode == HUB_ERROR_PORT_HAS_BEEN_RESET)
+			return 0;
+
+		if (rcode)
+			return rcode;
 	} // for
 	return 0;
 }
 
-void USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
+uint8_t USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 {
-	Serial.print("Prt:");
-	Serial.print(port,HEX);
-	
-	Serial.print("\tEvt:");
-	Serial.println(evt.bmEvent,HEX);
-	Serial.print("\tSt:");
-	Serial.println(evt.bmStatus,HEX);
-	Serial.print("\tCh:");
-	Serial.println(evt.bmChange,HEX);
-
-
-	//Serial.print("Con:");
-	//Serial.println(bmHUB_PORT_EVENT_CONNECT, HEX);
-
-	//Serial.print("Rc:");
-	//Serial.println(bmHUB_PORT_EVENT_RESET_COMPLETE, HEX);
-
-	PrintHubPortStatus(pUsb, addr, port, true);
-
 	switch (evt.bmEvent)
 	{
-	//case (bmHUB_PORT_STATE_DISABLED  | bmHUB_PORT_STATUS_C_PORT_CONNECTION  | bmHUB_PORT_STATUS_C_PORT_SUSPEND):
-	//	Serial.println("DIS");
-	//	pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_PORT_ENABLE | HUB_FEATURE_C_PORT_CONNECTION);
-	//	pUsb->HubPortReset(addr, port);
-	//	break;
-
 	// Device connected event
 	case bmHUB_PORT_EVENT_CONNECT:
-		Serial.println("CON");
+	case bmHUB_PORT_EVENT_LS_CONNECT:
+		if (bResetInitiated)
+			return 0;
+
 		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_ENABLE);
 		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_CONNECTION);
 		pUsb->HubPortReset(addr, port);
-		break;
+		bResetInitiated = true;
+		return HUB_ERROR_PORT_HAS_BEEN_RESET;
+
+	// Device disconnected event
+	case bmHUB_PORT_EVENT_DISCONNECT:
+		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_ENABLE);
+		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_CONNECTION);
+		bResetInitiated = false;
+
+		UsbDeviceAddress	a;
+		a.bmHub = 0;
+		a.bmParent = addr;
+		a.bmAddress = port;
+		pUsb->ReleaseDevice(a.devAddress);
+		return 0;
 
 	// Reset complete event
 	case bmHUB_PORT_EVENT_RESET_COMPLETE:
-		Serial.println("RCMPL");
+	case bmHUB_PORT_EVENT_LS_RESET_COMPLETE:
 		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_RESET | HUB_FEATURE_C_PORT_CONNECTION);
 
-		// Check if device is a low-speed device
-		if (evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED)
-		{
-			UsbDevice *p = pUsb->GetAddressPool().GetUsbDevicePtr(addr);
+		delay(20);
 
-			if (p)
-				p->lowspeed = true;
-		}
+		a.devAddress = addr;
 
-		delay(50);
-
-		pUsb->Configuring(addr, port);
+		pUsb->Configuring(a.bmAddress, port, (evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) );
+		bResetInitiated = false;
 		break;
-
-	// Suspended or resuming state
-	case bmHUB_PORT_STATE_SUSPENDED:
-		Serial.println("SUSP");
-		break;
-
-	// Resume complete event
-	case (bmHUB_PORT_STATE_ENABLED | HUB_FEATURE_C_PORT_SUSPEND):
-		break;
-
-	//case bmHUB_PORT_STATE_RESUMING:
-	//	break;
 
 	} // switch (evt.bmEvent)
+	return 0;
 }
-
 
 void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes)
 {

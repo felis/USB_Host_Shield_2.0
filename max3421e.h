@@ -9,8 +9,8 @@
 /* pin numbers to port numbers */
 
 //#define MAX_SS    10
-//#define MAX_INT   3			// Black Widdow
-#define MAX_INT   9		// Duemielanove
+#define MAX_INT   3			// Black Widdow
+//#define MAX_INT   9		// Duemielanove
 
 #define MAX_GPX   8
 //#define MAX_RESET 7

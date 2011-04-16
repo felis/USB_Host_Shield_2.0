@@ -4,19 +4,25 @@
 #include <inttypes.h>
 #include "max3421e.h"
 
-/* Endpoint information structure               */
-/* bToggle of endpoint 0 initialized to 0xff    */
-/* during enumeration bToggle is set to 00      */
-typedef struct 
-{        
-    uint8_t			epAddr;					//copy from endpoint descriptor. Bit 7 indicates direction ( ignored for control endpoints )
-    uint8_t			Attr;					// Endpoint transfer type.
-    unsigned int	MaxPktSize;				// Maximum packet size.
-    uint8_t			Interval;				// Polling interval in frames.
-    uint8_t			sndToggle;				//last toggle value, bitmask for HCTL toggle bits
-    uint8_t			rcvToggle;				//last toggle value, bitmask for HCTL toggle bits
-    /* not sure if both are necessary */
-} EP_RECORD;
+#define USB_NAK_MAX_POWER		15		//NAK binary order maximum value
+
+struct EpInfo
+{
+	uint8_t		epAddr;							// Endpoint address 
+	uint8_t		maxPktSize;						// Maximum packet size
+
+	union
+	{
+		uint8_t		epAttribs;
+
+		struct
+		{
+			uint8_t		bmSndToggle	:	1;		// Send toggle, when zerro bmSNDTOG0, bmSNDTOG1 otherwise
+			uint8_t		bmRcvToggle	:	1;		// Send toggle, when zerro bmRCVTOG0, bmRCVTOG1 otherwise
+			uint8_t		bmNakPower	:	6;		// Binary order for NAK_LIMIT value
+		};
+	};
+};
 
 //	  7   6   5   4   3   2   1   0
 //  ---------------------------------
@@ -48,10 +54,11 @@ struct UsbDeviceAddress
 
 struct UsbDevice
 {
-	EP_RECORD		*epinfo;		// endpoint info pointer
+	EpInfo			*epinfo;		// endpoint info pointer
 	uint8_t			address;		// address
+	uint8_t			epcount;		// number of endpoints
 	bool			lowspeed;		// indicates if a device is the low speed one
-	uint8_t			devclass;		// device class
+//	uint8_t			devclass;		// device class
 };
 
 class AddressPool
@@ -70,7 +77,7 @@ typedef void (*UsbDeviceHandleFunc)(UsbDevice *pdev);
 template <const uint8_t MAX_DEVICES_ALLOWED>
 class AddressPoolImpl : public AddressPool
 {
-	EP_RECORD	dev0ep;						//Endpoint data structure used during enumeration for uninitialized device
+	EpInfo		dev0ep;						//Endpoint data structure used during enumeration for uninitialized device
 
 	uint8_t		hubCounter;					// hub counter is kept 
 											// in order to avoid hub address duplication
@@ -81,6 +88,7 @@ class AddressPoolImpl : public AddressPool
 	void InitEntry(uint8_t index)
 	{
 		thePool[index].address	= 0;
+		thePool[index].epcount	= 1;
 		thePool[index].lowspeed = 0;
 		thePool[index].epinfo	= &dev0ep;
 	};
@@ -141,9 +149,9 @@ public:
 		thePool[0].address = 0;
 		thePool[0].epinfo	= &dev0ep;
 		dev0ep.epAddr		= 0;
-		dev0ep.MaxPktSize	= 8;
-		dev0ep.sndToggle	= bmSNDTOG0;   //set DATA0/1 toggles to 0
-		dev0ep.rcvToggle	= bmRCVTOG0;
+		dev0ep.maxPktSize	= 8;
+		dev0ep.epAttribs	= 0;	//set DATA0/1 toggles to 0
+		dev0ep.bmNakPower	= USB_NAK_MAX_POWER;
 
 		InitAllAddresses();
 	};
@@ -171,20 +179,28 @@ public:
 	// Allocates new address
 	virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0)
 	{
+		if (parent != 0 && port == 0)
+			Serial.println("PRT:0");
+
 		if (parent > 127 || port > 7)
 			return 0;
 
 		// finds first empty address entry starting from one
 		uint8_t index = FindAddressIndex(0);	
 
-		Serial.println(index, DEC);
-
 		if (!index)					// if empty entry is not found
 			return 0;
 
 		if (parent == 0)
 		{
-			thePool[index].address = (is_hub) ? 0x41 : 1;
+			if (is_hub)
+			{
+				thePool[index].address = 0x41;
+				hubCounter ++;
+			}
+			else
+				thePool[index].address = 1;
+
 			return thePool[index].address;
 		}
 
@@ -204,6 +220,13 @@ public:
 		}
 		thePool[index].address = *((uint8_t*)&addr);
 
+		Serial.print("Addr:");
+		Serial.print(addr.bmHub, HEX);
+		Serial.print(".");
+		Serial.print(addr.bmParent, HEX);
+		Serial.print(".");
+		Serial.println(addr.bmAddress, HEX);
+
 		return thePool[index].address;
 	};
 	// Empties pool entry
@@ -220,20 +243,20 @@ public:
 	};
 	// Returns number of hubs attached
 	// It can be rather helpfull to find out if there are hubs attached than getting the exact number of hubs.
-	uint8_t GetNumHubs()
-	{
-		return hubCounter;
-	};
-	uint8_t GetNumDevices()
-	{
-		uint8_t counter = 0;
+	//uint8_t GetNumHubs()
+	//{
+	//	return hubCounter;
+	//};
+	//uint8_t GetNumDevices()
+	//{
+	//	uint8_t counter = 0;
 
-		for (uint8_t i=1; i<MAX_DEVICES_ALLOWED; i++)
-			if (thePool[i].address != 0);
-				counter ++;
+	//	for (uint8_t i=1; i<MAX_DEVICES_ALLOWED; i++)
+	//		if (thePool[i].address != 0);
+	//			counter ++;
 
-		return counter;
-	};
+	//	return counter;
+	//};
 };
 
 #endif // __ADDRESS_H__
