@@ -171,17 +171,7 @@ uint16_t MAX3421e< SS, INTR >::reset()
   }
   return( i );
 }
-///* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
-//template< typename SS, typename INTR >
-//int8_t MAX3421e< SS, INTR >::Init()
-//{
-//  if( reset() == 0 ) { //OSCOKIRQ hasn't asserted in time
-//    return ( -1 );
-//  }
-//  regWr( rMODE, bmDPPULLDN|bmDMPULLDN|bmHOST );      // set pull-downs, Host
-//  
-//  return( 0 );
-//}
+
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
 int8_t MAX3421e< SS, INTR >::Init()
