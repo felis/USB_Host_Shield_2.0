@@ -117,7 +117,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	case 1:
 		// Get hub descriptor
-		rcode = pUsb->GetHubDescriptor(bAddress, 0, 0, 8, buf);
+		rcode = GetHubDescriptor(0, 8, buf);
 
 		if (rcode)
 			goto FailGetHubDescr;
@@ -161,7 +161,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	case 3:
 		// Power on all ports
 		for (uint8_t j=1; j<=bNbrPorts; j++)
-			pUsb->HubPortPowerOn(bAddress, j);
+			SetPortFeature(HUB_FEATURE_PORT_POWER, j, 0);			//HubPortPowerOn(j);
 
 		pUsb->SetHubPreMask();
 		bPollEnable = true;
@@ -215,20 +215,18 @@ uint8_t USBHub::Poll()
 
 	if (qNextPollTime <= millis())
 	{
-		Serial.println(bAddress, HEX);
-
-		rcode = GetHubStatus(bAddress);
+		rcode = CheckHubStatus();
 		qNextPollTime = millis() + 100;
 	}
 	return rcode;
 }
 
-uint8_t USBHub::GetHubStatus(uint8_t addr)
+uint8_t USBHub::CheckHubStatus()
 {
 	uint8_t		rcode;
 	uint8_t		buf[8];
 
-	rcode = pUsb->inTransfer(addr, 1, 1, buf);
+	rcode = pUsb->inTransfer(bAddress, 1, 1, buf);
 
 	if (rcode)
 		return rcode;
@@ -251,12 +249,12 @@ uint8_t USBHub::GetHubStatus(uint8_t addr)
 			HubEvent	evt;
 			evt.bmEvent = 0;
 
-			rcode = pUsb->GetPortStatus(addr, 0, port, 4, evt.evtBuff);
+			rcode = GetPortStatus(port, 4, evt.evtBuff);
 
 			if (rcode)
 				continue;
 
-			rcode = HubPortStatusChange(addr, port, evt);
+			rcode = PortStatusChange(port, evt);
 
 			if (rcode == HUB_ERROR_PORT_HAS_BEEN_RESET)
 				return 0;
@@ -271,7 +269,7 @@ uint8_t USBHub::GetHubStatus(uint8_t addr)
 		HubEvent	evt;
 		evt.bmEvent = 0;
 
-		rcode = pUsb->GetPortStatus(addr, 0, port, 4, evt.evtBuff);
+		rcode = GetPortStatus(port, 4, evt.evtBuff);
 
 		if (rcode)
 			continue;
@@ -282,7 +280,7 @@ uint8_t USBHub::GetHubStatus(uint8_t addr)
 		// Emulate connection event for the port
 		evt.bmChange |= bmHUB_PORT_STATUS_C_PORT_CONNECTION;
 
-		rcode = HubPortStatusChange(addr, port, evt);
+		rcode = PortStatusChange(port, evt);
 
 		if (rcode == HUB_ERROR_PORT_HAS_BEEN_RESET)
 			return 0;
@@ -293,7 +291,7 @@ uint8_t USBHub::GetHubStatus(uint8_t addr)
 	return 0;
 }
 
-uint8_t USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
+uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt)
 {
 	switch (evt.bmEvent)
 	{
@@ -303,21 +301,21 @@ uint8_t USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 		if (bResetInitiated)
 			return 0;
 
-		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_ENABLE);
-		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_CONNECTION);
-		pUsb->HubPortReset(addr, port);
+		ClearPortFeature(HUB_FEATURE_C_PORT_ENABLE, port, 0);
+		ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
+		SetPortFeature(HUB_FEATURE_PORT_RESET, port, 0);	
 		bResetInitiated = true;
 		return HUB_ERROR_PORT_HAS_BEEN_RESET;
 
 	// Device disconnected event
 	case bmHUB_PORT_EVENT_DISCONNECT:
-		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_ENABLE);
-		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_CONNECTION);
+		ClearPortFeature(HUB_FEATURE_C_PORT_ENABLE, port, 0);
+		ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
 		bResetInitiated = false;
 
 		UsbDeviceAddress	a;
 		a.bmHub = 0;
-		a.bmParent = addr;
+		a.bmParent = bAddress;
 		a.bmAddress = port;
 		pUsb->ReleaseDevice(a.devAddress);
 		return 0;
@@ -325,11 +323,12 @@ uint8_t USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 	// Reset complete event
 	case bmHUB_PORT_EVENT_RESET_COMPLETE:
 	case bmHUB_PORT_EVENT_LS_RESET_COMPLETE:
-		pUsb->HubClearPortFeatures(addr, port, HUB_FEATURE_C_PORT_RESET | HUB_FEATURE_C_PORT_CONNECTION);
+		ClearPortFeature(HUB_FEATURE_C_PORT_RESET, port, 0);
+		ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
 
 		delay(20);
 
-		a.devAddress = addr;
+		a.devAddress = bAddress;
 
 		pUsb->Configuring(a.bmAddress, port, (evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) );
 		bResetInitiated = false;
@@ -339,12 +338,12 @@ uint8_t USBHub::HubPortStatusChange(uint8_t addr, uint8_t port, HubEvent &evt)
 	return 0;
 }
 
-void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes)
+void PrintHubPortStatus(USBHub *hubptr, uint8_t addr, uint8_t port, bool print_changes)
 {
 	uint8_t		rcode = 0;
 	HubEvent	evt;
 
-	rcode = usbptr->GetPortStatus(addr, 0, port, 4, evt.evtBuff);
+	rcode = hubptr->GetPortStatus(port, 4, evt.evtBuff);
 
 	if (rcode)
 	{

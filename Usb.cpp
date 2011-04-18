@@ -618,26 +618,4 @@ uint8_t USB::ReleaseDevice(uint8_t addr)
 			return devConfig[i]->Release();
 }
 
-uint8_t USB::HubPortPowerOn(uint8_t addr, uint8_t port)
-{
-	return SetPortFeature(addr, 0, HUB_FEATURE_PORT_POWER, port, 0);
-}
-
-uint8_t USB::HubPortReset(uint8_t addr, uint8_t port)
-{
-    return SetPortFeature(addr, 0, HUB_FEATURE_PORT_RESET, port, 0);
-}
-
-uint8_t USB::HubClearPortFeatures(uint8_t addr, uint8_t port, uint8_t bm_features)
-{
-    return ClearPortFeature(addr, 0, bm_features, port, 0);
-}
-
-//void USB::PrintHubStatus(/*USB *usbptr,*/ uint8_t addr)
-//{
-//	uint8_t		buf[4];
-//
-//	return /*usbptr->*/GetHubStatus(addr, 0, 4, (uint8_t*)&buf);
-//
-//}
 
