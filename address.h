@@ -2,6 +2,7 @@
 #define __ADDRESS_H__
 
 #include <inttypes.h>
+#include <stddef.h>
 #include "max3421e.h"
 
 #define USB_NAK_MAX_POWER		15		//NAK binary order maximum value
@@ -179,8 +180,8 @@ public:
 	// Allocates new address
 	virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0)
 	{
-		if (parent != 0 && port == 0)
-			Serial.println("PRT:0");
+		/* if (parent != 0 && port == 0)
+			Serial.println("PRT:0"); */
 
 		if (parent > 127 || port > 7)
 			return 0;
@@ -222,14 +223,14 @@ public:
 			addr.bmAddress	= port;
 		}
 		thePool[index].address = *((uint8_t*)&addr);
-
+/*
 		Serial.print("Addr:");
 		Serial.print(addr.bmHub, HEX);
 		Serial.print(".");
 		Serial.print(addr.bmParent, HEX);
 		Serial.print(".");
 		Serial.println(addr.bmAddress, HEX);
-
+*/
 		return thePool[index].address;
 	};
 	// Empties pool entry

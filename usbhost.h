@@ -2,7 +2,7 @@
 #ifndef _USBHOST_H_
 #define _USBHOST_H_
 
-#include <WProgram.h>
+//#include <WProgram.h>
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"
@@ -251,7 +251,7 @@ uint8_t MAX3421e< SS, INTR >::Task( void )
     //Serial.println( vbusState, HEX );
     pinvalue = INTR::IsSet(); //Read();
     //pinvalue = digitalRead( MAX_INT );    
-    if( pinvalue  == LOW ) {
+    if( pinvalue  == 0 ) {
         rcode = IntHandler();
     }
 //    pinvalue = digitalRead( MAX_GPX );
