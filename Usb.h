@@ -134,12 +134,13 @@
 #define USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE	0xD2
 #define USB_ERROR_UNABLE_TO_REGISTER_DEVICE_CLASS	0xD3
 #define USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL		0xD4
-#define USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL			0xD5
-#define USB_ERROR_EPINFO_IS_NULL					0xD6
-#define USB_ERROR_INVALID_ARGUMENT					0xD7
-#define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD8
-#define USB_ERROR_INVALID_MAX_PKT_SIZE				0xD9
-#define USB_ERROR_EP_NOT_FOUND_IN_TBL				0xDA
+#define USB_ERROR_HUB_ADDRESS_OVERFLOW				0xD5
+#define USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL			0xD6
+#define USB_ERROR_EPINFO_IS_NULL					0xD7
+#define USB_ERROR_INVALID_ARGUMENT					0xD8
+#define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD9
+#define USB_ERROR_INVALID_MAX_PKT_SIZE				0xDA
+#define USB_ERROR_EP_NOT_FOUND_IN_TBL				0xDB
 
 class USBDeviceConfig
 {
@@ -156,8 +157,8 @@ public:
 #define USB_SETTLE_DELAY		200     //settle delay in milliseconds
 #define USB_NAK_NOWAIT			1       //used in Richard's PS2/Wiimote code
 
-#define USB_NUMDEVICES			64		//number of USB devices
-#define HUB_MAX_HUBS			7		// maximum number of hubs that can be attached to the host controller
+#define USB_NUMDEVICES			16		//number of USB devices
+#define HUB_MAX_HUBS			5		// maximum number of hubs that can be attached to the host controller
 #define HUB_PORT_RESET_DELAY	20		// hub port reset delay 10 ms recomended, can be up to 20 ms
 
 /* USB state machine states */

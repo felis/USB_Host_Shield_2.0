@@ -185,6 +185,9 @@ public:
 		if (parent > 127 || port > 7)
 			return 0;
 
+		if (is_hub && hubCounter == 7)
+			return 0;
+
 		// finds first empty address entry starting from one
 		uint8_t index = FindAddressIndex(0);	
 
