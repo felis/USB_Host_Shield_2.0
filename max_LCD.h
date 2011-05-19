@@ -49,7 +49,7 @@
 #define LCD_5x10DOTS			0x04
 #define LCD_5x8DOTS				0x00
 
-class Max_LCD : public Print 
+class Max_LCD //: public Print 
 {
 	USB	*pUsb;
 
@@ -84,8 +84,5 @@ private:
 	uint8_t _initialized;
 	uint8_t _numlines,_currline;
 };
-
-
-
 
 #endif

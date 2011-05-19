@@ -55,7 +55,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		// Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
 		p->epinfo = epInfo;
 
-		p->lowspeed = lowspeed;
+		p->lowspeed = lowspeed;  
 
 		// Get device descriptor
 		rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
@@ -225,8 +225,9 @@ uint8_t USBHub::CheckHubStatus()
 {
 	uint8_t		rcode;
 	uint8_t		buf[8];
+	uint16_t	read = 1;
 
-	rcode = pUsb->inTransfer(bAddress, 1, 1, buf);
+	rcode = pUsb->inTransfer(bAddress, 1, &read, buf);
 
 	if (rcode)
 		return rcode;

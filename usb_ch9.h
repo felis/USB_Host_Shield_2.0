@@ -70,51 +70,24 @@
 #define USB_FEATURE_DEVICE_REMOTE_WAKEUP        1       // Device recipient
 #define USB_FEATURE_TEST_MODE                   2       // Device recipient
 
-/* HID constants. Not part of chapter 9 */
-/* Class-Specific Requests */
-#define HID_REQUEST_GET_REPORT      0x01
-#define HID_REQUEST_GET_IDLE        0x02
-#define HID_REQUEST_GET_PROTOCOL    0x03
-#define HID_REQUEST_SET_REPORT      0x09
-#define HID_REQUEST_SET_IDLE        0x0A
-#define HID_REQUEST_SET_PROTOCOL    0x0B
-
-/* Class Descriptor Types */
-#define HID_DESCRIPTOR_HID      0x21
-#define HID_DESCRIPTOR_REPORT   0x22
-#define HID_DESRIPTOR_PHY       0x23
-
-/* Protocol Selection */
-#define BOOT_PROTOCOL   0x00
-#define RPT_PROTOCOL    0x01
-/* HID Interface Class Code */
-#define HID_INTF                    0x03
-/* HID Interface Class SubClass Codes */
-#define BOOT_INTF_SUBCLASS          0x01
-/* HID Interface Class Protocol Codes */
-#define HID_PROTOCOL_NONE           0x00
-#define HID_PROTOCOL_KEYBOARD       0x01
-#define HID_PROTOCOL_MOUSE          0x02
-
-
 /* descriptor data structures */
 
 /* Device descriptor structure */
 typedef struct {
-    uint8_t bLength;               // Length of this descriptor.
-    uint8_t bDescriptorType;       // DEVICE descriptor type (USB_DESCRIPTOR_DEVICE).
-    uint16_t  bcdUSB;        // USB Spec Release Number (BCD).
-    uint8_t bDeviceClass;          // Class code (assigned by the USB-IF). 0xFF-Vendor specific.
-    uint8_t bDeviceSubClass;       // Subclass code (assigned by the USB-IF).
-    uint8_t bDeviceProtocol;       // Protocol code (assigned by the USB-IF). 0xFF-Vendor specific.
-    uint8_t bMaxPacketSize0;       // Maximum packet size for endpoint 0.
-    uint16_t idVendor;      // Vendor ID (assigned by the USB-IF).
-    uint16_t idProduct;     // Product ID (assigned by the manufacturer).
-    uint16_t bcdDevice;      // Device release number (BCD).
-    uint8_t iManufacturer;         // Index of String Descriptor describing the manufacturer.
-    uint8_t iProduct;              // Index of String Descriptor describing the product.
-    uint8_t iSerialNumber;         // Index of String Descriptor with the device's serial number.
-    uint8_t bNumConfigurations;    // Number of possible configurations.
+    uint8_t		bLength;               // Length of this descriptor.
+    uint8_t		bDescriptorType;       // DEVICE descriptor type (USB_DESCRIPTOR_DEVICE).
+    uint16_t	bcdUSB;					// USB Spec Release Number (BCD).
+    uint8_t		bDeviceClass;          // Class code (assigned by the USB-IF). 0xFF-Vendor specific.
+    uint8_t		bDeviceSubClass;       // Subclass code (assigned by the USB-IF).
+    uint8_t		bDeviceProtocol;       // Protocol code (assigned by the USB-IF). 0xFF-Vendor specific.
+    uint8_t		bMaxPacketSize0;       // Maximum packet size for endpoint 0.
+    uint16_t	idVendor;				// Vendor ID (assigned by the USB-IF).
+    uint16_t	idProduct;				// Product ID (assigned by the manufacturer).
+    uint16_t	bcdDevice;				// Device release number (BCD).
+    uint8_t		iManufacturer;         // Index of String Descriptor describing the manufacturer.
+    uint8_t		iProduct;              // Index of String Descriptor describing the product.
+    uint8_t		iSerialNumber;         // Index of String Descriptor with the device's serial number.
+    uint8_t		bNumConfigurations;    // Number of possible configurations.
 } USB_DEVICE_DESCRIPTOR;
 
 /* Configuration descriptor structure */
@@ -154,16 +127,5 @@ typedef struct
     uint16_t wMaxPacketSize;        // Maximum packet size.
     uint8_t bInterval;             // Polling interval in frames.
 } USB_ENDPOINT_DESCRIPTOR;
-
-/* HID descriptor */
-typedef struct {
-    uint8_t bLength;			
-	uint8_t bDescriptorType;	
-	uint16_t bcdHID;			
-    uint8_t bCountryCode;		
-	uint8_t bNumDescriptors;
-	uint8_t bDescrType;			
-    uint16_t wDescriptorLength;
-} USB_HID_DESCRIPTOR;
 
 #endif // _ch9_h_

@@ -10,6 +10,8 @@
 #include "Usb.h"
 #include <WProgram.h>
 
+#define USB_DESCRIPTOR_HUB			0x09 // Hub descriptor type
+
 // Hub Requests
 #define bmREQ_CLEAR_HUB_FEATURE		USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
 #define bmREQ_CLEAR_PORT_FEATURE	USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_OTHER
@@ -90,16 +92,16 @@
 
 
 // Hub Port Configuring Substates
-#define USB_STATE_HUB_PORT_CONFIGURING						0xb0
-#define USB_STATE_HUB_PORT_POWERED_OFF						0xb1
-#define USB_STATE_HUB_PORT_WAIT_FOR_POWER_GOOD				0xb2
-#define USB_STATE_HUB_PORT_DISCONNECTED						0xb3
-#define USB_STATE_HUB_PORT_DISABLED							0xb4
-#define USB_STATE_HUB_PORT_RESETTING						0xb5
-#define USB_STATE_HUB_PORT_ENABLED							0xb6
+#define USB_STATE_HUB_PORT_CONFIGURING			0xb0
+#define USB_STATE_HUB_PORT_POWERED_OFF			0xb1
+#define USB_STATE_HUB_PORT_WAIT_FOR_POWER_GOOD	0xb2
+#define USB_STATE_HUB_PORT_DISCONNECTED			0xb3
+#define USB_STATE_HUB_PORT_DISABLED				0xb4
+#define USB_STATE_HUB_PORT_RESETTING			0xb5
+#define USB_STATE_HUB_PORT_ENABLED				0xb6
 
 // Additional Error Codes
-#define HUB_ERROR_PORT_HAS_BEEN_RESET						0xb1
+#define HUB_ERROR_PORT_HAS_BEEN_RESET			0xb1
 
 // The bit mask to check for all necessary state bits
 #define bmHUB_PORT_STATUS_ALL_MAIN				((0UL  | bmHUB_PORT_STATUS_C_PORT_CONNECTION  | bmHUB_PORT_STATUS_C_PORT_ENABLE  | bmHUB_PORT_STATUS_C_PORT_SUSPEND  | bmHUB_PORT_STATUS_C_PORT_RESET) << 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)
@@ -153,7 +155,6 @@ struct HubEvent
 	};
 };
 
-
 class USBHub : USBDeviceConfig
 {
 	static bool bResetInitiated;		// True when reset is triggered
@@ -194,42 +195,42 @@ public:
 // Clear Hub Feature
 inline uint8_t USBHub::ClearHubFeature( uint8_t fid ) 
 {
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, NULL ));
+	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL ));
 }
 // Clear Port Feature
 inline uint8_t USBHub::ClearPortFeature( uint8_t fid, uint8_t port, uint8_t sel ) 
 {
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, NULL ));
+	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, 0, NULL, NULL ));
 }
 // Get Hub Descriptor
 inline uint8_t USBHub::GetHubDescriptor( uint8_t index, uint16_t nbytes, uint8_t *dataptr ) 
 {
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, dataptr ));
+	return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL ));
 }
 // Get Hub Status
 inline uint8_t USBHub::GetHubStatus( uint16_t nbytes, uint8_t* dataptr ) 
 {
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, dataptr ));
+    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL ));
 }
 // Get Port Status
 inline uint8_t USBHub::GetPortStatus( uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
 {
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, dataptr ));
+    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL ));
 }
 // Set Hub Descriptor
 inline uint8_t USBHub::SetHubDescriptor( uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
 {
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, dataptr ));
+    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL ));
 }
 // Set Hub Feature
 inline uint8_t USBHub::SetHubFeature( uint8_t fid ) 
 {
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, NULL ));
+    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL ));
 }
 // Set Port Feature
 inline uint8_t USBHub::SetPortFeature( uint8_t fid, uint8_t port, uint8_t sel ) 
 {
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, NULL ));
+    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, 0, NULL, NULL ));
 }
 
 void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);
