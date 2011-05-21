@@ -134,8 +134,8 @@ public:
 };
 
 
-typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widdow
-//typedef MAX3421e<P10, P9>		MAX3421E;		// Duemielanove
+//typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widdow
+typedef MAX3421e<P10, P9>		MAX3421E;		// Duemielanove
 
 class USB : public MAX3421E
 {

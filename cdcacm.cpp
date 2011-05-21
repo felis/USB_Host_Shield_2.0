@@ -249,7 +249,8 @@ uint8_t ACM::Poll()
 		for (uint8_t i=0; i<constBufSize; i++)
 			buf[i] = 0;
 
-		uint16_t	read = constBufSize;
+		uint16_t	read = (constBufSize > epInfo[epInterruptInIndex].maxPktSize) 
+							? epInfo[epInterruptInIndex].maxPktSize : constBufSize;
 		rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
 
 		if (rcode)
