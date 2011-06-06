@@ -2,8 +2,8 @@
 
 //const uint16_t	HID::maxHidInterfaces		= 3;		
 //const uint16_t	HID::maxEpPerInterface		= 2;		
-const uint8_t	HID::epInterruptInIndex		= 0;	
-const uint8_t	HID::epInterruptOutIndex	= 1;
+const uint8_t	HID::epInterruptInIndex		= 1;	
+const uint8_t	HID::epInterruptOutIndex	= 2;
 
 HID::HID(USB *p) : 
 		pUsb(p), 
@@ -278,6 +278,7 @@ uint8_t HID::Release()
 {
 	pUsb->GetAddressPool().FreeAddress(bAddress);
 
+	bNumEP				= 1;
 	bAddress			= 0;
 	qNextPollTime		= 0;
 	bPollEnable			= false;

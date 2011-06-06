@@ -153,7 +153,7 @@ uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequ
 
 				rcode = InTransfer( pep, nak_limit, &read, dataptr );
 
-				if (rcode /*&& rcode != hrSTALL*/)
+				if (rcode)
 					return rcode;
 
 				// Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
@@ -161,6 +161,9 @@ uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequ
 					((USBReadParser*)p)->Parse( read, dataptr, total - left );
 
 				left -= read;
+
+				if (read < nbytes)
+					break;
 			}
 		}
 		else						//OUT transfer
@@ -222,15 +225,16 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 		if (mem_left < 0)
 			mem_left = 0;
 
-		data = bytesRd( rRCVFIFO, (pktsize > mem_left) ? mem_left : pktsize, data );
+		data = bytesRd( rRCVFIFO, ((pktsize > mem_left) ? mem_left : pktsize), data );
 
         regWr( rHIRQ, bmRCVDAVIRQ );                    // Clear the IRQ & free the buffer
         *nbytesptr += pktsize;							// add this packet's byte count to total transfer length
+
         /* The transfer is complete under two conditions:           */
         /* 1. The device sent a short packet (L.T. maxPacketSize)   */
         /* 2. 'nbytes' have been transferred.                       */
-        if (( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
-		{      
+        if (/*pktsize == 6 ||*/ ( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
+		{     
 			// Save toggle value
 			pep->bmRcvToggle = ( regRd( rHRSL ) & bmRCVTOGRD ) ? 1 : 0;
 
