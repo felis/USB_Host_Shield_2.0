@@ -52,6 +52,10 @@
 #define USB_DESCRIPTOR_INTERFACE_POWER  0x08    // bDescriptorType for Interface Power.
 #define USB_DESCRIPTOR_OTG              0x09    // bDescriptorType for an OTG Descriptor.
 
+#define HID_DESCRIPTOR_HID			0x21
+
+
+
 /* OTG SET FEATURE Constants    */
 #define OTG_FEATURE_B_HNP_ENABLE                3       // SET FEATURE OTG - Enable B device to perform HNP
 #define OTG_FEATURE_A_HNP_SUPPORT               4       // SET FEATURE OTG - A device supports HNP
@@ -127,5 +131,24 @@ typedef struct
     uint16_t wMaxPacketSize;        // Maximum packet size.
     uint8_t bInterval;             // Polling interval in frames.
 } USB_ENDPOINT_DESCRIPTOR;
+
+
+/* HID descriptor */
+typedef struct 
+{
+    uint8_t		bLength;			
+	uint8_t		bDescriptorType;	
+	uint16_t	bcdHID;					// HID class specification release
+    uint8_t		bCountryCode;			
+	uint8_t		bNumDescriptors;		// Number of additional class specific descriptors
+	uint8_t		bDescrType;				// Type of class descriptor
+    uint16_t	wDescriptorLength;		// Total size of the Report descriptor
+} USB_HID_DESCRIPTOR;
+
+typedef struct
+{
+	uint8_t		bDescrType;				// Type of class descriptor
+    uint16_t	wDescriptorLength;		// Total size of the Report descriptor
+} HID_CLASS_DESCRIPTOR_LEN_AND_TYPE;
 
 #endif // _ch9_h_

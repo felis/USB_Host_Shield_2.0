@@ -71,6 +71,15 @@
 #define FTDI_SIO_RI_MASK					0x40
 #define FTDI_SIO_RLSD_MASK					0x80
 
+class FTDI;
+
+class FTDIAsyncOper
+{
+public:
+	virtual uint8_t OnInit(FTDI *pftdi) = 0;
+};
+
+
 // Only single port chips are currently supported by the library,
 //		so only three endpoints are allocated.
 #define FTDI_MAX_ENDPOINTS					3
@@ -81,21 +90,22 @@ class FTDI : public USBDeviceConfig, public UsbConfigXtracter
 	static const uint8_t	epDataOutIndex;			// DataOUT endpoint index
 	static const uint8_t	epInterruptInIndex;		// InterruptIN  endpoint index
 
-	USB			*pUsb;
-	uint8_t		bAddress;
-	uint8_t		bConfNum;				// configuration number
-	uint8_t		bNumIface;				// number of interfaces in the configuration
-	uint8_t		bNumEP;					// total number of EP in the configuration
-	uint32_t	qNextPollTime;			// next poll time
-	bool		bPollEnable;			// poll enable flag
-	uint16_t	wFTDIType;				// Type of FTDI chip
+	FTDIAsyncOper	*pAsync;
+	USB				*pUsb;
+	uint8_t			bAddress;
+	uint8_t			bConfNum;				// configuration number
+	uint8_t			bNumIface;				// number of interfaces in the configuration
+	uint8_t			bNumEP;					// total number of EP in the configuration
+	uint32_t		qNextPollTime;			// next poll time
+	bool			bPollEnable;			// poll enable flag
+	uint16_t		wFTDIType;				// Type of FTDI chip
 
-	EpInfo		epInfo[FTDI_MAX_ENDPOINTS];
+	EpInfo			epInfo[FTDI_MAX_ENDPOINTS];
 
 	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-	FTDI(USB *pusb);
+	FTDI(USB *pusb, FTDIAsyncOper *pasync);
 
 	uint8_t SetBaudRate(uint32_t baud);
 	uint8_t SetModemControl(uint16_t control);

@@ -67,9 +67,9 @@ class USBDeviceConfig
 {
 public:
 	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
-	virtual uint8_t Release()	= 0;
-	virtual uint8_t Poll()		= 0;
-	virtual uint8_t GetAddress() = 0;
+	virtual uint8_t Release()		= 0;
+	virtual uint8_t Poll()			= 0;
+	virtual uint8_t GetAddress()	= 0;
 };
 
 #define USB_XFER_TIMEOUT		5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec

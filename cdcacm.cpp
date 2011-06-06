@@ -238,31 +238,31 @@ uint8_t ACM::Poll()
 
 	uint32_t	time_now = millis();
 
-	if (qNextPollTime <= time_now)
-	{
-		qNextPollTime = time_now + 100;
+	//if (qNextPollTime <= time_now)
+	//{
+	//	qNextPollTime = time_now + 100;
 
-		uint8_t			rcode;
-		const uint8_t	constBufSize = 16;
-		uint8_t			buf[constBufSize];
+	//	uint8_t			rcode;
+	//	const uint8_t	constBufSize = 16;
+	//	uint8_t			buf[constBufSize];
 
-		for (uint8_t i=0; i<constBufSize; i++)
-			buf[i] = 0;
+	//	for (uint8_t i=0; i<constBufSize; i++)
+	//		buf[i] = 0;
 
-		uint16_t	read = (constBufSize > epInfo[epInterruptInIndex].maxPktSize) 
-							? epInfo[epInterruptInIndex].maxPktSize : constBufSize;
-		rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
+	//	uint16_t	read = (constBufSize > epInfo[epInterruptInIndex].maxPktSize) 
+	//						? epInfo[epInterruptInIndex].maxPktSize : constBufSize;
+	//	rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
 
-		if (rcode)
-			return rcode;
+	//	if (rcode)
+	//		return rcode;
 
-		for (uint8_t i=0; i<read; i++)
-		{
-			PrintHex<uint8_t>(buf[i]);
-			Serial.print(" ");
-		}
-		USBTRACE("\r\n");
-	}
+	//	for (uint8_t i=0; i<read; i++)
+	//	{
+	//		PrintHex<uint8_t>(buf[i]);
+	//		Serial.print(" ");
+	//	}
+	//	USBTRACE("\r\n");
+	//}
 	return rcode;
 }
 

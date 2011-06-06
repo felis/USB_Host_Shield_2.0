@@ -4,9 +4,11 @@ const uint8_t	FTDI::epDataInIndex			= 1;
 const uint8_t	FTDI::epDataOutIndex		= 2;		
 const uint8_t	FTDI::epInterruptInIndex	= 3;	
 
-FTDI::FTDI(USB *p) :
+FTDI::FTDI(USB *p, FTDIAsyncOper *pasync) :
+	pAsync(pasync),
 	pUsb(p),
 	bAddress(0),
+	bNumEP(1),
 	wFTDIType(0)
 {
 	for(uint8_t i=0; i<FTDI_MAX_ENDPOINTS; i++)
@@ -135,6 +137,8 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	if (bNumEP < 2)
 		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
+	USBTRACE2("NumEP:", bNumEP);
+
 	// Assign epInfo to epinfo pointer
 	rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
@@ -146,17 +150,10 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	if (rcode)
 		goto FailSetConfDescr;
 
-	rcode = SetBaudRate(115200);
+	rcode = pAsync->OnInit(this);
 
 	if (rcode)
-		goto FailSetBaudRate;
-
-	rcode = SetFlowControl(FTDI_SIO_DISABLE_FLOW_CTRL);
-	//rcode = SetFlowControl(FTDI_SIO_SET_DTR_HIGH);
-
-	if (rcode)
-		goto FailSetFlowControl;
-
+		goto FailOnInit;
 
 	USBTRACE("FTDI configured\r\n");
 
@@ -185,6 +182,10 @@ FailSetBaudRate:
 
 FailSetFlowControl:
 	USBTRACE("SetFlowControl:");
+	goto Fail;
+
+FailOnInit:
+	USBTRACE("OnInit:");
 	goto Fail;
 
 Fail:
@@ -227,6 +228,7 @@ uint8_t FTDI::Release()
 	pUsb->GetAddressPool().FreeAddress(bAddress);
 
 	bAddress			= 0;
+	bNumEP				= 1;
 	qNextPollTime		= 0;
 	bPollEnable			= false;
 	return 0;

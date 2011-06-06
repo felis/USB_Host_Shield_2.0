@@ -153,7 +153,7 @@ uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequ
 
 				rcode = InTransfer( pep, nak_limit, &read, dataptr );
 
-				if (rcode)
+				if (rcode /*&& rcode != hrSTALL*/)
 					return rcode;
 
 				// Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
@@ -194,7 +194,7 @@ uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t*
 
 uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data)
 {
-	uint8_t rcode;
+	uint8_t rcode = 0;
 	uint8_t pktsize;
 
 	uint16_t	nbytes		= *nbytesptr;
@@ -212,9 +212,9 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         
         /* check for RCVDAVIRQ and generate error if not present */ 
         /* the only case when absense of RCVDAVIRQ makes sense is when toggle error occured. Need to add handling for that */
-        if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) {
+        if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) 
             return ( 0xf0 );                            //receive error
-        }
+        
         pktsize = regRd( rRCVBC );                      //number of received bytes
 
 		int16_t	 mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
