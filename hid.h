@@ -151,8 +151,21 @@ class ReportDescParser : public USBReadParser
 public:
 	typedef void (*UsagePageFunc)(uint16_t usage);
 
+	static void PrintGenericDesktopPageUsage(uint16_t usage);
+	static void PrintSimulationControlsPageUsage(uint16_t usage);
+	static void PrintVRControlsPageUsage(uint16_t usage);
+	static void PrintSportsControlsPageUsage(uint16_t usage);
+	static void PrintGameControlsPageUsage(uint16_t usage);
+	static void PrintGenericDeviceControlsPageUsage(uint16_t usage);
+	static void PrintLEDPageUsage(uint16_t usage);
+	static void PrintTelephonyPageUsage(uint16_t usage);
+	static void PrintConsumerPageUsage(uint16_t usage);
+	static void PrintDigitizerPageUsage(uint16_t usage);
+	static void PrintAlphanumDisplayPageUsage(uint16_t usage);
+	static void PrintMedicalInstrumentPageUsage(uint16_t usage);
+
 private:
-	//static UsagePageFunc	usagePageFunctions[];
+	static UsagePageFunc	usagePageFunctions[];
 
     MultiValueBuffer		theBuffer;
 	MultiByteValueParser	valParser;
@@ -168,18 +181,7 @@ private:
 	UsagePageFunc			pfUsage;
 
 	static void PrintUsagePage(uint16_t page);
-	static void PrintGenericDesktopPageUsage(uint16_t usage);
-	static void PrintSimulationControlsPageUsage(uint16_t usage);
-	static void PrintVRControlsPageUsage(uint16_t usage);
-	static void PrintSportsControlsPageUsage(uint16_t usage);
-	static void PrintGameControlsPageUsage(uint16_t usage);
-	static void PrintGenericDeviceControlsPageUsage(uint16_t usage);
-	static void PrintLEDPageUsage(uint16_t usage);
-	static void PrintTelephonyPageUsage(uint16_t usage);
-	static void PrintConsumerPageUsage(uint16_t usage);
-	static void PrintDigitizerPageUsage(uint16_t usage);
-	static void PrintAlphanumDisplayPageUsage(uint16_t usage);
-	static void PrintMedicalInstrumentPageUsage(uint16_t usage);
+	void SetUsagePage(uint16_t page);
 
 public:
 	ReportDescParser() :
@@ -187,7 +189,11 @@ public:
 		itemSize(0),		
 		itemPrefix(0),
 		pfUsage(NULL)
-		{};
+		{
+			theBuffer.pValue = varBuffer; 
+			valParser.Initialize(&theBuffer);
+			theSkipper.Initialize(&theBuffer);
+		};
 
 	virtual void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset);
 

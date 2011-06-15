@@ -256,9 +256,15 @@ void HID::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 	uint8_t index;
 
 	if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+	{
+		USBTRACE("I8\r\n");
 		index = epInterruptInIndex;
+	}
 	else
+	{
+		USBTRACE("I0\r\n");
 		index = epInterruptOutIndex;
+	}
 
 	// Fill in the endpoint info structure
 	epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
@@ -289,15 +295,29 @@ uint8_t HID::Poll()
 {
 	uint8_t rcode = 0;
 
-	//if (!bPollEnable)
-	//	return 0;
+	if (!bPollEnable)
+		return 0;
 
-	//if (qNextPollTime <= millis())
-	//{
-	//	Serial.println(bAddress, HEX);
+	if (qNextPollTime <= millis())
+	{
+		qNextPollTime = millis() + 100;
 
-	//	qNextPollTime = millis() + 100;
-	//}
+		const uint8_t const_buff_len = 16;
+		uint8_t buf[const_buff_len];
+
+		HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
+		uint16_t	read = (uint16_t)const_buff_len;
+
+		uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
+
+		if (rcode && rcode != hrNAK)
+		{
+			USBTRACE2("Poll:", rcode);
+			return rcode;
+		}
+		for (uint8_t i=0; i<read; i++)
+			PrintHex<uint8_t>(buf[i]);
+	}
 	return rcode;
 }
 
@@ -313,7 +333,7 @@ uint8_t HID::getReportDescr( uint8_t ep, USBReadParser *parser )
 	//	HID_DESCRIPTOR_REPORT, 0x0000, constBufLen, constBufLen, buf, NULL ));
 
 	uint8_t rcode = pUsb->ctrlReq( bAddress, ep, /*bmREQ_HIDREPORT*/0x81, USB_REQUEST_GET_DESCRIPTOR, 0x00, 
-		HID_DESCRIPTOR_REPORT, 0x0000, constBufLen, constBufLen, buf, (USBReadParser*)parser );
+		HID_DESCRIPTOR_REPORT, 0x0000, 0x142, constBufLen, buf, (USBReadParser*)parser );
 
 	//return ((rcode != hrSTALL) ? rcode : 0);
 	return rcode;
@@ -347,42 +367,24 @@ uint8_t HID::getProto( uint8_t ep, uint8_t iface, uint8_t* dataptr )
 	return( pUsb->ctrlReq( bAddress, ep, bmREQ_HIDIN, HID_REQUEST_GET_PROTOCOL, 0x00, 0x00, iface, 0x0001, 0x0001, dataptr, NULL ));        
 }
 
-//ReportDescParser::UsagePageFunc		usagePageFunctions[] /*PROGMEM*/ =
-//{
-//	ReportDescParser::PrintGenericDesktopPageUsage,
-//	ReportDescParser::PrintSimulationControlsPageUsage,
-//	ReportDescParser::PrintVRControlsPageUsage,
-//	ReportDescParser::PrintSportsControlsPageUsage,
-//	ReportDescParser::PrintGameControlsPageUsage,
-//	ReportDescParser::PrintGenericDeviceControlsPageUsage,
-//	ReportDescParser::PrintLEDPageUsage,
-//	ReportDescParser::PrintTelephonyPageUsage,
-//	ReportDescParser::PrintConsumerPageUsage,
-//	ReportDescParser::PrintDigitizerPageUsage,
-//	ReportDescParser::PrintAlphanumDisplayPageUsage,
-//	ReportDescParser::PrintMedicalInstrumentPageUsage
-//};
-
 void ReportDescParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset)
 {
 	uint16_t	cntdn	= (uint16_t)len;
 	uint8_t		*p		= (uint8_t*)pbuf; 
 
-	Serial.print("\r\nL:");
-	Serial.println(len, HEX);
-
 	while(cntdn)
 	{
-		//Serial.print("CDN:");
-		//Serial.println(cntdn, HEX);
+		ParseItem(&p, &cntdn);
 
-		if (ParseItem(&p, &cntdn))
-			return;
+		//if (ParseItem(&p, &cntdn))
+		//	return;
 	}
 }
 
 uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 {
+	uint8_t	ret = enErrorSuccess;
+
 	switch (itemParseState)
 	{
 	case 0:
@@ -404,7 +406,7 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 
 			//USBTRACE2("Sz1:", size);
 			//Serial.print("\r\nSz:");
-			//Serial.print(itemSize,DEC);
+			//Serial.println(itemSize,DEC);
 
 			switch (itemPrefix & (TYPE_MASK | TAG_MASK))
 			{
@@ -474,19 +476,32 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		(*pcntdn)	--;
 		itemSize	--;
 		itemParseState	= 1;
-	case 1:
+
 		if (!itemSize)
 			break;
 
 		if (!pcntdn)
+			return enErrorIncomplete;
+	case 1:
+        theBuffer.valueSize = itemSize;
+		valParser.Initialize(&theBuffer);
+		itemParseState	= 2;
+	case 2:
+		if (!valParser.Parse(pp, pcntdn))
+            return enErrorIncomplete;
+		itemParseState	= 3;
+	case 3:
 		{
-			if (itemSize)
-				return enErrorIncomplete;
+		uint8_t data = *((uint8_t*)varBuffer);
 
-			break;
-		}
 		switch (itemPrefix & (TYPE_MASK | TAG_MASK))
 		{
+		case (TYPE_LOCAL  | TAG_LOCAL_USAGE):
+			if (pfUsage)
+				if (theBuffer.valueSize > 1)
+					pfUsage(*((uint16_t*)varBuffer));
+				else
+					pfUsage(data);
 		case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMIN):
 		case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMAX):
 		case (TYPE_GLOBAL | TAG_GLOBAL_PHYSMIN):
@@ -498,33 +513,26 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		case (TYPE_LOCAL  | TAG_LOCAL_USAGEMAX):
 		case (TYPE_GLOBAL | TAG_GLOBAL_UNITEXP):
 		case (TYPE_GLOBAL | TAG_GLOBAL_UNIT):
-		case (TYPE_LOCAL  | TAG_LOCAL_USAGE):
-			//PrintGenericDesktopPageUsage((**pp));
-			//PrintSimulationControlsPageUsage((**pp));
-			//PrintVRControlsPageUsage((**pp));
-			//PrintSportsControlsPageUsage((**pp));
-			//PrintGameControlsPageUsage((**pp));
-			//PrintGenericDeviceControlsPageUsage((**pp));
-			//PrintLEDPageUsage((**pp));
-			//PrintTelephonyPageUsage((**pp));
-			//PrintConsumerPageUsage((**pp));
-			//PrintDigitizerPageUsage((**pp));
-			//PrintAlphanumDisplayPageUsage((**pp));
-			//PrintMedicalInstrumentPageUsage((**pp));
 			Notify(PSTR("("));
-			PrintHex<uint8_t>((**pp));
+			for (uint8_t i=0; i<theBuffer.valueSize; i++)
+				PrintHex<uint8_t>(data);
 			Notify(PSTR(")"));
-			break;
 			break;
 		case (TYPE_GLOBAL | TAG_GLOBAL_PUSH):
 		case (TYPE_GLOBAL | TAG_GLOBAL_POP):
 			break;
 		case (TYPE_GLOBAL | TAG_GLOBAL_USAGEPAGE):
-			PrintUsagePage((**pp));
+			SetUsagePage(data);
+			PrintUsagePage(data);
+
+			Notify(PSTR("("));
+			for (uint8_t i=0; i<theBuffer.valueSize; i++)
+				PrintHex<uint8_t>(data);
+			Notify(PSTR(")"));
 			break;
 		case (TYPE_MAIN   | TAG_MAIN_COLLECTION):
 		case (TYPE_MAIN   | TAG_MAIN_ENDCOLLECTION):
-			switch ((**pp))
+			switch (data)
 			{
 			case 0x00:
 				Notify(PSTR(" Physical"));
@@ -549,7 +557,7 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 				break;
 			default:
 				Notify(PSTR(" Vendor Defined("));
-				PrintHex<uint8_t>((**pp));
+				PrintHex<uint8_t>(data);
 				Notify(PSTR(")"));
 			}
 			break;
@@ -557,15 +565,13 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		case (TYPE_MAIN   | TAG_MAIN_OUTPUT):
 		case (TYPE_MAIN   | TAG_MAIN_FEATURE):
 			Notify(PSTR("("));
-			PrintBin<uint8_t>((**pp));
+			PrintBin<uint8_t>(data);
 			Notify(PSTR(")"));
 			break;
 		} // switch (**pp & (TYPE_MASK | TAG_MASK))
-		(*pp)		++;
-		(*pcntdn)	--;
-		itemSize	--;
-		itemParseState	= 2;
-	case 2:
+		}
+		itemParseState	= 4;
+	case 4:
 		if (itemSize > 1 && !theSkipper.Skip(pp, pcntdn, itemSize))
 			return enErrorIncomplete;
 	} // switch (itemParseState)
@@ -600,6 +606,52 @@ const char *usagePageTitles1[]	PROGMEM =
 	pstrUsagePageCameraControl			,
 	pstrUsagePageArcade					
 };
+
+ReportDescParser::UsagePageFunc		ReportDescParser::usagePageFunctions[] /*PROGMEM*/ =
+{
+	&ReportDescParser::PrintGenericDesktopPageUsage,
+	&ReportDescParser::PrintSimulationControlsPageUsage,
+	&ReportDescParser::PrintVRControlsPageUsage,
+	&ReportDescParser::PrintSportsControlsPageUsage,
+	&ReportDescParser::PrintGameControlsPageUsage,
+	&ReportDescParser::PrintGenericDeviceControlsPageUsage,
+	NULL,		// Keyboard/Keypad
+	&ReportDescParser::PrintLEDPageUsage,
+	NULL,		// Button
+	NULL,		// Ordinal
+	&ReportDescParser::PrintTelephonyPageUsage,
+	&ReportDescParser::PrintConsumerPageUsage,
+	&ReportDescParser::PrintDigitizerPageUsage,
+	NULL,		// Reserved
+	NULL,		// PID
+	NULL		// Unicode
+};
+
+void ReportDescParser::SetUsagePage(uint16_t page)
+{
+	pfUsage = NULL;
+
+	if (page > 0x00 && page < 0x11)
+		pfUsage = /*(UsagePageFunc)pgm_read_word*/(usagePageFunctions[page - 1]);
+	//else if (page > 0x7f && page < 0x84)
+	//	Notify(pstrUsagePageMonitor);
+	//else if (page > 0x83 && page < 0x8c)
+	//	Notify(pstrUsagePagePower);
+	//else if (page > 0x8b && page < 0x92)
+	//	Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]));
+	//else if (page > 0xfeff && page <= 0xffff)
+	//	Notify(pstrUsagePageVendorDefined);
+	else
+		switch (page)
+		{
+		case 0x14:
+			pfUsage = &ReportDescParser::PrintAlphanumDisplayPageUsage;
+			break;
+		case 0x40:
+			pfUsage = &ReportDescParser::PrintMedicalInstrumentPageUsage;
+			break;
+		}
+}
 
 void ReportDescParser::PrintUsagePage(uint16_t page)
 {
