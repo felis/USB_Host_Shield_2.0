@@ -1,3 +1,19 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+*/
 /* USB functions */
 #ifndef _usb_h_
 #define _usb_h_
@@ -12,22 +28,27 @@
 #include "address.h"
 #include <WProgram.h>
 
+#include "printhex.h"
+#include "hexdump.h"
+#include "message.h"
+
+
+/* shield pins. First parameter - SS pin, second parameter - INT pin */
+//typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widow
+typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
+
+#define USBTRACE(s) (Serial.print((s)))
+#define USBTRACE2(s,r) (Serial.print((s)), Serial.println((r),HEX))
+
+
 /* Common setup data constant combinations  */
 #define bmREQ_GET_DESCR     USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_DEVICE     //get descriptor request type
 #define bmREQ_SET           USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_DEVICE     //set request type for all but 'set feature' and 'set interface'
 #define bmREQ_CL_GET_INTF   USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE     //get interface request type
 
-/* HID requests */
-#define bmREQ_HIDOUT        USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define bmREQ_HIDIN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE 
-#define bmREQ_HIDREPORT     USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_INTERFACE
-
-
-
 // D7		data transfer direction (0 - host-to-device, 1 - device-to-host)
 // D6-5		Type (0- standard, 1 - class, 2 - vendor, 3 - reserved)
 // D4-0		Recipient (0 - device, 1 - interface, 2 - endpoint, 3 - other, 4..31 - reserved)
-
 
 // USB Device Classes
 #define USB_CLASS_USE_CLASS_INFO	0x00	// Use Class Info in the Interface Descriptors
@@ -67,9 +88,9 @@ class USBDeviceConfig
 {
 public:
 	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
-	virtual uint8_t Release()	= 0;
-	virtual uint8_t Poll()		= 0;
-	virtual uint8_t GetAddress() = 0;
+	virtual uint8_t Release()		= 0;
+	virtual uint8_t Poll()			= 0;
+	virtual uint8_t GetAddress()	= 0;
 };
 
 #define USB_XFER_TIMEOUT		5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
@@ -114,28 +135,25 @@ typedef struct {
     }ReqType_u;
     uint8_t    bRequest;					//   1      Request
     union {
-        unsigned int    wValue;             //   2      Depends on bRequest
+        uint16_t    wValue;             //   2      Depends on bRequest
         struct {
         uint8_t    wValueLo;
         uint8_t    wValueHi;
         };
     }wVal_u;
-    unsigned int    wIndex;                 //   4      Depends on bRequest
-    unsigned int    wLength;                //   6      Depends on bRequest
+    uint16_t    wIndex;                 //   4      Depends on bRequest
+    uint16_t    wLength;                //   6      Depends on bRequest
 } SETUP_PKT, *PSETUP_PKT;
 
 
 
 // Base class for incomming data parser
-class UsbReadParser
+class USBReadParser
 {
 public:
-	virtual void Parse(const uint8_t len, const uint8_t *pbuf, const uint16_t &offset) = 0;
+	virtual void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) = 0;
 };
 
-
-//typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widdow
-typedef MAX3421e<P10, P9>		MAX3421E;		// Duemielanove
 
 class USB : public MAX3421E
 {
@@ -176,22 +194,22 @@ class USB : public MAX3421E
         EpInfo* getEpInfoEntry( uint8_t addr, uint8_t ep );
         uint8_t setEpInfoEntry( uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr );
 
-        uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, unsigned int wInd, unsigned int nbytes, uint8_t* dataptr);
+        //uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, uint16_t wInd, uint16_t nbytes, uint8_t* dataptr);
 
 		/* Control requests */
-        uint8_t getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr );
-        uint8_t getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr );
-        uint8_t getStrDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t index, unsigned int langid, uint8_t* dataptr );
+        uint8_t getDevDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr );
+        uint8_t getConfDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr );
+
+		uint8_t getConfDescr( uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p );
+
+		uint8_t getStrDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t index, uint16_t langid, uint8_t* dataptr );
         uint8_t setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr );
         uint8_t setConf( uint8_t addr, uint8_t ep, uint8_t conf_value );
         /**/
-        uint8_t setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol );
-        uint8_t getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr );
-        /**/
-        uint8_t ctrlData( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr, boolean direction );
+        uint8_t ctrlData( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, boolean direction );
         uint8_t ctrlStatus( uint8_t ep, boolean direction, uint16_t nak_limit );
-        uint8_t inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data );
-        uint8_t outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data );
+        uint8_t inTransfer( uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data );
+        uint8_t outTransfer( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data );
         uint8_t dispatchPkt( uint8_t token, uint8_t ep, uint16_t nak_limit );
 
         void Task( void );
@@ -200,34 +218,29 @@ class USB : public MAX3421E
 		uint8_t Configuring(uint8_t parent, uint8_t port, bool lowspeed);
 		uint8_t ReleaseDevice(uint8_t addr);
 		
-		//typedef void (*USBREADCALLBACK)(uint16_t nbytes, uint8_t *data, uint16_t offset);
-
-		//uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
-		//				 uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBREADCALLBACK pf);
-
 		uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
-						 uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, UsbReadParser *p);
+						 uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBReadParser *p);
 
     private:
         void init();
 		uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_limit);
-		uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t *data);
-		uint8_t InTransfer (EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t* data);
+		uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
+		uint8_t InTransfer (EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data);
 };
 
-//#if defined(USB_METHODS_INLINE)
+#if 0 //defined(USB_METHODS_INLINE)
 //get device descriptor
-inline uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* dataptr ) 
+inline uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr ) 
 {
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr ));
 }
 //get configuration descriptor  
-inline uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t conf, uint8_t* dataptr ) 
+inline uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr ) 
 {
         return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr ));
 }
 //get string descriptor
-inline uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, unsigned int nuint8_ts, uint8_t index, unsigned int langid, uint8_t* dataptr ) 
+inline uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr ) 
 {
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr ));
 }
@@ -241,16 +254,7 @@ inline uint8_t USB::setConf( uint8_t addr, uint8_t ep, uint8_t conf_value )
 {
     return( ctrlReq( addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL ));         
 }
-//class requests
-inline uint8_t USB::setProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t protocol ) 
-{
-        return( ctrlReq( addr, ep, bmREQ_HIDOUT, HID_REQUEST_SET_PROTOCOL, protocol, 0x00, interface, 0x0000, NULL ));
-}
-inline uint8_t USB::getProto( uint8_t addr, uint8_t ep, uint8_t interface, uint8_t* dataptr ) 
-{
-        return( ctrlReq( addr, ep, bmREQ_HIDIN, HID_REQUEST_GET_PROTOCOL, 0x00, 0x00, interface, 0x0001, dataptr ));        
-}
 
-//#endif // defined(USB_METHODS_INLINE)
+#endif // defined(USB_METHODS_INLINE)
 
 #endif //_usb_h_

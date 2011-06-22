@@ -1,3 +1,19 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+*/
 /* USB functions */
 
 #include "avrpins.h"
@@ -106,78 +122,7 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
 /* 00       =   success         */
 /* 01-0f    =   non-zero HRSLT  */
 uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
-					  unsigned int wInd, unsigned int nbytes, uint8_t* dataptr )
-{
-	return ctrlReq(addr, ep, bmReqType, bRequest, wValLo, wValHi, wInd, nbytes, nbytes, dataptr, NULL);
-}
-
-//uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
-//					  uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBREADCALLBACK pf)
-//{
-//	boolean direction = false;     //request direction, IN or OUT
-//	uint8_t rcode;   
-//	SETUP_PKT setup_pkt;
-//
-//	EpInfo		*pep = NULL;
-//	uint16_t	nak_limit;
-//
-//	rcode = SetAddress(addr, ep, &pep, nak_limit);
-//
-//	if (rcode)
-//		return rcode;
-//
-//	direction = (( bmReqType & 0x80 ) > 0);
-//
-//    /* fill in setup packet */
-//    setup_pkt.ReqType_u.bmRequestType	= bmReqType;
-//    setup_pkt.bRequest					= bRequest;
-//    setup_pkt.wVal_u.wValueLo			= wValLo;
-//    setup_pkt.wVal_u.wValueHi			= wValHi;
-//    setup_pkt.wIndex					= wInd;
-//    setup_pkt.wLength					= total;
-//    
-//	bytesWr( rSUDFIFO, 8, (uint8_t*)&setup_pkt );		//transfer to setup packet FIFO
-//
-//    rcode = dispatchPkt( tokSETUP, ep, nak_limit );     //dispatch packet
-//
-//	if( rcode )		//return HRSLT if not zero
-//        return( rcode );
-//
-//	if( dataptr != NULL )								//data stage, if present
-//	{
-//		if( direction )				//IN transfer
-//		{                      
-//			uint16_t left = total;
-//
-//			while (left)
-//			{
-//				pep->bmRcvToggle = 1;	//bmRCVTOG1;
-//				rcode = InTransfer( pep, nak_limit, nbytes, dataptr );
-//
-//				// Bytes read into buffer
-//				uint16_t read = (left < nbytes) ? left : nbytes;
-//
-//				// Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
-//				if (!rcode && pf)
-//					pf( read, dataptr, total - left );
-//
-//				left -= read;
-//			}
-//		}
-//		else						//OUT transfer
-//		{              
-//			pep->bmSndToggle = 1;	//bmSNDTOG1;
-//			rcode = OutTransfer( pep, nak_limit, nbytes, dataptr );
-//		}    
-//		if( rcode )											//return error
-//			return( rcode );
-//	}
-//	// Status stage
-//	return dispatchPkt( (direction) ? tokOUTHS : tokINHS, ep, nak_limit ); //GET if direction
-//}
-
-uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, 
-					  uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, UsbReadParser *p)
+					  uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBReadParser *p)
 {
 	boolean direction = false;     //request direction, IN or OUT
 	uint8_t rcode;   
@@ -214,19 +159,27 @@ uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequ
 		{                      
 			uint16_t left = total;
 
+			pep->bmRcvToggle = 1;	//bmRCVTOG1;
+
 			while (left)
 			{
-				pep->bmRcvToggle = 1;	//bmRCVTOG1;
-				rcode = InTransfer( pep, nak_limit, nbytes, dataptr );
-
 				// Bytes read into buffer
-				uint16_t read = (left < nbytes) ? left : nbytes;
+				uint16_t read = nbytes;
+				//uint16_t read = (left<nbytes) ? left : nbytes;
+
+				rcode = InTransfer( pep, nak_limit, &read, dataptr );
+
+				if (rcode)
+					return rcode;
 
 				// Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
 				if (!rcode && p)
-					p->Parse( read, dataptr, total - left );
+					((USBReadParser*)p)->Parse( read, dataptr, total - left );
 
 				left -= read;
+
+				if (read < nbytes)
+					break;
 			}
 		}
 		else						//OUT transfer
@@ -245,7 +198,7 @@ uint8_t USB::ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequ
 /* Keep sending INs and writes data to memory area pointed by 'data'                                                           */
 /* rcode 0 if no errors. rcode 01-0f is relayed from dispatchPkt(). Rcode f0 means RCVDAVIRQ error,
             fe USB xfer timeout */
-uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data )
+uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data)
 {
 	EpInfo		*pep = NULL;
 	uint16_t	nak_limit = 0;
@@ -255,17 +208,18 @@ uint8_t USB::inTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t*
 	if (rcode)
 		return rcode;
 
-	return InTransfer(pep, nak_limit, nbytes, data);
+	return InTransfer(pep, nak_limit, nbytesptr, data);
 }
 
-uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t* data )
+uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data)
 {
-	uint8_t rcode;
+	uint8_t rcode = 0;
 	uint8_t pktsize;
 
-	uint8_t maxpktsize = pep->maxPktSize; 
+	uint16_t	nbytes		= *nbytesptr;
+	uint8_t		maxpktsize	= pep->maxPktSize; 
 
-	unsigned int xfrlen = 0;
+	*nbytesptr = 0;
 	regWr( rHCTL, (pep->bmRcvToggle) ? bmRCVTOG1 : bmRCVTOG0 );    //set toggle value
 
 	while( 1 )		// use a 'return' to exit this loop
@@ -277,18 +231,26 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, ui
         
         /* check for RCVDAVIRQ and generate error if not present */ 
         /* the only case when absense of RCVDAVIRQ makes sense is when toggle error occured. Need to add handling for that */
-        if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) {
+        if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) 
             return ( 0xf0 );                            //receive error
-        }
-        pktsize = regRd( rRCVBC );                      //number of received bytes
-        data = bytesRd( rRCVFIFO, pktsize, data );
+        
+        pktsize = regRd( rRCVBC );                      //number of received bytes */
+   
+		int16_t	 mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
+
+		if (mem_left < 0)
+			mem_left = 0;
+
+		data = bytesRd( rRCVFIFO, ((pktsize > mem_left) ? mem_left : pktsize), data );
+
         regWr( rHIRQ, bmRCVDAVIRQ );                    // Clear the IRQ & free the buffer
-        xfrlen += pktsize;                              // add this packet's byte count to total transfer length
+        *nbytesptr += pktsize;							// add this packet's byte count to total transfer length
+
         /* The transfer is complete under two conditions:           */
         /* 1. The device sent a short packet (L.T. maxPacketSize)   */
         /* 2. 'nbytes' have been transferred.                       */
-        if (( pktsize < maxpktsize ) || (xfrlen >= nbytes ))		// have we transferred 'nbytes' bytes?
-		{      
+        if (/*pktsize == 6 ||*/ ( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
+		{     
 			// Save toggle value
 			pep->bmRcvToggle = ( regRd( rHRSL ) & bmRCVTOGRD ) ? 1 : 0;
 
@@ -297,11 +259,10 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, ui
 	} //while( 1 )
 }
 
-/* OUT transfer to arbitrary endpoint. Assumes PERADDR is set. Handles multiple packets if necessary. Transfers 'nbytes' bytes. */
+/* OUT transfer to arbitrary endpoint. Handles multiple packets if necessary. Transfers 'nbytes' bytes. */
 /* Handles NAK bug per Maxim Application Note 4000 for single buffer transfer   */
 /* rcode 0 if no errors. rcode 01-0f is relayed from HRSL                       */
-/* major part of this function borrowed from code shared by Richard Ibbotson    */
-uint8_t USB::outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t* data )
+uint8_t USB::outTransfer( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data )
 {
 	EpInfo		*pep = NULL;
 	uint16_t	nak_limit;
@@ -314,7 +275,7 @@ uint8_t USB::outTransfer( uint8_t addr, uint8_t ep, unsigned int nbytes, uint8_t
 	return OutTransfer(pep, nak_limit, nbytes, data);
 }
 
-uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, unsigned int nbytes, uint8_t *data)
+uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data)
 {
 	uint8_t		rcode, retry_count;
 	uint8_t		*data_p = data;   //local copy of the data pointer
@@ -618,4 +579,50 @@ uint8_t USB::ReleaseDevice(uint8_t addr)
 			return devConfig[i]->Release();
 }
 
+#if 1 //!defined(USB_METHODS_INLINE)
+//get device descriptor
+uint8_t USB::getDevDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, nbytes, dataptr, NULL ));
+}
+//get configuration descriptor  
+uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr ) 
+{
+	return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, nbytes, dataptr, NULL ));
+}
+
+uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p )
+{
+	const uint8_t	bufSize = 64;
+	uint8_t			buf[bufSize];
+
+	uint8_t			ret = getConfDescr( addr, ep, 8, conf, buf );
+
+	if (ret)
+		return ret;
+
+	uint16_t		total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
+
+	USBTRACE2("total:", total);
+
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, bufSize, buf, p ));
+}
+
+//get string descriptor
+uint8_t USB::getStrDescr( uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, uint16_t langid, uint8_t* dataptr ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, ns, ns, dataptr, NULL ));
+}
+//set address 
+uint8_t USB::setAddr( uint8_t oldaddr, uint8_t ep, uint8_t newaddr ) 
+{
+    return( ctrlReq( oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL ));
+}
+//set configuration
+uint8_t USB::setConf( uint8_t addr, uint8_t ep, uint8_t conf_value ) 
+{
+    return( ctrlReq( addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL ));         
+}
+
+#endif // defined(USB_METHODS_INLINE)
 

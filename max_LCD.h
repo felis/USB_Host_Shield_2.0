@@ -1,9 +1,23 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+*/
 //HD44780 compatible LCD display via MAX3421E GPOUT support header
 //pinout: D[4-7] -> GPOUT[4-7], RS-> GPOUT[2], E ->GPOUT[3]
 //
-//this code is heavily borrowed from official Arduino source v.0017
-// link to original http://code.google.com/p/arduino/source/browse/trunk/hardware/libraries/LiquidCrystal/LiquidCrystal.h
-//
+
 #ifndef _Max_LCD_h_
 #define _Max_LCD_h_
 
@@ -49,7 +63,7 @@
 #define LCD_5x10DOTS			0x04
 #define LCD_5x8DOTS				0x00
 
-class Max_LCD : public Print 
+class Max_LCD //: public Print 
 {
 	USB	*pUsb;
 
@@ -84,8 +98,5 @@ private:
 	uint8_t _initialized;
 	uint8_t _numlines,_currline;
 };
-
-
-
 
 #endif
