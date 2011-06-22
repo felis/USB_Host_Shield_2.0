@@ -1,3 +1,19 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+*/
 /* USB functions */
 
 #include "avrpins.h"
@@ -218,8 +234,8 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) 
             return ( 0xf0 );                            //receive error
         
-        pktsize = regRd( rRCVBC );                      //number of received bytes
-
+        pktsize = regRd( rRCVBC );                      //number of received bytes */
+   
 		int16_t	 mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
 		if (mem_left < 0)
@@ -243,10 +259,9 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 	} //while( 1 )
 }
 
-/* OUT transfer to arbitrary endpoint. Assumes PERADDR is set. Handles multiple packets if necessary. Transfers 'nbytes' bytes. */
+/* OUT transfer to arbitrary endpoint. Handles multiple packets if necessary. Transfers 'nbytes' bytes. */
 /* Handles NAK bug per Maxim Application Note 4000 for single buffer transfer   */
 /* rcode 0 if no errors. rcode 01-0f is relayed from HRSL                       */
-/* major part of this function borrowed from code shared by Richard Ibbotson    */
 uint8_t USB::outTransfer( uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data )
 {
 	EpInfo		*pep = NULL;

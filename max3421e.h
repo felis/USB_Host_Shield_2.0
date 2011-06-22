@@ -1,27 +1,31 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+*/
 /* MAX3421E register/bit names and bitmasks */
 
 #ifndef _max3421e_h_
 #define _max3421e_h_
 
 /* Arduino pin definitions */
-
-
 /* pin numbers to port numbers */
 
-//#define MAX_SS    10
-//#define MAX_INT   3			// Black Widdow
-#define MAX_INT   9		// Duemielanove
 
-#define MAX_GPX   8
-//#define MAX_RESET 7
-//
-//#define BPNT_0      3
-//#define BPNT_1      2
-//     
-//#define Select_MAX3421E     digitalWrite( MAX_SS,LOW )
-//#define Deselect_MAX3421E   digitalWrite( MAX_SS,HIGH )
+//#define MAX_INT   9		// Duemielanove
 
-/* */
+//#define MAX_GPX   8
 
 #define ON  true
 #define OFF false
