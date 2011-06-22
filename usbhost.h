@@ -249,8 +249,9 @@ void MAX3421e< SS, INTR >::busprobe()
             vbusState = SE1;
             break;
         case( bmSE0 ):										//disconnected state
-            vbusState = SE0;
-            break;
+          regWr( rMODE, bmDPPULLDN|bmDMPULLDN|bmHOST|bmSEPIRQ);
+          vbusState = SE0;
+          break;
         }//end switch( bus_sample )
 }
 /* MAX3421 state change task and interrupt handler */
