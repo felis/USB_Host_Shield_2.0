@@ -84,7 +84,7 @@ void loop()
        delay(50);
        
         /* reading the phone */
-        /* buffer size must be larger than max.packet size */
+        /* buffer size must be equal to max.packet size */
         uint8_t  buf[32];           
         uint16_t rcvd = 32;
         rcode = Acm.RcvData(&rcvd, buf);
