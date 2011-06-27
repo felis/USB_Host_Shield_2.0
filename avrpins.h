@@ -449,10 +449,10 @@ template<typename Tp_pin, typename Tc_bit>
 #define P52 Pb1
 #define P53 Pb0
 
-#endif  //"Mega" pin definitions
+#endif  //"Mega" pin numbers
 
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
-//"Classical" Arduino pin numbers
+//"Classic" Arduino pin numbers
 
 #define P0  Pd0
 #define P1  Pd1
@@ -477,6 +477,124 @@ template<typename Tp_pin, typename Tc_bit>
 #define P18  Pc4
 #define P19  Pc5
 
-#endif
+#endif // "Classic" Arduino pin numbers
+
+#if defined(__AVR_ATmega32U4__)
+// Teensy 2.0 pin numbers
+// http://www.pjrc.com/teensy/pinout.html
+#define P0  Pb0
+#define P1  Pb1
+#define P2  Pb2
+#define P3  Pb3
+#define P4  Pb7
+#define P5  Pd0
+#define P6  Pd1
+#define P7  Pd2
+#define P8  Pd3
+#define P9  Pc6
+#define P10 Pc7
+#define P11 Pd6
+#define P12 Pd7
+#define P13 Pb4
+#define P14 Pb5
+#define P15 Pb6
+#define P16 Pf7
+#define P17 Pf6
+#define P18 Pf5
+#define P19 Pf4
+#define P20 Pf1
+#define P21 Pf0
+#define P22 Pd4
+#define P23 Pd5
+#define P24 Pe6
+#endif // Teensy 2.0
+
+#if defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+// Teensy++ 2.0 pin numbers
+// http://www.pjrc.com/teensy/pinout.html
+#define P0  Pd0
+#define P1  Pd1
+#define P2  Pd2
+#define P3  Pd3
+#define P4  Pd4
+#define P5  Pd5
+#define P6  Pd6
+#define P7  Pd7
+#define P8  Pe0
+#define P9  Pe1
+#define P10 Pc0
+#define P11 Pc1
+#define P12 Pc2
+#define P13 Pc3
+#define P14 Pc4
+#define P15 Pc5
+#define P16 Pc6
+#define P17 Pc7
+#define P18 Pe6
+#define P19 Pe7
+#define P20 Pb0
+#define P21 Pb1
+#define P22 Pb2
+#define P23 Pb3
+#define P24 Pb4
+#define P25 Pb5
+#define P26 Pb6
+#define P27 Pb7
+#define P28 Pa0
+#define P29 Pa1
+#define P30 Pa2
+#define P31 Pa3
+#define P32 Pa4
+#define P33 Pa5
+#define P34 Pa6
+#define P35 Pa7
+#define P36 Pe4
+#define P37 Pe5
+#define P38 Pf0
+#define P39 Pf1
+#define P40 Pf2
+#define P41 Pf3
+#define P42 Pf4
+#define P43 Pf5
+#define P44 Pf6
+#define P45 Pf7
+#endif // Teensy++ 2.0
+
+#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+// Sanguino pin numbers
+// http://sanguino.cc/hardware
+#define P0  Pb0
+#define P1  Pb1
+#define P2  Pb2
+#define P3  Pb3
+#define P4  Pb4
+#define P5  Pb5
+#define P6  Pb6
+#define P7  Pb7
+#define P8  Pd0
+#define P9  Pd1
+#define P10 Pd2
+#define P11 Pd3
+#define P12 Pd4
+#define P13 Pd5
+#define P14 Pd6
+#define P15 Pd7
+#define P16 Pc0
+#define P17 Pc1
+#define P18 Pc2
+#define P19 Pc3
+#define P20 Pc4
+#define P21 Pc5
+#define P22 Pc6
+#define P23 Pc7
+#define P24 Pa0
+#define P25 Pa1
+#define P26 Pa2
+#define P27 Pa3
+#define P28 Pa4
+#define P29 Pa5
+#define P30 Pa6
+#define P31 Pa7
+#endif // Sanguino
 
 #endif //_avrpins_h_

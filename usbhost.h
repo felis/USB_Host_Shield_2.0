@@ -44,11 +44,14 @@ template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SP
 }; 
 
 /* SPI pin definitions. see avrpins.h   */
-#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
+#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
 typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 #endif
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
+#endif
+#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
 
 template< typename SS, typename INTR > class MAX3421e /* : public spi */
