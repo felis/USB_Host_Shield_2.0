@@ -234,7 +234,9 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) 
             return ( 0xf0 );                            //receive error
         
-        pktsize = regRd( rRCVBC );                      //number of received bytes */
+        pktsize = regRd( rRCVBC );                      //number of received bytes
+        
+        assert(pktsize <= nbytes);
    
 		int16_t	 mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
@@ -249,10 +251,10 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         /* The transfer is complete under two conditions:           */
         /* 1. The device sent a short packet (L.T. maxPacketSize)   */
         /* 2. 'nbytes' have been transferred.                       */
-        if (/*pktsize == 6 ||*/ ( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
+        if (( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
 		{     
 			// Save toggle value
-			pep->bmRcvToggle = ( regRd( rHRSL ) & bmRCVTOGRD ) ? 1 : 0;
+			pep->bmRcvToggle = (( regRd( rHRSL ) & bmRCVTOGRD )) ? 1 : 0;
 
 			return( 0 );
         } // if

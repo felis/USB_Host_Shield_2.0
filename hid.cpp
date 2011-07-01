@@ -1,19 +1,3 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #include "hid.h"
 
 //const uint16_t	HID::maxHidInterfaces		= 3;		
@@ -316,13 +300,13 @@ uint8_t HID::Poll()
 
 	if (qNextPollTime <= millis())
 	{
-		qNextPollTime = millis() + 100;
+		qNextPollTime = millis() + 500;
 
 		const uint8_t const_buff_len = 16;
 		uint8_t buf[const_buff_len];
 
 		HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
-		uint16_t	read = (uint16_t)const_buff_len;
+		uint16_t	read = (uint16_t)epInfo[epInterruptInIndex].maxPktSize;
 
 		uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
 
@@ -395,6 +379,22 @@ void ReportDescParser::Parse(const uint16_t len, const uint8_t *pbuf, const uint
 		//if (ParseItem(&p, &cntdn))
 		//	return;
 	}
+	USBTRACE2("Total:", totalSize);
+}
+
+void ReportDescParser::PrintValue(uint8_t *p, uint8_t len)
+{
+	Notify(PSTR("("));
+	for (; len; p++, len--)
+		PrintHex<uint8_t>(*p);
+	Notify(PSTR(")"));
+}
+
+void ReportDescParser::PrintByteValue(uint8_t data)
+{
+	Notify(PSTR("("));
+	PrintHex<uint8_t>(data);
+	Notify(PSTR(")"));
 }
 
 uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
@@ -404,6 +404,11 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 	switch (itemParseState)
 	{
 	case 0:
+		if (**pp == HID_LONG_ITEM_PREFIX)
+			USBTRACE("\r\nLONG\r\n");
+		//totalSize	= 0;
+		//rptSize		= 0;
+		//rptCount	= 0;
 		//if (**pp == HID_LONG_ITEM_PREFIX)
 		//{
 		//	*pp		++;
@@ -417,12 +422,19 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		//else
 		{
 			uint8_t size	= ((**pp) & DATA_SIZE_MASK);
+
+			USBTRACE2("\r\nSZ:", size);
+
 			itemPrefix		= (**pp);
 			itemSize		= 1 + ((size == DATA_SIZE_4) ? 4 : size);
 
-			//USBTRACE2("Sz1:", size);
-			//Serial.print("\r\nSz:");
-			//Serial.println(itemSize,DEC);
+			Serial.print("\r\nSz:");
+			Serial.println(itemSize,DEC);
+
+			PrintHex<uint8_t>(*pcntdn);
+			Serial.print(":");
+			PrintHex<uint8_t>((itemPrefix & (TYPE_MASK | TAG_MASK)));
+			Serial.println("");
 
 			switch (itemPrefix & (TYPE_MASK | TAG_MASK))
 			{
@@ -518,21 +530,29 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 					pfUsage(*((uint16_t*)varBuffer));
 				else
 					pfUsage(data);
+		case (TYPE_GLOBAL | TAG_GLOBAL_REPORTSIZE):
+			rptSize = data;
+			PrintByteValue(data);
+			break;
+		case (TYPE_GLOBAL | TAG_GLOBAL_REPORTCOUNT):
+			rptCount = data;
+			PrintByteValue(data);
+			break;
 		case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMIN):
 		case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMAX):
 		case (TYPE_GLOBAL | TAG_GLOBAL_PHYSMIN):
 		case (TYPE_GLOBAL | TAG_GLOBAL_PHYSMAX):
-		case (TYPE_GLOBAL | TAG_GLOBAL_REPORTSIZE):
-		case (TYPE_GLOBAL | TAG_GLOBAL_REPORTCOUNT):
 		case (TYPE_GLOBAL | TAG_GLOBAL_REPORTID):
 		case (TYPE_LOCAL  | TAG_LOCAL_USAGEMIN):
 		case (TYPE_LOCAL  | TAG_LOCAL_USAGEMAX):
 		case (TYPE_GLOBAL | TAG_GLOBAL_UNITEXP):
 		case (TYPE_GLOBAL | TAG_GLOBAL_UNIT):
-			Notify(PSTR("("));
-			for (uint8_t i=0; i<theBuffer.valueSize; i++)
-				PrintHex<uint8_t>(data);
-			Notify(PSTR(")"));
+			PrintValue(varBuffer, theBuffer.valueSize);
+			//Notify(PSTR("("));
+			//for (uint8_t i=0; i<theBuffer.valueSize; i++)
+			//	PrintHex<uint8_t>(varBuffer[i]);
+			//	//PrintHex<uint8_t>(data);
+			//Notify(PSTR(")"));
 			break;
 		case (TYPE_GLOBAL | TAG_GLOBAL_PUSH):
 		case (TYPE_GLOBAL | TAG_GLOBAL_POP):
@@ -540,11 +560,7 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		case (TYPE_GLOBAL | TAG_GLOBAL_USAGEPAGE):
 			SetUsagePage(data);
 			PrintUsagePage(data);
-
-			Notify(PSTR("("));
-			for (uint8_t i=0; i<theBuffer.valueSize; i++)
-				PrintHex<uint8_t>(data);
-			Notify(PSTR(")"));
+			PrintByteValue(data);
 			break;
 		case (TYPE_MAIN   | TAG_MAIN_COLLECTION):
 		case (TYPE_MAIN   | TAG_MAIN_ENDCOLLECTION):
@@ -580,6 +596,9 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		case (TYPE_MAIN   | TAG_MAIN_INPUT):
 		case (TYPE_MAIN   | TAG_MAIN_OUTPUT):
 		case (TYPE_MAIN   | TAG_MAIN_FEATURE):
+			totalSize	+= (uint16_t)rptSize * (uint16_t)rptCount;
+			rptSize		= 0;
+			rptCount	= 0;
 			Notify(PSTR("("));
 			PrintBin<uint8_t>(data);
 			Notify(PSTR(")"));
@@ -588,6 +607,13 @@ uint8_t ReportDescParser::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 		}
 		itemParseState	= 4;
 	case 4:
+		USBTRACE2("iSz:", itemSize);
+
+		PrintHex<uint8_t>(*pcntdn);
+		Serial.print(":");
+		PrintHex<uint8_t>((itemPrefix & (TYPE_MASK | TAG_MASK)));
+		Serial.println("");
+
 		if (itemSize > 1 && !theSkipper.Skip(pp, pcntdn, itemSize))
 			return enErrorIncomplete;
 	} // switch (itemParseState)

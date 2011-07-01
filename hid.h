@@ -1,19 +1,3 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #if !defined(__HID_H__)
 #define __HID_H__
 
@@ -26,9 +10,9 @@ e-mail   :  support@circuitsathome.com
 #include "Usb.h"
 #include <WProgram.h>
 
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
+#include "..\DebugTools\printhex.h"
+#include "..\DebugTools\hexdump.h"
+#include "..\DebugTools\message.h"
 
 #include "confdescparser.h"
 
@@ -180,6 +164,9 @@ public:
 	static void PrintAlphanumDisplayPageUsage(uint16_t usage);
 	static void PrintMedicalInstrumentPageUsage(uint16_t usage);
 
+	static void PrintValue(uint8_t *p, uint8_t len);
+	static void PrintByteValue(uint8_t data);
+
 private:
 	static UsagePageFunc	usagePageFunctions[];
 
@@ -191,6 +178,10 @@ private:
 	uint8_t					itemParseState;		// Item parser state variable
 	uint8_t					itemSize;			// Item size
 	uint8_t					itemPrefix;			// Item prefix (first byte)
+	uint8_t					rptSize;			// Report Size
+	uint8_t					rptCount;			// Report Count
+
+	uint8_t					totalSize;			// Report size in bytes
 
 	uint8_t ParseItem(uint8_t **pp, uint16_t *pcntdn);
 
@@ -204,6 +195,8 @@ public:
 		itemParseState(0),
 		itemSize(0),		
 		itemPrefix(0),
+		rptSize(0),
+		rptCount(0),
 		pfUsage(NULL)
 		{
 			theBuffer.pValue = varBuffer; 

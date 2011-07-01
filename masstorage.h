@@ -1,19 +1,3 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #if !defined(__MASSTORAGE_H__)
 #define __MASSTORAGE_H__
 
@@ -26,9 +10,9 @@ e-mail   :  support@circuitsathome.com
 #include "Usb.h"
 #include <WProgram.h>
 
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
+#include "..\DebugTools\printhex.h"
+#include "..\DebugTools\hexdump.h"
+#include "..\DebugTools\message.h"
 
 #include "confdescparser.h"
 
@@ -73,7 +57,7 @@ struct CommandBlockWrapper
 	struct
 	{
 		uint8_t	bCBWLUN			: 4; 
-		uint8_r	bReserved1		: 4;
+		uint8_t	bReserved1		: 4;
 	};
 	struct
 	{
@@ -92,9 +76,31 @@ struct CommandStatusWrapper
 	uint8_t		bCSWStatus;
 };
 
+#define MASS_MAX_ENDPOINTS		3
+
 class BulkOnly : public USBDeviceConfig, public UsbConfigXtracter
 {
+protected:
+	static const uint8_t	epDataInIndex;			// DataIn endpoint index
+	static const uint8_t	epDataOutIndex;			// DataOUT endpoint index
+	static const uint8_t	epInterruptInIndex;		// InterruptIN  endpoint index
+
+	USB			*pUsb;
+//	CDCAsyncOper	*pAsync;
+	uint8_t		bAddress;
+	uint8_t		bConfNum;				// configuration number
+	uint8_t		bIface;					// interface value
+	uint8_t		bNumEP;					// total number of EP in the configuration
+	uint32_t	qNextPollTime;			// next poll time
+	bool		bPollEnable;			// poll enable flag
+
+	EpInfo		epInfo[MASS_MAX_ENDPOINTS];
+
+	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+
 public:
+	BulkOnly(USB *p);
+
 	uint8_t Reset();
 	uint8_t GetMaxLun(uint8_t *max_lun);
 

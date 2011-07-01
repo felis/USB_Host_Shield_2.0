@@ -21,6 +21,9 @@ e-mail   :  support@circuitsathome.com
 #define USB_METHODS_INLINE
 
 #include <inttypes.h>
+
+#include <assert.h>
+
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usbhost.h"
@@ -119,9 +122,6 @@ public:
 #define USB_STATE_CONFIGURING                               0x80
 #define USB_STATE_RUNNING                                   0x90
 #define USB_STATE_ERROR                                     0xa0
-
-
-// byte usb_task_state = USB_DETACHED_SUBSTATE_INITIALIZE
 
 /* USB Setup Packet Structure   */
 typedef struct {
