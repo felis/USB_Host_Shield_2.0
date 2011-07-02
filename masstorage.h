@@ -10,9 +10,9 @@
 #include "Usb.h"
 #include <WProgram.h>
 
-#include "..\DebugTools\printhex.h"
-#include "..\DebugTools\hexdump.h"
-#include "..\DebugTools\message.h"
+#include "printhex.h"
+#include "hexdump.h"
+#include "message.h"
 
 #include "confdescparser.h"
 

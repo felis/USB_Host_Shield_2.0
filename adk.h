@@ -76,7 +76,7 @@ protected:
   /* Endpoint data structure */
 	EpInfo		epInfo[ADK_MAX_ENDPOINTS];
 
-	// void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
 	ADK(USB *pUsb,  const char* manufacturer,
@@ -97,8 +97,8 @@ public:
 	virtual uint8_t Poll();
 	virtual uint8_t GetAddress() { return bAddress; };
 
-	// UsbConfigXtracter implementation
-	// virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+	//UsbConfigXtracter implementation
+	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 }; //class ADK : public USBDeviceConfig ...
 /* get ADK protocol version */
 /* returns 2 bytes in *adkproto */
