@@ -42,7 +42,7 @@
 
 class ADK;
 
-class ADK : public USBDeviceConfig
+class ADK : public USBDeviceConfig, public UsbConfigXtracter
 {
 private:
   /* ID strings */

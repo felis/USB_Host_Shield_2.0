@@ -40,7 +40,7 @@ ADK::ADK(USB *p,  const char* manufacturer,
 	}
 }
 
-/* Connect/disconnect initialization of a phone */
+/* Connection initialization of an Android phone */
 uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
 	const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
@@ -133,45 +133,53 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		goto FailSetDevTblEntry;
 
 
-		/* debug code start */
-		num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
-		
-		USBTRACE2("\r\nNC:",num_of_conf);
-		USBTRACE2("\r\nNP:",epInfo[0].bmNakPower);
-
-		for (uint8_t i=0; i<num_of_conf; i++) 
-		{
-			USBTRACE("\r\nHexdumper: ");  
-			HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
-			//ConfigDescParser<0, 0, 0, 0>							confDescrParser(this);
-	    
-			rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
-			//rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
-		
-		} // for (uint8_t i=0; i<num_of_conf; i++...
-		
-		/* debug code end */
-		
-		 //USBTRACE("Check!!!");
 		//check if ADK device is already in accessory mode
 		if(((USB_DEVICE_DESCRIPTOR*)buf)->idVendor == ADK_VID &&
-            (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)){
+            (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)) {
               USBTRACE("\r\nAcc.mode device detected");
-              
-              /* set endpoint info, config */
-              
-              // Allocate new address
-	            //bAddress = addrPool.AllocAddress(parent, false, port);
+              /* debug code start */
+		          num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+		
+		          USBTRACE2("\r\nNC:",num_of_conf);
+		          USBTRACE2("\r\nNP:",epInfo[0].bmNakPower);
 
-	            //if (!bAddress) {
-		          //  return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
-		          //}
-
-	            // Extract Max Packet Size from the device descriptor
-	            //epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; 
+		          for (uint8_t i=0; i<num_of_conf; i++) {
+			          //USBTRACE("\r\nHexdumper: ");  
+			          //HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
+			          ConfigDescParser<0, 0, 0, 0> confDescrParser(this);
+	    
+			          //rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
+			          //extracting endpoint information. See EndpointXtract()
+			          rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+		
+		            if( bNumEP > 2 ) {
+			            break;
+			          }
+		          } // for (uint8_t i=0; i<num_of_conf; i++...
+		
+		          /* debug code end */
+              
               // Set Configuration Value
 	            rcode = pUsb->setConf(bAddress, 0, bConfNum);
-
+	            if( rcode ){ 
+		            goto FailSetConf;
+		          }
+		          /* print endpoint structure */
+		          USBTRACE("\r\nEndpoint Structure:");
+		          USBTRACE("\r\nEP0:");
+		          USBTRACE2("\r\nAddr: ", epInfo[0].epAddr );
+	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[0].maxPktSize );
+	            USBTRACE2("\r\nAttr: ", epInfo[0].epAttribs );
+	            USBTRACE("\r\nEpout:");
+		          USBTRACE2("\r\nAddr: ", epInfo[epDataOutIndex].epAddr );
+	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataOutIndex].maxPktSize );
+	            USBTRACE2("\r\nAttr: ", epInfo[epDataOutIndex].epAttribs );
+	            USBTRACE("\r\nEpin:");
+		          USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr );
+	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize );
+	            USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs );
+		          
+              USBTRACE("\r\nConfiguration successful");
               return 0; //successful configuration
     }//if( buf->idVendor == ADK_VID...
 		
@@ -231,9 +239,9 @@ SwAttempt:
 //	USBTRACE("getConf:");
 //	goto Fail;
 //
-//FailSetConf:
+FailSetConf:
 //	USBTRACE("setConf:");
-//	goto Fail;
+	goto Fail;
 //
 //FailOnInit:
 //	USBTRACE("OnInit:");
@@ -255,18 +263,16 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 	bConfNum = conf;
 
 	uint8_t index;
-	
-	
-
+		
 		if ((pep->bmAttributes & 0x02) == 2) {
 			index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
 	  }
 			  
-
 	// Fill in the endpoint info structure
 	epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
 	epInfo[index].maxPktSize	= (uint8_t)pep->wMaxPacketSize;
-	epInfo[index].epAttribs		= 0;
+	epInfo[index].epAttribs		= ( 0x3f & USB_NAK_MAX_POWER );
+	//epInfo[index].bmbmNakPower	= USB_NAK_MAX_POWER;
 
 	bNumEP ++;
 
