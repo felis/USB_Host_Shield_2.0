@@ -100,7 +100,7 @@ public:
 #define USB_NAK_LIMIT			32000   //NAK limit for a transfer. o meand NAKs are not counted
 #define USB_RETRY_LIMIT			3       //retry limit for a transfer
 #define USB_SETTLE_DELAY		200     //settle delay in milliseconds
-#define USB_NAK_NOWAIT			1       //used in Richard's PS2/Wiimote code
+#define USB_NAK_NOWAIT			1       //quit after receiving a single NAK
 
 #define USB_NUMDEVICES			16		//number of USB devices
 //#define HUB_MAX_HUBS			7		// maximum number of hubs that can be attached to the host controller

@@ -66,12 +66,9 @@ protected:
 	USB			*pUsb;
 	uint8_t		bAddress;
 	uint8_t		bConfNum;				// configuration number
-//	uint8_t		bControlIface;			// Control interface value
-//	uint8_t		bDataIface;				// Data interface value
+
 	uint8_t		bNumEP;					// total number of EP in the configuration
-//	uint32_t	qNextPollTime;			// next poll time
-//	bool		bPollEnable;			// poll enable flag
-	//uint8_t bInitState;    //initialization state machine state
+  bool      ready;
   
   /* Endpoint data structure */
 	EpInfo		epInfo[ADK_MAX_ENDPOINTS];
@@ -96,6 +93,7 @@ public:
 	virtual uint8_t Release();
   virtual uint8_t Poll(){}; //not implemented
 	virtual uint8_t GetAddress() { return bAddress; };
+	virtual bool isReady() { return ready; };
 
 	//UsbConfigXtracter implementation
 	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);

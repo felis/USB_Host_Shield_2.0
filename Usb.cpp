@@ -225,7 +225,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 	while( 1 )		// use a 'return' to exit this loop
 	{ 
         rcode = dispatchPkt( tokIN, pep->epAddr, nak_limit );	//IN packet to EP-'endpoint'. Function takes care of NAKS.
-
+        
 		if( rcode ) 
             return( rcode );                            //should be 0, indicating ACK. Else return error code.
         
@@ -605,7 +605,7 @@ uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser
 
 	uint16_t		total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
 
-	USBTRACE2("total:", total);
+	//USBTRACE2("\r\ntotal conf.size:", total);
 
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, bufSize, buf, p ));
 }

@@ -15,6 +15,7 @@ ADK::ADK(USB *p,  const char* manufacturer,
   pUsb(p),      //pointer to USB class instance - mandatory
 	bAddress(0),  //device address - mandatory		
 	bNumEP(1),    //if config descriptor needs to be parsed
+	ready(false),
 	
   /* ADK ID Strings */
   
@@ -32,6 +33,9 @@ ADK::ADK(USB *p,  const char* manufacturer,
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= ( 0xfc & ( USB_NAK_MAX_POWER<<2 ));
   }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
+  
+  //set bulk-IN EP naklimit to 1 
+  epInfo[epDataInIndex].epAttribs = ( 0xfc & ( USB_NAK_NOWAIT<<2 ));
   
   // register in USB subsystem
 	if (pUsb) {
@@ -103,11 +107,11 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		  p->lowspeed = false;
 		  addrPool.FreeAddress(bAddress);
 		  bAddress = 0;
-		  USBTRACE2("setAddr:",rcode);
+		  //USBTRACE2("setAddr:",rcode);
 		  return rcode;
 	  }//if (rcode...
 
-	  USBTRACE2("\r\nAddr:", bAddress);
+	  //USBTRACE2("\r\nAddr:", bAddress);
 
 	  p->lowspeed = false;
 	
@@ -119,7 +123,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	  p->lowspeed = lowspeed;
 
-	  // Assign epInfo to epinfo pointer
+	  // Assign epInfo to epinfo pointer - only EP0 is known
 	  rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
     if (rcode) {
 		  goto FailSetDevTblEntry;
@@ -132,7 +136,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
               /* go through configurations, find first bulk-IN, bulk-OUT EP, fill epInfo and quit */
 		          num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 		
-		          USBTRACE2("\r\nNC:",num_of_conf);
+		          //USBTRACE2("\r\nNC:",num_of_conf);
 
 		          for (uint8_t i=0; i<num_of_conf; i++) {
 			          ConfigDescParser<0, 0, 0, 0> confDescrParser(this);
@@ -144,6 +148,16 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 			            break;
 			          }
 		          } // for (uint8_t i=0; i<num_of_conf; i++...
+		          
+		          if( bNumEP == 3 ) {
+        		    // Assign epInfo to epinfo pointer - this time all 3 endpoins
+	              rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
+                if (rcode) {
+		              goto FailSetDevTblEntry;
+		            }
+		          }
+		
+		
 		
               // Set Configuration Value
 	            rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -151,21 +165,22 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		            goto FailSetConf;
 		          }
 		          /* print endpoint structure */
-		          USBTRACE("\r\nEndpoint Structure:");
-		          USBTRACE("\r\nEP0:");
-		          USBTRACE2("\r\nAddr: ", epInfo[0].epAddr );
-	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[0].maxPktSize );
-	            USBTRACE2("\r\nAttr: ", epInfo[0].epAttribs );
-	            USBTRACE("\r\nEpout:");
-		          USBTRACE2("\r\nAddr: ", epInfo[epDataOutIndex].epAddr );
-	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataOutIndex].maxPktSize );
-	            USBTRACE2("\r\nAttr: ", epInfo[epDataOutIndex].epAttribs );
-	            USBTRACE("\r\nEpin:");
-		          USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr );
-	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize );
-	            USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs );
+//		          USBTRACE("\r\nEndpoint Structure:");
+//		          USBTRACE("\r\nEP0:");
+//		          USBTRACE2("\r\nAddr: ", epInfo[0].epAddr );
+//	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[0].maxPktSize );
+//	            USBTRACE2("\r\nAttr: ", epInfo[0].epAttribs );
+//	            USBTRACE("\r\nEpout:");
+//		          USBTRACE2("\r\nAddr: ", epInfo[epDataOutIndex].epAddr );
+//	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataOutIndex].maxPktSize );
+//	            USBTRACE2("\r\nAttr: ", epInfo[epDataOutIndex].epAttribs );
+//	            USBTRACE("\r\nEpin:");
+//		          USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr );
+//	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize );
+//	            USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs );
 		          
               USBTRACE("\r\nConfiguration successful");
+              ready = true;
               return 0; //successful configuration
     }//if( buf->idVendor == ADK_VID...
 		
@@ -234,17 +249,17 @@ FailSetConf:
 //	goto Fail;
 //
 Fail:
-	USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
-	//Release();
+	//USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
+	Release();
 	return rcode;
 }
 
 /* Extracts bulk-IN and bulk-OUT endpoint information from config descriptor */
 void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) 
 {
-	ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
-	ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
-	ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
+	//ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
+	//ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
+	//ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
 
 	bConfNum = conf;
 
@@ -260,63 +275,25 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
 	bNumEP ++;
 
-	PrintEndpointDescriptor(pep);
+	//PrintEndpointDescriptor(pep);
 }
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t ADK::Release()
 {
 	pUsb->GetAddressPool().FreeAddress(bAddress);
-//
-//	bControlIface		= 0;	
-//	bDataIface			= 0;		
+
 	bNumEP				= 1;		//must have to be reset to 1	
-//
+  
 	bAddress			= 0;
-//	qNextPollTime		= 0;
-//	bPollEnable			= false;
+  ready = false;
 	return 0;
 }
 
-//uint8_t ADK::Poll()
-//{
-//	uint8_t rcode = 0;
-//
-//	if (!bPollEnable)
-//		return 0;
-//
-//	uint32_t	time_now = millis();
-//
-//	if (qNextPollTime <= time_now)
-//	{
-//		qNextPollTime = time_now + 100;
-//
-//		uint8_t			rcode;
-//		const uint8_t	constBufSize = 16;
-//		uint8_t			buf[constBufSize];
-//
-//		for (uint8_t i=0; i<constBufSize; i++)
-//			buf[i] = 0;
-//
-////		uint16_t	read = (constBufSize > epInfo[epInterruptInIndex].maxPktSize) 
-////							? epInfo[epInterruptInIndex].maxPktSize : constBufSize;
-////		rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
-//
-//		if (rcode)
-//			return rcode;
-//
-////		for (uint8_t i=0; i<read; i++)
-////		{
-////			PrintHex<uint8_t>(buf[i]);
-////			Serial.print(" ");
-////		}
-////		USBTRACE("\r\n");
-//	}
-//	return rcode;
-//}
-
 uint8_t ADK::RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr)
 {
+	//USBTRACE2("\r\nAddr: ", bAddress );
+	//USBTRACE2("\r\nEP: ",epInfo[epDataInIndex].epAddr);
 	return pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
 }
 
