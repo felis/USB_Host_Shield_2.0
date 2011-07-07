@@ -225,7 +225,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 	while( 1 )		// use a 'return' to exit this loop
 	{ 
         rcode = dispatchPkt( tokIN, pep->epAddr, nak_limit );	//IN packet to EP-'endpoint'. Function takes care of NAKS.
-
+        
 		if( rcode ) 
             return( rcode );                            //should be 0, indicating ACK. Else return error code.
         
@@ -234,7 +234,9 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         if(( regRd( rHIRQ ) & bmRCVDAVIRQ ) == 0 ) 
             return ( 0xf0 );                            //receive error
         
-        pktsize = regRd( rRCVBC );                      //number of received bytes */
+        pktsize = regRd( rRCVBC );                      //number of received bytes
+        
+        assert(pktsize <= nbytes);
    
 		int16_t	 mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
@@ -249,10 +251,10 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         /* The transfer is complete under two conditions:           */
         /* 1. The device sent a short packet (L.T. maxPacketSize)   */
         /* 2. 'nbytes' have been transferred.                       */
-        if (/*pktsize == 6 ||*/ ( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
+        if (( pktsize < maxpktsize ) || (*nbytesptr >= nbytes ))		// have we transferred 'nbytes' bytes?
 		{     
 			// Save toggle value
-			pep->bmRcvToggle = ( regRd( rHRSL ) & bmRCVTOGRD ) ? 1 : 0;
+			pep->bmRcvToggle = (( regRd( rHRSL ) & bmRCVTOGRD )) ? 1 : 0;
 
 			return( 0 );
         } // if
@@ -603,7 +605,7 @@ uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser
 
 	uint16_t		total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
 
-	USBTRACE2("total:", total);
+	//USBTRACE2("\r\ntotal conf.size:", total);
 
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, bufSize, buf, p ));
 }

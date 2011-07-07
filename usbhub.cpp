@@ -47,9 +47,11 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	EpInfo		*oldep_ptr = NULL;
 	uint8_t		len = 0;
 	uint16_t	cd_len = 0;
+	
+	//USBTRACE("\r\nHub Init Start");
 
 	AddressPool	&addrPool = pUsb->GetAddressPool();
-
+	
 	switch (bInitState)
 	{
 	case 0:
@@ -113,7 +115,9 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed)
 			bAddress = 0;
 			return rcode;
 		}
-
+    
+    //USBTRACE2("\r\nHub address: ", bAddress );
+		
 		// Restore p->epinfo
 		p->epinfo = oldep_ptr;
 
