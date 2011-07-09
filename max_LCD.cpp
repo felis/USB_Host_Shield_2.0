@@ -14,8 +14,8 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
 */
-#include "Max_LCD.h"
-#include "Max3421e.h"
+#include "max_LCD.h"
+#include "max3421e.h"
 
 #include <stdio.h>
 #include <string.h>
