@@ -52,6 +52,9 @@ e-mail   :  support@circuitsathome.com
 #ifdef PORTK
 #define USE_PORTK
 #endif
+#ifdef PORTL
+#define USE_PORTL
+#endif
 #ifdef PORTQ
 #define USE_PORTQ
 #endif
@@ -136,6 +139,9 @@ MAKE_PORT(PORTJ, DDRJ, PINJ, Portj, 'J')
 #endif
 #ifdef USE_PORTK
 MAKE_PORT(PORTK, DDRK, PINK, Portk, 'K')
+#endif
+#ifdef USE_PORTL
+MAKE_PORT(PORTL, DDRL, PINL, Portl, 'L')
 #endif
 #ifdef USE_PORTQ
 MAKE_PORT(PORTQ, DDRQ, PINQ, Portq, 'Q')
@@ -318,6 +324,17 @@ typedef TPin<Portk, 4> Pk4;
 typedef TPin<Portk, 5> Pk5;
 typedef TPin<Portk, 6> Pk6;
 typedef TPin<Portk, 7> Pk7;
+#endif
+
+#ifdef USE_PORTL
+typedef TPin<Portl, 0> Pl0;
+typedef TPin<Portl, 1> Pl1;
+typedef TPin<Portl, 2> Pl2;
+typedef TPin<Portl, 3> Pl3;
+typedef TPin<Portl, 4> Pl4;
+typedef TPin<Portl, 5> Pl5;
+typedef TPin<Portl, 6> Pl6;
+typedef TPin<Portl, 7> Pl7;
 #endif
 
 #ifdef USE_PORTQ
