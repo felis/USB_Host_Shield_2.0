@@ -273,7 +273,12 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 	//ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
 	//ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
 	//ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
-
+  
+  //added by Yuuichi
+  if( bNumEP == 3 ) {
+     return;
+  }
+  
 	bConfNum = conf;
 
 	uint8_t index;
