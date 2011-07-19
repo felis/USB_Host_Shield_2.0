@@ -249,10 +249,6 @@ SwAttempt:
   USBTRACE("\r\nAccessory mode switch attempt");
   goto Fail;    
 
-//FailSetDevTblEntry:
-//	USBTRACE("setDevTblEn:");
-//	goto Fail;
-//
 FailGetConfDescr:
 //	USBTRACE("getConf:");
 	goto Fail;
