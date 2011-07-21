@@ -229,7 +229,7 @@ void loop()
 void halt55()
 {
 
-    Notify(PSTR("\r\nUnrecoverable error - test halted!!!"));
+    Notify(PSTR("\r\nUnrecoverable error - test halted!!"));
     Notify(PSTR("\r\n0x55 pattern is transmitted via SPI"));
     Notify(PSTR("\r\nPress RESET to restart test"));
     
