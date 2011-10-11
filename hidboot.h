@@ -463,7 +463,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll()
 
 	if (qNextPollTime <= millis())
 	{
-		qNextPollTime = millis() + 50;
+		qNextPollTime = millis() + 10;
 
 		const uint8_t const_buff_len = 16;
 		uint8_t buf[const_buff_len];
