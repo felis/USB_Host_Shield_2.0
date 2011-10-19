@@ -33,8 +33,10 @@ e-mail   :  support@circuitsathome.com
 #include "confdescparser.h"
 #include "cdcacm.h"
 
-#define PL_VID									0x067B  
-#define PL_PID									0x2303  
+#define PL_VID									0x067B
+#define PL_PID									( 0x2303 || 0x0609 )
+
+//#define PL_PID                    0x0609
 
 #define PROLIFIC_REV_H							0x0202
 #define PROLIFIC_REV_X							0x0300

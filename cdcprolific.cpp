@@ -68,7 +68,7 @@ uint8_t PL::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	if( rcode ) 
 		goto FailGetDevDescr;
 
-	if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID)
+	if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID )
 		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 	// Save type of PL chip
