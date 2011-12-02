@@ -25,7 +25,7 @@ e-mail   :  support@circuitsathome.com
 #include "usb_ch9.h"
 #include "Usb.h"
 #include "hid.h"
-#include <WProgram.h>
+#include <Arduino.h>
 
 #include "printhex.h"
 #include "hexdump.h"

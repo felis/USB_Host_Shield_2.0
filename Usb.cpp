@@ -20,7 +20,7 @@ e-mail   :  support@circuitsathome.com
 #include "max3421e.h"
 #include "usbhost.h"
 #include "Usb.h"
-#include "WProgram.h"
+#include "Arduino.h"
 
 static uint8_t usb_error = 0;
 static uint8_t usb_task_state;

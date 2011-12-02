@@ -23,5 +23,5 @@ void Notify(char const * msg)
 	char c;
 
 	while((c = pgm_read_byte(msg++)))
-		Serial.print(c,BYTE);
+		Serial.print(c);
 }

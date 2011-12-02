@@ -20,7 +20,7 @@ e-mail   :  support@circuitsathome.com
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-#include "WProgram.h"
+#include "Arduino.h"
 
 // pin definition and set/clear
 
