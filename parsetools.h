@@ -22,7 +22,7 @@ e-mail   :  support@circuitsathome.com
 #include "printhex.h"
 #include "hexdump.h"
 #include "message.h"
-#include <WProgram.h>
+#include <Arduino.h>
 
 
 struct MultiValueBuffer
