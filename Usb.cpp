@@ -111,7 +111,7 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
 	// Set bmLOWSPEED and bmHUBPRE in case of low-speed device, reset them otherwise
 	regWr( rMODE, (p->lowspeed) ? mode | bmLOWSPEED | bmHubPre : mode & ~(bmHUBPRE | bmLOWSPEED)); 
 
-	delay(20);
+	//delay(20);
 
 	return 0;
 }
