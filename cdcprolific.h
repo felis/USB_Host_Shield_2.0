@@ -24,7 +24,12 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #include "printhex.h"
 #include "hexdump.h"
@@ -132,12 +137,12 @@ enum pl2303_type
 
 #define PL_MAX_ENDPOINTS					4
 
-class PL : public ACM
+class PL2303 : public ACM
 {
 	uint16_t	wPLType;				// Type of chip
 
 public:
-	PL(USB *pusb, CDCAsyncOper *pasync);
+	PL2303(USB *pusb, CDCAsyncOper *pasync);
 
 	// USBDeviceConfig implementation
 	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);

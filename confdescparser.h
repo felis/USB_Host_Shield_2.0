@@ -164,11 +164,11 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
 				if (theXtractor)
 					theXtractor->EndpointXtract(confValue, ifaceNumber, ifaceAltSet, protoValue, (USB_ENDPOINT_DESCRIPTOR*)varBuffer);
 			break;
-		case HID_DESCRIPTOR_HID:
-			if (!valParser.Parse(pp, pcntdn))
-				return false;
-			PrintHidDescriptor((const USB_HID_DESCRIPTOR*)varBuffer);
-			break;
+		//case HID_DESCRIPTOR_HID:
+		//	if (!valParser.Parse(pp, pcntdn))
+		//		return false;
+		//	PrintHidDescriptor((const USB_HID_DESCRIPTOR*)varBuffer);
+		//	break;
 		default:
 			if (!theSkipper.Skip(pp, pcntdn, dscrLen-2))
 				return false;

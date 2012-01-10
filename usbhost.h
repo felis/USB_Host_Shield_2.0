@@ -18,7 +18,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef _USBHOST_H_
 #define _USBHOST_H_
 
-//#include <WProgram.h>
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"

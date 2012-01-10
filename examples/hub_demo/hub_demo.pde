@@ -339,5 +339,5 @@ void printProgStr(const prog_char str[])
   char c;
   if(!str) return;
   while((c = pgm_read_byte(str++)))
-    Serial.print(c,BYTE);
+    Serial.print(c);
 }

@@ -63,7 +63,7 @@ uint8_t keylcl;
     rcode = adk.SndData( 1, &keylcl );
   }    
   
-  Serial.print( keylcl );
+  Serial.print((char) keylcl );
   Serial.print(" : ");  
   Serial.println( keylcl, HEX );
 };

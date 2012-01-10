@@ -16,13 +16,13 @@ e-mail   :  support@circuitsathome.com
 */
 #include "cdcprolific.h"
 
-PL::PL(USB *p, CDCAsyncOper *pasync) :
+PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
 	ACM(p, pasync),
 	wPLType(0)
 {
 }
 
-uint8_t PL::Init(uint8_t parent, uint8_t port, bool lowspeed)
+uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
 	const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
 

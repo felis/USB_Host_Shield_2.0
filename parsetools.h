@@ -22,8 +22,12 @@ e-mail   :  support@circuitsathome.com
 #include "printhex.h"
 #include "hexdump.h"
 #include "message.h"
-#include <WProgram.h>
 
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
 
 struct MultiValueBuffer
 {

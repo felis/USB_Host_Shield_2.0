@@ -33,7 +33,7 @@ FTDI::FTDI(USB *p, FTDIAsyncOper *pasync) :
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= 0;
 
-		if (!i)
+		//if (!i)
 			epInfo[i].bmNakPower	= USB_NAK_MAX_POWER;
 	}
 	if (pUsb)

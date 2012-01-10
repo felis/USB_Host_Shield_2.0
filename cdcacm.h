@@ -24,7 +24,12 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #include "printhex.h"
 #include "hexdump.h"

@@ -69,21 +69,23 @@ void loop()
     {  
         uint8_t  rcode;
         char strbuf[] = "DEADBEEF";
+        //char strbuf[] = "The quick brown fox jumps over the lazy dog";
+        //char strbuf[] = "This string contains 61 character to demonstrate FTDI buffers"; //add one symbol to it to see some garbage
         Serial.print(".");
         
-        rcode = Ftdi.SndData(8, (uint8_t*)strbuf);
+        rcode = Ftdi.SndData(strlen(strbuf), (uint8_t*)strbuf);
 
 	if (rcode)
             ErrorMessage<uint8_t>(PSTR("SndData"), rcode);
 
         delay(50);
         
-        uint8_t  buf[16];
+        uint8_t  buf[64];
         
-        for (uint8_t i=0; i<16; i++)
+        for (uint8_t i=0; i<64; i++)
             buf[i] = 0;
             
-        uint16_t rcvd = 15;
+        uint16_t rcvd = 64;
         rcode = Ftdi.RcvData(&rcvd, buf);
         
         if (rcode && rcode != hrNAK)

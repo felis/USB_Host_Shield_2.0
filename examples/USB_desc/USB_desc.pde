@@ -10,13 +10,13 @@
 #include "pgmstrings.h"
 
 USB     Usb;
-USBHub  Hub1(&Usb);
-USBHub  Hub2(&Usb);
-USBHub  Hub3(&Usb);
-USBHub  Hub4(&Usb);
-USBHub  Hub5(&Usb);
-USBHub  Hub6(&Usb);
-USBHub  Hub7(&Usb);
+//USBHub  Hub1(&Usb);
+//USBHub  Hub2(&Usb);
+//USBHub  Hub3(&Usb);
+//USBHub  Hub4(&Usb);
+//USBHub  Hub5(&Usb);
+//USBHub  Hub6(&Usb);
+//USBHub  Hub7(&Usb);
 
 uint32_t next_time;
 
@@ -343,5 +343,5 @@ void printProgStr(const prog_char str[])
   char c;
   if(!str) return;
   while((c = pgm_read_byte(str++)))
-    Serial.print(c,BYTE);
+    Serial.print(c);
 }

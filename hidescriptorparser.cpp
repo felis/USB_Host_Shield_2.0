@@ -1,21 +1,4 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #include "hidescriptorparser.h"
-//#include "hidusagetitlearrays.cpp"
 
 const char *ReportDescParserBase::usagePageTitles0[]	PROGMEM = 
 {
@@ -1060,7 +1043,7 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 		//if (ParseItem(&p, &cntdn))
 		//	return;
 	}
-	USBTRACE2("Total:", totalSize);
+	//USBTRACE2("Total:", totalSize);
 }
 
 void ReportDescParserBase::PrintValue(uint8_t *p, uint8_t len)
@@ -1348,7 +1331,7 @@ void ReportDescParserBase::PrintButtonPageUsage(uint16_t usage)
 {
 	Notify(pstrSpace);
 	Notify(PSTR("Btn"));
-	Serial.print(usage, DEC);
+	Serial.print(usage, HEX);
 }
 
 void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage)
@@ -1645,6 +1628,7 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn)
 
 			totalSize	+= (uint16_t)rptSize * (uint16_t)rptCount;
 
+			//  ажетс€ это надо делать в начале, а не в конце...
 			rptSize		= 0;
 			rptCount	= 0;
 			useMin		= 0;
@@ -1661,8 +1645,13 @@ void ReportDescParser2::OnInputItem(uint8_t itm)
 {
 	uint8_t		byte_offset		= (totalSize >> 3);		// calculate offset to the next unhandled byte i = (int)(totalCount / 8);
 	uint32_t	tmp				= (byte_offset << 3);
-	uint8_t		bit_offset		= totalSize - tmp;			// number of bits in the current byte already handled
-	uint8_t		*p				= pBuf + byte_offset;		// current byte pointer
+	uint8_t		bit_offset		= totalSize - tmp;		// number of bits in the current byte already handled
+	uint8_t		*p				= pBuf + byte_offset;	// current byte pointer
+
+
+	//Serial.print("Itm:");
+	//PrintHex<uint8_t>(itm);
+	//Serial.println("");
 
 	//Serial.print(" tS:");
 	//PrintHex<uint32_t>(totalSize);
@@ -1684,11 +1673,35 @@ void ReportDescParser2::OnInputItem(uint8_t itm)
 
 	uint8_t		usage = useMin;
 
+	//Serial.print("\r\nUseMin:");
+	//PrintHex<uint8_t>(useMin);
+	//Serial.println("");
+
+	//Serial.print("UseMax:");
+	//PrintHex<uint8_t>(useMax);
+	//Serial.println("");
+
+	//Serial.print("pF:");
+	//PrintHex<uint16_t>(useMin);
+	//Serial.println("");
+
 	bool print_usemin_usemax = ( (useMin < useMax) && ((itm & 3) == 2) && pfUsage) ? true : false;
 
 	uint8_t		bits_of_byte = 8;
 
-	for (uint8_t i=0; i<rptCount; i++, usage++)
+	// rptSize==1, rptCount==10i
+	//   x x x x x x x x   x x
+	//  | |
+	//		one bit field
+	//
+	//  |				|
+	//					  one byte == 8 bits
+	//
+	//  |					  |
+	//							field array == 10 bits
+
+	// for each field in field array defined by rptCount
+	for (uint8_t field=0; field<rptCount; field++, usage++)
 	{
 		union
 		{
@@ -1697,32 +1710,40 @@ void ReportDescParser2::OnInputItem(uint8_t itm)
 			uint32_t	dwResult;
 		}	result;
 
-		result.dwResult = 0;
+		result.dwResult		= 0;
 
-		uint8_t		mask = 0;
+		uint8_t		mask	= 0;
 
-		// bits_left		- number of bits in the field left to process
+		if (print_usemin_usemax)
+			pfUsage(usage);
+
+		// bits_left		- number of bits in the field(array of fields, depending on Report Count) left to process
 		// bits_of_byte		- number of bits in current byte left to process
 		// bits_to_copy		- number of bits to copy to result buffer
 
+		// for each bit in a field
 		for (uint8_t bits_left=rptSize, bits_to_copy=0; bits_left; 
 			bits_left -= bits_to_copy)
 		{
-			bits_to_copy = (bits_left > 8) ? 8 : (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
+			bits_to_copy = (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
+			//bits_to_copy = (bits_left > 8) ? 8 : (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
 
 			result.dwResult <<= bits_to_copy;					// Result buffer is shifted by the number of bits to be copied into it
 
-			if (bits_to_copy == 8)
-			{
-				result.bResult[0]	= *p;
-				bits_of_byte		= 8;
-				p ++;
-				continue;
-			}
+			//if (bits_to_copy == 8)
+			//{
+			//	result.dwResult		= (uint32_t)*p;
+			//	bits_of_byte		= 8;
+			//	p ++;
+			//	continue;
+			//}
 
 			uint8_t		val = *p;
 
 			val >>= (8 - bits_of_byte);							// Shift by the number of bits already processed
+
+			//Serial.print(" bl:");
+			//PrintHex<uint8_t>(bits_left);
 
 			//Serial.print(" sh:");
 			//PrintHex<uint8_t>(8 - bits_of_byte);
@@ -1741,7 +1762,8 @@ void ReportDescParser2::OnInputItem(uint8_t itm)
 			result.bResult[0] = (result.bResult[0] | (val & mask));
 
 			//Serial.print(" res:");
-			//PrintHex<uint8_t>(result.bResult[0]);
+			//Serial.print(": ");
+			//PrintHex<uint32_t>(result.dwResult);
 
 			//Serial.print(" b2c:");
 			//PrintHex<uint8_t>(bits_to_copy);
@@ -1750,12 +1772,119 @@ void ReportDescParser2::OnInputItem(uint8_t itm)
 
 			//Serial.print(" bob:");
 			//PrintHex<uint8_t>(bits_of_byte);
+
+			if (bits_of_byte < 1)
+			{
+				bits_of_byte = 8;
+				p ++;
+			}
+			//Serial.println("");
 		}
 
-		PrintByteValue(result.bResult[0]);
+		PrintByteValue(result.dwResult);
 	}
 	Serial.println("");
 }
+
+//void ReportDescParser2::OnInputItem(uint8_t itm)
+//{
+//	uint8_t		byte_offset		= (totalSize >> 3);		// calculate offset to the next unhandled byte i = (int)(totalCount / 8);
+//	uint32_t	tmp				= (byte_offset << 3);
+//	uint8_t		bit_offset		= totalSize - tmp;		// number of bits in the current byte already handled
+//	uint8_t		*p				= pBuf + byte_offset;	// current byte pointer
+//
+//	//Serial.print(" tS:");
+//	//PrintHex<uint32_t>(totalSize);
+//
+//	//Serial.print(" byO:");
+//	//PrintHex<uint8_t>(byte_offset);
+//
+//	//Serial.print(" biO:");
+//	//PrintHex<uint8_t>(bit_offset);
+//
+//	//Serial.print(" rSz:");
+//	//PrintHex<uint8_t>(rptSize);
+//
+//	//Serial.print(" rCn:");
+//	//PrintHex<uint8_t>(rptCount);
+//
+//	if (bit_offset)
+//		*p >>= bit_offset;
+//
+//	uint8_t		usage = useMin;
+//
+//	bool print_usemin_usemax = ( (useMin < useMax) && ((itm & 3) == 2) && pfUsage) ? true : false;
+//
+//	uint8_t		bits_of_byte = 8;
+//
+//	for (uint8_t i=0; i<rptCount; i++, usage++)
+//	{
+//		union
+//		{
+//			uint8_t		bResult[4];
+//			uint16_t	wResult[2];
+//			uint32_t	dwResult;
+//		}	result;
+//
+//		result.dwResult		= 0;
+//
+//		uint8_t		mask	= 0;
+//
+//		// bits_left		- number of bits in the field(array of fields, depending on Report Count) left to process
+//		// bits_of_byte		- number of bits in current byte left to process
+//		// bits_to_copy		- number of bits to copy to result buffer
+//
+//		for (uint8_t bits_left=rptSize, bits_to_copy=0; bits_left; 
+//			bits_left -= bits_to_copy)
+//		{
+//			bits_to_copy = (bits_left > 8) ? 8 : (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
+//
+//			result.dwResult <<= bits_to_copy;					// Result buffer is shifted by the number of bits to be copied into it
+//
+//			if (bits_to_copy == 8)
+//			{
+//				result.bResult[0]	= *p;
+//				bits_of_byte		= 8;
+//				p ++;
+//				continue;
+//			}
+//
+//			uint8_t		val = *p;
+//
+//			val >>= (8 - bits_of_byte);							// Shift by the number of bits already processed
+//
+//			//Serial.print(" sh:");
+//			//PrintHex<uint8_t>(8 - bits_of_byte);
+//
+//			mask = 0;
+//
+//			for (uint8_t j=bits_to_copy; j; j--)
+//			{
+//				mask <<= 1;
+//				mask |=  1;
+//			}
+//
+//			//Serial.print(" msk:");
+//			//PrintHex<uint8_t>(mask);
+//
+//			result.bResult[0] = (result.bResult[0] | (val & mask));
+//
+//			//Serial.print(" res:");
+//			//PrintHex<uint8_t>(result.bResult[0]);
+//
+//			//Serial.print(" b2c:");
+//			//PrintHex<uint8_t>(bits_to_copy);
+//
+//			bits_of_byte -= bits_to_copy;
+//
+//			//Serial.print(" bob:");
+//			//PrintHex<uint8_t>(bits_of_byte);
+//		}
+//
+//		PrintByteValue(result.bResult[0]);
+//	}
+//	Serial.println("");
+//}
 
 void UniversalReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
 {

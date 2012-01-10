@@ -35,8 +35,10 @@ ACM::ACM(USB *p, CDCAsyncOper *pasync) :
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= 0;
-
-		if (!i)
+		//epInfo[i].bmNakPower = USB_NAK_NOWAIT;
+    epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+    
+		//if (!i)
 			epInfo[i].bmNakPower	= USB_NAK_MAX_POWER;
 	}
 	if (pUsb)

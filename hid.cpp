@@ -1,26 +1,4 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #include "hid.h"
-
-//const uint16_t	HID::maxHidInterfaces		= 3;		
-//const uint16_t	HID::maxEpPerInterface		= 2;		
-const uint8_t	HID::epInterruptInIndex		= 1;	
-const uint8_t	HID::epInterruptOutIndex	= 2;
-
 
 //get HID report descriptor 
 uint8_t HID::GetReportDescr( uint8_t ep, USBReadParser *parser ) 
@@ -28,13 +6,8 @@ uint8_t HID::GetReportDescr( uint8_t ep, USBReadParser *parser )
 	const uint8_t	constBufLen = 64;
 	uint8_t			buf[constBufLen];
 
-	//HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
-
-	//return( pUsb->ctrlReq( bAddress, ep, /*bmREQ_HIDREPORT*/0x81, USB_REQUEST_GET_DESCRIPTOR, 0x00, 
-	//	HID_DESCRIPTOR_REPORT, 0x0000, constBufLen, constBufLen, buf, NULL ));
-
-	uint8_t rcode = pUsb->ctrlReq( bAddress, ep, /*bmREQ_HIDREPORT*/0x81, USB_REQUEST_GET_DESCRIPTOR, 0x00, 
-		HID_DESCRIPTOR_REPORT, 0x0000, 0x4C1, constBufLen, buf, (USBReadParser*)parser );
+	uint8_t rcode = pUsb->ctrlReq( bAddress, ep, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00, 
+		HID_DESCRIPTOR_REPORT, 0x0000, 128, constBufLen, buf, (USBReadParser*)parser );
 
 	//return ((rcode != hrSTALL) ? rcode : 0);
 	return rcode;

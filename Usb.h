@@ -33,7 +33,12 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "address.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #include "printhex.h"
 #include "hexdump.h"
@@ -48,8 +53,10 @@ typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widow
 typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
 #endif
 
+//Debug macros. In 1.0 it is possible to move strings to PROGMEM by defining USBTRACE (Serial.print(F(s)))
 #define USBTRACE(s) (Serial.print((s)))
 #define USBTRACE2(s,r) (Serial.print((s)), Serial.println((r),HEX))
+
 
 
 /* Common setup data constant combinations  */
@@ -94,6 +101,7 @@ typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Me
 #define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD9
 #define USB_ERROR_INVALID_MAX_PKT_SIZE				0xDA
 #define USB_ERROR_EP_NOT_FOUND_IN_TBL				0xDB
+#define USB_ERROR_TRANSFER_TIMEOUT					0xFF
 
 class USBDeviceConfig
 {
@@ -105,10 +113,9 @@ public:
 };
 
 #define USB_XFER_TIMEOUT		5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
-#define USB_NAK_LIMIT			32000   //NAK limit for a transfer. o meand NAKs are not counted
+//#define USB_NAK_LIMIT			32000   //NAK limit for a transfer. 0 means NAKs are not counted
 #define USB_RETRY_LIMIT			3       //retry limit for a transfer
 #define USB_SETTLE_DELAY		200     //settle delay in milliseconds
-#define USB_NAK_NOWAIT			1       //quit after receiving a single NAK
 
 #define USB_NUMDEVICES			16		//number of USB devices
 //#define HUB_MAX_HUBS			7		// maximum number of hubs that can be attached to the host controller

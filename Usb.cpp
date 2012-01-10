@@ -20,7 +20,12 @@ e-mail   :  support@circuitsathome.com
 #include "max3421e.h"
 #include "usbhost.h"
 #include "Usb.h"
-#include "WProgram.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
 
 static uint8_t usb_error = 0;
 static uint8_t usb_task_state;
@@ -102,16 +107,21 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
 	if (!*ppep)
 		return USB_ERROR_EP_NOT_FOUND_IN_TBL;
 
-	nak_limit = (0x0001UL << ( ( (*ppep)->bmNakPower > USB_NAK_MAX_POWER ) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower) ); 
-
+	nak_limit = (0x0001UL << ( ( (*ppep)->bmNakPower > USB_NAK_MAX_POWER ) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower) );
+	nak_limit--;  
+/*
+  USBTRACE2("\r\nAddress: ", addr);
+  USBTRACE2(" EP: ", ep);
+  USBTRACE2(" NAK Power: ",(*ppep)->bmNakPower);
+  USBTRACE2(" NAK Limit: ", nak_limit);
+  USBTRACE("\r\n");
+*/  
 	regWr( rPERADDR, addr );                    //set peripheral address
 
 	uint8_t	mode = regRd( rMODE );
 
 	// Set bmLOWSPEED and bmHUBPRE in case of low-speed device, reset them otherwise
 	regWr( rMODE, (p->lowspeed) ? mode | bmLOWSPEED | bmHubPre : mode & ~(bmHUBPRE | bmLOWSPEED)); 
-
-	//delay(20);
 
 	return 0;
 }
@@ -354,7 +364,7 @@ uint8_t USB::dispatchPkt( uint8_t token, uint8_t ep, uint16_t nak_limit )
 	while( timeout > millis() ) 
 	{
 		regWr( rHXFR, ( token|ep ));            //launch the transfer
-		rcode = 0xff;   
+		rcode = USB_ERROR_TRANSFER_TIMEOUT;   
 
 		while( millis() < timeout )				//wait for transfer completion
 		{           

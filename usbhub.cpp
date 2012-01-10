@@ -32,8 +32,9 @@ USBHub::USBHub(USB *p) :
 	epInfo[0].bmNakPower	= USB_NAK_MAX_POWER;
 
 	epInfo[1].epAddr		= 1;
-	epInfo[1].maxPktSize	= 1;
-	epInfo[1].epAttribs		= 0;
+	epInfo[1].maxPktSize	= 8;  //kludge
+	epInfo[1].epAttribs = 0;
+	epInfo[1].bmNakPower	= USB_NAK_NOWAIT;
 
 	if (pUsb)
 		pUsb->RegisterDeviceClass(this);
@@ -368,7 +369,7 @@ void PrintHubPortStatus(USBHub *hubptr, uint8_t addr, uint8_t port, bool print_c
 
 	if (rcode)
 	{
-		Serial.println("ERROR!!!");
+		Serial.println("ERROR!");
 		return;
 	}
 	Serial.print("\r\nPort ");

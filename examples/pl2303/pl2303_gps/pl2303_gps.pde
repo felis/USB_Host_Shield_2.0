@@ -52,9 +52,11 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm)
 }
 
 USB     Usb;
-//USBHub     Hub(&Usb);
+USBHub     Hub(&Usb);
 PLAsyncOper  AsyncOper;
-PL           Pl(&Usb, &AsyncOper);
+PL2303       Pl(&Usb, &AsyncOper);
+uint32_t read_delay;
+#define READ_DELAY 100
 
 void setup()
 {
@@ -69,23 +71,26 @@ void setup()
 
 void loop()
 {
-    Usb.Task();
+uint8_t rcode;
+uint8_t  buf[64];    //serial buffer equals Max.packet size of bulk-IN endpoint           
+uint16_t rcvd = 64;   
+
+  Usb.Task();
   
     if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
     {  
-       uint8_t rcode;
-       uint8_t  buf[64];    //serial buffer equals Max.packet size of bulk-IN endpoint           
-       uint16_t rcvd = 64;      
        /* reading the GPS */
+       if( read_delay < millis() ){
+       read_delay += READ_DELAY;  
        rcode = Pl.RcvData(&rcvd, buf);
         if ( rcode && rcode != hrNAK )
            ErrorMessage<uint8_t>(PSTR("Ret"), rcode);            
             if( rcvd ) { //more than zero bytes received
               for( uint16_t i=0; i < rcvd; i++ ) {
-                  Serial.print(buf[i]); //printing on the screen
+                  Serial.print((char)buf[i]); //printing on the screen
               }//for( uint16_t i=0; i < rcvd; i++...              
             }//if( rcvd
-        //delay(10);            
+       }//if( read_delay > millis()...            
     }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING..    
 }
 

@@ -8,7 +8,6 @@
 #include <avr/pgmspace.h>
 #include <address.h>
 #include <hidboot.h>
-
 #include <printhex.h>
 #include <message.h>
 #include <hexdump.h>
@@ -58,12 +57,12 @@ void MouseRptParser::OnMiddleButtonDown	(MOUSEINFO *mi)
 };
 
 USB     Usb;
-//USBHub     Hub(&Usb);
+USBHub     Hub(&Usb);
 HIDBoot<HID_PROTOCOL_MOUSE>    Mouse(&Usb);
 
 uint32_t next_time;
 
-MouseRptParser Prs;
+MouseRptParser                               Prs;
 
 void setup()
 {
@@ -77,7 +76,7 @@ void setup()
   
     next_time = millis() + 5000;
   
-    Mouse.SetReportParser(0, (HIDReportParser*)&Prs);
+    Mouse.SetReportParser(0,(HIDReportParser*)&Prs);
 }
 
 void loop()

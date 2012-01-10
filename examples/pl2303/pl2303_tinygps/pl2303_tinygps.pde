@@ -66,7 +66,7 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm)
 USB     Usb;
 //USBHub     Hub(&Usb);
 PLAsyncOper  AsyncOper;
-PL           Pl(&Usb, &AsyncOper);
+PL2303       Pl(&Usb, &AsyncOper);
 TinyGPS gps;
 
 void gpsdump(TinyGPS &gps);

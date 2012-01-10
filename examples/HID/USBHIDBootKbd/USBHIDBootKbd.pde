@@ -63,7 +63,7 @@ void KbdRptParser::OnKeyUp(uint8_t mod, uint8_t key)
 void KbdRptParser::OnKeyPressed(uint8_t key)	
 {
     Serial.print("ASCII: ");
-    Serial.println(key);
+    Serial.println((char)key);
 };
 
 USB     Usb;

@@ -1,19 +1,3 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
-
-This software may be distributed and modified under the terms of the GNU
-General Public License version 2 (GPL2) as published by the Free Software
-Foundation and appearing in the file GPL2.TXT included in the packaging of
-this file. Please note that GPL2 Section 2[b] requires that all works based
-on this software must also be made publicly available under the terms of
-the GPL2 ("Copyleft").
-
-Contact information
--------------------
-
-Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
-e-mail   :  support@circuitsathome.com
-*/
 #if !defined(__HID_H__)
 #define __HID_H__
 
@@ -24,7 +8,12 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #include "printhex.h"
 #include "hexdump.h"
@@ -103,24 +92,6 @@ e-mail   :  support@circuitsathome.com
 #define HID_PROTOCOL_KEYBOARD       0x01
 #define HID_PROTOCOL_MOUSE          0x02
 
-///* HID descriptor */
-//typedef struct 
-//{
-//    uint8_t		bLength;			
-//	uint8_t		bDescriptorType;	
-//	uint16_t	bcdHID;					// HID class specification release
-//    uint8_t		bCountryCode;			
-//	uint8_t		bNumDescriptors;		// Number of additional class specific descriptors
-//	uint8_t		bDescrType;				// Type of class descriptor
-//    uint16_t	wDescriptorLength;		// Total size of the Report descriptor
-//} USB_HID_DESCRIPTOR;
-//
-//typedef struct
-//{
-//	uint8_t		bDescrType;				// Type of class descriptor
-//    uint16_t	wDescriptorLength;		// Total size of the Report descriptor
-//} HID_CLASS_DESCRIPTOR_LEN_AND_TYPE;
-
 struct HidItemPrefix
 {
 	uint8_t		bSize : 2;
@@ -172,11 +143,6 @@ public:
 };
 
 #define MAX_REPORT_PARSERS					2
-
-#define maxHidInterfaces					3		
-#define maxEpPerInterface					2		
-#define totalEndpoints						(maxHidInterfaces * maxEpPerInterface + 1)		
-
 #define HID_MAX_HID_CLASS_DESCRIPTORS		5
 
 class HID : public USBDeviceConfig, public UsbConfigXtracter
@@ -186,9 +152,13 @@ protected:
 	uint8_t		bAddress;				// address
 
 protected:
-	static const uint8_t	epInterruptInIndex;		// InterruptIN  endpoint index
-	static const uint8_t	epInterruptOutIndex;	// InterruptOUT endpoint index
+	static const uint8_t	epInterruptInIndex	= 1;	// InterruptIN  endpoint index
+	static const uint8_t	epInterruptOutIndex	= 2;	// InterruptOUT endpoint index
 
+	static const uint8_t	maxHidInterfaces	= 3;		
+	static const uint8_t	maxEpPerInterface	= 2;
+	static const uint8_t	totalEndpoints		= (maxHidInterfaces * maxEpPerInterface + 1);		
+				 
 	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 	void PrintHidDescriptor(const USB_HID_DESCRIPTOR *pDesc);
 

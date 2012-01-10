@@ -95,7 +95,7 @@ void loop()
             
             if( rcvd ) { //more than zero bytes received
               for(uint16_t i=0; i < rcvd; i++ ) {
-                Serial.print(buf[i]); //printing on the screen
+                Serial.print((char)buf[i]); //printing on the screen
               }              
             }
         delay(10);            

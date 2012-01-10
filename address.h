@@ -21,7 +21,13 @@ e-mail   :  support@circuitsathome.com
 #include <stddef.h>
 #include "max3421e.h"
 
+
+/* NAK powers. To save space in endpoint data structure, amount of retries before giving up and returning 0x4 is stored in */
+/* bmNakPower as a power of 2. The actual nak_limit is then calculated as nak_limit = ( 2^bmNakPower - 1) */
 #define USB_NAK_MAX_POWER		15		//NAK binary order maximum value
+#define USB_NAK_DEFAULT			14		//default 32K-1 NAKs before giving up
+#define USB_NAK_NOWAIT			1		//Single NAK stops transfer
+#define USB_NAK_NONAK			0		//Do not count NAKs, stop retrying after USB Timeout
 
 struct EpInfo
 {
@@ -34,8 +40,8 @@ struct EpInfo
 
 		struct
 		{
-			uint8_t		bmSndToggle	:	1;		// Send toggle, when zerro bmSNDTOG0, bmSNDTOG1 otherwise
-			uint8_t		bmRcvToggle	:	1;		// Send toggle, when zerro bmRCVTOG0, bmRCVTOG1 otherwise
+			uint8_t		bmSndToggle	:	1;		// Send toggle, when zero bmSNDTOG0, bmSNDTOG1 otherwise
+			uint8_t		bmRcvToggle	:	1;		// Send toggle, when zero bmRCVTOG0, bmRCVTOG1 otherwise
 			uint8_t		bmNakPower	:	6;		// Binary order for NAK_LIMIT value
 		};
 	};
@@ -160,7 +166,7 @@ class AddressPoolImpl : public AddressPool
 public:
 	AddressPoolImpl() : hubCounter(0)
 	{
-		// Zerro address is reserved
+		// Zero address is reserved
 		InitEntry(0);
 
 		thePool[0].address = 0;

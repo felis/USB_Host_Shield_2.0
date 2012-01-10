@@ -23,5 +23,9 @@ void Notify(char const * msg)
 	char c;
 
 	while((c = pgm_read_byte(msg++)))
+#if defined(ARDUINO) && ARDUINO >=100
+  Serial.print(c);
+#else  	
 		Serial.print(c,BYTE);
+#endif		
 }

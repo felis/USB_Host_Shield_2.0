@@ -17,7 +17,11 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__PRINTHEX_H__)
 #define __PRINTHEX_H__
 
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 template <class T> 
 void PrintHex(T val)

@@ -25,7 +25,12 @@ e-mail   :  support@circuitsathome.com
 #include "usb_ch9.h"
 #include "Usb.h"
 #include "hid.h"
+
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #include "printhex.h"
 #include "hexdump.h"
@@ -208,9 +213,7 @@ void HIDBoot<BOOT_PROTOCOL>::Initialize()
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= 0;
-
-		if (!i)
-			epInfo[i].bmNakPower	= USB_NAK_MAX_POWER;
+		epInfo[i].bmNakPower	= (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
 	}
 	bNumEP		= 1;
 	bNumIface	= 0;
@@ -322,18 +325,18 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 	if (rcode)
 		goto FailSetDevTblEntry;
 
-	USBTRACE2("NC:", num_of_conf);
+	//USBTRACE2("NC:", num_of_conf);
 
 	for (uint8_t i=0; i<num_of_conf; i++)
 	{
-		HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
+		//HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
 		ConfigDescParser<
 			USB_CLASS_HID, 
 			HID_BOOT_INTF_SUBCLASS, 
 			BOOT_PROTOCOL, 
 			CP_MASK_COMPARE_ALL>							confDescrParser(this);
 
-		rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
+		//rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
 		rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 		
 		if (bNumEP > 1)
@@ -343,13 +346,13 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 	if (bNumEP < 2)
 		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-	USBTRACE2("\r\nbAddr:", bAddress);
-	USBTRACE2("\r\nbNumEP:", bNumEP);
+	//USBTRACE2("\r\nbAddr:", bAddress);
+	//USBTRACE2("\r\nbNumEP:", bNumEP);
 
 	// Assign epInfo to epinfo pointer
 	rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-	USBTRACE2("\r\nCnf:", bConfNum);
+	//USBTRACE2("\r\nCnf:", bConfNum);
 
 	// Set Configuration Value
 	rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -357,7 +360,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 	if (rcode)
 		goto FailSetConfDescr;
 
-	USBTRACE2("\r\nIf:", bIfaceNum);
+	//USBTRACE2("\r\nIf:", bIfaceNum);
 
 	rcode = SetProtocol(bIfaceNum, HID_BOOT_PROTOCOL);
 
@@ -413,9 +416,9 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
 	if (bNumEP > 1 && conf != bConfNum)
 		return;
 
-	ErrorMessage<uint8_t>(PSTR("\r\nConf.Val"), conf);
-	ErrorMessage<uint8_t>(PSTR("Iface Num"), iface);
-	ErrorMessage<uint8_t>(PSTR("Alt.Set"), alt);
+	//ErrorMessage<uint8_t>(PSTR("\r\nConf.Val"), conf);
+	//ErrorMessage<uint8_t>(PSTR("Iface Num"), iface);
+	//ErrorMessage<uint8_t>(PSTR("Alt.Set"), alt);
 
 	bConfNum	= conf;
 	bIfaceNum	= iface;
@@ -424,7 +427,6 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
 
 	if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
 	{
-		USBTRACE("I8\r\n");
 		index = epInterruptInIndex;
 
 		// Fill in the endpoint info structure
@@ -434,7 +436,7 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
 
 		bNumEP ++;
 
-		PrintEndpointDescriptor(pep);
+		//PrintEndpointDescriptor(pep);
 	}
 }
 
@@ -478,10 +480,10 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll()
 				USBTRACE2("Poll:", rcode);
 			return rcode;
 		}
-		for (uint8_t i=0; i<read; i++)
-			PrintHex<uint8_t>(buf[i]);
-		if (read)
-			Serial.println("");
+		//for (uint8_t i=0; i<read; i++)
+		//	PrintHex<uint8_t>(buf[i]);
+		//if (read)
+		//	Serial.println("");
 
 		if (pRptParser)
 			pRptParser->Parse((HID*)this, 0, (uint8_t)read, buf);

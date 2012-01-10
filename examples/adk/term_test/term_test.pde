@@ -10,6 +10,7 @@
 #include <adk.h>
 
 USB Usb;
+//USBHub     Hub(&Usb);
 
 ADK adk(&Usb,"Circuits@Home, ltd.",
             "USB Host Shield",
@@ -50,7 +51,7 @@ void loop()
      USBTRACE("\r\nData Packet.");
 
     for( uint8_t i = 0; i < len; i++ ) {
-      Serial.print(msg[i]);
+      Serial.print((char)msg[i]);
     }
     /* sending back what was received */    
     rcode = adk.SndData( strlen( recv ), (uint8_t *)recv );    
