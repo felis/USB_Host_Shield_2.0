@@ -48,11 +48,10 @@ ADK::ADK(USB *p,  const char* manufacturer,
 	for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++) {
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
-		epInfo[i].epAttribs		= ( 0xfc & ( USB_NAK_MAX_POWER<<2 ));
+		epInfo[i].epAttribs		= 0;
+		//epInfo[i].bmNakPower	= (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
+		epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
   }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
-  
-  //set bulk-IN EP naklimit to 1 
-  epInfo[epDataInIndex].epAttribs = ( 0xfc & ( USB_NAK_NOWAIT<<2 ));
   
   // register in USB subsystem
 	if (pUsb) {
@@ -200,6 +199,8 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
               ready = true;
               return 0; //successful configuration
     }//if( buf->idVendor == ADK_VID...
+		
+		delay(20);  //testing compatibility w/Motorola Xoom
 		
 		//probe device - get accessory protocol revision
 		{
