@@ -49,6 +49,8 @@ e-mail   :  support@circuitsathome.com
 
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widow
+#elif defined(BOARD_MEGA_ADK)
+typedef MAX3421e<P53, P54>              MAX3421E;               // Arduino Mega ADK
 #else
 typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
 #endif
