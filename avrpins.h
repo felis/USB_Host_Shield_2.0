@@ -21,7 +21,7 @@ e-mail   :  support@circuitsathome.com
 #define _avrpins_h_
 
 /* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
-#define BOARD_MEGA_ADK
+//#define BOARD_MEGA_ADK
 
 #include <avr/io.h>
 
