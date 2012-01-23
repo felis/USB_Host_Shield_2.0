@@ -86,6 +86,10 @@ MAX3421e< SS, INTR >::MAX3421e()
   SS::Set();
   spi::init();
   INTR::SetDirRead();
+  
+  /* For Mega ADK, which has Max3421e on-board, set MAX_RESET to Output mode, and pull Reset to HIGH */
+  DDRJ |= 0x04;
+  PORTJ |= 0x04;
 
   /* MAX3421E - full-duplex SPI, level interrupt */
   regWr( rPINCTL,( bmFDUPSPI + bmINTLEVEL ));

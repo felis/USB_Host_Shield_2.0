@@ -50,7 +50,8 @@ e-mail   :  support@circuitsathome.com
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widow
 #else
-typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
+//typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
+typedef MAX3421e<P53, Pe6>              MAX3421E;               // Arduino Mega ADK
 #endif
 
 //Debug macros. In 1.0 it is possible to move strings to PROGMEM by defining USBTRACE (Serial.print(F(s)))
