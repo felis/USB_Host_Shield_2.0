@@ -105,7 +105,7 @@ public:
                   const char* uri,
                   const char* serial);
 
-	// Methods for recieving and sending data
+	// Methods for receiving and sending data
 	uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
 	uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
