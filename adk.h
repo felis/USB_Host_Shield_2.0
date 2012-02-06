@@ -44,6 +44,10 @@ e-mail   :  support@circuitsathome.com
 #define ADK_PID   0x2D00
 #define ADB_PID   0x2D01
 
+#define XOOM  //enables repeating getProto() and getConf() attempts
+              //necessary for slow devices such as Motorola XOOM
+              //defined by default, can be commented out to save memory
+
 /* requests */
 
 #define ADK_GETPROTO      51  //check USB accessory protocol version
