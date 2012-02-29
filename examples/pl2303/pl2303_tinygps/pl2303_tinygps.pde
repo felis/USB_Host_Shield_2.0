@@ -95,7 +95,7 @@ void loop()
 {
   Usb.Task();
   
-  if( Usb.getUsbTaskState() == USB_STATE_RUNNING ) {
+  if( Pl.isReady()) {
   
     bool newdata = false;
     unsigned long start = millis();
@@ -210,7 +210,7 @@ bool feedgps()
             rcode = false;
             if( rcvd ) { //more than zero bytes received
               for( uint16_t i=0; i < rcvd; i++ ) {
-                if( gps.encode(buf[i])) { //feed a character to gps object
+                if( gps.encode((char)buf[i])) { //feed a character to gps object
                   rcode = true;
                 }//if( gps.encode(buf[i]...
               }//for( uint16_t i=0; i < rcvd; i++...              

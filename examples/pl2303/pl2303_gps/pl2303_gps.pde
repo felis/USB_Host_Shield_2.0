@@ -76,9 +76,8 @@ uint8_t  buf[64];    //serial buffer equals Max.packet size of bulk-IN endpoint
 uint16_t rcvd = 64;   
 
   Usb.Task();
-  
-    if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-    {  
+    
+    if( Pl.isReady()) {  
        /* reading the GPS */
        if( read_delay < millis() ){
        read_delay += READ_DELAY;  

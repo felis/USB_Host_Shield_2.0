@@ -154,6 +154,7 @@ protected:
 	uint8_t		bNumEP;					// total number of EP in the configuration
 	uint32_t	qNextPollTime;			// next poll time
 	bool		bPollEnable;			// poll enable flag
+	bool  ready;      //device ready indicator        
 
 	EpInfo		epInfo[ACM_MAX_ENDPOINTS];
 
@@ -179,6 +180,7 @@ public:
 	virtual uint8_t Release();
 	virtual uint8_t Poll();
 	virtual uint8_t GetAddress() { return bAddress; };
+	virtual bool isReady() { return ready; };
 
 	// UsbConfigXtracter implementation
 	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);

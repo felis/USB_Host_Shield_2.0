@@ -17,8 +17,8 @@ e-mail   :  support@circuitsathome.com
 #include "cdcprolific.h"
 
 PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
-	ACM(p, pasync),
-	wPLType(0)
+	ACM(p, pasync)
+	//wPLType(0)
 {
 }
 
@@ -31,6 +31,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	UsbDevice	*p = NULL;
 	EpInfo		*oldep_ptr = NULL;
 	uint8_t		num_of_conf;	// number of configurations
+	enum pl2303_type pltype = unknown;
 
 	AddressPool	&addrPool = pUsb->GetAddressPool();
 
@@ -68,11 +69,24 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	if( rcode ) 
 		goto FailGetDevDescr;
 
-	if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID )
+	if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID ) {
 		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-
-	// Save type of PL chip
-	wPLType = ((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice;
+	}
+	
+	/* determine chip variant */	
+		
+  if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x02 ) {
+    pltype = type_0;
+  }
+	else if (((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0 == 0x40 ) { 
+		pltype = rev_HX;
+	}
+  else if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x00) {
+    pltype = type_1;
+  }
+	else if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0xff) {
+		pltype = type_1;
+	}
 
 	// Allocate new address according to device class
 	bAddress = addrPool.AllocAddress(parent, false, port);
@@ -116,7 +130,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	USBTRACE2("NC:", num_of_conf);
 
-	for (uint8_t i=0; i<num_of_conf; i++)
+	for( uint8_t i=0; i<num_of_conf; i++ )
 	{
 		HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
 		ConfigDescParser<0xFF, 0, 0, CP_MASK_COMPARE_CLASS>	confDescrParser(this);
@@ -128,11 +142,11 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 			break;
 	} // for
 	
-	if (bNumEP < 2)
+	if ( bNumEP < 2 )
 		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 	// Assign epInfo to epinfo pointer
-	rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
+	rcode = pUsb->setEpInfoEntry( bAddress, bNumEP, epInfo );
 
 	USBTRACE2("Conf:", bConfNum);
 
@@ -142,6 +156,29 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	if (rcode)
 		goto FailSetConfDescr;
 
+#if defined(PL2303_COMPAT)
+	/* shamanic dance - sending Prolific init data as-is */
+	vendorRead( 0x84, 0x84, 0, buf );
+	vendorWrite( 0x04, 0x04, 0 );
+	vendorRead( 0x84, 0x84, 0, buf );
+	vendorRead( 0x83, 0x83, 0, buf );
+	vendorRead( 0x84, 0x84, 0, buf );
+	vendorWrite( 0x04, 0x04, 1 );
+	vendorRead( 0x84, 0x84, 0, buf);
+	vendorRead( 0x83, 0x83, 0, buf);
+	vendorWrite( 0, 0, 1 );
+	vendorWrite( 1, 0, 0 );
+	if ( pltype == rev_HX ) {
+		vendorWrite( 2, 0, 0x44 );
+		vendorWrite( 0x06, 0x06, 0 );   //from W7 init
+	}
+	else {
+		vendorWrite( 2, 0, 0x24 );
+	}
+	/* shamanic dance end */
+#endif	
+	
+  /* calling post-init callback */
 	rcode = pAsync->OnInit(this);
 
 	if (rcode)
@@ -149,7 +186,8 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	USBTRACE("PL configured\r\n");
 
-	bPollEnable = true;
+	//bPollEnable = true;
+	ready = true;
 	return 0;
 
 FailGetDevDescr:

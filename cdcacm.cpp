@@ -28,18 +28,20 @@ ACM::ACM(USB *p, CDCAsyncOper *pasync) :
 	bPollEnable(false),	
 	bControlIface(0),	
 	bDataIface(0),		
-	bNumEP(1)			
+	bNumEP(1),
+	ready(false)			
 {
 	for(uint8_t i=0; i<ACM_MAX_ENDPOINTS; i++)
 	{
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= 0;
-		//epInfo[i].bmNakPower = USB_NAK_NOWAIT;
-    epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+		epInfo[i].bmNakPower = USB_NAK_NOWAIT;
+    //epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
     
-		//if (!i)
-			epInfo[i].bmNakPower	= USB_NAK_MAX_POWER;
+		if (!i)
+			epInfo[i].bmNakPower	= USB_NAK_MAX_POWER; 
+			
 	}
 	if (pUsb)
 		pUsb->RegisterDeviceClass(this);
@@ -172,6 +174,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		goto FailOnInit;
 
 	USBTRACE("ACM configured\r\n");
+	ready = true;
 
 	//bPollEnable = true;
 
@@ -226,7 +229,7 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 	// Fill in the endpoint info structure
 	epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
 	epInfo[index].maxPktSize	= (uint8_t)pep->wMaxPacketSize;
-	epInfo[index].epAttribs		= 0;
+	//epInfo[index].epAttribs		= 0;
 
 	bNumEP ++;
 
@@ -244,6 +247,7 @@ uint8_t ACM::Release()
 	bAddress			= 0;
 	qNextPollTime		= 0;
 	bPollEnable			= false;
+	ready = false;
 	return 0;
 }
 
@@ -254,7 +258,7 @@ uint8_t ACM::Poll()
 	if (!bPollEnable)
 		return 0;
 
-	uint32_t	time_now = millis();
+	//uint32_t	time_now = millis();
 
 	//if (qNextPollTime <= time_now)
 	//{

@@ -232,7 +232,7 @@ void FTDI::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t prot
 	// Fill in the endpoint info structure
 	epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
 	epInfo[index].maxPktSize	= (uint8_t)pep->wMaxPacketSize;
-	epInfo[index].epAttribs		= 0;
+	//epInfo[index].epAttribs		= 0;
 
 	bNumEP ++;
 

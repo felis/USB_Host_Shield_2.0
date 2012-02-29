@@ -20,9 +20,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef _avrpins_h_
 #define _avrpins_h_
 
-/* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
-//#define BOARD_MEGA_ADK
-
 #include <avr/io.h>
 
 #ifdef PORTA
@@ -468,7 +465,6 @@ template<typename Tp_pin, typename Tc_bit>
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
-#define P54 Pj2
 
 #endif  //"Mega" pin numbers
 
