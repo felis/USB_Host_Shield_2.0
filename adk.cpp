@@ -48,12 +48,10 @@ ADK::ADK(USB *p,  const char* manufacturer,
 	for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++) {
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
-		epInfo[i].epAttribs		= ( 0xfc & ( USB_NAK_MAX_POWER<<2 ));
+		epInfo[i].epAttribs		= 0;
+		epInfo[i].bmNakPower  = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
   }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
-  
-  //set bulk-IN EP naklimit to 1 
-  epInfo[epDataInIndex].epAttribs = ( 0xfc & ( USB_NAK_NOWAIT<<2 ));
-  
+    
   // register in USB subsystem
 	if (pUsb) {
 		pUsb->RegisterDeviceClass(this);  //set devConfig[] entry
@@ -157,7 +155,16 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 		          for (uint8_t i=0; i<num_of_conf; i++) {
 			          ConfigDescParser<0, 0, 0, 0> confDescrParser(this);
+	    			    delay(1);
 	    			    rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+#if defined(XOOM)
+                //added by Jaylen Scott Vanorden
+                if( rcode ) {
+                  USBTRACE2("\r\nGot 1st bad code for config: ", rcode);
+                  // Try once more
+                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                }
+#endif
                 if( rcode ) {
                   goto FailGetConfDescr;
                 }
@@ -204,7 +211,16 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		//probe device - get accessory protocol revision
 		{
 		  uint16_t adkproto = -1;
+		  delay(1);
 		  rcode = getProto((uint8_t*)&adkproto );
+#if defined(XOOM)
+      //added by Jaylen Scott Vanorden
+      if( rcode ) {
+        USBTRACE2("\r\nGot 1st bad code for proto: ", rcode);
+        // Try once more
+        rcode = getProto((uint8_t*)&adkproto );
+      }          
+#endif
 		  if( rcode ){
 		    goto FailGetProto; //init fails
 		  }

@@ -110,7 +110,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
         dscrType		= *((uint8_t*)theBuffer.pValue + 1); 
 		stateParseDescr	= 2;
 	case 2:
-		// This is a sort of hack. Assuming that two bytes are allready in the buffer 
+		// This is a sort of hack. Assuming that two bytes are already in the buffer 
 		//	the pointer is positioned two bytes ahead in order for the rest of descriptor 
 		//	to be read right after the size and the type fields.
 		// This should be used carefuly. varBuffer should be used directly to handle data
