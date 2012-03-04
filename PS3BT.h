@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 TKJ Electronics. All rights reserved.
+/* Copyright (C) 2012 Kristian Lauszus, TKJ Electronics. All rights reserved.
  
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
@@ -10,9 +10,9 @@
  Contact information
  -------------------
  
- TKJ Electronics
+ Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
- e-mail   :  mail@tkjelectronics.com
+ e-mail   :  kristianl@tkjelectronics.com
  */
 
 #ifndef _ps3bt_h_
