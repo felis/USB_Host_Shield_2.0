@@ -41,10 +41,9 @@ PS3BT::PS3BT(USB *p):
 	{
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
-		epInfo[i].epAttribs		= 0;
-        
-		if (!i)
-			epInfo[i].bmNakPower = USB_NAK_DEFAULT;//USB_NAK_MAX_POWER
+		epInfo[i].epAttribs		= 0;        
+        if (!i)
+            epInfo[i].bmNakPower = USB_NAK_DEFAULT;
 	}
     
     if (pUsb) // register in USB subsystem
@@ -190,17 +189,19 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         /* Initialize data structures for endpoints of device */
         epInfo[ CSR_EVENT_PIPE ].epAddr = 0x01;    // Bluetooth event endpoint
         epInfo[ CSR_EVENT_PIPE ].epAttribs = EP_INTERRUPT;
-        epInfo[ CSR_EVENT_PIPE ].bmNakPower = USB_NAK_NOWAIT;//Only poll once for interrupt endpoints
+        epInfo[ CSR_EVENT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ CSR_EVENT_PIPE ].maxPktSize = INT_MAXPKTSIZE;
         epInfo[ CSR_EVENT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ CSR_EVENT_PIPE ].bmRcvToggle = bmRCVTOG0;                        
         epInfo[ CSR_DATAIN_PIPE ].epAddr = 0x02;    // Bluetoth data endpoint
         epInfo[ CSR_DATAIN_PIPE ].epAttribs  = EP_BULK;
+        epInfo[ CSR_DATAIN_PIPE ].bmNakPower = USB_NAK_NOWAIT;
         epInfo[ CSR_DATAIN_PIPE ].maxPktSize = BULK_MAXPKTSIZE;
         epInfo[ CSR_DATAIN_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ CSR_DATAIN_PIPE ].bmRcvToggle = bmRCVTOG0;
         epInfo[ CSR_DATAOUT_PIPE ].epAddr = 0x02;    // Bluetooth data endpoint
         epInfo[ CSR_DATAOUT_PIPE ].epAttribs  = EP_BULK;
+        epInfo[ CSR_DATAOUT_PIPE ].bmNakPower = USB_NAK_NOWAIT;        
         epInfo[ CSR_DATAOUT_PIPE ].maxPktSize = BULK_MAXPKTSIZE;
         epInfo[ CSR_DATAOUT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ CSR_DATAOUT_PIPE ].bmRcvToggle = bmRCVTOG0;
@@ -230,13 +231,13 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         /* Initialize data structures for endpoints of device */
         epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02;    // PS3 output endpoint
         epInfo[ PS3_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT;//Only poll once for interrupt endpoints
+        epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
         epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01;    // PS3 report endpoint            
         epInfo[ PS3_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT;//Only poll once for interrupt endpoints
+        epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ PS3_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0; 
