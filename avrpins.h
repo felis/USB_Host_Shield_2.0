@@ -469,7 +469,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
-#define P54 Pj2
+#define P54 Pe6 // INT on Arduino ADK
 
 #endif  //"Mega" pin numbers
 
