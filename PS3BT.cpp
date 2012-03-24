@@ -682,7 +682,7 @@ void PS3BT::HCI_task()
     switch (hci_state){
         case HCI_INIT_STATE:
             hci_counter++;
-            if (hci_counter > 1000) // wait until we have looped 1000 times to clear any old events
+            if (hci_counter > 100) // wait until we have looped 100 times to clear any old events
             {  
                 hci_reset();
                 hci_state = HCI_RESET_STATE;
@@ -700,7 +700,7 @@ void PS3BT::HCI_task()
                 hci_state = HCI_BDADDR_STATE;
                 hci_read_bdaddr(); 
             }
-            else if (hci_counter > 1000) 
+            else if (hci_counter > 100) 
             {
                 #ifdef DEBUG
                 Notify(PSTR("\r\nNo response to HCI Reset"));
