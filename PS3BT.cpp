@@ -682,7 +682,7 @@ void PS3BT::HCI_task()
     switch (hci_state){
         case HCI_INIT_STATE:
             hci_counter++;
-            if (hci_counter > 100) // wait until we have looped 100 times to clear any old events
+            if (hci_counter > 1000) // wait until we have looped 1000 times to clear any old events
             {  
                 hci_reset();
                 hci_state = HCI_RESET_STATE;
@@ -700,7 +700,7 @@ void PS3BT::HCI_task()
                 hci_state = HCI_BDADDR_STATE;
                 hci_read_bdaddr(); 
             }
-            else if (hci_counter > 100) 
+            else if (hci_counter > 1000) 
             {
                 #ifdef DEBUG
                 Notify(PSTR("\r\nNo response to HCI Reset"));
@@ -1072,7 +1072,7 @@ void PS3BT::L2CAP_task()
                 delay(1000);//There has to be a delay before data can be read
                 setLedOn(LED1);
                 #ifdef DEBUG
-                Notify(PSTR("\r\nDualshock 3 Controller Enabled"));
+                Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"));
                 #endif
                 PS3BTConnected = true;
             }
@@ -1086,7 +1086,7 @@ void PS3BT::L2CAP_task()
                 delay(1000);//There has to be a delay before data can be read
                 setLedOn(LED1);//This just turns LED constantly on, on the Navigation controller
                 #ifdef DEBUG
-                Notify(PSTR("\r\nNavigation Controller Enabled"));
+                Notify(PSTR("\r\nNavigation Controller Enabled\r\n"));
                 #endif
                 PS3NavigationBTConnected = true;                                                
             }
@@ -1095,7 +1095,7 @@ void PS3BT::L2CAP_task()
                 delay(1000);//There has to be a delay before data can be read
                 moveSetBulb(Red);
                 #ifdef DEBUG
-                Notify(PSTR("\r\nMotion Controller Enabled"));
+                Notify(PSTR("\r\nMotion Controller Enabled\r\n"));
                 #endif
                 PS3MoveBTConnected = true;
                 
