@@ -24,8 +24,8 @@ e-mail   :  support@circuitsathome.com
 
 /* NAK powers. To save space in endpoint data structure, amount of retries before giving up and returning 0x4 is stored in */
 /* bmNakPower as a power of 2. The actual nak_limit is then calculated as nak_limit = ( 2^bmNakPower - 1) */
-#define USB_NAK_MAX_POWER		15		//NAK binary order maximum value
-#define USB_NAK_DEFAULT			14		//default 32K-1 NAKs before giving up
+#define USB_NAK_MAX_POWER		16		//NAK binary order maximum value
+#define USB_NAK_DEFAULT			14		//default 16K-1 NAKs before giving up
 #define USB_NAK_NOWAIT			1		//Single NAK stops transfer
 #define USB_NAK_NONAK			0		//Do not count NAKs, stop retrying after USB Timeout
 

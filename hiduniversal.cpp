@@ -232,16 +232,8 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	USBTRACE("HU configured\r\n");
 
-	{
-		HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
-		ReportDescParser                                Rpt;
+	OnInitSuccessful();
 
-		if (rcode = GetReportDescr(0, &Hex))
-			goto FailGetReportDescr;
-	        
-		if (rcode = GetReportDescr(0, &Rpt))
-			goto FailGetReportDescr;
-	}
 	bPollEnable = true;
 	return 0;
 

@@ -210,9 +210,9 @@ Fail:
 
 void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) 
 {
-	ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
-	ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
-	ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
+	//ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
+	//ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
+	//ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
 
 	bConfNum = conf;
 
@@ -233,7 +233,7 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
 	bNumEP ++;
 
-	PrintEndpointDescriptor(pep);
+	//PrintEndpointDescriptor(pep);
 }
 
 uint8_t ACM::Release()
@@ -296,6 +296,12 @@ uint8_t ACM::RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr)
 uint8_t ACM::SndData(uint16_t nbytes, uint8_t *dataptr)
 {
 	return pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, nbytes, dataptr);
+}
+
+/* untested */
+uint8_t ACM::GetNotif( uint16_t *bytes_rcvd, uint8_t *dataptr )
+{
+  return pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, bytes_rcvd, dataptr);
 }
 
 uint8_t ACM::SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr)

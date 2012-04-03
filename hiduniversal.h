@@ -2,7 +2,7 @@
 #define __HIDUNIVERSAL_H__
 
 #include "hid.h"
-#include "hidescriptorparser.h"
+//#include "hidescriptorparser.h"
 
 class HIDUniversal : public HID
 {
@@ -54,6 +54,7 @@ protected:
 
 	// HID implementation
 	virtual HIDReportParser* GetReportParser(uint8_t id);
+	virtual uint8_t OnInitSuccessful() { return 0; };
 
 public:
 	HIDUniversal(USB *p);

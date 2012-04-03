@@ -34,11 +34,8 @@ e-mail   :  support@circuitsathome.com
 #include "printhex.h"
 #include "hexdump.h"
 #include "message.h"
-
 #include "confdescparser.h"
-//#include "hidusagestr.h"
 #include "hid.h"
-//#include "..\ptp\simplefifo.h"
 
 class ReportDescParserBase : public USBReadParser
 {

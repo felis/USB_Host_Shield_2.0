@@ -132,10 +132,10 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	for( uint8_t i=0; i<num_of_conf; i++ )
 	{
-		HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
+		//HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
 		ConfigDescParser<0xFF, 0, 0, CP_MASK_COMPARE_CLASS>	confDescrParser(this);
 
-		rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
+		//rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
 		rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 		
 		if (bNumEP > 1)

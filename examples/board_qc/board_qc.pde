@@ -260,7 +260,7 @@ void print_hex(int v, int num_places)
 void press_any_key()
 {
   Notify(PSTR("\r\nPress any key to continue..."));
-  while( Serial.available() == 0 ); //wait for input
+  while( Serial.available() <= 0 ); //wait for input
   Serial.read();                    //empty input buffer    
   return;
 }

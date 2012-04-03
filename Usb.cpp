@@ -391,6 +391,7 @@ uint8_t USB::dispatchPkt( uint8_t token, uint8_t ep, uint16_t nak_limit )
 			nak_count ++;
 			if( nak_limit && ( nak_count == nak_limit )) 
 				return( rcode );
+			//delay(1);	
 			break;
 		case hrTIMEOUT:
 			retry_count ++;
