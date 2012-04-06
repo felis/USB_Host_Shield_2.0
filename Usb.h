@@ -56,7 +56,7 @@ typedef MAX3421e<P6, P3>		MAX3421E;		// Black Widow
 #elif defined(BOARD_TEENSY_PLUS_PLUS)
 typedef MAX3421e<P9, P8>        MAX3421E;       // Teensy++ 2.0 & 1.0
 #elif defined(BOARD_MEGA_ADK)
-typedef MAX3421e<P53, P54>              MAX3421E;               // Arduino Mega ADK
+typedef MAX3421e<P53, P9>              MAX3421E;               // Arduino Mega ADK
 #else
 typedef MAX3421e<P10, P9>		MAX3421E;		// Official Arduinos (UNO, Duemilanove, Mega, 2560
 #endif
