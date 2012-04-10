@@ -25,115 +25,105 @@
 #endif
 
 #include "Usb.h"
-
-/*The application will work in reduced host mode, so we can save program and data
- memory space. After verifying the PID and VID we will use known values for the 
- configuration values for device, interface, endpoints and HID */
+#include "confdescparser.h"
 
 /* CSR Bluetooth data taken from descriptors */
-#define INT_MAXPKTSIZE   16 // max size for HCI data
-#define BULK_MAXPKTSIZE  64 // max size for ACL data
+#define INT_MAXPKTSIZE      16 // max size for HCI data
+#define BULK_MAXPKTSIZE     64 // max size for ACL data
 
 /* PS3 data taken from descriptors */
-#define EP_MAXPKTSIZE   64 // max size for data via USB
+#define EP_MAXPKTSIZE       64 // max size for data via USB
 
 /* Endpoint types */
-#define EP_INTERRUPT 0x03
-#define EP_BULK 0x02
+#define EP_INTERRUPT        0x03
 
-#define CSR_CONTROL_PIPE 0 // names we give to the 4 pipes
-#define CSR_EVENT_PIPE 1
-#define CSR_DATAIN_PIPE 2
-#define CSR_DATAOUT_PIPE 3
-
-#define PS3_CONTROL_PIPE 0 // names we give to the 3 pipes
-#define PS3_OUTPUT_PIPE 1
-#define PS3_INPUT_PIPE 2
+/* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
+#define PS3_CONTROL_PIPE    0
+#define PS3_OUTPUT_PIPE     1
+#define PS3_INPUT_PIPE      2
 
 //PID and VID of the different devices
-#define CSR_VID 0x0A12  //Cambridge Silicon Radio Ltd.
-#define CSR_PID 0x0001  //Bluetooth HCI Device      
-#define PS3_VID 0x054C  //Sony Corporation
-#define PS3_PID 0x0268  //PS3 Controller DualShock 3
-#define PS3NAVIGATION_VID 0x054C  //Sony Corporation
-#define PS3NAVIGATION_PID 0x042F  //Navigation controller
-#define PS3MOVE_VID 0x054C  //Sony Corporation
-#define PS3MOVE_PID 0x03D5  //Motion controller
+#define CSR_VID             0x0A12  // Cambridge Silicon Radio Ltd.
+#define CSR_PID             0x0001  // Bluetooth HCI Device 
+#define ISSC_VID            0x1131  // Integrated System Solution Corp.
+#define ISSC_PID            0x1004  // Bluetooth Device
+#define PS3_VID             0x054C  // Sony Corporation
+#define PS3_PID             0x0268  // PS3 Controller DualShock 3
+#define PS3NAVIGATION_VID   0x054C  // Sony Corporation
+#define PS3NAVIGATION_PID   0x042F  // Navigation controller
+#define PS3MOVE_VID         0x054C  // Sony Corporation
+#define PS3MOVE_PID         0x03D5  // Motion controller
 
-#define HIDMOVEBUFFERSIZE 50 // size of the buffer for the Playstation Motion Controller
-#define OUTPUT_REPORT_BUFFER_SIZE 48 //Size of the output report buffer for the controllers
+#define HID_BUFFERSIZE              50 // size of the buffer for the Playstation Motion Controller
+#define OUTPUT_REPORT_BUFFER_SIZE   48 //Size of the output report buffer for the controllers
 
 // used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
 
 // used in control endpoint header for HID Commands
-#define bmREQ_HIDOUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT 0x09
+#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+#define HID_REQUEST_SET_REPORT      0x09
 
 /* Bluetooth HCI states for hci_task() */
-#define HCI_INIT_STATE 0
-#define HCI_RESET_STATE 1
-#define HCI_BDADDR_STATE 2
-#define HCI_SCANNING_STATE 3
-#define HCI_CONNECT_IN_STATE 4
-#define HCI_REMOTE_NAME_STATE 5
-#define HCI_CONNECTED_STATE 6
-#define HCI_DISABLE_SCAN 7
-#define HCI_DONE_STATE 8
-#define HCI_DISCONNECT_STATE 9
+#define HCI_INIT_STATE          0
+#define HCI_RESET_STATE         1
+#define HCI_BDADDR_STATE        2
+#define HCI_SCANNING_STATE      3
+#define HCI_CONNECT_IN_STATE    4
+#define HCI_REMOTE_NAME_STATE   5
+#define HCI_CONNECTED_STATE     6
+#define HCI_DISABLE_SCAN        7
+#define HCI_DONE_STATE          8
+#define HCI_DISCONNECT_STATE    9
 
 /* HCI event flags*/
-#define HCI_FLAG_CMD_COMPLETE 0x01
-#define HCI_FLAG_CMD_STATUS 0x02
-#define HCI_FLAG_CONN_COMPLETE 0x04
-#define HCI_FLAG_DISCONN_COMPLETE 0x08
-#define HCI_FLAG_CONNECT_OK 0x10
-#define HCI_FLAG_REMOTE_NAME_COMPLETE 0x20
-#define HCI_FLAG_INCOMING_REQUEST 0x40
+#define HCI_FLAG_CMD_COMPLETE           0x01
+#define HCI_FLAG_CONN_COMPLETE          0x02
+#define HCI_FLAG_DISCONN_COMPLETE       0x04
+#define HCI_FLAG_REMOTE_NAME_COMPLETE   0x08
+#define HCI_FLAG_INCOMING_REQUEST       0x10
 
 /*Macros for HCI event flag tests */
 #define hci_cmd_complete (hci_event_flag & HCI_FLAG_CMD_COMPLETE)
-#define hci_cmd_status (hci_event_flag & HCI_FLAG_CMD_STATUS)
 #define hci_connect_complete (hci_event_flag & HCI_FLAG_CONN_COMPLETE)
 #define hci_disconnect_complete (hci_event_flag & HCI_FLAG_DISCONN_COMPLETE)
-#define hci_connect_ok (hci_event_flag & HCI_FLAG_CONNECT_OK)
 #define hci_remote_name_complete (hci_event_flag & HCI_FLAG_REMOTE_NAME_COMPLETE)
 #define hci_incoming_connect_request (hci_event_flag & HCI_FLAG_INCOMING_REQUEST)
 
 /* HCI Events managed */
-#define EV_COMMAND_COMPLETE  0x0E
-#define EV_COMMAND_STATUS    0x0F
-#define EV_CONNECT_COMPLETE  0x03
-#define EV_DISCONNECT_COMPLETE 0x05
-#define EV_NUM_COMPLETE_PKT  0x13
-#define EV_INQUIRY_COMPLETE  0x01
-#define EV_INQUIRY_RESULT    0x02
-#define EV_REMOTE_NAME_COMPLETE  0x07
-#define EV_INCOMING_CONNECT  0x04
-#define EV_ROLE_CHANGED  0x12
+#define EV_COMMAND_COMPLETE         0x0E
+#define EV_COMMAND_STATUS           0x0F
+#define EV_CONNECT_COMPLETE         0x03
+#define EV_DISCONNECT_COMPLETE      0x05
+#define EV_NUM_COMPLETE_PKT         0x13
+#define EV_INQUIRY_COMPLETE         0x01
+#define EV_INQUIRY_RESULT           0x02
+#define EV_REMOTE_NAME_COMPLETE     0x07
+#define EV_INCOMING_CONNECT         0x04
+#define EV_ROLE_CHANGED             0x12
 
 /* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_EV_WAIT 0
-#define L2CAP_EV_CONTROL_SETUP 1
-#define L2CAP_EV_CONTROL_REQUEST 2
-#define L2CAP_EV_CONTROL_SUCCESS 3
-#define L2CAP_EV_INTERRUPT_SETUP 4
-#define L2CAP_EV_INTERRUPT_REQUEST 5
-#define L2CAP_EV_INTERRUPT_SUCCESS 6
-#define L2CAP_EV_HID_ENABLE_SIXAXIS 7
-#define L2CAP_EV_L2CAP_DONE 8
-#define L2CAP_EV_INTERRUPT_DISCONNECT 9
-#define L2CAP_EV_CONTROL_DISCONNECT 10
+#define L2CAP_EV_WAIT                   0
+#define L2CAP_EV_CONTROL_SETUP          1
+#define L2CAP_EV_CONTROL_REQUEST        2
+#define L2CAP_EV_CONTROL_SUCCESS        3
+#define L2CAP_EV_INTERRUPT_SETUP        4
+#define L2CAP_EV_INTERRUPT_REQUEST      5
+#define L2CAP_EV_INTERRUPT_SUCCESS      6
+#define L2CAP_EV_HID_ENABLE_SIXAXIS     7
+#define L2CAP_EV_L2CAP_DONE             8
+#define L2CAP_EV_INTERRUPT_DISCONNECT   9
+#define L2CAP_EV_CONTROL_DISCONNECT     10
 
 /* L2CAP event flags */
-#define L2CAP_EV_CONTROL_CONNECTION_REQUEST 0x01
-#define L2CAP_EV_CONTROL_CONFIG_REQUEST 0x02
-#define L2CAP_EV_CONTROL_CONFIG_SUCCESS 0x04
-#define L2CAP_EV_INTERRUPT_CONNECTION_REQUEST 0x08
-#define L2CAP_EV_INTERRUPT_CONFIG_REQUEST 0x10
-#define L2CAP_EV_INTERRUPT_CONFIG_SUCCESS 0x20
-#define L2CAP_EV_CONTROL_DISCONNECT_RESPONSE 0x40
-#define L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE 0x80
+#define L2CAP_EV_CONTROL_CONNECTION_REQUEST     0x01
+#define L2CAP_EV_CONTROL_CONFIG_REQUEST         0x02
+#define L2CAP_EV_CONTROL_CONFIG_SUCCESS         0x04
+#define L2CAP_EV_INTERRUPT_CONNECTION_REQUEST   0x08
+#define L2CAP_EV_INTERRUPT_CONFIG_REQUEST       0x10
+#define L2CAP_EV_INTERRUPT_CONFIG_SUCCESS       0x20
+#define L2CAP_EV_CONTROL_DISCONNECT_RESPONSE    0x40
+#define L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE  0x80
 
 /*Macros for L2CAP event flag tests */
 #define l2cap_control_connection_request (l2cap_event_flag & L2CAP_EV_CONTROL_CONNECTION_REQUEST)
@@ -146,25 +136,27 @@
 #define l2cap_interrupt_disconnect_response (l2cap_event_flag & L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE)
 
 /* L2CAP signaling commands */
-#define L2CAP_CMD_COMMAND_REJECT 0x01
-#define L2CAP_CMD_CONNECTION_REQUEST 0x02
-#define L2CAP_CMD_CONNECTION_RESPONSE 0x03
-#define L2CAP_CMD_CONFIG_REQUEST 0x04
-#define L2CAP_CMD_CONFIG_RESPONSE 0x05
-#define L2CAP_CMD_DISCONNECT_REQUEST 0x06
-#define L2CAP_CMD_DISCONNECT_RESPONSE 0x07
+#define L2CAP_CMD_COMMAND_REJECT        0x01
+#define L2CAP_CMD_CONNECTION_REQUEST    0x02
+#define L2CAP_CMD_CONNECTION_RESPONSE   0x03
+#define L2CAP_CMD_CONFIG_REQUEST        0x04
+#define L2CAP_CMD_CONFIG_RESPONSE       0x05
+#define L2CAP_CMD_DISCONNECT_REQUEST    0x06
+#define L2CAP_CMD_DISCONNECT_RESPONSE   0x07
 
 /* Bluetooth L2CAP PSM */
 #define L2CAP_PSM_HID_CTRL 0x11 // HID_Control        
 #define L2CAP_PSM_HID_INTR 0x13 // HID_Interrupt
 
 // Used For Connection Response - Remember to Include High Byte
-#define PENDING 0x01
-#define SUCCESSFUL 0x00
+#define PENDING     0x01
+#define SUCCESSFUL  0x00
 
 #define bConfigurationValue 0x01 // Used to set configuration
 
-#define PS3_MAX_ENDPOINTS 4
+#define PS3_MAX_ENDPOINTS   4
+#define WI_SUBCLASS_RF      0x01
+#define WI_PROTOCOL_BT      0x01
 
 enum LED
 {
@@ -321,7 +313,7 @@ enum Rumble
     RumbleLow = 0x20,            
 };
 
-class PS3BT : public USBDeviceConfig
+class PS3BT : public USBDeviceConfig, public UsbConfigXtracter
 {
 public:            
     PS3BT(USB *pUsb);
@@ -331,6 +323,12 @@ public:
     virtual uint8_t Release();
     virtual uint8_t Poll();
     virtual uint8_t GetAddress() { return bAddress; };
+    virtual bool isReady() { return bPollEnable; };    
+    
+    // UsbConfigXtracter implementation
+	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep); 
+    
+    bool isWatingForConnection() { return watingForConnection; }; // Use this to indicate when it is ready for a incoming connection
         
     void setBdaddr(uint8_t* BDADDR);
     void setMoveBdaddr(uint8_t* BDADDR);
@@ -360,21 +358,35 @@ public:
     bool PS3BTConnected;// Variable used to indicate if the normal playstation controller is successfully connected
     bool PS3MoveBTConnected;// Variable used to indicate if the move controller is successfully connected
     bool PS3NavigationBTConnected;// Variable used to indicate if the navigation controller is successfully connected
-    bool ButtonChanged;//Indicate if a button has been changed
-    bool ButtonPressed;//Indicate if a button has been pressed
+    bool buttonChanged;//Indicate if a button has been changed
+    bool buttonPressed;//Indicate if a button has been pressed
+    bool buttonReleased;//Indicate if a button has been pressed
     
 protected:           
     /* mandatory members */
     USB *pUsb;
-    uint8_t	bAddress;	
+    uint8_t	bAddress; // device address
     EpInfo epInfo[PS3_MAX_ENDPOINTS]; //endpoint info structure
+    
+    uint8_t bConfNum; // configuration number
+    uint8_t	bNumEP; // total number of endpoints in the configuration
+    uint32_t qNextPollTime;	// next poll time
+    
+    #define BTD_CONTROL_PIPE 0 // Bluetooth dongles control endpoint
+    static const uint8_t BTD_EVENT_PIPE; // HCI event endpoint index
+    static const uint8_t BTD_DATAIN_PIPE; // ACL In endpoint index
+    static const uint8_t BTD_DATAOUT_PIPE; // ACL Out endpoint index
+    
+    void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
     
 private:        
     bool bPollEnable;
+    uint8_t pollInterval;
+    bool watingForConnection;
     
     /*variables filled from HCI event management */
     int16_t  hci_handle;
-    uint8_t disc_bdaddr[6]; // maximum of three discovered devices
+    uint8_t disc_bdaddr[6]; // the bluetooth address is always 6 bytes
     uint8_t remote_name[30]; // first 30 chars of remote name
     
     /* variables used by high level HCI task */    
@@ -397,8 +409,8 @@ private:
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
     uint8_t l2capinbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap in data
     uint8_t l2capoutbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap out data
-    uint8_t HIDBuffer[BULK_MAXPKTSIZE];// Used to store HID commands
-    uint8_t HIDMoveBuffer[HIDMOVEBUFFERSIZE];// Used to store HID commands for the Move controller   
+    uint8_t HIDBuffer[HID_BUFFERSIZE];// Used to store HID commands
+    uint8_t HIDMoveBuffer[HID_BUFFERSIZE];// Used to store HID commands for the Move controller   
     
     /* L2CAP Channels */
     uint8_t control_scid[2];// L2CAP source CID for HID_Control                

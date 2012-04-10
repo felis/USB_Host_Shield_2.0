@@ -19,6 +19,10 @@
 #define DEBUG // Uncomment to print data for debugging
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
+const uint8_t PS3BT::BTD_EVENT_PIPE  = 1;			
+const uint8_t PS3BT::BTD_DATAIN_PIPE = 2;
+const uint8_t PS3BT::BTD_DATAOUT_PIPE = 3;
+
 prog_char OUTPUT_REPORT_BUFFER[] PROGMEM = 
 {
     0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -33,23 +37,24 @@ prog_char OUTPUT_REPORT_BUFFER[] PROGMEM =
 };
 
 PS3BT::PS3BT(USB *p):
-    pUsb(p), //pointer to USB class instance - mandatory
-    bAddress(0), //device address - mandatory
-    bPollEnable(false) //don't start polling before dongle is connected
+    pUsb(p), // pointer to USB class instance - mandatory
+    bAddress(0), // device address - mandatory
+    bNumEP(1), // if config descriptor needs to be parsed
+    qNextPollTime(0),
+    bPollEnable(false) // don't start polling before dongle is connected
 {
     for(uint8_t i=0; i<PS3_MAX_ENDPOINTS; i++)
 	{
 		epInfo[i].epAddr		= 0;
 		epInfo[i].maxPktSize	= (i) ? 0 : 8;
 		epInfo[i].epAttribs		= 0;        
-        if (!i)
-            epInfo[i].bmNakPower = USB_NAK_DEFAULT;
+        epInfo[i].bmNakPower    = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
 	}
     
     if (pUsb) // register in USB subsystem
 		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
             
-    my_bdaddr[5] = 0x00;//Change to your dongle's Bluetooth address instead
+    my_bdaddr[5] = 0x00; // Change to your dongle's Bluetooth address instead
     my_bdaddr[4] = 0x1F;
     my_bdaddr[3] = 0x81;
     my_bdaddr[2] = 0x00;
@@ -59,11 +64,11 @@ PS3BT::PS3BT(USB *p):
 
 uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
-    const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
-    uint8_t	buf[constBufSize];
+    uint8_t	buf[sizeof(USB_DEVICE_DESCRIPTOR)];
 	uint8_t	rcode;
 	UsbDevice *p = NULL;
-	EpInfo *oldep_ptr = NULL;    
+	EpInfo *oldep_ptr = NULL;  
+    uint8_t	num_of_conf; // number of configurations
     uint16_t PID;
     uint16_t VID;
     
@@ -109,14 +114,13 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
     p->lowspeed = lowspeed;
     
     // Get device descriptor
-    rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
+    rcode = pUsb->getDevDescr(0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
     
     // Restore p->epinfo
     p->epinfo = oldep_ptr;
     
-    if( rcode ){ 
+    if(rcode)
         goto FailGetDevDescr;
-    }
     
     // Allocate new address according to device class
     bAddress = addrPool.AllocAddress(parent, false, port);
@@ -148,27 +152,25 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
     //get pointer to assigned address record
     p = addrPool.GetUsbDevicePtr(bAddress);
     if (!p) 
-    {
         return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
-    }
     
-    p->lowspeed = lowspeed;
+    p->lowspeed = lowspeed;        
     
     // Assign epInfo to epinfo pointer - only EP0 is known
     rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
-    if (rcode) 
-    {
+    if (rcode)
         goto FailSetDevTblEntry;
-    }        
 
+    num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
     VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
     PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
     
-    if(VID == CSR_VID && PID == CSR_PID)
+    if((VID == CSR_VID || VID == ISSC_VID) && (PID == CSR_PID || PID == ISSC_PID))
     {            
         #ifdef DEBUG
         Notify(PSTR("\r\nBluetooth Dongle Connected"));
         #endif
+                
         //Needed for PS3 Dualshock Controller commands to work via bluetooth
         for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
             HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]);//First two bytes reserved for report type and ID
@@ -186,33 +188,37 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         interrupt_dcid[0] = 0x41;//0x0041
         interrupt_dcid[1] = 0x00;        
         
-        /* Initialize data structures for endpoints of device */
-        epInfo[ CSR_EVENT_PIPE ].epAddr = 0x01;    // Bluetooth event endpoint
-        epInfo[ CSR_EVENT_PIPE ].epAttribs = EP_INTERRUPT;
-        epInfo[ CSR_EVENT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ CSR_EVENT_PIPE ].maxPktSize = INT_MAXPKTSIZE;
-        epInfo[ CSR_EVENT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ CSR_EVENT_PIPE ].bmRcvToggle = bmRCVTOG0;                        
-        epInfo[ CSR_DATAIN_PIPE ].epAddr = 0x02;    // Bluetoth data endpoint
-        epInfo[ CSR_DATAIN_PIPE ].epAttribs  = EP_BULK;
-        epInfo[ CSR_DATAIN_PIPE ].bmNakPower = USB_NAK_NOWAIT;
-        epInfo[ CSR_DATAIN_PIPE ].maxPktSize = BULK_MAXPKTSIZE;
-        epInfo[ CSR_DATAIN_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ CSR_DATAIN_PIPE ].bmRcvToggle = bmRCVTOG0;
-        epInfo[ CSR_DATAOUT_PIPE ].epAddr = 0x02;    // Bluetooth data endpoint
-        epInfo[ CSR_DATAOUT_PIPE ].epAttribs  = EP_BULK;
-        epInfo[ CSR_DATAOUT_PIPE ].bmNakPower = USB_NAK_NOWAIT;        
-        epInfo[ CSR_DATAOUT_PIPE ].maxPktSize = BULK_MAXPKTSIZE;
-        epInfo[ CSR_DATAOUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ CSR_DATAOUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+        //check if attached device is a Bluetooth dongle and fill endpoint data structure
+        //first interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
+        //and 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT,
+        //not necessarily in this order
+        for (uint8_t i=0; i<num_of_conf; i++) {
+            ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
+            rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+            if( rcode ) {
+                goto FailGetConfDescr;
+            }
+            if( bNumEP > 3 ) {  //all endpoints extracted
+                break;
+            }
+        } // for (uint8_t i=0; i<num_of_conf; i++...
         
-        rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
+        if (bNumEP < PS3_MAX_ENDPOINTS) {
+            Notify(PSTR("\r\nBluetooth dongle is not supported"));
+            goto Fail;
+        }
+        
+        // Assign epInfo to epinfo pointer - this time all 3 endpoins
+        rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
         if( rcode )
-            goto FailSetDevTblEntry;
+            goto FailSetDevTblEntry;        
         
-        delay(200);//Give time for address change
+        delay(200); // Give time for address change
         
-        rcode = pUsb->setConf(bAddress, epInfo[ CSR_CONTROL_PIPE ].epAddr, bConfigurationValue);//bConfigurationValue = 0x01
+        //rcode = pUsb->setConf(bAddress, epInfo[ CSR_CONTROL_PIPE ].epAddr, bConfigurationValue);//bConfigurationValue = 0x01
+        
+        // Set Configuration Value
+        rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bConfNum);
         if( rcode ) 
             goto FailSetConf;        
         
@@ -222,12 +228,16 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         #ifdef DEBUG
         Notify(PSTR("\r\nCSR Initialized"));
         #endif
-        delay(200);
-                                                        
+                            
+        watingForConnection = false;
         bPollEnable = true;
     }            
     else if((VID == PS3_VID || VID == PS3NAVIGATION_VID || VID == PS3MOVE_VID) && (PID == PS3_PID ||  PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID))
     {                
+        /*The application will work in reduced host mode, so we can save program and data
+         memory space. After verifying the PID and VID we will use known values for the 
+         configuration values for device, interface, endpoints and HID for the PS3 Controllers */
+        
         /* Initialize data structures for endpoints of device */
         epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02;    // PS3 output endpoint
         epInfo[ PS3_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
@@ -241,8 +251,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ PS3_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0; 
-        
-        
+                
         rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
         if( rcode ) 
             goto FailSetDevTblEntry;
@@ -292,6 +301,11 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         Notify(PSTR("\r\nsetDevTblEn:"));
         #endif
         goto Fail;       
+    FailGetConfDescr:
+        #ifdef DEBUG
+        Notify(PSTR("\r\ngetConf:"));
+        #endif
+        goto Fail;
     FailSetConf:
         #ifdef DEBUG
         Notify(PSTR("\r\nsetConf:"));
@@ -313,6 +327,55 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         Release();
         return rcode;
 }
+/* Extracts interrupt-IN, bulk-IN, bulk-OUT endpoint information from config descriptor */
+void PS3BT::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) 
+{
+	//ErrorMessage<uint8_t>(PSTR("Conf.Val"),conf);
+	//ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
+	//ErrorMessage<uint8_t>(PSTR("Alt.Set"),alt);
+	
+	if(alt) // wrong interface - by BT spec, no alt setting 
+        return;
+    
+    bConfNum = conf;    
+	uint8_t index;
+    
+    if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) //Interrupt In endpoint found
+		index = BTD_EVENT_PIPE;
+
+    else {
+        if ((pep->bmAttributes & 0x02) == 2) //bulk endpoint found 
+			index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
+        else
+            return;
+    }
+    
+    //Fill the rest of endpoint data structure  
+    epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
+    epInfo[index].maxPktSize	= (uint8_t)pep->wMaxPacketSize;  
+	//PrintEndpointDescriptor(pep);    
+    if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+        pollInterval = pep->bInterval;   
+    bNumEP++;
+    return;
+}
+void PS3BT::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
+{
+	Notify(PSTR("Endpoint descriptor:"));
+	Notify(PSTR("\r\nLength:\t\t"));
+	PrintHex<uint8_t>(ep_ptr->bLength);
+	Notify(PSTR("\r\nType:\t\t"));
+	PrintHex<uint8_t>(ep_ptr->bDescriptorType);
+	Notify(PSTR("\r\nAddress:\t"));
+	PrintHex<uint8_t>(ep_ptr->bEndpointAddress);
+	Notify(PSTR("\r\nAttributes:\t"));
+	PrintHex<uint8_t>(ep_ptr->bmAttributes);
+	Notify(PSTR("\r\nMaxPktSize:\t"));
+	PrintHex<uint16_t>(ep_ptr->wMaxPacketSize);
+	Notify(PSTR("\r\nPoll Intrv:\t"));
+	PrintHex<uint8_t>(ep_ptr->bInterval);
+	Notify(PSTR("\r\n"));
+}
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t PS3BT::Release()
@@ -320,16 +383,18 @@ uint8_t PS3BT::Release()
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
 	bAddress = 0;
     bPollEnable = false;
+    bNumEP = 1; // must have to be reset to 1	
 	return 0;
 }
 uint8_t PS3BT::Poll()
 {    
 	if (!bPollEnable)
 		return 0;
-    
-    HCI_event_task(); // poll the HCI event pipe
-    ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected
-    
+    if (qNextPollTime <= millis()) { // Don't poll if shorter than polling interval
+        HCI_event_task(); // poll the HCI event pipe
+        ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected
+    }
+    qNextPollTime = millis() + pollInterval; // Poll time
 	return 0;
 }
 void PS3BT::setBdaddr(uint8_t* BDADDR)
@@ -346,7 +411,7 @@ void PS3BT::setBdaddr(uint8_t* BDADDR)
         buf[i+2] = my_bdaddr[5 - i];//Copy into buffer, has to be written reversed
 
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
-    pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);      
+    pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);      
     #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
     for(int8_t i = 5; i > 0; i--)
@@ -376,7 +441,7 @@ void PS3BT::setMoveBdaddr(uint8_t* BDADDR)
         buf[i + 1] = my_bdaddr[i];
     
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
-    pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);   
+    pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);   
     #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
     for(int8_t i = 5; i > 0; i--)
@@ -411,17 +476,13 @@ uint8_t PS3BT::getAnalogHat(AnalogHat a)
 }
 uint32_t PS3BT::getSensor(Sensor a)
 {
+    if (l2capinbuf == NULL)
+        return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
-    {
-        if (l2capinbuf == NULL)
-            return 0;
         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
-    }
     else if (a == mXmove || a == mYmove || a == mZmove)
-    {
-        //Might not be correct, haven't tested it yet
-        if (l2capinbuf == NULL)
-            return 0;
+    {        
+        // Might not be correct, haven't tested it yet
         if (a == mXmove)
             return ((l2capinbuf[(uint16_t)a + 1] << 0x04) | (l2capinbuf[(uint16_t)a] << 0x0C));
         //return (((unsigned char)l2capinbuf[(unsigned int)a + 1]) | (((unsigned char)l2capinbuf[(unsigned int)a] & 0x0F)) << 8);
@@ -442,12 +503,11 @@ uint32_t PS3BT::getSensor(Sensor a)
     }
     else
     {
-        if (l2capinbuf == NULL)
-            return 0;
+        
         return (((l2capinbuf[(uint16_t)a + 1] << 8) | l2capinbuf[(uint16_t)a]) - 0x8000);                
     }
 }
-double PS3BT::getAngle(Angle a, boolean resolution)//Boolean indicate if 360-degrees resolution is used or not - set false if you want to use both axis
+double PS3BT::getAngle(Angle a, boolean resolution) // Boolean indicate if 360-degrees resolution is used or not - set false if you want to use both axis
 {
     double accXin;
     double accXval;
@@ -592,88 +652,99 @@ void PS3BT::disconnect()//Use this void to disconnect any of the controllers
 void PS3BT::HCI_event_task()
 {
     /* check the event pipe*/    
-    uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; 
-    pUsb->inTransfer(bAddress, epInfo[ CSR_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
-    switch (hcibuf[0]) //switch on event type
+    uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
+    uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
+    if(!rcode || rcode == hrNAK) // Check for errors
     {
-        case EV_COMMAND_COMPLETE:
-            hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
-            if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10))// parameters from read local bluetooth address
-            {  
-                for (uint8_t i = 0; i < 6; i++) 
-                    my_bdaddr[i] = hcibuf[6 + i];
-            }
-            break;
+        switch (hcibuf[0]) //switch on event type
+        {
+            case EV_COMMAND_COMPLETE:
+                hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
+                if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10))// parameters from read local bluetooth address
+                {  
+                    for (uint8_t i = 0; i < 6; i++) 
+                        my_bdaddr[i] = hcibuf[6 + i];
+                }
+                break;
         
-        case EV_COMMAND_STATUS:
-            //hci_command_packets = hcibuf[3]; // update flow control
-            hci_event_flag |= HCI_FLAG_CMD_STATUS; //set status flag
-            if(hcibuf[2]) // show status on serial if not OK 
-            {    
-                #ifdef DEBUG
-                Notify(PSTR("\r\nHCI Command Failed: "));
-                PrintHex<uint8_t>(hcibuf[2]);
-                Serial.print(" "); 
-                PrintHex<uint8_t>(hcibuf[4]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(hcibuf[5]);                    
-                #endif
-            }
-            break;
+            case EV_COMMAND_STATUS:
+                if(hcibuf[2]) // show status on serial if not OK 
+                {    
+                    #ifdef DEBUG
+                    Notify(PSTR("\r\nHCI Command Failed: "));
+                    PrintHex<uint8_t>(hcibuf[2]);
+                    Serial.print(" "); 
+                    PrintHex<uint8_t>(hcibuf[4]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(hcibuf[5]);                    
+                    #endif
+                }
+                break;
         
-        case EV_CONNECT_COMPLETE:                
-            hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
-            if (!hcibuf[2]) // check if connected OK
-            { 
-                hci_handle = hcibuf[3] | hcibuf[4] << 8; //store the handle for the ACL connection
-                hci_event_flag |= HCI_FLAG_CONNECT_OK; //set connection OK flag
-            }
-            break;
+            case EV_CONNECT_COMPLETE:
+                if (!hcibuf[2]) // check if connected OK
+                { 
+                    hci_handle = hcibuf[3] | hcibuf[4] << 8; //store the handle for the ACL connection
+                    hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
+                }
+                break;
                 
-        case EV_DISCONNECT_COMPLETE:
-            hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; //set disconnect commend complete flag
-            if (!hcibuf[2]) // check if disconnected OK
-                hci_event_flag &= ~(HCI_FLAG_CONNECT_OK); //clear connection OK flag
-            break;
+            case EV_DISCONNECT_COMPLETE:            
+                if (!hcibuf[2]) // check if disconnected OK
+                {
+                    hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; //set disconnect commend complete flag
+                    hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // clear connection complete flag
+                }
+                break;
         
-        case EV_NUM_COMPLETE_PKT:
-            break;  
-        case EV_REMOTE_NAME_COMPLETE:                
-            for (uint8_t i = 0; i < 30; i++)
-                    remote_name[i] = hcibuf[9 + i];  //store first 30 bytes
-            hci_event_flag |=HCI_FLAG_REMOTE_NAME_COMPLETE;
-            break;
+            case EV_NUM_COMPLETE_PKT:
+                break;  
                 
-        case EV_INCOMING_CONNECT:
-            disc_bdaddr[0] = hcibuf[2];
-            disc_bdaddr[1] = hcibuf[3];
-            disc_bdaddr[2] = hcibuf[4];
-            disc_bdaddr[3] = hcibuf[5];
-            disc_bdaddr[4] = hcibuf[6];
-            disc_bdaddr[5] = hcibuf[7];
-            hci_event_flag |=HCI_FLAG_INCOMING_REQUEST;
-            break;
+            case EV_REMOTE_NAME_COMPLETE:
+                if (!hcibuf[2]) // check if reading is OK
+                {
+                    for (uint8_t i = 0; i < 30; i++)
+                        remote_name[i] = hcibuf[9 + i];  //store first 30 bytes
+                    hci_event_flag |= HCI_FLAG_REMOTE_NAME_COMPLETE;
+                }
+                break;
                 
-        case EV_ROLE_CHANGED:
-            /*
-            #ifdef DEBUG
-            Notify(PSTR("\r\nRole Changed"));
-            #endif
-            */
-            break;
-        default:
-            /*
-            #ifdef DEBUG
-            if(hcibuf[0] != 0x00)
-            {
-                Notify(PSTR("\r\nUnmanaged Event: "));
-                PrintHex<uint8_t>(hcibuf[0]);
-            }
-            #endif
-            */ 
-            break;    
-        } // switch
-    HCI_task();  
+            case EV_INCOMING_CONNECT:
+                disc_bdaddr[0] = hcibuf[2];
+                disc_bdaddr[1] = hcibuf[3];
+                disc_bdaddr[2] = hcibuf[4];
+                disc_bdaddr[3] = hcibuf[5];
+                disc_bdaddr[4] = hcibuf[6];
+                disc_bdaddr[5] = hcibuf[7];
+                hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
+                break;
+                
+            case EV_ROLE_CHANGED:
+                /*
+                 #ifdef DEBUG
+                 Notify(PSTR("\r\nRole Changed"));
+                 #endif
+                 */
+                break;
+                
+            default:
+                /*
+                 #ifdef DEBUG
+                 if(hcibuf[0] != 0x00)
+                 {
+                    Notify(PSTR("\r\nUnmanaged Event: "));
+                    PrintHex<uint8_t>(hcibuf[0]);
+                 }
+                 #endif
+                 */ 
+                break;    
+            } // switch
+        HCI_task();
+    }
+    else {
+        Notify(PSTR("\r\nHCI event error: "));
+        PrintHex<uint8_t>(rcode);
+    }
 }
 
 /* Poll Bluetooth and print result */
@@ -727,14 +798,16 @@ void PS3BT::HCI_task()
         case HCI_SCANNING_STATE:
             #ifdef DEBUG
             Notify(PSTR("\r\nWait For Incoming Connection Request"));
-            #endif
+            #endif            
             hci_write_scan_enable();
+            watingForConnection = true;
             hci_state = HCI_CONNECT_IN_STATE;
             break;
             
         case HCI_CONNECT_IN_STATE:
             if(hci_incoming_connect_request)
             {
+                watingForConnection = false;
                 #ifdef DEBUG
                 Notify(PSTR("\r\nIncoming Request"));                
                 #endif                
@@ -819,8 +892,8 @@ void PS3BT::HCI_task()
                 
                 for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
                     HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]);//First two bytes reserved for report type and ID    
-                for (uint8_t i = 2; i < HIDMOVEBUFFERSIZE; i++)
-                    HIDMoveBuffer[i] = 0;           
+                for (uint8_t i = 2; i < HID_BUFFERSIZE; i++)
+                    HIDMoveBuffer[i] = 0;          
                 
                 l2cap_state = L2CAP_EV_WAIT;                        
                 hci_state = HCI_SCANNING_STATE;
@@ -834,148 +907,155 @@ void PS3BT::HCI_task()
 void PS3BT::ACL_event_task()
 {  
     uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;    
-    pUsb->inTransfer(bAddress, epInfo[ CSR_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2
-    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)))//acl_handle_ok  
-    {
-        if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001)//l2cap_control - Channel ID for ACL-U                                
-        {     
-            /*
-            if (l2capinbuf[8] != 0x00)
-            {
-                Serial.print("\r\nL2CAP Signaling Command - 0x"); 
-                PrintHex<uint8_t>(l2capoutbuf[8]);                
-            }
-            */
-            if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT)       
-            {
-                #ifdef DEBUG
-                Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "));
-                PrintHex<uint8_t>(l2capinbuf[13]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(l2capinbuf[12]);
-                Serial.print(" Data: ");
-                PrintHex<uint8_t>(l2capinbuf[17]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(l2capinbuf[16]);
-                Serial.print(" ");                
-                PrintHex<uint8_t>(l2capinbuf[15]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(l2capinbuf[14]);     
-                #endif
-            }
-            else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST)
-            { 
+    uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2
+    if(!rcode || rcode == hrNAK) // Check for errors
+    {    
+        if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)))//acl_handle_ok  
+        {
+            if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001)//l2cap_control - Channel ID for ACL-U                                
+            {     
                 /*
-                Notify(PSTR("\r\nPSM: "));                
-                PrintHex<uint8_t>(l2capinbuf[13]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(l2capinbuf[12]);
-                Serial.print(" ");
-                
-                Notify(PSTR(" SCID: "));
-                PrintHex<uint8_t>(l2capinbuf[15]);
-                Serial.print(" ");
-                PrintHex<uint8_t>(l2capinbuf[14]);
-                
-                Notify(PSTR(" Identifier: "));
-                PrintHex<uint8_t>(l2capinbuf[9]);
-                */
-                if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_CTRL)
-                {                    
-                    identifier = l2capinbuf[9];
-                    control_scid[0] = l2capinbuf[14];
-                    control_scid[1] = l2capinbuf[15];
-                    l2cap_event_flag |= L2CAP_EV_CONTROL_CONNECTION_REQUEST;
-                }
-                else if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_INTR)
-                {
-                    identifier = l2capinbuf[9];
-                    interrupt_scid[0] = l2capinbuf[14];
-                    interrupt_scid[1] = l2capinbuf[15];
-                    l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONNECTION_REQUEST;                                        
-                }
-            }
-            else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE)
-            {
-                if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
-                {
-                    if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000)//Success
-                    {
-                        //Serial.print("\r\nHID Control Configuration Complete");
-                        l2cap_event_flag |= L2CAP_EV_CONTROL_CONFIG_SUCCESS;
-                    }
-                }
-                else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])
-                {
-                    if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000)//Success
-                    {
-                        //Serial.print("\r\nHID Interrupt Configuration Complete");
-                        l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONFIG_SUCCESS;
-                    }
-                }
-            }
-            else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST)                
-            {
-                if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
-                {
-                    //Serial.print("\r\nHID Control Configuration Request");
-                    identifier = l2capinbuf[9]; 
-                    l2cap_event_flag |= L2CAP_EV_CONTROL_CONFIG_REQUEST;          
-                }
-                else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])
-                {
-                    //Serial.print("\r\nHID Interrupt Configuration Request");
-                    identifier = l2capinbuf[9];
-                    l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONFIG_REQUEST;          
-                }
-            }                                    
-            else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST)
-            {
-                if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
+                 if (l2capinbuf[8] != 0x00)
+                 {
+                    Serial.print("\r\nL2CAP Signaling Command - 0x"); 
+                    PrintHex<uint8_t>(l2capoutbuf[8]);                
+                 }
+                 */
+                if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT)       
                 {
                     #ifdef DEBUG
-                    Notify(PSTR("\r\nDisconnected Request: Disconnected Control"));
+                    Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "));
+                    PrintHex<uint8_t>(l2capinbuf[13]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(l2capinbuf[12]);
+                    Serial.print(" Data: ");
+                    PrintHex<uint8_t>(l2capinbuf[17]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(l2capinbuf[16]);
+                    Serial.print(" ");                
+                    PrintHex<uint8_t>(l2capinbuf[15]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(l2capinbuf[14]);     
                     #endif
-                    identifier = l2capinbuf[9];
-                    l2cap_disconnection_response(identifier,control_dcid,control_scid);
                 }
-                else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])  
+                else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST)
+                { 
+                    /*
+                     Notify(PSTR("\r\nPSM: "));                
+                     PrintHex<uint8_t>(l2capinbuf[13]);
+                     Serial.print(" ");
+                     PrintHex<uint8_t>(l2capinbuf[12]);
+                     Serial.print(" ");
+                
+                     Notify(PSTR(" SCID: "));
+                     PrintHex<uint8_t>(l2capinbuf[15]);
+                     Serial.print(" ");
+                     PrintHex<uint8_t>(l2capinbuf[14]);
+                
+                     Notify(PSTR(" Identifier: "));
+                     PrintHex<uint8_t>(l2capinbuf[9]);
+                     */
+                    if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_CTRL)
+                    {                    
+                        identifier = l2capinbuf[9];
+                        control_scid[0] = l2capinbuf[14];
+                        control_scid[1] = l2capinbuf[15];
+                        l2cap_event_flag |= L2CAP_EV_CONTROL_CONNECTION_REQUEST;
+                    }
+                    else if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_INTR)
+                    {
+                        identifier = l2capinbuf[9];
+                        interrupt_scid[0] = l2capinbuf[14];
+                        interrupt_scid[1] = l2capinbuf[15];
+                        l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONNECTION_REQUEST;                                        
+                    }
+                }
+                else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE)
                 {
-                    #ifdef DEBUG
-                    Notify(PSTR("\r\nDisconnected Request: Disconnected Interrupt"));                
-                    #endif
-                    identifier = l2capinbuf[9];
-                    l2cap_disconnection_response(identifier,interrupt_dcid,interrupt_scid);
+                    if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
+                    {
+                        if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000)//Success
+                        {
+                            //Serial.print("\r\nHID Control Configuration Complete");
+                            l2cap_event_flag |= L2CAP_EV_CONTROL_CONFIG_SUCCESS;
+                        }
+                    }
+                    else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])
+                    {
+                        if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000)//Success
+                        {
+                            //Serial.print("\r\nHID Interrupt Configuration Complete");
+                            l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONFIG_SUCCESS;
+                        }
+                    }
+                }
+                else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST)                
+                {
+                    if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
+                    {
+                        //Serial.print("\r\nHID Control Configuration Request");
+                        identifier = l2capinbuf[9]; 
+                        l2cap_event_flag |= L2CAP_EV_CONTROL_CONFIG_REQUEST;          
+                    }
+                    else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])
+                    {
+                        //Serial.print("\r\nHID Interrupt Configuration Request");
+                        identifier = l2capinbuf[9];
+                        l2cap_event_flag |= L2CAP_EV_INTERRUPT_CONFIG_REQUEST;          
+                    }
+                }                                    
+                else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST)
+                {
+                    if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
+                    {
+                        #ifdef DEBUG
+                        Notify(PSTR("\r\nDisconnected Request: Disconnected Control"));
+                        #endif
+                        identifier = l2capinbuf[9];
+                        l2cap_disconnection_response(identifier,control_dcid,control_scid);
+                    }
+                    else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])  
+                    {
+                        #ifdef DEBUG
+                        Notify(PSTR("\r\nDisconnected Request: Disconnected Interrupt"));                
+                        #endif
+                        identifier = l2capinbuf[9];
+                        l2cap_disconnection_response(identifier,interrupt_dcid,interrupt_scid);
+                    }
+                }
+                else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE)
+                {
+                    if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1])
+                    {                                        
+                        //Serial.print("\r\nDisconnected Response: Disconnected Control");
+                        identifier = l2capinbuf[9];
+                        l2cap_event_flag |= L2CAP_EV_CONTROL_DISCONNECT_RESPONSE;
+                    }
+                    else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1])
+                    {                                        
+                        //Serial.print("\r\nDisconnected Response: Disconnected Interrupt");
+                        identifier = l2capinbuf[9];
+                        l2cap_event_flag |= L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE;                                        
+                    }
+                }                                     
+            }
+            else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1])//l2cap_interrupt
+            {                                
+                //Serial.print("\r\nL2CAP Interrupt");  
+                if(PS3BTConnected || PS3MoveBTConnected || PS3NavigationBTConnected)
+                {
+                    readReport();
+                    #ifdef PRINTREPORT
+                    printReport(); //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
+                    #endif 
                 }
             }
-            else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE)
-            {
-                if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1])
-                {                                        
-                    //Serial.print("\r\nDisconnected Response: Disconnected Control");
-                    identifier = l2capinbuf[9];
-                    l2cap_event_flag |= L2CAP_EV_CONTROL_DISCONNECT_RESPONSE;
-                }
-                else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1])
-                {                                        
-                    //Serial.print("\r\nDisconnected Response: Disconnected Interrupt");
-                    identifier = l2capinbuf[9];
-                    l2cap_event_flag |= L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE;                                        
-                }
-            }                                     
-        }                                
-        else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1])//l2cap_interrupt
-        {                                
-            //Serial.print("\r\nL2CAP Interrupt");  
-            if(PS3BTConnected || PS3MoveBTConnected || PS3NavigationBTConnected)
-            {
-                readReport();
-                #ifdef PRINTREPORT
-                printReport(); //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
-                #endif 
-            }
-        }
-        L2CAP_task();
+            L2CAP_task();
+        }        
+    }
+    else {
+        Notify(PSTR("\r\nACL data in error: "));
+        PrintHex<uint8_t>(rcode);
     }
 }
 void PS3BT::L2CAP_task()
@@ -1110,7 +1190,7 @@ void PS3BT::L2CAP_task()
                 dtimeBulbRumble = millis() - timerBulbRumble;
                 if (dtimeBulbRumble > 4000)//Send at least every 4th second
                 {
-                    HIDMove_Command(HIDMoveBuffer, HIDMOVEBUFFERSIZE);//The Bulb and rumble values, has to be written again and again, for it to stay turned on
+                    HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);//The Bulb and rumble values, has to be written again and again, for it to stay turned on
                     timerBulbRumble = millis();
                 }
             }
@@ -1159,17 +1239,21 @@ void PS3BT::readReport()
         
         if(ButtonState != OldButtonState)
         {
-            ButtonChanged = true;            
-            if(ButtonState != 0x00)
-                ButtonPressed = true; 
-            else
-                ButtonPressed = false;
+            buttonChanged = true;            
+            if(ButtonState != 0x00) {
+                buttonPressed = true; 
+                buttonReleased = false;
+            } else {
+                buttonPressed = false;
+                buttonReleased = true;
+            }
         }
             
         else
         {
-            ButtonChanged = false;
-            ButtonPressed = false;
+            buttonChanged = false;
+            buttonPressed = false;
+            buttonReleased = false;
         }
                     
         OldButtonState = ButtonState; 
@@ -1197,7 +1281,7 @@ void PS3BT::printReport() //Uncomment "#define PRINTREPORT" to print the report 
 void PS3BT::HCI_Command(uint8_t* data, uint16_t nbytes) 
 {
     hci_event_flag &= ~HCI_FLAG_CMD_COMPLETE;
-    pUsb->ctrlReq(bAddress, epInfo[ CSR_CONTROL_PIPE ].epAddr, bmREQ_HCI_OUT, 0x00, 0x00, 0x00 ,0x00, nbytes, nbytes, data, NULL);    
+    pUsb->ctrlReq(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bmREQ_HCI_OUT, 0x00, 0x00, 0x00 ,0x00, nbytes, nbytes, data, NULL);    
 }
 
 void PS3BT::hci_reset()
@@ -1210,6 +1294,7 @@ void PS3BT::hci_reset()
 }
 void PS3BT::hci_write_scan_enable()
 {
+    hci_event_flag &= ~HCI_FLAG_INCOMING_REQUEST;
     hcibuf[0] = 0x1A; // HCI OCF = 1A
     hcibuf[1] = 0x03 << 2; // HCI OGF = 3
     hcibuf[2] = 0x01;// parameter length = 1
@@ -1232,10 +1317,7 @@ void PS3BT::hci_read_bdaddr()
     HCI_Command(hcibuf, 3);
 }
 void PS3BT::hci_accept_connection()
-{
-    hci_event_flag |= HCI_FLAG_CONNECT_OK;
-    hci_event_flag &= ~(HCI_FLAG_INCOMING_REQUEST);
-    
+{    
     hcibuf[0] = 0x09; // HCI OCF = 9
     hcibuf[1] = 0x01 << 2; // HCI OGF = 1
     hcibuf[2] = 0x07; // parameter length 7
@@ -1251,7 +1333,7 @@ void PS3BT::hci_accept_connection()
 }
 void PS3BT::hci_remote_name()
 {
-    hci_event_flag &= ~(HCI_FLAG_REMOTE_NAME_COMPLETE);
+    hci_event_flag &= ~HCI_FLAG_REMOTE_NAME_COMPLETE;
     hcibuf[0] = 0x19; // HCI OCF = 19
     hcibuf[1] = 0x01 << 2; // HCI OGF = 1
     hcibuf[2] = 0x0A; // parameter length = 10
@@ -1298,7 +1380,7 @@ void PS3BT::L2CAP_Command(uint8_t* data, uint16_t nbytes)
     for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame
         buf[8 + i] = data[i];        
         
-    uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ CSR_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
+    uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     if(rcode)
     {
         #ifdef DEBUG
@@ -1319,7 +1401,7 @@ void PS3BT::l2cap_connection_response(uint8_t rxid, uint8_t dcid[], uint8_t scid
     l2capoutbuf[7] = scid[1];
     l2capoutbuf[8] = result;// Result: Pending or Success
     l2capoutbuf[9] = 0x00;
-    l2capoutbuf[10] = 0x00;//No further information
+    l2capoutbuf[10] = 0x00;// No further information
     l2capoutbuf[11] = 0x00;
     
     L2CAP_Command(l2capoutbuf, 12);            
@@ -1432,7 +1514,7 @@ void PS3BT::HID_Command(uint8_t* data, uint16_t nbytes)
     if (dtimeHID <= 250)// Check if is has been more than 250ms since last command                
         delay((uint32_t)(250 - dtimeHID));//There have to be a delay between commands
     
-    pUsb->outTransfer(bAddress, epInfo[ CSR_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
+    pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     
     timerHID = millis();
 }
@@ -1441,7 +1523,7 @@ void PS3BT::setAllOff()
     for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
         HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]);//First two bytes reserved for report type and ID
     
-    HID_Command(HIDBuffer, OUTPUT_REPORT_BUFFER_SIZE + 2);
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setRumbleOff()
 {
@@ -1450,7 +1532,7 @@ void PS3BT::setRumbleOff()
     HIDBuffer[5] = 0x00;
     HIDBuffer[6] = 0x00;//high mode off
     
-    HID_Command(HIDBuffer, OUTPUT_REPORT_BUFFER_SIZE + 2);
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setRumbleOn(Rumble mode)
 {
@@ -1476,7 +1558,7 @@ void PS3BT::setRumbleOn(Rumble mode)
             HIDBuffer[6] = 0;//high mode off
         }
         
-        HID_Command(HIDBuffer, OUTPUT_REPORT_BUFFER_SIZE + 2);
+        HID_Command(HIDBuffer, HID_BUFFERSIZE);
     }
 }
 void PS3BT::setLedOff(LED a)
@@ -1487,18 +1569,18 @@ void PS3BT::setLedOff(LED a)
         //set the LED into the write buffer
         HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) ^ HIDBuffer[11]);
         
-        HID_Command(HIDBuffer, OUTPUT_REPORT_BUFFER_SIZE + 2);
+        HID_Command(HIDBuffer, HID_BUFFERSIZE);
     }            
 }
 void PS3BT::setLedOn(LED a)
 {
     HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) | HIDBuffer[11]);
     
-    HID_Command(HIDBuffer, OUTPUT_REPORT_BUFFER_SIZE + 2);            
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);            
 }
 void PS3BT::enable_sixaxis()//Command used to enable the Dualshock 3 and Navigation controller to send data via USB
 {
-    uint8_t cmd_buf[12];
+    uint8_t cmd_buf[6];
     cmd_buf[0] = 0x53;// HID BT Set_report (0x50) | Report Type (Feature 0x03)
     cmd_buf[1] = 0xF4;// Report ID
     cmd_buf[2] = 0x42;// Special PS3 Controller enable commands
@@ -1530,7 +1612,7 @@ void PS3BT::HIDMove_Command(uint8_t* data,uint16_t nbytes)
     if (dtimeHID <= 250)// Check if is has been less than 200ms since last command                            
         delay((uint32_t)(250 - dtimeHID));//There have to be a delay between commands
     
-    pUsb->outTransfer(bAddress, epInfo[ CSR_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
+    pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     
     timerHID = millis();
 }
@@ -1541,7 +1623,7 @@ void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b)//Use this to set the Co
     HIDMoveBuffer[4] = g;
     HIDMoveBuffer[5] = b;
     
-    HIDMove_Command(HIDMoveBuffer, HIDMOVEBUFFERSIZE);   
+    HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);   
 }
 void PS3BT::moveSetBulb(Colors color)//Use this to set the Color using the predefined colors in "enums.h"
 {
@@ -1550,12 +1632,12 @@ void PS3BT::moveSetBulb(Colors color)//Use this to set the Color using the prede
     HIDMoveBuffer[4] = (uint8_t)(color >> 8);
     HIDMoveBuffer[5] = (uint8_t)(color);  
     
-    HIDMove_Command(HIDMoveBuffer, HIDMOVEBUFFERSIZE);
+    HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::moveSetRumble(uint8_t rumble)
 {
     //set the rumble value into the write buffer
     HIDMoveBuffer[7] = rumble;
     
-    HIDMove_Command(HIDMoveBuffer, HIDMOVEBUFFERSIZE);            
+    HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);            
 }

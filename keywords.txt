@@ -34,8 +34,11 @@ moveSetRumble	KEYWORD2
 PS3BTConnected	KEYWORD2
 PS3MoveBTConnected	KEYWORD2
 PS3NavigationBTConnected	KEYWORD2
-ButtonChanged	KEYWORD2
-ButtonPressed	KEYWORD2
+buttonChanged	KEYWORD2
+buttonPressed	KEYWORD2
+buttonReleased	KEYWORD2
+
+isWatingForConnection	KEYWORD2
 
 ################################################
 # Constants and enums (LITERAL1)
