@@ -17,6 +17,7 @@
 
 #include "PS3BT.h"
 #define DEBUG // Uncomment to print data for debugging
+//#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
 const uint8_t PS3BT::BTD_EVENT_PIPE  = 1;			
@@ -74,9 +75,9 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
     
     // get memory address of USB device address pool
 	AddressPool	&addrPool = pUsb->GetAddressPool();    
-    
-	//Notify(PSTR("\r\nPS3BT Init");
-    
+    #ifdef EXTRADEBUG
+	Notify(PSTR("\r\nPS3BT Init"));
+    #endif
     // check if address has already been assigned to an instance
     if (bAddress) 
     {
@@ -144,9 +145,10 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         PrintHex<uint8_t>(rcode);
         return rcode;
     }
-    //Notify(PSTR("\r\nAddr: "));
-    //PrintHex<uint8_t>(bAddress);
-    
+    #ifdef EXTRADEBUG
+    Notify(PSTR("\r\nAddr: "));
+    PrintHex<uint8_t>(bAddress);
+    #endif
     p->lowspeed = false;
     
     //get pointer to assigned address record
@@ -202,7 +204,9 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         } // for (uint8_t i=0; i<num_of_conf; i++...
         
         if (bNumEP < PS3_MAX_ENDPOINTS) {
+            #ifdef DEBUG
             Notify(PSTR("\r\nBluetooth dongle is not supported"));
+            #endif
             goto Fail;
         }
         
@@ -253,8 +257,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
             goto FailSetDevTblEntry;
         
         delay(200);//Give time for address change
-        
-        
+                
         rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, 1);
         if( rcode ) 
             goto FailSetConf;
@@ -349,7 +352,9 @@ void PS3BT::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t pro
     //Fill the rest of endpoint data structure  
     epInfo[index].epAddr		= (pep->bEndpointAddress & 0x0F);
     epInfo[index].maxPktSize	= (uint8_t)pep->wMaxPacketSize;  
-	//PrintEndpointDescriptor(pep);    
+	#ifdef EXTRADEBUG
+    PrintEndpointDescriptor(pep);    
+    #endif
     if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
         pollInterval = pep->bInterval;   
     bNumEP++;
@@ -357,7 +362,7 @@ void PS3BT::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t pro
 }
 void PS3BT::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 {
-	Notify(PSTR("Endpoint descriptor:"));
+	Notify(PSTR("\r\nEndpoint descriptor:"));
 	Notify(PSTR("\r\nLength:\t\t"));
 	PrintHex<uint8_t>(ep_ptr->bLength);
 	Notify(PSTR("\r\nType:\t\t"));
@@ -370,7 +375,6 @@ void PS3BT::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 	PrintHex<uint16_t>(ep_ptr->wMaxPacketSize);
 	Notify(PSTR("\r\nPoll Intrv:\t"));
 	PrintHex<uint8_t>(ep_ptr->bInterval);
-	Notify(PSTR("\r\n"));
 }
 
 /* Performs a cleanup after failed Init() attempt */
@@ -715,31 +719,42 @@ void PS3BT::HCI_event_task()
                 hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
                 break;
                 
+            /* We will just ignore the following events */    
             case EV_ROLE_CHANGED:
-                /*
-                 #ifdef DEBUG
-                 Notify(PSTR("\r\nRole Changed"));
-                 #endif
-                 */
+                break;
+                
+            case EV_PAGE_SCAN_REP_MODE:
+                break;
+            
+            case EV_LOOPBACK_COMMAND:
+                break;
+            
+            case EV_DATA_BUFFER_OVERFLOW:
+                break;
+                
+            case EV_CHANGE_CONNECTION_LINK:
+                break;
+            
+            case EV_AUTHENTICATION_COMPLETE:
                 break;
                 
             default:
-                /*
-                 #ifdef DEBUG
+                 #ifdef EXTRADEBUG
                  if(hcibuf[0] != 0x00)
                  {
                     Notify(PSTR("\r\nUnmanaged Event: "));
                     PrintHex<uint8_t>(hcibuf[0]);
                  }
                  #endif
-                 */ 
                 break;    
             } // switch
         HCI_task();
     }
     else {
+        #ifdef EXTRADEBUG
         Notify(PSTR("\r\nHCI event error: "));
         PrintHex<uint8_t>(rcode);
+        #endif
     }
 }
 
@@ -841,7 +856,7 @@ void PS3BT::HCI_task()
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
                 #endif
-                hci_write_scan_disable();//Only allow one controller
+                hci_write_scan_disable(); // Only allow one controller
                 hci_state = HCI_DISABLE_SCAN;
             }
             break;
@@ -875,8 +890,8 @@ void PS3BT::HCI_task()
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
                 #endif
-                l2cap_event_flag = 0;//Clear all flags
-                hci_event_flag = 0;//Clear all flags 
+                l2cap_event_flag = 0; // Clear all flags
+                hci_event_flag = 0; // Clear all flags 
                 
                 //Reset all buffers                        
                 for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
@@ -887,9 +902,9 @@ void PS3BT::HCI_task()
                     l2capoutbuf[i] = 0;   
                 
                 for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
-                    HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]);//First two bytes reserved for report type and ID    
-                for (uint8_t i = 2; i < HID_BUFFERSIZE; i++)
-                    HIDMoveBuffer[i] = 0;          
+                    HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID    
+                for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
+                    HIDMoveBuffer[i + 2] = 0; // First two bytes reserved for report type and ID    
                 
                 l2cap_state = L2CAP_EV_WAIT;                        
                 hci_state = HCI_SCANNING_STATE;
@@ -909,14 +924,14 @@ void PS3BT::ACL_event_task()
         if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)))//acl_handle_ok  
         {
             if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001)//l2cap_control - Channel ID for ACL-U                                
-            {     
+            {                    
                 /*
-                 if (l2capinbuf[8] != 0x00)
-                 {
+                if (l2capinbuf[8] != 0x00)
+                {
                     Serial.print("\r\nL2CAP Signaling Command - 0x"); 
                     PrintHex<uint8_t>(l2capoutbuf[8]);                
                  }
-                 */
+                */
                 if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT)       
                 {
                     #ifdef DEBUG
@@ -937,20 +952,20 @@ void PS3BT::ACL_event_task()
                 else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST)
                 { 
                     /*
-                     Notify(PSTR("\r\nPSM: "));                
-                     PrintHex<uint8_t>(l2capinbuf[13]);
-                     Serial.print(" ");
-                     PrintHex<uint8_t>(l2capinbuf[12]);
-                     Serial.print(" ");
+                    Notify(PSTR("\r\nL2CAP Connection Request - PSM: "));                
+                    PrintHex<uint8_t>(l2capinbuf[13]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(l2capinbuf[12]);
+                    Serial.print(" ");
                 
-                     Notify(PSTR(" SCID: "));
-                     PrintHex<uint8_t>(l2capinbuf[15]);
-                     Serial.print(" ");
-                     PrintHex<uint8_t>(l2capinbuf[14]);
+                    Notify(PSTR(" SCID: "));
+                    PrintHex<uint8_t>(l2capinbuf[15]);
+                    Serial.print(" ");
+                    PrintHex<uint8_t>(l2capinbuf[14]);
                 
-                     Notify(PSTR(" Identifier: "));
-                     PrintHex<uint8_t>(l2capinbuf[9]);
-                     */
+                    Notify(PSTR(" Identifier: "));
+                    PrintHex<uint8_t>(l2capinbuf[9]);
+                    */
                     if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_CTRL)
                     {                    
                         identifier = l2capinbuf[9];
@@ -1050,8 +1065,10 @@ void PS3BT::ACL_event_task()
         }        
     }
     else {
+        #ifdef EXTRADEBUG
         Notify(PSTR("\r\nACL data in error: "));
         PrintHex<uint8_t>(rcode);
+        #endif
     }
 }
 void PS3BT::L2CAP_task()

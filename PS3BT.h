@@ -101,6 +101,11 @@
 #define EV_REMOTE_NAME_COMPLETE     0x07
 #define EV_INCOMING_CONNECT         0x04
 #define EV_ROLE_CHANGED             0x12
+#define EV_PAGE_SCAN_REP_MODE       0x20
+#define EV_DATA_BUFFER_OVERFLOW     0x1A
+#define EV_LOOPBACK_COMMAND         0x19
+#define EV_CHANGE_CONNECTION_LINK   0x09
+#define EV_AUTHENTICATION_COMPLETE  0x06
 
 /* Bluetooth L2CAP states for L2CAP_task() */
 #define L2CAP_EV_WAIT                   0
