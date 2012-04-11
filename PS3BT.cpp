@@ -195,12 +195,10 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         for (uint8_t i=0; i<num_of_conf; i++) {
             ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
             rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
-            if( rcode ) {
+            if(rcode)
                 goto FailGetConfDescr;
-            }
-            if( bNumEP > 3 ) {  //all endpoints extracted
+            if( bNumEP > 3 ) //all endpoints extracted
                 break;
-            }
         } // for (uint8_t i=0; i<num_of_conf; i++...
         
         if (bNumEP < PS3_MAX_ENDPOINTS) {
@@ -213,9 +211,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         if( rcode )
             goto FailSetDevTblEntry;        
         
-        delay(200); // Give time for address change
-        
-        //rcode = pUsb->setConf(bAddress, epInfo[ CSR_CONTROL_PIPE ].epAddr, bConfigurationValue);//bConfigurationValue = 0x01
+        delay(200); // Give time for address change        
         
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bConfNum);
@@ -259,7 +255,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         delay(200);//Give time for address change
         
         
-        rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, bConfigurationValue);//bConfigurationValue = 0x01
+        rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, 1);
         if( rcode ) 
             goto FailSetConf;
         
@@ -1134,9 +1130,7 @@ void PS3BT::L2CAP_task()
                 l2cap_state = L2CAP_EV_HID_ENABLE_SIXAXIS;
             }
             break;
-        case L2CAP_EV_HID_ENABLE_SIXAXIS:               
-            delay(1000);//There has to be a delay before sending the commands
-            
+        case L2CAP_EV_HID_ENABLE_SIXAXIS:                                       
             for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)//Reset l2cap in buffer as it sometimes read it as a button has been pressed
                 l2capinbuf[i] = 0;
             ButtonState = 0;
@@ -1144,6 +1138,7 @@ void PS3BT::L2CAP_task()
             
             if (remote_name[0] == 'P')//First letter in PLAYSTATION(R)3 Controller ('P') - 0x50
             {
+                delay(1000);//There has to be a delay before sending the commands
                 enable_sixaxis();
                 
                 for (uint8_t i = 15; i < 19; i++)
@@ -1158,6 +1153,7 @@ void PS3BT::L2CAP_task()
             }
             else if (remote_name[0] == 'N')//First letter in Navigation Controller ('N') - 0x4E
             {
+                delay(1000);//There has to be a delay before sending the commands
                 enable_sixaxis();
                 
                 for (uint8_t i = 15; i < 19; i++)

@@ -152,8 +152,6 @@
 #define PENDING     0x01
 #define SUCCESSFUL  0x00
 
-#define bConfigurationValue 0x01 // Used to set configuration
-
 #define PS3_MAX_ENDPOINTS   4
 #define WI_SUBCLASS_RF      0x01
 #define WI_PROTOCOL_BT      0x01
