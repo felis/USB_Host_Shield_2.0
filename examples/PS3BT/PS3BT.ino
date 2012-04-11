@@ -58,7 +58,7 @@ void loop()
       Serial.println("");
     }
 
-    if(BT.ButtonPressed)     
+    if(BT.buttonPressed)     
     {
       Serial.print(F("PS3 Controller"));
 
@@ -96,7 +96,7 @@ void loop()
         if(BT.getButton(L1))
           Serial.print(F(" - L1"));  
         //if(BT.getButton(L2))
-        //Serial.print(F(" - L2"));            
+        //Serial.print(F(" - L2"));
         if(BT.getButton(L3))
           Serial.print(F(" - L3")); 
         if(BT.getButton(R1))
@@ -121,7 +121,7 @@ void loop()
     if(BT.getAnalogButton(T_MOVE_ANALOG) > 0) {
       Serial.print(F("T: ")); 
       Serial.println(BT.getAnalogButton(T_MOVE_ANALOG), DEC); 
-    } if(BT.ButtonPressed) {
+    } if(BT.buttonPressed) {
       Serial.print(F("PS3 Move Controller"));
 
       if(BT.getButton(PS_MOVE)) {
