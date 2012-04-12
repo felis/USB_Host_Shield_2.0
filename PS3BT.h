@@ -44,14 +44,10 @@
 
 //PID and VID of the different devices
 #define CSR_VID             0x0A12  // Cambridge Silicon Radio Ltd.
-#define CSR_PID             0x0001  // Bluetooth HCI Device 
-#define ISSC_VID            0x1131  // Integrated System Solution Corp.
-#define ISSC_PID            0x1004  // Bluetooth Device
+#define CSR_PID             0x0001  // Bluetooth HCI Device
 #define PS3_VID             0x054C  // Sony Corporation
 #define PS3_PID             0x0268  // PS3 Controller DualShock 3
-#define PS3NAVIGATION_VID   0x054C  // Sony Corporation
 #define PS3NAVIGATION_PID   0x042F  // Navigation controller
-#define PS3MOVE_VID         0x054C  // Sony Corporation
 #define PS3MOVE_PID         0x03D5  // Motion controller
 
 #define HID_BUFFERSIZE              50 // size of the buffer for the Playstation Motion Controller
@@ -157,9 +153,11 @@
 #define PENDING     0x01
 #define SUCCESSFUL  0x00
 
-#define PS3_MAX_ENDPOINTS   4
+// Used to determine if it is a Bluetooth dongle
 #define WI_SUBCLASS_RF      0x01
 #define WI_PROTOCOL_BT      0x01
+
+#define PS3_MAX_ENDPOINTS   4
 
 enum LED
 {
@@ -319,6 +317,7 @@ enum Rumble
 class PS3BT : public USBDeviceConfig, public UsbConfigXtracter
 {
 public:            
+    PS3BT(USB *pUsb, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0);
     PS3BT(USB *pUsb);
     
     // USBDeviceConfig implementation
@@ -332,7 +331,7 @@ public:
 	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep); 
     
     bool isWatingForConnection() { return watingForConnection; }; // Use this to indicate when it is ready for a incoming connection
-        
+    
     void setBdaddr(uint8_t* BDADDR);
     void setMoveBdaddr(uint8_t* BDADDR);
     
@@ -395,6 +394,7 @@ private:
     /* variables used by high level HCI task */    
     uint8_t hci_state;  //current state of bluetooth hci connection
     uint16_t  hci_counter; // counter used for bluetooth hci reset loops
+    uint8_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
     uint16_t  hci_event_flag;// hci flags of received bluetooth events
     
     /* variables used by high level L2CAP task */    
