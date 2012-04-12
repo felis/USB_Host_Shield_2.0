@@ -12,7 +12,7 @@ ADK adk(&Usb,"TKJElectronics", // Manufacturer Name
              "http://www.tkjelectronics.dk/uploads/ArduinoBlinkLED.apk", // URL (web page to visit if no installed apps support the accessory)
              "123456789"); // Serial Number (optional)
 
-#define LED_RED 13 // Pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
+#define LED 13 // Pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
 
 void setup()
 {
@@ -22,7 +22,7 @@ void setup()
     Serial.print("\r\nOSCOKIRQ failed to assert");
     while(1); //halt
   }
-  pinMode(LED_RED, OUTPUT);
+  pinMode(LED, OUTPUT);
 }
 
 void loop()
@@ -37,10 +37,9 @@ void loop()
     if(len > 0) {
       Serial.print(F("\r\nData Packet: "));
       Serial.print(msg[0]);
-      digitalWrite(LED_RED,msg[0] ? HIGH : LOW);
+      digitalWrite(LED,msg[0] ? HIGH : LOW);
     }
   } 
   else
-    digitalWrite(LED_RED, LOW);  
-  delay(10);       
+    digitalWrite(LED, LOW); 
 }
