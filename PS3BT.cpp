@@ -265,17 +265,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bConfNum);
         if(rcode) 
-            goto FailSetConf;  
-        
-        if(VID == CSR_VID && PID == CSR_PID) {
-            if((uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice < 0x1915) { // I don't know the exact number, plese let me know if you do
-                #ifdef DEBUG
-                Notify(PSTR("\r\nYour dongle may not support reading the analog buttons, sensors and status\r\nYour Revision ID is: 0x"));
-                PrintHex<uint16_t>((uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice);
-                Notify(PSTR("\r\nBut should be at least 0x1915\r\nThis usually means that it doesn't support Bluetooth Version 2.0+EDR"));
-                #endif
-            }            
-        }
+            goto FailSetConf;        
         
         //Needed for PS3 Dualshock Controller commands to work via bluetooth
         for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
@@ -948,12 +938,12 @@ void PS3BT::ACL_event_task()
             if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001)//l2cap_control - Channel ID for ACL-U                                
             {
                 /*
-                if (l2capinbuf[8] != 0x00)
-                {
-                    Serial.print("\r\nL2CAP Signaling Command - 0x"); 
-                    PrintHex<uint8_t>(l2capoutbuf[8]);                
-                }
-                */
+                 if (l2capinbuf[8] != 0x00)
+                 {
+                 Serial.print("\r\nL2CAP Signaling Command - 0x"); 
+                 PrintHex<uint8_t>(l2capoutbuf[8]);                
+                 }
+                 */
                 if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT)       
                 {
                     #ifdef DEBUG
@@ -974,20 +964,20 @@ void PS3BT::ACL_event_task()
                 else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST)
                 {                    
                     /*
-                    Notify(PSTR("\r\nL2CAP Connection Request - PSM: "));                
-                    PrintHex<uint8_t>(l2capinbuf[13]);
-                    Serial.print(" ");
-                    PrintHex<uint8_t>(l2capinbuf[12]);
-                    Serial.print(" ");
+                     Notify(PSTR("\r\nL2CAP Connection Request - PSM: "));                
+                     PrintHex<uint8_t>(l2capinbuf[13]);
+                     Serial.print(" ");
+                     PrintHex<uint8_t>(l2capinbuf[12]);
+                     Serial.print(" ");
                      
-                    Notify(PSTR(" SCID: "));
-                    PrintHex<uint8_t>(l2capinbuf[15]);
-                    Serial.print(" ");
-                    PrintHex<uint8_t>(l2capinbuf[14]);
+                     Notify(PSTR(" SCID: "));
+                     PrintHex<uint8_t>(l2capinbuf[15]);
+                     Serial.print(" ");
+                     PrintHex<uint8_t>(l2capinbuf[14]);
                      
-                    Notify(PSTR(" Identifier: "));
-                    PrintHex<uint8_t>(l2capinbuf[9]);
-                    */
+                     Notify(PSTR(" Identifier: "));
+                     PrintHex<uint8_t>(l2capinbuf[9]);
+                     */
                     if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_CTRL)
                     {                    
                         identifier = l2capinbuf[9];
@@ -1165,58 +1155,58 @@ void PS3BT::L2CAP_task()
             {
                 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"));
-                #endif
-                l2cap_state = L2CAP_EV_HID_ENABLE_SIXAXIS;
+                #endif                
+                if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')      
+                    for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
+                        l2capinbuf[i] = 0;
+                    ButtonState = 0;
+                    OldButtonState = 0;       
+                                        
+                    l2cap_state = L2CAP_EV_HID_PS3_LED;
+                } else
+                   l2cap_state = L2CAP_EV_HID_ENABLE_SIXAXIS;
+                timer = millis();
             }
             break;
-        case L2CAP_EV_HID_ENABLE_SIXAXIS:                                       
-            for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)//Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                l2capinbuf[i] = 0;
-            ButtonState = 0;
-            OldButtonState = 0;
+        case L2CAP_EV_HID_ENABLE_SIXAXIS:
+            if(millis() - timer > 1000) { // loop 1 second before sending the command
+                for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
+                    l2capinbuf[i] = 0;
+                ButtonState = 0;
+                OldButtonState = 0;
+                
+                enable_sixaxis();                
+                for (uint8_t i = 15; i < 19; i++)
+                    l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position                    
+                l2cap_state = L2CAP_EV_HID_PS3_LED;
+                timer = millis();
+            }
+            break;
             
-            if (remote_name[0] == 'P')//First letter in PLAYSTATION(R)3 Controller ('P') - 0x50
-            {
-                delay(1000);//There has to be a delay before sending the commands
-                enable_sixaxis();
-                
-                for (uint8_t i = 15; i < 19; i++)
-                    l2capinbuf[i] = 0x7F;//Set the analog joystick values to center position
-                
-                delay(1000);//There has to be a delay before data can be read
-                setLedOn(LED1);
-                #ifdef DEBUG
-                Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"));
-                #endif
-                PS3BTConnected = true;
-            }
-            else if (remote_name[0] == 'N')//First letter in Navigation Controller ('N') - 0x4E
-            {
-                delay(1000);//There has to be a delay before sending the commands
-                enable_sixaxis();
-                
-                for (uint8_t i = 15; i < 19; i++)
-                    l2capinbuf[i] = 0x7F;//Set the analog joystick values to center
-                
-                delay(1000);//There has to be a delay before data can be read
-                setLedOn(LED1);//This just turns LED constantly on, on the Navigation controller
-                #ifdef DEBUG
-                Notify(PSTR("\r\nNavigation Controller Enabled\r\n"));
-                #endif
-                PS3NavigationBTConnected = true;                                                
-            }
-            else if (remote_name[0] == 'M')//First letter in Motion Controller ('M') - 0x4D
-            {                                                                        
-                delay(1000);//There has to be a delay before data can be read
-                moveSetBulb(Red);
-                #ifdef DEBUG
-                Notify(PSTR("\r\nMotion Controller Enabled\r\n"));
-                #endif
-                PS3MoveBTConnected = true;
-                
-                timerBulbRumble = millis();
-            }            
-            l2cap_state = L2CAP_EV_L2CAP_DONE;                    
+        case L2CAP_EV_HID_PS3_LED: 
+            if(millis() - timer > 1000) { // loop 1 second before sending the command
+                if (remote_name[0] == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
+                    setLedOn(LED1);
+                    #ifdef DEBUG
+                    Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"));
+                    #endif     
+                    PS3BTConnected = true;
+                } else if (remote_name[0] == 'N') { // First letter in Navigation Controller ('N')
+                    setLedOn(LED1); // This just turns LED constantly on, on the Navigation controller
+                    #ifdef DEBUG
+                    Notify(PSTR("\r\nNavigation Controller Enabled\r\n"));
+                    #endif
+                    PS3NavigationBTConnected = true;
+                } else if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')      
+                    moveSetBulb(Red);
+                    timerBulbRumble = millis();
+                    #ifdef DEBUG
+                    Notify(PSTR("\r\nMotion Controller Enabled\r\n"));
+                    #endif
+                    PS3MoveBTConnected = true;
+                }
+                l2cap_state = L2CAP_EV_L2CAP_DONE;                                         
+            }                                    
             break;
             
         case L2CAP_EV_L2CAP_DONE:
