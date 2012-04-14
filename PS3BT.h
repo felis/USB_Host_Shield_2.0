@@ -43,8 +43,6 @@
 #define PS3_INPUT_PIPE      2
 
 //PID and VID of the different devices
-#define CSR_VID             0x0A12  // Cambridge Silicon Radio Ltd.
-#define CSR_PID             0x0001  // Bluetooth HCI Device
 #define PS3_VID             0x054C  // Sony Corporation
 #define PS3_PID             0x0268  // PS3 Controller DualShock 3
 #define PS3NAVIGATION_PID   0x042F  // Navigation controller
@@ -112,9 +110,10 @@
 #define L2CAP_EV_INTERRUPT_REQUEST      5
 #define L2CAP_EV_INTERRUPT_SUCCESS      6
 #define L2CAP_EV_HID_ENABLE_SIXAXIS     7
-#define L2CAP_EV_L2CAP_DONE             8
-#define L2CAP_EV_INTERRUPT_DISCONNECT   9
-#define L2CAP_EV_CONTROL_DISCONNECT     10
+#define L2CAP_EV_HID_PS3_LED            8
+#define L2CAP_EV_L2CAP_DONE             9
+#define L2CAP_EV_INTERRUPT_DISCONNECT   10
+#define L2CAP_EV_CONTROL_DISCONNECT     11
 
 /* L2CAP event flags */
 #define L2CAP_EV_CONTROL_CONNECTION_REQUEST     0x01
@@ -395,11 +394,13 @@ private:
     uint8_t hci_state;  //current state of bluetooth hci connection
     uint16_t  hci_counter; // counter used for bluetooth hci reset loops
     uint8_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
-    uint16_t  hci_event_flag;// hci flags of received bluetooth events
+    uint16_t  hci_event_flag;// hci flags of received bluetooth events        
     
     /* variables used by high level L2CAP task */    
     uint8_t l2cap_state;
     uint16_t l2cap_event_flag;// l2cap flags of received bluetooth events
+    
+    unsigned long timer;
     
     uint32_t ButtonState;
     uint32_t OldButtonState;
