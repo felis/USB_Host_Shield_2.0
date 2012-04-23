@@ -123,9 +123,9 @@ void loop()
     }
     if(printAngle) {
       Serial.print(F("Pitch: "));               
-      Serial.print(BT.getAngle(Pitch,false));                  
+      Serial.print(BT.getAngle(Pitch));                  
       Serial.print(F("\tRoll: ")); 
-      Serial.println(BT.getAngle(Roll,false));
+      Serial.println(BT.getAngle(Roll));
     }
   }
   else if(BT.PS3MoveBTConnected)

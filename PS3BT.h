@@ -339,7 +339,7 @@ public:
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
     uint32_t getSensor(Sensor a);
-    double getAngle(Angle a, boolean resolution);
+    double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();    
     void disconnect(); // use this void to disconnect any of the controllers
@@ -386,15 +386,15 @@ private:
     bool watingForConnection;
     
     /*variables filled from HCI event management */
-    int16_t  hci_handle;
+    int16_t hci_handle;
     uint8_t disc_bdaddr[6]; // the bluetooth address is always 6 bytes
     uint8_t remote_name[30]; // first 30 chars of remote name
     
     /* variables used by high level HCI task */    
     uint8_t hci_state;  //current state of bluetooth hci connection
-    uint16_t  hci_counter; // counter used for bluetooth hci reset loops
+    uint16_t hci_counter; // counter used for bluetooth hci reset loops
     uint8_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
-    uint16_t  hci_event_flag;// hci flags of received bluetooth events        
+    uint16_t hci_event_flag;// hci flags of received bluetooth events        
     
     /* variables used by high level L2CAP task */    
     uint8_t l2cap_state;
