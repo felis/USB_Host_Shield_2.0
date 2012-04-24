@@ -482,7 +482,7 @@ uint8_t PS3BT::getAnalogHat(AnalogHat a)
         return 0;                        
     return (uint8_t)(l2capinbuf[(uint16_t)a]);            
 }
-uint32_t PS3BT::getSensor(Sensor a)
+int32_t PS3BT::getSensor(Sensor a)
 {
     if (l2capinbuf == NULL)
         return 0;
@@ -504,45 +504,64 @@ uint32_t PS3BT::getSensor(Sensor a)
             return 0;                
     }
     else if (a == tempMove)
-    {
-        if (l2capinbuf == NULL)
-            return 0;
-        return (((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4) | (l2capinbuf[(uint16_t)a] << 4));    
-    }
-    else
-    {
-        
-        return (((l2capinbuf[(uint16_t)a + 1] << 8) | l2capinbuf[(uint16_t)a]) - 0x8000);                
-    }
+        return (((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4) | (l2capinbuf[(uint16_t)a] << 4));
+    else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
+        return ((l2capinbuf[(uint16_t)a + 1] << 8) | l2capinbuf[(uint16_t)a]);
 }
-double PS3BT::getAngle(Angle a) {
-    // Data for the Kionix KXPC4 used in DualShock 3
-    const double sensivity = 204.6; // 0.66/3.3*1023 (660mV/g)
-    const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
+double PS3BT::getAngle(Angle a) {        
+    double accXval;
+    double accYval;
+    double accZval;
     
-    double accXval = (zeroG - getSensor(aX)) / sensivity; // Convert to g's
-    accXval *= 2;    
-    double accYval = (zeroG - getSensor(aY)) / sensivity; // Convert to g's
-    accYval *= 2;    
-    double accZval = (zeroG - getSensor(aZ)) / sensivity; // Convert to g's
-    accZval *= 2;
+    if(PS3BTConnected) {
+        // Data for the Kionix KXPC4 used in the DualShock 3
+        double sensivity = 204.6; // 0.66/3.3*1023 (660mV/g)
+        double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
+        accXval = ((double)getSensor(aX)-zeroG) / sensivity; // Convert to g's
+        accXval *= 2;    
+        accYval = ((double)getSensor(aY)-zeroG) / sensivity; // Convert to g's
+        accYval *= 2;    
+        accZval = ((double)getSensor(aZ)-zeroG) / sensivity; // Convert to g's
+        accZval *= 2;
+    } else if(PS3MoveBTConnected) {
+        // It's a Kionix KXSC4 inside the Motion controller        
+        const uint16_t sensivity = 28285; // Find by experimenting
+        accXval = (double)getSensor(aXmove)/sensivity;
+        accYval = (double)getSensor(aYmove)/sensivity;
+        accZval = (double)getSensor(aZmove)/sensivity;        
+        
+        if(accXval < -1) // Convert to g's
+            accXval = ((1+accXval)-(1-1.15))*(-1/0.15);
+        else if(accXval > 1)            
+            accXval = ((1+accXval)-(1+1.15))*(-1/0.15);
+        
+        if(accYval < -1) // Convert to g's
+            accYval = ((1+accYval)-(1-1.15))*(-1/0.15);
+        else if(accYval > 1)            
+            accYval = ((1+accYval)-(1+1.15))*(-1/0.15);
+        
+        if(accZval < -1) // Convert to g's
+            accZval = ((1+accZval)-(1-1.15))*(-1/0.15);
+        else if(accZval > 1)
+            accZval = ((1+accZval)-(1+1.15))*(-1/0.15);
+    }
     
-    double R = sqrt(accXval*accXval + accYval*accYval + accZval*accZval);
-    // convert read values to -π/2 to π/2 - Needed for atan2
-    double angleX = acos(accXval/R)-0.5*PI;
-    double angleY = acos(accYval/R)-0.5*PI;
-    double angleZ = acos(accZval/R)-0.5*PI;
+    double R = sqrt(accXval*accXval + accYval*accYval + accZval*accZval); // Calculate the length of the force vector
+    // Normalize vectors    
+    accXval = accXval/R; 
+    accYval = accYval/R;
+    accZval = accZval/R;
     
     // Convert to 360 degrees resolution
     // atan2 outputs the value of -π to π (radians)
-    // We are then converting it to 0 to 2π and then to degrees    
+    // We are then converting it to 0 to 2π and then to degrees  
     if (a == Pitch) {        
-        double angle = (atan2(-angleY,-angleZ)+PI)*RAD_TO_DEG;
+        double angle = (atan2(-accYval,-accZval)+PI)*RAD_TO_DEG;
         return angle;
     } else {
-        double angle = (atan2(-angleX,-angleZ)+PI)*RAD_TO_DEG;
+        double angle = (atan2(-accXval,-accZval)+PI)*RAD_TO_DEG;
         return angle;
-    }
+    }    
 }
 bool PS3BT::getStatus(Status c)
 {

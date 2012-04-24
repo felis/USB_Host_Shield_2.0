@@ -142,10 +142,14 @@ void loop()
       } else {
         if(BT.getButton(SELECT_MOVE)) {
           Serial.print(F(" - Select"));
-          printTemperature = false;
+          printTemperature = !printTemperature;
+          while(BT.getButton(SELECT_MOVE))
+            Usb.Task();          
         } if(BT.getButton(START_MOVE)) {
           Serial.print(F(" - Start"));
-          printTemperature = true;
+          printAngle = !printAngle;
+          while(BT.getButton(START_MOVE))
+            Usb.Task();                              
         } if(BT.getButton(TRIANGLE_MOVE)) {            
           Serial.print(F(" - Triangle"));
           BT.moveSetBulb(Red);
@@ -170,7 +174,13 @@ void loop()
         Serial.println("");
       }
     }
-    if(printTemperature) {
+    if(printAngle) {
+      Serial.print(F("Pitch: "));               
+      Serial.print(BT.getAngle(Pitch));                  
+      Serial.print(F("\tRoll: ")); 
+      Serial.println(BT.getAngle(Roll));
+    }
+    else if(printTemperature) {
       String templow;
       String temphigh;
       String input = String(BT.getSensor(tempMove));

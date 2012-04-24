@@ -338,7 +338,7 @@ public:
     bool getButton(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
-    uint32_t getSensor(Sensor a);
+    int32_t getSensor(Sensor a);
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();    
