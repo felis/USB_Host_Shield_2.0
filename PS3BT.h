@@ -62,13 +62,14 @@
 #define HCI_INIT_STATE          0
 #define HCI_RESET_STATE         1
 #define HCI_BDADDR_STATE        2
-#define HCI_SCANNING_STATE      3
-#define HCI_CONNECT_IN_STATE    4
-#define HCI_REMOTE_NAME_STATE   5
-#define HCI_CONNECTED_STATE     6
-#define HCI_DISABLE_SCAN        7
-#define HCI_DONE_STATE          8
-#define HCI_DISCONNECT_STATE    9
+#define HCI_LOCAL_VERSION_STATE 3
+#define HCI_SCANNING_STATE      4
+#define HCI_CONNECT_IN_STATE    5
+#define HCI_REMOTE_NAME_STATE   6
+#define HCI_CONNECTED_STATE     7
+#define HCI_DISABLE_SCAN        8
+#define HCI_DONE_STATE          9
+#define HCI_DISCONNECT_STATE    10
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
@@ -389,6 +390,7 @@ private:
     int16_t hci_handle;
     uint8_t disc_bdaddr[6]; // the bluetooth address is always 6 bytes
     uint8_t remote_name[30]; // first 30 chars of remote name
+    uint8_t hci_version;
     
     /* variables used by high level HCI task */    
     uint8_t hci_state;  //current state of bluetooth hci connection
@@ -437,6 +439,7 @@ private:
     void hci_write_scan_enable();
     void hci_write_scan_disable();
     void hci_read_bdaddr();
+    void hci_read_local_version_information();
     void hci_accept_connection();
     void hci_remote_name();
     void hci_disconnect();
