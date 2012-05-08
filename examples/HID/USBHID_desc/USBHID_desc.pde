@@ -58,7 +58,7 @@ Fail:
 }
 
 USB                                             Usb;
-USBHub                                          Hub(&Usb);
+//USBHub                                          Hub(&Usb);
 HIDUniversal2                                   Hid(&Usb);
 UniversalReportParser                           Uni;
 

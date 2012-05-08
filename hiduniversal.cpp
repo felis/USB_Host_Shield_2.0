@@ -127,6 +127,8 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	p->lowspeed = lowspeed;
 
+  //delay(200);
+  
 	// Get device descriptor
 	rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
 
@@ -176,6 +178,8 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	p->lowspeed = lowspeed;
 
+  delay(200);
+
 	if (len)
 		rcode = pUsb->getDevDescr( bAddress, 0, len, (uint8_t*)buf );
 
@@ -194,6 +198,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	for (uint8_t i=0; i<num_of_conf; i++)
 	{
+	  //delay(1000);
 		//HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
 		ConfigDescParser<USB_CLASS_HID, 0, 0, 
 			CP_MASK_COMPARE_CLASS>							confDescrParser(this);

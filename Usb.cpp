@@ -616,7 +616,7 @@ uint8_t USB::getConfDescr( uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser
 		return ret;
 
 	uint16_t		total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
-
+  delay(100);
 	//USBTRACE2("\r\ntotal conf.size:", total);
 
     return( ctrlReq( addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, bufSize, buf, p ));
