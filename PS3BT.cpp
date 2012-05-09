@@ -406,17 +406,13 @@ uint8_t PS3BT::Poll()
 	return 0;
 }
 void PS3BT::setBdaddr(uint8_t* BDADDR)
-{
-    /* Store the bluetooth address */
-    for(uint8_t i = 0; i <6;i++)
-        my_bdaddr[i] = BDADDR[i];
-    
+{    
     /* Set the internal bluetooth address */             
     uint8_t buf[8];            
     buf[0] = 0x01;
     buf[1] = 0x00;
     for (uint8_t i = 0; i < 6; i++)
-        buf[i+2] = my_bdaddr[5 - i];//Copy into buffer, has to be written reversed
+        buf[i+2] = BDADDR[5 - i];//Copy into buffer, has to be written reversed
     
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);      
@@ -433,10 +429,6 @@ void PS3BT::setBdaddr(uint8_t* BDADDR)
 }
 void PS3BT::setMoveBdaddr(uint8_t* BDADDR)
 {
-    /* Store the bluetooth address */
-    for(uint8_t i = 0; i <6;i++)
-        my_bdaddr[i] = BDADDR[i];
-    
 	/* Set the internal bluetooth address */             
     uint8_t buf[11];
     buf[0] = 0x05;
@@ -446,7 +438,7 @@ void PS3BT::setMoveBdaddr(uint8_t* BDADDR)
     buf[10] = 0x12;    
     
     for (uint8_t i = 0; i < 6; i++)
-        buf[i + 1] = my_bdaddr[i];
+        buf[i + 1] = BDADDR[i];
     
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);   
@@ -515,51 +507,39 @@ double PS3BT::getAngle(Angle a) {
     
     if(PS3BTConnected) {
         // Data for the Kionix KXPC4 used in the DualShock 3
-        double sensivity = 204.6; // 0.66/3.3*1023 (660mV/g)
-        double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
-        accXval = ((double)getSensor(aX)-zeroG) / sensivity; // Convert to g's
-        accXval *= 2;    
-        accYval = ((double)getSensor(aY)-zeroG) / sensivity; // Convert to g's
-        accYval *= 2;    
-        accZval = ((double)getSensor(aZ)-zeroG) / sensivity; // Convert to g's
-        accZval *= 2;
-    } else if(PS3MoveBTConnected) {
-        // It's a Kionix KXSC4 inside the Motion controller        
-        const uint16_t sensivity = 28285; // Find by experimenting
-        accXval = (double)getSensor(aXmove)/sensivity;
-        accYval = (double)getSensor(aYmove)/sensivity;
-        accZval = (double)getSensor(aZmove)/sensivity;        
+        const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
+        accXval = -((double)getSensor(aX)-zeroG);
+        accYval = -((double)getSensor(aY)-zeroG);
+        accZval = -((double)getSensor(aZ)-zeroG);
+    } else if(PS3MoveBTConnected) {        
+        // It's a Kionix KXSC4 inside the Motion controller
+        const uint16_t zeroG = 0x8000;                
+        accXval = getSensor(aXmove);
+        accYval = getSensor(aYmove);
+        accZval = getSensor(aZmove);
         
-        if(accXval < -1) // Convert to g's
-            accXval = ((1+accXval)-(1-1.15))*(-1/0.15);
-        else if(accXval > 1)            
-            accXval = ((1+accXval)-(1+1.15))*(-1/0.15);
-        
-        if(accYval < -1) // Convert to g's
-            accYval = ((1+accYval)-(1-1.15))*(-1/0.15);
-        else if(accYval > 1)            
-            accYval = ((1+accYval)-(1+1.15))*(-1/0.15);
-        
-        if(accZval < -1) // Convert to g's
-            accZval = ((1+accZval)-(1-1.15))*(-1/0.15);
-        else if(accZval > 1)
-            accZval = ((1+accZval)-(1+1.15))*(-1/0.15);
+        if(accXval < 0)
+            accXval += zeroG;
+        else
+            accXval -= zeroG;        
+        if(accYval < 0)
+            accYval += zeroG;
+        else
+            accYval -= zeroG;        
+        if(accZval < 0)
+            accZval += zeroG;
+        else
+            accZval -= zeroG;
     }
-    
-    double R = sqrt(accXval*accXval + accYval*accYval + accZval*accZval); // Calculate the length of the force vector
-    // Normalize vectors    
-    accXval = accXval/R; 
-    accYval = accYval/R;
-    accZval = accZval/R;
     
     // Convert to 360 degrees resolution
     // atan2 outputs the value of -π to π (radians)
     // We are then converting it to 0 to 2π and then to degrees  
     if (a == Pitch) {        
-        double angle = (atan2(-accYval,-accZval)+PI)*RAD_TO_DEG;
+        double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     } else {
-        double angle = (atan2(-accXval,-accZval)+PI)*RAD_TO_DEG;
+        double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     }    
 }
@@ -647,11 +627,15 @@ void PS3BT::HCI_event_task()
         switch (hcibuf[0]) //switch on event type
         {
             case EV_COMMAND_COMPLETE:
-                hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
-                if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10))// parameters from read local bluetooth address
-                {  
-                    for (uint8_t i = 0; i < 6; i++) 
-                        my_bdaddr[i] = hcibuf[6 + i];
+                if (!hcibuf[5]) { // check if command succeeded
+                    hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
+                    if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) // parameters from read local version information
+                        hci_version = hcibuf[6]; // Check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
+                    
+                    else if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // parameters from read local bluetooth address  
+                        for (uint8_t i = 0; i < 6; i++) 
+                            my_bdaddr[i] = hcibuf[6 + i];
+                    }                                                            
                 }
                 break;
                 
@@ -683,10 +667,7 @@ void PS3BT::HCI_event_task()
                     hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; //set disconnect commend complete flag
                     hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // clear connection complete flag
                 }
-                break;
-                
-            case EV_NUM_COMPLETE_PKT:
-                break;  
+                break;                              
                 
             case EV_REMOTE_NAME_COMPLETE:
                 if (!hcibuf[2]) // check if reading is OK
@@ -707,7 +688,11 @@ void PS3BT::HCI_event_task()
                 hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
                 break;
                 
-                /* We will just ignore the following events */    
+            /* We will just ignore the following events */
+                
+            case EV_NUM_COMPLETE_PKT:
+                break;
+                
             case EV_ROLE_CHANGED:
                 break;
                 
@@ -782,6 +767,7 @@ void PS3BT::HCI_task()
                 hci_counter = 0;
             }
             break;
+            
         case HCI_BDADDR_STATE:
             if (hci_cmd_complete)
             {
@@ -794,8 +780,25 @@ void PS3BT::HCI_task()
                 }      
                 PrintHex<uint8_t>(my_bdaddr[0]);
 #endif                
+                hci_read_local_version_information();
+                hci_state = HCI_LOCAL_VERSION_STATE;                                
+            }
+            break;
+            
+        case HCI_LOCAL_VERSION_STATE:
+            if (hci_cmd_complete) 
+            {
+#ifdef DEBUG
+                if(hci_version < 3) {                    
+                    Notify(PSTR("\r\nYour dongle may not support reading the analog buttons, sensors and status\r\nYour HCI Version is: "));
+                    Serial.print(hci_version);
+                    Notify(PSTR("\r\nBut should be at least 3\r\nThis means that it doesn't support Bluetooth Version 2.0+EDR")); 
+                }
+#endif
                 hci_state = HCI_SCANNING_STATE;                
             }
+            break;            
+            
             break;
         case HCI_SCANNING_STATE:
 #ifdef DEBUG
@@ -1319,6 +1322,13 @@ void PS3BT::hci_read_bdaddr()
     hcibuf[1] = 0x04 << 2; // HCI OGF = 4
     hcibuf[2] = 0x00;
     HCI_Command(hcibuf, 3);
+}                                   
+void PS3BT::hci_read_local_version_information()
+{
+    hcibuf[0] = 0x01; // HCI OCF = 1
+    hcibuf[1] = 0x04 << 2; // HCI OGF = 4
+    hcibuf[2] = 0x00;
+    HCI_Command(hcibuf, 3);    
 }
 void PS3BT::hci_accept_connection()
 {    
@@ -1567,19 +1577,17 @@ void PS3BT::setRumbleOn(Rumble mode)
 }
 void PS3BT::setLedOff(LED a)
 {
-    //check if LED is already off
-    if ((uint8_t)((uint8_t)(((uint16_t)a << 1) & HIDBuffer[11])) != 0)
-    {
-        //set the LED into the write buffer
-        HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) ^ HIDBuffer[11]);
-        
-        HID_Command(HIDBuffer, HID_BUFFERSIZE);
-    }            
+    HIDBuffer[11] &= ~((uint8_t)(((uint16_t)a & 0x0f) << 1));    
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);               
 }
 void PS3BT::setLedOn(LED a)
 {
-    HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) | HIDBuffer[11]);
-    
+    HIDBuffer[11] |= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);            
+}
+void PS3BT::setLedToggle(LED a)
+{
+    HIDBuffer[11] ^= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
     HID_Command(HIDBuffer, HID_BUFFERSIZE);            
 }
 void PS3BT::enable_sixaxis()//Command used to enable the Dualshock 3 and Navigation controller to send data via USB
