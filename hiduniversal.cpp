@@ -178,7 +178,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
 	p->lowspeed = lowspeed;
 
-  delay(200);
+  delay(500);
 
 	if (len)
 		rcode = pUsb->getDevDescr( bAddress, 0, len, (uint8_t*)buf );
