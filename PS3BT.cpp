@@ -507,45 +507,39 @@ double PS3BT::getAngle(Angle a) {
     
     if(PS3BTConnected) {
         // Data for the Kionix KXPC4 used in the DualShock 3
-        double sensivity = 204.6; // 0.66/3.3*1023 (660mV/g)
-        double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
-        accXval = ((double)getSensor(aX)-zeroG) / sensivity; // Convert to g's
-        accXval *= 2;    
-        accYval = ((double)getSensor(aY)-zeroG) / sensivity; // Convert to g's
-        accYval *= 2;    
-        accZval = ((double)getSensor(aZ)-zeroG) / sensivity; // Convert to g's
-        accZval *= 2;
-    } else if(PS3MoveBTConnected) {
-        // It's a Kionix KXSC4 inside the Motion controller        
-        const uint16_t sensivity = 28285; // Find by experimenting
-        accXval = (double)getSensor(aXmove)/sensivity;
-        accYval = (double)getSensor(aYmove)/sensivity;
-        accZval = (double)getSensor(aZmove)/sensivity;        
+        const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
+        accXval = -((double)getSensor(aX)-zeroG);
+        accYval = -((double)getSensor(aY)-zeroG);
+        accZval = -((double)getSensor(aZ)-zeroG);
+    } else if(PS3MoveBTConnected) {        
+        // It's a Kionix KXSC4 inside the Motion controller
+        const uint16_t zeroG = 0x8000;                
+        accXval = getSensor(aXmove);
+        accYval = getSensor(aYmove);
+        accZval = getSensor(aZmove);
         
-        if(accXval < -1) // Convert to g's
-            accXval = ((1+accXval)-(1-1.15))*(-1/0.15);
-        else if(accXval > 1)            
-            accXval = ((1+accXval)-(1+1.15))*(-1/0.15);
-        
-        if(accYval < -1) // Convert to g's
-            accYval = ((1+accYval)-(1-1.15))*(-1/0.15);
-        else if(accYval > 1)            
-            accYval = ((1+accYval)-(1+1.15))*(-1/0.15);
-        
-        if(accZval < -1) // Convert to g's
-            accZval = ((1+accZval)-(1-1.15))*(-1/0.15);
-        else if(accZval > 1)
-            accZval = ((1+accZval)-(1+1.15))*(-1/0.15);
+        if(accXval < 0)
+            accXval += zeroG;
+        else
+            accXval -= zeroG;        
+        if(accYval < 0)
+            accYval += zeroG;
+        else
+            accYval -= zeroG;        
+        if(accZval < 0)
+            accZval += zeroG;
+        else
+            accZval -= zeroG;
     }
     
     // Convert to 360 degrees resolution
     // atan2 outputs the value of -π to π (radians)
     // We are then converting it to 0 to 2π and then to degrees  
     if (a == Pitch) {        
-        double angle = (atan2(-accYval,-accZval)+PI)*RAD_TO_DEG;
+        double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     } else {
-        double angle = (atan2(-accXval,-accZval)+PI)*RAD_TO_DEG;
+        double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     }    
 }
