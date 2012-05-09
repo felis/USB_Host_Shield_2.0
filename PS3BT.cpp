@@ -406,17 +406,13 @@ uint8_t PS3BT::Poll()
 	return 0;
 }
 void PS3BT::setBdaddr(uint8_t* BDADDR)
-{
-    /* Store the bluetooth address */
-    for(uint8_t i = 0; i <6;i++)
-        my_bdaddr[i] = BDADDR[i];
-    
+{    
     /* Set the internal bluetooth address */             
     uint8_t buf[8];            
     buf[0] = 0x01;
     buf[1] = 0x00;
     for (uint8_t i = 0; i < 6; i++)
-        buf[i+2] = my_bdaddr[5 - i];//Copy into buffer, has to be written reversed
+        buf[i+2] = BDADDR[5 - i];//Copy into buffer, has to be written reversed
     
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);      
@@ -433,10 +429,6 @@ void PS3BT::setBdaddr(uint8_t* BDADDR)
 }
 void PS3BT::setMoveBdaddr(uint8_t* BDADDR)
 {
-    /* Store the bluetooth address */
-    for(uint8_t i = 0; i <6;i++)
-        my_bdaddr[i] = BDADDR[i];
-    
 	/* Set the internal bluetooth address */             
     uint8_t buf[11];
     buf[0] = 0x05;
@@ -446,7 +438,7 @@ void PS3BT::setMoveBdaddr(uint8_t* BDADDR)
     buf[10] = 0x12;    
     
     for (uint8_t i = 0; i < 6; i++)
-        buf[i + 1] = my_bdaddr[i];
+        buf[i + 1] = BDADDR[i];
     
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);   
@@ -798,7 +790,7 @@ void PS3BT::HCI_task()
                 hci_state = HCI_LOCAL_VERSION_STATE;                                
             }
             break;
-                        
+            
         case HCI_LOCAL_VERSION_STATE:
             if (hci_cmd_complete) 
             {
@@ -1591,19 +1583,17 @@ void PS3BT::setRumbleOn(Rumble mode)
 }
 void PS3BT::setLedOff(LED a)
 {
-    //check if LED is already off
-    if ((uint8_t)((uint8_t)(((uint16_t)a << 1) & HIDBuffer[11])) != 0)
-    {
-        //set the LED into the write buffer
-        HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) ^ HIDBuffer[11]);
-        
-        HID_Command(HIDBuffer, HID_BUFFERSIZE);
-    }            
+    HIDBuffer[11] &= ~((uint8_t)(((uint16_t)a & 0x0f) << 1));    
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);               
 }
 void PS3BT::setLedOn(LED a)
 {
-    HIDBuffer[11] = (uint8_t)((uint8_t)(((uint16_t)a & 0x0f) << 1) | HIDBuffer[11]);
-    
+    HIDBuffer[11] |= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);            
+}
+void PS3BT::setLedToggle(LED a)
+{
+    HIDBuffer[11] ^= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
     HID_Command(HIDBuffer, HID_BUFFERSIZE);            
 }
 void PS3BT::enable_sixaxis()//Command used to enable the Dualshock 3 and Navigation controller to send data via USB

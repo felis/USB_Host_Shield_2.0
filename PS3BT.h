@@ -352,6 +352,7 @@ public:
     void setRumbleOn(Rumble mode);
     void setLedOff(LED a);
     void setLedOn(LED a);    
+    void setLedToggle(LED a);
     /* Commands for Motion controller only */    
     void moveSetBulb(uint8_t r, uint8_t g, uint8_t b);//Use this to set the Color using RGB values
     void moveSetBulb(Colors color);//Use this to set the Color using the predefined colors in "enum Colors"
