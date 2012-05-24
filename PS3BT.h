@@ -316,9 +316,8 @@ enum Rumble
 
 class PS3BT : public USBDeviceConfig, public UsbConfigXtracter
 {
-public:            
-    PS3BT(USB *pUsb, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0);
-    PS3BT(USB *pUsb);
+public:
+    PS3BT(USB *pUsb, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0);
     
     // USBDeviceConfig implementation
     virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);

@@ -62,25 +62,6 @@ bPollEnable(false) // don't start polling before dongle is connected
     my_bdaddr[0] = btadr0;
 }
 
-PS3BT::PS3BT(USB *p):
-pUsb(p), // pointer to USB class instance - mandatory
-bAddress(0), // device address - mandatory
-bNumEP(1), // if config descriptor needs to be parsed
-qNextPollTime(0),
-bPollEnable(false) // don't start polling before dongle is connected
-{
-    for(uint8_t i=0; i<PS3_MAX_ENDPOINTS; i++)
-	{
-		epInfo[i].epAddr		= 0;
-		epInfo[i].maxPktSize	= (i) ? 0 : 8;
-		epInfo[i].epAttribs		= 0;        
-        epInfo[i].bmNakPower    = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
-	}
-    
-    if (pUsb) // register in USB subsystem
-		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
-}
-
 uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
     uint8_t	buf[sizeof(USB_DEVICE_DESCRIPTOR)];
