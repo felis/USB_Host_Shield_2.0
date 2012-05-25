@@ -380,9 +380,9 @@ uint8_t PS3BT::Poll()
 	if (!bPollEnable)
 		return 0;
     if (qNextPollTime <= millis()) { // Don't poll if shorter than polling interval
-        HCI_event_task(); // poll the HCI event pipe
-        ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected
         qNextPollTime = millis() + pollInterval; // Set new poll time
+        HCI_event_task(); // poll the HCI event pipe
+        ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected        
     }    
 	return 0;
 }
