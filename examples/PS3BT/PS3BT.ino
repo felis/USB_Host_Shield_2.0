@@ -198,4 +198,5 @@ void loop()
       Serial.println(templow);
     }
   }
+  delay(1);
 }

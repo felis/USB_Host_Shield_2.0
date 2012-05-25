@@ -62,25 +62,6 @@ bPollEnable(false) // don't start polling before dongle is connected
     my_bdaddr[0] = btadr0;
 }
 
-PS3BT::PS3BT(USB *p):
-pUsb(p), // pointer to USB class instance - mandatory
-bAddress(0), // device address - mandatory
-bNumEP(1), // if config descriptor needs to be parsed
-qNextPollTime(0),
-bPollEnable(false) // don't start polling before dongle is connected
-{
-    for(uint8_t i=0; i<PS3_MAX_ENDPOINTS; i++)
-	{
-		epInfo[i].epAddr		= 0;
-		epInfo[i].maxPktSize	= (i) ? 0 : 8;
-		epInfo[i].epAttribs		= 0;        
-        epInfo[i].bmNakPower    = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
-	}
-    
-    if (pUsb) // register in USB subsystem
-		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
-}
-
 uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
 {
     uint8_t	buf[sizeof(USB_DEVICE_DESCRIPTOR)];
@@ -283,7 +264,7 @@ uint8_t PS3BT::Init(uint8_t parent, uint8_t port, bool lowspeed)
         interrupt_dcid[0] = 0x41;//0x0041
         interrupt_dcid[1] = 0x00;
         
-        hci_num_reset_loops = 10; // only loop 10 times before trying to send the hci reset command
+        hci_num_reset_loops = 100; // only loop 100 times before trying to send the hci reset command
         
         hci_state = HCI_INIT_STATE;
         hci_counter = 0;        
@@ -399,10 +380,10 @@ uint8_t PS3BT::Poll()
 	if (!bPollEnable)
 		return 0;
     if (qNextPollTime <= millis()) { // Don't poll if shorter than polling interval
+        qNextPollTime = millis() + pollInterval; // Set new poll time
         HCI_event_task(); // poll the HCI event pipe
-        ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected
-    }
-    qNextPollTime = millis() + pollInterval; // Poll time
+        ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected        
+    }    
 	return 0;
 }
 void PS3BT::setBdaddr(uint8_t* BDADDR)
@@ -627,15 +608,17 @@ void PS3BT::HCI_event_task()
         switch (hcibuf[0]) //switch on event type
         {
             case EV_COMMAND_COMPLETE:
-                if (!hcibuf[5]) { // check if command succeeded
-                    hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
-                    if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) // parameters from read local version information
+                hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
+                if (!hcibuf[5]) { // check if command succeeded                    
+                    if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // parameters from read local version information
                         hci_version = hcibuf[6]; // Check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
-                    
+                        hci_event_flag |= HCI_FLAG_READ_VERSION;
+                    }                    
                     else if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // parameters from read local bluetooth address  
                         for (uint8_t i = 0; i < 6; i++) 
                             my_bdaddr[i] = hcibuf[6 + i];
-                    }                                                            
+                        hci_event_flag |= HCI_FLAG_READ_BDADDR;
+                    }
                 }
                 break;
                 
@@ -769,7 +752,7 @@ void PS3BT::HCI_task()
             break;
             
         case HCI_BDADDR_STATE:
-            if (hci_cmd_complete)
+            if (hci_read_bdaddr_complete)
             {
 #ifdef DEBUG
                 Notify(PSTR("\r\nLocal Bluetooth Address: "));                
@@ -786,7 +769,7 @@ void PS3BT::HCI_task()
             break;
             
         case HCI_LOCAL_VERSION_STATE:
-            if (hci_cmd_complete) 
+            if (hci_read_version_complete) 
             {
 #ifdef DEBUG
                 if(hci_version < 3) {                    
