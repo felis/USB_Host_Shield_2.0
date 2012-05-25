@@ -369,6 +369,9 @@ void PS3BT::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 /* Performs a cleanup after failed Init() attempt */
 uint8_t PS3BT::Release()
 {
+    PS3Connected = false;
+    PS3MoveConnected = false;
+    PS3NavigationConnected = false;
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
 	bAddress = 0;
     bPollEnable = false;
@@ -486,13 +489,13 @@ double PS3BT::getAngle(Angle a) {
     double accYval;
     double accZval;
     
-    if(PS3BTConnected) {
+    if(PS3Connected) {
         // Data for the Kionix KXPC4 used in the DualShock 3
         const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
         accXval = -((double)getSensor(aX)-zeroG);
         accYval = -((double)getSensor(aY)-zeroG);
         accZval = -((double)getSensor(aZ)-zeroG);
-    } else if(PS3MoveBTConnected) {        
+    } else if(PS3MoveConnected) {        
         // It's a Kionix KXSC4 inside the Motion controller
         const uint16_t zeroG = 0x8000;                
         accXval = getSensor(aXmove);
@@ -534,7 +537,7 @@ bool PS3BT::getStatus(Status c)
 }
 String PS3BT::getStatusString()
 {
-    if (PS3BTConnected || PS3NavigationBTConnected)
+    if (PS3Connected || PS3NavigationConnected)
     {
         char statusOutput[100];
         
@@ -566,7 +569,7 @@ String PS3BT::getStatusString()
         return statusOutput;
         
     }
-    else if(PS3MoveBTConnected)
+    else if(PS3MoveConnected)
     {
         char statusOutput[50];
         
@@ -586,12 +589,12 @@ String PS3BT::getStatusString()
 }
 void PS3BT::disconnect()//Use this void to disconnect any of the controllers
 {
-    if (PS3BTConnected)
-        PS3BTConnected = false;
-    else if (PS3MoveBTConnected)
-        PS3MoveBTConnected = false;
-    else if (PS3NavigationBTConnected)
-        PS3NavigationBTConnected = false;
+    if (PS3Connected)
+        PS3Connected = false;
+    else if (PS3MoveConnected)
+        PS3MoveConnected = false;
+    else if (PS3NavigationConnected)
+        PS3NavigationConnected = false;
     
     //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
     l2cap_disconnection_request(0x0A, interrupt_dcid, interrupt_scid);            
@@ -1030,7 +1033,7 @@ void PS3BT::ACL_event_task()
             else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1])//l2cap_interrupt
             {                                
                 //Serial.print("\r\nL2CAP Interrupt");  
-                if(PS3BTConnected || PS3MoveBTConnected || PS3NavigationBTConnected)
+                if(PS3Connected || PS3MoveConnected || PS3NavigationConnected)
                 {
                     readReport();
 #ifdef PRINTREPORT
@@ -1155,30 +1158,29 @@ void PS3BT::L2CAP_task()
 #ifdef DEBUG
                     Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"));
 #endif     
-                    PS3BTConnected = true;
+                    PS3Connected = true;
                 } else if (remote_name[0] == 'N') { // First letter in Navigation Controller ('N')
                     setLedOn(LED1); // This just turns LED constantly on, on the Navigation controller
 #ifdef DEBUG
                     Notify(PSTR("\r\nNavigation Controller Enabled\r\n"));
 #endif
-                    PS3NavigationBTConnected = true;
+                    PS3NavigationConnected = true;
                 } else if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')      
                     moveSetBulb(Red);
                     timerBulbRumble = millis();
 #ifdef DEBUG
                     Notify(PSTR("\r\nMotion Controller Enabled\r\n"));
 #endif
-                    PS3MoveBTConnected = true;
+                    PS3MoveConnected = true;
                 }
                 l2cap_state = L2CAP_EV_L2CAP_DONE;                                         
             }                                    
             break;
             
         case L2CAP_EV_L2CAP_DONE:
-            if (PS3MoveBTConnected)//The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
+            if (PS3MoveConnected)//The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
             {
-                dtimeBulbRumble = millis() - timerBulbRumble;
-                if (dtimeBulbRumble > 4000)//Send at least every 4th second
+                if (millis() - timerBulbRumble > 4000)//Send at least every 4th second
                 {
                     HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);//The Bulb and rumble values, has to be written again and again, for it to stay turned on
                     timerBulbRumble = millis();
@@ -1217,11 +1219,13 @@ void PS3BT::L2CAP_task()
 /************************************************************/
 void PS3BT::readReport()
 {                    
+    if (l2capinbuf == NULL)
+        return;
     if(l2capinbuf[8] == 0xA1)//HID_THDR_DATA_INPUT  
     {
-        if(PS3BTConnected || PS3NavigationBTConnected)
+        if(PS3Connected || PS3NavigationConnected)
             ButtonState = (uint32_t)(l2capinbuf[11] | ((uint16_t)l2capinbuf[12] << 8) | ((uint32_t)l2capinbuf[13] << 16));
-        else if(PS3MoveBTConnected)
+        else if(PS3MoveConnected)
             ButtonState = (uint32_t)(l2capinbuf[10] | ((uint16_t)l2capinbuf[11] << 8) | ((uint32_t)l2capinbuf[12] << 16));
         
         //Notify(PSTR("\r\nButtonState");
@@ -1251,7 +1255,9 @@ void PS3BT::readReport()
 }  
 
 void PS3BT::printReport() //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
-{                    
+{                 
+    if (l2capinbuf == NULL)
+        return;
     if(l2capinbuf[8] == 0xA1)//HID_THDR_DATA_INPUT  
     {
         for(uint8_t i = 10; i < 58;i++)
@@ -1504,12 +1510,10 @@ void PS3BT::HID_Command(uint8_t* data, uint16_t nbytes)
     buf[7] = control_scid[1];
     
     for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame            
-        buf[8 + i] = data[i];
+        buf[8 + i] = data[i];    
     
-    dtimeHID = millis() - timerHID;
-    
-    if (dtimeHID <= 250)// Check if is has been more than 250ms since last command                
-        delay((uint32_t)(250 - dtimeHID));//There have to be a delay between commands
+    if (millis() - timerHID <= 250)// Check if is has been more than 250ms since last command                
+        delay((uint32_t)(250 - (millis() - timerHID)));//There have to be a delay between commands
     
     pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     
@@ -1600,12 +1604,10 @@ void PS3BT::HIDMove_Command(uint8_t* data,uint16_t nbytes)
     buf[7] = interrupt_scid[1];
     
     for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame            
-        buf[8 + i] = data[i];
+        buf[8 + i] = data[i];    
     
-    dtimeHID = millis() - timerHID;
-    
-    if (dtimeHID <= 250)// Check if is has been less than 200ms since last command                            
-        delay((uint32_t)(250 - dtimeHID));//There have to be a delay between commands
+    if (millis() - timerHID <= 250)// Check if is has been less than 200ms since last command                            
+        delay((uint32_t)(250 - (millis() - timerHID)));//There have to be a delay between commands
     
     pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     
@@ -1622,15 +1624,14 @@ void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b)//Use this to set the Co
 }
 void PS3BT::moveSetBulb(Colors color)//Use this to set the Color using the predefined colors in "enums.h"
 {
-    //set the Bulb's values into the write buffer            
-    HIDMoveBuffer[3] = (uint8_t)(color >> 16);
-    HIDMoveBuffer[4] = (uint8_t)(color >> 8);
-    HIDMoveBuffer[5] = (uint8_t)(color);  
-    
-    HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);
+    moveSetBulb((uint8_t)(color >> 16),(uint8_t)(color >> 8),(uint8_t)(color));
 }
 void PS3BT::moveSetRumble(uint8_t rumble)
 {
+#ifdef DEBUG
+    if(rumble < 64 && rumble != 0) // The rumble value has to at least 64, or approximately 25% (64/255*100)
+        Notify(PSTR("\r\nThe rumble value has to at least 64, or approximately 25%"));
+#endif
     //set the rumble value into the write buffer
     HIDMoveBuffer[7] = rumble;
     
