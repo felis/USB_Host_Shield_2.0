@@ -1,16 +1,17 @@
-################################################
-# Syntax Coloring Map For PS3 Bluetooth Library
-################################################
+####################################################
+# Syntax Coloring Map For PS3 Bluetooth/USB Library
+####################################################
 
-################################################
+####################################################
 # Datatypes (KEYWORD1)
-################################################
+####################################################
 
 PS3BT	KEYWORD1
+PS3USB	KEYWORD1
 
-################################################
+####################################################
 # Methods and Functions (KEYWORD2)
-################################################
+####################################################
 setBdaddr	KEYWORD2
 setMoveBdaddr	KEYWORD2
 
@@ -32,18 +33,18 @@ setLedToggle	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 
-PS3BTConnected	KEYWORD2
-PS3MoveBTConnected	KEYWORD2
-PS3NavigationBTConnected	KEYWORD2
+PS3Connected	KEYWORD2
+PS3MoveConnected	KEYWORD2
+PS3NavigationConnected	KEYWORD2
 buttonChanged	KEYWORD2
 buttonPressed	KEYWORD2
 buttonReleased	KEYWORD2
 
 isWatingForConnection	KEYWORD2
 
-################################################
+####################################################
 # Constants and enums (LITERAL1)
-################################################
+####################################################
 LED1	LITERAL1
 LED2	LITERAL1
 LED3	LITERAL1

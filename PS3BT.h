@@ -361,9 +361,9 @@ public:
     void moveSetBulb(Colors color);//Use this to set the Color using the predefined colors in "enum Colors"
     void moveSetRumble(uint8_t rumble);
     
-    bool PS3BTConnected;// Variable used to indicate if the normal playstation controller is successfully connected
-    bool PS3MoveBTConnected;// Variable used to indicate if the move controller is successfully connected
-    bool PS3NavigationBTConnected;// Variable used to indicate if the navigation controller is successfully connected
+    bool PS3Connected;// Variable used to indicate if the normal playstation controller is successfully connected
+    bool PS3MoveConnected;// Variable used to indicate if the move controller is successfully connected
+    bool PS3NavigationConnected;// Variable used to indicate if the navigation controller is successfully connected
     bool buttonChanged;//Indicate if a button has been changed
     bool buttonPressed;//Indicate if a button has been pressed
     bool buttonReleased;//Indicate if a button has been released
@@ -411,9 +411,7 @@ private:
     uint32_t ButtonState;
     uint32_t OldButtonState;
     uint32_t timerHID;// timer used see if there has to be a delay before a new HID command
-    uint32_t dtimeHID;// delta time since last HID command
     uint32_t timerBulbRumble;// used to continuously set PS3 Move controller Bulb and rumble values
-    uint32_t dtimeBulbRumble;// used to know how longs since last since the Bulb and rumble values was written        
     
     uint8_t my_bdaddr[6]; //Change to your dongles Bluetooth address in PS3BT.cpp
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
