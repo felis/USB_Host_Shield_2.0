@@ -46,9 +46,6 @@
 #define PS3_REPORT_BUFFER_SIZE      48 // Size of the output report buffer for the Dualshock and Navigation controllers
 #define MOVE_REPORT_BUFFER_SIZE     7 // Size of the output report buffer for the Move Controller
 
-// used in control endpoint header for HCI Commands
-#define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
-
 // used in control endpoint header for HID Commands
 #define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define HID_REQUEST_SET_REPORT      0x09
@@ -163,7 +160,7 @@ enum Status
     CableRumble = (31 << 8) | 0x10, // Opperating by USB and rumble is turned on
     Cable = (31 << 8) | 0x12, // Opperating by USB and rumble is turned off 
     BluetoothRumble = (31 << 8) | 0x14, // Opperating by bluetooth and rumble is turned on
-    Bluetooth = (30 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
+    Bluetooth = (31 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
 };
 enum Rumble
 {
@@ -190,7 +187,7 @@ public:
     bool getButton(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
-    int32_t getSensor(Sensor a);
+    uint16_t getSensor(Sensor a);
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();
