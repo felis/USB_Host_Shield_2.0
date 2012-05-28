@@ -79,21 +79,29 @@ void loop()
           Serial.print(F(" - Square"));
 
         if(PS3.getButton(UP)) {
-          Serial.print(F(" - Up"));
-          PS3.setAllOff();
-          PS3.setLedOn(LED4);
+          Serial.print(F(" - Up"));          
+          if(PS3.PS3Connected) {
+            PS3.setAllOff();
+            PS3.setLedOn(LED4);
+          }
         } if(PS3.getButton(RIGHT)) {
           Serial.print(F(" - Right"));
-          PS3.setAllOff();
-          PS3.setLedOn(LED1);          
+          if(PS3.PS3Connected) {
+            PS3.setAllOff();
+            PS3.setLedOn(LED1); 
+          }         
         } if(PS3.getButton(DOWN)) {
           Serial.print(F(" - Down"));
-          PS3.setAllOff();
-          PS3.setLedOn(LED2);          
+          if(PS3.PS3Connected) {
+            PS3.setAllOff();
+            PS3.setLedOn(LED2);          
+          }
         } if(PS3.getButton(LEFT)) {          
-          Serial.print(F(" - Left"));
-          PS3.setAllOff();         
-          PS3.setLedOn(LED3);          
+          Serial.print(F(" - Left"));          
+          if(PS3.PS3Connected) {
+            PS3.setAllOff();         
+            PS3.setLedOn(LED3);            
+          }         
         } 
 
         if(PS3.getButton(L1))
@@ -130,39 +138,39 @@ void loop()
   }
   else if(PS3.PS3MoveConnected)
   {
-    if(PS3.getAnalogButton(T_MOVE_ANALOG) > 0) {
+    if(PS3.getAnalogButton(T_ANALOG) > 0) {
       Serial.print(F("T: ")); 
-      Serial.println(PS3.getAnalogButton(T_MOVE_ANALOG)); 
+      Serial.println(PS3.getAnalogButton(T_ANALOG)); 
     } if(PS3.buttonPressed) {
       Serial.print(F("PS3 Move Controller"));
 
-      if(PS3.getButton(PS_MOVE)) {
+      if(PS3.getButton(PS)) {
         Serial.print(F(" - PS"));
         PS3.disconnect();
       } else {
-        if(PS3.getButton(SELECT_MOVE)) {
+        if(PS3.getButton(SELECT)) {
           Serial.print(F(" - Select"));
           printTemperature = !printTemperature;
-          while(PS3.getButton(SELECT_MOVE))
+          while(PS3.getButton(SELECT))
             Usb.Task();          
-        } if(PS3.getButton(START_MOVE)) {
+        } if(PS3.getButton(START)) {
           Serial.print(F(" - Start"));
           printAngle = !printAngle;
-          while(PS3.getButton(START_MOVE))
+          while(PS3.getButton(START))
             Usb.Task();                              
-        } if(PS3.getButton(TRIANGLE_MOVE)) {            
+        } if(PS3.getButton(TRIANGLE)) {            
           Serial.print(F(" - Triangle"));
           PS3.moveSetBulb(Red);
-        } if(PS3.getButton(CIRCLE_MOVE)) {
+        } if(PS3.getButton(CIRCLE)) {
           Serial.print(F(" - Circle"));
           PS3.moveSetBulb(Green);
-        } if(PS3.getButton(SQUARE_MOVE)) {
+        } if(PS3.getButton(SQUARE)) {
           Serial.print(F(" - Square"));
           PS3.moveSetBulb(Blue);
-        } if(PS3.getButton(CROSS_MOVE)) {
+        } if(PS3.getButton(CROSS)) {
           Serial.print(F(" - Cross"));
           PS3.moveSetBulb(Yellow);
-        } if(PS3.getButton(MOVE_MOVE)) {     
+        } if(PS3.getButton(MOVE)) {     
           PS3.moveSetBulb(Off);                        
           Serial.print(F(" - Move"));
           Serial.print(F(" - ")); 

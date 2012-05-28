@@ -74,7 +74,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed)
     // get memory address of USB device address pool
 	AddressPool	&addrPool = pUsb->GetAddressPool();    
 #ifdef EXTRADEBUG
-	Notify(PSTR("\r\nPS3BT Init"));
+	Notify(PSTR("\r\nPS3USB Init"));
 #endif
     // check if address has already been assigned to an instance
     if (bAddress) 
@@ -209,17 +209,14 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed)
             /* Set internal bluetooth address and request for data */        
             setBdaddr(my_bdaddr);
             enable_sixaxis();
+            setLedOn(LED1);
             
             // Needed for PS3 Dualshock and Navigation commands to work
             for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
                 writeBuf[i] = pgm_read_byte(&PS3_REPORT_BUFFER[i]);
             
             for (uint8_t i = 6; i < 10; i++)
-                readBuf[i] = 0x7F; // Set the analog joystick values to center position
-            
-            setLedOn(LED1);
-            
-            timer = millis();
+                readBuf[i] = 0x7F; // Set the analog joystick values to center position                        
         }
         else // must be a Motion controller
         {
@@ -232,9 +229,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed)
             
             // Needed for Move commands to work
             for (uint8_t i = 0; i < MOVE_REPORT_BUFFER_SIZE; i++)
-                writeBuf[i] = pgm_read_byte(&MOVE_REPORT_BUFFER[i]);
-            
-            timer = millis();
+                writeBuf[i] = pgm_read_byte(&MOVE_REPORT_BUFFER[i]);            
         }           
     }
     else
@@ -242,6 +237,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
     bPollEnable = true;
     Notify(PSTR("\r\n"));
+    timer = millis();
     return 0; // successful configuration
     
     /* diagnostic messages */  
@@ -377,34 +373,37 @@ uint8_t PS3USB::getAnalogHat(AnalogHat a)
         return 0;                        
     return (uint8_t)(readBuf[(uint16_t)a]);            
 }
-int32_t PS3USB::getSensor(Sensor a)
+uint16_t PS3USB::getSensor(Sensor a)
 {
     if (readBuf == NULL)
         return 0;
     return ((readBuf[(uint16_t)a] << 8) | readBuf[(uint16_t)a + 1]);    
 }
-double PS3USB::getAngle(Angle a) {        
-    double accXval;
-    double accYval;
-    double accZval;
-    
+double PS3USB::getAngle(Angle a) {                
     if(PS3Connected) {
+        double accXval;
+        double accYval;
+        double accZval;
+        
         // Data for the Kionix KXPC4 used in the DualShock 3
         const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
         accXval = -((double)getSensor(aX)-zeroG);
         accYval = -((double)getSensor(aY)-zeroG);
         accZval = -((double)getSensor(aZ)-zeroG);
-    }    
-    // Convert to 360 degrees resolution
-    // atan2 outputs the value of -π to π (radians)
-    // We are then converting it to 0 to 2π and then to degrees  
-    if (a == Pitch) {        
-        double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
-        return angle;
-    } else {
-        double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
-        return angle;
-    }    
+        
+        // Convert to 360 degrees resolution
+        // atan2 outputs the value of -π to π (radians)
+        // We are then converting it to 0 to 2π and then to degrees  
+        if (a == Pitch) {        
+            double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
+            return angle;
+        } else {
+            double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
+            return angle;
+        }
+    } else
+        return 0;
+        
 }
 bool PS3USB::getStatus(Status c)
 {
@@ -428,6 +427,7 @@ String PS3USB::getStatusString()
         
         
         strcat(statusOutput," - PowerRating: ");
+        
         if (getStatus(Charging)) strcat(statusOutput,"Charging");
         else if (getStatus(NotCharging)) strcat(statusOutput,"Not Charging");
         else if (getStatus(Shutdown)) strcat(statusOutput,"Shutdown");
