@@ -46,9 +46,6 @@
 #define PS3_REPORT_BUFFER_SIZE      48 // Size of the output report buffer for the Dualshock and Navigation controllers
 #define MOVE_REPORT_BUFFER_SIZE     7 // Size of the output report buffer for the Move Controller
 
-// used in control endpoint header for HCI Commands
-#define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
-
 // used in control endpoint header for HID Commands
 #define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define HID_REQUEST_SET_REPORT      0x09
@@ -71,24 +68,24 @@ enum LED
 };
 enum Colors
 {
-    //Used to set the colors of the move controller            
-    Red = 0xFF0000,//((255 << 16) | (0 << 8) | 0);
-    Green = 0xFF00,//((0 << 16) | (255 << 8) | 0);
-    Blue = 0xFF,//((0 << 16) | (0 << 8) | 255);
+    // Used to set the colors of the move controller            
+    Red = 0xFF0000, // r = 255, g = 0, b = 0
+    Green = 0xFF00, // r = 0, g = 255, b = 0
+    Blue = 0xFF, // r = 0, g = 0, b = 255
     
-    Yellow = 0xFFEB04,//((255 << 16) | (235 << 8) | 4);
-    Lightblue = 0xFFFF,//((0 << 16) | (255 << 8) | 255);
-    Purble = 0xFF00FF,//((255 << 16) | (0 << 8) | 255);
+    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
+    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
+    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
     
-    White = 0xFFFFFF,//((255 << 16) | (255 << 8) | 255);
-    Off = 0x00,//((0 << 16) | (0 << 8) | 0);
+    White = 0xFFFFFF, // r = 255, g = 255, b = 255
+    Off = 0x00, // r = 0, g = 0, b = 0
 };
 
 enum Button
 {
     // byte location | bit location
     
-    //Sixaxis Dualshcock 3 & Navigation controller 
+    // Sixaxis Dualshcock 3 & Navigation controller 
     SELECT = (2 << 8) | 0x01,
     L3 = (2 << 8) | 0x02,
     R3 = (2 << 8) | 0x04,
@@ -111,7 +108,7 @@ enum Button
 };
 enum AnalogButton
 {
-    //Sixaxis Dualshcock 3 & Navigation controller
+    // Sixaxis Dualshcock 3 & Navigation controller
     UP_ANALOG = 14,
     RIGHT_ANALOG = 15,
     DOWN_ANALOG = 16,
@@ -163,7 +160,7 @@ enum Status
     CableRumble = (31 << 8) | 0x10, // Opperating by USB and rumble is turned on
     Cable = (31 << 8) | 0x12, // Opperating by USB and rumble is turned off 
     BluetoothRumble = (31 << 8) | 0x14, // Opperating by bluetooth and rumble is turned on
-    Bluetooth = (30 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
+    Bluetooth = (31 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
 };
 enum Rumble
 {
@@ -190,7 +187,7 @@ public:
     bool getButton(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
-    int32_t getSensor(Sensor a);
+    uint16_t getSensor(Sensor a);
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();
@@ -229,7 +226,7 @@ private:
     uint32_t ButtonState;
     uint32_t OldButtonState;     
     
-    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in PS3BT.cpp
+    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
     uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
     

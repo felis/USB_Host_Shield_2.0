@@ -441,10 +441,17 @@ bool PS3BT::getButton(Button b)
 {
     if (l2capinbuf == NULL)
         return false;
-    if ((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)) > 0)
-        return true;
-    else
-        return false;
+    if(PS3MoveConnected) {
+        if((l2capinbuf[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
+            return true;
+        else
+            return false;
+    } else {  
+        if((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
+            return true;
+        else
+            return false;
+    }
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a)
 {
@@ -464,25 +471,25 @@ int32_t PS3BT::getSensor(Sensor a)
         return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
-    else if (a == mXmove || a == mYmove || a == mZmove)
+    else if (a == mXmove || a == mYmove || a == mZmove) // These are all 12-bits long
     {        
         // Might not be correct, haven't tested it yet
-        if (a == mXmove)
+        /*if (a == mXmove)
             return ((l2capinbuf[(uint16_t)a + 1] << 0x04) | (l2capinbuf[(uint16_t)a] << 0x0C));
-        //return (((unsigned char)l2capinbuf[(unsigned int)a + 1]) | (((unsigned char)l2capinbuf[(unsigned int)a] & 0x0F)) << 8);
         else if (a == mYmove)
             return ((l2capinbuf[(uint16_t)a + 1] & 0xF0) | (l2capinbuf[(uint16_t)a] << 0x08));
-        //return (((unsigned char)l2capinbuf[(unsigned int)a + 1]) | (((unsigned char)l2capinbuf[(unsigned int)a] & 0x0F)) << 8);
         else if (a == mZmove)
-            return ((l2capinbuf[(uint16_t)a + 1] << 0x0F) | (l2capinbuf[(uint16_t)a] << 0x0C));
-        //return ((((unsigned char)l2capinbuf[(unsigned int)a + 1] & 0xF0) >> 4) | ((unsigned char)l2capinbuf[(unsigned int)a] << 4));
-        else
-            return 0;                
+         return ((l2capinbuf[(uint16_t)a + 1] << 0x0F) | (l2capinbuf[(uint16_t)a] << 0x0C));
+         */
+        if (a == mXmove || a == mYmove)
+            return (((l2capinbuf[(uint16_t)a] & 0x0F) << 8) | (l2capinbuf[(uint16_t)a + 1]));
+        else // mZmove            
+            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] >> 4));                
     }
-    else if (a == tempMove)
-        return (((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4) | (l2capinbuf[(uint16_t)a] << 4));
+    else if (a == tempMove) // The tempearature is 12 bits long too
+        return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
     else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
-        return ((l2capinbuf[(uint16_t)a + 1] << 8) | l2capinbuf[(uint16_t)a]);
+        return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));
 }
 double PS3BT::getAngle(Angle a) {        
     double accXval;
@@ -946,14 +953,14 @@ void PS3BT::ACL_event_task()
                      Notify(PSTR(" Identifier: "));
                      PrintHex<uint8_t>(l2capinbuf[9]);
                      */
-                    if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_CTRL)
+                    if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == L2CAP_PSM_HID_CTRL)
                     {                    
                         identifier = l2capinbuf[9];
                         control_scid[0] = l2capinbuf[14];
                         control_scid[1] = l2capinbuf[15];
                         l2cap_event_flag |= L2CAP_EV_CONTROL_CONNECTION_REQUEST;
                     }
-                    else if ((l2capinbuf[13] | l2capinbuf[12]) == L2CAP_PSM_HID_INTR)
+                    else if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == L2CAP_PSM_HID_INTR)
                     {
                         identifier = l2capinbuf[9];
                         interrupt_scid[0] = l2capinbuf[14];
@@ -1000,7 +1007,7 @@ void PS3BT::ACL_event_task()
                     if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1])
                     {
 #ifdef DEBUG
-                        Notify(PSTR("\r\nDisconnected Request: Disconnected Control"));
+                        Notify(PSTR("\r\nDisconnect Request: Control Channel"));
 #endif
                         identifier = l2capinbuf[9];
                         l2cap_disconnection_response(identifier,control_dcid,control_scid);
@@ -1008,7 +1015,7 @@ void PS3BT::ACL_event_task()
                     else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1])  
                     {
 #ifdef DEBUG
-                        Notify(PSTR("\r\nDisconnected Request: Disconnected Interrupt"));                
+                        Notify(PSTR("\r\nDisconnect Request: Interrupt Channel"));                
 #endif
                         identifier = l2capinbuf[9];
                         l2cap_disconnection_response(identifier,interrupt_dcid,interrupt_scid);
@@ -1018,13 +1025,13 @@ void PS3BT::ACL_event_task()
                 {
                     if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1])
                     {                                        
-                        //Serial.print("\r\nDisconnected Response: Disconnected Control");
+                        //Serial.print("\r\nDisconnect Response: Control Channel");
                         identifier = l2capinbuf[9];
                         l2cap_event_flag |= L2CAP_EV_CONTROL_DISCONNECT_RESPONSE;
                     }
                     else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1])
                     {                                        
-                        //Serial.print("\r\nDisconnected Response: Disconnected Interrupt");
+                        //Serial.print("\r\nDisconnect Response: Interrupt Channel");
                         identifier = l2capinbuf[9];
                         l2cap_event_flag |= L2CAP_EV_INTERRUPT_DISCONNECT_RESPONSE;                                        
                     }
