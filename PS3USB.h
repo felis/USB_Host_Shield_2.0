@@ -226,7 +226,7 @@ private:
     uint32_t ButtonState;
     uint32_t OldButtonState;     
     
-    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in PS3BT.cpp
+    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
     uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
     

@@ -413,7 +413,7 @@ private:
     uint32_t timerHID;// timer used see if there has to be a delay before a new HID command
     uint32_t timerBulbRumble;// used to continuously set PS3 Move controller Bulb and rumble values
     
-    uint8_t my_bdaddr[6]; //Change to your dongles Bluetooth address in PS3BT.cpp
+    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
     uint8_t l2capinbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap in data
     uint8_t l2capoutbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap out data
