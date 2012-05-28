@@ -68,24 +68,24 @@ enum LED
 };
 enum Colors
 {
-    //Used to set the colors of the move controller            
-    Red = 0xFF0000,//((255 << 16) | (0 << 8) | 0);
-    Green = 0xFF00,//((0 << 16) | (255 << 8) | 0);
-    Blue = 0xFF,//((0 << 16) | (0 << 8) | 255);
+    // Used to set the colors of the move controller            
+    Red = 0xFF0000, // r = 255, g = 0, b = 0
+    Green = 0xFF00, // r = 0, g = 255, b = 0
+    Blue = 0xFF, // r = 0, g = 0, b = 255
     
-    Yellow = 0xFFEB04,//((255 << 16) | (235 << 8) | 4);
-    Lightblue = 0xFFFF,//((0 << 16) | (255 << 8) | 255);
-    Purble = 0xFF00FF,//((255 << 16) | (0 << 8) | 255);
+    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
+    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
+    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
     
-    White = 0xFFFFFF,//((255 << 16) | (255 << 8) | 255);
-    Off = 0x00,//((0 << 16) | (0 << 8) | 0);
+    White = 0xFFFFFF, // r = 255, g = 255, b = 255
+    Off = 0x00, // r = 0, g = 0, b = 0
 };
 
 enum Button
 {
     // byte location | bit location
     
-    //Sixaxis Dualshcock 3 & Navigation controller 
+    // Sixaxis Dualshcock 3 & Navigation controller 
     SELECT = (2 << 8) | 0x01,
     L3 = (2 << 8) | 0x02,
     R3 = (2 << 8) | 0x04,
@@ -108,7 +108,7 @@ enum Button
 };
 enum AnalogButton
 {
-    //Sixaxis Dualshcock 3 & Navigation controller
+    // Sixaxis Dualshcock 3 & Navigation controller
     UP_ANALOG = 14,
     RIGHT_ANALOG = 15,
     DOWN_ANALOG = 16,

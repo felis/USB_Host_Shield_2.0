@@ -179,24 +179,24 @@ enum LED
 };
 enum Colors
 {
-    //Used to set the colors of the move controller            
-    Red = 0xFF0000,//((255 << 16) | (0 << 8) | 0);
-    Green = 0xFF00,//((0 << 16) | (255 << 8) | 0);
-    Blue = 0xFF,//((0 << 16) | (0 << 8) | 255);
+    // Used to set the colors of the move controller            
+    Red = 0xFF0000, // r = 255, g = 0, b = 0
+    Green = 0xFF00, // r = 0, g = 255, b = 0
+    Blue = 0xFF, // r = 0, g = 0, b = 255
     
-    Yellow = 0xFFEB04,//((255 << 16) | (235 << 8) | 4);
-    Lightblue = 0xFFFF,//((0 << 16) | (255 << 8) | 255);
-    Purble = 0xFF00FF,//((255 << 16) | (0 << 8) | 255);
+    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
+    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
+    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
     
-    White = 0xFFFFFF,//((255 << 16) | (255 << 8) | 255);
-    Off = 0x00,//((0 << 16) | (0 << 8) | 0);
+    White = 0xFFFFFF, // r = 255, g = 255, b = 255
+    Off = 0x00, // r = 0, g = 0, b = 0
 };
 
 enum Button
 {
     // byte location | bit location
     
-    //Sixaxis Dualshcock 3 & Navigation controller 
+    // Sixaxis Dualshcock 3 & Navigation controller 
     SELECT = (11 << 8) | 0x01,
     L3 = (11 << 8) | 0x02,
     R3 = (11 << 8) | 0x04,
@@ -217,7 +217,13 @@ enum Button
     
     PS = (13 << 8) | 0x01,
     
-    //Playstation Move Controller
+    MOVE = (13/*12*/ << 8) | 0x08, // covers 12 bits - we only need to read the top 8            
+    T = (13/*12*/ << 8) | 0x10, // covers 12 bits - we only need to read the top 8
+    
+    
+    // These are the true locations for the Move controller, but to make the same syntax for all controllers, it is handled by getButton()
+/*   
+    // Playstation Move Controller 
     SELECT_MOVE = (10 << 8) | 0x01,
     START_MOVE = (10 << 8) | 0x08,
     
@@ -227,8 +233,9 @@ enum Button
     SQUARE_MOVE = (11 << 8) | 0x80,
     
     PS_MOVE = (12 << 8) | 0x01,
-    MOVE_MOVE = (12 << 8) | 0x08,//covers 12 bits - we only need to read the top 8            
-    T_MOVE = (12 << 8) | 0x10,//covers 12 bits - we only need to read the top 8            
+    MOVE_MOVE = (12 << 8) | 0x08, // covers 12 bits - we only need to read the top 8            
+    T_MOVE = (12 << 8) | 0x10, // covers 12 bits - we only need to read the top 8     
+ */
 };
 enum AnalogButton
 {
@@ -248,7 +255,7 @@ enum AnalogButton
     SQUARE_ANALOG = 34,
     
     //Playstation Move Controller
-    T_MOVE_ANALOG = 15,//Both at byte 14 (last reading) and byte 15 (current reading)
+    T_ANALOG = 15, // Both at byte 14 (last reading) and byte 15 (current reading)
 };
 enum AnalogHat
 {

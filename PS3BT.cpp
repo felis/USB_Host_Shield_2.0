@@ -441,10 +441,17 @@ bool PS3BT::getButton(Button b)
 {
     if (l2capinbuf == NULL)
         return false;
-    if ((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)) > 0)
-        return true;
-    else
-        return false;
+    if(PS3MoveConnected) {
+        if((l2capinbuf[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
+            return true;
+        else
+            return false;
+    } else {  
+        if((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
+            return true;
+        else
+            return false;
+    }
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a)
 {
