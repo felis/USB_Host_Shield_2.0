@@ -521,6 +521,19 @@ double PS3BT::getAngle(Angle a) {
         return angle;
     }    
 }
+String PS3BT::getTemperature() {
+    if(PS3MoveConnected) {
+        int16_t input = getSensor(tempMove);    
+        
+        String output = String(input/100);
+        output += ".";
+        if(input%100 < 10)
+            output += "0";
+        output += String(input%100);
+        
+        return output;        
+    }
+}
 bool PS3BT::getStatus(Status c)
 {
     if (l2capinbuf == NULL)

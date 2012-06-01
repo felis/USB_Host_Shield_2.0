@@ -353,6 +353,7 @@ public:
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();    
+    String getTemperature();
     void disconnect(); // use this void to disconnect any of the controllers
     
     /* HID Commands */
