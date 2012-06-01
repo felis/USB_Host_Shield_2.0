@@ -189,21 +189,8 @@ void loop()
       Serial.println(PS3.getAngle(Roll));
     }
     else if(printTemperature) {
-      String templow;
-      String temphigh;
-      String input = String(PS3.getSensor(tempMove));
-
-      if (input.length() > 3) {
-        temphigh = input.substring(0, 2);
-        templow = input.substring(2);
-      } else {
-        temphigh = input.substring(0, 1);
-        templow = input.substring(1);
-      }
-      Serial.print(F("Temperature: ")); 
-      Serial.print(temphigh);       
-      Serial.print(F(".")); 
-      Serial.println(templow);
+      Serial.print(F("Temperature: "));
+      Serial.println(PS3.getTemperature());
     }
   }
   delay(1);

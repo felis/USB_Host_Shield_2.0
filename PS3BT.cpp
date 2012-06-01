@@ -465,7 +465,7 @@ uint8_t PS3BT::getAnalogHat(AnalogHat a)
         return 0;                        
     return (uint8_t)(l2capinbuf[(uint16_t)a]);            
 }
-int32_t PS3BT::getSensor(Sensor a)
+int16_t PS3BT::getSensor(Sensor a)
 {
     if (l2capinbuf == NULL)
         return 0;
@@ -505,22 +505,9 @@ double PS3BT::getAngle(Angle a) {
     } else if(PS3MoveConnected) {        
         // It's a Kionix KXSC4 inside the Motion controller
         const uint16_t zeroG = 0x8000;                
-        accXval = getSensor(aXmove);
-        accYval = getSensor(aYmove);
-        accZval = getSensor(aZmove);
-        
-        if(accXval < 0)
-            accXval += zeroG;
-        else
-            accXval -= zeroG;        
-        if(accYval < 0)
-            accYval += zeroG;
-        else
-            accYval -= zeroG;        
-        if(accZval < 0)
-            accZval += zeroG;
-        else
-            accZval -= zeroG;
+        accXval = -(int16_t)(getSensor(aXmove)-zeroG);
+        accYval = (int16_t)(getSensor(aYmove)-zeroG);
+        accZval = (int16_t)(getSensor(aZmove)-zeroG);      
     }
     
     // Convert to 360 degrees resolution
@@ -533,6 +520,19 @@ double PS3BT::getAngle(Angle a) {
         double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     }    
+}
+String PS3BT::getTemperature() {
+    if(PS3MoveConnected) {
+        int16_t input = getSensor(tempMove);    
+        
+        String output = String(input/100);
+        output += ".";
+        if(input%100 < 10)
+            output += "0";
+        output += String(input%100);
+        
+        return output;        
+    }
 }
 bool PS3BT::getStatus(Status c)
 {

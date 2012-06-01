@@ -349,10 +349,11 @@ public:
     bool getButton(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
-    int32_t getSensor(Sensor a);
+    int16_t getSensor(Sensor a);
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();    
+    String getTemperature();
     void disconnect(); // use this void to disconnect any of the controllers
     
     /* HID Commands */
