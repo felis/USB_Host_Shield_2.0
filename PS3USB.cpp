@@ -313,8 +313,8 @@ void PS3USB::readReport()
 {              
     if (readBuf == NULL)
         return;   
-    if(PS3Connected || PS3NavigationConnected)
-        ButtonState = (uint32_t)(readBuf[2] | ((uint16_t)readBuf[3] << 8) | ((uint32_t)readBuf[4] << 16));
+
+    ButtonState = (uint32_t)(readBuf[2] | ((uint16_t)readBuf[3] << 8) | ((uint32_t)readBuf[4] << 16));
     
     //Notify(PSTR("\r\nButtonState");
     //PrintHex<uint32_t>(ButtonState);
