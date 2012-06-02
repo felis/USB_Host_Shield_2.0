@@ -23,6 +23,8 @@ e-mail   :  support@circuitsathome.com
 /* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
 //#define BOARD_MEGA_ADK
 
+/* Uncomment the following if you are using a Teensy 2.0 */
+//#define BOARD_TEENSY
 
 #include <avr/io.h>
 
@@ -501,7 +503,47 @@ template<typename Tp_pin, typename Tc_bit>
 
 #endif // "Classic" Arduino pin numbers
 
-#if defined(__AVR_ATmega32U4__)
+#if !defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
+// Arduino Leonardo pin numbers
+
+#define P0  Pd2 // D0 - PD2
+#define P1  Pd3 // D1 - PD3
+#define P2  Pd1 // D2 - PD1
+#define P3  Pd0 // D3 - PD0
+#define P4  Pd4 // D4 - PD4
+#define P5  Pc6 // D5 - PC6
+#define P6  Pd7 // D6 - PD7
+#define P7  Pe6 // D7 - PE6
+
+#define P8  Pb4 // D8 - PB4
+#define P9  Pb5 // D9 - PB5
+#define P10 Pb6 // D10 - PB6
+#define P11 Pb7 // D11 - PB7
+#define P12 Pd6 // D12 - PD6
+#define P13 Pc7 // D13 - PC7
+
+#define P14 Pb3 // D14 - MISO - PB3
+#define P15 Pb1 // D15 - SCK - PB1
+#define P16 Pb2 // D16 - MOSI - PB2
+#define P17 Pb0 // D17 - SS - PB0
+
+#define P18 Pf7 // D18 - A0 - PF7
+#define P19 Pf6 // D19 - A1 - PF6
+#define P20 Pf5 // D20 - A2 - PF5
+#define P21 Pf4 // D21 - A3 - PF4
+#define P22 Pf1 // D22 - A4 - PF1
+#define P23 Pf0 // D23 - A5 - PF0
+
+#define P24 Pd4 // D24 / D4 - A6 - PD4
+#define P25 Pd7 // D25 / D6 - A7 - PD7
+#define P26 Pb4 // D26 / D8 - A8 - PB4
+#define P27 Pb5 // D27 / D9 - A9 - PB5
+#define P28 Pb6 // D28 / D10 - A10 - PB6
+#define P29 Pd6 // D29 / D12 - A11 - PD6
+
+#endif // Arduino Leonardo pin numbers
+
+#if defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
 // Teensy 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pb0
