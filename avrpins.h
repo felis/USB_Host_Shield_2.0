@@ -20,8 +20,10 @@ e-mail   :  support@circuitsathome.com
 #ifndef _avrpins_h_
 #define _avrpins_h_
 
+#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
 /* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
 //#define BOARD_MEGA_ADK
+#endif
 
 /* Uncomment the following if you are using a Teensy 2.0 */
 //#define BOARD_TEENSY
