@@ -146,3 +146,41 @@ Bluetooth	LITERAL1
 
 RumbleHigh	LITERAL1
 RumbleLow	LITERAL1
+
+####################################################
+# Syntax Coloring Map For Xbox 360 USB Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+XBOXUSB				KEYWORD1
+
+####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+
+setLedBlink			KEYWORD2
+setLedMode			KEYWORD2
+Xbox360Connected	KEYWORD2
+
+####################################################
+# Constants and enums (LITERAL1)
+####################################################
+
+ALL					LITERAL1
+
+ROTATING			LITERAL1
+FASTBLINK			LITERAL1
+SLOWBLINK			LITERAL1
+ALTERNATING			LITERAL1
+
+BACK				LITERAL1
+
+XBOX				LITERAL1
+
+A					LITERAL1
+B					LITERAL1
+X					LITERAL1
+Y					LITERAL1
