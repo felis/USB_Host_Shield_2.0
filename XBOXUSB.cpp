@@ -40,6 +40,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 	uint8_t	rcode;
 	UsbDevice *p = NULL;
 	EpInfo *oldep_ptr = NULL;
+    uint16_t PID;
     uint16_t VID;
     
     // get memory address of USB device address pool
@@ -133,8 +134,22 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         goto FailSetDevTblEntry;
     
     VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
     
     if(VID == XBOX_VID) { // We just check if it's a xbox controller using the Vendor ID
+        if(PID == XBOX_WIRELESS_PID) {
+#ifdef DEBUG
+            Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"));
+#endif
+            return 0;
+        }
+        else if(PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
+#ifdef DEBUG            
+            Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"));
+#endif
+            return 0;            
+        }    
+        
         /* The application will work in reduced host mode, so we can save program and data
          memory space. After verifying the VID we will use known values for the 
          configuration values for device, interface, endpoints and HID for the XBOX360 Controllers */
@@ -199,7 +214,7 @@ FailUnknownDevice:
     Notify(PSTR("\r\nUnknown Device Connected - VID: "));
     PrintHex<uint16_t>(VID);
     Notify(PSTR(" PID: "));
-    PrintHex<uint16_t>(((USB_DEVICE_DESCRIPTOR*)buf)->idProduct);
+    PrintHex<uint16_t>(PID);
 #endif
     goto Fail;
 Fail:
@@ -235,8 +250,6 @@ void XBOXUSB::readReport() {
     if (readBuf == NULL)
         return;
     if(readBuf[0] != 0x00 || readBuf[1] != 0x14) { // Check if it's the correct report - the controller also sends different status reports
-        /*for(int i = 0; i < EP_MAXPKTSIZE; i++)
-            readBuf[i] = 0;*/
         return;
     }
 
