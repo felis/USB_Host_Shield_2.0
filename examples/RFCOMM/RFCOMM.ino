@@ -34,4 +34,5 @@ void loop() {
   } 
   else 
     firstMessage = true;
+  delay(5);
 }

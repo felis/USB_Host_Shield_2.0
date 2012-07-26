@@ -275,7 +275,7 @@ private:
     
     unsigned long timer;
     bool waitForLastCommand;
-    
+    bool creditSent;    
     
     uint8_t rfcommDataBuffer[256]; // Create a 256 sized buffer for incoming data
     uint8_t rfcommAvailable;
