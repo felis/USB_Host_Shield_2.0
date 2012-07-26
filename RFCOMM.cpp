@@ -1030,9 +1030,8 @@ void RFCOMM::readReport() {
         return; // Return if the buffer would be full
 
     uint8_t offset;
-    if(l2capinbuf[4] == length+4) {
+    if(l2capinbuf[4] == length+4)
         offset = 0;
-    }
     else
         offset = 1; // There must be credit
     
@@ -1047,10 +1046,15 @@ void RFCOMM::readReport() {
 void RFCOMM::printReport() { //Uncomment "#define PRINTREPORT" to print the report send to the Arduino
     if(rfcommChannelType == RFCOMM_UIH) {                                                                                    
         uint8_t length = l2capinbuf[10] >> 1; // Get length
-        uint8_t message[length]; // Create buffer
+        
+        uint8_t offset;
+        if(l2capinbuf[4] == length+4)
+            offset = 0;
+        else
+            offset = 1; // There must be credit
+        
         for(uint8_t i = 0; i < length; i++)
-            message[i] = l2capinbuf[i+11];
-        Serial.write(message,length); // Print text
+            Serial.write(l2capinbuf[i+11+offset]);
     }
 }
 
