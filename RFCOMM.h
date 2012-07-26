@@ -180,12 +180,9 @@
 #define BT_RFCOMM_NSC_RSP    0x11
 */
 
-/* CRC on 2 bytes */
-#define __crc(data) (rfcomm_crc_table[rfcomm_crc_table[0xff ^ data[0]] ^ data[1]])
-
 class RFCOMM : public USBDeviceConfig, public UsbConfigXtracter {
 public:
-    RFCOMM(USB *p, const char* name = "Arduino", const char* key = "1234");
+    RFCOMM(USB *p, const char* name = "Arduino", const char* pin = "1234");
     
     // USBDeviceConfig implementation
     virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
@@ -229,7 +226,7 @@ protected:
     
 private:        
     const char* btdName;
-    const char* btdKey;
+    const char* btdPin;
     
     bool bPollEnable;
     uint8_t pollInterval;
@@ -276,11 +273,14 @@ private:
     uint8_t rfcommChannelType;
     uint8_t rfcommPfBit;
     
-    bool firstMessage;
+    unsigned long timer;
+    bool waitForLastCommand;
+    
     
     uint8_t rfcommDataBuffer[256]; // Create a 256 sized buffer for incoming data
     uint8_t rfcommAvailable;
-    uint8_t bufferPointer;
+    
+    bool firstMessage; // Used to see if it's the first SDP request received
     
     /* State machines */
     void HCI_event_task(); //poll the HCI event pipe
@@ -327,5 +327,6 @@ private:
     void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length);
     void sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t credit);
     uint8_t calcFcs(uint8_t *data);
+    uint8_t __crc(uint8_t* data);
 };
 #endif
