@@ -739,7 +739,7 @@ void RFCOMM::ACL_event_task()
                     Serial.print(l2capinbuf[16],HEX);
                     Serial.print(" ");
                     Serial.print(l2capinbuf[17],HEX);
-                    */ 
+                    */
                     if ((l2capinbuf[16] << 8 | l2capinbuf[17]) == SERIALPORT_UUID) {
                         if(firstMessage) {
                             serialPortResponse1(l2capinbuf[9],l2capinbuf[10]);
@@ -1371,9 +1371,9 @@ void RFCOMM::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionI
     l2capoutbuf[1] = transactionIDHigh;
     l2capoutbuf[2] = transactionIDLow;
     l2capoutbuf[3] = 0x00; // Parameter Length
-    l2capoutbuf[4] = 0x21; // Parameter Length
+    l2capoutbuf[4] = 0x1C; // Parameter Length
     l2capoutbuf[5] = 0x00; // AttributeListsByteCount
-    l2capoutbuf[6] = 0x1E; // AttributeListsByteCount
+    l2capoutbuf[6] = 0x19; // AttributeListsByteCount
     
     /* Attribute ID/Value Sequence: */
     l2capoutbuf[7] = 0x01;
@@ -1396,21 +1396,16 @@ void RFCOMM::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionI
     l2capoutbuf[23] = 0x01;
     l2capoutbuf[24] = 0x00;
     l2capoutbuf[25] = 0x25;
-    
-    l2capoutbuf[26] = 0x0A; // Name length 
-    l2capoutbuf[27] = 'S';
-    l2capoutbuf[28] = 'e';
-    l2capoutbuf[29] = 'r';
-    l2capoutbuf[30] = 'i';
-    l2capoutbuf[31] = 'a';
-    l2capoutbuf[32] = 'l';
-    l2capoutbuf[33] = 'P';
-    l2capoutbuf[34] = 'o';
-    l2capoutbuf[35] = 'r';
-    l2capoutbuf[36] = 't';
-    l2capoutbuf[37] = 0x00;        
-    
-    SDP_Command(l2capoutbuf,38);
+
+    l2capoutbuf[26] = 0x05; // Name length 
+    l2capoutbuf[27] = 'T';
+    l2capoutbuf[28] = 'K';
+    l2capoutbuf[29] = 'J';
+    l2capoutbuf[30] = 'S';
+    l2capoutbuf[31] = 'P';
+    l2capoutbuf[32] = 0x00;        
+
+    SDP_Command(l2capoutbuf,33);
 }
 void RFCOMM::l2capResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
     serialPortResponse1(transactionIDHigh,transactionIDLow); // These has to send include all the supported functions, since it only support virtual serialport it just sends the message again
