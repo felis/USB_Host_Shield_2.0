@@ -18,7 +18,7 @@
 #include "RFCOMM.h"
 #define DEBUG // Uncomment to print data for debugging
 //#define EXTRADEBUG // Uncomment to get even more debugging data
-//#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
+//#define PRINTREPORT // Uncomment to print the report sent to the Arduino
 
 const uint8_t RFCOMM::BTD_EVENT_PIPE  = 1;			
 const uint8_t RFCOMM::BTD_DATAIN_PIPE = 2;
@@ -27,7 +27,7 @@ const uint8_t RFCOMM::BTD_DATAOUT_PIPE = 3;
 /*  
  * CRC (reversed crc) lookup table as calculated by the table generator in ETSI TS 101 369 V6.3.0.
  */
-const uint8_t rfcomm_crc_table[256] = {    /* reversed, 8-bit, poly=0x07 */
+const uint8_t rfcomm_crc_table[256] PROGMEM = {    /* reversed, 8-bit, poly=0x07 */
     0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C, 0x09, 0x98, 0xEA, 0x7B,
     0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69, 0x12, 0x83, 0xF1, 0x60, 0x15, 0x84, 0xF6, 0x67,
     0x38, 0xA9, 0xDB, 0x4A, 0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31, 0xA0, 0xD2, 0x43,
@@ -46,7 +46,7 @@ const uint8_t rfcomm_crc_table[256] = {    /* reversed, 8-bit, poly=0x07 */
     0xB4, 0x25, 0x57, 0xC6, 0xB3, 0x22, 0x50, 0xC1, 0xBA, 0x2B, 0x59, 0xC8, 0xBD, 0x2C, 0x5E, 0xCF
 };
 
-RFCOMM::RFCOMM(USB *p, const char* name, const char* key):
+RFCOMM::RFCOMM(USB *p, const char* name, const char* pin):
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
 bNumEP(1), // if config descriptor needs to be parsed
@@ -65,7 +65,7 @@ bPollEnable(false) // don't start polling before dongle is connected
 		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
     
     btdName = name;
-    btdKey = key;    
+    btdPin = pin;    
 }
 
 uint8_t RFCOMM::Init(uint8_t parent, uint8_t port, bool lowspeed)
@@ -324,7 +324,7 @@ void RFCOMM::disconnect() { // Use this void to disconnect the RFCOMM Channel
     connected = false;    
     // First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
     if(RFCOMMConnected)
-        l2cap_disconnection_request(0x0A, rfcomm_dcid, rfcomm_scid);            
+        l2cap_disconnection_request(0x0A, rfcomm_dcid, rfcomm_scid);
     if(SDPConnected)
         l2cap_disconnection_request(0x0B, sdp_dcid, sdp_scid);            
     l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
@@ -355,9 +355,9 @@ void RFCOMM::HCI_event_task() {
 #ifdef DEBUG
                     Notify(PSTR("\r\nHCI Command Failed: "));
                     PrintHex<uint8_t>(hcibuf[2]);
-                    Serial.print(" "); 
+                    Notify(PSTR(" ")); 
                     PrintHex<uint8_t>(hcibuf[4]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(hcibuf[5]);                    
 #endif
                 }
@@ -397,10 +397,10 @@ void RFCOMM::HCI_event_task() {
                 
             case EV_PIN_CODE_REQUEST:
 #ifdef DEBUG
-                Notify(PSTR("\r\nBluetooth key is set too: "));
-                Serial.print(btdKey);
+                Notify(PSTR("\r\nBluetooth pin is set too: "));
+                Serial.print(btdPin);
 #endif
-                hci_pin_code_request_reply(btdKey);
+                hci_pin_code_request_reply(btdPin);                                   
                 break;
                 
             case EV_LINK_KEY_REQUEST:
@@ -484,7 +484,7 @@ void RFCOMM::HCI_task() {
             if (hci_read_bdaddr_complete)
             {
 #ifdef DEBUG
-                Notify(PSTR("\r\nLocal Bluetooth Address: "));                
+                Notify(PSTR("\r\nLocal Bluetooth Address: "));
                 for(int8_t i = 5; i > 0;i--)
                 {
                     PrintHex<uint8_t>(my_bdaddr[i]); 
@@ -625,15 +625,15 @@ void RFCOMM::ACL_event_task()
 #ifdef DEBUG
                     Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "));
                     PrintHex<uint8_t>(l2capinbuf[13]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(l2capinbuf[12]);
-                    Serial.print(" Data: ");
+                    Notify(PSTR(" Data: "));
                     PrintHex<uint8_t>(l2capinbuf[17]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(l2capinbuf[16]);
-                    Serial.print(" ");                
+                    Notify(PSTR(" "));                
                     PrintHex<uint8_t>(l2capinbuf[15]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(l2capinbuf[14]);     
 #endif
                 }
@@ -641,13 +641,13 @@ void RFCOMM::ACL_event_task()
 #ifdef EXTRADEBUG
                     Notify(PSTR("\r\nL2CAP Connection Request - PSM: "));                
                     PrintHex<uint8_t>(l2capinbuf[13]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(l2capinbuf[12]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                      
                     Notify(PSTR(" SCID: "));
                     PrintHex<uint8_t>(l2capinbuf[15]);
-                    Serial.print(" ");
+                    Notify(PSTR(" "));
                     PrintHex<uint8_t>(l2capinbuf[14]);
                      
                     Notify(PSTR(" Identifier: "));
@@ -770,15 +770,15 @@ void RFCOMM::ACL_event_task()
                 if(rfcommChannel>>3 != 0x00)
                     rfcommChannelPermanent = rfcommChannel;
 #ifdef EXTRADEBUG
-                Serial.print("\r\nRFCOMM Channel: ");
+                Notify(PSTR("\r\nRFCOMM Channel: "));
                 Serial.print(rfcommChannel>>3,HEX);
-                Serial.print(" Direction: ");
+                Notify(PSTR(" Direction: "));
                 Serial.print(rfcommDirection>>2,HEX);
-                Serial.print(" CommandResponse: ");
+                Notify(PSTR(" CommandResponse: "));
                 Serial.print(rfcommCommandResponse>>1,HEX);                 
-                Serial.print(" ChannelType: ");
+                Notify(PSTR(" ChannelType: "));
                 Serial.print(rfcommChannelType,HEX); 
-                Serial.print(" PF_BIT: ");
+                Notify(PSTR(" PF_BIT: "));
                 Serial.print(rfcommPfBit,HEX);                  
 #endif  
                 if(connected) {
@@ -830,7 +830,9 @@ void RFCOMM::ACL_event_task()
 #ifdef DEBUG
                         Notify(PSTR("\r\nUIH Command with credit"));   
 #endif
-                        sendRfcommCredit(rfcommChannelPermanent,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // 255 credit                                         
+                        sendRfcommCredit(rfcommChannelPermanent,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // 255 credit
+                        timer = millis();
+                        waitForLastCommand = true;                        
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
 #ifdef DEBUG
                         Notify(PSTR("\r\nUIH Remote Port Negotiation Command"));                   
@@ -849,20 +851,15 @@ void RFCOMM::ACL_event_task()
 #ifdef DEBUG
                         Notify(PSTR("\r\nRFCOMM Connection is now established\r\n"));                   
 #endif     
+                        waitForLastCommand = false;
                         connected = true; // The RFCOMM channel is now established
-                    } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] != BT_RFCOMM_RPN_CMD) { // Some deviced don't send the UIH Remote Port Negotiation Command 
-#ifdef DEBUG
-                        Notify(PSTR("\r\nRFCOMM Connection is now established\r\n"));                   
-#endif                                            
-                        readReport();                    
-#ifdef PRINTREPORT
-                        printReport(); //Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
-#endif
-                        connected = true; // The RFCOMM channel is now established
-                    } else if (rfcommChannelType == RFCOMM_DISC) {
+                    }
+                    
+                    else if (rfcommChannelType == RFCOMM_DISC) {
 #ifdef DEBUG
                         Notify(PSTR("\r\nReceived Disconnect RFCOMM Command"));                      
 #endif
+                        l2cap_disconnection_request(0x0A, rfcomm_dcid, rfcomm_scid);
                     } else {
 #ifdef DEBUG
                         Notify(PSTR("\r\nUnsupported RFCOMM - ChannelType: "));
@@ -945,6 +942,16 @@ void RFCOMM::SDP_task() {
 }
 void RFCOMM::RFCOMM_task()
 {
+    if(!connected) {
+        if((millis() - timer) > 100 && waitForLastCommand) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
+#ifdef DEBUG
+            Notify(PSTR("\r\nRFCOMM Connection is now established\r\n"));                   
+#endif
+            waitForLastCommand = false;
+            connected = true; // The RFCOMM channel is now established
+            
+        } 
+    }
     switch (l2cap_rfcomm_state)
     {
         case L2CAP_RFCOMM_WAIT:            
@@ -989,7 +996,7 @@ void RFCOMM::RFCOMM_task()
 #endif
                 l2cap_disconnection_response(identifier,rfcomm_dcid,rfcomm_scid);
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
-            }                      
+            }
             break;                    
     }
 }
@@ -1119,7 +1126,7 @@ void RFCOMM::hci_pin_code_request_reply(const char* key) {
     HCI_Command(hcibuf, 26);
 }
 void RFCOMM::hci_link_key_request_negative_reply() {
-    hcibuf[0] = 0x0C; // HCI OCF = 9
+    hcibuf[0] = 0x0C; // HCI OCF = 0C
     hcibuf[1] = 0x01 << 2; // HCI OGF = 1
     hcibuf[2] = 0x06; // parameter length 7
     hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
@@ -1466,10 +1473,10 @@ void RFCOMM::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t 
         l2capoutbuf[i+3] = data[i];
     l2capoutbuf[i+3] = calcFcs(l2capoutbuf);
 #ifdef EXTRADEBUG
-    Serial.print(" - RFCOMM Data: ");
+    Notify(PSTR(" - RFCOMM Data: "));
     for(i = 0; i < length+4; i++) {
         Serial.print(l2capoutbuf[i],HEX);
-        Serial.print(" ");
+        Notify(PSTR(" "));
     }
 #endif    
     RFCOMM_Command(l2capoutbuf,length+4);
@@ -1482,13 +1489,18 @@ void RFCOMM::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, ui
     l2capoutbuf[3] = credit; // Credit
     l2capoutbuf[4] = calcFcs(l2capoutbuf);                                                    
 #ifdef EXTRADEBUG
-    Serial.print(" - RFCOMM Credit Data: ");
+    Notify(PSTR(" - RFCOMM Credit Data: "));
     for(uint8_t i = 0; i < 5; i++) {
         Serial.print(l2capoutbuf[i],HEX);
-        Serial.print(" ");
+        Notify(PSTR(" "));
     }
 #endif
     RFCOMM_Command(l2capoutbuf,5);    
+}
+
+/* CRC on 2 bytes */
+uint8_t RFCOMM::__crc(uint8_t* data) {
+    return(pgm_read_byte(&rfcomm_crc_table[pgm_read_byte(&rfcomm_crc_table[0xff ^ data[0]]) ^ data[1]]));
 }
 
 /* Calculate FCS - we never actually check if the host sends correct FCS to the Arduino */
@@ -1496,7 +1508,7 @@ uint8_t RFCOMM::calcFcs(uint8_t *data) {
     if((data[1] & 0xEF) == RFCOMM_UIH)
         return (0xff - __crc(data)); // FCS on 2 bytes
     else
-        return (0xff - rfcomm_crc_table[__crc(data) ^ data[2]]); // FCS on 3 bytes
+        return (0xff - pgm_read_byte(&rfcomm_crc_table[__crc(data) ^ data[2]])); // FCS on 3 bytes
 }
 
 /* Serial commands */
