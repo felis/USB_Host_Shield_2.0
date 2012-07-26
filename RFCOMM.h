@@ -306,12 +306,12 @@ private:
     void hci_disconnect();
     
     /* L2CAP Commands */
-    void L2CAP_Command(uint8_t* data, uint16_t nbytes);
-    void l2cap_connection_response(uint8_t rxid, uint8_t dcid[], uint8_t scid[], uint8_t result);
-    void l2cap_config_request(uint8_t rxid, uint8_t dcid[]);
-    void l2cap_config_response(uint8_t rxid, uint8_t scid[]);
-    void l2cap_disconnection_request(uint8_t rxid, uint8_t dcid[], uint8_t scid[]);
-    void l2cap_disconnection_response(uint8_t rxid, uint8_t dcid[], uint8_t scid[]);
+    void L2CAP_Command(uint8_t* data, uint16_t nbytes, uint8_t channelLow = 0x01, uint8_t channelHigh = 0x00); // Standard L2CAP header: Channel ID (0x01) for ACL-U
+    void l2cap_connection_response(uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result);
+    void l2cap_config_request(uint8_t rxid, uint8_t* dcid);
+    void l2cap_config_response(uint8_t rxid, uint8_t* scid);
+    void l2cap_disconnection_request(uint8_t rxid, uint8_t* dcid, uint8_t* scid);
+    void l2cap_disconnection_response(uint8_t rxid, uint8_t* dcid, uint8_t* scid);
     void l2cap_information_response(uint8_t rxid, uint8_t infoTypeLow, uint8_t infoTypeHigh);
     
     /* SDP Commands */
