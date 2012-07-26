@@ -7,8 +7,8 @@
 #include <RFCOMM.h>
 USB Usb;
 /* You can create the instance of the class in two ways */
-RFCOMM SerialBT(&Usb); // This will set the name to the defaults: "Arduino" and the passcode to "1234"
-//RFCOMM SerialBT(&Usb, "Lauszus' Arduino","0000"); // You can also set the name and passcode like so
+RFCOMM SerialBT(&Usb); // This will set the name to the defaults: "Arduino" and the pin to "1234"
+//RFCOMM SerialBT(&Usb, "Lauszus' Arduino","0000"); // You can also set the name and pin like so
 
 boolean firstMessage = true;
 
