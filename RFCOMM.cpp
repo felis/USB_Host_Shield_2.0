@@ -553,7 +553,7 @@ void RFCOMM::HCI_task() {
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
-                hci_write_scan_disable(); // Only allow one controller
+                hci_write_scan_disable(); // Only allow one connection
                 hci_state = HCI_DISABLE_SCAN;
             }
             break;
@@ -1150,10 +1150,32 @@ void RFCOMM::hci_disconnect() {
     
     HCI_Command(hcibuf, 6);
 }
+/*******************************************************************
+ *                                                                 *
+ *                        HCI ACL Data Packet                      *
+ *                                                                 *
+ *   buf[0]          buf[1]          buf[2]          buf[3]
+ *   0       4       8    11 12      16              24            31 MSB
+ *  .-+-+-+-+-+-+-+-|-+-+-+-|-+-|-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
+ *  |      HCI Handle       |PB |BC |       Data Total Length       |   HCI ACL Data Packet
+ *  .-+-+-+-+-+-+-+-|-+-+-+-|-+-|-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
+ *
+ *   buf[4]          buf[5]          buf[6]          buf[7]
+ *   0               8               16                            31 MSB
+ *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
+ *  |            Length             |          Channel ID           |   Basic L2CAP header
+ *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
+ *
+ *   buf[8]          buf[9]          buf[10]         buf[11]
+ *   0               8               16                            31 MSB
+ *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
+ *  |     Code      |  Identifier   |            Length             |   Control frame (C-frame)
+ *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.   (signaling packet format)
+ */
 /************************************************************/
 /*                    L2CAP Commands                        */
 /************************************************************/
-void RFCOMM::L2CAP_Command(uint8_t* data, uint16_t nbytes) {
+void RFCOMM::L2CAP_Command(uint8_t* data, uint16_t nbytes, uint8_t channelLow, uint8_t channelHigh) {
     uint8_t buf[64];
     buf[0] = (uint8_t)(hci_handle & 0xff);    // HCI handle with PB,BC flag
     buf[1] = (uint8_t)(((hci_handle >> 8) & 0x0f) | 0x20);
@@ -1161,8 +1183,8 @@ void RFCOMM::L2CAP_Command(uint8_t* data, uint16_t nbytes) {
     buf[3] = (uint8_t)((4 + nbytes) >> 8);
     buf[4] = (uint8_t)(nbytes & 0xff);         // L2CAP header: Length
     buf[5] = (uint8_t)(nbytes >> 8);
-    buf[6] = 0x01;  // L2CAP header: Channel ID
-    buf[7] = 0x00;  // L2CAP Signalling channel over ACL-U logical link
+    buf[6] = channelLow;
+    buf[7] = channelHigh;
     
     for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame
         buf[8 + i] = data[i];        
@@ -1265,53 +1287,11 @@ void RFCOMM::l2cap_information_response(uint8_t rxid, uint8_t infoTypeLow, uint8
     L2CAP_Command(l2capoutbuf, 12);
 }
 
-/*******************************************************************
- *                                                                 *
- *                        HCI ACL Data Packet                      *
- *                                                                 *
- *   buf[0]          buf[1]          buf[2]          buf[3]
- *   0       4       8    11 12      16              24            31 MSB
- *  .-+-+-+-+-+-+-+-|-+-+-+-|-+-|-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
- *  |      HCI Handle       |PB |BC |       Data Total Length       |   HCI ACL Data Packet
- *  .-+-+-+-+-+-+-+-|-+-+-+-|-+-|-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
- *
- *   buf[4]          buf[5]          buf[6]          buf[7]
- *   0               8               16                            31 MSB
- *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
- *  |            Length             |          Channel ID           |   Basic L2CAP header
- *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
- *
- *   buf[8]          buf[9]          buf[10]         buf[11]
- *   0               8               16                            31 MSB
- *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.
- *  |     Code      |  Identifier   |            Length             |   Control frame (C-frame)
- *  .-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-|-+-+-+-+-+-+-+-.   (signaling packet format)
- */
-
 /************************************************************/
 /*                    SDP Commands                          */
 /************************************************************/
 void RFCOMM::SDP_Command(uint8_t* data, uint16_t nbytes) { // See page 223 in the Bluetooth specs
-    uint8_t buf[64];
-    buf[0] = (uint8_t)(hci_handle & 0xff);    // HCI handle with PB,BC flag
-    buf[1] = (uint8_t)(((hci_handle >> 8) & 0x0f) | 0x20);
-    buf[2] = (uint8_t)((4 + nbytes) & 0xff);   // HCI ACL total data length
-    buf[3] = (uint8_t)((4 + nbytes) >> 8);
-    buf[4] = (uint8_t)(nbytes & 0xff);         // L2CAP header: Length
-    buf[5] = (uint8_t)(nbytes >> 8);
-    buf[6] = sdp_scid[0];  // L2CAP header: Channel ID
-    buf[7] = sdp_scid[1];  // L2CAP Signalling channel over ACL-U logical link
-    
-    for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame
-        buf[8 + i] = data[i];        
-    
-    uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
-    if(rcode) {
-#ifdef DEBUG
-        Notify(PSTR("\r\nError sending SDP message: 0x"));        
-        PrintHex(rcode);
-#endif        
-    }    
+    L2CAP_Command(data,nbytes,sdp_scid[0],sdp_scid[1]);
 }
 void RFCOMM::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
     l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU;
@@ -1442,26 +1422,7 @@ void RFCOMM::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow)
 /*                    RFCOMM Commands                       */
 /************************************************************/
 void RFCOMM::RFCOMM_Command(uint8_t* data, uint16_t nbytes) { // See page 223 in the Bluetooth specs
-    uint8_t buf[64];
-    buf[0] = (uint8_t)(hci_handle & 0xff);    // HCI handle with PB,BC flag
-    buf[1] = (uint8_t)(((hci_handle >> 8) & 0x0f) | 0x20);
-    buf[2] = (uint8_t)((4 + nbytes) & 0xff);   // HCI ACL total data length
-    buf[3] = (uint8_t)((4 + nbytes) >> 8);
-    buf[4] = (uint8_t)(nbytes & 0xff);         // L2CAP header: Length
-    buf[5] = (uint8_t)(nbytes >> 8);
-    buf[6] = rfcomm_scid[0];  // L2CAP header: Channel ID
-    buf[7] = rfcomm_scid[1];  // L2CAP Signalling channel over ACL-U logical link
-    
-    for (uint16_t i = 0; i < nbytes; i++)//L2CAP C-frame
-        buf[8 + i] = data[i];        
-    
-    uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
-    if(rcode) {
-#ifdef DEBUG
-        Notify(PSTR("\r\nError sending RFCOMM message: 0x"));        
-        PrintHex(rcode);
-#endif        
-    }
+    L2CAP_Command(data,nbytes,rfcomm_scid[0],rfcomm_scid[1]);
 }
 
 void RFCOMM::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length) {
