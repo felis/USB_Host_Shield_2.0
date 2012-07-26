@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-################################################
-# Syntax Coloring Map For PS3 Bluetooth Library
-################################################
-
-################################################
-# Datatypes (KEYWORD1)
-################################################
-
-PS3BT	KEYWORD1
-
-################################################
-# Methods and Functions (KEYWORD2)
-################################################
-=======
 ####################################################
 # Syntax Coloring Map For PS3 Bluetooth/USB Library
 ####################################################
@@ -21,13 +6,12 @@ PS3BT	KEYWORD1
 # Datatypes (KEYWORD1)
 ####################################################
 
-PS3BT	KEYWORD1
+PS3BT  KEYWORD1
 PS3USB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
->>>>>>> dev
 setBdaddr	KEYWORD2
 setMoveBdaddr	KEYWORD2
 
@@ -38,10 +22,7 @@ getSensor	KEYWORD2
 getAngle	KEYWORD2
 getStatus	KEYWORD2
 getStatusString	KEYWORD2
-<<<<<<< HEAD
-=======
 getTemperature	KEYWORD2
->>>>>>> dev
 disconnect	KEYWORD2
 
 setAllOff	KEYWORD2
@@ -49,14 +30,6 @@ setRumbleOff	KEYWORD2
 setRumbleOn	KEYWORD2
 setLedOff	KEYWORD2
 setLedOn	KEYWORD2
-<<<<<<< HEAD
-moveSetBulb	KEYWORD2
-moveSetRumble	KEYWORD2
-
-PS3BTConnected	KEYWORD2
-PS3MoveBTConnected	KEYWORD2
-PS3NavigationBTConnected	KEYWORD2
-=======
 setLedToggle	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
@@ -64,22 +37,15 @@ moveSetRumble	KEYWORD2
 PS3Connected	KEYWORD2
 PS3MoveConnected	KEYWORD2
 PS3NavigationConnected	KEYWORD2
->>>>>>> dev
 buttonChanged	KEYWORD2
 buttonPressed	KEYWORD2
 buttonReleased	KEYWORD2
 
 isWatingForConnection	KEYWORD2
 
-<<<<<<< HEAD
-################################################
-# Constants and enums (LITERAL1)
-################################################
-=======
 ####################################################
 # Constants and enums (LITERAL1)
 ####################################################
->>>>>>> dev
 LED1	LITERAL1
 LED2	LITERAL1
 LED3	LITERAL1
@@ -117,20 +83,8 @@ CIRCLE	LITERAL1
 CROSS	LITERAL1
 SQUARE	LITERAL1
 PS	LITERAL1
-<<<<<<< HEAD
-SELECT_MOVE	LITERAL1
-START_MOVE	LITERAL1
-TRIANGLE_MOVE	LITERAL1
-CIRCLE_MOVE	LITERAL1
-CROSS_MOVE	LITERAL1
-SQUARE_MOVE	LITERAL1
-PS_MOVE	LITERAL1
-MOVE_MOVE	LITERAL1
-T_MOVE	LITERAL1
-=======
 MOVE	LITERAL1
 T	LITERAL1
->>>>>>> dev
 
 UP_ANALOG	LITERAL1
 RIGHT_ANALOG	LITERAL1
@@ -144,11 +98,7 @@ TRIANGLE_ANALOG	LITERAL1
 CIRCLE_ANALOG	LITERAL1
 CROSS_ANALOG	LITERAL1
 SQUARE_ANALOG	LITERAL1
-<<<<<<< HEAD
-T_MOVE_ANALOG	LITERAL1
-=======
 T_ANALOG	LITERAL1
->>>>>>> dev
 
 LeftHatX	LITERAL1
 LeftHatY	LITERAL1
@@ -195,9 +145,6 @@ BluetoothRumble	LITERAL1
 Bluetooth	LITERAL1
 
 RumbleHigh	LITERAL1
-<<<<<<< HEAD
-RumbleLow	LITERAL1
-=======
 RumbleLow	LITERAL1
 
 ####################################################
@@ -253,4 +200,3 @@ RFCOMM				KEYWORD1
 ####################################################
 
 connected			KEYWORD2
->>>>>>> dev
