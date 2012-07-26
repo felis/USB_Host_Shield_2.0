@@ -62,13 +62,14 @@
 #define HCI_INIT_STATE          0
 #define HCI_RESET_STATE         1
 #define HCI_BDADDR_STATE        2
-#define HCI_SCANNING_STATE      3
-#define HCI_CONNECT_IN_STATE    4
-#define HCI_REMOTE_NAME_STATE   5
-#define HCI_CONNECTED_STATE     6
-#define HCI_DISABLE_SCAN        7
-#define HCI_DONE_STATE          8
-#define HCI_DISCONNECT_STATE    9
+#define HCI_LOCAL_VERSION_STATE 3
+#define HCI_SCANNING_STATE      4
+#define HCI_CONNECT_IN_STATE    5
+#define HCI_REMOTE_NAME_STATE   6
+#define HCI_CONNECTED_STATE     7
+#define HCI_DISABLE_SCAN        8
+#define HCI_DONE_STATE          9
+#define HCI_DISCONNECT_STATE    10
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
@@ -76,6 +77,8 @@
 #define HCI_FLAG_DISCONN_COMPLETE       0x04
 #define HCI_FLAG_REMOTE_NAME_COMPLETE   0x08
 #define HCI_FLAG_INCOMING_REQUEST       0x10
+#define HCI_FLAG_READ_BDADDR            0x20
+#define HCI_FLAG_READ_VERSION           0x40
 
 /*Macros for HCI event flag tests */
 #define hci_cmd_complete (hci_event_flag & HCI_FLAG_CMD_COMPLETE)
@@ -83,6 +86,8 @@
 #define hci_disconnect_complete (hci_event_flag & HCI_FLAG_DISCONN_COMPLETE)
 #define hci_remote_name_complete (hci_event_flag & HCI_FLAG_REMOTE_NAME_COMPLETE)
 #define hci_incoming_connect_request (hci_event_flag & HCI_FLAG_INCOMING_REQUEST)
+#define hci_read_bdaddr_complete (hci_event_flag & HCI_FLAG_READ_BDADDR)
+#define hci_read_version_complete (hci_event_flag & HCI_FLAG_READ_VERSION)
 
 /* HCI Events managed */
 #define EV_COMMAND_COMPLETE         0x0E
@@ -174,24 +179,24 @@ enum LED
 };
 enum Colors
 {
-    //Used to set the colors of the move controller            
-    Red = 0xFF0000,//((255 << 16) | (0 << 8) | 0);
-    Green = 0xFF00,//((0 << 16) | (255 << 8) | 0);
-    Blue = 0xFF,//((0 << 16) | (0 << 8) | 255);
+    // Used to set the colors of the move controller            
+    Red = 0xFF0000, // r = 255, g = 0, b = 0
+    Green = 0xFF00, // r = 0, g = 255, b = 0
+    Blue = 0xFF, // r = 0, g = 0, b = 255
     
-    Yellow = 0xFFEB04,//((255 << 16) | (235 << 8) | 4);
-    Lightblue = 0xFFFF,//((0 << 16) | (255 << 8) | 255);
-    Purble = 0xFF00FF,//((255 << 16) | (0 << 8) | 255);
+    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
+    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
+    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
     
-    White = 0xFFFFFF,//((255 << 16) | (255 << 8) | 255);
-    Off = 0x00,//((0 << 16) | (0 << 8) | 0);
+    White = 0xFFFFFF, // r = 255, g = 255, b = 255
+    Off = 0x00, // r = 0, g = 0, b = 0
 };
 
 enum Button
 {
     // byte location | bit location
     
-    //Sixaxis Dualshcock 3 & Navigation controller 
+    // Sixaxis Dualshcock 3 & Navigation controller 
     SELECT = (11 << 8) | 0x01,
     L3 = (11 << 8) | 0x02,
     R3 = (11 << 8) | 0x04,
@@ -212,7 +217,13 @@ enum Button
     
     PS = (13 << 8) | 0x01,
     
-    //Playstation Move Controller
+    MOVE = (13/*12*/ << 8) | 0x08, // covers 12 bits - we only need to read the top 8            
+    T = (13/*12*/ << 8) | 0x10, // covers 12 bits - we only need to read the top 8
+    
+    
+    // These are the true locations for the Move controller, but to make the same syntax for all controllers, it is handled by getButton()
+/*   
+    // Playstation Move Controller 
     SELECT_MOVE = (10 << 8) | 0x01,
     START_MOVE = (10 << 8) | 0x08,
     
@@ -222,8 +233,9 @@ enum Button
     SQUARE_MOVE = (11 << 8) | 0x80,
     
     PS_MOVE = (12 << 8) | 0x01,
-    MOVE_MOVE = (12 << 8) | 0x08,//covers 12 bits - we only need to read the top 8            
-    T_MOVE = (12 << 8) | 0x10,//covers 12 bits - we only need to read the top 8            
+    MOVE_MOVE = (12 << 8) | 0x08, // covers 12 bits - we only need to read the top 8            
+    T_MOVE = (12 << 8) | 0x10, // covers 12 bits - we only need to read the top 8     
+ */
 };
 enum AnalogButton
 {
@@ -243,7 +255,7 @@ enum AnalogButton
     SQUARE_ANALOG = 34,
     
     //Playstation Move Controller
-    T_MOVE_ANALOG = 15,//Both at byte 14 (last reading) and byte 15 (current reading)
+    T_ANALOG = 15, // Both at byte 14 (last reading) and byte 15 (current reading)
 };
 enum AnalogHat
 {
@@ -315,9 +327,8 @@ enum Rumble
 
 class PS3BT : public USBDeviceConfig, public UsbConfigXtracter
 {
-public:            
-    PS3BT(USB *pUsb, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0);
-    PS3BT(USB *pUsb);
+public:
+    PS3BT(USB *pUsb, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0);
     
     // USBDeviceConfig implementation
     virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
@@ -338,10 +349,11 @@ public:
     bool getButton(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
-    int32_t getSensor(Sensor a);
+    int16_t getSensor(Sensor a);
     double getAngle(Angle a);
     bool getStatus(Status c);  
     String getStatusString();    
+    String getTemperature();
     void disconnect(); // use this void to disconnect any of the controllers
     
     /* HID Commands */
@@ -351,17 +363,18 @@ public:
     void setRumbleOn(Rumble mode);
     void setLedOff(LED a);
     void setLedOn(LED a);    
+    void setLedToggle(LED a);
     /* Commands for Motion controller only */    
     void moveSetBulb(uint8_t r, uint8_t g, uint8_t b);//Use this to set the Color using RGB values
     void moveSetBulb(Colors color);//Use this to set the Color using the predefined colors in "enum Colors"
     void moveSetRumble(uint8_t rumble);
     
-    bool PS3BTConnected;// Variable used to indicate if the normal playstation controller is successfully connected
-    bool PS3MoveBTConnected;// Variable used to indicate if the move controller is successfully connected
-    bool PS3NavigationBTConnected;// Variable used to indicate if the navigation controller is successfully connected
+    bool PS3Connected;// Variable used to indicate if the normal playstation controller is successfully connected
+    bool PS3MoveConnected;// Variable used to indicate if the move controller is successfully connected
+    bool PS3NavigationConnected;// Variable used to indicate if the navigation controller is successfully connected
     bool buttonChanged;//Indicate if a button has been changed
     bool buttonPressed;//Indicate if a button has been pressed
-    bool buttonReleased;//Indicate if a button has been pressed
+    bool buttonReleased;//Indicate if a button has been released
     
 protected:           
     /* mandatory members */
@@ -389,6 +402,7 @@ private:
     int16_t hci_handle;
     uint8_t disc_bdaddr[6]; // the bluetooth address is always 6 bytes
     uint8_t remote_name[30]; // first 30 chars of remote name
+    uint8_t hci_version;
     
     /* variables used by high level HCI task */    
     uint8_t hci_state;  //current state of bluetooth hci connection
@@ -405,11 +419,9 @@ private:
     uint32_t ButtonState;
     uint32_t OldButtonState;
     uint32_t timerHID;// timer used see if there has to be a delay before a new HID command
-    uint32_t dtimeHID;// delta time since last HID command
     uint32_t timerBulbRumble;// used to continuously set PS3 Move controller Bulb and rumble values
-    uint32_t dtimeBulbRumble;// used to know how longs since last since the Bulb and rumble values was written        
     
-    uint8_t my_bdaddr[6]; //Change to your dongles Bluetooth address in PS3BT.cpp
+    uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
     uint8_t l2capinbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap in data
     uint8_t l2capoutbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap out data
@@ -437,6 +449,7 @@ private:
     void hci_write_scan_enable();
     void hci_write_scan_disable();
     void hci_read_bdaddr();
+    void hci_read_local_version_information();
     void hci_accept_connection();
     void hci_remote_name();
     void hci_disconnect();
