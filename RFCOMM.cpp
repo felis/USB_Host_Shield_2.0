@@ -322,7 +322,7 @@ uint8_t RFCOMM::Poll() {
 
 void RFCOMM::disconnect() { // Use this void to disconnect the RFCOMM Channel
     connected = false;    
-    // First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
+    // First the two L2CAP channels has to be disconencted and then the HCI connection
     if(RFCOMMConnected)
         l2cap_disconnection_request(0x0A, rfcomm_dcid, rfcomm_scid);
     if(SDPConnected)
@@ -671,25 +671,25 @@ void RFCOMM::ACL_event_task()
                 else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                     if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
                         if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { //Success
-                            //Serial.print("\r\nHID Control Configuration Complete");
+                            //Serial.print("\r\nSDP Configuration Complete");
                             l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_SUCCESS;
                         }
                     }
                     else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
                         if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { //Success
-                            //Serial.print("\r\nHID Interrupt Configuration Complete");
+                            //Serial.print("\r\nRFCOMM Configuration Complete");
                             l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS;
                         }
                     }
                 }
                 else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                     if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                        //Serial.print("\r\nHID Control Configuration Request");
+                        //Serial.print("\r\nSDP Configuration Request");
                         identifier = l2capinbuf[9]; 
                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_REQUEST;          
                     }
                     else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                        //Serial.print("\r\nHID Interrupt Configuration Request");
+                        //Serial.print("\r\nRFCOMM Configuration Request");
                         identifier = l2capinbuf[9];
                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_REQUEST;          
                     }
@@ -798,12 +798,12 @@ void RFCOMM::ACL_event_task()
                 } else {                    
                     if(rfcommChannelType == RFCOMM_SABM) { // SABM Command - this is sent twice: once for channel 0 and then for the channel to establish
 #ifdef DEBUG
-                        Notify(PSTR("\r\nSABM Command"));          
+                        Notify(PSTR("\r\nReceived SABM Command"));          
 #endif                        
                         sendRfcomm(rfcommChannel,rfcommDirection,rfcommCommandResponse,RFCOMM_UA,rfcommPfBit,rfcommbuf,0x00); // UA Command
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_PN_CMD) { // UIH Parameter Negotiation Command
 #ifdef DEBUG
-                        Notify(PSTR("\r\nUIH Parameter Negotiation Command"));                      
+                        Notify(PSTR("\r\nReceived UIH Parameter Negotiation Command"));                      
 #endif
                         rfcommbuf[0] = BT_RFCOMM_PN_RSP; // UIH Parameter Negotiation Response
                         rfcommbuf[1] = l2capinbuf[12]; // Length and shiftet like so: length << 1 | 1
@@ -818,7 +818,7 @@ void RFCOMM::ACL_event_task()
                         sendRfcomm(rfcommChannel,rfcommDirection,0,RFCOMM_UIH,rfcommPfBit,rfcommbuf,0x0A);                        
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_MSC_CMD) { // UIH Modem Status Command
 #ifdef DEBUG
-                        Notify(PSTR("\r\nUIH Modem Status Response"));
+                        Notify(PSTR("\r\nSend UIH Modem Status Response"));
 #endif
                         rfcommbuf[0] = BT_RFCOMM_MSC_RSP; // UIH Modem Status Response
                         rfcommbuf[1] = 2 << 1 | 1; // Length and shiftet like so: length << 1 | 1
@@ -826,10 +826,9 @@ void RFCOMM::ACL_event_task()
                         rfcommbuf[3] = l2capinbuf[14];
                         sendRfcomm(rfcommChannel,rfcommDirection,0,RFCOMM_UIH,rfcommPfBit,rfcommbuf,0x04);
                         
-                        delay(1);
-                        
+                        delay(1);                        
 #ifdef DEBUG
-                        Notify(PSTR("\r\nUIH Modem Status Command"));
+                        Notify(PSTR("\r\nSend UIH Modem Status Command"));
 #endif
                         rfcommbuf[0] = BT_RFCOMM_MSC_CMD; // UIH Modem Status Command
                         rfcommbuf[1] = 2 << 1 | 1; // Length and shiftet like so: length << 1 | 1
@@ -840,20 +839,20 @@ void RFCOMM::ACL_event_task()
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_MSC_RSP) { // UIH Modem Status Response
                         if(!creditSent) {
 #ifdef DEBUG
-                            Notify(PSTR("\r\nUIH Command with credit"));   
+                            Notify(PSTR("\r\nSend UIH Command with credit"));   
 #endif
                             sendRfcommCredit(rfcommChannelPermanent,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // 255 credit
                             creditSent = true;
                         }                                      
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[10] == 0x01) { // UIH Command with credit
 #ifdef DEBUG
-                        Notify(PSTR("\r\nReceived credit"));                   
+                        Notify(PSTR("\r\nReceived UIH Command with credit"));                   
 #endif
                         timer = millis();
                         waitForLastCommand = true;                        
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
 #ifdef DEBUG
-                        Notify(PSTR("\r\nUIH Remote Port Negotiation Command"));                   
+                        Notify(PSTR("\r\nReceived UIH Remote Port Negotiation Command"));                   
 #endif
                         rfcommbuf[0] = BT_RFCOMM_RPN_RSP; // Command
                         rfcommbuf[1] = l2capinbuf[12]; // Length and shiftet like so: length << 1 | 1
@@ -874,14 +873,16 @@ void RFCOMM::ACL_event_task()
                         connected = true; // The RFCOMM channel is now established
                     } else if(rfcommChannelType != RFCOMM_DISC) {
 #ifdef DEBUG
-                        Notify(PSTR("\r\nUnsupported RFCOMM - ChannelType: "));
+                        Notify(PSTR("\r\nUnsupported RFCOMM Data - ChannelType: "));
                         PrintHex<uint8_t>(rfcommChannelType);
+                        Notify(PSTR(" Command: "));
+                        PrintHex<uint8_t>(l2capinbuf[11]);
 #endif                        
                     }
                 }
             } else {
 #ifdef EXTRADEBUG
-                Notify(PSTR("\r\nUnsupported L2CAP Data: Channel ID: "));
+                Notify(PSTR("\r\nUnsupported L2CAP Data - Channel ID: "));
                 PrintHex<uint8_t>(l2capinbuf[7]);         
                 Notify(PSTR(" "));
                 PrintHex<uint8_t>(l2capinbuf[6]);
@@ -968,8 +969,7 @@ void RFCOMM::RFCOMM_task()
 #endif
             creditSent = false;
             waitForLastCommand = false;
-            connected = true; // The RFCOMM channel is now established
-            
+            connected = true; // The RFCOMM channel is now established            
         } 
     }
     switch (l2cap_rfcomm_state)
@@ -1025,7 +1025,9 @@ void RFCOMM::RFCOMM_task()
 /*                     RFCOMM Report                        */
 /************************************************************/
 void RFCOMM::readReport() {
-    uint8_t length = l2capinbuf[10] >> 1;
+    if(rfcommChannelType != RFCOMM_UIH)
+        return;
+    uint8_t length = l2capinbuf[10] >> 1; // Get length
     if(rfcommAvailable + length > 256)
         return; // Return if the buffer would be full
 
@@ -1044,18 +1046,18 @@ void RFCOMM::readReport() {
 #endif
 }
 void RFCOMM::printReport() { //Uncomment "#define PRINTREPORT" to print the report send to the Arduino
-    if(rfcommChannelType == RFCOMM_UIH) {                                                                                    
-        uint8_t length = l2capinbuf[10] >> 1; // Get length
+    if(rfcommChannelType != RFCOMM_UIH)
+        return;
+    uint8_t length = l2capinbuf[10] >> 1; // Get length
         
-        uint8_t offset;
-        if(l2capinbuf[4] == length+4)
-            offset = 0;
-        else
-            offset = 1; // There must be credit
+    uint8_t offset;
+    if(l2capinbuf[4] == length+4)
+        offset = 0;
+    else
+        offset = 1; // There must be credit
         
-        for(uint8_t i = 0; i < length; i++)
-            Serial.write(l2capinbuf[i+11+offset]);
-    }
+    for(uint8_t i = 0; i < length; i++)
+        Serial.write(l2capinbuf[i+11+offset]);
 }
 
 /************************************************************/
@@ -1173,8 +1175,8 @@ void RFCOMM::hci_link_key_request_negative_reply() {
 void RFCOMM::hci_disconnect() {
     hci_event_flag &= ~HCI_FLAG_DISCONN_COMPLETE;
     hcibuf[0] = 0x06; // HCI OCF = 6
-    hcibuf[1]= 0x01 << 2; // HCI OGF = 1
-    hcibuf[2] = 0x03; // parameter length =3
+    hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+    hcibuf[2] = 0x03; // parameter length = 3
     hcibuf[3] = (uint8_t)(hci_handle & 0xFF);//connection handle - low byte
     hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F);//connection handle - high byte
     hcibuf[5] = 0x13; // reason
@@ -1439,7 +1441,7 @@ void RFCOMM::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionI
     SDP_Command(l2capoutbuf,33);
 }
 void RFCOMM::l2capResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
-    serialPortResponse1(transactionIDHigh,transactionIDLow); // These has to send include all the supported functions, since it only support virtual serialport it just sends the message again
+    serialPortResponse1(transactionIDHigh,transactionIDLow); // These has to send all the supported functions, since it only supports virtual serialport it just sends the message again
 }
 void RFCOMM::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
     serialPortResponse2(transactionIDHigh,transactionIDLow); // Same data as serialPortResponse2  
@@ -1447,7 +1449,7 @@ void RFCOMM::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow)
 /************************************************************/
 /*                    RFCOMM Commands                       */
 /************************************************************/
-void RFCOMM::RFCOMM_Command(uint8_t* data, uint16_t nbytes) { // See page 223 in the Bluetooth specs
+void RFCOMM::RFCOMM_Command(uint8_t* data, uint16_t nbytes) {
     L2CAP_Command(data,nbytes,rfcomm_scid[0],rfcomm_scid[1]);
 }
 

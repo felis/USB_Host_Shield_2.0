@@ -259,9 +259,9 @@ private:
     uint8_t rfcommbuf[BULK_MAXPKTSIZE]; // Buffer for RFCOMM Data
     
     /* L2CAP Channels */
-    uint8_t sdp_scid[2]; // L2CAP source CID for HID_Control           
+    uint8_t sdp_scid[2]; // L2CAP source CID for SDP           
     uint8_t sdp_dcid[2]; // 0x0050
-    uint8_t rfcomm_scid[2]; // L2CAP source CID for HID_Interrupt        
+    uint8_t rfcomm_scid[2]; // L2CAP source CID for RFCOMM        
     uint8_t rfcomm_dcid[2]; // 0x0051
     uint8_t identifier; // Identifier for command
 
