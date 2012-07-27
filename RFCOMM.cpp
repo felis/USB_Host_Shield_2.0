@@ -785,10 +785,11 @@ void RFCOMM::ACL_event_task()
             
                 if (rfcommChannelType == RFCOMM_DISC) {
 #ifdef DEBUG
-                    Notify(PSTR("\r\nReceived Disconnect RFCOMM Command"));                      
+                    Notify(PSTR("\r\nReceived Disconnect RFCOMM Command on channel: "));
+                    Serial.print(rfcommChannel>>3,HEX);
 #endif
                     connected = false;
-                    l2cap_disconnection_request(0x0A, rfcomm_dcid, rfcomm_scid);
+                    sendRfcomm(rfcommChannel,rfcommDirection,rfcommCommandResponse,RFCOMM_UA,rfcommPfBit,rfcommbuf,0x00); // UA Command
                 }
                 if(connected) {
                     readReport();                    
@@ -898,6 +899,14 @@ void RFCOMM::ACL_event_task()
         PrintHex<uint8_t>(rcode);
 #endif
     }
+    if((millis() - timer) > 100 && waitForLastCommand) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
+#ifdef DEBUG
+        Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"));                   
+#endif
+        creditSent = false;
+        waitForLastCommand = false;
+        connected = true; // The RFCOMM channel is now established            
+    }
 }
 void RFCOMM::SDP_task() {
     switch (l2cap_sdp_state)
@@ -961,17 +970,7 @@ void RFCOMM::SDP_task() {
     }
 }
 void RFCOMM::RFCOMM_task()
-{
-    if(!connected) {
-        if((millis() - timer) > 100 && waitForLastCommand) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
-#ifdef DEBUG
-            Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"));                   
-#endif
-            creditSent = false;
-            waitForLastCommand = false;
-            connected = true; // The RFCOMM channel is now established            
-        } 
-    }
+{         
     switch (l2cap_rfcomm_state)
     {
         case L2CAP_RFCOMM_WAIT:            
@@ -1025,7 +1024,7 @@ void RFCOMM::RFCOMM_task()
 /*                     RFCOMM Report                        */
 /************************************************************/
 void RFCOMM::readReport() {
-    if(rfcommChannelType != RFCOMM_UIH)
+    if(rfcommChannelType != RFCOMM_UIH || rfcommChannel != rfcommChannelPermanent)
         return;
     uint8_t length = l2capinbuf[10] >> 1; // Get length
     if(rfcommAvailable + length > 256)
@@ -1046,7 +1045,7 @@ void RFCOMM::readReport() {
 #endif
 }
 void RFCOMM::printReport() { //Uncomment "#define PRINTREPORT" to print the report send to the Arduino
-    if(rfcommChannelType != RFCOMM_UIH)
+    if(rfcommChannelType != RFCOMM_UIH || rfcommChannel != rfcommChannelPermanent)
         return;
     uint8_t length = l2capinbuf[10] >> 1; // Get length
         
