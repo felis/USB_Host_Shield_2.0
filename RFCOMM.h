@@ -203,9 +203,13 @@ public:
     void print(const char* data); // Used to send strings
     void print(uint8_t data); // Used to send single bytes
     void print(uint8_t* array, uint8_t length); // Used to send arrays
+    void print(const __FlashStringHelper *); // Used to print strings stored in flash    
+    
     void println(const char* data); // Include newline and carriage return
     void println(uint8_t data); // Include newline and carriage return
     void println(uint8_t* array, uint8_t length); // Include newline and carriage return
+    void println(const __FlashStringHelper *); // Include newline and carriage return
+    
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer
     

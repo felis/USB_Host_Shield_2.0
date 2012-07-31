@@ -25,7 +25,7 @@ void loop() {
   if(SerialBT.connected) {
     if(firstMessage) {
       firstMessage = false;
-      SerialBT.println("Hello from Arduino"); // Send welcome message
+      SerialBT.println(F("Hello from Arduino")); // Send welcome message
     }
     if(Serial.available())
       SerialBT.print(Serial.read());
