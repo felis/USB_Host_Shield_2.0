@@ -306,7 +306,7 @@ private:
     void hci_disconnect();
     
     /* L2CAP Commands */
-    void L2CAP_Command(uint8_t* data, uint16_t nbytes, uint8_t channelLow = 0x01, uint8_t channelHigh = 0x00); // Standard L2CAP header: Channel ID (0x01) for ACL-U
+    void L2CAP_Command(uint8_t* data, uint8_t nbytes, uint8_t channelLow = 0x01, uint8_t channelHigh = 0x00); // Standard L2CAP header: Channel ID (0x01) for ACL-U
     void l2cap_connection_response(uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result);
     void l2cap_config_request(uint8_t rxid, uint8_t* dcid);
     void l2cap_config_response(uint8_t rxid, uint8_t* scid);
@@ -315,7 +315,7 @@ private:
     void l2cap_information_response(uint8_t rxid, uint8_t infoTypeLow, uint8_t infoTypeHigh);
     
     /* SDP Commands */
-    void SDP_Command(uint8_t* data, uint16_t nbytes);
+    void SDP_Command(uint8_t* data, uint8_t nbytes);
     void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
     void serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow);
     void serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
@@ -323,7 +323,7 @@ private:
     void l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
     
     /* RFCOMM Commands */
-    void RFCOMM_Command(uint8_t* data, uint16_t nbytes);
+    void RFCOMM_Command(uint8_t* data, uint8_t nbytes);
     void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length);
     void sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t credit);
     uint8_t calcFcs(uint8_t *data);

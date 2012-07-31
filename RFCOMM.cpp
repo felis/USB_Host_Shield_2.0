@@ -1056,7 +1056,6 @@ void RFCOMM::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
 /************************************************************/
 /*                    HCI Commands                        */
 /************************************************************/
-
 void RFCOMM::HCI_Command(uint8_t* data, uint16_t nbytes) {
     hci_event_flag &= ~HCI_FLAG_CMD_COMPLETE;
     pUsb->ctrlReq(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bmREQ_HCI_OUT, 0x00, 0x00, 0x00 ,0x00, nbytes, nbytes, data, NULL);    
@@ -1201,8 +1200,8 @@ void RFCOMM::hci_disconnect() {
 /************************************************************/
 /*                    L2CAP Commands                        */
 /************************************************************/
-void RFCOMM::L2CAP_Command(uint8_t* data, uint16_t nbytes, uint8_t channelLow, uint8_t channelHigh) {
-    uint8_t buf[64];
+void RFCOMM::L2CAP_Command(uint8_t* data, uint8_t nbytes, uint8_t channelLow, uint8_t channelHigh) {
+    uint8_t buf[256];
     buf[0] = (uint8_t)(hci_handle & 0xff);    // HCI handle with PB,BC flag
     buf[1] = (uint8_t)(((hci_handle >> 8) & 0x0f) | 0x20);
     buf[2] = (uint8_t)((4 + nbytes) & 0xff);   // HCI ACL total data length
@@ -1219,7 +1218,11 @@ void RFCOMM::L2CAP_Command(uint8_t* data, uint16_t nbytes, uint8_t channelLow, u
     if(rcode) {
 #ifdef DEBUG
         Notify(PSTR("\r\nError sending L2CAP message: 0x"));        
-        PrintHex(rcode);
+        PrintHex<uint8_t>(rcode);
+        Notify(PSTR(" - Channel ID: "));
+        Serial.print(channelHigh);
+        Notify(PSTR(" "));
+        Serial.print(channelHigh);
 #endif        
     }        
 }
@@ -1316,7 +1319,7 @@ void RFCOMM::l2cap_information_response(uint8_t rxid, uint8_t infoTypeLow, uint8
 /************************************************************/
 /*                    SDP Commands                          */
 /************************************************************/
-void RFCOMM::SDP_Command(uint8_t* data, uint16_t nbytes) { // See page 223 in the Bluetooth specs
+void RFCOMM::SDP_Command(uint8_t* data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
     L2CAP_Command(data,nbytes,sdp_scid[0],sdp_scid[1]);
 }
 void RFCOMM::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
@@ -1442,7 +1445,7 @@ void RFCOMM::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow)
 /************************************************************/
 /*                    RFCOMM Commands                       */
 /************************************************************/
-void RFCOMM::RFCOMM_Command(uint8_t* data, uint16_t nbytes) {
+void RFCOMM::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
     L2CAP_Command(data,nbytes,rfcomm_scid[0],rfcomm_scid[1]);
 }
 
