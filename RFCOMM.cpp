@@ -844,13 +844,13 @@ void RFCOMM::ACL_event_task()
 #endif
                             sendRfcommCredit(rfcommChannelPermanent,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // 255 credit
                             creditSent = true;
+                            timer = millis();
+                            waitForLastCommand = true;
                         }                                      
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[10] == 0x01) { // UIH Command with credit
 #ifdef DEBUG
-                        Notify(PSTR("\r\nReceived UIH Command with credit"));                   
-#endif
-                        timer = millis();
-                        waitForLastCommand = true;                        
+                        Notify(PSTR("\r\nReceived UIH Command with credit"));                  
+#endif                                              
                     } else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
 #ifdef DEBUG
                         Notify(PSTR("\r\nReceived UIH Remote Port Negotiation Command"));                   
@@ -1030,11 +1030,7 @@ void RFCOMM::readReport() {
     if(rfcommAvailable + length > 256)
         return; // Return if the buffer would be full
 
-    uint8_t offset;
-    if(l2capinbuf[4] == length+4)
-        offset = 0;
-    else
-        offset = 1; // There must be credit
+    uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
     
     for(uint8_t i = 0; i < length; i++)
         rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];    
@@ -1042,19 +1038,17 @@ void RFCOMM::readReport() {
 #ifdef EXTRADEBUG
     Notify(PSTR("\r\nRFCOMM Data Available: "));
     Serial.print(rfcommAvailable);
+    if (offset) {
+        Notify(PSTR(" - Credit: 0x"));
+        Serial.print(l2capinbuf[11],HEX);
+    }
 #endif
 }
 void RFCOMM::printReport() { //Uncomment "#define PRINTREPORT" to print the report send to the Arduino
     if(rfcommChannelType != RFCOMM_UIH || rfcommChannel != rfcommChannelPermanent)
         return;
-    uint8_t length = l2capinbuf[10] >> 1; // Get length
-        
-    uint8_t offset;
-    if(l2capinbuf[4] == length+4)
-        offset = 0;
-    else
-        offset = 1; // There must be credit
-        
+    uint8_t length = l2capinbuf[10] >> 1; // Get length        
+    uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit        
     for(uint8_t i = 0; i < length; i++)
         Serial.write(l2capinbuf[i+11+offset]);
 }
