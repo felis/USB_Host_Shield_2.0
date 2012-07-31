@@ -1509,13 +1509,18 @@ void RFCOMM::print(const char* data) {
     RFCOMM_Command(rfcommbuf,strlen(data)+4);
 }
 void RFCOMM::print(uint8_t data) {
+    print(&data,1);
+}
+void RFCOMM::print(uint8_t* array, uint8_t length) {
     rfcommbuf[0] = rfcommChannelPermanent | 0 | 0 | extendAddress;; // RFCOMM Address
-    rfcommbuf[1] = RFCOMM_UIH; // RFCOMM Control                                                                
-    rfcommbuf[2] = 1 << 1 | 1; // Length = 1
-    rfcommbuf[3] = data;                                                                
-    rfcommbuf[4] = calcFcs(rfcommbuf);                            
+    rfcommbuf[1] = RFCOMM_UIH; // RFCOMM Control
+    rfcommbuf[2] = length << 1 | 1; // Length
+    uint8_t i = 0;
+    for(; i < length; i++)
+        rfcommbuf[i+3] = array[i];
+    rfcommbuf[i+3] = calcFcs(rfcommbuf);
     
-    RFCOMM_Command(rfcommbuf,5);
+    RFCOMM_Command(rfcommbuf,length+4);
 }
 
 void RFCOMM::println(const char* data) {
@@ -1525,9 +1530,17 @@ void RFCOMM::println(const char* data) {
     print(output);
 }
 void RFCOMM::println(uint8_t data) {
-    print(data);
-    print("\r\n");    
+    uint8_t buf[3] = {data, '\r', '\n'};
+    print(buf,3);
 }
+void RFCOMM::println(uint8_t* array, uint8_t length) {
+    uint8_t buf[length+2];
+    memcpy(buf,array,length);
+    buf[length] = '\r';
+    buf[length+1] = '\n';    
+    print(buf,length+2);
+}
+
 uint8_t RFCOMM::read() {
     uint8_t output = rfcommDataBuffer[0];
     for(uint8_t i = 1; i < rfcommAvailable; i++)
