@@ -1523,19 +1523,18 @@ void RFCOMM::print(uint8_t* array, uint8_t length) {
     RFCOMM_Command(rfcommbuf,length+4);
 }
 void RFCOMM::print(const __FlashStringHelper *ifsh) {
-    const uint8_t PROGMEM *p = (const uint8_t PROGMEM *)ifsh;
+    const char PROGMEM *p = (const char PROGMEM *)ifsh;
     size_t size = 0;
     while (1) { // Calculate the size of the string
-        uint8_t c = pgm_read_byte(p++);
-        if (c == 0) break;
+        uint8_t c = pgm_read_byte(p+size);
+        if (c == 0)
+            break;
         size++;
-    }    
+    }
     uint8_t buf[size];
     
-    pgm_read_byte(p--); // Go one back
-    pgm_read_byte(p--); // Don't include the null character
-    for(uint8_t i = 1; i < size+1; i++)
-        buf[size-i] = pgm_read_byte(p--); // Write to buffer reversed
+    for(uint8_t i = 0; i < size; i++)
+        buf[i] = pgm_read_byte(p++);
     
     print(buf,size);
 }
@@ -1558,20 +1557,19 @@ void RFCOMM::println(uint8_t* array, uint8_t length) {
     print(buf,length+2);
 }
 void RFCOMM::println(const __FlashStringHelper *ifsh) {
-    const uint8_t PROGMEM *p = (const uint8_t PROGMEM *)ifsh;
+    const char PROGMEM *p = (const char PROGMEM *)ifsh;    
     size_t size = 0;
     while (1) { // Calculate the size of the string
-        uint8_t c = pgm_read_byte(p++);
-        if (c == 0) break;
+        uint8_t c = pgm_read_byte(p+size);
+        if (c == 0)
+            break;
         size++;
     }
     uint8_t buf[size+2];
     
-    pgm_read_byte(p--); // Go one back
-    pgm_read_byte(p--); // Don't include the null character
-    for(uint8_t i = 1; i < size+1; i++)
-        buf[size-i] = pgm_read_byte(p--); // Write to buffer reversed
-        
+    for(uint8_t i = 0; i < size; i++)
+        buf[i] = pgm_read_byte(p++);
+    
     buf[size] = '\r';
     buf[size+1] = '\n';
     print(buf,size+2);
