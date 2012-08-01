@@ -286,7 +286,8 @@ private:
     uint8_t rfcommDataBuffer[256]; // Create a 256 sized buffer for incoming data
     uint8_t rfcommAvailable;
     
-    bool firstMessage; // Used to see if it's the first SDP request received
+    bool firstMessage; // Used to see if it's the first SDP request received    
+    uint8_t bytesReceived; // Counter to see when it's time to send more credit
     
     /* State machines */
     void HCI_event_task(); //poll the HCI event pipe

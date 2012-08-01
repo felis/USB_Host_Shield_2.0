@@ -1001,7 +1001,8 @@ void RFCOMM::RFCOMM_task()
 #ifdef DEBUG
                 Notify(PSTR("\r\nRFCOMM Successfully Configured"));
 #endif                
-                rfcommAvailable = 0; // Reset numbers of bytes available
+                rfcommAvailable = 0; // Reset number of bytes available
+                bytesReceived = 0; // Reset number of bytes received
                 RFCOMMConnected = true;
                 l2cap_rfcomm_state = L2CAP_RFCOMM_DONE;
             }
@@ -1035,6 +1036,15 @@ void RFCOMM::readReport() {
     for(uint8_t i = 0; i < length; i++)
         rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];    
     rfcommAvailable += length;
+    bytesReceived += length;
+    if(bytesReceived > 200) {
+        bytesReceived = 0;
+        sendRfcommCredit(rfcommChannelPermanent,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // Send 255 more credit
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nSent more credit"));
+#endif
+    }
+        
 #ifdef EXTRADEBUG
     Notify(PSTR("\r\nRFCOMM Data Available: "));
     Serial.print(rfcommAvailable);
