@@ -20,6 +20,7 @@ void setup() {
 void loop() {
   Usb.Task();
   if(Xbox.Xbox360Connected) {
+    Xbox.setRumbleOn(Xbox.getButton(L2),Xbox.getButton(R2));
     if(Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500 || Xbox.getAnalogHat(LeftHatY) > 7500 || Xbox.getAnalogHat(LeftHatY) < -7500 || Xbox.getAnalogHat(RightHatX) > 7500 || Xbox.getAnalogHat(RightHatX) < -7500 || Xbox.getAnalogHat(RightHatY) > 7500 || Xbox.getAnalogHat(RightHatY) < -7500) {
       if(Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500) {
         Serial.print(F("LeftHatX: ")); 
@@ -101,7 +102,6 @@ void loop() {
         Serial.print(F(" - R2:"));
         Serial.print(Xbox.getButton(R2));
       }
-      Xbox.setRumbleOn(Xbox.getButton(L2),Xbox.getButton(R2));
       Serial.println();        
     } 
   }
