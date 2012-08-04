@@ -117,6 +117,10 @@ public:
     void println(uint8_t data); // Include newline and carriage return
     void println(uint8_t* array, uint8_t length); // Include newline and carriage return
     void println(const __FlashStringHelper *); // Include newline and carriage return
+    void println(void);
+    
+    void printNumber(uint16_t n);
+    void printNumberln(uint16_t n);
     
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer
@@ -163,6 +167,8 @@ private:
     
     bool firstMessage; // Used to see if it's the first SDP request received    
     uint8_t bytesRead; // Counter to see when it's time to send more credit
+    
+    unsigned long printTimer; // Used to set a delay, so it doesn't try to print too fast
     
     /* State machines */
     void SDP_task(); // SDP state machine

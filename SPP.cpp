@@ -361,18 +361,18 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
             Notify(PSTR(" "));
             PrintHex<uint8_t>(l2capinbuf[6]);
 #endif                
-        }        
-        if(waitForLastCommand && (millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
-#ifdef DEBUG
-            Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"));
-#endif
-            creditSent = false;
-            waitForLastCommand = false;
-            connected = true; // The RFCOMM channel is now established
         }
     }
 }
 void SPP::Poll() {
+    if(waitForLastCommand && (millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
+#ifdef DEBUG
+        Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"));
+#endif
+        creditSent = false;
+        waitForLastCommand = false;
+        connected = true; // The RFCOMM channel is now established
+    }
     SDP_task();
     RFCOMM_task();
 }
@@ -619,7 +619,10 @@ void SPP::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
 /*                    RFCOMM Commands                       */
 /************************************************************/
 void SPP::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
+    if ((millis() - printTimer) < 10)// Check if is has been more than 10ms since last command
+        delay((uint32_t)(10 - (millis() - printTimer))); // There have to be a delay between commands
     pBtd->L2CAP_Command(hci_handle,data,nbytes,rfcomm_scid[0],rfcomm_scid[1]);
+    printTimer = millis();
 }
 
 void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length) {
@@ -722,7 +725,6 @@ void SPP::print(const __FlashStringHelper *ifsh) {
     
     print(buf,size);
 }
-
 void SPP::println(const String &str) {
     str + "\r\n";
     print(str);
@@ -761,6 +763,51 @@ void SPP::println(const __FlashStringHelper *ifsh) {
     buf[size] = '\r';
     buf[size+1] = '\n';
     print(buf,size+2);
+}
+void SPP::println(void) {
+    print("\r\n");    
+}
+
+/* These must be used to print numbers */
+void SPP::printNumber(uint16_t n) {
+    uint16_t temp = n;
+    uint8_t digits = 0;
+    while (temp) {
+        temp /= 10;
+        digits++;
+    }        
+    if(digits == 0)
+        print("0");
+    else {
+        uint8_t buf[digits];
+        for(uint8_t i = 1; i < digits+1; i++) {
+            buf[digits-i] = n%10; // Get number and convert to ASCII Character
+            buf[digits-i] += 48;
+            n /= 10;
+        }
+        print(buf,digits);
+    }
+}
+void SPP::printNumberln(uint16_t n) {
+    uint16_t temp = n;
+    uint8_t digits = 0;
+    while (temp) {
+        temp /= 10;
+        digits++;
+    }
+    if(digits == 0)
+        print("0\r\n");
+    else {
+        uint8_t buf[digits+2];
+        for(uint8_t i = 1; i < digits+1; i++) {
+            buf[digits-i] = n%10; // Get number and convert to ASCII Character
+            buf[digits-i] += 48;
+            n /= 10;
+        }
+        buf[digits] = '\r';
+        buf[digits+1] = '\n';
+        print(buf,digits+2);
+    }
 }
 
 uint8_t SPP::read() {
