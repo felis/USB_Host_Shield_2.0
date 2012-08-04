@@ -106,11 +106,13 @@ public:
     bool connected;// Variable used to indicate if the connection is established
     
     /* Serial port profile (SPP) commands */
+    void print(const String &); // Used to send strings
     void print(const char* data); // Used to send strings
     void print(uint8_t data); // Used to send single bytes
     void print(uint8_t* array, uint8_t length); // Used to send arrays
     void print(const __FlashStringHelper *); // Used to print strings stored in flash    
     
+    void println(const String &); // Used to send strings
     void println(const char* data); // Include newline and carriage return
     void println(uint8_t data); // Include newline and carriage return
     void println(uint8_t* array, uint8_t length); // Include newline and carriage return

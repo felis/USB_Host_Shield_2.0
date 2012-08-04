@@ -670,6 +670,17 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 }
 
 /* Serial commands */
+void SPP::print(const String &str) {
+    l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
+    l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
+    l2capoutbuf[2] = str.length() << 1 | 1; // Length
+    uint8_t i = 0;
+    for(; i < str.length(); i++)
+        l2capoutbuf[i+3] = str[i];
+    l2capoutbuf[i+3] = calcFcs(l2capoutbuf);
+    
+    RFCOMM_Command(l2capoutbuf,str.length()+4);
+}
 void SPP::print(const char* data) {
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
     l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control                                                                
@@ -712,6 +723,10 @@ void SPP::print(const __FlashStringHelper *ifsh) {
     print(buf,size);
 }
 
+void SPP::println(const String &str) {
+    str + "\r\n";
+    print(str);
+}
 void SPP::println(const char* data) {
     char output[strlen(data)+2];
     strcpy(output,data);
