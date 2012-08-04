@@ -18,17 +18,6 @@
 #ifndef _btd_h_
 #define _btd_h_
 
-#define PS3_CONTROL_PIPE    0
-#define PS3_OUTPUT_PIPE     1
-#define PS3_INPUT_PIPE      2
-
-#define PS3_CONTROL_PIPE    0
-#define PS3_OUTPUT_PIPE     1
-#define PS3_INPUT_PIPE      2
-
-#define EP_INTERRUPT        0x03
-#define EP_MAXPKTSIZE       64 // max size for data via USB
-
 #include "Usb.h"
 #include "confdescparser.h"
 
@@ -127,7 +116,7 @@ class BluetoothService { // All services should include this class
 public:
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
     virtual void Poll(); // Used to run the different state machines
-    virtual void Release(); // Used to disconnect both the L2CAP Channel and the HCI Connection
+    virtual void Release(); // Used to reset the services
     virtual void disconnect(); // Used to disconnect both the L2CAP Channel and the HCI Connection
 };
 
@@ -150,7 +139,7 @@ public:
         for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
             if (btService[i])
                 btService[i]->disconnect(); // Disconnect both the L2CAP Channel and the HCI Connection
-    };        
+    };
     
     /* Register bluetooth dongle members/services */
     uint8_t registerServiceClass(BluetoothService *pService) {
@@ -220,7 +209,7 @@ private:
     BluetoothService* btService[BTD_NUMDEVICES];
     
     bool bPollEnable;
-    uint8_t pollInterval;    
+    uint8_t pollInterval;
     
     /* variables used by high level HCI task */    
     uint8_t hci_state;  //current state of bluetooth hci connection

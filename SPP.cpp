@@ -66,8 +66,7 @@ void SPP::Release() {
     SDPConnected = false;
     l2cap_sdp_state = L2CAP_SDP_WAIT;
     l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
-    l2cap_event_flag = 0;
-    
+    l2cap_event_flag = 0;    
 }
 void SPP::disconnect(){
     connected = false;

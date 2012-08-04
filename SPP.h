@@ -100,7 +100,7 @@ public:
     // BluetoothService implementation
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
     virtual void Poll(); // Used to run SDP_task() and RFCOMM_task()
-    virtual void Release();
+    virtual void Release(); // Use this to reset the service
     virtual void disconnect(); // Used this void to disconnect the virtual serial port
     
     bool connected;// Variable used to indicate if the connection is established

@@ -108,8 +108,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Assign new address to the device
     rcode = pUsb->setAddr( 0, 0, bAddress );
-    if (rcode) 
-    {
+    if (rcode) {
         p->lowspeed = false;
         addrPool.FreeAddress(bAddress);
         bAddress = 0;
@@ -140,44 +139,18 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
     
     if(VID == PS3_VID && (PID == PS3_PID ||  PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID)) {
-        /* The application will work in reduced host mode, so we can save program and data
-         memory space. After verifying the PID and VID we will use known values for the
-         configuration values for device, interface, endpoints and HID for the PS3 Controllers */
-        
-        /* Initialize data structures for endpoints of device */
-        epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02;    // PS3 output endpoint
-        epInfo[ PS3_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
-        epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01;    // PS3 report endpoint
-        epInfo[ PS3_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ PS3_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
-        
-        rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
-        if( rcode )
-            goto FailSetDevTblEntry;
-        
-        delay(200);//Give time for address change
-        
+        /* We only need the Control endpoint, so we don't have to initialize the other endpoints of device */                
         rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1);
         if( rcode )
             goto FailSetConf;
         
         if(PID == PS3_PID || PID == PS3NAVIGATION_PID) {
-            if(PID == PS3_PID) {
 #ifdef DEBUG
+            if(PID == PS3_PID)
                 Notify(PSTR("\r\nDualshock 3 Controller Connected"));
-#endif
-            } else { // must be a navigation controller
-#ifdef DEBUG
+            else // must be a navigation controller
                 Notify(PSTR("\r\nNavigation Controller Connected"));
 #endif
-            }
             /* Set internal bluetooth address */
             setBdaddr(my_bdaddr);
         }
@@ -241,7 +214,7 @@ FailSetDevTblEntry:
 #ifdef DEBUG
     Notify(PSTR("\r\nsetDevTblEn"));
 #endif
-    goto Fail;       
+    goto Fail;
 FailGetConfDescr:
 #ifdef DEBUG
     Notify(PSTR("\r\ngetConf"));
@@ -807,11 +780,11 @@ void BTD::hci_disconnect(uint16_t handle) { // This is called by the different s
 /************************************************************/
 void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t channelLow, uint8_t channelHigh) {
     uint8_t buf[256];
-    buf[0] = (uint8_t)(handle & 0xff);    // HCI handle with PB,BC flag
+    buf[0] = (uint8_t)(handle & 0xff); // HCI handle with PB,BC flag
     buf[1] = (uint8_t)(((handle >> 8) & 0x0f) | 0x20);
-    buf[2] = (uint8_t)((4 + nbytes) & 0xff);   // HCI ACL total data length
+    buf[2] = (uint8_t)((4 + nbytes) & 0xff); // HCI ACL total data length
     buf[3] = (uint8_t)((4 + nbytes) >> 8);
-    buf[4] = (uint8_t)(nbytes & 0xff);         // L2CAP header: Length
+    buf[4] = (uint8_t)(nbytes & 0xff); // L2CAP header: Length
     buf[5] = (uint8_t)(nbytes >> 8);
     buf[6] = channelLow;
     buf[7] = channelHigh;
@@ -920,8 +893,7 @@ void BTD::l2cap_information_response(uint16_t handle, uint8_t rxid, uint8_t info
 }
 
 /* PS3 Commands - only set Bluetooth address is implemented */
-void BTD::setBdaddr(uint8_t* BDADDR)
-{
+void BTD::setBdaddr(uint8_t* BDADDR) {
     /* Set the internal bluetooth address */
     uint8_t buf[8];
     buf[0] = 0x01;
@@ -942,8 +914,7 @@ void BTD::setBdaddr(uint8_t* BDADDR)
 #endif
     return;
 }
-void BTD::setMoveBdaddr(uint8_t* BDADDR)
-{
+void BTD::setMoveBdaddr(uint8_t* BDADDR) {
 	/* Set the internal bluetooth address */
     uint8_t buf[11];
     buf[0] = 0x05;

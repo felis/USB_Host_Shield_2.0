@@ -41,7 +41,7 @@ buttonChanged	KEYWORD2
 buttonPressed	KEYWORD2
 buttonReleased	KEYWORD2
 
-isWatingForConnection	KEYWORD2
+watingForConnection	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)

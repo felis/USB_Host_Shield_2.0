@@ -60,8 +60,7 @@ pBtd(p) // pointer to USB class instance - mandatory
     
     Release();
 }
-bool PS3BT::getButton(Button b)
-{
+bool PS3BT::getButton(Button b) {
     if (l2capinpointer == NULL)
         return false;
     if(PS3MoveConnected) {
@@ -76,20 +75,17 @@ bool PS3BT::getButton(Button b)
             return false;
     }
 }
-uint8_t PS3BT::getAnalogButton(AnalogButton a)
-{
+uint8_t PS3BT::getAnalogButton(AnalogButton a) {
     if (l2capinpointer == NULL)
         return 0;
     return (uint8_t)(l2capinpointer[(uint16_t)a]);
 }
-uint8_t PS3BT::getAnalogHat(AnalogHat a)
-{
+uint8_t PS3BT::getAnalogHat(AnalogHat a) {
     if (l2capinpointer == NULL)
         return 0;                        
     return (uint8_t)(l2capinpointer[(uint16_t)a]);
 }
-int16_t PS3BT::getSensor(Sensor a)
-{
+int16_t PS3BT::getSensor(Sensor a) {
     if (l2capinpointer == NULL)
         return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
@@ -157,18 +153,15 @@ String PS3BT::getTemperature() {
         return output;        
     }
 }
-bool PS3BT::getStatus(Status c)
-{
+bool PS3BT::getStatus(Status c) {
     if (l2capinpointer == NULL)
         return false;
     if (l2capinpointer[(uint16_t)c >> 8] == ((uint8_t)c & 0xff))
         return true;
     return false;
 }
-String PS3BT::getStatusString()
-{
-    if (PS3Connected || PS3NavigationConnected)
-    {
+String PS3BT::getStatusString() {
+    if (PS3Connected || PS3NavigationConnected) {
         char statusOutput[100];
         
         strcpy(statusOutput,"ConnectionStatus: ");
@@ -199,8 +192,7 @@ String PS3BT::getStatusString()
         return statusOutput;
         
     }
-    else if(PS3MoveConnected)
-    {
+    else if(PS3MoveConnected) {
         char statusOutput[50];
         
         strcpy(statusOutput,"PowerRating: ");
@@ -371,8 +363,7 @@ void PS3BT::ACLData(uint8_t* l2capinbuf) {
             //Serial.print("\r\nL2CAP Interrupt");
             if(PS3Connected || PS3MoveConnected || PS3NavigationConnected) {
                 /* Read Report */
-                if(l2capinbuf[8] == 0xA1) // HID_THDR_DATA_INPUT
-                {
+                if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
                     if(PS3Connected || PS3NavigationConnected)
                         ButtonState = (uint32_t)(l2capinbuf[11] | ((uint16_t)l2capinbuf[12] << 8) | ((uint32_t)l2capinbuf[13] << 16));
                     else if(PS3MoveConnected)
@@ -381,8 +372,7 @@ void PS3BT::ACLData(uint8_t* l2capinbuf) {
                     //Notify(PSTR("\r\nButtonState");
                     //PrintHex<uint32_t>(ButtonState);
                     
-                    if(ButtonState != OldButtonState)
-                    {
+                    if(ButtonState != OldButtonState) {
                         buttonChanged = true;
                         if(ButtonState != 0x00) {
                             buttonPressed = true;
@@ -391,16 +381,13 @@ void PS3BT::ACLData(uint8_t* l2capinbuf) {
                             buttonPressed = false;
                             buttonReleased = true;
                         }
-                    }
-                    
-                    else
-                    {
+                    }                    
+                    else {
                         buttonChanged = false;
                         buttonPressed = false;
                         buttonReleased = false;
-                    }
-                    
-                    OldButtonState = ButtonState; 
+                    }                    
+                    OldButtonState = ButtonState;
                 }
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
                 if(l2capinbuf[8] == 0xA1) { //HID_THDR_DATA_INPUT
@@ -532,10 +519,8 @@ void PS3BT::Poll() {
             break;
             
         case L2CAP_EV_DONE:
-            if (PS3MoveConnected)//The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
-            {
-                if (millis() - timerBulbRumble > 4000)//Send at least every 4th second
-                {
+            if (PS3MoveConnected) { //The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
+                if (millis() - timerBulbRumble > 4000) { //Send at least every 4th second
                     HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);//The Bulb and rumble values, has to be written again and again, for it to stay turned on
                     timerBulbRumble = millis();
                 }
