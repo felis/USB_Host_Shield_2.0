@@ -273,8 +273,8 @@ private:
     uint32_t timerHID;// timer used see if there has to be a delay before a new HID command
     uint32_t timerBulbRumble;// used to continuously set PS3 Move controller Bulb and rumble values
     
-    uint8_t l2capoutbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap out data
-    uint8_t* l2capinpointer; // Pointer to l2capinbuf from BTD
+    uint8_t l2capoutbuf[BULK_MAXPKTSIZE];// General purpose buffer for l2cap out data
+    uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap in data
     uint8_t HIDBuffer[HID_BUFFERSIZE];// Used to store HID commands
     uint8_t HIDMoveBuffer[HID_BUFFERSIZE];// Used to store HID commands for the Move controller   
     

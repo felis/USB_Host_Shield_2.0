@@ -61,54 +61,54 @@ pBtd(p) // pointer to USB class instance - mandatory
     Release();
 }
 bool PS3BT::getButton(Button b) {
-    if (l2capinpointer == NULL)
+    if (l2capinbuf == NULL)
         return false;
     if(PS3MoveConnected) {
-        if((l2capinpointer[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
+        if((l2capinbuf[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
             return true;
         else
             return false;
     } else {  
-        if((l2capinpointer[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
+        if((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
             return true;
         else
             return false;
     }
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a) {
-    if (l2capinpointer == NULL)
+    if (l2capinbuf == NULL)
         return 0;
-    return (uint8_t)(l2capinpointer[(uint16_t)a]);
+    return (uint8_t)(l2capinbuf[(uint16_t)a]);
 }
 uint8_t PS3BT::getAnalogHat(AnalogHat a) {
-    if (l2capinpointer == NULL)
+    if (l2capinbuf == NULL)
         return 0;                        
-    return (uint8_t)(l2capinpointer[(uint16_t)a]);
+    return (uint8_t)(l2capinbuf[(uint16_t)a]);
 }
 int16_t PS3BT::getSensor(Sensor a) {
-    if (l2capinpointer == NULL)
+    if (l2capinbuf == NULL)
         return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
-        return ((l2capinpointer[(uint16_t)a] << 8) | l2capinpointer[(uint16_t)a + 1]);
+        return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
     else if (a == mXmove || a == mYmove || a == mZmove) // These are all 12-bits long
     {        
         // Might not be correct, haven't tested it yet
         /*if (a == mXmove)
-            return ((l2capinpointer[(uint16_t)a + 1] << 0x04) | (l2capinpointer[(uint16_t)a] << 0x0C));
+            return ((l2capinbuf[(uint16_t)a + 1] << 0x04) | (l2capinbuf[(uint16_t)a] << 0x0C));
         else if (a == mYmove)
-            return ((l2capinpointer[(uint16_t)a + 1] & 0xF0) | (l2capinpointer[(uint16_t)a] << 0x08));
+            return ((l2capinbuf[(uint16_t)a + 1] & 0xF0) | (l2capinbuf[(uint16_t)a] << 0x08));
         else if (a == mZmove)
-         return ((l2capinpointer[(uint16_t)a + 1] << 0x0F) | (l2capinpointer[(uint16_t)a] << 0x0C));
+         return ((l2capinbuf[(uint16_t)a + 1] << 0x0F) | (l2capinbuf[(uint16_t)a] << 0x0C));
          */
         if (a == mXmove || a == mYmove)
-            return (((l2capinpointer[(uint16_t)a] & 0x0F) << 8) | (l2capinpointer[(uint16_t)a + 1]));
+            return (((l2capinbuf[(uint16_t)a] & 0x0F) << 8) | (l2capinbuf[(uint16_t)a + 1]));
         else // mZmove            
-            return ((l2capinpointer[(uint16_t)a] << 4) | (l2capinpointer[(uint16_t)a + 1] >> 4));                
+            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] >> 4));                
     }
     else if (a == tempMove) // The tempearature is 12 bits long too
-        return ((l2capinpointer[(uint16_t)a] << 4) | ((l2capinpointer[(uint16_t)a + 1] & 0xF0) >> 4));
+        return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
     else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
-        return (l2capinpointer[(uint16_t)a] | (l2capinpointer[(uint16_t)a + 1] << 8));
+        return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));
 }
 double PS3BT::getAngle(Angle a) {        
     double accXval;
@@ -154,9 +154,9 @@ String PS3BT::getTemperature() {
     }
 }
 bool PS3BT::getStatus(Status c) {
-    if (l2capinpointer == NULL)
+    if (l2capinbuf == NULL)
         return false;
-    if (l2capinpointer[(uint16_t)c >> 8] == ((uint8_t)c & 0xff))
+    if (l2capinbuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff))
         return true;
     return false;
 }
@@ -232,8 +232,9 @@ void PS3BT::disconnect() { //Use this void to disconnect any of the controllers
     l2cap_state = L2CAP_EV_INTERRUPT_DISCONNECT;
 }
 
-void PS3BT::ACLData(uint8_t* l2capinbuf) {
-    l2capinpointer = l2capinbuf;
+void PS3BT::ACLData(uint8_t* ACLData) {
+    for(uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
+        l2capinbuf[i] = ACLData[i];
     if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
         if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_INTR_PSM)) {
             if(!pBtd->connectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
@@ -467,7 +468,7 @@ void PS3BT::Poll() {
 #endif                
                 if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')      
                     for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                        l2capinpointer[i] = 0;
+                        l2capinbuf[i] = 0;
                     ButtonState = 0;
                     OldButtonState = 0;
                     
@@ -480,13 +481,13 @@ void PS3BT::Poll() {
         case L2CAP_EV_HID_ENABLE_SIXAXIS:
             if(millis() - timer > 1000) { // loop 1 second before sending the command
                 for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                    l2capinpointer[i] = 0;
+                    l2capinbuf[i] = 0;
                 ButtonState = 0;
                 OldButtonState = 0;                
                 
                 enable_sixaxis();
                 for (uint8_t i = 15; i < 19; i++)
-                    l2capinpointer[i] = 0x7F; // Set the analog joystick values to center position
+                    l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position
                 l2cap_state = L2CAP_EV_HID_PS3_LED;
                 timer = millis();
             }
