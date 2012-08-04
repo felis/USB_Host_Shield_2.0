@@ -565,10 +565,8 @@ void BTD::HCI_task() {
             break;
             
         case HCI_DONE_STATE:
-            if(connectionClaimed) { // Wait until one of the services has claimed the connection before accepting more incoming requests
-                hci_state = HCI_SCANNING_STATE;
-                connectionClaimed = false;
-            }            
+            hci_state = HCI_SCANNING_STATE;
+            connectionClaimed = false;
             break;
             
         case HCI_DISCONNECT_STATE:
