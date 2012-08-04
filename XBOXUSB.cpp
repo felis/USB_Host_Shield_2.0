@@ -49,8 +49,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 	Notify(PSTR("\r\nXBOXUSB Init"));
 #endif
     // check if address has already been assigned to an instance
-    if (bAddress) 
-    {
+    if (bAddress) {
 #ifdef DEBUG
         Notify(PSTR("\r\nAddress in use"));
 #endif
@@ -60,16 +59,14 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     // Get pointer to pseudo device with address 0 assigned
     p = addrPool.GetUsbDevicePtr(0);
     
-    if (!p) 
-    {        
+    if (!p) {        
 #ifdef DEBUG
 	    Notify(PSTR("\r\nAddress not found"));
 #endif
         return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
     }
     
-    if (!p->epinfo) 
-    {
+    if (!p->epinfo) {
 #ifdef DEBUG
         Notify(PSTR("\r\nepinfo is null"));
 #endif
@@ -104,8 +101,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Assign new address to the device
     rcode = pUsb->setAddr( 0, 0, bAddress );
-    if (rcode) 
-    {
+    if (rcode) {
         p->lowspeed = false;
         addrPool.FreeAddress(bAddress);
         bAddress = 0;
@@ -216,6 +212,7 @@ FailUnknownDevice:
     Notify(PSTR(" PID: "));
     PrintHex<uint16_t>(PID);
 #endif
+    rcode = -1;
     goto Fail;
 Fail:
 #ifdef DEBUG

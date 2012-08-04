@@ -52,8 +52,7 @@
 
 #define PS3_MAX_ENDPOINTS   3
 
-enum LED
-{
+enum LED {
     LED1 = 0x01,
     LED2 = 0x02,
     LED3 = 0x04,
@@ -66,8 +65,7 @@ enum LED
     LED9 = 0x0E,
     LED10 = 0x0F,
 };
-enum Colors
-{
+enum Colors {
     // Used to set the colors of the move controller            
     Red = 0xFF0000, // r = 255, g = 0, b = 0
     Green = 0xFF00, // r = 0, g = 255, b = 0
@@ -81,8 +79,7 @@ enum Colors
     Off = 0x00, // r = 0, g = 0, b = 0
 };
 
-enum Button
-{
+enum Button {
     // byte location | bit location
     
     // Sixaxis Dualshcock 3 & Navigation controller 
@@ -106,8 +103,7 @@ enum Button
     
     PS = (4 << 8) | 0x01, 
 };
-enum AnalogButton
-{
+enum AnalogButton {
     // Sixaxis Dualshcock 3 & Navigation controller
     UP_ANALOG = 14,
     RIGHT_ANALOG = 15,
@@ -123,28 +119,24 @@ enum AnalogButton
     CROSS_ANALOG = 24,
     SQUARE_ANALOG = 25,  
 };
-enum AnalogHat
-{
+enum AnalogHat {
     LeftHatX = 6,
     LeftHatY = 7,
     RightHatX = 8,
     RightHatY = 9,
 };
-enum Sensor
-{
+enum Sensor {
     // Sensors inside the Sixaxis Dualshock 3 controller
     aX = 41,
     aY = 43,
     aZ = 45,
     gZ = 47, 
 };
-enum Angle
-{
+enum Angle {
     Pitch = 0x01,
     Roll = 0x02,
 };
-enum Status
-{
+enum Status {
     // byte location | bit location
     Plugged = (29 << 8) | 0x02,
     Unplugged = (29 << 8) | 0x03,
@@ -162,14 +154,12 @@ enum Status
     BluetoothRumble = (31 << 8) | 0x14, // Opperating by bluetooth and rumble is turned on
     Bluetooth = (31 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
 };
-enum Rumble
-{
+enum Rumble {
     RumbleHigh = 0x10,
     RumbleLow = 0x20,            
 };
 
-class PS3USB : public USBDeviceConfig
-{
+class PS3USB : public USBDeviceConfig {
 public:
     PS3USB(USB *pUsb, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0);
     

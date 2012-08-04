@@ -90,16 +90,14 @@ enum Button {
     L2 = 4,
     R2 = 5,
 };
-enum AnalogHat
-{
+enum AnalogHat {
     LeftHatX = 6,
     LeftHatY = 8,
     RightHatX = 10,
     RightHatY = 12,
 };
 
-class XBOXUSB : public USBDeviceConfig
-{
+class XBOXUSB : public USBDeviceConfig {
 public:
     XBOXUSB(USB *pUsb);
     

@@ -242,6 +242,7 @@ FailUnknownDevice:
 #ifdef DEBUG
     Notify(PSTR("\r\nUnknown Device Connected:"));
 #endif
+    rcode = -1;
     goto Fail;
 Fail:
 #ifdef DEBUG

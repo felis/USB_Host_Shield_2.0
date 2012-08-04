@@ -24,7 +24,7 @@ const uint8_t PS3BT::BTD_EVENT_PIPE  = 1;
 const uint8_t PS3BT::BTD_DATAIN_PIPE = 2;
 const uint8_t PS3BT::BTD_DATAOUT_PIPE = 3;
 
-uint8_t OUTPUT_REPORT_BUFFER[] PROGMEM = {
+const uint8_t OUTPUT_REPORT_BUFFER[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 
     0x00, 0x00, 0x00, 0x00, 0x00, 
     0xff, 0x27, 0x10, 0x00, 0x32, 
@@ -306,6 +306,7 @@ FailUnknownDevice:
     Notify(PSTR(" PID: "));
     PrintHex<uint16_t>(PID);
 #endif
+    rcode = -1;
     goto Fail;
 Fail:
 #ifdef DEBUG
