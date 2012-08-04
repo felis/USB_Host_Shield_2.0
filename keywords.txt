@@ -186,14 +186,14 @@ X					LITERAL1
 Y					LITERAL1
 
 ####################################################
-# Syntax Coloring Map For RFCOMM Library
+# Syntax Coloring Map For RFCOMM/SPP Library
 ####################################################
 
 ####################################################
 # Datatypes (KEYWORD1)
 ####################################################
 
-RFCOMM				KEYWORD1
+SPP					KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
