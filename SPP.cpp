@@ -674,31 +674,39 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 
 /* Serial commands */
 void SPP::print(const String &str) {
+    uint8_t length = str.length();
+    if(length > (sizeof(l2capoutbuf)-4))
+        length = sizeof(l2capoutbuf)-4;
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
     l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-    l2capoutbuf[2] = str.length() << 1 | 1; // Length
-    uint8_t i = 0;
-    for(; i < str.length(); i++)
+    l2capoutbuf[2] = length << 1 | 1; // Length
+    uint8_t i = 0;    
+    for(; i < length; i++)
         l2capoutbuf[i+3] = str[i];
     l2capoutbuf[i+3] = calcFcs(l2capoutbuf);
     
-    RFCOMM_Command(l2capoutbuf,str.length()+4);
+    RFCOMM_Command(l2capoutbuf,length+4);
 }
 void SPP::print(const char* data) {
+    uint8_t length = strlen(data);
+    if(length > (sizeof(l2capoutbuf)-4))
+        length = sizeof(l2capoutbuf)-4;
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
     l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control                                                                
-    l2capoutbuf[2] = strlen(data) << 1 | 1; // Length
+    l2capoutbuf[2] = length << 1 | 1; // Length
     uint8_t i = 0;
-    for(; i < strlen(data); i++)
+    for(; i < length; i++)
         l2capoutbuf[i+3] = data[i];                                                                
     l2capoutbuf[i+3] = calcFcs(l2capoutbuf);                            
     
-    RFCOMM_Command(l2capoutbuf,strlen(data)+4);
+    RFCOMM_Command(l2capoutbuf,length+4);
 }
 void SPP::print(uint8_t data) {
     print(&data,1);
 }
 void SPP::print(uint8_t* array, uint8_t length) {
+    if(length > (sizeof(l2capoutbuf)-4))
+        length = sizeof(l2capoutbuf)-4;
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
     l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
     l2capoutbuf[2] = length << 1 | 1; // Length
