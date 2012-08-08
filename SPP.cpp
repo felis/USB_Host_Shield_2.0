@@ -245,8 +245,8 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                 /* Read the incoming message */
                 if(rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
                     uint8_t length = l2capinbuf[10] >> 1; // Get length
+                    uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
                     if(rfcommAvailable + length <= 256) { // Don't add data to buffer if it would be full
-                        uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
                         for(uint8_t i = 0; i < length; i++)
                             rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];
                         rfcommAvailable += length;
