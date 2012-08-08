@@ -109,17 +109,17 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Get device descriptor
     rcode = pUsb->getDevDescr(0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
-    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
-    
-    if(VID != PS3_VID || (PID != PS3_PID &&  PID != PS3NAVIGATION_PID && PID != PS3MOVE_PID))
-        goto FailUnknownDevice;
-    
     // Restore p->epinfo
     p->epinfo = oldep_ptr;
     
     if(rcode)
         goto FailGetDevDescr;
+    
+    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+    
+    if(VID != PS3_VID || (PID != PS3_PID &&  PID != PS3NAVIGATION_PID && PID != PS3MOVE_PID))
+        goto FailUnknownDevice;        
     
     // Allocate new address according to device class
     bAddress = addrPool.AllocAddress(parent, false, port);

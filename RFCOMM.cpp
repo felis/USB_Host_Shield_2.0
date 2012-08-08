@@ -242,7 +242,7 @@ FailUnknownDevice:
 #ifdef DEBUG
     Notify(PSTR("\r\nUnknown Device Connected:"));
 #endif
-    pUsb->setAddr(bAddress, 0, 0);
+    pUsb->setAddr(bAddress, 0, 0); // Reset address
     rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
     goto Fail;
 Fail:

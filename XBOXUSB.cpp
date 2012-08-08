@@ -83,6 +83,12 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Get device descriptor
     rcode = pUsb->getDevDescr(0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
+    // Restore p->epinfo
+    p->epinfo = oldep_ptr;
+    
+    if(rcode)
+        goto FailGetDevDescr;
+    
     VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
     PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
     
@@ -99,13 +105,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"));
 #endif
         goto FailUnknownDevice;
-    }
-    
-    // Restore p->epinfo
-    p->epinfo = oldep_ptr;
-    
-    if(rcode)
-        goto FailGetDevDescr;
+    }        
     
     // Allocate new address according to device class
     bAddress = addrPool.AllocAddress(parent, false, port);
