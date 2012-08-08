@@ -3,7 +3,6 @@
  For more information visit my blog: http://blog.tkjelectronics.dk/ or 
  send me an e-mail:  kristianl@tkjelectronics.com
  */
- 
 
 #include <PS3BT.h>
 #include <SPP.h>
