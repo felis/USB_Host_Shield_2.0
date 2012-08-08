@@ -26,7 +26,7 @@ void setup() {
     Serial.print(F("\r\nOSC did not start"));
     while(1); //halt
   }
-  Serial.print(F("\r\nPS3 Bluetooth Library Started"));
+  Serial.print(F("\r\nBluetooth Library Started"));
 }
 void loop() {
   Usb.Task();

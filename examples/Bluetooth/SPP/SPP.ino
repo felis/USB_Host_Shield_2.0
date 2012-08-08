@@ -19,7 +19,7 @@ void setup() {
     Serial.print(F("\r\nOSC did not start"));
     while(1); //halt
   }
-  Serial.print(F("\r\nRFCOMM Bluetooth Library Started"));
+  Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
 void loop() {
   Usb.Task();
