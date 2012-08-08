@@ -295,7 +295,7 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 uint8_t BTD::Release() {
     for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
         if (btService[i])
-            btService[i]->Reset(); // Reset both the L2CAP Channel and the HCI Connection
+            btService[i]->Reset(); // Reset all Bluetooth services
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
 	bAddress = 0;
     bPollEnable = false;
@@ -514,7 +514,7 @@ void BTD::HCI_task() {
             if(hci_incoming_connect_request) {
                 watingForConnection = false;
 #ifdef DEBUG
-                Notify(PSTR("\r\nIncoming Request"));                
+                Notify(PSTR("\r\nIncoming Connection Request"));
 #endif                
                 hci_remote_name();
                 hci_state = HCI_REMOTE_NAME_STATE;
