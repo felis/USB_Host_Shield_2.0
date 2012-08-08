@@ -200,3 +200,5 @@ SPP					KEYWORD1
 ####################################################
 
 connected			KEYWORD2
+printNumber			KEYWORD2
+printNumberln		KEYWORD2
