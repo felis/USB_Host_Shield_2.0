@@ -306,7 +306,8 @@ FailUnknownDevice:
     Notify(PSTR(" PID: "));
     PrintHex<uint16_t>(PID);
 #endif
-    rcode = -1;
+    pUsb->setAddr(bAddress, 0, 0); // Reset address
+    rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
     goto Fail;
 Fail:
 #ifdef DEBUG
