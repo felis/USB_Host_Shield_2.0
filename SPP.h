@@ -117,10 +117,10 @@ public:
     void println(uint8_t data); // Include newline and carriage return
     void println(uint8_t* array, uint8_t length); // Include newline and carriage return
     void println(const __FlashStringHelper *); // Include newline and carriage return
-    void println(void);
+    void println(void); // Use this to print newline and carriage return
     
-    void printNumber(uint16_t n);
-    void printNumberln(uint16_t n);
+    void printNumber(uint16_t n); // These must be used to print numbers
+    void printNumberln(uint16_t n); // This will include newline and carriage return
     
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer
@@ -141,7 +141,6 @@ private:
     uint16_t l2cap_event_flag; // l2cap flags of received bluetooth events
            
     uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
-    uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap in data
     uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands
     
     /* L2CAP Channels */

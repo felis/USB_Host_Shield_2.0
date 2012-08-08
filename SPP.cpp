@@ -77,18 +77,16 @@ void SPP::disconnect(){
     l2cap_event_flag = 0; // Reset flags
     l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
 }
-void SPP::ACLData(uint8_t* ACLData) {
+void SPP::ACLData(uint8_t* l2capinbuf) {
     if(!pBtd->l2capConnectionClaimed && !connected && !RFCOMMConnected && !SDPConnected) {
-        if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-            if(((ACLData[12] | (ACLData[13] << 8)) == SDP_PSM) || ((ACLData[12] | (ACLData[13] << 8)) == RFCOMM_PSM)) {                
+        if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
+            if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM)) {                
                 pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
             }
         }
     }
-    if (((ACLData[0] | (ACLData[1] << 8)) == (hci_handle | 0x2000))) { // acl_handle_ok
-        for(uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
-            l2capinbuf[i] = ACLData[i];
+    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000))) { // acl_handle_ok
         if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
             if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
