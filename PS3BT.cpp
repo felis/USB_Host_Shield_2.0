@@ -311,7 +311,7 @@ FailUnknownDevice:
 Fail:
 #ifdef DEBUG
     Notify(PSTR("\r\nPS3 Init Failed, error code: "));
-    Serial.print(rcode);                     
+    Serial.print(rcode,HEX);
 #endif    
     Release();
     return rcode;
