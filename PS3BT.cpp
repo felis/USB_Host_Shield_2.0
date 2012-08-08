@@ -567,7 +567,7 @@ void PS3BT::Run() {
 void PS3BT::HID_Command(uint8_t* data, uint8_t nbytes) {    
     if (millis() - timerHID <= 250)// Check if is has been more than 250ms since last command                
         delay((uint32_t)(250 - (millis() - timerHID)));//There have to be a delay between commands
-    pBtd->L2CAP_Command(hci_handle,data,nbytes,control_scid[0],control_scid[1]); // Both the Navigation and Dualshock controller sends data via the controller channel
+    pBtd->L2CAP_Command(hci_handle,data,nbytes,control_scid[0],control_scid[1]); // Both the Navigation and Dualshock controller sends data via the control channel
     timerHID = millis();
 }
 void PS3BT::setAllOff() {

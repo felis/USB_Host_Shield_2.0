@@ -735,8 +735,8 @@ void SPP::print(const __FlashStringHelper *ifsh) {
     print(buf,size);
 }
 void SPP::println(const String &str) {
-    str + "\r\n";
-    print(str);
+    String output = str + "\r\n";
+    print(output);
 }
 void SPP::println(const char* data) {
     char output[strlen(data)+2];
