@@ -1,5 +1,5 @@
 /*
- Example sketch for the PS3 Bluetooth library - developed by Kristian Lauszus
+ Example sketch for the Bluetooth library - developed by Kristian Lauszus
  For more information visit my blog: http://blog.tkjelectronics.dk/ or 
  send me an e-mail:  kristianl@tkjelectronics.com
  */
