@@ -109,6 +109,11 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Get device descriptor
     rcode = pUsb->getDevDescr(0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
+    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+    
+    if(VID != PS3_VID || (PID != PS3_PID &&  PID != PS3NAVIGATION_PID && PID != PS3MOVE_PID))
+        goto FailUnknownDevice;
     
     // Restore p->epinfo
     p->epinfo = oldep_ptr;
@@ -155,77 +160,71 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     if (rcode)
         goto FailSetDevTblEntry;
     
-    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
-    
-    if(VID == PS3_VID && (PID == PS3_PID ||  PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID)) {                
-        /* The application will work in reduced host mode, so we can save program and data
-         memory space. After verifying the PID and VID we will use known values for the 
-         configuration values for device, interface, endpoints and HID for the PS3 Controllers */
+                    
+    /* The application will work in reduced host mode, so we can save program and data
+       memory space. After verifying the PID and VID we will use known values for the
+       configuration values for device, interface, endpoints and HID for the PS3 Controllers */
         
-        /* Initialize data structures for endpoints of device */
-        epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02;    // PS3 output endpoint
-        epInfo[ PS3_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
-        epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01;    // PS3 report endpoint            
-        epInfo[ PS3_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ PS3_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0; 
+    /* Initialize data structures for endpoints of device */
+    epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02;    // PS3 output endpoint
+    epInfo[ PS3_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
+    epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
+    epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+    epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
+    epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+    epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01;    // PS3 report endpoint
+    epInfo[ PS3_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
+    epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
+    epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+    epInfo[ PS3_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
+    epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
         
-        rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
-        if( rcode ) 
-            goto FailSetDevTblEntry;
+    rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
+    if( rcode )
+        goto FailSetDevTblEntry;
         
-        delay(200);//Give time for address change
+    delay(200);//Give time for address change
         
-        rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, 1);
-        if( rcode ) 
-            goto FailSetConf;
+    rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, 1);
+    if( rcode )
+        goto FailSetConf;
         
-        if(PID == PS3_PID || PID == PS3NAVIGATION_PID) {            
-            if(PID == PS3_PID) {                                      
+    if(PID == PS3_PID || PID == PS3NAVIGATION_PID) {
+        if(PID == PS3_PID) {
 #ifdef DEBUG
-                Notify(PSTR("\r\nDualshock 3 Controller Connected"));    
+            Notify(PSTR("\r\nDualshock 3 Controller Connected"));
 #endif                
-                PS3Connected = true;
-            } else { // must be a navigation controller
+            PS3Connected = true;
+        } else { // must be a navigation controller
 #ifdef DEBUG
-                Notify(PSTR("\r\nNavigation Controller Connected"));
+            Notify(PSTR("\r\nNavigation Controller Connected"));
 #endif
-                PS3NavigationConnected = true;
-            }          
-            /* Set internal bluetooth address and request for data */        
-            setBdaddr(my_bdaddr);
-            enable_sixaxis();
-            setLedOn(LED1);
-            
-            // Needed for PS3 Dualshock and Navigation commands to work
-            for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
-                writeBuf[i] = pgm_read_byte(&PS3_REPORT_BUFFER[i]);
-            
-            for (uint8_t i = 6; i < 10; i++)
-                readBuf[i] = 0x7F; // Set the analog joystick values to center position                        
+            PS3NavigationConnected = true;
         }
-        else  { // must be a Motion controller
-#ifdef DEBUG
-            Notify(PSTR("\r\nMotion Controller Connected"));            
-#endif                         
-            PS3MoveConnected = true;            
-            setMoveBdaddr(my_bdaddr); // Set internal bluetooth address            
-            moveSetBulb(Red);
+        /* Set internal bluetooth address and request for data */
+        setBdaddr(my_bdaddr);
+        enable_sixaxis();
+        setLedOn(LED1);
             
-            // Needed for Move commands to work
-            for (uint8_t i = 0; i < MOVE_REPORT_BUFFER_SIZE; i++)
-                writeBuf[i] = pgm_read_byte(&MOVE_REPORT_BUFFER[i]);            
-        }           
+        // Needed for PS3 Dualshock and Navigation commands to work
+        for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
+            writeBuf[i] = pgm_read_byte(&PS3_REPORT_BUFFER[i]);
+            
+        for (uint8_t i = 6; i < 10; i++)
+            readBuf[i] = 0x7F; // Set the analog joystick values to center position
     }
-    else
-        goto FailUnknownDevice;               
+    else  { // must be a Motion controller
+#ifdef DEBUG
+        Notify(PSTR("\r\nMotion Controller Connected"));
+#endif                         
+        PS3MoveConnected = true;
+        setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
+        moveSetBulb(Red);
+            
+        // Needed for Move commands to work
+        for (uint8_t i = 0; i < MOVE_REPORT_BUFFER_SIZE; i++)
+            writeBuf[i] = pgm_read_byte(&MOVE_REPORT_BUFFER[i]);
+    }
 
     bPollEnable = true;
     Notify(PSTR("\r\n"));
@@ -255,12 +254,12 @@ FailUnknownDevice:
     Notify(PSTR(" PID: "));
     PrintHex<uint16_t>(PID);
 #endif
-    rcode = -1;
+    rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
     goto Fail;
 Fail:
 #ifdef DEBUG
     Notify(PSTR("\r\nPS3 Init Failed, error code: "));
-    Serial.print(rcode);                     
+    Serial.print(rcode,HEX);
 #endif    
     Release();
     return rcode;

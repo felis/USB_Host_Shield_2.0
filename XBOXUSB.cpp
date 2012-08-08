@@ -83,6 +83,23 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     
     // Get device descriptor
     rcode = pUsb->getDevDescr(0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);// Get device descriptor - addr, ep, nbytes, data
+    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+    
+    if(VID != XBOX_VID) // We just check if it's a xbox controller using the Vendor ID
+        goto FailUnknownDevice;
+    if(PID == XBOX_WIRELESS_PID) {
+#ifdef DEBUG
+        Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"));
+#endif
+        goto FailUnknownDevice;
+    }
+    else if(PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
+#ifdef DEBUG
+        Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"));
+#endif
+        goto FailUnknownDevice;
+    }
     
     // Restore p->epinfo
     p->epinfo = oldep_ptr;
@@ -128,62 +145,40 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
     if (rcode)
         goto FailSetDevTblEntry;
-    
-    VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-    PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
-    
-    if(VID == XBOX_VID) { // We just check if it's a xbox controller using the Vendor ID
-        if(PID == XBOX_WIRELESS_PID) {
-#ifdef DEBUG
-            Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"));
-#endif
-            return 0;
-        }
-        else if(PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
-#ifdef DEBUG            
-            Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"));
-#endif
-            return 0;            
-        }    
+            
+    /* The application will work in reduced host mode, so we can save program and data
+       memory space. After verifying the VID we will use known values for the
+       configuration values for device, interface, endpoints and HID for the XBOX360 Controllers */
         
-        /* The application will work in reduced host mode, so we can save program and data
-         memory space. After verifying the VID we will use known values for the 
-         configuration values for device, interface, endpoints and HID for the XBOX360 Controllers */
+    /* Initialize data structures for endpoints of device */
+    epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01;    // XBOX 360 report endpoint
+    epInfo[ XBOX_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
+    epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
+    epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+    epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
+    epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+    epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02;    // XBOX 360 output endpoint
+    epInfo[ XBOX_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
+    epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
+    epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+    epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
+    epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
         
-        /* Initialize data structures for endpoints of device */
-        epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01;    // XBOX 360 report endpoint            
-        epInfo[ XBOX_INPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02;    // XBOX 360 output endpoint
-        epInfo[ XBOX_OUTPUT_PIPE ].epAttribs  = EP_INTERRUPT;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;         
+    rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
+    if( rcode )
+        goto FailSetDevTblEntry;
         
-        rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
-        if( rcode ) 
-            goto FailSetDevTblEntry;
+    delay(200);//Give time for address change
         
-        delay(200);//Give time for address change
-        
-        rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
-        if( rcode ) 
-            goto FailSetConf;
-        
-        
+    rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
+    if( rcode )
+        goto FailSetConf;        
 
 #ifdef DEBUG
-        Notify(PSTR("\r\nXbox 360 Controller Connected"));            
+    Notify(PSTR("\r\nXbox 360 Controller Connected"));
 #endif                         
-        setLedMode(ROTATING);
-        Xbox360Connected = true;            
-    }
-    else
-        goto FailUnknownDevice;               
+    setLedMode(ROTATING);
+    Xbox360Connected = true;        
 
     bPollEnable = true;
     Notify(PSTR("\r\n"));
@@ -212,12 +207,12 @@ FailUnknownDevice:
     Notify(PSTR(" PID: "));
     PrintHex<uint16_t>(PID);
 #endif
-    rcode = -1;
+    rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
     goto Fail;
 Fail:
 #ifdef DEBUG
     Notify(PSTR("\r\nXbox 360 Init Failed, error code: "));
-    Serial.print(rcode);                     
+    Serial.print(rcode,HEX);
 #endif    
     Release();
     return rcode;
