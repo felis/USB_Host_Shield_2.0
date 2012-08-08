@@ -295,7 +295,7 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 uint8_t BTD::Release() {
     for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
         if (btService[i])
-            btService[i]->Release(); // Reset both the L2CAP Channel and the HCI Connection    
+            btService[i]->Reset(); // Reset both the L2CAP Channel and the HCI Connection
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
 	bAddress = 0;
     bPollEnable = false;
@@ -560,13 +560,16 @@ void BTD::HCI_task() {
                 Notify(PSTR("\r\nScan Disabled"));
 #endif
                 hci_event_flag = 0;
-                hci_state = HCI_DONE_STATE;                
+                hci_state = HCI_DONE_STATE;
             }
             break;
             
         case HCI_DONE_STATE:
-            hci_state = HCI_SCANNING_STATE;
-            connectionClaimed = false;
+            hci_counter++;
+            if (hci_counter > 100) { // Wait until we have looped 100 times to make sure that the L2CAP connection has been started
+                hci_state = HCI_SCANNING_STATE;
+                l2capConnectionClaimed = false;
+            }            
             break;
             
         case HCI_DISCONNECT_STATE:
@@ -591,8 +594,8 @@ void BTD::HCI_task() {
 }
 
 void BTD::ACL_event_task() {
-    uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;    
-    uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2
+    uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;
+    uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2  
     if(!rcode) { // Check for errors
         for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
             if (btService[i])
@@ -605,7 +608,7 @@ void BTD::ACL_event_task() {
     }
     for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
         if (btService[i])
-            btService[i]->Poll();
+            btService[i]->Run();
 }
 
 /************************************************************/
@@ -792,15 +795,16 @@ void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t 
     
     uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ BTD_DATAOUT_PIPE ].epAddr, (8 + nbytes), buf);
     if(rcode) {
+        delay(100); // This small delay prevents it from overflowing if it fails
 #ifdef DEBUG
-        Notify(PSTR("\r\nError sending L2CAP message: 0x"));        
+        Notify(PSTR("\r\nError sending L2CAP message: 0x"));
         PrintHex<uint8_t>(rcode);
         Notify(PSTR(" - Channel ID: "));
         Serial.print(channelHigh);
         Notify(PSTR(" "));
         Serial.print(channelLow);
 #endif        
-    }        
+    }
 }
 void BTD::l2cap_connection_response(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result) {            
     l2capoutbuf[0] = L2CAP_CMD_CONNECTION_RESPONSE; // Code

@@ -219,8 +219,8 @@ public:
     
     // BluetoothService implementation
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
-    virtual void Poll(); // Used to run the state maschine
-    virtual void Release(); // Use this to reset the service
+    virtual void Run(); // Used to run part of the state maschine
+    virtual void Reset(); // Use this to reset the service
     virtual void disconnect(); // Use this void to disconnect any of the controllers
             
     /* PS3 Controller Commands */
@@ -257,6 +257,8 @@ public:
 private:
     /* mandatory members */
     BTD *pBtd;
+    
+    void L2CAP_task(); // L2CAP state machine
     
     /* Variables filled from HCI event management */
     int16_t hci_handle;

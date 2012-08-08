@@ -115,8 +115,8 @@
 class BluetoothService { // All services should include this class
 public:
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
-    virtual void Poll(); // Used to run the different state machines
-    virtual void Release(); // Used to reset the services
+    virtual void Run(); // Used to run the different state machines
+    virtual void Reset(); // Used to reset the services
     virtual void disconnect(); // Used to disconnect both the L2CAP Channel and the HCI Connection
 };
 
@@ -152,8 +152,8 @@ public:
         return 1; // ErrorregisterServiceClass
     };    
     
-    void claimConnection() { connectionClaimed = true; }; // This is used by the service to know when to store the device information
-    bool connectionClaimed;
+    void claimConnection() { l2capConnectionClaimed = true; }; // This is used by the service to know when to store the device information
+    bool l2capConnectionClaimed;
     
     const char* btdName; // These are set by the SPP library
     const char* btdPin;

@@ -99,8 +99,8 @@ public:
     
     // BluetoothService implementation
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
-    virtual void Poll(); // Used to run SDP_task() and RFCOMM_task()
-    virtual void Release(); // Use this to reset the service
+    virtual void Run(); // Used to establish the connection automatically
+    virtual void Reset(); // Use this to reset the service
     virtual void disconnect(); // Used this void to disconnect the virtual serial port
     
     bool connected;// Variable used to indicate if the connection is established
@@ -141,6 +141,7 @@ private:
     uint16_t l2cap_event_flag; // l2cap flags of received bluetooth events
            
     uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
+    uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap in data
     uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands
     
     /* L2CAP Channels */

@@ -50,17 +50,16 @@ pBtd(p) // Pointer to BTD class instance - mandatory
     
     pBtd->btdName = name;
     pBtd->btdPin = pin;
-    l2cap_sdp_state = L2CAP_SDP_WAIT;
-    l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
-    l2cap_event_flag = 0;
     
     /* Set device cid for the SDP and RFCOMM channelse */
     sdp_dcid[0] = 0x50; // 0x0050
     sdp_dcid[1] = 0x00;
     rfcomm_dcid[0] = 0x51; // 0x0051
     rfcomm_dcid[1] = 0x00;
+    
+    Reset();
 }
-void SPP::Release() {
+void SPP::Reset() {
     connected = false;
     RFCOMMConnected = false;
     SDPConnected = false;
@@ -78,16 +77,18 @@ void SPP::disconnect(){
     l2cap_event_flag = 0; // Reset flags
     l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
 }
-void SPP::ACLData(uint8_t* l2capinbuf) {
-    if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-        if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM)) {
-            if(!pBtd->connectionClaimed && !connected && !RFCOMMConnected && !SDPConnected) {
+void SPP::ACLData(uint8_t* ACLData) {
+    if(!pBtd->l2capConnectionClaimed && !connected && !RFCOMMConnected && !SDPConnected) {
+        if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
+            if(((ACLData[12] | (ACLData[13] << 8)) == SDP_PSM) || ((ACLData[12] | (ACLData[13] << 8)) == RFCOMM_PSM)) {                
                 pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
             }
         }
     }
-    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000))) { // acl_handle_ok
+    if (((ACLData[0] | (ACLData[1] << 8)) == (hci_handle | 0x2000))) { // acl_handle_ok
+        for(uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
+            l2capinbuf[i] = ACLData[i];
         if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
             if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
@@ -362,9 +363,11 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
             PrintHex<uint8_t>(l2capinbuf[6]);
 #endif                
         }
+        SDP_task();
+        RFCOMM_task();
     }
 }
-void SPP::Poll() {
+void SPP::Run() {
     if(waitForLastCommand && (millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
 #ifdef DEBUG
         Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"));
@@ -372,9 +375,7 @@ void SPP::Poll() {
         creditSent = false;
         waitForLastCommand = false;
         connected = true; // The RFCOMM channel is now established
-    }
-    SDP_task();
-    RFCOMM_task();
+    }    
 }
 void SPP::SDP_task() {
     switch (l2cap_sdp_state)
@@ -773,7 +774,8 @@ void SPP::println(const __FlashStringHelper *ifsh) {
     print(buf,size+2);
 }
 void SPP::println(void) {
-    print("\r\n");    
+    uint8_t buf[2] = {'\r','\n'};
+    print(buf,2);
 }
 
 /* These must be used to print numbers */
