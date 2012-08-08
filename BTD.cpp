@@ -480,7 +480,7 @@ void BTD::HCI_task() {
             }
             break;
             
-        case HCI_LOCAL_VERSION_STATE:
+        case HCI_LOCAL_VERSION_STATE: // The local version is used by the PS3BT class
             if (hci_read_version_complete) {
                 if(btdName != NULL) {
                     hci_set_local_name(btdName);
