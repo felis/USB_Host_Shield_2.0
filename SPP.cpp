@@ -243,30 +243,30 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
             }
             if(connected) {
                 /* Read the incoming message */
-                if(rfcommChannelType != RFCOMM_UIH || rfcommChannel != rfcommChannelConnection)
-                    return;
-                uint8_t length = l2capinbuf[10] >> 1; // Get length
-                if(rfcommAvailable + length > 256)
-                    return; // Return if the buffer would be full
-                uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
-                for(uint8_t i = 0; i < length; i++)
-                    rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];
-                rfcommAvailable += length;
+                if(rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
+                    uint8_t length = l2capinbuf[10] >> 1; // Get length
+                    if(rfcommAvailable + length <= 256) { // Don't add data to buffer if it would be full
+                        uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
+                        for(uint8_t i = 0; i < length; i++)
+                            rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];
+                        rfcommAvailable += length;
+                    }
 #ifdef EXTRADEBUG
-                Notify(PSTR("\r\nRFCOMM Data Available: "));
-                Serial.print(rfcommAvailable);
-                if (offset) {
-                    Notify(PSTR(" - Credit: 0x"));
-                    Serial.print(l2capinbuf[11],HEX);
-                }
+                    Notify(PSTR("\r\nRFCOMM Data Available: "));
+                    Serial.print(rfcommAvailable);
+                    if (offset) {
+                        Notify(PSTR(" - Credit: 0x"));
+                        Serial.print(l2capinbuf[11],HEX);
+                    }
 #endif
+                }
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
-                if(rfcommChannelType != RFCOMM_UIH || rfcommChannel != rfcommChannelConnection)
-                    return;
-                uint8_t length = l2capinbuf[10] >> 1; // Get length
-                uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
-                for(uint8_t i = 0; i < length; i++)
-                    Serial.write(l2capinbuf[i+11+offset]);
+                if(rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
+                    uint8_t length = l2capinbuf[10] >> 1; // Get length
+                    uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
+                    for(uint8_t i = 0; i < length; i++)
+                        Serial.write(l2capinbuf[i+11+offset]);
+                }
 #endif
             } else {
                 if(rfcommChannelType == RFCOMM_SABM) { // SABM Command - this is sent twice: once for channel 0 and then for the channel to establish

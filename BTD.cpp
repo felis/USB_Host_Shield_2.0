@@ -273,7 +273,6 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
     if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
         pollInterval = pep->bInterval;   
     bNumEP++;
-    return;
 }
 void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 	Notify(PSTR("\r\nEndpoint descriptor:"));
@@ -914,7 +913,6 @@ void BTD::setBdaddr(uint8_t* BDADDR) {
     }
     PrintHex<uint8_t>(my_bdaddr[0]);
 #endif
-    return;
 }
 void BTD::setMoveBdaddr(uint8_t* BDADDR) {
 	/* Set the internal bluetooth address */
@@ -939,5 +937,4 @@ void BTD::setMoveBdaddr(uint8_t* BDADDR) {
     }
     PrintHex<uint8_t>(my_bdaddr[0]);
 #endif
-	return;
 }
