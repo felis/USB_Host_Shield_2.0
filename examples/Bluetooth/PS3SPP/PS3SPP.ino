@@ -142,14 +142,14 @@ void loop() {
 
         if(PS3.getButton(L1))
           digitalOutput += " - L1";
-        if(PS3.getButton(L2))
-          digitalOutput += " - L2";
+        //if(PS3.getButton(L2))
+          //digitalOutput += " - L2";
         if(PS3.getButton(L3))
           digitalOutput += " - L3";        
         if(PS3.getButton(R1))
           digitalOutput += " - R1";               
-        if(PS3.getButton(R2))
-          digitalOutput += " - R2";               
+        //if(PS3.getButton(R2))
+          //digitalOutput += " - R2";               
         if(PS3.getButton(R3))
           digitalOutput += " - R3";               
 
