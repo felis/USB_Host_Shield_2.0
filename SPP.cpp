@@ -83,6 +83,8 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
             if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM)) {                
                 pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
+                l2cap_sdp_state = L2CAP_SDP_WAIT; // Reset state
+                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT; // Reset state
             }
         }
     }

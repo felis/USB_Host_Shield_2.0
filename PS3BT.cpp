@@ -238,6 +238,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
             if(((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) || ((ACLData[12] | (ACLData[13] << 8)) == HID_INTR_PSM)) {
                 pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
+                l2cap_state = L2CAP_EV_WAIT;
                 for(uint8_t i = 0; i < 30; i++)
                     remote_name[i] = pBtd->remote_name[i]; // Store the remote name for the connection
 #ifdef DEBUG
