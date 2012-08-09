@@ -342,14 +342,15 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                     waitForLastCommand = false;
                     creditSent = false;
                     connected = true; // The RFCOMM channel is now established
-                } else if(rfcommChannelType != RFCOMM_DISC) {
+                }
 #ifdef DEBUG
+                else if(rfcommChannelType != RFCOMM_DISC) {
                     Notify(PSTR("\r\nUnsupported RFCOMM Data - ChannelType: "));
                     PrintHex<uint8_t>(rfcommChannelType);
                     Notify(PSTR(" Command: "));
                     PrintHex<uint8_t>(l2capinbuf[11]);
-#endif                        
                 }
+#endif                
             }
         }
 #ifdef EXTRADEBUG
