@@ -110,7 +110,7 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMDEVICES		7		// Max number of Bluetooth devices
+#define BTD_NUMSERVICES     4		// Max number of Bluetooth devices
 
 class BluetoothService { // All services should include this class
 public:
@@ -136,14 +136,14 @@ public:
     
     bool watingForConnection; // Use this to see if it is waiting for a incoming connection    
     void disconnect() { // Used this void to disconnect all services
-        for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
+        for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
             if (btService[i])
                 btService[i]->disconnect(); // Disconnect both the L2CAP Channel and the HCI Connection
     };
     
     /* Register bluetooth dongle members/services */
     uint8_t registerServiceClass(BluetoothService *pService) {
-        for (uint8_t i=0; i<BTD_NUMDEVICES; i++) {
+        for (uint8_t i=0; i<BTD_NUMSERVICES; i++) {
             if (!btService[i]) {
                 btService[i] = pService;
                 return 0; // Success
@@ -206,7 +206,7 @@ protected:
     void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);        
     
 private:
-    BluetoothService* btService[BTD_NUMDEVICES];
+    BluetoothService* btService[BTD_NUMSERVICES];
     
     bool bPollEnable;
     uint8_t pollInterval;

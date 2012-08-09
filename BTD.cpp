@@ -293,7 +293,7 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t BTD::Release() {
-    for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
+    for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
         if (btService[i])
             btService[i]->Reset(); // Reset all Bluetooth services
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
@@ -600,7 +600,7 @@ void BTD::ACL_event_task() {
     uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;
     uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2  
     if(!rcode) { // Check for errors
-        for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
+        for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
             if (btService[i])
                 btService[i]->ACLData(l2capinbuf);
     }
@@ -610,7 +610,7 @@ void BTD::ACL_event_task() {
         PrintHex<uint8_t>(rcode);
     }
 #endif
-    for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
+    for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
         if (btService[i])
             btService[i]->Run();
 }
