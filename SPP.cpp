@@ -261,15 +261,11 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         Serial.print(l2capinbuf[11],HEX);
                     }
 #endif
-                }
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
-                if(rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
-                    uint8_t length = l2capinbuf[10] >> 1; // Get length
-                    uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
                     for(uint8_t i = 0; i < length; i++)
                         Serial.write(l2capinbuf[i+11+offset]);
-                }
 #endif
+                }
             } else {
                 if(rfcommChannelType == RFCOMM_SABM) { // SABM Command - this is sent twice: once for channel 0 and then for the channel to establish
 #ifdef DEBUG
@@ -355,14 +351,15 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #endif                        
                 }
             }
-        } else {
+        }
 #ifdef EXTRADEBUG
+        else {
             Notify(PSTR("\r\nUnsupported L2CAP Data - Channel ID: "));
             PrintHex<uint8_t>(l2capinbuf[7]);
             Notify(PSTR(" "));
             PrintHex<uint8_t>(l2capinbuf[6]);
-#endif                
         }
+#endif
         SDP_task();
         RFCOMM_task();
     }

@@ -417,24 +417,23 @@ void BTD::HCI_event_task() {
             case EV_ENCRYPTION_CHANGE:
             case EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE:
                 break;
-                
+#ifdef EXTRADEBUG                
             default:
-#ifdef EXTRADEBUG
                 if(hcibuf[0] != 0x00) {
                     Notify(PSTR("\r\nUnmanaged HCI Event: "));
                     PrintHex<uint8_t>(hcibuf[0]);
                 }
+                break;
 #endif
-                break;    
         } // switch
         HCI_task();
     }
-    else {
 #ifdef EXTRADEBUG
+    else {
         Notify(PSTR("\r\nHCI event error: "));
         PrintHex<uint8_t>(rcode);
-#endif
     }
+#endif
 }
 
 /* Poll Bluetooth and print result */
@@ -604,12 +603,13 @@ void BTD::ACL_event_task() {
         for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
             if (btService[i])
                 btService[i]->ACLData(l2capinbuf);
-    } else if (rcode != hrNAK) {
+    }
 #ifdef EXTRADEBUG
+    else if (rcode != hrNAK) {
         Notify(PSTR("\r\nACL data in error: "));
         PrintHex<uint8_t>(rcode);
-#endif
     }
+#endif
     for (uint8_t i=0; i<BTD_NUMDEVICES; i++)
         if (btService[i])
             btService[i]->Run();
