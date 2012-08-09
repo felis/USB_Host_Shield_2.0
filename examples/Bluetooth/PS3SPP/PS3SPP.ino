@@ -3,6 +3,12 @@
  For more information visit my blog: http://blog.tkjelectronics.dk/ or 
  send me an e-mail:  kristianl@tkjelectronics.com
  */
+ 
+/* 
+ Note: 
+ You will need a Arduino Mega 1280/2560 to run this sketch,
+ As a normal Arduino (Uno, Duemilanove etc.) doesn't have enough SRAM and FLASH
+ */
 
 #include <PS3BT.h>
 #include <SPP.h>
