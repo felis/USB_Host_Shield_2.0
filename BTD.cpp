@@ -322,8 +322,8 @@ void BTD::HCI_event_task() {
         switch (hcibuf[0]) //switch on event type
         {
             case EV_COMMAND_COMPLETE:
-                hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
-                if (!hcibuf[5]) { // Check if command succeeded                                       
+                if (!hcibuf[5]) { // Check if command succeeded
+                    hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
                     if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // parameters from read local version information
                         hci_version = hcibuf[6]; // Used to check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
                         hci_event_flag |= HCI_FLAG_READ_VERSION;
@@ -388,8 +388,12 @@ void BTD::HCI_event_task() {
 #endif
                     hci_pin_code_request_reply(btdPin);
                 }
-                else
+                else {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nNo pin was set"));
+#endif
                     hci_pin_code_negative_request_reply();
+                }
                 break;
                 
             case EV_LINK_KEY_REQUEST:
@@ -780,7 +784,7 @@ void BTD::hci_disconnect(uint16_t handle) { // This is called by the different s
 /*                    L2CAP Commands                        */
 /************************************************************/
 void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t channelLow, uint8_t channelHigh) {
-    uint8_t buf[256];
+    uint8_t buf[8+nbytes];
     buf[0] = (uint8_t)(handle & 0xff); // HCI handle with PB,BC flag
     buf[1] = (uint8_t)(((handle >> 8) & 0x0f) | 0x20);
     buf[2] = (uint8_t)((4 + nbytes) & 0xff); // HCI ACL total data length
