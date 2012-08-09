@@ -433,7 +433,7 @@ void SPP::SDP_task() {
                 SDPConnected = false;
                 pBtd->hci_disconnect(hci_handle);
                 l2cap_sdp_state = L2CAP_SDP_WAIT;
-                l2cap_sdp_state = L2CAP_RFCOMM_WAIT;
+                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
             }
             break;    
     }
