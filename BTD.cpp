@@ -160,6 +160,10 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
             setMoveBdaddr(my_bdaddr);
         }
+        rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
+        pUsb->setAddr(bAddress, 0, 0); // Reset address
+        Release(); // Release device
+        return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // return
     }
     else {
         num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
