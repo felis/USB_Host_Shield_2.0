@@ -82,7 +82,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
     if(!pBtd->l2capConnectionClaimed && !connected && !RFCOMMConnected && !SDPConnected) {
         if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
             if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM)) {                
-                pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
+                pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_sdp_state = L2CAP_SDP_WAIT; // Reset state
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT; // Reset state
@@ -131,14 +131,12 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                     l2cap_event_flag |= L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST;
                 }
             } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
-                if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                    if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
+                if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
+                    if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
                         //Serial.print("\r\nSDP Configuration Complete");
                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_SUCCESS;
                     }
-                }
-                else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                    if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
+                    else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
                         //Serial.print("\r\nRFCOMM Configuration Complete");
                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS;
                     }
@@ -249,7 +247,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                 if(rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
                     uint8_t length = l2capinbuf[10] >> 1; // Get length
                     uint8_t offset = l2capinbuf[4]-length-4; // See if there is credit
-                    if(rfcommAvailable + length <= 256) { // Don't add data to buffer if it would be full
+                    if(rfcommAvailable + length <= sizeof(rfcommDataBuffer)) { // Don't add data to buffer if it would be full
                         for(uint8_t i = 0; i < length; i++)
                             rfcommDataBuffer[rfcommAvailable+i] = l2capinbuf[11+i+offset];
                         rfcommAvailable += length;
@@ -313,7 +311,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG
                         Notify(PSTR("\r\nSend UIH Command with credit"));
 #endif
-                        sendRfcommCredit(rfcommChannelConnection,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // 255 credit
+                        sendRfcommCredit(rfcommChannelConnection,rfcommDirection,0,RFCOMM_UIH,0x10,sizeof(rfcommDataBuffer)); // Send credit
                         creditSent = true;
                         timer = millis();
                         waitForLastCommand = true;
@@ -563,8 +561,8 @@ void SPP::serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLo
     l2capoutbuf[43] = 0x03;
     
     l2capoutbuf[44] = 0x08;
-    l2capoutbuf[45] = 0x02; // Two more bytes?
-    l2capoutbuf[46] = 0x00; // 19 more bytes to come
+    l2capoutbuf[45] = 0x02; // Two extra bytes
+    l2capoutbuf[46] = 0x00; // 25 (0x19) more bytes to come
     l2capoutbuf[47] = 0x19; 
     
     SDP_Command(l2capoutbuf,48);    
@@ -606,7 +604,7 @@ void SPP::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLo
     l2capoutbuf[29] = 'J';
     l2capoutbuf[30] = 'S';
     l2capoutbuf[31] = 'P';
-    l2capoutbuf[32] = 0x00;        
+    l2capoutbuf[32] = 0x00; // No more data
 
     SDP_Command(l2capoutbuf,33);
 }
@@ -826,11 +824,13 @@ uint8_t SPP::read() {
         rfcommDataBuffer[i-1] = rfcommDataBuffer[i]; // Shift the buffer one left
     rfcommAvailable--;
     bytesRead++;
-    if(bytesRead > 250) {
+    if(bytesRead > (sizeof(rfcommDataBuffer)-5)) { // We will send the command just before it runs out of credit
         bytesRead = 0;
-        sendRfcommCredit(rfcommChannelConnection,rfcommDirection,0,RFCOMM_UIH,0x10,0xFF); // Send 255 more credit
+        sendRfcommCredit(rfcommChannelConnection,rfcommDirection,0,RFCOMM_UIH,0x10,sizeof(rfcommDataBuffer)); // Send more credit
 #ifdef EXTRADEBUG
-        Notify(PSTR("\r\nSent 255 more credit"));
+        Notify(PSTR("\r\nSent "));
+        Serial.print(sizeof(rfcommDataBuffer));
+        Notify(PSTR(" more credit"));
 #endif
     }
     return output;

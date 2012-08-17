@@ -112,7 +112,7 @@ public:
     void print(uint8_t* array, uint8_t length); // Used to send arrays
     void print(const __FlashStringHelper *); // Used to print strings stored in flash    
     
-    void println(const String &); // Used to send strings
+    void println(const String &); // Include newline and carriage return
     void println(const char* data); // Include newline and carriage return
     void println(uint8_t data); // Include newline and carriage return
     void println(uint8_t* array, uint8_t length); // Include newline and carriage return
@@ -162,7 +162,7 @@ private:
     bool waitForLastCommand;
     bool creditSent;    
     
-    uint8_t rfcommDataBuffer[256]; // Create a 256 sized buffer for incoming data
+    uint8_t rfcommDataBuffer[100]; // Create a 100 sized buffer for incoming data
     uint8_t rfcommAvailable;
     
     bool firstMessage; // Used to see if it's the first SDP request received    
