@@ -214,31 +214,27 @@ void PS3BT::Reset() {
     PS3MoveConnected = false;
     PS3NavigationConnected = false;
     l2cap_event_flag = 0; // Reset flags
-    l2cap_state = L2CAP_EV_WAIT;
+    l2cap_state = L2CAP_WAIT;
     
     // Needed for PS3 Dualshock Controller commands to work via bluetooth
     for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
         HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID    
 }
 
-void PS3BT::disconnect() { //Use this void to disconnect any of the controllers
-    PS3Connected = false;
-    PS3MoveConnected = false;
-    PS3NavigationConnected = false;
-    
+void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
     //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
     pBtd->l2cap_disconnection_request(hci_handle,0x0A, interrupt_scid, interrupt_dcid);
-    l2cap_event_flag = 0; // Reset flags
-    l2cap_state = L2CAP_EV_INTERRUPT_DISCONNECT;
+    Reset();
+    l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
 }
 
 void PS3BT::ACLData(uint8_t* ACLData) {
     if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
         if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
             if(((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) || ((ACLData[12] | (ACLData[13] << 8)) == HID_INTR_PSM)) {
-                pBtd->claimConnection(); // Claim that the incoming connection belongs to this service
+                pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
-                l2cap_state = L2CAP_EV_WAIT;
+                l2cap_state = L2CAP_WAIT;
                 for(uint8_t i = 0; i < 30; i++)
                     remote_name[i] = pBtd->remote_name[i]; // Store the remote name for the connection
 #ifdef DEBUG
@@ -298,14 +294,12 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                     }
                 }
                 else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
-                    if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                        if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { //Success
+                    if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
+                        if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                             //Serial.print("\r\nHID Control Configuration Complete");
                             l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
                         }
-                    }
-                    else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                        if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { //Success
+                        else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                             //Serial.print("\r\nHID Interrupt Configuration Complete");
                             l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
                         }
@@ -330,8 +324,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #endif
                         identifier = l2capinbuf[9];
                         pBtd->l2cap_disconnection_response(hci_handle,identifier,control_dcid,control_scid);
-                        l2cap_event_flag = 0; // Reset flags
-                        l2cap_state = L2CAP_EV_WAIT;
+                        Reset();
                     }
                     else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
 #ifdef DEBUG
@@ -339,8 +332,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #endif
                         identifier = l2capinbuf[9];
                         pBtd->l2cap_disconnection_response(hci_handle,identifier,interrupt_dcid,interrupt_scid);
-                        l2cap_event_flag = 0; // Reset flags
-                        l2cap_state = L2CAP_EV_WAIT;
+                        Reset();
                     }
                 }
                 else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
@@ -390,16 +382,15 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         buttonReleased = false;
                     }                    
                     OldButtonState = ButtonState;
-                }
+                    
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
-                if(l2capinbuf[8] == 0xA1) { //HID_THDR_DATA_INPUT
                     for(uint8_t i = 10; i < 58;i++) {
                         PrintHex<uint8_t>(l2capinbuf[i]);
                         Serial.print(" ");
-                    }             
+                    }
                     Serial.println();
-                } 
 #endif
+                }
             }
         }
         L2CAP_task();
@@ -407,7 +398,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 }
 void PS3BT::L2CAP_task() {
     switch (l2cap_state) {
-        case L2CAP_EV_WAIT:
+        case L2CAP_WAIT:
             if (l2cap_connection_request_control_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Control Incoming Connection Request"));
@@ -418,28 +409,28 @@ void PS3BT::L2CAP_task() {
                 identifier++;
                 delay(1);
                 pBtd->l2cap_config_request(hci_handle,identifier, control_scid);
-                l2cap_state = L2CAP_EV_CONTROL_REQUEST;
+                l2cap_state = L2CAP_CONTROL_REQUEST;
             }
             break;
-        case L2CAP_EV_CONTROL_REQUEST:
+        case L2CAP_CONTROL_REQUEST:
             if (l2cap_config_request_control_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Control Configuration Request"));
 #endif
                 pBtd->l2cap_config_response(hci_handle,identifier, control_scid);
-                l2cap_state = L2CAP_EV_CONTROL_SUCCESS;
+                l2cap_state = L2CAP_CONTROL_SUCCESS;
             }
             break;
             
-        case L2CAP_EV_CONTROL_SUCCESS:
+        case L2CAP_CONTROL_SUCCESS:
             if (l2cap_config_success_control_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Control Successfully Configured"));
 #endif
-                l2cap_state = L2CAP_EV_INTERRUPT_SETUP;
+                l2cap_state = L2CAP_INTERRUPT_SETUP;
             }
             break;
-        case L2CAP_EV_INTERRUPT_SETUP:
+        case L2CAP_INTERRUPT_SETUP:
             if (l2cap_connection_request_interrupt_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Interrupt Incoming Connection Request"));
@@ -451,19 +442,19 @@ void PS3BT::L2CAP_task() {
                 delay(1);
                 pBtd->l2cap_config_request(hci_handle,identifier, interrupt_scid);
                 
-                l2cap_state = L2CAP_EV_INTERRUPT_REQUEST;
+                l2cap_state = L2CAP_INTERRUPT_REQUEST;
             }
             break;
-        case L2CAP_EV_INTERRUPT_REQUEST:
+        case L2CAP_INTERRUPT_REQUEST:
             if (l2cap_config_request_interrupt_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Interrupt Configuration Request"));
 #endif
                 pBtd->l2cap_config_response(hci_handle,identifier, interrupt_scid);
-                l2cap_state = L2CAP_EV_INTERRUPT_SUCCESS;
+                l2cap_state = L2CAP_INTERRUPT_SUCCESS;
             }
             break;
-        case L2CAP_EV_INTERRUPT_SUCCESS:
+        case L2CAP_INTERRUPT_SUCCESS:
             if (l2cap_config_success_interrupt_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"));
@@ -474,41 +465,41 @@ void PS3BT::L2CAP_task() {
                     ButtonState = 0;
                     OldButtonState = 0;
                     
-                    l2cap_state = L2CAP_EV_HID_PS3_LED;
+                    l2cap_state = L2CAP_HID_PS3_LED;
                 } else
-                    l2cap_state = L2CAP_EV_HID_ENABLE_SIXAXIS;
+                    l2cap_state = L2CAP_HID_ENABLE_SIXAXIS;
                 timer = millis();
             }
             break;
 
         /* These states are handled in Run() */
             
-        case L2CAP_EV_INTERRUPT_DISCONNECT:
+        case L2CAP_INTERRUPT_DISCONNECT:
             if (l2cap_disconnect_response_interrupt_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nDisconnected Interrupt Channel"));
 #endif
                 identifier++;
-                pBtd->l2cap_disconnection_request(hci_handle, identifier, control_scid, control_dcid);
-                l2cap_event_flag = 0; // Reset flags
-                l2cap_state = L2CAP_EV_CONTROL_DISCONNECT;
+                pBtd->l2cap_disconnection_request(hci_handle, identifier, control_scid, control_dcid);                
+                l2cap_state = L2CAP_CONTROL_DISCONNECT;
             }
             break;
             
-        case L2CAP_EV_CONTROL_DISCONNECT:
+        case L2CAP_CONTROL_DISCONNECT:
             if (l2cap_disconnect_response_control_flag) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nDisconnected Control Channel"));
 #endif
                 pBtd->hci_disconnect(hci_handle);
-                l2cap_state = L2CAP_EV_WAIT;
+                l2cap_event_flag = 0; // Reset flags
+                l2cap_state = L2CAP_WAIT;
             }
             break;
     }    
 }
 void PS3BT::Run() {
     switch (l2cap_state) {
-        case L2CAP_EV_HID_ENABLE_SIXAXIS:
+        case L2CAP_HID_ENABLE_SIXAXIS:
             if(millis() - timer > 1000) { // loop 1 second before sending the command
                 for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                     l2capinbuf[i] = 0;
@@ -518,12 +509,12 @@ void PS3BT::Run() {
                 enable_sixaxis();
                 for (uint8_t i = 15; i < 19; i++)
                     l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position
-                l2cap_state = L2CAP_EV_HID_PS3_LED;
+                l2cap_state = L2CAP_HID_PS3_LED;
                 timer = millis();
             }
             break;
             
-        case L2CAP_EV_HID_PS3_LED:
+        case L2CAP_HID_PS3_LED:
             if(millis() - timer > 1000) { // loop 1 second before sending the command
                 if (remote_name[0] == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
                     setLedOn(LED1);
@@ -545,11 +536,11 @@ void PS3BT::Run() {
 #endif
                     PS3MoveConnected = true;
                 }
-                l2cap_state = L2CAP_EV_DONE;
+                l2cap_state = L2CAP_DONE;
             }
             break;
             
-        case L2CAP_EV_DONE:
+        case L2CAP_DONE:
             if (PS3MoveConnected) { //The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
                 if (millis() - timerBulbRumble > 4000) { //Send at least every 4th second
                     HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);//The Bulb and rumble values, has to be written again and again, for it to stay turned on

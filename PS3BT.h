@@ -24,17 +24,17 @@
 #define OUTPUT_REPORT_BUFFER_SIZE   48 //Size of the output report buffer for the controllers
 
 /* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_EV_WAIT                   0
-#define L2CAP_EV_CONTROL_REQUEST        1
-#define L2CAP_EV_CONTROL_SUCCESS        2
-#define L2CAP_EV_INTERRUPT_SETUP        3
-#define L2CAP_EV_INTERRUPT_REQUEST      4
-#define L2CAP_EV_INTERRUPT_SUCCESS      5
-#define L2CAP_EV_HID_ENABLE_SIXAXIS     6
-#define L2CAP_EV_HID_PS3_LED            7
-#define L2CAP_EV_DONE                   8
-#define L2CAP_EV_INTERRUPT_DISCONNECT   9
-#define L2CAP_EV_CONTROL_DISCONNECT     10
+#define L2CAP_WAIT                   0
+#define L2CAP_CONTROL_REQUEST        1
+#define L2CAP_CONTROL_SUCCESS        2
+#define L2CAP_INTERRUPT_SETUP        3
+#define L2CAP_INTERRUPT_REQUEST      4
+#define L2CAP_INTERRUPT_SUCCESS      5
+#define L2CAP_HID_ENABLE_SIXAXIS     6
+#define L2CAP_HID_PS3_LED            7
+#define L2CAP_DONE                   8
+#define L2CAP_INTERRUPT_DISCONNECT   9
+#define L2CAP_CONTROL_DISCONNECT     10
 
 /* L2CAP event flags */
 #define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST     0x01
