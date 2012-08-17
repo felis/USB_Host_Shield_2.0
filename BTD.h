@@ -110,7 +110,7 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMSERVICES     4		// Max number of Bluetooth devices
+#define BTD_NUMSERVICES     4		// Max number of Bluetooth services
 
 class BluetoothService { // All services should include this class
 public:
@@ -142,18 +142,17 @@ public:
     };
     
     /* Register bluetooth dongle members/services */
-    uint8_t registerServiceClass(BluetoothService *pService) {
+    int8_t registerServiceClass(BluetoothService *pService) {
         for (uint8_t i=0; i<BTD_NUMSERVICES; i++) {
             if (!btService[i]) {
                 btService[i] = pService;
-                return 0; // Success
+                return i; // Return ID
             }
         }
-        return 1; // ErrorregisterServiceClass
+        return -1; // ErrorregisterServiceClass
     };    
     
-    void claimConnection() { l2capConnectionClaimed = true; }; // This is used by the service to know when to store the device information
-    bool l2capConnectionClaimed;
+    bool l2capConnectionClaimed; // This is used by the service to know when to store the device information
     
     const char* btdName; // These are set by the SPP library
     const char* btdPin;

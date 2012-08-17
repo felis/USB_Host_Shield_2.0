@@ -354,14 +354,14 @@ void BTD::HCI_event_task() {
                 
             case EV_CONNECT_COMPLETE:
                 if (!hcibuf[2]) { // check if connected OK
-                    hci_handle = hcibuf[3] | hcibuf[4] << 8; //store the handle for the ACL connection
+                    hci_handle = hcibuf[3] | hcibuf[4] << 8; // store the handle for the ACL connection
                     hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                 }
                 break;
                 
             case EV_DISCONNECT_COMPLETE:            
                 if (!hcibuf[2]) { // check if disconnected OK
-                    hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; //set disconnect commend complete flag
+                    hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; // set disconnect command complete flag
                     hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // clear connection complete flag
                 }
                 break;                              
