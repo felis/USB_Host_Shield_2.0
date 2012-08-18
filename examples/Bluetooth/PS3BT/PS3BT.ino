@@ -6,15 +6,15 @@
 
 #include <PS3BT.h>
 USB Usb;
+BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
-PS3BT PS3(&Usb); // This will just create the instance
-//PS3BT PS3(&Usb,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
+PS3BT PS3(&Btd); // This will just create the instance
+//PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
 boolean printTemperature;
 boolean printAngle;
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
 
   if (Usb.Init() == -1) {
@@ -23,8 +23,7 @@ void setup()
   }
   Serial.print(F("\r\nPS3 Bluetooth Library Started"));
 }
-void loop()
-{
+void loop() {
   Usb.Task();
 
   if(PS3.PS3Connected || PS3.PS3NavigationConnected) {
@@ -193,5 +192,4 @@ void loop()
       Serial.println(PS3.getTemperature());
     }
   }
-  delay(1);
 }
