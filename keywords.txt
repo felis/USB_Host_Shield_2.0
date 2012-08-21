@@ -202,3 +202,21 @@ SPP					KEYWORD1
 connected			KEYWORD2
 printNumber			KEYWORD2
 printNumberln		KEYWORD2
+
+####################################################
+# Syntax Coloring Map For Wiimote Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+WII					KEYWORD1
+
+####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+
+getButtonPress			KEYWORD2
+getButtonClick			KEYWORD2
+setRumbleToggle			KEYWORD2

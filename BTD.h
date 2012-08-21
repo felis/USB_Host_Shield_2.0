@@ -42,13 +42,19 @@
 #define HCI_BDADDR_STATE        2
 #define HCI_LOCAL_VERSION_STATE 3
 #define HCI_SET_NAME_STATE      4
-#define HCI_SCANNING_STATE      5
-#define HCI_CONNECT_IN_STATE    6
-#define HCI_REMOTE_NAME_STATE   7
-#define HCI_CONNECTED_STATE     8
-#define HCI_DISABLE_SCAN_STATE  9
-#define HCI_DONE_STATE          10
-#define HCI_DISCONNECT_STATE    11
+#define HCI_CHECK_WII_SERVICE   5
+
+#define HCI_INQUIRY_STATE       6 // These three states are only used if it should connect to a Wii controller
+#define HCI_CONNECT_WII_STATE   7
+#define HCI_CONNECTED_WII_STATE 8
+
+#define HCI_SCANNING_STATE      9
+#define HCI_CONNECT_IN_STATE    10
+#define HCI_REMOTE_NAME_STATE   11
+#define HCI_CONNECTED_STATE     12
+#define HCI_DISABLE_SCAN_STATE  13
+#define HCI_DONE_STATE          14
+#define HCI_DISCONNECT_STATE    15
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
@@ -58,6 +64,8 @@
 #define HCI_FLAG_INCOMING_REQUEST       0x10
 #define HCI_FLAG_READ_BDADDR            0x20
 #define HCI_FLAG_READ_VERSION           0x40
+#define HCI_FLAG_WII_FOUND              0x80
+#define HCI_FLAG_CONNECT_EVENT          0x100
 
 /*Macros for HCI event flag tests */
 #define hci_cmd_complete (hci_event_flag & HCI_FLAG_CMD_COMPLETE)
@@ -67,8 +75,12 @@
 #define hci_incoming_connect_request (hci_event_flag & HCI_FLAG_INCOMING_REQUEST)
 #define hci_read_bdaddr_complete (hci_event_flag & HCI_FLAG_READ_BDADDR)
 #define hci_read_version_complete (hci_event_flag & HCI_FLAG_READ_VERSION)
+#define hci_wii_found (hci_event_flag & HCI_FLAG_WII_FOUND)
+#define hci_connect_event (hci_event_flag & HCI_FLAG_CONNECT_EVENT)
 
 /* HCI Events managed */
+#define EV_INQUIRY_COMPLETE                             0x01
+#define EV_INQUIRY_RESULT                               0x02
 #define EV_CONNECT_COMPLETE                             0x03
 #define EV_INCOMING_CONNECT                             0x04
 #define EV_DISCONNECT_COMPLETE                          0x05
@@ -104,6 +116,12 @@
 // Used For Connection Response - Remember to Include High Byte
 #define PENDING     0x01
 #define SUCCESSFUL  0x00
+
+/* Bluetooth L2CAP PSM - see http://www.bluetooth.org/Technical/AssignedNumbers/logical_link.htm */
+#define SDP_PSM         0x01 // Service Discovery Protocol PSM Value
+#define RFCOMM_PSM      0x03 // RFCOMM PSM Value
+#define HID_CTRL_PSM    0x11 // HID_Control PSM Value
+#define HID_INTR_PSM    0x13 // HID_Interrupt PSM Value
 
 // Used to determine if it is a Bluetooth dongle
 #define WI_SUBCLASS_RF      0x01 // RF Controller
@@ -163,6 +181,9 @@ public:
     uint8_t remote_name[30]; // First 30 chars of last remote name
     uint8_t hci_version;
     
+    int8_t wiiServiceID; // Stores the service ID of the Wii service
+    bool connectToWii; // Used to only send the ACL data to the wiimote
+    
     /* HCI Commands */
     void HCI_Command(uint8_t* data, uint16_t nbytes);
     void hci_reset();
@@ -177,9 +198,13 @@ public:
     void hci_pin_code_request_reply(const char* key);
     void hci_pin_code_negative_request_reply();
     void hci_link_key_request_negative_reply();
+    void hci_inquiry();
+    void hci_inquiry_cancel();
+    void hci_connect();
     
     /* L2CAP Commands */
     void L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t channelLow = 0x01, uint8_t channelHigh = 0x00); // Standard L2CAP header: Channel ID (0x01) for ACL-U
+    void l2cap_connection_request(uint16_t handle, uint8_t rxid, uint8_t* scid, uint16_t psm);
     void l2cap_connection_response(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result);
     void l2cap_config_request(uint16_t handle, uint8_t rxid, uint8_t* dcid);
     void l2cap_config_response(uint16_t handle, uint8_t rxid, uint8_t* scid);
@@ -214,7 +239,7 @@ private:
     uint8_t hci_state;  //current state of bluetooth hci connection
     uint16_t hci_counter; // counter used for bluetooth hci reset loops
     uint8_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
-    uint16_t hci_event_flag; // hci flags of received bluetooth events    
+    uint16_t hci_event_flag; // hci flags of received bluetooth events        
            
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
     uint8_t l2capinbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap in data

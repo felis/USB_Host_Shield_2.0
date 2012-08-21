@@ -56,10 +56,6 @@
 #define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
 #define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
 
-/* Bluetooth L2CAP PSM */
-#define HID_CTRL_PSM 0x11 // HID_Control        
-#define HID_INTR_PSM 0x13 // HID_Interrupt
-
 enum LED {
     LED1 = 0x01,
     LED2 = 0x02,

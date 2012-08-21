@@ -55,10 +55,6 @@
 #define l2cap_disconnect_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)
 #define l2cap_disconnect_response_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RESPONSE)
 
-/* Bluetooth L2CAP PSM */
-#define SDP_PSM     0x01 // Service Discovery Protocol PSM Value
-#define RFCOMM_PSM  0x03 // RFCOMM PSM Value
-
 /* Used for SDP */
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs

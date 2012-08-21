@@ -38,7 +38,9 @@ bPollEnable(false) // Don't start polling before dongle is connected
 	}
     
     if (pUsb) // register in USB subsystem
-		pUsb->RegisterDeviceClass(this); //set devConfig[] entry    
+		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
+    
+    wiiServiceID = -1;
 }
 
 uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
@@ -325,7 +327,7 @@ void BTD::HCI_event_task() {
     {
         switch (hcibuf[0]) //switch on event type
         {
-            case EV_COMMAND_COMPLETE:
+            case EV_COMMAND_COMPLETE:                
                 if (!hcibuf[5]) { // Check if command succeeded
                     hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
                     if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // parameters from read local version information
@@ -352,11 +354,51 @@ void BTD::HCI_event_task() {
                 }
                 break;
                 
+            case EV_INQUIRY_COMPLETE: // We don't use this for anything
+                break;
+                
+            case EV_INQUIRY_RESULT:
+                if (hcibuf[2]) { // Check that there is more than zero responses
+#ifdef EXTRADEBUG
+                    Notify(PSTR("\r\nNumber of responses: "));
+                    Serial.print(hcibuf[2]);
+#endif
+                    for(uint8_t i = 0; i < hcibuf[2]; i++) {
+                        if(hcibuf[4+8*hcibuf[2]+3*i] == 0x04 && hcibuf[5+8*hcibuf[2]+3*i] == 0x25 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+                            disc_bdaddr[0] = hcibuf[3+6*i];
+                            disc_bdaddr[1] = hcibuf[4+6*i];
+                            disc_bdaddr[2] = hcibuf[5+6*i];
+                            disc_bdaddr[3] = hcibuf[6+6*i];
+                            disc_bdaddr[4] = hcibuf[7+6*i];
+                            disc_bdaddr[5] = hcibuf[8+6*i];
+                            hci_event_flag |= HCI_FLAG_WII_FOUND;
+                            break;
+                        }
+#ifdef EXTRADEBUG
+                        else {
+                            Notify(PSTR("\r\nClass of device: "));
+                            PrintHex<uint8_t>(hcibuf[6+8*hcibuf[2]+3*i]);
+                            Notify(PSTR(" "));
+                            PrintHex<uint8_t>(hcibuf[5+8*hcibuf[2]+3*i]);
+                            Notify(PSTR(" "));
+                            PrintHex<uint8_t>(hcibuf[4+8*hcibuf[2]+3*i]);
+                        }
+#endif
+                    }
+                }
+                break;
+                
             case EV_CONNECT_COMPLETE:
+                hci_event_flag |= HCI_FLAG_CONNECT_EVENT;
                 if (!hcibuf[2]) { // check if connected OK
-                    hci_handle = hcibuf[3] | hcibuf[4] << 8; // store the handle for the ACL connection
+                    hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                     hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                 }
+#ifdef EXTRADEBUG
+                else {
+                    Notify(PSTR("\r\nConnection Failed"));
+                }
+#endif
                 break;
                 
             case EV_DISCONNECT_COMPLETE:            
@@ -479,7 +521,7 @@ void BTD::HCI_task() {
                 Notify(PSTR("\r\nLocal Bluetooth Address: "));
                 for(int8_t i = 5; i > 0;i--) {
                     PrintHex<uint8_t>(my_bdaddr[i]); 
-                    Serial.print(":");
+                    Notify(PSTR(":"));
                 }      
                 PrintHex<uint8_t>(my_bdaddr[0]);
 #endif
@@ -494,7 +536,7 @@ void BTD::HCI_task() {
                     hci_set_local_name(btdName);
                     hci_state = HCI_SET_NAME_STATE;
                 } else
-                    hci_state = HCI_SCANNING_STATE;                    
+                    hci_state = HCI_CHECK_WII_SERVICE;                    
             }
             break;
             
@@ -504,17 +546,82 @@ void BTD::HCI_task() {
                 Notify(PSTR("\r\nThe name is set to: "));
                 Serial.print(btdName);
 #endif
-                hci_state = HCI_SCANNING_STATE;                
+                hci_state = HCI_CHECK_WII_SERVICE;
+            }
+            break;
+            
+        case HCI_CHECK_WII_SERVICE:
+            if(wiiServiceID != -1) { // Check if it should try to connect to a wiimote
+                if(disc_bdaddr[5] == 0 && disc_bdaddr[4] == 0 && disc_bdaddr[3] == 0 && disc_bdaddr[2] == 0 && disc_bdaddr[1] == 0 && disc_bdaddr[0] == 0) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nStarting inquiry\r\nPress A & B on the Wiimote"));
+#endif
+                    hci_inquiry();
+                    hci_state = HCI_INQUIRY_STATE;
+                }
+                else
+                    hci_state = HCI_CONNECT_WII_STATE;
+            }
+            else
+                hci_state = HCI_SCANNING_STATE; // Don't try to connect to a Wiimote
+            break;
+            
+        case HCI_INQUIRY_STATE:
+            if(hci_wii_found) {
+                hci_inquiry_cancel(); // Stop inquiry
+#ifdef DEBUG
+                Notify(PSTR("\r\nWiimote found"));
+                Notify(PSTR("\r\nCreate the instance like so to connect automatically:"));
+                Notify(PSTR("\r\nWII Wii(&Btd,"));
+                for(int8_t i = 5; i>0;i--) {
+                    Notify(PSTR("0x"));
+                    PrintHex<uint8_t>(disc_bdaddr[i]);
+                    Notify(PSTR(","));
+                }
+                Notify(PSTR("0x"));
+                PrintHex<uint8_t>(disc_bdaddr[0]);
+                Notify(PSTR(");"));
+#endif                                
+                hci_state = HCI_CONNECT_WII_STATE;
+            }
+            break;
+            
+        case HCI_CONNECT_WII_STATE:
+            if(!hci_wii_found || hci_cmd_complete) {
+#ifdef DEBUG
+                Notify(PSTR("\r\nConnecting to Wiimote"));
+#endif            
+                hci_connect();
+                hci_state = HCI_CONNECTED_WII_STATE;
+            }
+            break;
+            
+        case HCI_CONNECTED_WII_STATE:
+            if(hci_connect_event) {
+                if(hci_connect_complete) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nConnected to Wiimote"));
+#endif
+                    connectToWii = true; // Only send the ACL data to the Wii service
+                    hci_state = HCI_SCANNING_STATE;
+                } else {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nTrying to connect one more time..."));
+#endif
+                    hci_connect(); // Try to connect one more time
+                }
             }
             break;
             
         case HCI_SCANNING_STATE:
+            if(!connectToWii) {
 #ifdef DEBUG
-            Notify(PSTR("\r\nWait For Incoming Connection Request"));
+                Notify(PSTR("\r\nWait For Incoming Connection Request"));
 #endif            
-            hci_write_scan_enable();
-            watingForConnection = true;
-            hci_state = HCI_CONNECT_IN_STATE;
+                hci_write_scan_enable();
+                watingForConnection = true;
+                hci_state = HCI_CONNECT_IN_STATE;
+            }
             break;
             
         case HCI_CONNECT_IN_STATE:
@@ -533,8 +640,7 @@ void BTD::HCI_task() {
             if(hci_remote_name_complete) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nRemote Name: "));
-                for (uint8_t i = 0; i < 30; i++)        
-                {
+                for (uint8_t i = 0; i < 30; i++) {
                     if(remote_name[i] == NULL)
                         break;
                     Serial.write(remote_name[i]);   
@@ -549,10 +655,9 @@ void BTD::HCI_task() {
             if (hci_connect_complete) {     
 #ifdef DEBUG
                 Notify(PSTR("\r\nConnected to Device: "));
-                for(int8_t i = 5; i>0;i--)
-                {
+                for(int8_t i = 5; i>0;i--) {
                     PrintHex<uint8_t>(disc_bdaddr[i]);
-                    Serial.print(":");
+                    Notify(PSTR(":"));
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
@@ -604,9 +709,13 @@ void BTD::ACL_event_task() {
     uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;
     uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2  
     if(!rcode) { // Check for errors
-        for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
-            if (btService[i])
-                btService[i]->ACLData(l2capinbuf);
+        if(connectToWii) // Only send the data to the Wii service
+            btService[wiiServiceID]->ACLData(l2capinbuf);
+        else {
+            for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
+                if (btService[i])
+                    btService[i]->ACLData(l2capinbuf);
+        }
     }
 #ifdef EXTRADEBUG
     else if (rcode != hrNAK) {
@@ -664,6 +773,7 @@ void BTD::hci_read_local_version_information() {
     HCI_Command(hcibuf, 3);
 }
 void BTD::hci_accept_connection() {
+    hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE;
     hcibuf[0] = 0x09; // HCI OCF = 9
     hcibuf[1] = 0x01 << 2; // HCI OGF = 1
     hcibuf[2] = 0x07; // parameter length 7
@@ -705,6 +815,47 @@ void BTD::hci_set_local_name(const char* name) {
     hcibuf[i+3] = 0x00; // End of string
 
     HCI_Command(hcibuf, 4+strlen(name));
+}
+void BTD::hci_inquiry() {
+    hci_event_flag &= ~HCI_FLAG_WII_FOUND;
+    hcibuf[0] = 0x01;
+    hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+    hcibuf[2] = 0x05;  // Parameter Total Length = 5
+    hcibuf[3] = 0x33;  // LAP: Genera/Unlimited Inquiry Access Code (GIAC = 0x9E8B33) - see https://www.bluetooth.org/Technical/AssignedNumbers/baseband.htm
+    hcibuf[4] = 0x8B;
+    hcibuf[5] = 0x9E;
+    hcibuf[6] = 0x0A;  // Inquiry time = 12.8 sec
+    hcibuf[7] = 0x03;  // 3 number of responses
+    
+    HCI_Command(hcibuf, 8);
+}
+void BTD::hci_inquiry_cancel() {
+    hcibuf[0] = 0x02;
+    hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+    hcibuf[2] = 0x0;   // Parameter Total Length = 0
+    
+    HCI_Command(hcibuf, 3);
+}
+void BTD::hci_connect() {
+    hci_event_flag &= ~(HCI_FLAG_CONN_COMPLETE | HCI_FLAG_CONNECT_EVENT);
+    hcibuf[0] = 0x05;
+    hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+    hcibuf[2] = 0x0D;  // parameter Total Length = 13
+    hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
+    hcibuf[4] = disc_bdaddr[1];
+    hcibuf[5] = disc_bdaddr[2];
+    hcibuf[6] = disc_bdaddr[3];
+    hcibuf[7] = disc_bdaddr[4];
+    hcibuf[8] = disc_bdaddr[5];
+    hcibuf[9] = 0x18; // DM1 or DH1 may be used
+    hcibuf[10] = 0xCC; // DM3, DH3, DM5, DH5 may be used
+    hcibuf[11] = 0x01; // Page repetition mode R1
+    hcibuf[12] = 0x00; // Reserved
+    hcibuf[13] = 0x00; // Clock offset
+    hcibuf[14] = 0x00; // Invalid clock offset
+    hcibuf[15] = 0x00; // Do not allow role switch
+    
+    HCI_Command(hcibuf, 16);
 }
 void BTD::hci_pin_code_request_reply(const char* key) {
     hcibuf[0] = 0x0D; // HCI OCF = 0D
@@ -814,6 +965,18 @@ void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t 
 #endif        
     }
 }
+void BTD::l2cap_connection_request(uint16_t handle, uint8_t rxid, uint8_t* scid, uint16_t psm) {
+    l2capoutbuf[0] = L2CAP_CMD_CONNECTION_REQUEST;  // Code
+    l2capoutbuf[1] = rxid; // Identifier
+    l2capoutbuf[2] = 0x04; // Length
+    l2capoutbuf[3] = 0x00;
+    l2capoutbuf[4] = (uint8_t)(psm & 0xff); // PSM
+    l2capoutbuf[5] = (uint8_t)(psm >> 8);
+    l2capoutbuf[6] = scid[0]; // Source CID
+    l2capoutbuf[7] = scid[1];
+    
+    L2CAP_Command(handle, l2capoutbuf, 8);
+}
 void BTD::l2cap_connection_response(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result) {            
     l2capoutbuf[0] = L2CAP_CMD_CONNECTION_RESPONSE; // Code
     l2capoutbuf[1] = rxid; // Identifier
@@ -856,7 +1019,7 @@ void BTD::l2cap_config_response(uint16_t handle, uint8_t rxid, uint8_t* scid) {
     l2capoutbuf[6] = 0x00; // Flag
     l2capoutbuf[7] = 0x00;
     l2capoutbuf[8] = 0x00; // Result
-    l2capoutbuf[9] = 0x00;
+    l2capoutbuf[9] = 0x00;    
     l2capoutbuf[10] = 0x01; // Config
     l2capoutbuf[11] = 0x02;
     l2capoutbuf[12] = 0xA0;
@@ -915,10 +1078,9 @@ void BTD::setBdaddr(uint8_t* BDADDR) {
     pUsb->ctrlReq(bAddress,epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
 #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
-    for(int8_t i = 5; i > 0; i--)
-    {
+    for(int8_t i = 5; i > 0; i--) {
         PrintHex<uint8_t>(my_bdaddr[i]);
-        Serial.print(":");
+        Notify(PSTR(":"));
     }
     PrintHex<uint8_t>(my_bdaddr[0]);
 #endif
@@ -939,10 +1101,9 @@ void BTD::setMoveBdaddr(uint8_t* BDADDR) {
     pUsb->ctrlReq(bAddress,epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);
 #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
-    for(int8_t i = 5; i > 0; i--)
-    {
+    for(int8_t i = 5; i > 0; i--) {
         PrintHex<uint8_t>(my_bdaddr[i]);
-        Serial.print(":");
+        Notify(PSTR(":"));
     }
     PrintHex<uint8_t>(my_bdaddr[0]);
 #endif
