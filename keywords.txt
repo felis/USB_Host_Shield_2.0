@@ -220,3 +220,5 @@ WII					KEYWORD1
 getButtonPress			KEYWORD2
 getButtonClick			KEYWORD2
 setRumbleToggle			KEYWORD2
+getPitch				KEYWORD2
+getRoll					KEYWORD2

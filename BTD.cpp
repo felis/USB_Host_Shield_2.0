@@ -554,7 +554,7 @@ void BTD::HCI_task() {
             if(wiiServiceID != -1) { // Check if it should try to connect to a wiimote
                 if(disc_bdaddr[5] == 0 && disc_bdaddr[4] == 0 && disc_bdaddr[3] == 0 && disc_bdaddr[2] == 0 && disc_bdaddr[1] == 0 && disc_bdaddr[0] == 0) {
 #ifdef DEBUG
-                    Notify(PSTR("\r\nStarting inquiry\r\nPress A & B on the Wiimote"));
+                    Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote"));
 #endif
                     hci_inquiry();
                     hci_state = HCI_INQUIRY_STATE;

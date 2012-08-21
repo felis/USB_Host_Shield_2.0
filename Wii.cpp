@@ -161,33 +161,95 @@ void WII::ACLData(uint8_t* l2capinbuf) {
             if(connected) {
                 /* Read Report */
                 if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
-                    switch (l2capinbuf[9]) {
-                        case 0x30: // Core buttons
-                            ButtonState = (uint16_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
-                            ButtonClickState = ButtonState; // Update click state variable
-                            
+                    if(l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) { // These reports include the buttons
+                        ButtonState = (uint16_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
+                        ButtonClickState = ButtonState; // Update click state variable                        
 #ifdef PRINTREPORT
-                            Notify(PSTR("ButtonState: "));
-                            PrintHex<uint16_t>(ButtonState);
-                            Notify(PSTR("\r\n"));
+                        Notify(PSTR("ButtonState: "));
+                        PrintHex<uint16_t>(ButtonState);
+                        Notify(PSTR("\r\n"));
 #endif
-                            
-                            if(ButtonState != OldButtonState) {
-                                buttonChanged = true;
-                                if(ButtonState != 0x0000) {
-                                    buttonPressed = true;
-                                    buttonReleased = false;
-                                } else {
-                                    buttonPressed = false;
-                                    buttonReleased = true;
-                                }
-                            }
-                            else {
-                                buttonChanged = false;
-                                buttonPressed = false;
+                        if(ButtonState != OldButtonState) {
+                            buttonChanged = true;
+                            if(ButtonState != 0x0000) {
+                                buttonPressed = true;
                                 buttonReleased = false;
-                            }                                                        
-                            OldButtonState = ButtonState;                            
+                            } else {
+                                buttonPressed = false;
+                                buttonReleased = true;
+                            }
+                        }
+                        else {
+                            buttonChanged = false;
+                            buttonPressed = false;
+                            buttonReleased = false;
+                        }
+                        OldButtonState = ButtonState;
+                    }
+                    if(l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x35) { // Read the accelerometer
+                        int16_t accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5))-500;
+                        int16_t accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4))-500;
+                        int16_t accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5))-500;
+                        /*
+                        Notify(PSTR("\r\naccX: "));
+                        Serial.print(accX);
+                        Notify(PSTR("\taccY: "));
+                        Serial.print(accY);
+                        Notify(PSTR("\taccZ: "));
+                        Serial.print(accZ);
+                        */                        
+                        pitch = (atan2(accY,accZ)+PI)*RAD_TO_DEG;
+                        roll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
+                        /*
+                        Notify(PSTR("\r\nPitch: "));
+                        Serial.print(pitch);
+                        Notify(PSTR("\tRoll: "));
+                        Serial.print(roll);
+                        */ 
+                    }
+                    switch (l2capinbuf[9]) {
+                        case 0x20: // Status Information
+                            // (a1) 20 BB BB LF 00 00 VV
+                            if(l2capinbuf[12] & 0x02) // Check if a extension is connected
+                                setReportMode(false,0x35); // Also read the extension
+                            else
+                                setReportMode(false,0x31); // If there is no extension connected we will read the button and accelerometer
+                            break;
+                        case 0x30: // Core buttons
+                            // (a1) 30 BB BB
+                            break;
+                        case 0x31: // Core Buttons and Accelerometer
+                            // (a1) 31 BB BB AA AA AA
+                            break;
+                        case 0x32: // Core Buttons with 8 Extension bytes
+                            // (a1) 32 BB BB EE EE EE EE EE EE EE EE
+                            /*
+                            Notify(PSTR("\r\n"));
+                            for (uint8_t i = 0; i < 8; i++) {
+                                Serial.print(l2capinbuf[12+i]);
+                                Notify(PSTR(" "));
+                            }                     
+                            */                             
+                            break;
+                        case 0x34: // Core Buttons with 19 Extension bytes
+                            // (a1) 34 BB BB EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE 
+                            /*
+                            Notify(PSTR("\r\n"));
+                            for (uint8_t i = 0; i < 19; i++) {
+                                Serial.print(l2capinbuf[12+i]);
+                                Notify(PSTR(" "));
+                            }
+                            */ 
+                            break;
+                        case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
+                            // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                            /*
+                            Notify(PSTR("\r\n"));
+                            for (uint8_t i = 0; i < 16; i++) {
+                                Serial.print(l2capinbuf[15+i]);
+                                Notify(PSTR(" "));
+                            }
+                            */ 
                             break;
 #ifdef DEBUG
                         default:
@@ -243,17 +305,22 @@ void WII::L2CAP_task() {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Channels Established"));
 #endif
-                connected = true;
-                pBtd->connectToWii = false;
-                ButtonState = 0;
-                OldButtonState = 0;
-                ButtonClickState = 0;                
-                setLedOn(LED1);
-                l2cap_state = L2CAP_DONE;
+                statusRequest();
+                l2cap_state = L2CAP_WII_STATUS_STATE;
             }
             break;
+            
+        case L2CAP_WII_STATUS_STATE:                        
+            connected = true;
+            pBtd->connectToWii = false;
+            ButtonState = 0;
+            OldButtonState = 0;
+            ButtonClickState = 0;
+            setLedOn(LED1);
+            l2cap_state = L2CAP_DONE;
+            break;
 /*
-        case L2CAP_WIIREMOTE_CAL_STATE:            
+        case L2CAP_WIIREMOTE_CAL_STATE:
             //Todo enable support for Motion Plus
             break;
 */ 
@@ -337,9 +404,27 @@ void WII::setLedOn(LED a) {
     HID_Command(HIDBuffer, 3);
 }
 void WII::setLedToggle(LED a) {
- HIDBuffer[1] = 0x11;
- HIDBuffer[2] ^= (uint8_t)a;
- HID_Command(HIDBuffer, 3);
+    HIDBuffer[1] = 0x11;
+    HIDBuffer[2] ^= (uint8_t)a;
+    HID_Command(HIDBuffer, 3);
+}
+void WII::setReportMode(bool continuous, uint8_t mode) {
+    uint8_t cmd_buf[4];
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[1] = 0x12;
+    if(continuous)
+        cmd_buf[2] = 0x04;
+    else
+        cmd_buf[2] = 0x00;
+    cmd_buf[3] = mode;
+    HID_Command(cmd_buf, 4);
+}
+void WII::statusRequest() {
+    uint8_t cmd_buf[3];
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[1] = 0x15;
+    cmd_buf[2] = 0x00;
+    HID_Command(cmd_buf, 3);
 }
 
 /************************************************************/

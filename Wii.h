@@ -26,10 +26,11 @@
 #define L2CAP_CONTROL_CONFIG_REQUEST    2
 #define L2CAP_INTERRUPT_CONNECT_REQUEST 3
 #define L2CAP_INTERRUPT_CONFIG_REQUEST  4
+#define L2CAP_WII_STATUS_STATE          5
 //#define L2CAP_WIIREMOTE_CAL_STATE       9 /* TODO: Enable support for Motion Plus */
-#define L2CAP_DONE                      5
-#define L2CAP_INTERRUPT_DISCONNECT      6
-#define L2CAP_CONTROL_DISCONNECT        7
+#define L2CAP_DONE                      6
+#define L2CAP_INTERRUPT_DISCONNECT      7
+#define L2CAP_CONTROL_DISCONNECT        8
 
 /* L2CAP event flags */
 #define L2CAP_FLAG_CONTROL_CONNECTED                0x01
@@ -93,13 +94,18 @@ public:
     int16_t getSensor(Sensor a);
     double getAngle(Angle a);
 */
+    double getPitch() { return pitch; };
+    double getRoll() { return roll; };
+    
     void setAllOff(); // Turn both rumble and all LEDs off
     void setRumbleOff();
     void setRumbleOn();
     void setRumbleToggle();
     void setLedOff(LED a);
     void setLedOn(LED a);
-    void setLedToggle(LED a);    
+    void setLedToggle(LED a);
+    void setReportMode(bool continuous, uint8_t mode);
+    void statusRequest();
     
     bool connected;// Variable used to indicate if a Wiimote is connected
     bool buttonChanged;//Indicate if a button has been changed
@@ -134,5 +140,8 @@ private:
     
     /* HID Commands */
     void HID_Command(uint8_t* data, uint8_t nbytes);
+    
+    double pitch;
+    double roll;
 };
 #endif
