@@ -231,7 +231,7 @@ void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
 void PS3BT::ACLData(uint8_t* ACLData) {
     if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
         if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-            if(((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) || ((ACLData[12] | (ACLData[13] << 8)) == HID_INTR_PSM)) {
+            if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {                
                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_state = L2CAP_WAIT;
