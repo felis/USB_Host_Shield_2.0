@@ -824,8 +824,8 @@ void BTD::hci_inquiry() {
     hcibuf[3] = 0x33;  // LAP: Genera/Unlimited Inquiry Access Code (GIAC = 0x9E8B33) - see https://www.bluetooth.org/Technical/AssignedNumbers/baseband.htm
     hcibuf[4] = 0x8B;
     hcibuf[5] = 0x9E;
-    hcibuf[6] = 0x0A;  // Inquiry time = 12.8 sec
-    hcibuf[7] = 0x03;  // 3 number of responses
+    hcibuf[6] = 0x30;  // Inquiry time = 61.44 sec (maximum)
+    hcibuf[7] = 0x0A;  // 10 number of responses
     
     HCI_Command(hcibuf, 8);
 }
