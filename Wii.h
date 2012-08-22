@@ -63,18 +63,25 @@ enum LED {
 };
 
 enum Button {
-    LEFT  = 0x0001,
-    RIGHT = 0x0002,
-    DOWN  = 0x0004,
-    UP    = 0x0008,
-    PLUS  = 0x0010,
+    LEFT  = 0x00001,
+    RIGHT = 0x00002,
+    DOWN  = 0x00004,
+    UP    = 0x00008,
+    PLUS  = 0x00010,
     
-    TWO   = 0x0100,
-    ONE   = 0x0200,
-    B     = 0x0400,
-    A     = 0x0800,    
-    MINUS = 0x1000,
-    HOME  = 0x8000,
+    TWO   = 0x00100,
+    ONE   = 0x00200,
+    B     = 0x00400,
+    A     = 0x00800,
+    MINUS = 0x01000,
+    HOME  = 0x08000,
+    
+    Z     = 0x10000,
+    C     = 0x20000,
+};
+enum AnalogHat {
+    HatX = 0,
+    HatY = 1,
 };
 
 class WII : public BluetoothService {
@@ -89,6 +96,7 @@ public:
                 
     bool getButtonPress(Button b); // This will read true as long as the button is held down
     bool getButtonClick(Button b); // This will only be true when the button is clicked the first time
+    uint8_t getAnalogHat(AnalogHat a); // Used to read the joystick of the Nunchuck
 /*
     TODO: Enable support for Motion Plus
     int16_t getSensor(Sensor a);
@@ -96,6 +104,8 @@ public:
 */
     double getPitch() { return pitch; };
     double getRoll() { return roll; };
+    double getNunchuckPitch() { return nunchuckPitch; };
+    double getNunchuckRoll() { return nunchuckRoll; };
     
     void setAllOff(); // Turn both rumble and all LEDs off
     void setRumbleOff();
@@ -104,13 +114,9 @@ public:
     void setLedOff(LED a);
     void setLedOn(LED a);
     void setLedToggle(LED a);
-    void setReportMode(bool continuous, uint8_t mode);
-    void statusRequest();
     
-    bool connected;// Variable used to indicate if a Wiimote is connected
-    bool buttonChanged;//Indicate if a button has been changed
-    bool buttonPressed;//Indicate if a button has been pressed
-    bool buttonReleased;//Indicate if a button has been released
+    bool wiimoteConnected; // Variable used to indicate if a Wiimote is connected
+    bool nunchuckConnected; // Variable used to indicate if a Nunchuck controller is connected
     
 private:
     /* Mandatory members */
@@ -125,23 +131,43 @@ private:
     uint8_t l2cap_state;
     uint16_t l2cap_event_flag;// l2cap flags of received bluetooth events    
     
-    uint16_t ButtonState;
-    uint16_t OldButtonState;
-    uint16_t ButtonClickState;
+    uint32_t ButtonState;
+    uint32_t OldButtonState;
+    uint32_t ButtonClickState;
+    uint8_t hatValues[2];
     
     uint8_t HIDBuffer[3];// Used to store HID commands
     
     /* L2CAP Channels */
-    uint8_t control_scid[2];// L2CAP source CID for HID_Control                
-    uint8_t control_dcid[2];//0x0060
-    uint8_t interrupt_scid[2];// L2CAP source CID for HID_Interrupt        
-    uint8_t interrupt_dcid[2];//0x0061
-    uint8_t identifier;//Identifier for connection    
+    uint8_t control_scid[2]; // L2CAP source CID for HID_Control
+    uint8_t control_dcid[2]; //0x0060
+    uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
+    uint8_t interrupt_dcid[2]; //0x0061
+    uint8_t identifier; //Identifier for connection
     
     /* HID Commands */
     void HID_Command(uint8_t* data, uint8_t nbytes);
+    void setReportMode(bool continuous, uint8_t mode);
+    void statusRequest();
+    
+    void writeData(uint32_t offset, uint8_t size, uint8_t* data);
+    void activateExtension1();
+    void activateExtension2();
+    
+    void readData(uint32_t offset, uint16_t size, bool EEPROM);
+    void readExtensionType();
+    void readCalData();
+    
+    uint8_t activateState;
+    uint8_t rumbleBit;
     
     double pitch;
     double roll;
+    double nunchuckPitch;
+    double nunchuckRoll;
+    
+    int16_t accX; // Accelerometer values used to calculate pitch and roll
+    int16_t accY;
+    int16_t accZ;
 };
 #endif

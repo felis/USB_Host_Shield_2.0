@@ -217,8 +217,12 @@ WII					KEYWORD1
 # Methods and Functions (KEYWORD2)
 ####################################################
 
+wiimoteConnected		KEYWORD2
+nunchuckConnected		KEYWORD2
 getButtonPress			KEYWORD2
 getButtonClick			KEYWORD2
 setRumbleToggle			KEYWORD2
+getNunchuckPitch		KEYWORD2
+getNunchuckRoll			KEYWORD2
 getPitch				KEYWORD2
 getRoll					KEYWORD2
