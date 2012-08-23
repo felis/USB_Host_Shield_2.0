@@ -26,27 +26,38 @@
 #define L2CAP_CONTROL_CONFIG_REQUEST    2
 #define L2CAP_INTERRUPT_CONNECT_REQUEST 3
 #define L2CAP_INTERRUPT_CONFIG_REQUEST  4
-#define L2CAP_WII_STATUS_STATE          5
-//#define L2CAP_WIIREMOTE_CAL_STATE       9 /* TODO: Enable support for Motion Plus */
-#define L2CAP_DONE                      6
-#define L2CAP_INTERRUPT_DISCONNECT      7
-#define L2CAP_CONTROL_DISCONNECT        8
+
+#define L2CAP_CHECK_MOTION_PLUS_STATE   5
+#define L2CAP_CHECK_EXTENSION_STATE     6
+#define L2CAP_INIT_MOTION_PLUS_STATE    7
+
+#define L2CAP_LED_STATE                 8
+#define L2CAP_DONE                      9
+#define L2CAP_INTERRUPT_DISCONNECT      10
+#define L2CAP_CONTROL_DISCONNECT        11
 
 /* L2CAP event flags */
-#define L2CAP_FLAG_CONTROL_CONNECTED                0x01
-#define L2CAP_FLAG_INTERRUPT_CONNECTED              0x02
-#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS           0x04
-#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS         0x08
-#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE      0x40
-#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE    0x80
+#define L2CAP_FLAG_CONTROL_CONNECTED                0x001
+#define L2CAP_FLAG_INTERRUPT_CONNECTED              0x002
+#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS           0x004
+#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS         0x008
+#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE      0x040
+#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE    0x080
 
-/*Macros for L2CAP event flag tests */
+/* Macros for L2CAP event flag tests */
 #define l2cap_connected_control_flag (l2cap_event_flag & L2CAP_FLAG_CONTROL_CONNECTED)
 #define l2cap_connected_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_INTERRUPT_CONNECTED)
 #define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
 #define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
 #define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
 #define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
+
+/* Wii event flags */
+#define WII_FLAG_MOTION_PLUS_CONNECTED              0x100
+#define WII_FLAG_NUNCHUCK_CONNECTED                 0x200
+
+#define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
+#define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
 
 enum LED {
     LED1 = 0x10,
@@ -97,15 +108,10 @@ public:
     bool getButtonPress(Button b); // This will read true as long as the button is held down
     bool getButtonClick(Button b); // This will only be true when the button is clicked the first time
     uint8_t getAnalogHat(AnalogHat a); // Used to read the joystick of the Nunchuck
-/*
-    TODO: Enable support for Motion Plus
-    int16_t getSensor(Sensor a);
-    double getAngle(Angle a);
-*/
-    double getPitch() { return pitch; };
-    double getRoll() { return roll; };
-    double getNunchuckPitch() { return nunchuckPitch; };
-    double getNunchuckRoll() { return nunchuckRoll; };
+
+    double getPitch() { return pitch; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+    double getRoll() { return roll; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+    double getYaw() { return gyroYaw; }; // This is the yaw calculated by the gyro
     
     void setAllOff(); // Turn both rumble and all LEDs off
     void setRumbleOff();
@@ -117,6 +123,39 @@ public:
     
     bool wiimoteConnected; // Variable used to indicate if a Wiimote is connected
     bool nunchuckConnected; // Variable used to indicate if a Nunchuck controller is connected
+    bool motionPlusConnected; // Variable used to indicate if a Nunchuck controller is connected
+    
+    /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
+    
+    double wiiMotePitch; // Pitch and roll calculated from the accelerometer inside the Wiimote
+    double wiiMoteRoll;
+    double nunchuckPitch; // Pitch and roll calculated from the accelerometer inside the Nunchuck
+    double nunchuckRoll;
+    
+    int16_t accX; // Accelerometer values used to calculate pitch and roll
+    int16_t accY;
+    int16_t accZ;
+    
+    /* Variables for the gyro inside the Motion Plus */
+    double gyroPitch; // This is the pitch calculated by the gyro - use this to tune pitchGyroScale
+    double gyroRoll; // This is the roll calculated by the gyro - use this to tune rollGyroScale
+    double gyroYaw; // This is the yaw calculated by the gyro - use this to tune yawGyroScale
+
+    double pitchGyroSpeed; // The speed in deg/s from the gyro
+    double rollGyroSpeed;
+    double yawGyroSpeed;
+    
+    uint16_t pitchGyroScale; // You might need to fine-tune these values
+    uint16_t rollGyroScale;
+    uint16_t yawGyroScale;
+    
+    int16_t gyroYawRaw; // Raw value read directly from the Motion Plus
+    int16_t gyroRollRaw;
+    int16_t gyroPitchRaw;
+    
+    int16_t gyroYawZero; // These values are set when the controller is first initialized
+    int16_t gyroRollZero;
+    int16_t gyroPitchZero;
     
 private:
     /* Mandatory members */
@@ -137,13 +176,18 @@ private:
     uint8_t hatValues[2];
     
     uint8_t HIDBuffer[3];// Used to store HID commands
+    uint8_t rumbleBit;
+    
+    uint16_t stateCounter;
+    bool unknownExtensionConnected;
+    bool extensionConnected;
     
     /* L2CAP Channels */
     uint8_t control_scid[2]; // L2CAP source CID for HID_Control
-    uint8_t control_dcid[2]; //0x0060
+    uint8_t control_dcid[2]; // 0x0060
     uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
-    uint8_t interrupt_dcid[2]; //0x0061
-    uint8_t identifier; //Identifier for connection
+    uint8_t interrupt_dcid[2]; // 0x0061
+    uint8_t identifier; // Identifier for connection
     
     /* HID Commands */
     void HID_Command(uint8_t* data, uint8_t nbytes);
@@ -151,23 +195,22 @@ private:
     void statusRequest();
     
     void writeData(uint32_t offset, uint8_t size, uint8_t* data);
-    void activateExtension1();
-    void activateExtension2();
+    void initExtension1();
+    void initExtension2();
     
     void readData(uint32_t offset, uint16_t size, bool EEPROM);
     void readExtensionType();
     void readCalData();
     
-    uint8_t activateState;
-    uint8_t rumbleBit;
+    void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
+    void initMotionPlus();
+    void activateMotionPlus();
+
+    double pitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+    double roll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
     
-    double pitch;
-    double roll;
-    double nunchuckPitch;
-    double nunchuckRoll;
-    
-    int16_t accX; // Accelerometer values used to calculate pitch and roll
-    int16_t accY;
-    int16_t accZ;
+    bool activateNunchuck;
+    bool motionValuesReset; // This bool is true when the gyro values has been reset
+    unsigned long timer;   
 };
 #endif

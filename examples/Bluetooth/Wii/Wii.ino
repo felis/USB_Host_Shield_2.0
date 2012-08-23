@@ -50,19 +50,15 @@ void loop() {
         Serial.print(F("\r\nUp"));
       }
 
-      if(Wii.getButtonClick(PLUS)) {
+      if(Wii.getButtonClick(PLUS))
         Serial.print(F("\r\nPlus"));
-      }      
-      if(Wii.getButtonClick(MINUS)) {
+      if(Wii.getButtonClick(MINUS))
         Serial.print(F("\r\nMinus"));
-      }
 
-      if(Wii.getButtonClick(ONE)) {
+      if(Wii.getButtonClick(ONE))
         Serial.print(F("\r\nOne"));
-      }      
-      if(Wii.getButtonClick(TWO)) {
+      if(Wii.getButtonClick(TWO))
         Serial.print(F("\r\nTwo"));
-      }
 
       if(Wii.getButtonClick(A)) {
         printAngle = !printAngle;
@@ -78,11 +74,15 @@ void loop() {
       Serial.print(Wii.getPitch());
       Serial.print(F("\tRoll: "));
       Serial.print(Wii.getRoll());
+      if(Wii.motionPlusConnected) {
+        Serial.print(F("\tYaw: "));
+        Serial.print(Wii.getYaw());
+      }      
       if(Wii.nunchuckConnected) {
         Serial.print(F("\tNunchuck Pitch: "));
-        Serial.print(Wii.getNunchuckPitch());
+        Serial.print(Wii.nunchuckPitch);
         Serial.print(F("\tNunchuck Roll: "));
-        Serial.print(Wii.getNunchuckRoll());        
+        Serial.print(Wii.nunchuckRoll);
       }
     }
   }
