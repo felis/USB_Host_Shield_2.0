@@ -368,14 +368,18 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     if(!extensionConnected) {
                                         extensionConnected = true;
                                         unknownExtensionConnected = true;
-                                        Serial.print("\r\nExtension connected to Motion Plus");
+#ifdef DEBUG
+                                        Notify(PSTR("\r\nExtension connected to Motion Plus"));
+#endif
                                     }
                                 }
                                 else {
                                     if(extensionConnected && !unknownExtensionConnected) {
                                         extensionConnected = false;
                                         unknownExtensionConnected = true;
-                                        Serial.print("\r\nExtension disconnected from Motion Plus");
+#ifdef DEBUG
+                                        Notify(PSTR("\r\nExtension disconnected from Motion Plus"));
+#endif
                                         nunchuckConnected = false; // There is no extension connected to the Motion Plus if this report is sent
                                     }
                                 }
