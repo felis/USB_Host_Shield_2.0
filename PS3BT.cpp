@@ -60,20 +60,13 @@ pBtd(p) // pointer to USB class instance - mandatory
     
     Reset();
 }
-bool PS3BT::getButton(Button b) {
-    if (l2capinbuf == NULL)
-        return false;
-    if(PS3MoveConnected) {
-        if((l2capinbuf[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
-            return true;
-        else
-            return false;
-    } else {  
-        if((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
-            return true;
-        else
-            return false;
-    }
+bool PS3BT::getButtonPress(Button b) {
+    return (ButtonState & (uint32_t)b);
+}
+bool PS3BT::getButtonClick(Button b) {
+    bool click = (ButtonClickState & (uint32_t)b);
+    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    return click;
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a) {
     if (l2capinbuf == NULL)
@@ -231,7 +224,7 @@ void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
 void PS3BT::ACLData(uint8_t* ACLData) {
     if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
         if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-            if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {                
+            if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {
                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_state = L2CAP_WAIT;
@@ -366,21 +359,8 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                     //Notify(PSTR("\r\nButtonState");
                     //PrintHex<uint32_t>(ButtonState);
                     
-                    if(ButtonState != OldButtonState) {
-                        buttonChanged = true;
-                        if(ButtonState != 0x00) {
-                            buttonPressed = true;
-                            buttonReleased = false;
-                        } else {
-                            buttonPressed = false;
-                            buttonReleased = true;
-                        }
-                    }                    
-                    else {
-                        buttonChanged = false;
-                        buttonPressed = false;
-                        buttonReleased = false;
-                    }                    
+                    if(ButtonState != OldButtonState)
+                        ButtonClickState = ButtonState;                    
                     OldButtonState = ButtonState;
                     
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
@@ -583,22 +563,17 @@ void PS3BT::setRumbleOn(Rumble mode) {
      * 5 - duration_left
      * 6 - power_left
      */
-    if ((mode & 0x30) > 0)
-    {
+    if ((mode & 0x30) > 0) {
         HIDBuffer[3] = 0xfe;
-        HIDBuffer[5] = 0xfe;
-        
-        if (mode == RumbleHigh)
-        {
+        HIDBuffer[5] = 0xfe;        
+        if (mode == RumbleHigh) {
             HIDBuffer[4] = 0;//low mode off
             HIDBuffer[6] = 0xff;//high mode on
         }
-        else
-        {
+        else {
             HIDBuffer[4] = 0xff;//low mode on
             HIDBuffer[6] = 0;//high mode off
-        }
-        
+        }        
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
     }
 }

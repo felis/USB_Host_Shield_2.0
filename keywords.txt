@@ -6,40 +6,38 @@
 # Datatypes (KEYWORD1)
 ####################################################
 
-PS3BT  KEYWORD1
+PS3BT	KEYWORD1
 PS3USB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
-setBdaddr	KEYWORD2
+setBdaddr		KEYWORD2
 setMoveBdaddr	KEYWORD2
 
-getButton	KEYWORD2
+getButtonPress	KEYWORD2
+getButtonClick	KEYWORD2
 getAnalogButton	KEYWORD2
 getAnalogHat	KEYWORD2
-getSensor	KEYWORD2
-getAngle	KEYWORD2
-getStatus	KEYWORD2
+getSensor		KEYWORD2
+getAngle		KEYWORD2
+getStatus		KEYWORD2
 getStatusString	KEYWORD2
 getTemperature	KEYWORD2
-disconnect	KEYWORD2
+disconnect		KEYWORD2
 
-setAllOff	KEYWORD2
+setAllOff		KEYWORD2
 setRumbleOff	KEYWORD2
-setRumbleOn	KEYWORD2
-setLedOff	KEYWORD2
-setLedOn	KEYWORD2
+setRumbleOn		KEYWORD2
+setLedOff		KEYWORD2
+setLedOn		KEYWORD2
 setLedToggle	KEYWORD2
-moveSetBulb	KEYWORD2
+moveSetBulb		KEYWORD2
 moveSetRumble	KEYWORD2
 
-PS3Connected	KEYWORD2
-PS3MoveConnected	KEYWORD2
+PS3Connected			KEYWORD2
+PS3MoveConnected		KEYWORD2
 PS3NavigationConnected	KEYWORD2
-buttonChanged	KEYWORD2
-buttonPressed	KEYWORD2
-buttonReleased	KEYWORD2
 
 watingForConnection	KEYWORD2
 
@@ -220,8 +218,6 @@ WII					KEYWORD1
 wiimoteConnected		KEYWORD2
 nunchuckConnected		KEYWORD2
 motionPlusConnected		KEYWORD2
-getButtonPress			KEYWORD2
-getButtonClick			KEYWORD2
 setRumbleToggle			KEYWORD2
 getPitch				KEYWORD2
 getRoll					KEYWORD2

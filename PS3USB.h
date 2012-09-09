@@ -25,6 +25,7 @@
 #endif
 
 #include "Usb.h"
+#include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
 #define EP_MAXPKTSIZE       64 // max size for data via USB
@@ -52,113 +53,6 @@
 
 #define PS3_MAX_ENDPOINTS   3
 
-enum LED {
-    LED1 = 0x01,
-    LED2 = 0x02,
-    LED3 = 0x04,
-    LED4 = 0x08,
-    
-    LED5 = 0x09,
-    LED6 = 0x0A,
-    LED7 = 0x0C,
-    LED8 = 0x0D,
-    LED9 = 0x0E,
-    LED10 = 0x0F,
-};
-enum Colors {
-    // Used to set the colors of the move controller            
-    Red = 0xFF0000, // r = 255, g = 0, b = 0
-    Green = 0xFF00, // r = 0, g = 255, b = 0
-    Blue = 0xFF, // r = 0, g = 0, b = 255
-    
-    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
-    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
-    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
-    
-    White = 0xFFFFFF, // r = 255, g = 255, b = 255
-    Off = 0x00, // r = 0, g = 0, b = 0
-};
-
-enum Button {
-    // byte location | bit location
-    
-    // Sixaxis Dualshcock 3 & Navigation controller 
-    SELECT = (2 << 8) | 0x01,
-    L3 = (2 << 8) | 0x02,
-    R3 = (2 << 8) | 0x04,
-    START = (2 << 8) | 0x08,
-    UP = (2 << 8) | 0x10,
-    RIGHT = (2 << 8) | 0x20,
-    DOWN = (2 << 8) | 0x40,
-    LEFT = (2 << 8) | 0x80,
-    
-    L2 = (3 << 8) | 0x01,
-    R2 = (3 << 8) | 0x02,
-    L1 = (3 << 8) | 0x04,
-    R1 = (3 << 8) | 0x08,
-    TRIANGLE = (3 << 8) | 0x10,
-    CIRCLE = (3 << 8) | 0x20,
-    CROSS = (3 << 8) | 0x40,
-    SQUARE = (3 << 8) | 0x80,
-    
-    PS = (4 << 8) | 0x01, 
-};
-enum AnalogButton {
-    // Sixaxis Dualshcock 3 & Navigation controller
-    UP_ANALOG = 14,
-    RIGHT_ANALOG = 15,
-    DOWN_ANALOG = 16,
-    LEFT_ANALOG = 17,
-    
-    L2_ANALOG = 18,
-    R2_ANALOG = 19,
-    L1_ANALOG = 20,
-    R1_ANALOG = 21,
-    TRIANGLE_ANALOG = 22,
-    CIRCLE_ANALOG = 23,
-    CROSS_ANALOG = 24,
-    SQUARE_ANALOG = 25,  
-};
-enum AnalogHat {
-    LeftHatX = 6,
-    LeftHatY = 7,
-    RightHatX = 8,
-    RightHatY = 9,
-};
-enum Sensor {
-    // Sensors inside the Sixaxis Dualshock 3 controller
-    aX = 41,
-    aY = 43,
-    aZ = 45,
-    gZ = 47, 
-};
-enum Angle {
-    Pitch = 0x01,
-    Roll = 0x02,
-};
-enum Status {
-    // byte location | bit location
-    Plugged = (29 << 8) | 0x02,
-    Unplugged = (29 << 8) | 0x03,
-    
-    Charging = (30 << 8) | 0xEE,
-    NotCharging = (30 << 8) | 0xF1,
-    Shutdown = (30 << 8) | 0x01,
-    Dying = (30 << 8) | 0x02,
-    Low = (30 << 8) | 0x03,
-    High = (30 << 8) | 0x04,
-    Full = (30 << 8) | 0x05,
-   
-    CableRumble = (31 << 8) | 0x10, // Opperating by USB and rumble is turned on
-    Cable = (31 << 8) | 0x12, // Opperating by USB and rumble is turned off 
-    BluetoothRumble = (31 << 8) | 0x14, // Opperating by bluetooth and rumble is turned on
-    Bluetooth = (31 << 8) | 0x16, // Opperating by bluetooth and rumble is turned off                        
-};
-enum Rumble {
-    RumbleHigh = 0x10,
-    RumbleLow = 0x20,            
-};
-
 class PS3USB : public USBDeviceConfig {
 public:
     PS3USB(USB *pUsb, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0);
@@ -174,7 +68,8 @@ public:
     void setMoveBdaddr(uint8_t* BDADDR);
     
     /* PS3 Controller Commands */
-    bool getButton(Button b);
+    bool getButtonPress(Button b);
+    bool getButtonClick(Button b);
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
     uint16_t getSensor(Sensor a);
@@ -198,9 +93,6 @@ public:
     bool PS3Connected;// Variable used to indicate if the normal playstation controller is successfully connected
     bool PS3MoveConnected;// Variable used to indicate if the move controller is successfully connected
     bool PS3NavigationConnected;// Variable used to indicate if the navigation controller is successfully connected */
-    bool buttonChanged;//Indicate if a button has been changed
-    bool buttonPressed;//Indicate if a button has been pressed
-    bool buttonReleased;//Indicate if a button has been released
     
 protected:           
     /* mandatory members */
@@ -214,7 +106,8 @@ private:
     uint32_t timer; // used to continuously set PS3 Move controller Bulb and rumble values
 
     uint32_t ButtonState;
-    uint32_t OldButtonState;     
+    uint32_t OldButtonState;
+    uint32_t ButtonClickState;
     
     uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
@@ -225,7 +118,7 @@ private:
 
     /* Private commands */
     void PS3_Command(uint8_t* data, uint16_t nbytes);
-    void enable_sixaxis();//Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+    void enable_sixaxis(); // Command used to enable the Dualshock 3 and Navigation controller to send data via USB
     void Move_Command(uint8_t* data, uint16_t nbytes);    
 };
 #endif
