@@ -89,6 +89,7 @@ MAX3421e< SS, INTR >::MAX3421e()
 #ifdef BOARD_MEGA_ADK  
   /* For Mega ADK, which has Max3421e on-board, set MAX_RESET to Output mode, and pull Reset to HIGH */
   DDRJ |= _BV(PJ2);
+  PORTJ &= ~_BV(PJ2);
   PORTJ |= _BV(PJ2);
 #endif  
 
