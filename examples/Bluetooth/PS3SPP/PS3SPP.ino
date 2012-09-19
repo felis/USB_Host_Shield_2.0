@@ -49,7 +49,7 @@ void loop() {
     firstMessage = true;
 
   if(PS3.PS3Connected || PS3.PS3NavigationConnected) {
-    output = ""; // Reset analog output string
+    output = ""; // Reset output string
     if(PS3.getAnalogHat(LeftHatX) > 137 || PS3.getAnalogHat(LeftHatX) < 117 || PS3.getAnalogHat(LeftHatY) > 137 || PS3.getAnalogHat(LeftHatY) < 117 || PS3.getAnalogHat(RightHatX) > 137 || PS3.getAnalogHat(RightHatX) < 117 || PS3.getAnalogHat(RightHatY) > 137 || PS3.getAnalogHat(RightHatY) < 117) {
       output += "LeftHatX: ";
       output += PS3.getAnalogHat(LeftHatX);
@@ -73,7 +73,7 @@ void loop() {
       Serial.println(output);
       if(SerialBT.connected)
         SerialBT.println(output);
-      output = "";
+      output = ""; // Reset output string
     }
     if(PS3.getButtonClick(PS)) {
       output += " - PS";
