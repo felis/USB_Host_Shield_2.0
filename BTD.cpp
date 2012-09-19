@@ -679,6 +679,7 @@ void BTD::HCI_task() {
         case HCI_DONE_STATE:
             hci_counter++;
             if (hci_counter > 250) { // Wait until we have looped 250 times to make sure that the L2CAP connection has been started
+                hci_counter = 0;
                 hci_state = HCI_SCANNING_STATE;
                 l2capConnectionClaimed = false;
             }            
