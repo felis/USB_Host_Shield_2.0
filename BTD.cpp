@@ -364,7 +364,7 @@ void BTD::HCI_event_task() {
                     Serial.print(hcibuf[2]);
 #endif
                     for(uint8_t i = 0; i < hcibuf[2]; i++) {
-                        if(hcibuf[4+8*hcibuf[2]+3*i] == 0x04 && hcibuf[5+8*hcibuf[2]+3*i] == 0x25 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+                        if((hcibuf[4+8*hcibuf[2]+3*i] == 0x04 && hcibuf[5+8*hcibuf[2]+3*i] == 0x25 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00) || (hcibuf[4+8*hcibuf[2]+3*i] == 0x08 && hcibuf[5+8*hcibuf[2]+3*i] == 0x05 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00)) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html and http://wiibrew.org/wiki/Wiimote#SDP_information
                             disc_bdaddr[0] = hcibuf[3+6*i];
                             disc_bdaddr[1] = hcibuf[4+6*i];
                             disc_bdaddr[2] = hcibuf[5+6*i];
