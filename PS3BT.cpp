@@ -359,9 +359,10 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                     //Notify(PSTR("\r\nButtonState");
                     //PrintHex<uint32_t>(ButtonState);
                     
-                    if(ButtonState != OldButtonState)
-                        ButtonClickState = ButtonState;                    
-                    OldButtonState = ButtonState;
+                    if(ButtonState != OldButtonState) {
+                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+                        OldButtonState = ButtonState;
+                    }
                     
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
                     for(uint8_t i = 10; i < 58;i++) {

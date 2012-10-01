@@ -308,10 +308,11 @@ void PS3USB::readReport() {
     //Notify(PSTR("\r\nButtonState");
     //PrintHex<uint32_t>(ButtonState);
     
-    if(ButtonState != OldButtonState)
-        ButtonClickState = ButtonState; // Update click state variable    
-    OldButtonState = ButtonState; 
-}  
+    if(ButtonState != OldButtonState) {
+        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+        OldButtonState = ButtonState;
+    }
+}
 
 void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
     if (readBuf == NULL)
