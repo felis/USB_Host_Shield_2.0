@@ -83,27 +83,18 @@ int16_t PS3BT::getSensor(Sensor a) {
         return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
-    else if (a == mXmove || a == mYmove || a == mZmove) // These are all 12-bits long
-    {        
-        // Might not be correct, haven't tested it yet
-        /*if (a == mXmove)
-            return ((l2capinbuf[(uint16_t)a + 1] << 0x04) | (l2capinbuf[(uint16_t)a] << 0x0C));
-        else if (a == mYmove)
-            return ((l2capinbuf[(uint16_t)a + 1] & 0xF0) | (l2capinbuf[(uint16_t)a] << 0x08));
-        else if (a == mZmove)
-         return ((l2capinbuf[(uint16_t)a + 1] << 0x0F) | (l2capinbuf[(uint16_t)a] << 0x0C));
-         */
+    else if (a == mXmove || a == mYmove || a == mZmove) { // These are all 12-bits long
         if (a == mXmove || a == mYmove)
             return (((l2capinbuf[(uint16_t)a] & 0x0F) << 8) | (l2capinbuf[(uint16_t)a + 1]));
         else // mZmove            
-            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] >> 4));                
+            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] & 0xF0 ) >> 4);
     }
     else if (a == tempMove) // The tempearature is 12 bits long too
         return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
     else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
         return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));
 }
-double PS3BT::getAngle(Angle a) {        
+double PS3BT::getAngle(Angle a) {
     double accXval;
     double accYval;
     double accZval;
@@ -114,24 +105,48 @@ double PS3BT::getAngle(Angle a) {
         accXval = -((double)getSensor(aX)-zeroG);
         accYval = -((double)getSensor(aY)-zeroG);
         accZval = -((double)getSensor(aZ)-zeroG);
-    } else if(PS3MoveConnected) {        
+    } else if(PS3MoveConnected) {
         // It's a Kionix KXSC4 inside the Motion controller
-        const uint16_t zeroG = 0x8000;                
+        const uint16_t zeroG = 0x8000;
         accXval = -(int16_t)(getSensor(aXmove)-zeroG);
         accYval = (int16_t)(getSensor(aYmove)-zeroG);
-        accZval = (int16_t)(getSensor(aZmove)-zeroG);      
+        accZval = (int16_t)(getSensor(aZmove)-zeroG);
     }
     
     // Convert to 360 degrees resolution
     // atan2 outputs the value of -π to π (radians)
-    // We are then converting it to 0 to 2π and then to degrees  
-    if (a == Pitch) {        
+    // We are then converting it to 0 to 2π and then to degrees
+    if (a == Pitch) {
         double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     } else {
         double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
         return angle;
-    }    
+    }
+}
+double PS3BT::get9DOFValues(Sensor a) { // Thanks to Manfred Piendl
+    int16_t value = getSensor(a);
+    if (a == mXmove || a == mYmove || a == mZmove) {
+        if (value > 2047)
+            value -= 0x1000;
+        return (double)value/3.2;  // unit: muT = 10^(-6) Tesla
+    }
+    else if (a == aXmove || a == aYmove || a == aZmove) {
+        if (value < 0)
+            value += 0x8000;
+        else
+            value -= 0x8000;
+        return (double)value/442.0; // unit: m/(s^2)
+    }
+    else if (a == gXmove || a == gYmove || a == gZmove) {
+        if (value < 0)
+            value += 0x8000;
+        else
+            value -= 0x8000;
+        return (double)value/9.6; // unit: deg/s
+    }
+    else
+        return 0;
 }
 String PS3BT::getTemperature() {
     if(PS3MoveConnected) {

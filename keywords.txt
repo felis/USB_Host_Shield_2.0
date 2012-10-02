@@ -21,6 +21,7 @@ getAnalogButton	KEYWORD2
 getAnalogHat	KEYWORD2
 getSensor		KEYWORD2
 getAngle		KEYWORD2
+get9DOFValues	KEYWORD2
 getStatus		KEYWORD2
 getStatusString	KEYWORD2
 getTemperature	KEYWORD2

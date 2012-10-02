@@ -74,6 +74,7 @@ public:
     uint8_t getAnalogHat(AnalogHat a);
     int16_t getSensor(Sensor a);
     double getAngle(Angle a);
+    double get9DOFValues(Sensor a);
     bool getStatus(Status c);  
     String getStatusString();    
     String getTemperature();
