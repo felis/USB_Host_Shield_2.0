@@ -281,6 +281,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif                                      
                             break;
                         case 0x30: // Core buttons - (a1) 30 BB BB
+                            break;
                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
                             pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
                             roll = wiiMoteRoll;
