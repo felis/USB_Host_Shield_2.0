@@ -68,8 +68,15 @@ public:
     void setMoveBdaddr(uint8_t* BDADDR);
     
     /* PS3 Controller Commands */
+    /*
+       getButtonPress will return true as long as the button is held down
+       While getButtonClick will only return it once
+       So you instance if you need to increase a variable once you would use getButtonClick,
+       but if you need to drive a robot forward you would use getButtonPress
+    */
     bool getButtonPress(Button b);
     bool getButtonClick(Button b);
+    
     uint8_t getAnalogButton(AnalogButton a);
     uint8_t getAnalogHat(AnalogHat a);
     uint16_t getSensor(Sensor a);
