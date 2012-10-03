@@ -60,20 +60,13 @@ pBtd(p) // pointer to USB class instance - mandatory
     
     Reset();
 }
-bool PS3BT::getButton(Button b) {
-    if (l2capinbuf == NULL)
-        return false;
-    if(PS3MoveConnected) {
-        if((l2capinbuf[((uint16_t)b >> 8)-1] & ((uint8_t)b & 0xff))) // All the buttons locations are shifted one back on the Move controller
-            return true;
-        else
-            return false;
-    } else {  
-        if((l2capinbuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)))
-            return true;
-        else
-            return false;
-    }
+bool PS3BT::getButtonPress(Button b) {
+    return (ButtonState & (uint32_t)b);
+}
+bool PS3BT::getButtonClick(Button b) {
+    bool click = (ButtonClickState & (uint32_t)b);
+    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    return click;
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a) {
     if (l2capinbuf == NULL)
@@ -90,27 +83,18 @@ int16_t PS3BT::getSensor(Sensor a) {
         return 0;
     if (a == aX || a == aY || a == aZ || a == gZ)
         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
-    else if (a == mXmove || a == mYmove || a == mZmove) // These are all 12-bits long
-    {        
-        // Might not be correct, haven't tested it yet
-        /*if (a == mXmove)
-            return ((l2capinbuf[(uint16_t)a + 1] << 0x04) | (l2capinbuf[(uint16_t)a] << 0x0C));
-        else if (a == mYmove)
-            return ((l2capinbuf[(uint16_t)a + 1] & 0xF0) | (l2capinbuf[(uint16_t)a] << 0x08));
-        else if (a == mZmove)
-         return ((l2capinbuf[(uint16_t)a + 1] << 0x0F) | (l2capinbuf[(uint16_t)a] << 0x0C));
-         */
+    else if (a == mXmove || a == mYmove || a == mZmove) { // These are all 12-bits long
         if (a == mXmove || a == mYmove)
             return (((l2capinbuf[(uint16_t)a] & 0x0F) << 8) | (l2capinbuf[(uint16_t)a + 1]));
         else // mZmove            
-            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] >> 4));                
+            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] & 0xF0 ) >> 4);
     }
     else if (a == tempMove) // The tempearature is 12 bits long too
         return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
     else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
         return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));
 }
-double PS3BT::getAngle(Angle a) {        
+double PS3BT::getAngle(Angle a) {
     double accXval;
     double accYval;
     double accZval;
@@ -121,24 +105,48 @@ double PS3BT::getAngle(Angle a) {
         accXval = -((double)getSensor(aX)-zeroG);
         accYval = -((double)getSensor(aY)-zeroG);
         accZval = -((double)getSensor(aZ)-zeroG);
-    } else if(PS3MoveConnected) {        
+    } else if(PS3MoveConnected) {
         // It's a Kionix KXSC4 inside the Motion controller
-        const uint16_t zeroG = 0x8000;                
+        const uint16_t zeroG = 0x8000;
         accXval = -(int16_t)(getSensor(aXmove)-zeroG);
         accYval = (int16_t)(getSensor(aYmove)-zeroG);
-        accZval = (int16_t)(getSensor(aZmove)-zeroG);      
+        accZval = (int16_t)(getSensor(aZmove)-zeroG);
     }
     
     // Convert to 360 degrees resolution
     // atan2 outputs the value of -π to π (radians)
-    // We are then converting it to 0 to 2π and then to degrees  
-    if (a == Pitch) {        
+    // We are then converting it to 0 to 2π and then to degrees
+    if (a == Pitch) {
         double angle = (atan2(accYval,accZval)+PI)*RAD_TO_DEG;
         return angle;
     } else {
         double angle = (atan2(accXval,accZval)+PI)*RAD_TO_DEG;
         return angle;
-    }    
+    }
+}
+double PS3BT::get9DOFValues(Sensor a) { // Thanks to Manfred Piendl
+    int16_t value = getSensor(a);
+    if (a == mXmove || a == mYmove || a == mZmove) {
+        if (value > 2047)
+            value -= 0x1000;
+        return (double)value/3.2;  // unit: muT = 10^(-6) Tesla
+    }
+    else if (a == aXmove || a == aYmove || a == aZmove) {
+        if (value < 0)
+            value += 0x8000;
+        else
+            value -= 0x8000;
+        return (double)value/442.0; // unit: m/(s^2)
+    }
+    else if (a == gXmove || a == gYmove || a == gZmove) {
+        if (value < 0)
+            value += 0x8000;
+        else
+            value -= 0x8000;
+        return (double)value/9.6; // unit: deg/s
+    }
+    else
+        return 0;
 }
 String PS3BT::getTemperature() {
     if(PS3MoveConnected) {
@@ -231,7 +239,7 @@ void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
 void PS3BT::ACLData(uint8_t* ACLData) {
     if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
         if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-            if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {                
+            if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {
                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_state = L2CAP_WAIT;
@@ -367,21 +375,9 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                     //PrintHex<uint32_t>(ButtonState);
                     
                     if(ButtonState != OldButtonState) {
-                        buttonChanged = true;
-                        if(ButtonState != 0x00) {
-                            buttonPressed = true;
-                            buttonReleased = false;
-                        } else {
-                            buttonPressed = false;
-                            buttonReleased = true;
-                        }
-                    }                    
-                    else {
-                        buttonChanged = false;
-                        buttonPressed = false;
-                        buttonReleased = false;
-                    }                    
-                    OldButtonState = ButtonState;
+                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+                        OldButtonState = ButtonState;
+                    }
                     
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
                     for(uint8_t i = 10; i < 58;i++) {
@@ -583,22 +579,17 @@ void PS3BT::setRumbleOn(Rumble mode) {
      * 5 - duration_left
      * 6 - power_left
      */
-    if ((mode & 0x30) > 0)
-    {
+    if ((mode & 0x30) > 0) {
         HIDBuffer[3] = 0xfe;
-        HIDBuffer[5] = 0xfe;
-        
-        if (mode == RumbleHigh)
-        {
+        HIDBuffer[5] = 0xfe;        
+        if (mode == RumbleHigh) {
             HIDBuffer[4] = 0;//low mode off
             HIDBuffer[6] = 0xff;//high mode on
         }
-        else
-        {
+        else {
             HIDBuffer[4] = 0xff;//low mode on
             HIDBuffer[6] = 0;//high mode off
-        }
-        
+        }        
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
     }
 }

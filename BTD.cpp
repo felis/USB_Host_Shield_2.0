@@ -497,6 +497,7 @@ void BTD::HCI_task() {
         case HCI_RESET_STATE:
             hci_counter++;
             if (hci_cmd_complete) {
+                hci_counter = 0;
 #ifdef DEBUG
                 Notify(PSTR("\r\nHCI Reset complete"));
 #endif
@@ -661,26 +662,17 @@ void BTD::HCI_task() {
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
-                hci_write_scan_disable();
-                hci_state = HCI_DISABLE_SCAN_STATE;
-            }
-            break;
-            
-        case HCI_DISABLE_SCAN_STATE:
-            if (hci_cmd_complete) {                    
-#ifdef DEBUG
-                Notify(PSTR("\r\nScan Disabled"));
-#endif
+                l2capConnectionClaimed = false;
                 hci_event_flag = 0;
                 hci_state = HCI_DONE_STATE;
             }
             break;
-            
+
         case HCI_DONE_STATE:
             hci_counter++;
-            if (hci_counter > 250) { // Wait until we have looped 250 times to make sure that the L2CAP connection has been started
-                hci_state = HCI_SCANNING_STATE;
-                l2capConnectionClaimed = false;
+            if (hci_counter > 1000) { // Wait until we have looped 1000 times to make sure that the L2CAP connection has been started
+                hci_counter = 0;
+                hci_state = HCI_SCANNING_STATE;                
             }            
             break;
             

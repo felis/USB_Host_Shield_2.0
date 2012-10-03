@@ -105,8 +105,15 @@ public:
     virtual void Reset(); // Use this to reset the service
     virtual void disconnect(); // Use this void to disconnect any of the controllers
                 
+    /*
+      getButtonPress will return true as long as the button is held down
+      While getButtonClick will only return it once
+      So you instance if you need to increase a variable once you would use getButtonClick,
+      but if you need to drive a robot forward you would use getButtonPress
+    */
     bool getButtonPress(Button b); // This will read true as long as the button is held down
     bool getButtonClick(Button b); // This will only be true when the button is clicked the first time
+    
     uint8_t getAnalogHat(AnalogHat a); // Used to read the joystick of the Nunchuck
 
     double getPitch() { return pitch; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected

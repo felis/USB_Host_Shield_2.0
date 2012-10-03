@@ -379,6 +379,7 @@ void SPP::SDP_task() {
     {
         case L2CAP_SDP_WAIT:
             if (l2cap_connection_request_sdp_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONNECTION_SDP_REQUEST; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nSDP Incoming Connection Request"));
 #endif
@@ -393,6 +394,7 @@ void SPP::SDP_task() {
             break;
         case L2CAP_SDP_REQUEST:
             if (l2cap_config_request_sdp_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONFIG_SDP_REQUEST; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nSDP Configuration Request"));
 #endif                
@@ -402,6 +404,7 @@ void SPP::SDP_task() {
             break;
         case L2CAP_SDP_SUCCESS:
             if (l2cap_config_success_sdp_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONFIG_SDP_SUCCESS; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nSDP Successfully Configured"));
 #endif
@@ -412,12 +415,12 @@ void SPP::SDP_task() {
             break;
         case L2CAP_SDP_DONE:
             if(l2cap_disconnect_request_sdp_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_DISCONNECT_SDP_REQUEST; // Clear flag
                 SDPConnected = false;
 #ifdef DEBUG
                 Notify(PSTR("\r\nDisconnected SDP Channel"));
 #endif
-                pBtd->l2cap_disconnection_response(hci_handle,identifier,sdp_dcid,sdp_scid);
-                l2cap_event_flag = 0; // Reset flags
+                pBtd->l2cap_disconnection_response(hci_handle,identifier,sdp_dcid,sdp_scid);                
                 l2cap_sdp_state = L2CAP_SDP_WAIT;
             }
             break;
@@ -442,6 +445,7 @@ void SPP::RFCOMM_task()
     {
         case L2CAP_RFCOMM_WAIT:            
             if(l2cap_connection_request_rfcomm_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nRFCOMM Incoming Connection Request"));
 #endif
@@ -456,6 +460,7 @@ void SPP::RFCOMM_task()
             break;                    
         case L2CAP_RFCOMM_REQUEST:
             if (l2cap_config_request_rfcomm_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONFIG_RFCOMM_REQUEST; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nRFCOMM Configuration Request"));
 #endif
@@ -465,6 +470,7 @@ void SPP::RFCOMM_task()
             break;
         case L2CAP_RFCOMM_SUCCESS:
             if (l2cap_config_success_rfcomm_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS; // Clear flag
 #ifdef DEBUG
                 Notify(PSTR("\r\nRFCOMM Successfully Configured"));
 #endif                
@@ -476,13 +482,13 @@ void SPP::RFCOMM_task()
             break;            
         case L2CAP_RFCOMM_DONE:
             if(l2cap_disconnect_request_rfcomm_flag) {
+                l2cap_event_flag &= ~L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST; // Clear flag
                 RFCOMMConnected = false;
                 connected = false;
 #ifdef DEBUG
                 Notify(PSTR("\r\nDisconnected RFCOMM Channel"));
 #endif
                 pBtd->l2cap_disconnection_response(hci_handle,identifier,rfcomm_dcid,rfcomm_scid);
-                l2cap_event_flag = 0; // Reset flags
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
             }
             break;                    
@@ -789,8 +795,7 @@ void SPP::printNumber(uint16_t n) {
     else {
         uint8_t buf[digits];
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10; // Get number and convert to ASCII Character
-            buf[digits-i] += 48;
+            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
         }
         print(buf,digits);
@@ -808,8 +813,7 @@ void SPP::printNumberln(uint16_t n) {
     else {
         uint8_t buf[digits+2];
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10; // Get number and convert to ASCII Character
-            buf[digits-i] += 48;
+            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
         }
         buf[digits] = '\r';
