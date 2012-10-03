@@ -772,11 +772,7 @@ void WII::checkMotionPresent() {
 /************************************************************/
 
 bool WII::getButtonPress(Button b) { // Return true when a button is pressed
-    bool press = (ButtonState & (uint32_t)b);
-    if(b == Z || b == C)
-        return !press; // The nunchuck buttons are cleared when pressed
-    else
-        return press;
+    return (ButtonState & (uint32_t)b);
 }
 bool WII::getButtonClick(Button b) { // Only return true when a button is clicked
     bool click = (ButtonClickState & (uint32_t)b);
