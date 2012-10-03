@@ -37,15 +37,17 @@
 #define XBOX_INPUT_PIPE      1
 #define XBOX_OUTPUT_PIPE     2
 
-//PID and VID of the different devices
+// PID and VID of the different devices
 #define XBOX_VID                                0x045E  // Microsoft Corporation
 #define XBOX_WIRELESS_PID                       0x028F  // Wireless controller only support charging
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
 
+#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
+
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
 
-// used in control endpoint header for HID Commands
+// Used in control endpoint header for HID Commands
 #define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define HID_REQUEST_SET_REPORT      0x09
 

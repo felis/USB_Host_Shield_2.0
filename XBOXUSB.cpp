@@ -92,7 +92,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
     VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
     PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
     
-    if(VID != XBOX_VID) // We just check if it's a xbox controller using the Vendor ID
+    if(VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a xbox controller using the Vendor ID
         goto FailUnknownDevice;
     if(PID == XBOX_WIRELESS_PID) {
 #ifdef DEBUG
