@@ -165,11 +165,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
                                 ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
                             else if (nunchuckConnected) // Update if it's a report from the Nunchuck
-                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(l2capinbuf[20] & 0x0C) << 14));
+                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
                             //else if(classicControllerConnected) // Update if it's a report from the Classic Controller                                
                         }
                         else if(nunchuckConnected) // The Nunchuck is directly connected
-                            ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(l2capinbuf[20] & 0x03) << 16));
+                            ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x03) << 16));
                         //else if(classicControllerConnected) // The Classic Controller is directly connected
                         else if(!unknownExtensionConnected)
                             ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
@@ -178,9 +178,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         PrintHex<uint32_t>(ButtonState);
                         Notify(PSTR("\r\n"));
 #endif
-                        if(ButtonState != OldButtonState)
-                            ButtonClickState = ButtonState; // Update click state variable
-                        OldButtonState = ButtonState;
+                        if(ButtonState != OldButtonState) {                            
+                            ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+                            OldButtonState = ButtonState;
+                        }
                     }
                     if(l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x35) { // Read the accelerometer
                         accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5))-500;
@@ -249,11 +250,6 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     activateNunchuck = false;
                                     motionPlusConnected = true;
                                     nunchuckConnected = true;
-                                    
-                                    ButtonState |= (Z | C);
-                                    ButtonState |= ((Z | C)<<2);
-                                    ButtonClickState = ButtonState;
-                                    OldButtonState = ButtonState;
                                 }
 #ifdef DEBUG
                                 else {
@@ -571,13 +567,8 @@ void WII::Run() {
             break;
             
         case L2CAP_LED_STATE:
-            if(nunchuck_connected_flag) {
+            if(nunchuck_connected_flag)
                 nunchuckConnected = true;
-                ButtonState |= (Z | C); // Since the Nunchuck button are cleared when pressed we set the buttonstates like so
-                ButtonState |= ((Z | C)<<2); // And like this when it's connected since the bytes are shifter two to the left
-                ButtonClickState = ButtonState;
-                OldButtonState = ButtonState;
-            }            
             setLedOn(LED1);
             l2cap_state = L2CAP_DONE;
             break;            
@@ -607,10 +598,6 @@ void WII::Run() {
 #endif
                         activateNunchuck = true;
                         nunchuckConnected = true;
-                        ButtonState |= (Z | C); // Since the Nunchuck button are cleared when pressed we set the buttonstates like so
-                        ButtonState |= ((Z | C)<<2); // And like this when it's connected since the bytes are shifter two to the left
-                        ButtonClickState = ButtonState;
-                        OldButtonState = ButtonState;
                     }
                     if(!motionPlusConnected)
                         stateCounter = 449;
@@ -793,11 +780,7 @@ bool WII::getButtonPress(Button b) { // Return true when a button is pressed
 }
 bool WII::getButtonClick(Button b) { // Only return true when a button is clicked
     bool click = (ButtonClickState & (uint32_t)b);
-    if(b == Z || b == C) {
-        click = !click; // The nunchuck buttons are cleared when pressed
-        ButtonClickState |= (uint32_t)b;  // clear "click" event
-    } else
-        ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
     return click;
 }
 uint8_t WII::getAnalogHat(AnalogHat a) {

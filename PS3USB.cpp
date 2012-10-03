@@ -309,57 +309,43 @@ void PS3USB::readReport() {
     //PrintHex<uint32_t>(ButtonState);
     
     if(ButtonState != OldButtonState) {
-        buttonChanged = true;            
-        if(ButtonState != 0x00) {
-            buttonPressed = true; 
-            buttonReleased = false;
-        } else {
-            buttonPressed = false;
-            buttonReleased = true;
-        }
-    }     
-    else {
-        buttonChanged = false;
-        buttonPressed = false;
-        buttonReleased = false;
+        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+        OldButtonState = ButtonState;
     }
-    
-    OldButtonState = ButtonState; 
-}  
+}
 
 void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
     if (readBuf == NULL)
         return;
-    for(uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE;i++)    
-    {
+    for(uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE;i++) {
         PrintHex<uint8_t>(readBuf[i]);
         Serial.print(" ");
     }             
-    Serial.println("");
+    Serial.println();
 }
 
-bool PS3USB::getButton(Button b) {
-    if (readBuf == NULL)
-        return false;
-    if ((readBuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)) > 0)
-        return true;
-    else
-        return false;
+bool PS3USB::getButtonPress(Button b) {
+    return (ButtonState & (uint32_t)b);
+}
+bool PS3USB::getButtonClick(Button b) {
+    bool click = (ButtonClickState & (uint32_t)b);
+    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    return click;
 }
 uint8_t PS3USB::getAnalogButton(AnalogButton a) {
     if (readBuf == NULL)
         return 0;
-    return (uint8_t)(readBuf[(uint16_t)a]);
+    return (uint8_t)(readBuf[((uint16_t)a)-9]);
 }
 uint8_t PS3USB::getAnalogHat(AnalogHat a) {
     if (readBuf == NULL)
         return 0;                        
-    return (uint8_t)(readBuf[(uint16_t)a]);            
+    return (uint8_t)(readBuf[((uint16_t)a)-9]);
 }
 uint16_t PS3USB::getSensor(Sensor a) {
     if (readBuf == NULL)
         return 0;
-    return ((readBuf[(uint16_t)a] << 8) | readBuf[(uint16_t)a + 1]);    
+    return ((readBuf[((uint16_t)a)-9] << 8) | readBuf[((uint16_t)a + 1)-9]);
 }
 double PS3USB::getAngle(Angle a) {                
     if(PS3Connected) {
@@ -384,19 +370,17 @@ double PS3USB::getAngle(Angle a) {
             return angle;
         }
     } else
-        return 0;
-        
+        return 0;        
 }
 bool PS3USB::getStatus(Status c) {
     if (readBuf == NULL)
         return false;
-    if (readBuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff))
+    if (readBuf[((uint16_t)c >> 8)-9] == ((uint8_t)c & 0xff))
         return true;
     return false;
 }
 String PS3USB::getStatusString() {
-    if (PS3Connected || PS3NavigationConnected)
-    {
+    if (PS3Connected || PS3NavigationConnected) {
         char statusOutput[100];
         
         strcpy(statusOutput,"ConnectionStatus: ");
@@ -455,22 +439,17 @@ void PS3USB::setRumbleOn(Rumble mode) {
      * 5 - duration_left
      * 6 - power_left
      */
-    if ((mode & 0x30) > 0)
-    {
+    if ((mode & 0x30) > 0) {
         writeBuf[1] = 0xfe;
-        writeBuf[3] = 0xfe;
-        
-        if (mode == RumbleHigh)
-        {
+        writeBuf[3] = 0xfe;        
+        if (mode == RumbleHigh) {
             writeBuf[2] = 0;//low mode off
             writeBuf[4] = 0xff;//high mode on
         }
-        else
-        {
+        else {
             writeBuf[2] = 0xff;//low mode on
             writeBuf[4] = 0;//high mode off
         }
-        
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
     }
 }
@@ -498,8 +477,7 @@ void PS3USB::setBdaddr(uint8_t* BDADDR) {
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);      
 #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
-    for(int8_t i = 5; i > 0; i--)
-    {
+    for(int8_t i = 5; i > 0; i--) {
         PrintHex<uint8_t>(my_bdaddr[i]);
         Serial.print(":");
     }
@@ -560,8 +538,7 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
     pUsb->ctrlReq(bAddress,epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00,11,11, buf, NULL);   
 #ifdef DEBUG
     Notify(PSTR("\r\nBluetooth Address was set to: "));
-    for(int8_t i = 5; i > 0; i--)
-    {
+    for(int8_t i = 5; i > 0; i--) {
         PrintHex<uint8_t>(my_bdaddr[i]);
         Serial.print(":");
     }
