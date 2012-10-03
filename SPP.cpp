@@ -795,8 +795,7 @@ void SPP::printNumber(uint16_t n) {
     else {
         uint8_t buf[digits];
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10; // Get number and convert to ASCII Character
-            buf[digits-i] += 48;
+            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
         }
         print(buf,digits);
@@ -814,8 +813,7 @@ void SPP::printNumberln(uint16_t n) {
     else {
         uint8_t buf[digits+2];
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10; // Get number and convert to ASCII Character
-            buf[digits-i] += 48;
+            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
         }
         buf[digits] = '\r';
