@@ -81,18 +81,20 @@ uint8_t PS3BT::getAnalogHat(AnalogHat a) {
 int16_t PS3BT::getSensor(Sensor a) {
     if (l2capinbuf == NULL)
         return 0;
-    if (a == aX || a == aY || a == aZ || a == gZ)
-        return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
-    else if (a == mXmove || a == mYmove || a == mZmove) { // These are all 12-bits long
-        if (a == mXmove || a == mYmove)
+    if(PS3Connected) {
+        if (a == aX || a == aY || a == aZ || a == gZ)
+            return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
+        else
+            return 0;
+    } else if(PS3MoveConnected) {
+        if (a == mXmove || a == mYmove) // These are all 12-bits long
             return (((l2capinbuf[(uint16_t)a] & 0x0F) << 8) | (l2capinbuf[(uint16_t)a + 1]));
-        else // mZmove            
-            return ((l2capinbuf[(uint16_t)a] << 4) | (l2capinbuf[(uint16_t)a + 1] & 0xF0 ) >> 4);
-    }
-    else if (a == tempMove) // The tempearature is 12 bits long too
-        return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
-    else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
-        return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));
+        else if (a == mZmove || a == tempMove) // The tempearature is also 12 bits long
+            return ((l2capinbuf[(uint16_t)a] << 4) | ((l2capinbuf[(uint16_t)a + 1] & 0xF0) >> 4));
+        else // aXmove, aYmove, aZmove, gXmove, gYmove and gZmove
+            return (l2capinbuf[(uint16_t)a] | (l2capinbuf[(uint16_t)a + 1] << 8));        
+    } else
+        return 0;
 }
 double PS3BT::getAngle(Angle a) {
     double accXval;
@@ -125,27 +127,31 @@ double PS3BT::getAngle(Angle a) {
     }
 }
 double PS3BT::get9DOFValues(Sensor a) { // Thanks to Manfred Piendl
+    if(!PS3MoveConnected)
+        return 0;
     int16_t value = getSensor(a);
     if (a == mXmove || a == mYmove || a == mZmove) {
         if (value > 2047)
             value -= 0x1000;
         return (double)value/3.2;  // unit: muT = 10^(-6) Tesla
-    }
-    else if (a == aXmove || a == aYmove || a == aZmove) {
+    } else if (a == aXmove || a == aYmove || a == aZmove) {
         if (value < 0)
             value += 0x8000;
         else
             value -= 0x8000;
         return (double)value/442.0; // unit: m/(s^2)
-    }
-    else if (a == gXmove || a == gYmove || a == gZmove) {
+    } else if (a == gXmove || a == gYmove || a == gZmove) {
         if (value < 0)
             value += 0x8000;
         else
             value -= 0x8000;
-        return (double)value/9.6; // unit: deg/s
-    }
-    else
+        if (a == gXmove)
+            return (double)value/11.6; // unit: deg/s
+        else if (a == gYmove)
+            return (double)value/11.2; // unit: deg/s
+        else  // gZmove
+            return (double)value/9.6; // unit: deg/s
+    } else
         return 0;
 }
 String PS3BT::getTemperature() {
