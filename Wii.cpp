@@ -219,6 +219,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                                     nunchuckConnected = false; // It must be the Nunchuck controller then
                                     l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
+                                    setLedStatus();
                                     setReportMode(false,0x31); // If there is no extension connected we will read the button and accelerometer
                                 } else {
                                     setReportMode(false,0x31); // If there is no extension connected we will read the button and accelerometer                                    
@@ -569,7 +570,7 @@ void WII::Run() {
         case L2CAP_LED_STATE:
             if(nunchuck_connected_flag)
                 nunchuckConnected = true;
-            setLedOn(LED1);
+            setLedStatus();
             l2cap_state = L2CAP_DONE;
             break;            
             
@@ -616,6 +617,7 @@ void WII::Run() {
                 else if(stateCounter == 400)
                     readExtensionType(); // Check if it has been activated
                 else if(stateCounter == 450) {
+                    setLedStatus();
                     stateCounter = 0;
                     unknownExtensionConnected = false;
                 }
@@ -668,6 +670,18 @@ void WII::setLedOn(LED a) {
 void WII::setLedToggle(LED a) {
     HIDBuffer[1] = 0x11;
     HIDBuffer[2] ^= (uint8_t)a;
+    HID_Command(HIDBuffer, 3);
+}
+void WII::setLedStatus() {
+    HIDBuffer[1] = 0x11;
+    HIDBuffer[2] = 0;
+    if(wiimoteConnected)
+        HIDBuffer[2] |= 0x10; // If it's connected LED1 will light up
+    if(motionPlusConnected)
+        HIDBuffer[2] |= 0x20; // If it's connected LED2 will light up
+    if(nunchuckConnected)
+        HIDBuffer[2] |= 0x40; // If it's connected LED3 will light up
+
     HID_Command(HIDBuffer, 3);
 }
 void WII::setReportMode(bool continuous, uint8_t mode) {

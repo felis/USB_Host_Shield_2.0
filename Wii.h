@@ -127,6 +127,7 @@ public:
     void setLedOff(LED a);
     void setLedOn(LED a);
     void setLedToggle(LED a);
+    void setLedStatus(); // This will set the LEDs, so the user can see which connections are active
     
     bool wiimoteConnected; // Variable used to indicate if a Wiimote is connected
     bool nunchuckConnected; // Variable used to indicate if a Nunchuck controller is connected
