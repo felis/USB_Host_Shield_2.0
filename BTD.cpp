@@ -476,7 +476,7 @@ void BTD::HCI_event_task() {
             case EV_ENCRYPTION_CHANGE:
             case EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE:
                 break;
-#ifdef EXTRADEBUG                
+#ifdef EXTRADEBUG
             default:
                 if(hcibuf[0] != 0x00) {
                     Notify(PSTR("\r\nUnmanaged HCI Event: "));
@@ -667,7 +667,9 @@ void BTD::HCI_task() {
 #endif
                 l2capConnectionClaimed = false;
                 if(strncmp((const char *)remote_name, "Nintendo", 8) == 0) {
-                    Serial.print("\r\nWiimote is connecting");
+#ifdef DEBUG
+                    Notify(PSTR("\r\nWiimote is connecting"));
+#endif
                     incomingWii = true;
                 }
                 hci_event_flag = 0;
