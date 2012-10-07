@@ -22,19 +22,26 @@
 
 /* Bluetooth L2CAP states for L2CAP_task() */
 #define L2CAP_WAIT                      0
-#define L2CAP_CONTROL_CONNECT_REQUEST   1
-#define L2CAP_CONTROL_CONFIG_REQUEST    2
-#define L2CAP_INTERRUPT_CONNECT_REQUEST 3
-#define L2CAP_INTERRUPT_CONFIG_REQUEST  4
 
-#define L2CAP_CHECK_MOTION_PLUS_STATE   5
-#define L2CAP_CHECK_EXTENSION_STATE     6
-#define L2CAP_INIT_MOTION_PLUS_STATE    7
+// These states are used if the Wiimote is the host
+#define L2CAP_CONTROL_SUCCESS           1
+#define L2CAP_INTERRUPT_SETUP           2
 
-#define L2CAP_LED_STATE                 8
-#define L2CAP_DONE                      9
-#define L2CAP_INTERRUPT_DISCONNECT      10
-#define L2CAP_CONTROL_DISCONNECT        11
+// These states are used if the Arduino is the host
+#define L2CAP_CONTROL_CONNECT_REQUEST   3
+#define L2CAP_CONTROL_CONFIG_REQUEST    4
+#define L2CAP_INTERRUPT_CONNECT_REQUEST 5
+ 
+#define L2CAP_INTERRUPT_CONFIG_REQUEST  6
+
+#define L2CAP_CHECK_MOTION_PLUS_STATE   7
+#define L2CAP_CHECK_EXTENSION_STATE     8
+#define L2CAP_INIT_MOTION_PLUS_STATE    9
+#define L2CAP_LED_STATE                 10
+#define L2CAP_DONE                      11
+
+#define L2CAP_INTERRUPT_DISCONNECT      12
+#define L2CAP_CONTROL_DISCONNECT        13
 
 /* L2CAP event flags */
 #define L2CAP_FLAG_CONTROL_CONNECTED                0x001
@@ -43,6 +50,8 @@
 #define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS         0x008
 #define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE      0x040
 #define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE    0x080
+#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST       0x100
+#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST     0x200
 
 /* Macros for L2CAP event flag tests */
 #define l2cap_connected_control_flag (l2cap_event_flag & L2CAP_FLAG_CONTROL_CONNECTED)
@@ -51,13 +60,17 @@
 #define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
 #define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
 #define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
+#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
+#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
 
 /* Wii event flags */
-#define WII_FLAG_MOTION_PLUS_CONNECTED              0x100
-#define WII_FLAG_NUNCHUCK_CONNECTED                 0x200
+#define WII_FLAG_MOTION_PLUS_CONNECTED              0x400
+#define WII_FLAG_NUNCHUCK_CONNECTED                 0x800
 
 #define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
 #define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
+
+#define PAIR    1
 
 enum LED {
     LED1 = 0x10,
@@ -97,7 +110,7 @@ enum AnalogHat {
 
 class WII : public BluetoothService {
 public:
-    WII(BTD *pBtd, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0);
+    WII(BTD *p, bool pair=false);
     
     // BluetoothService implementation
     virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
