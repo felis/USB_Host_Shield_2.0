@@ -869,12 +869,12 @@ void BTD::hci_pin_code_request_reply() {
     hcibuf[8] = disc_bdaddr[5];    
     if(pairWithWii) {
         hcibuf[9] = 6; // Pin length is the length of the bt address
-        hcibuf[10] = disc_bdaddr[5]; // The pin is the Wiimotes bt address backwards
-        hcibuf[11] = disc_bdaddr[4];
-        hcibuf[12] = disc_bdaddr[3];
-        hcibuf[13] = disc_bdaddr[2];
-        hcibuf[14] = disc_bdaddr[1];
-        hcibuf[15] = disc_bdaddr[0];
+        hcibuf[10] = disc_bdaddr[0]; // The pin is the Wiimotes bt address backwards
+        hcibuf[11] = disc_bdaddr[1];
+        hcibuf[12] = disc_bdaddr[2];
+        hcibuf[13] = disc_bdaddr[3];
+        hcibuf[14] = disc_bdaddr[4];
+        hcibuf[15] = disc_bdaddr[5];
         for(uint8_t i = 16; i < 26; i++)
             hcibuf[i] = 0x00; // The rest should be 0
     } else {
