@@ -606,7 +606,6 @@ void BTD::HCI_task() {
                     Notify(PSTR("\r\nConnected to Wiimote"));
 #endif                    
                     hci_authentication_request(); // This will start the pairing with the wiimote
-                    //connectToWii = true;
                     hci_state = HCI_SCANNING_STATE;
                 } else {
 #ifdef DEBUG
@@ -666,7 +665,7 @@ void BTD::HCI_task() {
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
                 l2capConnectionClaimed = false;
-                if(strncmp((const char *)remote_name, "Nintendo", 8) == 0) {
+                if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
 #ifdef DEBUG
                     Notify(PSTR("\r\nWiimote is connecting"));
 #endif

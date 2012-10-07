@@ -612,7 +612,7 @@ void WII::Run() {
             }
             break;
             
-        case L2CAP_INIT_MOTION_PLUS_STATE: {
+        case L2CAP_INIT_MOTION_PLUS_STATE:
             stateCounter++;
             if(stateCounter == 1)
                 initMotionPlus();
@@ -626,15 +626,13 @@ void WII::Run() {
                 l2cap_state = L2CAP_LED_STATE;
             }
             break;
-        }
             
-        case L2CAP_LED_STATE: {
+        case L2CAP_LED_STATE:
             if(nunchuck_connected_flag)
                 nunchuckConnected = true;
             setLedStatus();
             l2cap_state = L2CAP_DONE;
-            break;            
-        }
+            break;
              
         case L2CAP_DONE:
             if(unknownExtensionConnected) {
