@@ -223,3 +223,4 @@ setRumbleToggle			KEYWORD2
 getPitch				KEYWORD2
 getRoll					KEYWORD2
 getYaw					KEYWORD2
+PAIR					KEYWORD2

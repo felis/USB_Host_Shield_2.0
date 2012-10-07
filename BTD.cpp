@@ -427,12 +427,18 @@ void BTD::HCI_event_task() {
                 break;
                 
             case EV_PIN_CODE_REQUEST:
-                if(btdPin != NULL) {
+                if(pairWithWii) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nPairing with wiimote"));
+#endif
+                    hci_pin_code_request_reply();                    
+                }
+                else if(btdPin != NULL) {
 #ifdef DEBUG
                     Notify(PSTR("\r\nBluetooth pin is set too: "));
                     Serial.print(btdPin);
 #endif
-                    hci_pin_code_request_reply(btdPin);
+                    hci_pin_code_request_reply();
                 }
                 else {
 #ifdef DEBUG
@@ -449,21 +455,28 @@ void BTD::HCI_event_task() {
                 hci_link_key_request_negative_reply();
                 break;
                 
-            /* We will just ignore the following events */                
+            case EV_AUTHENTICATION_COMPLETE:
+                if(pairWithWii && !connectToWii) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nPairing successful"));
+#endif
+                    connectToWii = true; // Only send the ACL data to the Wii service
+                }
+                break;
+            /* We will just ignore the following events */
             case EV_NUM_COMPLETE_PKT:                
             case EV_ROLE_CHANGED:                
             case EV_PAGE_SCAN_REP_MODE:                
             case EV_LOOPBACK_COMMAND:                
-            case EV_DATA_BUFFER_OVERFLOW:                
-            case EV_CHANGE_CONNECTION_LINK:                
-            case EV_AUTHENTICATION_COMPLETE:                
+            case EV_DATA_BUFFER_OVERFLOW:
+            case EV_CHANGE_CONNECTION_LINK:
             case EV_MAX_SLOTS_CHANGE:
             case EV_QOS_SETUP_COMPLETE:
             case EV_LINK_KEY_NOTIFICATION:
             case EV_ENCRYPTION_CHANGE:
             case EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE:
                 break;
-#ifdef EXTRADEBUG                
+#ifdef EXTRADEBUG
             default:
                 if(hcibuf[0] != 0x00) {
                     Notify(PSTR("\r\nUnmanaged HCI Event: "));
@@ -552,16 +565,12 @@ void BTD::HCI_task() {
             break;
             
         case HCI_CHECK_WII_SERVICE:
-            if(wiiServiceID != -1) { // Check if it should try to connect to a wiimote
-                if(disc_bdaddr[5] == 0 && disc_bdaddr[4] == 0 && disc_bdaddr[3] == 0 && disc_bdaddr[2] == 0 && disc_bdaddr[1] == 0 && disc_bdaddr[0] == 0) {
+            if(pairWithWii) { // Check if it should try to connect to a wiimote
 #ifdef DEBUG
-                    Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote"));
+                Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote"));
 #endif
-                    hci_inquiry();
-                    hci_state = HCI_INQUIRY_STATE;
-                }
-                else
-                    hci_state = HCI_CONNECT_WII_STATE;
+                hci_inquiry();
+                hci_state = HCI_INQUIRY_STATE;
             }
             else
                 hci_state = HCI_SCANNING_STATE; // Don't try to connect to a Wiimote
@@ -572,23 +581,16 @@ void BTD::HCI_task() {
                 hci_inquiry_cancel(); // Stop inquiry
 #ifdef DEBUG
                 Notify(PSTR("\r\nWiimote found"));
-                Notify(PSTR("\r\nCreate the instance like so to connect automatically:"));
-                Notify(PSTR("\r\nWII Wii(&Btd,"));
-                for(int8_t i = 5; i>0;i--) {
-                    Notify(PSTR("0x"));
-                    PrintHex<uint8_t>(disc_bdaddr[i]);
-                    Notify(PSTR(","));
-                }
-                Notify(PSTR("0x"));
-                PrintHex<uint8_t>(disc_bdaddr[0]);
-                Notify(PSTR(");"));
+                Notify(PSTR("\r\nNow just create the instance like so:"));
+                Notify(PSTR("\r\nWII Wii(&Btd);"));
+                Notify(PSTR("\r\nAnd then press any button on the Wiimote"));                
 #endif                                
                 hci_state = HCI_CONNECT_WII_STATE;
             }
             break;
             
         case HCI_CONNECT_WII_STATE:
-            if(!hci_wii_found || hci_cmd_complete) {
+            if(hci_cmd_complete) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nConnecting to Wiimote"));
 #endif            
@@ -602,8 +604,8 @@ void BTD::HCI_task() {
                 if(hci_connect_complete) {
 #ifdef DEBUG
                     Notify(PSTR("\r\nConnected to Wiimote"));
-#endif
-                    connectToWii = true; // Only send the ACL data to the Wii service
+#endif                    
+                    hci_authentication_request(); // This will start the pairing with the wiimote
                     hci_state = HCI_SCANNING_STATE;
                 } else {
 #ifdef DEBUG
@@ -615,7 +617,7 @@ void BTD::HCI_task() {
             break;
             
         case HCI_SCANNING_STATE:
-            if(!connectToWii) {
+            if(!connectToWii && !pairWithWii) {
 #ifdef DEBUG
                 Notify(PSTR("\r\nWait For Incoming Connection Request"));
 #endif            
@@ -663,6 +665,12 @@ void BTD::HCI_task() {
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
                 l2capConnectionClaimed = false;
+                if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nWiimote is connecting"));
+#endif
+                    incomingWii = true;
+                }
                 hci_event_flag = 0;
                 hci_state = HCI_DONE_STATE;
             }
@@ -849,7 +857,7 @@ void BTD::hci_connect() {
     
     HCI_Command(hcibuf, 16);
 }
-void BTD::hci_pin_code_request_reply(const char* key) {
+void BTD::hci_pin_code_request_reply() {
     hcibuf[0] = 0x0D; // HCI OCF = 0D
     hcibuf[1] = 0x01 << 2; // HCI OGF = 1
     hcibuf[2] = 0x17; // parameter length 23
@@ -858,13 +866,25 @@ void BTD::hci_pin_code_request_reply(const char* key) {
     hcibuf[5] = disc_bdaddr[2];
     hcibuf[6] = disc_bdaddr[3];
     hcibuf[7] = disc_bdaddr[4];
-    hcibuf[8] = disc_bdaddr[5];
-    hcibuf[9] = strlen(key); // Length of key
-    uint8_t i;
-    for(i = 0; i < strlen(key); i++) // The maximum size of the key is 16
-        hcibuf[i+10] = key[i];
-    for(;i < 16; i++)
-        hcibuf[i+10] = 0x00; // The rest should be 0
+    hcibuf[8] = disc_bdaddr[5];    
+    if(pairWithWii) {
+        hcibuf[9] = 6; // Pin length is the length of the bt address
+        hcibuf[10] = disc_bdaddr[0]; // The pin is the Wiimotes bt address backwards
+        hcibuf[11] = disc_bdaddr[1];
+        hcibuf[12] = disc_bdaddr[2];
+        hcibuf[13] = disc_bdaddr[3];
+        hcibuf[14] = disc_bdaddr[4];
+        hcibuf[15] = disc_bdaddr[5];
+        for(uint8_t i = 16; i < 26; i++)
+            hcibuf[i] = 0x00; // The rest should be 0
+    } else {
+        hcibuf[9] = strlen(btdPin); // Length of pin
+        uint8_t i;
+        for(i = 0; i < strlen(btdPin); i++) // The maximum size of the pin is 16
+            hcibuf[i+10] = btdPin[i];
+        for(;i < 16; i++)
+            hcibuf[i+10] = 0x00; // The rest should be 0
+    }
     
     HCI_Command(hcibuf, 26);
 }
@@ -893,6 +913,15 @@ void BTD::hci_link_key_request_negative_reply() {
     hcibuf[8] = disc_bdaddr[5];
     
     HCI_Command(hcibuf, 9);    
+}
+void BTD::hci_authentication_request() {
+    hcibuf[0] = 0x11; // HCI OCF = 11
+    hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+    hcibuf[2] = 0x02; // parameter length = 2
+    hcibuf[3] = (uint8_t)(hci_handle & 0xFF);//connection handle - low byte
+    hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F);//connection handle - high byte
+    
+    HCI_Command(hcibuf, 5);    
 }
 void BTD::hci_disconnect(uint16_t handle) { // This is called by the different services
     hci_event_flag &= ~HCI_FLAG_DISCONN_COMPLETE;
