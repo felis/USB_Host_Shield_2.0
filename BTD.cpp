@@ -456,7 +456,7 @@ void BTD::HCI_event_task() {
                 break;
                 
             case EV_AUTHENTICATION_COMPLETE:
-                if(pairWithWii) {
+                if(pairWithWii && !connectToWii) {
 #ifdef DEBUG
                     Notify(PSTR("\r\nPairing successful"));
 #endif
