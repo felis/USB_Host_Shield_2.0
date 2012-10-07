@@ -274,6 +274,12 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     activateNunchuck = false;
                                     motionPlusConnected = true;
                                     nunchuckConnected = true;
+                                } else if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
+#ifdef DEBUG
+                                    Notify(PSTR("\r\nInactive Wii Motion Plus"));
+                                    Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"));
+#endif
+                                    stateCounter = 300; // Skip the rest in "L2CAP_CHECK_MOTION_PLUS_STATE"
                                 }
 #ifdef DEBUG
                                 else {
