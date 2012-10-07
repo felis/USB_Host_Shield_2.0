@@ -43,6 +43,7 @@ void WII::Reset() {
     nunchuckConnected = false;
     motionPlusConnected = false;
     activateNunchuck = false;
+    motionValuesReset = false;
     l2cap_event_flag = 0; // Reset flags
     l2cap_state = L2CAP_WAIT;
 }
@@ -72,7 +73,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                 Notify(PSTR(" "));
                 PrintHex<uint8_t>(l2capinbuf[14]);
 #endif
-            }            
+            }
             else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
                     if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) { // Success

@@ -878,13 +878,14 @@ void BTD::hci_pin_code_request_reply() {
         for(uint8_t i = 16; i < 26; i++)
             hcibuf[i] = 0x00; // The rest should be 0
     } else {
-        hcibuf[9] = strlen(btdPin); // Length of key
+        hcibuf[9] = strlen(btdPin); // Length of pin
         uint8_t i;
-        for(i = 0; i < strlen(btdPin); i++) // The maximum size of the key is 16
+        for(i = 0; i < strlen(btdPin); i++) // The maximum size of the pin is 16
             hcibuf[i+10] = btdPin[i];
         for(;i < 16; i++)
             hcibuf[i+10] = 0x00; // The rest should be 0
     }
+    
     HCI_Command(hcibuf, 26);
 }
 void BTD::hci_pin_code_negative_request_reply() {
