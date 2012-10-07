@@ -44,7 +44,7 @@
 #define HCI_SET_NAME_STATE      4
 #define HCI_CHECK_WII_SERVICE   5
 
-#define HCI_INQUIRY_STATE       6 // These three states are only used if it should connect to a Wii controller
+#define HCI_INQUIRY_STATE       6 // These three states are only used if it should pair and connect to a Wii controller
 #define HCI_CONNECT_WII_STATE   7
 #define HCI_CONNECTED_WII_STATE 8
 
@@ -180,9 +180,12 @@ public:
     uint8_t disc_bdaddr[6]; // Last incoming devices Bluetooth address
     uint8_t remote_name[30]; // First 30 chars of last remote name
     uint8_t hci_version;
-    
+        
     int8_t wiiServiceID; // Stores the service ID of the Wii service
+    
     bool connectToWii; // Used to only send the ACL data to the wiimote
+    bool incomingWii;
+    bool pairWithWii;
     
     /* HCI Commands */
     void HCI_Command(uint8_t* data, uint16_t nbytes);
@@ -195,9 +198,10 @@ public:
     void hci_accept_connection();
     void hci_write_scan_disable();
     void hci_disconnect(uint16_t handle);
-    void hci_pin_code_request_reply(const char* key);
+    void hci_pin_code_request_reply();
     void hci_pin_code_negative_request_reply();
     void hci_link_key_request_negative_reply();
+    void hci_authentication_request();
     void hci_inquiry();
     void hci_inquiry_cancel();
     void hci_connect();
