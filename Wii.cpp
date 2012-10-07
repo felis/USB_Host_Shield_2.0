@@ -28,7 +28,7 @@ pBtd(p) // pointer to USB class instance - mandatory
     
     pBtd->pairWithWii = pair;
             
-    HIDBuffer[0] = 0xA2;// HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    HIDBuffer[0] = 0xA2;// HID BT DATA_request (0xA0) | Report Type (Output 0x02)
     
     /* Set device cid for the control and intterrupt channelse - LSB */
     control_dcid[0] = 0x60;//0x0060
