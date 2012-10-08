@@ -354,7 +354,17 @@ void BTD::HCI_event_task() {
                 }
                 break;
                 
-            case EV_INQUIRY_COMPLETE: // We don't use this for anything
+            case EV_INQUIRY_COMPLETE:
+                if(inquiry_counter >= 5) {
+                    inquiry_counter = 0;
+#ifdef DEBUG
+                    Notify(PSTR("\r\nCouldn't find Wiimote"));
+#endif
+                    connectToWii = false;
+                    pairWithWii = false;
+                    hci_state = HCI_SCANNING_STATE;                    
+                }
+                inquiry_counter++;
                 break;
                 
             case EV_INQUIRY_RESULT:

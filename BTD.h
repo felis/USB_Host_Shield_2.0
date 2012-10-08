@@ -243,7 +243,8 @@ private:
     uint8_t hci_state;  //current state of bluetooth hci connection
     uint16_t hci_counter; // counter used for bluetooth hci reset loops
     uint8_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
-    uint16_t hci_event_flag; // hci flags of received bluetooth events        
+    uint16_t hci_event_flag; // hci flags of received bluetooth events
+    uint8_t inquiry_counter;
            
     uint8_t hcibuf[BULK_MAXPKTSIZE];//General purpose buffer for hci data
     uint8_t l2capinbuf[BULK_MAXPKTSIZE];//General purpose buffer for l2cap in data
