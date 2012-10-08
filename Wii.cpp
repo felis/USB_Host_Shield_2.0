@@ -703,25 +703,21 @@ void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
 void WII::setAllOff() {
     HIDBuffer[1] = 0x11;
     HIDBuffer[2] = 0x00;
-    rumbleBit = 0x00;
     HID_Command(HIDBuffer, 3);
 }
 void WII::setRumbleOff() {
     HIDBuffer[1] = 0x11;
     HIDBuffer[2] &= ~0x01; // Bit 0 control the rumble
-    rumbleBit = 0x00;
     HID_Command(HIDBuffer, 3);    
 }
 void WII::setRumbleOn() {
     HIDBuffer[1] = 0x11;
     HIDBuffer[2] |= 0x01; // Bit 0 control the rumble
-    rumbleBit = 0x01;
     HID_Command(HIDBuffer, 3);
 }
 void WII::setRumbleToggle() {
     HIDBuffer[1] = 0x11;
     HIDBuffer[2] ^= 0x01; // Bit 0 control the rumble
-    rumbleBit ^= rumbleBit;
     HID_Command(HIDBuffer, 3);
 }
 void WII::setLedOff(LED a) {
@@ -741,7 +737,7 @@ void WII::setLedToggle(LED a) {
 }
 void WII::setLedStatus() {
     HIDBuffer[1] = 0x11;
-    HIDBuffer[2] = 0;
+    HIDBuffer[2] = (HIDBuffer[2] & 0x01); // Keep the rumble bit
     if(wiimoteConnected)
         HIDBuffer[2] |= 0x10; // If it's connected LED1 will light up
     if(motionPlusConnected)
@@ -753,20 +749,20 @@ void WII::setLedStatus() {
 }
 void WII::setReportMode(bool continuous, uint8_t mode) {
     uint8_t cmd_buf[4];
-    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
     cmd_buf[1] = 0x12;
     if(continuous)
-        cmd_buf[2] = 0x04 | rumbleBit;
+        cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01); // Keep the rumble bit
     else
-        cmd_buf[2] = 0x00 | rumbleBit;
+        cmd_buf[2] = 0x00 | (HIDBuffer[2] & 0x01); // Keep the rumble bit
     cmd_buf[3] = mode;
     HID_Command(cmd_buf, 4);
 }
 void WII::statusRequest() {
     uint8_t cmd_buf[3];
-    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
     cmd_buf[1] = 0x15;
-    cmd_buf[2] = rumbleBit;
+    cmd_buf[2] = (HIDBuffer[2] & 0x01); // Keep the rumble bit
     HID_Command(cmd_buf, 3);
 }
 
@@ -775,9 +771,9 @@ void WII::statusRequest() {
 /************************************************************/
 void WII::writeData(uint32_t offset, uint8_t size, uint8_t* data) {
     uint8_t cmd_buf[23];
-    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
     cmd_buf[1] = 0x16; // Write data
-    cmd_buf[2] = 0x04 | rumbleBit; // Write to memory, clear bit 2 to write to EEPROM
+    cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01); // Write to memory, clear bit 2 to write to EEPROM
     cmd_buf[3] = (uint8_t)((offset & 0xFF0000) >> 16);
     cmd_buf[4] = (uint8_t)((offset & 0xFF00) >> 8);
     cmd_buf[5] = (uint8_t)(offset & 0xFF);
@@ -824,12 +820,12 @@ void WII::activateMotionPlus() {
 }
 void WII::readData(uint32_t offset, uint16_t size, bool EEPROM) {
     uint8_t cmd_buf[8];
-    cmd_buf[0] = 0xA2; // HID BT DATA_request (0x50) | Report Type (Output 0x02)
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
     cmd_buf[1] = 0x17; // Read data
     if(EEPROM)
-        cmd_buf[2] = 0x00 | rumbleBit; // Read from EEPROM
+        cmd_buf[2] = 0x00 | (HIDBuffer[2] & 0x01); // Read from EEPROM
     else
-        cmd_buf[2] = 0x04 | rumbleBit; // Read from memory    
+        cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01); // Read from memory    
     cmd_buf[3] = (uint8_t)((offset & 0xFF0000) >> 16);
     cmd_buf[4] = (uint8_t)((offset & 0xFF00) >> 8);
     cmd_buf[5] = (uint8_t)(offset & 0xFF);

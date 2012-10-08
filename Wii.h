@@ -197,7 +197,6 @@ private:
     uint8_t hatValues[2];
     
     uint8_t HIDBuffer[3];// Used to store HID commands
-    uint8_t rumbleBit;
     
     uint16_t stateCounter;
     bool unknownExtensionConnected;
