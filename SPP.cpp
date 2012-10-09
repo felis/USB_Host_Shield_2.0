@@ -823,6 +823,8 @@ void SPP::printNumberln(uint16_t n) {
 }
 
 uint8_t SPP::read() {
+    if(rfcommAvailable == 0) // Don't read if there is nothing in the buffer
+        return 0;
     uint8_t output = rfcommDataBuffer[0];
     for(uint8_t i = 1; i < rfcommAvailable; i++)
         rfcommDataBuffer[i-1] = rfcommDataBuffer[i]; // Shift the buffer one left

@@ -120,6 +120,7 @@ public:
     
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer
+    void flush() { rfcommAvailable = 0; }; // Discard all the bytes in the buffer
     
 private:
     /* Bluetooth dongle library pointer */
