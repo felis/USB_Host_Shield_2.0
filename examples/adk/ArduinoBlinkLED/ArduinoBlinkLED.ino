@@ -1,4 +1,4 @@
-// The source for the Android application can be found at the following link: http://www.tkjelectronics.dk/uploads/ArduinoBlinkLED.zip
+// The source for the Android application can be found at the following link: https://github.com/Lauszus/ArduinoBlinkLED
 // The code for the Android application is heavily based on this guide: http://allaboutee.com/2011/12/31/arduino-adk-board-blink-an-led-with-your-phone-code-and-explanation/ by Miguel
 
 #include <Usb.h>
