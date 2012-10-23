@@ -115,8 +115,8 @@ public:
     void println(const __FlashStringHelper *); // Include newline and carriage return
     void println(void); // Use this to print newline and carriage return
     
-    void printNumber(uint16_t n); // These must be used to print numbers
-    void printNumberln(uint16_t n); // This will include newline and carriage return
+    void printNumber(int16_t n); // These must be used to print numbers
+    void printNumberln(int16_t n); // This will include newline and carriage return
     
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer

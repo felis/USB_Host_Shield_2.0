@@ -783,7 +783,12 @@ void SPP::println(void) {
 }
 
 /* These must be used to print numbers */
-void SPP::printNumber(uint16_t n) {
+void SPP::printNumber(int16_t n) {
+    bool negative = false;
+    if(n < 0) {
+        negative = true;
+        n = -n;
+    }        
     uint16_t temp = n;
     uint8_t digits = 0;
     while (temp) {
@@ -793,15 +798,27 @@ void SPP::printNumber(uint16_t n) {
     if(digits == 0)
         print("0");
     else {
-        uint8_t buf[digits];
+        uint8_t buf[digits+1]; // Add one extra in case it is negative
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
+            if(negative)
+                buf[digits-i+1] = n%10 + '0'; // Get number and convert to ASCII Character
+            else
+                buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
         }
-        print(buf,digits);
+        if(negative) {
+            buf[0] = '-';        
+            print(buf,digits+1);
+        } else
+            print(buf,digits);
     }
 }
-void SPP::printNumberln(uint16_t n) {
+void SPP::printNumberln(int16_t n) {
+    bool negative = false;
+    if(n < 0) {
+        negative = true;
+        n = -n;
+    }
     uint16_t temp = n;
     uint8_t digits = 0;
     while (temp) {
@@ -811,14 +828,24 @@ void SPP::printNumberln(uint16_t n) {
     if(digits == 0)
         print("0\r\n");
     else {
-        uint8_t buf[digits+2];
+        uint8_t buf[digits+3]; // Add one extra in case it is negative
         for(uint8_t i = 1; i < digits+1; i++) {
-            buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
+            if(negative)
+                buf[digits-i+1] = n%10 + '0'; // Get number and convert to ASCII Character
+            else
+                buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
             n /= 10;
+        }        
+        if(negative) {
+            buf[0] = '-';
+            buf[digits+1] = '\r';
+            buf[digits+2] = '\n';
+            print(buf,digits+3);
+        } else {
+            buf[digits] = '\r';
+            buf[digits+1] = '\n';
+            print(buf,digits+2);
         }
-        buf[digits] = '\r';
-        buf[digits+1] = '\n';
-        print(buf,digits+2);
     }
 }
 
