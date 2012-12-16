@@ -848,6 +848,46 @@ void SPP::printNumberln(int16_t n) {
         }
     }
 }
+void SPP::printNumber(double n, uint8_t digits) {
+    print(doubleToString(n,digits));
+}
+void SPP::printNumberln(double n, uint8_t digits) {
+    char buf[12];
+    strcpy(buf,doubleToString(n,digits));
+    strcat(buf,"\r\n");
+    print(buf);
+}
+const char* SPP::doubleToString(double input, uint8_t digits) {
+    char output[10];
+    char buffer[10];
+    if(input < 0) {
+        strcpy(output,"-");
+        input = -input;
+    }
+    else
+        strcpy(output,"");
+    
+    // Round correctly
+    double rounding = 0.5;
+    for (uint8_t i=0; i<digits; i++)
+        rounding /= 10.0;
+    input += rounding;
+    
+    unsigned long intpart = (unsigned long)input;
+    itoa(intpart,buffer,10); // Convert to string
+    strcat(output,buffer);
+    strcat(output,".");
+    double fractpart = (input-(double)intpart);
+    fractpart *= pow(10,digits);
+    for(uint8_t i=1;i<digits;i++) { // Put zeroes in front of number
+        if(fractpart < pow(10,digits-i)) {
+            strcat(output,"0");
+        }
+    }
+    itoa((unsigned long)fractpart,buffer,10); // Convert to string
+    strcat(output,buffer);
+    return output;
+}
 
 uint8_t SPP::read() {
     if(rfcommAvailable == 0) // Don't read if there is nothing in the buffer

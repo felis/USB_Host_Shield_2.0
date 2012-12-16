@@ -117,6 +117,10 @@ public:
     
     void printNumber(int16_t n); // These must be used to print numbers
     void printNumberln(int16_t n); // This will include newline and carriage return
+    void printNumber(double n, uint8_t digits = 2); // These must be used to print floating-point numbers
+    void printNumberln(double n, uint8_t digits = 2); // This will include newline and carriage return
+    
+    const char* doubleToString(double input, uint8_t digits); // Helper function to convert from double to string
     
     uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
     uint8_t read(); // Used to read the buffer
