@@ -743,7 +743,7 @@ void SPP::println(const String &str) {
     print(output);
 }
 void SPP::println(const char* data) {
-    char output[strlen(data)+2];
+    char output[strlen(data)+3];
     strcpy(output,data);
     strcat(output,"\r\n");
     print(output);
