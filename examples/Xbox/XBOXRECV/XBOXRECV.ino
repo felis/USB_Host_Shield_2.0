@@ -1,7 +1,7 @@
 /*
  Example sketch for the Xbox Wireless Reciver library - developed by Kristian Lauszus
- It supports up to four controllers
- For more information visit my blog: http://blog.tkjelectronics.dk/ or 
+ It supports up to four controllers wirelessly
+ For more information see the blog post: http://blog.tkjelectronics.dk/2012/12/xbox-360-receiver-added-to-the-usb-host-library/ or 
  send me an e-mail:  kristianl@tkjelectronics.com
  */
 
@@ -108,7 +108,3 @@ void loop() {
   }  
   delay(1);
 }
-
-
-
-
