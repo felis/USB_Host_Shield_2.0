@@ -32,7 +32,7 @@
 /* Endpoint types */
 #define EP_INTERRUPT        0x03
 
-/* Names we give to the 3 Xbox360 pipes */
+/* Names we give to the 9 Xbox360 pipes */
 #define XBOX_CONTROL_PIPE   0
 #define XBOX_INPUT_PIPE_1   1
 #define XBOX_OUTPUT_PIPE_1  2
@@ -49,10 +49,6 @@
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
 
 #define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
-
-// Used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT      0x09
 
 #define XBOX_MAX_ENDPOINTS   9
 
@@ -113,12 +109,18 @@ public:
     virtual uint8_t GetAddress() { return bAddress; };
     virtual bool isReady() { return bPollEnable; };
     
-    /* XBOX Controller Readings */
+    /* 
+     Xbox Controller Readings.
+     getButtonPress will return true as long as the button is held down
+     While getButtonClick will only return it once
+     So for instance if you need to increase a variable once you would use getButtonClick,
+     but if you need to drive a robot forward you would use getButtonPress
+    */
     uint8_t getButtonPress(uint8_t controller, Button b);
     bool getButtonClick(uint8_t controller, Button b);
     int16_t getAnalogHat(uint8_t controller, AnalogHat a);
     
-    /* Commands for Dualshock 3 and Navigation controller */
+    /* Xbox Controller Command */
     void setAllOff(uint8_t controller) { setRumbleOn(controller,0,0); setLedOff(controller); };
     void setRumbleOff(uint8_t controller) { setRumbleOn(controller,0,0); };
     void setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue);
@@ -128,11 +130,11 @@ public:
     void setLedBlink(uint8_t controller, LED l);
     void setLedMode(uint8_t controller, LEDMode lm);
     
-    bool XboxReceiverConnected;
-    bool Xbox360Connected[4];// Variable used to indicate if the XBOX 360 controller is successfully connected
+    bool XboxReceiverConnected; // True if a wireless receiver is connected
+    bool Xbox360Connected[4]; // Variable used to indicate if the XBOX 360 controller is successfully connected
     
 protected:           
-    /* mandatory members */
+    /* Mandatory members */
     USB *pUsb;
     uint8_t	bAddress; // device address
     EpInfo epInfo[XBOX_MAX_ENDPOINTS]; //endpoint info structure
@@ -140,12 +142,13 @@ protected:
 private:    
     bool bPollEnable;    
 
+    /* Variables to store the buttons */
     uint32_t ButtonState[4];
     uint32_t OldButtonState[4];
     uint16_t ButtonClickState[4];
     int16_t hatValue[4][4];
     
-    bool L2Clicked;
+    bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
     bool R2Clicked;
     
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
