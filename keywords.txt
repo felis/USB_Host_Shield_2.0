@@ -147,7 +147,7 @@ RumbleHigh	LITERAL1
 RumbleLow	LITERAL1
 
 ####################################################
-# Syntax Coloring Map For Xbox 360 USB Library
+# Syntax Coloring Map For Xbox 360 Libraries
 ####################################################
 
 ####################################################
@@ -155,14 +155,18 @@ RumbleLow	LITERAL1
 ####################################################
 
 XBOXUSB				KEYWORD1
+XBOXRECV			KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
 
-setLedBlink			KEYWORD2
-setLedMode			KEYWORD2
-Xbox360Connected	KEYWORD2
+setLedRaw				KEYWORD2
+setLedBlink				KEYWORD2
+setLedMode				KEYWORD2
+
+XboxReceiverConnected	KEYWORD2
+Xbox360Connected		KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
@@ -178,6 +182,7 @@ ALTERNATING			LITERAL1
 BACK				LITERAL1
 
 XBOX				LITERAL1
+SYNC				LITERAL1
 
 A					LITERAL1
 B					LITERAL1
