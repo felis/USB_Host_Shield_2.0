@@ -47,34 +47,87 @@ void MouseReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *bu
 
 void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
 {
+
 	// On error - return
 	if (buf[2] == 1)
 		return;
-
+		
 	KBDINFO	*pki = (KBDINFO*)buf;
 
 	for (uint8_t i=2; i<8; i++)
 	{
-		bool down = false;
-		bool up	  = false;
+		bool down = true;
+		bool up	  = true;
 
 		for (uint8_t j=2; j<8; j++)
 		{
-			if (buf[i] == prevState.bInfo[j] && buf[i] != 1)
-				down = true;
-			if (buf[j] == prevState.bInfo[i] && prevState.bInfo[i] != 1)
-				up = true;
-		}
-		if (!down)
+			if (buf[i] == prevState.bInfo[j] && buf[i] != 1)	// if at least one of the keys are the same
+				down = false;									// as the previous state, then it could not 
+																// have been pressed again
+			if (buf[j] == prevState.bInfo[i] && prevState.bInfo[i] != 1)	// if any of the keys in the previous
+				up = false;													// is found now, then it has not been
+		}																	// released
+			
+		if (down)
 		{
 			HandleLockingKeys(hid, buf[i]);
 			OnKeyDown(*buf, buf[i]);
-		}
-		if (!up)
+			}
+		if (up)
+		{
 			OnKeyUp(prevState.bInfo[0], prevState.bInfo[i]);
+		}
 	}
+
+	// handle modifier keys
+	if ( (buf[0] & 0x01) > (prevState.bInfo[0] & 0x01))		// left CTRL was pressed
+		OnKeyDown (*buf, 0xe0);
+	if ( (buf[0] & 0x01) < (prevState.bInfo[0] & 0x01))		// left CTRL was release
+		OnKeyUp (prevState.bInfo[0], 0xe0);
+
+	if ( (buf[0] & 0x02) > (prevState.bInfo[0] & 0x02))		// left SHIFT was pressed
+		OnKeyDown (*buf, 0xe1);
+	if ( (buf[0] & 0x02) < (prevState.bInfo[0] & 0x02))		// left SHIFT was release
+		OnKeyUp (prevState.bInfo[0], 0xe1);
+		
+	if ( (buf[0] & 0x04) > (prevState.bInfo[0] & 0x04))		// left ALT was pressed
+		OnKeyDown (*buf, 0xe2);
+	if ( (buf[0] & 0x04) < (prevState.bInfo[0] & 0x04))		// left ALT was release
+		OnKeyUp (prevState.bInfo[0], 0xe2);
+		
+	if ( (buf[0] & 0x08) > (prevState.bInfo[0] & 0x08))		// left GUI was pressed
+		OnKeyDown (*buf, 0xe3);
+	if ( (buf[0] & 0x08) < (prevState.bInfo[0] & 0x08))		// left GUI was release
+		OnKeyUp (prevState.bInfo[0], 0xe3);
+
+	if ( (buf[0] & 0x10) > (prevState.bInfo[0] & 0x10))		// right CTRL was pressed
+		OnKeyDown (*buf, 0xe4);
+	if ( (buf[0] & 0x10) < (prevState.bInfo[0] & 0x10))		// right CTRL was release
+		OnKeyUp (prevState.bInfo[0], 0xe4);
+
+	if ( (buf[0] & 0x20) > (prevState.bInfo[0] & 0x20))		// right SHIFT was pressed
+		OnKeyDown (*buf, 0xe5);
+	if ( (buf[0] & 0x20) < (prevState.bInfo[0] & 0x20))		// right SHIFT was release
+		OnKeyUp (prevState.bInfo[0], 0xe5);
+		
+	if ( (buf[0] & 0x40) > (prevState.bInfo[0] & 0x40))		// right ALT was pressed
+		OnKeyDown (*buf, 0xe6);
+	if ( (buf[0] & 0x40) < (prevState.bInfo[0] & 0x40))		// right ALT was release
+		OnKeyUp (prevState.bInfo[0], 0xe6);
+		
+	if ( (buf[0] & 0x80) > (prevState.bInfo[0] & 0x80))		// right GUI was pressed
+		OnKeyDown (*buf, 0xe7);
+	if ( (buf[0] & 0x80) < (prevState.bInfo[0] & 0x80))		// right GUI was release
+		OnKeyUp (prevState.bInfo[0], 0xe7);
+
+
+
+
+	/*
 	for (uint8_t i=0; i<8; i++)
 		prevState.bInfo[i] = buf[i];
+	*/
+	memcpy(prevState.bInfo, buf, 8);		// potentially faster than the loop? code seems to compile smaller also
 };
 
 uint8_t KeyboardReportParser::HandleLockingKeys(HID *hid, uint8_t key)
