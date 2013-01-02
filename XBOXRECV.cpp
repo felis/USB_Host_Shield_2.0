@@ -208,12 +208,10 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         goto FailSetConf;        
 
 #ifdef DEBUG
-    Notify(PSTR("\r\nXbox Wireless Receiver Connected"));
+    Notify(PSTR("\r\nXbox Wireless Receiver Connected\r\n"));
 #endif
     XboxReceiverConnected = true;
-
     bPollEnable = true;
-    Notify(PSTR("\r\n"));
     return 0; // successful configuration
     
     /* diagnostic messages */  
@@ -281,6 +279,7 @@ uint8_t XBOXRECV::Poll() {
             default:
                 break;
         }
+        delay(1);
         if(BUFFER_SIZE > 0) {
 #ifdef EXTRADEBUG
             Notify(PSTR("Bytes Received: "));
@@ -301,10 +300,14 @@ void XBOXRECV::readReport(uint8_t controller) {
         return;
     if(readBuf[0] == 0x08) { // This report is send when a controller is connected and disconnected
         Xbox360Connected[controller] = (bool)(readBuf[1] == 0x80);
+#ifdef DEBUG
         Notify(PSTR("Controller "));
         Serial.print(controller);
+#endif
         if(Xbox360Connected[controller]) {
+#ifdef DEBUG
             Notify(PSTR(": connected\r\n"));
+#endif
             switch (controller) {
                 case 0:
                     setLedOn(controller,LED1);
@@ -320,8 +323,10 @@ void XBOXRECV::readReport(uint8_t controller) {
                     break;
             }
         }
+#ifdef DEBUG
         else
             Notify(PSTR(": disconnected\r\n"));
+#endif
         return;
     }
     if(readBuf[1] != 0x01) // Check if it's the correct report - the receiver also sends different status reports
@@ -350,6 +355,7 @@ void XBOXRECV::readReport(uint8_t controller) {
 }
 
 void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+#ifdef (DEBUG || PRINTREPORT)
     if (readBuf == NULL)
         return;
     Notify(PSTR("Controller "));
@@ -360,6 +366,7 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
         Serial.print(" ");
     }
     Serial.println();
+#endif
 }
 uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
     if(b == L2) // These are analog buttons
