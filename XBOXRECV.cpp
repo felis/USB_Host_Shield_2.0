@@ -279,7 +279,6 @@ uint8_t XBOXRECV::Poll() {
             default:
                 break;
         }
-        delay(1);
         if(BUFFER_SIZE > 0) {
 #ifdef EXTRADEBUG
             Notify(PSTR("Bytes Received: "));
