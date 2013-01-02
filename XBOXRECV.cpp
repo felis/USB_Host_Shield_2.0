@@ -355,7 +355,7 @@ void XBOXRECV::readReport(uint8_t controller) {
 }
 
 void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
-#ifdef (DEBUG || PRINTREPORT)
+#if defined(DEBUG) || defined(PRINTREPORT)
     if (readBuf == NULL)
         return;
     Notify(PSTR("Controller "));
