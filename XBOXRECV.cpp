@@ -261,8 +261,8 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {    
 	if (!bPollEnable)
 		return 0;
-    uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
     for(uint8_t i=0;i<4;i++) {
+        uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
         switch (i) {
             case 0:
                 pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE_1 ].epAddr, &BUFFER_SIZE, readBuf);
