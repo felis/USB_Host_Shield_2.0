@@ -148,8 +148,8 @@ private:
     uint16_t ButtonClickState[4];
     int16_t hatValue[4][4];
     
-    bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
-    bool R2Clicked;
+    bool L2Clicked[4]; // These buttons are analog, so we use we use these bools to check if they where clicked or not
+    bool R2Clicked[4];
     
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
     uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data

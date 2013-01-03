@@ -346,15 +346,15 @@ void XBOXRECV::readReport(uint8_t controller) {
     if(ButtonState[controller] != OldButtonState[controller]) {
         ButtonClickState[controller] = (ButtonState[controller] >> 16) & ((~OldButtonState[controller]) >> 16); // Update click state variable, but don't include the two trigger buttons L2 and R2
         if(((uint8_t)OldButtonState[controller]) == 0 && ((uint8_t)ButtonState[controller]) != 0) // The L2 and R2 buttons are special as they are analog buttons
-            R2Clicked = true;
+            R2Clicked[controller] = true;
         if((uint8_t)(OldButtonState[controller] >> 8) == 0 && (uint8_t)(ButtonState[controller] >> 8) != 0)
-            L2Clicked = true;
+            L2Clicked[controller] = true;
         OldButtonState[controller] = ButtonState[controller];
     }
 }
 
 void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
-#if defined(DEBUG) || defined(PRINTREPORT)
+#if defined(PRINTREPORT)
     if (readBuf == NULL)
         return;
     Notify(PSTR("Controller "));
@@ -376,15 +376,15 @@ uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
 }
 bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
     if(b == L2) {
-        if(L2Clicked) {
-            L2Clicked = false;
+        if(L2Clicked[controller]) {
+            L2Clicked[controller] = false;
             return true;
         }
         return false;
     }
     else if(b== R2) {
-        if(R2Clicked) {
-            R2Clicked = false;
+        if(R2Clicked[controller]) {
+            R2Clicked[controller] = false;
             return true;
         }
         return false;
