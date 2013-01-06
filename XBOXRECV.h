@@ -13,6 +13,8 @@
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
+
+ getBatteryLevel and checkStatus functions made by timstamp.co.uk found using BusHound from Perisoft.net
  */
 
 #ifndef _xboxrecv_h_
@@ -129,9 +131,10 @@ public:
     void setLedOn(uint8_t controller, LED l);
     void setLedBlink(uint8_t controller, LED l);
     void setLedMode(uint8_t controller, LEDMode lm);
+    uint8_t getBatteryLevel(uint8_t controller); // Returns the battery level in percentage in 25% steps
     
     bool XboxReceiverConnected; // True if a wireless receiver is connected
-    bool Xbox360Connected[4]; // Variable used to indicate if the XBOX 360 controller is successfully connected
+    uint8_t Xbox360Connected[4]; // Variable used to indicate if the XBOX 360 controller is successfully connected
     
 protected:           
     /* Mandatory members */
@@ -147,9 +150,12 @@ private:
     uint32_t OldButtonState[4];
     uint16_t ButtonClickState[4];
     int16_t hatValue[4][4];
+    uint16_t controllerStatus[4];
     
     bool L2Clicked[4]; // These buttons are analog, so we use we use these bools to check if they where clicked or not
     bool R2Clicked[4];
+
+    unsigned long timer; // Timing for checkStatus() signals
     
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
     uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
@@ -159,5 +165,6 @@ private:
 
     /* Private commands */
     void XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes);
+    void checkStatus();
 };
 #endif

@@ -13,6 +13,8 @@
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
+
+ getBatteryLevel and checkStatus functions made by timstamp.co.uk found using BusHound from Perisoft.net
  */
 
 #include "XBOXRECV.h"
@@ -252,7 +254,7 @@ Fail:
 uint8_t XBOXRECV::Release() {
     XboxReceiverConnected = false;
     for(uint8_t i=0;i<4;i++)
-        Xbox360Connected[i] = false;
+        Xbox360Connected[i] = 0x00;
 	pUsb->GetAddressPool().FreeAddress(bAddress);    
 	bAddress = 0;
     bPollEnable = false;
@@ -261,33 +263,30 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {    
 	if (!bPollEnable)
 		return 0;
-    for(uint8_t i=0;i<4;i++) {
-        uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
+    if(!timer || ((millis() - timer) > 3000)) { // Run checkStatus every 3 seconds
+        timer = millis();
+        checkStatus();
+    }
+    uint8_t inputPipe;
+    uint16_t bufferSize;
+    for(uint8_t i=0;i<4;i++) {        
         switch (i) {
-            case 0:
-                pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE_1 ].epAddr, &BUFFER_SIZE, readBuf);
-                break;
-            case 1:
-                pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE_2 ].epAddr, &BUFFER_SIZE, readBuf);
-                break;
-            case 2:
-                pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE_3 ].epAddr, &BUFFER_SIZE, readBuf);
-                break;
-            case 3:
-                pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE_4 ].epAddr, &BUFFER_SIZE, readBuf);
-                break;                
-            default:
-                break;
+            case 0: inputPipe = XBOX_INPUT_PIPE_1; break;
+            case 1: inputPipe = XBOX_INPUT_PIPE_2; break;
+            case 2: inputPipe = XBOX_INPUT_PIPE_3; break;
+            case 3: inputPipe = XBOX_INPUT_PIPE_4; break;
         }
-        if(BUFFER_SIZE > 0) {
+        bufferSize = EP_MAXPKTSIZE; // This is the maximum number of bytes we want to receive
+        pUsb->inTransfer(bAddress, epInfo[ inputPipe ].epAddr, &bufferSize, readBuf);
+        if(bufferSize > 0) { // The number of received bytes
 #ifdef EXTRADEBUG
             Notify(PSTR("Bytes Received: "));
-            Serial.print(BUFFER_SIZE);
+            Serial.print(bufferSize);
             Notify(PSTR("\r\n"));
 #endif
             readReport(i);
 #ifdef PRINTREPORT
-            printReport(i,BUFFER_SIZE); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+            printReport(i,bufferSize); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
 #endif            
         }
     }
@@ -297,30 +296,32 @@ uint8_t XBOXRECV::Poll() {
 void XBOXRECV::readReport(uint8_t controller) {
     if (readBuf == NULL)
         return;
-    if(readBuf[0] == 0x08) { // This report is send when a controller is connected and disconnected
-        Xbox360Connected[controller] = (bool)(readBuf[1] == 0x80);
+    // This report is send when a controller is connected and disconnected
+    if(readBuf[0] == 0x08 && readBuf[1] != Xbox360Connected[controller]) {
+        Xbox360Connected[controller] = readBuf[1];
 #ifdef DEBUG
         Notify(PSTR("Controller "));
         Serial.print(controller);
 #endif
         if(Xbox360Connected[controller]) {
 #ifdef DEBUG
-            Notify(PSTR(": connected\r\n"));
+            char* str = 0;
+            switch(readBuf[1]) {
+                case 0x80: str = PSTR(" as controller\r\n"); break;
+                case 0x40: str = PSTR(" as headset\r\n"); break;
+                case 0xC0: str = PSTR(" as controller+headset\r\n"); break;
+            }            
+            Notify(PSTR(": connected"));
+            Notify(str);
 #endif
+            LED led;
             switch (controller) {
-                case 0:
-                    setLedOn(controller,LED1);
-                    break;
-                case 1:
-                    setLedOn(controller,LED2);
-                    break;
-                case 2:
-                    setLedOn(controller,LED3);
-                    break;
-                case 3:
-                    setLedOn(controller,LED4);
-                    break;
+                case 0: led = LED1; break;
+                case 1: led = LED2; break;
+                case 2: led = LED3; break;
+                case 3: led = LED4; break;
             }
+            setLedOn(controller,led);
         }
 #ifdef DEBUG
         else
@@ -328,17 +329,24 @@ void XBOXRECV::readReport(uint8_t controller) {
 #endif
         return;
     }
+    // Controller status report
+    if(readBuf[1] == 0x00 && readBuf[3] & 0x13 && readBuf[4] >= 0x22) {
+        controllerStatus[controller] = ((uint16_t)readBuf[3] << 8) | readBuf[4];
+        return;
+    }
     if(readBuf[1] != 0x01) // Check if it's the correct report - the receiver also sends different status reports
         return;
     
-    Xbox360Connected[controller] = true; // A controller must be connected if it's sending data
+    // A controller must be connected if it's sending data
+    if(!Xbox360Connected[controller])
+        Xbox360Connected[controller] |= 0x80;
 
     ButtonState[controller] = (uint32_t)(readBuf[9] | ((uint16_t)readBuf[8] << 8) | ((uint32_t)readBuf[7] << 16) | ((uint32_t)readBuf[6] << 24));
     
-    hatValue[controller][0] = (int16_t)(((uint16_t)readBuf[11] << 8) | readBuf[10]);
-    hatValue[controller][1] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
-    hatValue[controller][2] = (int16_t)(((uint16_t)readBuf[15] << 8) | readBuf[14]);
-    hatValue[controller][3] = (int16_t)(((uint16_t)readBuf[17] << 8) | readBuf[16]);
+    hatValue[controller][LeftHatX] = (int16_t)(((uint16_t)readBuf[11] << 8) | readBuf[10]);
+    hatValue[controller][LeftHatY] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
+    hatValue[controller][RightHatX] = (int16_t)(((uint16_t)readBuf[15] << 8) | readBuf[14]);
+    hatValue[controller][RightHatY] = (int16_t)(((uint16_t)readBuf[17] << 8) | readBuf[16]);
     
     //Notify(PSTR("\r\nButtonState: "));
     //PrintHex<uint32_t>(ButtonState[controller]);
@@ -396,25 +404,48 @@ bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
 int16_t XBOXRECV::getAnalogHat(uint8_t controller, AnalogHat a) {
     return hatValue[controller][a];
 }
+/*
+ControllerStatus Breakdown
+    ControllerStatus[controller] & 0x0001   // 0
+    ControllerStatus[controller] & 0x0002   // normal batteries, no rechargeable battery pack
+    ControllerStatus[controller] & 0x0004   // controller starting up / settling
+    ControllerStatus[controller] & 0x0008   // headset adapter plugged in, but no headphones connected (mute?)
+    ControllerStatus[controller] & 0x0010   // 0
+    ControllerStatus[controller] & 0x0020   // 1
+    ControllerStatus[controller] & 0x0040   // battery level (high bit)
+    ControllerStatus[controller] & 0x0080   // battery level (low bit)
+    ControllerStatus[controller] & 0x0100   // 1
+    ControllerStatus[controller] & 0x0200   // 1
+    ControllerStatus[controller] & 0x0400   // headset adapter plugged in
+    ControllerStatus[controller] & 0x0800   // 0
+    ControllerStatus[controller] & 0x1000   // 1
+    ControllerStatus[controller] & 0x2000   // 0
+    ControllerStatus[controller] & 0x4000   // 0
+    ControllerStatus[controller] & 0x8000   // 0
+*/
+uint8_t XBOXRECV::getBatteryLevel(uint8_t controller) {
+    if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x3)
+        return 100;
+    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x2)
+        return 67;
+    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x1)
+        return 33;
+    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x0)
+        return 0;
+    else
+        return -1;
+}
 
 void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
     uint8_t rcode;
+    uint8_t outputPipe;
     switch (controller) {
-        case 0:
-            rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_OUTPUT_PIPE_1 ].epAddr, nbytes, data);
-            break;
-        case 1:
-            rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_OUTPUT_PIPE_2 ].epAddr, nbytes, data);
-            break;
-        case 2:
-            rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_OUTPUT_PIPE_3 ].epAddr, nbytes, data);
-            break;
-        case 3:
-            rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_OUTPUT_PIPE_4 ].epAddr, nbytes, data);
-            break;
-        default:
-            break;
+        case 0: outputPipe = XBOX_OUTPUT_PIPE_1; break;
+        case 1: outputPipe = XBOX_OUTPUT_PIPE_2; break;
+        case 2: outputPipe = XBOX_OUTPUT_PIPE_3; break;
+        case 3: outputPipe = XBOX_OUTPUT_PIPE_4; break;
     }
+    rcode = pUsb->outTransfer(bAddress, epInfo[ outputPipe ].epAddr, nbytes, data);
 #ifdef EXTRADEBUG
     if(rcode)
         Notify(PSTR("Error sending Xbox message\r\n"));
@@ -424,32 +455,46 @@ void XBOXRECV::setLedRaw(uint8_t controller, uint8_t value) {
     writeBuf[0] = 0x00;
     writeBuf[1] = 0x00;
     writeBuf[2] = 0x08;
-    writeBuf[3] = value+0x40;
-    writeBuf[4] = 0x00;
-    writeBuf[5] = 0x00;
-    writeBuf[6] = 0x00;
-    writeBuf[7] = 0x00;
-    writeBuf[8] = 0x00;
-    writeBuf[9] = 0x00;
-    writeBuf[10] = 0x00;
-    writeBuf[11] = 0x00;
+    writeBuf[3] = value | 0x40;
     
-    for(uint8_t i=0;i<10;i++) { // This small hack is needed for some reason as the controller doesn't always respond to the command
-        XboxCommand(controller, writeBuf, 12);
-        delay(1);
+    XboxCommand(controller, writeBuf, 4);
+}
+void XBOXRECV::setLedOn(uint8_t controller, LED led) {
+    if(led != ALL) // All LEDs can't be on a the same time
+        setLedRaw(controller,((uint8_t)led)+4);
+}
+void XBOXRECV::setLedBlink(uint8_t controller, LED led) {
+    setLedRaw(controller,(uint8_t)led);
+}
+void XBOXRECV::setLedMode(uint8_t controller, LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
+    setLedRaw(controller,(uint8_t)ledMode);
+}
+/* PC runs this at interval of approx 2 seconds 
+Thanks to BusHound from Perisoft.net for the Windows USB Analysis output
+Found by timstamp.co.uk
+*/
+void XBOXRECV::checkStatus() {
+    if(!bPollEnable) 
+        return;
+    // Get controller info
+    writeBuf[0] = 0x08;
+    writeBuf[1] = 0x00;
+    writeBuf[2] = 0x0f;
+    writeBuf[3] = 0xc0;
+    for(uint8_t i=0; i<4; i++) {
+        XboxCommand(i, writeBuf, 4);
+    }
+    // Get battery status
+    writeBuf[0] = 0x00;
+    writeBuf[1] = 0x00;
+    writeBuf[2] = 0x00;
+    writeBuf[3] = 0x40;
+    for(uint8_t i=0; i<4; i++) {
+        if(Xbox360Connected[i])
+            XboxCommand(i, writeBuf, 4);
     }
 }
-void XBOXRECV::setLedOn(uint8_t controller, LED l) {
-    if(l == ALL) // All LEDs can't be on a the same time
-        return;
-    setLedRaw(controller,((uint8_t)l)+4);
-}
-void XBOXRECV::setLedBlink(uint8_t controller, LED l) {
-    setLedRaw(controller,(uint8_t)l);
-}
-void XBOXRECV::setLedMode(uint8_t controller, LEDMode lm) { // This function is used to do some speciel LED stuff the controller supports
-    setLedRaw(controller,(uint8_t)lm);
-}
+
 void XBOXRECV::setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue) {
     writeBuf[0] = 0x00;
     writeBuf[1] = 0x01;
@@ -458,11 +503,6 @@ void XBOXRECV::setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue) {
     writeBuf[4] = 0x00;
     writeBuf[5] = lValue; // big weight
     writeBuf[6] = rValue; // small weight
-    writeBuf[7] = 0x00;
-    writeBuf[8] = 0x00;
-    writeBuf[9] = 0x00;
-    writeBuf[10] = 0x00;
-    writeBuf[11] = 0x00;
     
-    XboxCommand(controller, writeBuf, 12);
+    XboxCommand(controller, writeBuf, 7);
 }
