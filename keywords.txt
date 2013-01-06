@@ -164,6 +164,7 @@ XBOXRECV			KEYWORD1
 setLedRaw				KEYWORD2
 setLedBlink				KEYWORD2
 setLedMode				KEYWORD2
+getBatteryLevel			KEYWORD2
 
 XboxReceiverConnected	KEYWORD2
 Xbox360Connected		KEYWORD2
