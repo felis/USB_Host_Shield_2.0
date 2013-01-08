@@ -352,6 +352,7 @@ void XBOXRECV::readReport(uint8_t controller) {
     //PrintHex<uint32_t>(ButtonState[controller]);
     
     if(ButtonState[controller] != OldButtonState[controller]) {
+        buttonStateChanged[controller] = true;
         ButtonClickState[controller] = (ButtonState[controller] >> 16) & ((~OldButtonState[controller]) >> 16); // Update click state variable, but don't include the two trigger buttons L2 and R2
         if(((uint8_t)OldButtonState[controller]) == 0 && ((uint8_t)ButtonState[controller]) != 0) // The L2 and R2 buttons are special as they are analog buttons
             R2Clicked[controller] = true;
@@ -404,6 +405,11 @@ bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
 int16_t XBOXRECV::getAnalogHat(uint8_t controller, AnalogHat a) {
     return hatValue[controller][a];
 }
+bool XBOXRECV::buttonChanged(uint8_t controller) {
+    bool state = buttonStateChanged[controller];
+    buttonStateChanged[controller] = false;
+    return state;
+}
 /*
 ControllerStatus Breakdown
     ControllerStatus[controller] & 0x0001   // 0
@@ -424,16 +430,10 @@ ControllerStatus Breakdown
     ControllerStatus[controller] & 0x8000   // 0
 */
 uint8_t XBOXRECV::getBatteryLevel(uint8_t controller) {
-    if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x3)
-        return 100;
-    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x2)
-        return 67;
-    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x1)
-        return 33;
-    else if(((controllerStatus[controller] & 0x00C0) >> 6) == 0x0)
-        return 0;
-    else
-        return -1;
+    uint8_t batteryLevel = ((controllerStatus[controller] & 0x00C0) >> 6) * 33;
+    if(batteryLevel == 99)
+        batteryLevel = 100;                     
+    return batteryLevel;    
 }
 
 void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {

@@ -131,7 +131,8 @@ public:
     void setLedOn(uint8_t controller, LED l);
     void setLedBlink(uint8_t controller, LED l);
     void setLedMode(uint8_t controller, LEDMode lm);
-    uint8_t getBatteryLevel(uint8_t controller); // Returns the battery level in percentage in 25% steps
+    uint8_t getBatteryLevel(uint8_t controller); // Returns the battery level in percentage in 33% steps
+    bool buttonChanged(uint8_t controller);
     
     bool XboxReceiverConnected; // True if a wireless receiver is connected
     uint8_t Xbox360Connected[4]; // Variable used to indicate if the XBOX 360 controller is successfully connected
@@ -151,6 +152,7 @@ private:
     uint16_t ButtonClickState[4];
     int16_t hatValue[4][4];
     uint16_t controllerStatus[4];
+    bool buttonStateChanged[4]; // True if a button has changed
     
     bool L2Clicked[4]; // These buttons are analog, so we use we use these bools to check if they where clicked or not
     bool R2Clicked[4];

@@ -165,6 +165,7 @@ setLedRaw				KEYWORD2
 setLedBlink				KEYWORD2
 setLedMode				KEYWORD2
 getBatteryLevel			KEYWORD2
+buttonChanged			KEYWORD2
 
 XboxReceiverConnected	KEYWORD2
 Xbox360Connected		KEYWORD2
