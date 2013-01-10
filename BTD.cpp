@@ -375,6 +375,10 @@ void BTD::HCI_event_task() {
 #endif
                     for(uint8_t i = 0; i < hcibuf[2]; i++) {
                         if((hcibuf[4+8*hcibuf[2]+3*i] == 0x04 && hcibuf[5+8*hcibuf[2]+3*i] == 0x25 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00) || (hcibuf[4+8*hcibuf[2]+3*i] == 0x08 && hcibuf[5+8*hcibuf[2]+3*i] == 0x05 && hcibuf[6+8*hcibuf[2]+3*i] == 0x00)) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html and http://wiibrew.org/wiki/Wiimote#SDP_information
+                            if(hcibuf[4+8*hcibuf[2]+3*i] == 0x08) // Check if it's the new Wiimote with motion plus inside that was detected
+                                motionPlusInside = true;
+                            else
+                                motionPlusInside = false;
                             disc_bdaddr[0] = hcibuf[3+6*i];
                             disc_bdaddr[1] = hcibuf[4+6*i];
                             disc_bdaddr[2] = hcibuf[5+6*i];
@@ -591,6 +595,8 @@ void BTD::HCI_task() {
                 hci_inquiry_cancel(); // Stop inquiry
 #ifdef DEBUG
                 Notify(PSTR("\r\nWiimote found"));
+                if(motionPlusInside)
+                    Notify(PSTR(" with Motion Plus Inside"));
                 Notify(PSTR("\r\nNow just create the instance like so:"));
                 Notify(PSTR("\r\nWII Wii(&Btd);"));
                 Notify(PSTR("\r\nAnd then press any button on the Wiimote"));                
@@ -679,6 +685,14 @@ void BTD::HCI_task() {
 #ifdef DEBUG
                     Notify(PSTR("\r\nWiimote is connecting"));
 #endif
+                    if(strncmp((const char*)remote_name, "Nintendo RVL-CNT-01-TR", 22) == 0) {
+#ifdef DEBUG
+                        Notify(PSTR(" with Motion Plus Inside"));
+#endif
+                        motionPlusInside = true;
+                    } else
+                        motionPlusInside = false;
+
                     incomingWii = true;
                 }
                 hci_event_flag = 0;

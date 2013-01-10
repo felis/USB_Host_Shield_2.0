@@ -53,6 +53,7 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
     pBtd->l2cap_disconnection_request(hci_handle,0x0A, interrupt_scid, interrupt_dcid);
     Reset();
     l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
+    pBtd->motionPlusInside = false;
 }
 
 void WII::ACLData(uint8_t* l2capinbuf) {
@@ -252,29 +253,29 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         case 0x21: // Read Memory Data
                             if((l2capinbuf[12] & 0x0F) == 0) { // No error
                                 // See: http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-                                if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) { 
+                                if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) { 
 #ifdef DEBUG
                                     Notify(PSTR("\r\nNunchuck connected"));
 #endif
                                     l2cap_event_flag |= WII_FLAG_NUNCHUCK_CONNECTED;                                    
-                                } else if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x05) {
+                                } else if(l2capinbuf[16] == 0x00 && (l2capinbuf[17] == 0xA6 || l2capinbuf[17] == 0xA4) && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG
                                     Notify(PSTR("\r\nMotion Plus connected"));
 #endif
                                     l2cap_event_flag |= WII_FLAG_MOTION_PLUS_CONNECTED;
-                                } else if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x05) {
+                                } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG
                                     Notify(PSTR("\r\nMotion Plus activated in normal mode"));
 #endif
                                     motionPlusConnected = true;
-                                } else if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
+                                } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG
                                     Notify(PSTR("\r\nMotion Plus activated in Nunchuck pass-through mode"));
 #endif
                                     activateNunchuck = false;
                                     motionPlusConnected = true;
                                     nunchuckConnected = true;
-                                } else if(l2capinbuf[15] == 0x00 && l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
+                                } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG
                                     Notify(PSTR("\r\nInactive Wii Motion Plus"));
                                     Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"));
@@ -571,7 +572,7 @@ void WII::Run() {
                 Notify(PSTR("\r\nChecking if a Motion Plus is connected"));
 #endif
             stateCounter++;
-            if(stateCounter%100 == 0)
+            if(stateCounter%200 == 0)
                 checkMotionPresent(); // Check if there is a motion plus connected
             if(motion_plus_connected_flag) {
                 stateCounter = 0;
@@ -586,7 +587,7 @@ void WII::Run() {
                 }
                 
             }
-            else if(stateCounter == 301) { // We will try three times to check for the motion plus
+            else if(stateCounter == 601) { // We will try three times to check for the motion plus
 #ifdef DEBUG                
                 Notify(PSTR("\r\nNo Motion Plus was detected"));
 #endif
@@ -609,7 +610,7 @@ void WII::Run() {
                 else
                     stateCounter = 399;
             } else if(stateCounter == 200)
-                    initExtension2();
+                initExtension2();
             else if(stateCounter == 300) {
                 readExtensionType();
                 unknownExtensionConnected = false;
@@ -698,7 +699,10 @@ void WII::Run() {
 /*                    HID Commands                          */
 /************************************************************/
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
-    pBtd->L2CAP_Command(hci_handle,data,nbytes,control_scid[0],control_scid[1]); // Both the Navigation and Dualshock controller sends data via the control channel
+    if(pBtd->motionPlusInside)
+        pBtd->L2CAP_Command(hci_handle,data,nbytes,interrupt_scid[0],interrupt_scid[1]); // It's the new wiimote with the Motion Plus Inside
+    else
+        pBtd->L2CAP_Command(hci_handle,data,nbytes,control_scid[0],control_scid[1]);
 }
 void WII::setAllOff() {
     HIDBuffer[1] = 0x11;

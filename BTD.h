@@ -186,6 +186,7 @@ public:
     bool connectToWii; // Used to only send the ACL data to the wiimote
     bool incomingWii;
     bool pairWithWii;
+    bool motionPlusInside; // True if it's the new Wiimote with the Motion Plus Inside
     
     /* HCI Commands */
     void HCI_Command(uint8_t* data, uint16_t nbytes);
