@@ -13,12 +13,18 @@
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
+
+ For IR camera:
+ Allan Glover
+ adglover9.81@gmail.com
  */
 
 #ifndef _wii_h_
 #define _wii_h_
 
 #include "BTD.h"
+
+//#define WIICAMERA //uncomment to enable IR camera
 
 /* Bluetooth L2CAP states for L2CAP_task() */
 #define L2CAP_WAIT                      0
@@ -177,6 +183,41 @@ public:
     int16_t gyroYawZero; // These values are set when the controller is first initialized
     int16_t gyroRollZero;
     int16_t gyroPitchZero;
+
+    /******************************************************************/
+    /*************These are functions for IR camera *******************/
+    /******************************************************************/
+#ifdef WIICAMERA
+    void IRinitialize(); //Initialises the camera as per the steps from http://wiibrew.org/wiki/Wiimote#IR_Camera
+    void EnableIRCamera1(); //Sets bit 2 of output report 13 
+    void EnableIRCamera2(); //Sets bit 2 of output report 1A
+    void WriteSensitivityBlock1();
+    void WriteSensitivityBlock2();
+    void write0x08Value();
+    void setWIIModeNumber(uint8_t* mode_number);
+    
+    
+    int8_t IR_state; //stores the value in l2capinbuf[12] (0x08 means IR enabled)
+    int16_t IR_object_x1; // IR x position data 10 bits
+    int16_t IR_object_y1;  //IR y position data 10 bits
+    int8_t IR_object_s1; // IR size value
+    int16_t IR_object_x2;
+    int16_t IR_object_y2;
+    int8_t IR_object_s2;
+
+    int16_t getIRx1() { return IR_object_x1; }; //IR object 1 x position (0-1023)
+    int16_t getIRy1() { return IR_object_y1; }; //IR object 1 y position (0-767)
+    int8_t getIRs1() { return IR_object_s1; }; //IR object 1 size (0-15)
+
+    int16_t getIRx2() { return IR_object_x2; };
+    int16_t getIRy2() { return IR_object_y2; };
+    int8_t getIRs2() { return IR_object_s2; };
+#endif
+/***********************************************************************/
+
+    /* HID Command */
+    void statusRequest();
+    
     
 private:
     /* Mandatory members */
