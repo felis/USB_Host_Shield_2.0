@@ -13,6 +13,11 @@
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
+
+  For IR camera:
+ Allan Glover
+ adglover9.81@gmail.com
+
  */
 
 #include "Wii.h"
@@ -184,7 +189,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
             //Serial.print("\r\nL2CAP Interrupt");
             if(wiimoteConnected) {
                 if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
-                    if(l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) { // These reports include the buttons
+                    if(l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37 || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
                         if(motionPlusConnected) {
                             if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
                                 ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
@@ -214,6 +219,36 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         wiiMotePitch = (atan2(accY,accZ)+PI)*RAD_TO_DEG;
                         wiiMoteRoll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
                     }
+
+					//**** Wii Camera****//
+
+					if(l2capinbuf[9] == 0x33){ //Read the IR data
+
+						IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
+						IR_object_y1 = (l2capinbuf[16] | ((uint16_t)(l2capinbuf[17] & 0xC0) << 2)); // y position
+						IR_object_s1 = (l2capinbuf[17] & 0x0F); // size value, 0-15
+
+						IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
+						IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
+						IR_object_s2 = (l2capinbuf[20] & 0x0F);
+					}
+
+					/**** for reading in full mode: DOES NOT WORK YET ****/
+					/* When it works it will also have intensity and bounding box data */
+					/*
+					if(l2capinbuf[9] == 0x3e){
+						IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
+						IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
+						IR_object_s1 = (l2capinbuf[15] & 0x0F);
+					}
+					if(l2capinbuf[9] == 0x3f){
+						IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
+						IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
+						IR_object_s1 = (l2capinbuf[15] & 0x0F);
+						//setReportMode(false, 0x3e);
+					}
+					*/
+/*************************************************************/    
                     switch (l2capinbuf[9]) {
                         case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV                            
                             if(l2capinbuf[12] & 0x02) { // Check if a extension is connected
@@ -318,8 +353,18 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             roll = wiiMoteRoll;
                             break;
                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+						case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB EE EE EE EE EE EE EE EE
+							break;
                         case 0x34: // Core Buttons with 19 Extension bytes - (a1) 34 BB BB EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
                             break;
+							// 0x3e and 0x3f both give unknown report types when report mode is 0x3e or 0x3f with mode number 0x05
+						case 0x3E: // Core Buttons with Accelerometer and 32 IR bytes
+								   // (a1) 31 BB BB AA AA AA II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II 
+								   // corresponds to output report mode 0x3e
+							//setReportMode(false, 0x3f);
+							break;
+						case 0x3F:
+							break;
                         case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
                             // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE                             
                             if(motionPlusConnected) {
@@ -870,4 +915,113 @@ uint8_t WII::getAnalogHat(AnalogHat a) {
         else
             return output;
     }
+}
+
+
+/*****************************************************/
+/*The following functions are for the IR camera */
+/*****************************************************/
+
+
+void WII::IRinitialize(){ //Turns on and initialises the IR camera
+	
+		EnableIRCamera1();
+#ifdef DEBUG
+		Notify(PSTR("\r\nEnable IR Camera1 Complete"));
+#endif
+		delay(80);
+		
+		EnableIRCamera2();
+#ifdef DEBUG
+		Notify(PSTR("\r\nEnable IR Camera2 Complete"));
+#endif
+		delay(80);
+	
+		write0x08Value();
+#ifdef DEBUG
+		Notify(PSTR("\r\nWrote hex number 0x08"));
+#endif
+		delay(80);
+		
+		WriteSensitivityBlock1();
+#ifdef DEBUG
+		Notify(PSTR("\r\nWrote Sensitivity Block 1"));
+#endif
+		delay(80);
+		
+		WriteSensitivityBlock2();
+#ifdef DEBUG
+		Notify(PSTR("\r\nWrote Sensitivity Block 2"));
+#endif
+		delay(80);
+
+		uint8_t mode_num[] = {0x03};
+		setWIIModeNumber(mode_num); //change input for whatever mode you want i.e. 0x01, 0x03, or 0x05
+#ifdef DEBUG
+		Notify(PSTR("\r\nSet Wii Mode Number To 0x"));
+		PrintHex<uint8_t>(mode_num[0]);
+#endif
+		delay(80);
+	
+		write0x08Value();
+#ifdef DEBUG
+		Notify(PSTR("\r\nWrote Hex Number 0x08"));
+#endif
+		delay(80);
+
+		setReportMode(false, 0x33); //note wiiMotePitch won't return values anymore because it uses output report 0x31 or 0x35
+		//setReportMode(false, 0x3f); //for full reporting mode, doesn't work
+#ifdef DEBUG
+		Notify(PSTR("\r\nSet Report Mode to 0x33"));
+#endif
+
+		Notify(PSTR("\r\nIR enabled and Initialized"));
+}
+
+void WII::EnableIRCamera1(){
+	uint8_t cmd_buf[3];
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
+    cmd_buf[1] = 0x13; //output report 13
+    cmd_buf[2] = 0x04;  // Keep the rumble bit and sets bit 2 
+    HID_Command(cmd_buf, 3);
+}
+
+void WII::EnableIRCamera2(){
+	uint8_t cmd_buf[3];
+    cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
+    cmd_buf[1] = 0x1A; //output report 13
+    cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01); // Keep the rumble bit and sets bit 2 
+    HID_Command(cmd_buf, 3);
+}
+
+void WII::WriteSensitivityBlock1(){
+	uint8_t buf[9];
+	buf[0] = 0x00;
+	buf[1] = 0x00;
+	buf[2] = 0x00;
+	buf[3] = 0x00;
+	buf[4] = 0x00;
+	buf[5] = 0x00;
+	buf[6] = 0x90;
+	buf[7] = 0x00;
+	buf[8] = 0x41;
+
+	writeData(0xB00000, 9, buf);
+}
+
+void WII::WriteSensitivityBlock2(){
+	uint8_t buf[2];
+	buf[0] = 0x40;
+	buf[1] = 0x00;
+
+	writeData(0xB0001A, 2, buf);
+}
+
+void WII::write0x08Value(){
+	uint8_t Value[]={0x08};
+	writeData(0xb00030, 1, Value);
+}
+
+void WII::setWIIModeNumber(uint8_t* mode_number){ //mode_number in hex i.e. 0x03 for mode extended mode
+	writeData(0xb00033,1,mode_number);
 }
