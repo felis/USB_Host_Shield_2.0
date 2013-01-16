@@ -12,6 +12,9 @@ wire up a IR LED yourself.
 */
 
 #include <Wii.h>
+#ifndef WIICAMERA // Used to check if WIICAMERA is defined
+#error "Uncomment WIICAMERA in Wii.h to use this example"
+#endif
 USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
