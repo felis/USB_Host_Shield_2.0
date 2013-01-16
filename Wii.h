@@ -196,7 +196,6 @@ public:
     void write0x08Value();
     void setWIIModeNumber(uint8_t* mode_number);
     
-    
     int8_t IR_state; //stores the value in l2capinbuf[12] (0x08 means IR enabled)
     int16_t IR_object_x1; // IR x position data 10 bits
     int16_t IR_object_y1;  //IR y position data 10 bits
