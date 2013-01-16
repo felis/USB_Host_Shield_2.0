@@ -914,15 +914,15 @@ uint8_t WII::getAnalogHat(AnalogHat a) {
 
 #ifdef WIICAMERA
 
-void WII::IRinitialize(){ //Turns on and initialises the IR camera
+void WII::IRinitialize(){ // Turns on and initialises the IR camera
     
-        EnableIRCamera1();
+        enableIRCamera1();
 #ifdef DEBUG
         Notify(PSTR("\r\nEnable IR Camera1 Complete"));
 #endif
         delay(80);
         
-        EnableIRCamera2();
+        enableIRCamera2();
 #ifdef DEBUG
         Notify(PSTR("\r\nEnable IR Camera2 Complete"));
 #endif
@@ -934,23 +934,23 @@ void WII::IRinitialize(){ //Turns on and initialises the IR camera
 #endif
         delay(80);
         
-        WriteSensitivityBlock1();
+        writeSensitivityBlock1();
 #ifdef DEBUG
         Notify(PSTR("\r\nWrote Sensitivity Block 1"));
 #endif
         delay(80);
         
-        WriteSensitivityBlock2();
+        writeSensitivityBlock2();
 #ifdef DEBUG
         Notify(PSTR("\r\nWrote Sensitivity Block 2"));
 #endif
         delay(80);
 
-        uint8_t mode_num[] = {0x03};
-        setWIIModeNumber(mode_num); //change input for whatever mode you want i.e. 0x01, 0x03, or 0x05
+        uint8_t mode_num = 0x03;
+        setWiiModeNumber(mode_num); // Change input for whatever mode you want i.e. 0x01, 0x03, or 0x05
 #ifdef DEBUG
         Notify(PSTR("\r\nSet Wii Mode Number To 0x"));
-        PrintHex<uint8_t>(mode_num[0]);
+        PrintHex<uint8_t>(mode_num);
 #endif
         delay(80);
     
@@ -960,8 +960,8 @@ void WII::IRinitialize(){ //Turns on and initialises the IR camera
 #endif
         delay(80);
 
-        setReportMode(false, 0x33); //note wiiMotePitch won't return values anymore because it uses output report 0x31 or 0x35
-        //setReportMode(false, 0x3f); //for full reporting mode, doesn't work
+        setReportMode(false, 0x33); // Note wiiMotePitch won't return values anymore because it uses output report 0x31 or 0x35
+        //setReportMode(false, 0x3f); // For full reporting mode, doesn't work yet
 #ifdef DEBUG
         Notify(PSTR("\r\nSet Report Mode to 0x33"));
 #endif
@@ -969,23 +969,23 @@ void WII::IRinitialize(){ //Turns on and initialises the IR camera
         Notify(PSTR("\r\nIR enabled and Initialized"));
 }
 
-void WII::EnableIRCamera1(){
+void WII::enableIRCamera1(){
     uint8_t cmd_buf[3];
     cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
-    cmd_buf[1] = 0x13; //output report 13
+    cmd_buf[1] = 0x13; // Output report 13
     cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01);  // Keep the rumble bit and sets bit 2 
     HID_Command(cmd_buf, 3);
 }
 
-void WII::EnableIRCamera2(){
+void WII::enableIRCamera2(){
     uint8_t cmd_buf[3];
     cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
-    cmd_buf[1] = 0x1A; //output report 1A
+    cmd_buf[1] = 0x1A; // Output report 1A
     cmd_buf[2] = 0x04 | (HIDBuffer[2] & 0x01); // Keep the rumble bit and sets bit 2 
     HID_Command(cmd_buf, 3);
 }
 
-void WII::WriteSensitivityBlock1(){
+void WII::writeSensitivityBlock1(){
     uint8_t buf[9];
     buf[0] = 0x00;
     buf[1] = 0x00;
@@ -1000,7 +1000,7 @@ void WII::WriteSensitivityBlock1(){
     writeData(0xB00000, 9, buf);
 }
 
-void WII::WriteSensitivityBlock2(){
+void WII::writeSensitivityBlock2(){
     uint8_t buf[2];
     buf[0] = 0x40;
     buf[1] = 0x00;
@@ -1009,11 +1009,11 @@ void WII::WriteSensitivityBlock2(){
 }
 
 void WII::write0x08Value(){
-    uint8_t Value[]={0x08};
-    writeData(0xb00030, 1, Value);
+    uint8_t cmd = 0x08;
+    writeData(0xb00030, 1, &cmd);
 }
 
-void WII::setWIIModeNumber(uint8_t* mode_number){ //mode_number in hex i.e. 0x03 for mode extended mode
-    writeData(0xb00033,1,mode_number);
+void WII::setWiiModeNumber(uint8_t mode_number){ //mode_number in hex i.e. 0x03 for mode extended mode
+    writeData(0xb00033,1,&mode_number);
 }
 #endif

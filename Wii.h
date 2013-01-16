@@ -186,27 +186,13 @@ public:
 
     void statusRequest();
 
-    /* These are functions for the IR camera */
 #ifdef WIICAMERA
-    void IRinitialize(); //Initialises the camera as per the steps from http://wiibrew.org/wiki/Wiimote#IR_Camera
-    void EnableIRCamera1(); //Sets bit 2 of output report 13 
-    void EnableIRCamera2(); //Sets bit 2 of output report 1A
-    void WriteSensitivityBlock1();
-    void WriteSensitivityBlock2();
-    void write0x08Value();
-    void setWIIModeNumber(uint8_t* mode_number);
-    
-    int8_t IR_state; //stores the value in l2capinbuf[12] (0x08 means IR enabled)
-    int16_t IR_object_x1; // IR x position data 10 bits
-    int16_t IR_object_y1;  //IR y position data 10 bits
-    int8_t IR_object_s1; // IR size value
-    int16_t IR_object_x2;
-    int16_t IR_object_y2;
-    int8_t IR_object_s2;
+    /* These are functions for the IR camera */
+    void IRinitialize(); // Initialises the camera as per the steps from http://wiibrew.org/wiki/Wiimote#IR_Camera    
 
-    int16_t getIRx1() { return IR_object_x1; }; //IR object 1 x position (0-1023)
-    int16_t getIRy1() { return IR_object_y1; }; //IR object 1 y position (0-767)
-    int8_t getIRs1() { return IR_object_s1; }; //IR object 1 size (0-15)
+    int16_t getIRx1() { return IR_object_x1; }; // IR object 1 x position (0-1023)
+    int16_t getIRy1() { return IR_object_y1; }; // IR object 1 y position (0-767)
+    int8_t getIRs1() { return IR_object_s1; }; // IR object 1 size (0-15)
 
     int16_t getIRx2() { return IR_object_x2; };
     int16_t getIRy2() { return IR_object_y2; };
@@ -265,6 +251,24 @@ private:
     
     bool activateNunchuck;
     bool motionValuesReset; // This bool is true when the gyro values has been reset
-    unsigned long timer;   
+    unsigned long timer;
+    
+#ifdef WIICAMERA
+    /* Private function and variables for the readings from teh IR Camera */
+    void enableIRCamera1(); // Sets bit 2 of output report 13 
+    void enableIRCamera2(); // Sets bit 2 of output report 1A
+    void writeSensitivityBlock1();
+    void writeSensitivityBlock2();
+    void write0x08Value();
+    void setWiiModeNumber(uint8_t mode_number);
+
+    int8_t IR_state; //stores the value in l2capinbuf[12] (0x08 means IR enabled)
+    int16_t IR_object_x1; // IR x position data 10 bits
+    int16_t IR_object_y1;  //IR y position data 10 bits
+    int8_t IR_object_s1; // IR size value
+    int16_t IR_object_x2;
+    int16_t IR_object_y2;
+    int8_t IR_object_s2;
+#endif
 };
 #endif
