@@ -269,6 +269,7 @@ void XBOXUSB::readReport() {
 }  
 
 void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+#ifdef PRINTREPORT
     if (readBuf == NULL)
         return;
     for(uint8_t i = 0; i < XBOX_REPORT_BUFFER_SIZE;i++) {
@@ -276,6 +277,7 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
         Serial.print(" ");
     }             
     Serial.println("");
+#endif    
 }
 
 uint8_t XBOXUSB::getButton(Button b) {

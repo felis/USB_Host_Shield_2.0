@@ -315,6 +315,7 @@ void PS3USB::readReport() {
 }
 
 void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
+#ifdef PRINTREPORT
     if (readBuf == NULL)
         return;
     for(uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE;i++) {
@@ -322,6 +323,7 @@ void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
         Serial.print(" ");
     }             
     Serial.println();
+#endif
 }
 
 bool PS3USB::getButtonPress(Button b) {

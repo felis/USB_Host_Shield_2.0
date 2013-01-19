@@ -282,6 +282,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
     bNumEP++;
 }
 void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
+#ifdef EXTRADEBUG
 	Notify(PSTR("\r\nEndpoint descriptor:"));
 	Notify(PSTR("\r\nLength:\t\t"));
 	PrintHex<uint8_t>(ep_ptr->bLength);
@@ -295,6 +296,7 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 	PrintHex<uint16_t>(ep_ptr->wMaxPacketSize);
 	Notify(PSTR("\r\nPoll Intrv:\t"));
 	PrintHex<uint8_t>(ep_ptr->bInterval);
+#endif
 }
 
 /* Performs a cleanup after failed Init() attempt */
