@@ -50,8 +50,10 @@ void loop() {
       if(PS3[i]->getAnalogButton(L2_ANALOG) > 0 || PS3[i]->getAnalogButton(R2_ANALOG) > 0) {
         Serial.print(F("\r\nL2: ")); 
         Serial.print(PS3[i]->getAnalogButton(L2_ANALOG));
-        Serial.print(F("\tR2: ")); 
-        Serial.print(PS3[i]->getAnalogButton(R2_ANALOG));
+        if(!PS3[i]->PS3NavigationConnected) {
+          Serial.print(F("\tR2: ")); 
+          Serial.print(PS3[i]->getAnalogButton(R2_ANALOG));
+        }
       }
       if(PS3[i]->getButtonClick(PS)) {
         Serial.print(F("\r\nPS"));
