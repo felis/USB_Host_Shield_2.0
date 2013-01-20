@@ -39,8 +39,6 @@ bPollEnable(false) // Don't start polling before dongle is connected
     
     if (pUsb) // register in USB subsystem
 		pUsb->RegisterDeviceClass(this); //set devConfig[] entry
-    
-    wiiServiceID = -1;
 }
 
 uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
@@ -735,13 +733,9 @@ void BTD::ACL_event_task() {
     uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;
     uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2  
     if(!rcode) { // Check for errors
-        if(connectToWii) // Only send the data to the Wii service
-            btService[wiiServiceID]->ACLData(l2capinbuf);
-        else {
-            for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
-                if (btService[i])
-                    btService[i]->ACLData(l2capinbuf);
-        }
+        for (uint8_t i=0; i<BTD_NUMSERVICES; i++)
+            if (btService[i])
+                btService[i]->ACLData(l2capinbuf);
     }
 #ifdef EXTRADEBUG
     else if (rcode != hrNAK) {

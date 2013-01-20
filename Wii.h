@@ -207,6 +207,7 @@ private:
     
     /* Variables filled from HCI event management */
     uint16_t hci_handle;
+    bool activeConnection; // Used to indicate if it's already has established a connection
     
     /* variables used by high level L2CAP task */    
     uint8_t l2cap_state;

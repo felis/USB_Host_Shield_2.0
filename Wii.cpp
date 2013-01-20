@@ -28,7 +28,7 @@ WII::WII(BTD *p, bool pair):
 pBtd(p) // pointer to USB class instance - mandatory
 {
     if (pBtd)
-        pBtd->wiiServiceID = pBtd->registerServiceClass(this); // Register it as a Bluetooth service
+        pBtd->registerServiceClass(this); // Register it as a Bluetooth service
     
     pBtd->pairWithWii = pair;
             
@@ -48,6 +48,7 @@ void WII::Reset() {
     motionPlusConnected = false;
     activateNunchuck = false;
     motionValuesReset = false;
+    activeConnection = false;
     l2cap_event_flag = 0; // Reset flags
     l2cap_state = L2CAP_WAIT;
 }
@@ -61,7 +62,9 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
 }
 
 void WII::ACLData(uint8_t* l2capinbuf) {
-    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) || pBtd->incomingWii) { // acl_handle_ok or it's a new connection
+    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) || (pBtd->incomingWii && !wiimoteConnected && !activeConnection)) { // acl_handle_ok or it's a new connection
+        pBtd->incomingWii = false;
+        activeConnection = true;
         if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
             if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
@@ -577,7 +580,9 @@ void WII::L2CAP_task() {
 void WII::Run() {
     switch (l2cap_state) {
         case L2CAP_WAIT:
-            if(pBtd->connectToWii) {
+            if(pBtd->connectToWii && !pBtd->l2capConnectionClaimed && !wiimoteConnected && !activeConnection) {
+                pBtd->l2capConnectionClaimed = true;
+                activeConnection = true;
 #ifdef DEBUG
                 Notify(PSTR("\r\nSend HID Control Connection Request"));
 #endif

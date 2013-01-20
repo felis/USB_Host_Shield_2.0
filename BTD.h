@@ -181,8 +181,6 @@ public:
     uint8_t remote_name[30]; // First 30 chars of last remote name
     uint8_t hci_version;
     
-    int8_t wiiServiceID; // Stores the service ID of the Wii service
-    
     bool connectToWii; // Used to only send the ACL data to the wiimote
     bool incomingWii;
     bool pairWithWii;
