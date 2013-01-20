@@ -227,6 +227,7 @@ void PS3BT::Reset() {
     PS3Connected = false;
     PS3MoveConnected = false;
     PS3NavigationConnected = false;
+    activeConnection = false;
     l2cap_event_flag = 0; // Reset flags
     l2cap_state = L2CAP_WAIT;
     
@@ -243,10 +244,11 @@ void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
 }
 
 void PS3BT::ACLData(uint8_t* ACLData) {
-    if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected) {
+    if(!pBtd->l2capConnectionClaimed && !PS3Connected && !PS3MoveConnected && !PS3NavigationConnected && !activeConnection && !pBtd->connectToWii && !pBtd->incomingWii && !pBtd->pairWithWii) {
         if (ACLData[8] == L2CAP_CMD_CONNECTION_REQUEST) {
             if((ACLData[12] | (ACLData[13] << 8)) == HID_CTRL_PSM) {
                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
+                activeConnection = true;
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_state = L2CAP_WAIT;
                 for(uint8_t i = 0; i < 30; i++)

@@ -112,7 +112,8 @@ private:
     
     /* Variables filled from HCI event management */
     int16_t hci_handle;
-    uint8_t remote_name[30]; // first 30 chars of remote name          
+    uint8_t remote_name[30]; // first 30 chars of remote name
+    bool activeConnection; // Used to indicate if it's already has established a connection
     
     /* variables used by high level L2CAP task */    
     uint8_t l2cap_state;
