@@ -31,10 +31,12 @@ void loop() {
       Serial.print(PS3.getAnalogHat(LeftHatX));
       Serial.print(F("\tLeftHatY: ")); 
       Serial.print(PS3.getAnalogHat(LeftHatY));
-      Serial.print(F("\tRightHatX: ")); 
-      Serial.print(PS3.getAnalogHat(RightHatX));
-      Serial.print(F("\tRightHatY: ")); 
-      Serial.print(PS3.getAnalogHat(RightHatY));
+      if(!PS3.PS3NavigationConnected) {
+        Serial.print(F("\tRightHatX: ")); 
+        Serial.print(PS3.getAnalogHat(RightHatX));
+        Serial.print(F("\tRightHatY: ")); 
+        Serial.print(PS3.getAnalogHat(RightHatY));
+      }      
     }
 
     //Analog button values can be read from almost all buttons
