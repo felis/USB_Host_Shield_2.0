@@ -43,20 +43,21 @@ void loop() {
     else {
       if(Wii.getButtonClick(ONE))
         Wii.IRinitialize(); // Run the initialisation sequence
-      if(Wii.getButtonClick(MINUS)) {
+      if(Wii.getButtonClick(MINUS) || Wii.getButtonClick(PLUS)) {
         if(!Wii.isIRCameraEnabled())
           Serial.print(F("\r\nEnable IR camera first"));
         else {
-          if(printObjects > 0)
-            printObjects--;
-        }
-      }
-      if(Wii.getButtonClick(PLUS)) {
-        if(!Wii.isIRCameraEnabled())
-          Serial.print(F("\r\nEnable IR camera first"));
-        else {
-          if(printObjects < 4)
-            printObjects++;
+          if(Wii.getButtonPress(MINUS)) { // getButtonClick will only return true once
+            if(printObjects > 0)
+              printObjects--;            
+          }
+          else {
+            if(printObjects < 4)
+              printObjects++;
+          }
+          Serial.print(F("\r\nTracking "));
+          Serial.print(printObjects);
+          Serial.print(F(" objects"));
         }
       }
       if(Wii.getButtonClick(A)) {
@@ -69,33 +70,41 @@ void loop() {
       }
     }
     if(printObjects > 0) {
-      Serial.print(F("\r\ny1: "));
-      Serial.print(Wii.getIRy1());  
-      Serial.print(F("\tx1: "));
-      Serial.print(Wii.getIRx1()); 
-      Serial.print(F("\ts1:"));
-      Serial.print(Wii.getIRs1());
+      if(Wii.getIRx1() != 0x3FF || Wii.getIRy1() != 0x3FF || Wii.getIRs1() != 0) { // Only print if the IR camera is actually seeing something
+        Serial.print(F("\r\nx1: "));
+        Serial.print(Wii.getIRx1());  
+        Serial.print(F("\ty1: "));
+        Serial.print(Wii.getIRy1()); 
+        Serial.print(F("\ts1:"));
+        Serial.print(Wii.getIRs1());
+      }
       if(printObjects > 1) {
-        Serial.print(F("\t\ty2: "));
-        Serial.print(Wii.getIRy2());  
-        Serial.print(F("\tx2: "));
-        Serial.print(Wii.getIRx2()); 
-        Serial.print(F("\ts2:"));
-        Serial.print(Wii.getIRs2());
+        if(Wii.getIRx2() != 0x3FF || Wii.getIRy2() != 0x3FF || Wii.getIRs2() != 0) {
+          Serial.print(F("\r\nx2: "));
+          Serial.print(Wii.getIRx2());  
+          Serial.print(F("\ty2: "));
+          Serial.print(Wii.getIRy2()); 
+          Serial.print(F("\ts2:"));
+          Serial.print(Wii.getIRs2());
+        }
         if(printObjects > 2) {
-          Serial.print(F("\t\ty3: "));
-          Serial.print(Wii.getIRy3());  
-          Serial.print(F("\tx3: "));
-          Serial.print(Wii.getIRx3()); 
-          Serial.print(F("\ts3:"));
-          Serial.print(Wii.getIRs3());
+          if(Wii.getIRx3() != 0x3FF || Wii.getIRy3() != 0x3FF || Wii.getIRs3() != 0) {
+            Serial.print(F("\r\nx3: "));
+            Serial.print(Wii.getIRx3());  
+            Serial.print(F("\ty3: "));
+            Serial.print(Wii.getIRy3()); 
+            Serial.print(F("\ts3:"));
+            Serial.print(Wii.getIRs3());
+          }
           if(printObjects > 3) {
-            Serial.print(F("\t\ty4: "));
-            Serial.print(Wii.getIRy4());  
-            Serial.print(F("\tx4: "));
-            Serial.print(Wii.getIRx4()); 
-            Serial.print(F("\ts4:"));
-            Serial.print(Wii.getIRs4());
+            if(Wii.getIRx4() != 0x3FF || Wii.getIRy4() != 0x3FF || Wii.getIRs4() != 0) {
+              Serial.print(F("\r\nx4: "));
+              Serial.print(Wii.getIRx4());  
+              Serial.print(F("\ty4: "));
+              Serial.print(Wii.getIRy4()); 
+              Serial.print(F("\ts4:"));
+              Serial.print(Wii.getIRs4());
+            }
           }
         }
       }
