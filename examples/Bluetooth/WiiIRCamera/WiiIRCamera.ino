@@ -21,8 +21,8 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 WII Wii(&Btd,PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
 //WII Wii(&Btd); // After the wiimote pairs once with the line of code above, you can simply create the instance like so and re upload and then press any button on the Wiimote
 
-bool printIR1;
-bool printIR2;
+bool printAngle;
+uint8_t printObjects;
 
 void setup() {
   Serial.begin(115200);
@@ -41,42 +41,70 @@ void loop() {
       Wii.disconnect(); // Disconnect the Wiimote - it will establish the connection again since the Wiimote automatically reconnects
     }    
     else {
-      if(Wii.getButtonClick(ONE)) {
+      if(Wii.getButtonClick(ONE))
         Wii.IRinitialize(); // Run the initialisation sequence
-        //Wii.statusRequest(); // This function isn't working right now
-      }
-      if(Wii.getButtonClick(TWO)) // Check status request. Returns if IR is intialized or not (Serial Monitor only)
-        Wii.statusRequest(); // Isn't working proberly. It returns "extension disconnected", will fix soon
       if(Wii.getButtonClick(MINUS)) {
-        printIR1 = !printIR1; // Will track 1 bright point
-        printIR2 = false;
+        if(!Wii.isIRCameraEnabled())
+          Serial.print(F("\r\nEnable IR camera first"));
+        else {
+          if(printObjects > 0)
+            printObjects--;
+        }
       }
-      if(Wii.getButtonClick(PLUS)) { // Will track 2 brightest points 
-        printIR2 = !printIR2;
-        printIR1 = false;
+      if(Wii.getButtonClick(PLUS)) { // Will track 2 brightest points
+        if(!Wii.isIRCameraEnabled())
+          Serial.print(F("\r\nEnable IR camera first"));
+        else {
+          if(printObjects < 4)
+            printObjects++;
+        }
+      }
+      if(Wii.getButtonClick(A)) {
+        printAngle = !printAngle;
+        Serial.print(F("\r\nA"));
+      }
+      if(Wii.getButtonClick(B)) {
+        Serial.print(F("\r\nBattery level: "));
+        Serial.print(Wii.getBatteryLevel()); // You can get the battery level as well
       }
     }
-    if(printIR1) {
-      Serial.print(F("\r\n y1: "));
+    if(printObjects > 0) {
+      Serial.print(F("\r\ny1: "));
       Serial.print(Wii.getIRy1());  
-      Serial.print(F("\t x1: "));
+      Serial.print(F("\tx1: "));
       Serial.print(Wii.getIRx1()); 
-      Serial.print(F("\t s1:"));
-      Serial.print(Wii.getIRs1());     
-    }
-    if(printIR2) {
-      Serial.print(F("\r\n y1: "));
-      Serial.print(Wii.getIRy1());
-      Serial.print(F("\t y2: "));
-      Serial.print(Wii.getIRy2());
-      Serial.print(F("\t x1: "));
-      Serial.print(Wii.getIRx1());
-      Serial.print(F("\t x2: "));
-      Serial.print(Wii.getIRx2());              
-      Serial.print(F("\t s1:"));
+      Serial.print(F("\ts1:"));
       Serial.print(Wii.getIRs1());
-      Serial.print(F("\t s2:"));
-      Serial.print(Wii.getIRs2());   
+      if(printObjects > 1) {
+        Serial.print(F("\t\ty2: "));
+        Serial.print(Wii.getIRy2());  
+        Serial.print(F("\tx2: "));
+        Serial.print(Wii.getIRx2()); 
+        Serial.print(F("\ts2:"));
+        Serial.print(Wii.getIRs2());
+        if(printObjects > 2) {
+          Serial.print(F("\t\ty3: "));
+          Serial.print(Wii.getIRy3());  
+          Serial.print(F("\tx3: "));
+          Serial.print(Wii.getIRx3()); 
+          Serial.print(F("\ts3:"));
+          Serial.print(Wii.getIRs3());
+          if(printObjects > 3) {
+            Serial.print(F("\t\ty4: "));
+            Serial.print(Wii.getIRy4());  
+            Serial.print(F("\tx4: "));
+            Serial.print(Wii.getIRx4()); 
+            Serial.print(F("\ts4:"));
+            Serial.print(Wii.getIRs4());
+          }
+        }
+      }
+    } 
+    if(printAngle) { // There is no extension bytes avaliable, so the motionplus or nunchuck can't be read
+      Serial.print(F("\r\nPitch: "));
+      Serial.print(Wii.getPitch());
+      Serial.print(F("\tRoll: "));
+      Serial.print(Wii.getRoll());
     }
   }
 }

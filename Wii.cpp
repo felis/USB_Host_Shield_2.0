@@ -191,13 +191,15 @@ void WII::ACLData(uint8_t* l2capinbuf) {
             //Serial.print("\r\nL2CAP Interrupt");
             if(wiimoteConnected) {
                 if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
-                    if((l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
-                        if(motionPlusConnected) {
+                    if((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
+                        if((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33) // These reports have no extensions bytes
+                            ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
+                        else if(motionPlusConnected) {
                             if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
                                 ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
                             else if (nunchuckConnected) // Update if it's a report from the Nunchuck
                                 ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
-                            //else if(classicControllerConnected) // Update if it's a report from the Classic Controller                                
+                            //else if(classicControllerConnected) // Update if it's a report from the Classic Controller
                         }
                         else if(nunchuckConnected) // The Nunchuck is directly connected
                             ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x03) << 16));
@@ -214,7 +216,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             OldButtonState = ButtonState;
                         }
                     }
-                    if(l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x35) { // Read the accelerometer
+                    if(l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33 || l2capinbuf[9] == 0x35 || l2capinbuf[9] == 0x37) { // Read the accelerometer
                         accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5))-500;
                         accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4))-500;
                         accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5))-500;                        
@@ -222,7 +224,14 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         wiiMoteRoll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
                     }
                     switch (l2capinbuf[9]) {
-                        case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV                            
+                        case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
+                            wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
+                            batteryLevel = l2capinbuf[15]; // Update battery level
+                            if(l2capinbuf[12] & 0x01) {
+#ifdef DEBUG
+                                Notify(PSTR("\r\nWARNING: Battery is nearly empty"));
+#endif                                
+                            }
                             if(l2capinbuf[12] & 0x02) { // Check if a extension is connected
 #ifdef DEBUG
                                 if(!unknownExtensionConnected)
@@ -325,7 +334,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             roll = wiiMoteRoll;
                             break;
                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
-                        case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB EE EE EE EE EE EE EE EE
+                        case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
+                            pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
+                            roll = wiiMoteRoll;
 #ifdef WIICAMERA
                             // Read the IR data                            
                             IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
@@ -335,6 +346,14 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
                             IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
                             IR_object_s2 = (l2capinbuf[20] & 0x0F);
+
+                            IR_object_x3 = (l2capinbuf[21] | ((uint16_t)(l2capinbuf[23] & 0x30) << 4));
+                            IR_object_y3 = (l2capinbuf[22] | ((uint16_t)(l2capinbuf[23] & 0xC0) << 2));
+                            IR_object_s3 = (l2capinbuf[23] & 0x0F);
+
+                            IR_object_x4 = (l2capinbuf[24] | ((uint16_t)(l2capinbuf[26] & 0x30) << 4));
+                            IR_object_y4 = (l2capinbuf[25] | ((uint16_t)(l2capinbuf[26] & 0xC0) << 2));
+                            IR_object_s4 = (l2capinbuf[26] & 0x0F);
 #endif
                             break;
                         case 0x34: // Core Buttons with 19 Extension bytes - (a1) 34 BB BB EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
@@ -965,13 +984,17 @@ void WII::IRinitialize(){ // Turns on and initialises the IR camera
 #endif
         delay(80);
 
-        setReportMode(false, 0x33); // Note wiiMotePitch won't return values anymore because it uses output report 0x31 or 0x35
+        setReportMode(false, 0x33);
         //setReportMode(false, 0x3f); // For full reporting mode, doesn't work yet
 #ifdef DEBUG
         Notify(PSTR("\r\nSet Report Mode to 0x33"));
 #endif
-
-        Notify(PSTR("\r\nIR enabled and Initialized"));
+        delay(80);
+        
+        statusRequest(); // Used to update wiiState - call isIRCameraEnabled() afterwards to check if it actually worked
+#ifdef DEBUG
+        Notify(PSTR("\r\nIR Initialized"));
+#endif        
 }
 
 void WII::enableIRCamera1(){
@@ -1018,7 +1041,7 @@ void WII::write0x08Value(){
     writeData(0xb00030, 1, &cmd);
 }
 
-void WII::setWiiModeNumber(uint8_t mode_number){ //mode_number in hex i.e. 0x03 for mode extended mode
+void WII::setWiiModeNumber(uint8_t mode_number){ // mode_number in hex i.e. 0x03 for extended mode
     writeData(0xb00033,1,&mode_number);
 }
 #endif

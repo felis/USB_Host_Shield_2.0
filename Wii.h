@@ -184,19 +184,30 @@ public:
     int16_t gyroRollZero;
     int16_t gyroPitchZero;
 
-    void statusRequest();
+    uint8_t getBatteryLevel() { return batteryLevel; };
+    uint8_t getWiiState() { return wiiState; };
 
 #ifdef WIICAMERA
     /* These are functions for the IR camera */
     void IRinitialize(); // Initialises the camera as per the steps from http://wiibrew.org/wiki/Wiimote#IR_Camera    
 
-    int16_t getIRx1() { return IR_object_x1; }; // IR object 1 x position (0-1023)
-    int16_t getIRy1() { return IR_object_y1; }; // IR object 1 y position (0-767)
-    int8_t getIRs1() { return IR_object_s1; }; // IR object 1 size (0-15)
+    uint16_t getIRx1() { return IR_object_x1; }; // IR object 1 x position (0-1023)
+    uint16_t getIRy1() { return IR_object_y1; }; // IR object 1 y position (0-767)
+    uint8_t getIRs1() { return IR_object_s1; }; // IR object 1 size (0-15)
 
-    int16_t getIRx2() { return IR_object_x2; };
-    int16_t getIRy2() { return IR_object_y2; };
-    int8_t getIRs2() { return IR_object_s2; };
+    uint16_t getIRx2() { return IR_object_x2; };
+    uint16_t getIRy2() { return IR_object_y2; };
+    uint8_t getIRs2() { return IR_object_s2; };
+
+    uint16_t getIRx3() { return IR_object_x3; };
+    uint16_t getIRy3() { return IR_object_y3; };
+    uint8_t getIRs3() { return IR_object_s3; };
+
+    uint16_t getIRx4() { return IR_object_x4; };
+    uint16_t getIRy4() { return IR_object_y4; };
+    uint8_t getIRs4() { return IR_object_s4; };
+
+    bool isIRCameraEnabled() { return (wiiState & 0x08); };
 #endif
     
 private:
@@ -234,6 +245,7 @@ private:
     /* HID Commands */
     void HID_Command(uint8_t* data, uint8_t nbytes);
     void setReportMode(bool continuous, uint8_t mode);
+    void statusRequest();
     
     void writeData(uint32_t offset, uint8_t size, uint8_t* data);
     void initExtension1();
@@ -253,6 +265,9 @@ private:
     bool activateNunchuck;
     bool motionValuesReset; // This bool is true when the gyro values has been reset
     unsigned long timer;
+
+    uint8_t wiiState; // Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
+    uint8_t batteryLevel;
     
 #ifdef WIICAMERA
     /* Private function and variables for the readings from teh IR Camera */
@@ -262,14 +277,19 @@ private:
     void writeSensitivityBlock2();
     void write0x08Value();
     void setWiiModeNumber(uint8_t mode_number);
-
-    int8_t IR_state; //stores the value in l2capinbuf[12] (0x08 means IR enabled)
-    int16_t IR_object_x1; // IR x position data 10 bits
-    int16_t IR_object_y1;  //IR y position data 10 bits
-    int8_t IR_object_s1; // IR size value
-    int16_t IR_object_x2;
-    int16_t IR_object_y2;
-    int8_t IR_object_s2;
+    
+    uint16_t IR_object_x1; // IR x position 10 bits
+    uint16_t IR_object_y1; // IR y position 10 bits
+    uint8_t IR_object_s1; // IR size value
+    uint16_t IR_object_x2;
+    uint16_t IR_object_y2;
+    uint8_t IR_object_s2;
+    uint16_t IR_object_x3; // IR x position 10 bits
+    uint16_t IR_object_y3; // IR y position 10 bits
+    uint8_t IR_object_s3; // IR size value
+    uint16_t IR_object_x4;
+    uint16_t IR_object_y4;
+    uint8_t IR_object_s4;
 #endif
 };
 #endif
