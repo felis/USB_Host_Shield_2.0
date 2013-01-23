@@ -26,7 +26,7 @@ void loop() {
   if(Wii.wiimoteConnected) {
     if(Wii.getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
       Serial.print(F("\r\nHOME"));
-      Wii.disconnect(); // Disconnect the Wiimote - it will establish the connection again since the Wiimote automatically reconnects
+      Wii.disconnect();
     } 
     else {
       if(Wii.getButtonClick(LEFT)) {

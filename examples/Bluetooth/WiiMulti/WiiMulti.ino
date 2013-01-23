@@ -37,7 +37,7 @@ void loop() {
     if(Wii[i]->wiimoteConnected) {
       if(Wii[i]->getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
         Serial.print(F("\r\nHOME"));
-        Wii[i]->disconnect(); // Disconnect the Wiimote - it will establish the connection again since the Wiimote automatically reconnects
+        Wii[i]->disconnect();
       } 
       else {
         if(Wii[i]->getButtonClick(LEFT)) {
