@@ -238,7 +238,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     Notify(PSTR("\r\nExtension connected"));
 #endif
                                 unknownExtensionConnected = true;
-                                setReportMode(false,0x35); // Also read the extension
+#ifdef WIICAMERA
+                                if(!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+#endif                                
+                                    setReportMode(false,0x35); // Also read the extension
                             }
                             else {
 #ifdef DEBUG
