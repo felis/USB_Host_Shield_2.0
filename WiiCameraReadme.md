@@ -10,8 +10,6 @@ This library impliments the following settings:
 
 * Report sensitivity mode: 00 00 00 00 00 00 90 00 41	 40 00	 Suggested by inio (high sensitivity)
 * Data Format: Extended mode (0x03).  Full mode is not working yet. The output reports 0x3e and 0x3f need tampering with
-	* In this mode the camera outputs x and y corridinates and a size dimension for the 4 brightest points. 
-
-__CURRENTLY, CODE IS ONLY WRITTEN FOR THE 2 BRIGHTEST POINTS__
+	* In this mode the camera outputs x and y corridinates and a size dimension for the 4 brightest points.
 
 Again, read through <http://wiibrew.org/wiki/Wiimote#IR_Camera> to get an understanding of the camera and its settings.
