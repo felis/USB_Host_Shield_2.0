@@ -51,24 +51,24 @@ enum Button {
     C     = 12,
 
     /* PS3 controllers buttons */
-    SELECT = 13,
-    L3 = 14,
-    R3 = 15,
-    START = 16,    
+    SELECT = 4,
+    L3 = 5,
+    R3 = 6,
+    START = 7,    
     
-    L2 = 17,
-    R2 = 18,
-    L1 = 19,
-    R1 = 20,
-    TRIANGLE = 21,
-    CIRCLE = 22,
-    CROSS = 23,
-    SQUARE = 24,
+    L2 = 8,
+    R2 = 9,
+    L1 = 10,
+    R1 = 11,
+    TRIANGLE = 12,
+    CIRCLE = 13,
+    CROSS = 14,
+    SQUARE = 15,
     
-    PS = 25,
+    PS = 16,
     
-    MOVE = 26, // covers 12 bits - we only need to read the top 8
-    T = 27, // covers 12 bits - we only need to read the top 8
+    MOVE = 17, // covers 12 bits - we only need to read the top 8
+    T = 18, // covers 12 bits - we only need to read the top 8
 };
 
 #endif

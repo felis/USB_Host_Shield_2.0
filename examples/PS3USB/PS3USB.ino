@@ -36,11 +36,11 @@ void loop() {
       Serial.print(PS3.getAnalogHat(RightHatY)); 
     }
     // Analog button values can be read from almost all buttons
-    if(PS3.getAnalogButton(L2_ANALOG) > 0 || PS3.getAnalogButton(R2_ANALOG) > 0) {
+    if(PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
       Serial.print(F("\r\nL2: ")); 
-      Serial.print(PS3.getAnalogButton(L2_ANALOG));
+      Serial.print(PS3.getAnalogButton(L2));
       Serial.print(F("\tR2: ")); 
-      Serial.print(PS3.getAnalogButton(R2_ANALOG)); 
+      Serial.print(PS3.getAnalogButton(R2)); 
     }
     if(PS3.getButtonClick(PS))
       Serial.print(F("\r\nPS"));

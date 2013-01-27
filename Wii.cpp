@@ -44,7 +44,6 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x00004, // DOWN
     0x00001, // LEFT
 
-
     0x00010, // PLUS
     
     0x00100, // TWO

@@ -69,10 +69,10 @@ bool PS3BT::getButtonClick(Button b) {
     ButtonClickState &= ~button;  // clear "click" event
     return click;
 }
-uint8_t PS3BT::getAnalogButton(AnalogButton a) {
+uint8_t PS3BT::getAnalogButton(Button a) {
     if (l2capinbuf == NULL)
         return 0;
-    return (uint8_t)(l2capinbuf[(uint16_t)a]);
+    return (uint8_t)(l2capinbuf[pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a])]);
 }
 uint8_t PS3BT::getAnalogHat(AnalogHat a) {
     if (l2capinbuf == NULL)

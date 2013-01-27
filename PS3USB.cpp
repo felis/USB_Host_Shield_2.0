@@ -335,10 +335,10 @@ bool PS3USB::getButtonClick(Button b) {
     ButtonClickState &= ~button;  // clear "click" event
     return click;
 }
-uint8_t PS3USB::getAnalogButton(AnalogButton a) {
+uint8_t PS3USB::getAnalogButton(Button a) {
     if (readBuf == NULL)
         return 0;
-    return (uint8_t)(readBuf[((uint16_t)a)-9]);
+    return (uint8_t)(readBuf[(pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a]))-9]);
 }
 uint8_t PS3USB::getAnalogHat(AnalogHat a) {
     if (readBuf == NULL)

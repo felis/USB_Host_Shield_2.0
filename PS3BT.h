@@ -77,7 +77,7 @@ public:
     bool getButtonPress(Button b);
     bool getButtonClick(Button b);
     
-    uint8_t getAnalogButton(AnalogButton a);
+    uint8_t getAnalogButton(Button a);
     uint8_t getAnalogHat(AnalogHat a);
     int16_t getSensor(Sensor a);
     double getAngle(Angle a);

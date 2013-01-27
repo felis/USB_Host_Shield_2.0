@@ -63,14 +63,14 @@ void loop() {
       }
     }
     //Analog button values can be read from almost all buttons
-    if(PS3.getAnalogButton(L2_ANALOG) || PS3.getAnalogButton(R2_ANALOG)) {
+    if(PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
       if(output != "")
         output += "\r\n";
       output += "L2: ";
-      output += PS3.getAnalogButton(L2_ANALOG);
+      output += PS3.getAnalogButton(L2);
       if(!PS3.PS3NavigationConnected) {
         output += "\tR2: ";
-        output += PS3.getAnalogButton(R2_ANALOG);
+        output += PS3.getAnalogButton(R2);
       }      
     }
     if(output != "") {      

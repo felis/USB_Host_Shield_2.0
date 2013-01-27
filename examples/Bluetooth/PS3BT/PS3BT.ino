@@ -40,12 +40,12 @@ void loop() {
     }
 
     //Analog button values can be read from almost all buttons
-    if(PS3.getAnalogButton(L2_ANALOG) > 0 || PS3.getAnalogButton(R2_ANALOG) > 0) {
+    if(PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
       Serial.print(F("\r\nL2: ")); 
-      Serial.print(PS3.getAnalogButton(L2_ANALOG));
+      Serial.print(PS3.getAnalogButton(L2));
       if(!PS3.PS3NavigationConnected) {
         Serial.print(F("\tR2: ")); 
-        Serial.print(PS3.getAnalogButton(R2_ANALOG));
+        Serial.print(PS3.getAnalogButton(R2));
       }
     }
     if(PS3.getButtonClick(PS)) {
@@ -117,9 +117,9 @@ void loop() {
     }
   }
   else if(PS3.PS3MoveConnected) {
-    if(PS3.getAnalogButton(T_ANALOG) > 0) {
+    if(PS3.getAnalogButton(T)) {
       Serial.print(F("\r\nT: ")); 
-      Serial.print(PS3.getAnalogButton(T_ANALOG)); 
+      Serial.print(PS3.getAnalogButton(T)); 
     } 
     if(PS3.getButtonClick(PS)) {
       Serial.print(F("\r\nPS"));

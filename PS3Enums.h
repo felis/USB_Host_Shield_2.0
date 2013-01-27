@@ -38,7 +38,6 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x20, // RIGHT
     0x40, // DOWN
     0x80, // LEFT
-    0,0,0,0,0,0,0,0,0, // Skip buttons used by Wii library
 
     0x01, // SELECT
     0x02, // L3
@@ -60,6 +59,29 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x100000 // T - covers 12 bits - we only need to read the top 8
 };
 
+const uint8_t ANALOGBUTTONS[] PROGMEM = {
+    // Note that the location is shiftet 9 when it's connected via USB    
+    // Sixaxis Dualshcock 3 & Navigation controller
+    23, // UP_ANALOG
+    24, // RIGHT_ANALOG
+    25, // DOWN_ANALOG
+    26, // LEFT_ANALOG
+    0,0,0,0, // Skip SELECT, L3, R3 and START
+    
+    27, // L2_ANALOG
+    28, // R2_ANALOG
+    29, // L1_ANALOG
+    30, // R1_ANALOG
+    31, // TRIANGLE_ANALOG
+    32, // CIRCLE_ANALOG
+    33, // CROSS_ANALOG
+    34, // SQUARE_ANALOG
+    0,0, // Skip PS and MOVE
+    
+    //Playstation Move Controller
+    15 // T_ANALOG - Both at byte 14 (last reading) and byte 15 (current reading)
+};
+
 enum Colors {
     // Used to set the colors of the move controller
     Red = 0xFF0000, // r = 255, g = 0, b = 0
@@ -72,26 +94,6 @@ enum Colors {
     
     White = 0xFFFFFF, // r = 255, g = 255, b = 255
     Off = 0x00, // r = 0, g = 0, b = 0
-};
-enum AnalogButton {
-    // Note that the location is shiftet 9 when it's connected via USB    
-    // Sixaxis Dualshcock 3 & Navigation controller
-    UP_ANALOG = 23,
-    RIGHT_ANALOG = 24,
-    DOWN_ANALOG = 25,
-    LEFT_ANALOG = 26,
-    
-    L2_ANALOG = 27,
-    R2_ANALOG = 28,
-    L1_ANALOG = 29,
-    R1_ANALOG = 30,
-    TRIANGLE_ANALOG = 31,
-    CIRCLE_ANALOG = 32,
-    CROSS_ANALOG = 33,
-    SQUARE_ANALOG = 34,
-    
-    //Playstation Move Controller
-    T_ANALOG = 15, // Both at byte 14 (last reading) and byte 15 (current reading)
 };
 enum AnalogHat {
     // Note that the location is shiftet 9 when it's connected via USB    
