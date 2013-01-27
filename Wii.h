@@ -23,6 +23,7 @@
 #define _wii_h_
 
 #include "BTD.h"
+#include "controllerEnums.h"
 
 //#define WIICAMERA //uncomment to enable IR camera
 
@@ -78,38 +79,7 @@
 
 #define PAIR    1
 
-enum LED {
-    LED1 = 0x10,
-    LED2 = 0x20,
-    LED3 = 0x40,
-    LED4 = 0x80,
-    
-    LED5 = 0x90,
-    LED6 = 0xA0,
-    LED7 = 0xC0,
-    LED8 = 0xD0,
-    LED9 = 0xE0,
-    LED10 = 0xF0,
-};
-
-enum Button {
-    LEFT  = 0x00001,
-    RIGHT = 0x00002,
-    DOWN  = 0x00004,
-    UP    = 0x00008,
-    PLUS  = 0x00010,
-    
-    TWO   = 0x00100,
-    ONE   = 0x00200,
-    B     = 0x00400,
-    A     = 0x00800,
-    MINUS = 0x01000,
-    HOME  = 0x08000,
-    
-    Z     = 0x10000,
-    C     = 0x20000,
-};
-enum AnalogHat {
+enum Hat {
     HatX = 0,
     HatY = 1,
 };
@@ -133,7 +103,7 @@ public:
     bool getButtonPress(Button b); // This will read true as long as the button is held down
     bool getButtonClick(Button b); // This will only be true when the button is clicked the first time
     
-    uint8_t getAnalogHat(AnalogHat a); // Used to read the joystick of the Nunchuck
+    uint8_t getAnalogHat(Hat a); // Used to read the joystick of the Nunchuck
 
     double getPitch() { return pitch; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected
     double getRoll() { return roll; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected

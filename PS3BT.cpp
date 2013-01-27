@@ -61,11 +61,12 @@ pBtd(p) // pointer to USB class instance - mandatory
     Reset();
 }
 bool PS3BT::getButtonPress(Button b) {
-    return (ButtonState & (uint32_t)b);
+    return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
 }
 bool PS3BT::getButtonClick(Button b) {
-    bool click = (ButtonClickState & (uint32_t)b);
-    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+    bool click = (ButtonClickState & button);
+    ButtonClickState &= ~button;  // clear "click" event
     return click;
 }
 uint8_t PS3BT::getAnalogButton(AnalogButton a) {
@@ -602,16 +603,16 @@ void PS3BT::setRumbleOn(Rumble mode) {
     }
 }
 void PS3BT::setLedOff(LED a) {
-    HIDBuffer[11] &= ~((uint8_t)(((uint16_t)a & 0x0f) << 1));    
-    HID_Command(HIDBuffer, HID_BUFFERSIZE);               
+    HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setLedOn(LED a) {
-    HIDBuffer[11] |= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
-    HID_Command(HIDBuffer, HID_BUFFERSIZE);            
+    HIDBuffer[11] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setLedToggle(LED a) {
-    HIDBuffer[11] ^= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
-    HID_Command(HIDBuffer, HID_BUFFERSIZE);            
+    HIDBuffer[11] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navigation controller to send data via USB
     uint8_t cmd_buf[6];

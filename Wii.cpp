@@ -24,6 +24,40 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
 
+const uint8_t LEDS[] PROGMEM = {
+    0x10, // LED1
+    0x20, // LED2
+    0x40, // LED3
+    0x80, // LED4
+    
+    0x90, // LED5
+    0xA0, // LED6
+    0xC0, // LED7
+    0xD0, // LED8
+    0xE0, // LED9
+    0xF0 // LED10
+ };
+
+const uint32_t BUTTONS[] PROGMEM = {
+    0x00008, // UP
+    0x00002, // RIGHT
+    0x00004, // DOWN
+    0x00001, // LEFT
+
+
+    0x00010, // PLUS
+    
+    0x00100, // TWO
+    0x00200, // ONE
+    0x00400, // B
+    0x00800, // A
+    0x01000, // MINUS
+    0x08000, // HOME
+    
+    0x10000, // Z
+    0x20000 // C
+};
+
 WII::WII(BTD *p, bool pair):
 pBtd(p) // pointer to USB class instance - mandatory
 {
@@ -789,17 +823,17 @@ void WII::setRumbleToggle() {
 }
 void WII::setLedOff(LED a) {
     HIDBuffer[1] = 0x11;
-    HIDBuffer[2] &= ~((uint8_t)a);
+    HIDBuffer[2] &= ~(pgm_read_byte(&LEDS[(uint8_t)a]));
     HID_Command(HIDBuffer, 3);
 }
 void WII::setLedOn(LED a) {
     HIDBuffer[1] = 0x11;
-    HIDBuffer[2] |= (uint8_t)a;
+    HIDBuffer[2] |= pgm_read_byte(&LEDS[(uint8_t)a]);
     HID_Command(HIDBuffer, 3);
 }
 void WII::setLedToggle(LED a) {
     HIDBuffer[1] = 0x11;
-    HIDBuffer[2] ^= (uint8_t)a;
+    HIDBuffer[2] ^= pgm_read_byte(&LEDS[(uint8_t)a]);
     HID_Command(HIDBuffer, 3);
 }
 void WII::setLedStatus() {
@@ -916,14 +950,15 @@ void WII::checkMotionPresent() {
 /************************************************************/
 
 bool WII::getButtonPress(Button b) { // Return true when a button is pressed
-    return (ButtonState & (uint32_t)b);
+    return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));    
 }
 bool WII::getButtonClick(Button b) { // Only return true when a button is clicked
-    bool click = (ButtonClickState & (uint32_t)b);
-    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+    bool click = (ButtonClickState & button);
+    ButtonClickState &= ~button;  // clear "click" event
     return click;
 }
-uint8_t WII::getAnalogHat(AnalogHat a) {
+uint8_t WII::getAnalogHat(Hat a) {
     if(!nunchuckConnected)
         return 127; // Return center position
     else {

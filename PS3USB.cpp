@@ -327,11 +327,12 @@ void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
 }
 
 bool PS3USB::getButtonPress(Button b) {
-    return (ButtonState & (uint32_t)b);
+    return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
 }
 bool PS3USB::getButtonClick(Button b) {
-    bool click = (ButtonClickState & (uint32_t)b);
-    ButtonClickState &= ~((uint32_t)b);  // clear "click" event
+    uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+    bool click = (ButtonClickState & button);
+    ButtonClickState &= ~button;  // clear "click" event
     return click;
 }
 uint8_t PS3USB::getAnalogButton(AnalogButton a) {
@@ -456,16 +457,16 @@ void PS3USB::setRumbleOn(Rumble mode) {
     }
 }
 void PS3USB::setLedOff(LED a) {
-    writeBuf[9] &= ~((uint8_t)(((uint16_t)a & 0x0f) << 1));    
-    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);               
+    writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
+    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 void PS3USB::setLedOn(LED a) {
-    writeBuf[9] |= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
-    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);            
+    writeBuf[9] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 void PS3USB::setLedToggle(LED a) {
-    writeBuf[9] ^= (uint8_t)(((uint16_t)a & 0x0f) << 1);    
-    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);            
+    writeBuf[9] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 void PS3USB::setBdaddr(uint8_t* BDADDR) {    
     /* Set the internal bluetooth address */             

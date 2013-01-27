@@ -18,19 +18,48 @@
 #ifndef _ps3enums_h
 #define _ps3enums_h
 
-enum LED {
-    LED1 = 0x01,
-    LED2 = 0x02,
-    LED3 = 0x04,
-    LED4 = 0x08,
+#include "controllerEnums.h"
+
+const uint8_t LEDS[] PROGMEM = {
+    0x01, // LED1
+    0x02, // LED2
+    0x04, // LED3
+    0x08, // LED4
     
-    LED5 = 0x09,
-    LED6 = 0x0A,
-    LED7 = 0x0C,
-    LED8 = 0x0D,
-    LED9 = 0x0E,
-    LED10 = 0x0F,
+    0x09, // LED5
+    0x0A, // LED6
+    0x0C, // LED7
+    0x0D, // LED8
+    0x0E, // LED9
+    0x0F // LED10
 };
+const uint32_t BUTTONS[] PROGMEM = {
+    0x10, // UP
+    0x20, // RIGHT
+    0x40, // DOWN
+    0x80, // LEFT
+    0,0,0,0,0,0,0,0,0, // Skip buttons used by Wii library
+
+    0x01, // SELECT
+    0x02, // L3
+    0x04, // R3
+    0x08, // START    
+    
+    0x0100, // L2
+    0x0200, // R2
+    0x0400, // L1
+    0x0800, // R1
+    0x1000, // TRIANGLE
+    0x2000, // CIRCLE
+    0x4000, // CROSS
+    0x8000, // SQUARE
+    
+    0x010000, // PS
+    
+    0x080000, // MOVE - covers 12 bits - we only need to read the top 8
+    0x100000 // T - covers 12 bits - we only need to read the top 8
+};
+
 enum Colors {
     // Used to set the colors of the move controller
     Red = 0xFF0000, // r = 255, g = 0, b = 0
@@ -43,30 +72,6 @@ enum Colors {
     
     White = 0xFFFFFF, // r = 255, g = 255, b = 255
     Off = 0x00, // r = 0, g = 0, b = 0
-};
-enum Button {
-    SELECT = 0x01,
-    L3 = 0x02,
-    R3 = 0x04,
-    START = 0x08,
-    UP = 0x10,
-    RIGHT = 0x20,
-    DOWN = 0x40,
-    LEFT = 0x80,
-    
-    L2 = 0x0100,
-    R2 = 0x0200,
-    L1 = 0x0400,
-    R1 = 0x0800,
-    TRIANGLE = 0x1000,
-    CIRCLE = 0x2000,
-    CROSS = 0x4000,
-    SQUARE = 0x8000,
-    
-    PS = 0x010000,
-    
-    MOVE = 0x080000, // covers 12 bits - we only need to read the top 8
-    T = 0x100000, // covers 12 bits - we only need to read the top 8
 };
 enum AnalogButton {
     // Note that the location is shiftet 9 when it's connected via USB    
