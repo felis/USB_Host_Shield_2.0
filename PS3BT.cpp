@@ -77,7 +77,7 @@ uint8_t PS3BT::getAnalogButton(Button a) {
 uint8_t PS3BT::getAnalogHat(AnalogHat a) {
     if (l2capinbuf == NULL)
         return 0;                        
-    return (uint8_t)(l2capinbuf[(uint16_t)a]);
+    return (uint8_t)(l2capinbuf[(uint8_t)a+15]);
 }
 int16_t PS3BT::getSensor(Sensor a) {
     if (l2capinbuf == NULL)
@@ -496,6 +496,7 @@ void PS3BT::L2CAP_task() {
                 Notify(PSTR("\r\nDisconnected Control Channel"));
 #endif
                 pBtd->hci_disconnect(hci_handle);
+                hci_handle = -1; // Reset handle
                 l2cap_event_flag = 0; // Reset flags
                 l2cap_state = L2CAP_WAIT;
             }

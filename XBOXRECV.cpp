@@ -22,6 +22,37 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
+const uint8_t LEDS[] PROGMEM = {
+    0x02, // LED1
+    0x03, // LED2
+    0x04, // LED3
+    0x05, // LED4
+    0x01 // ALL - Used to blink all LEDs
+ };
+const uint16_t BUTTONS[] PROGMEM = {
+    0x0100, // UP
+    0x0800, // RIGHT
+    0x0200, // DOWN
+    0x0400, // LEFT
+
+    0x2000, // BACK
+    0x4000, // L3
+    0x8000, // R3
+    0x1000, // START
+
+    0,0, // Skip L2 and R2 as these are analog buttons
+    0x0001, // L1
+    0x0002, // R1    
+
+    0x0020, // B
+    0x0010, // A
+    0x0040, // X
+    0x0080, // Y
+
+    0x0004, // XBOX
+    0x0008 // SYNC
+};
+
 XBOXRECV::XBOXRECV(USB *p):
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
@@ -381,7 +412,7 @@ uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
         return (uint8_t)(ButtonState[controller] >> 8);
     else if(b == R2)
         return (uint8_t)ButtonState[controller];
-    return (ButtonState[controller] & ((uint32_t)b << 16));
+    return (ButtonState[controller] & ((uint32_t)pgm_read_word(&BUTTONS[(uint8_t)b]) << 16));
 }
 bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
     if(b == L2) {
@@ -391,15 +422,16 @@ bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
         }
         return false;
     }
-    else if(b== R2) {
+    else if(b == R2) {
         if(R2Clicked[controller]) {
             R2Clicked[controller] = false;
             return true;
         }
         return false;
     }
-    bool click = (ButtonClickState[controller] & (uint16_t)b);
-    ButtonClickState[controller] &= ~((uint16_t)b);  // clear "click" event
+    uint16_t button = pgm_read_word(&BUTTONS[(uint8_t)b]);
+    bool click = (ButtonClickState[controller] & button);
+    ButtonClickState[controller] &= ~button;  // clear "click" event
     return click;
 }
 int16_t XBOXRECV::getAnalogHat(uint8_t controller, AnalogHat a) {
@@ -461,10 +493,10 @@ void XBOXRECV::setLedRaw(uint8_t controller, uint8_t value) {
 }
 void XBOXRECV::setLedOn(uint8_t controller, LED led) {
     if(led != ALL) // All LEDs can't be on a the same time
-        setLedRaw(controller,((uint8_t)led)+4);
+        setLedRaw(controller,(pgm_read_byte(&LEDS[(uint8_t)led]))+4);
 }
 void XBOXRECV::setLedBlink(uint8_t controller, LED led) {
-    setLedRaw(controller,(uint8_t)led);
+    setLedRaw(controller,pgm_read_byte(&LEDS[(uint8_t)led]));
 }
 void XBOXRECV::setLedMode(uint8_t controller, LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
     setLedRaw(controller,(uint8_t)ledMode);

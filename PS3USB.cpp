@@ -343,7 +343,7 @@ uint8_t PS3USB::getAnalogButton(Button a) {
 uint8_t PS3USB::getAnalogHat(AnalogHat a) {
     if (readBuf == NULL)
         return 0;                        
-    return (uint8_t)(readBuf[((uint16_t)a)-9]);
+    return (uint8_t)(readBuf[((uint8_t)a+6)]);
 }
 uint16_t PS3USB::getSensor(Sensor a) {
     if (readBuf == NULL)

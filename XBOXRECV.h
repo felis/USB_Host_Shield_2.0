@@ -27,6 +27,7 @@
 #endif
 
 #include "Usb.h"
+#include "controllerEnums.h" 
 
 /* Data Xbox 360 taken from descriptors */
 #define EP_MAXPKTSIZE       32 // max size for data via USB
@@ -54,50 +55,11 @@
 
 #define XBOX_MAX_ENDPOINTS   9
 
-enum LED {
-    ALL = 0x01, // Used to blink all LEDs
-    LED1 = 0x02,
-    LED2 = 0x03,
-    LED3 = 0x04,
-    LED4 = 0x05,
-};
 enum LEDMode {
     ROTATING = 0x0A,
     FASTBLINK = 0x0B,
     SLOWBLINK = 0x0C,
     ALTERNATING = 0x0D,    
-};
-
-enum Button {
-    L1 = 0x0001,
-    R1 = 0x0002,
-    XBOX = 0x0004,
-    SYNC = 0x0008,
-    
-    A = 0x0010,
-    B = 0x0020,
-    X = 0x0040,
-    Y = 0x0080,
-    
-    UP = 0x0100,
-    DOWN = 0x0200,
-    LEFT = 0x0400,
-    RIGHT = 0x0800,
-    
-    START = 0x1000,
-    BACK = 0x2000,
-    L3 = 0x4000,
-    R3 = 0x8000,
-    
-    // These buttons are analog buttons
-    L2,
-    R2,
-};
-enum AnalogHat {
-    LeftHatX = 0,
-    LeftHatY = 1,
-    RightHatX = 2,
-    RightHatY = 3,
 };
 
 class XBOXRECV : public USBDeviceConfig {

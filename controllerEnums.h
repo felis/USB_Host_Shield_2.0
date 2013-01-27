@@ -18,6 +18,10 @@
 #ifndef _controllerenums_h
 #define _controllerenums_h
 
+/* 
+ This header file is used to store different enums for the controllers,
+ This is necessary so all the different libraries can be used at once
+*/
 
 enum LED {
     /* Enum used to turn on the LEDs on the different controllers */
@@ -32,6 +36,7 @@ enum LED {
     LED8 = 7,
     LED9 = 8,
     LED10 = 9,
+    ALL = 4, // Used to blink all LEDs on the Xbox controller
 };
 enum Button {
     UP = 0,
@@ -40,15 +45,15 @@ enum Button {
     LEFT = 3,
 
     /* Wii buttons */
-    PLUS  = 4,
-    TWO   = 5,
-    ONE   = 6,
-    B     = 7,
-    A     = 8,
-    MINUS = 9,
-    HOME  = 10,    
-    Z     = 11,
-    C     = 12,
+    PLUS = 5,
+    TWO = 6,
+    ONE = 7,    
+    MINUS = 8,
+    HOME = 9,    
+    Z = 10,
+    C = 11,
+    B = 12,
+    A = 13,
 
     /* PS3 controllers buttons */
     SELECT = 4,
@@ -69,6 +74,20 @@ enum Button {
     
     MOVE = 17, // covers 12 bits - we only need to read the top 8
     T = 18, // covers 12 bits - we only need to read the top 8
+
+    /* Xbox buttons */
+    BACK = 4,
+    X = 14,
+    Y = 15,
+    XBOX = 16,
+    SYNC = 17,
+};
+enum AnalogHat {
+    /* Joysticks on the PS3 and Xbox controllers */
+    LeftHatX = 0,
+    LeftHatY = 1,
+    RightHatX = 2,
+    RightHatY = 3,
 };
 
 #endif

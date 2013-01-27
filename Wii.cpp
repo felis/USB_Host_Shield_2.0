@@ -44,17 +44,18 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x00004, // DOWN
     0x00001, // LEFT
 
+    0, // Skip
     0x00010, // PLUS
-    
     0x00100, // TWO
     0x00200, // ONE
-    0x00400, // B
-    0x00800, // A
+
     0x01000, // MINUS
     0x08000, // HOME
-    
     0x10000, // Z
-    0x20000 // C
+    0x20000, // C
+
+    0x00400, // B
+    0x00800 // A
 };
 
 WII::WII(BTD *p, bool pair):
@@ -82,6 +83,7 @@ void WII::Reset() {
     activateNunchuck = false;
     motionValuesReset = false;
     activeConnection = false;
+    pBtd->motionPlusInside = false;
     l2cap_event_flag = 0; // Reset flags
     l2cap_state = L2CAP_WAIT;
 }
@@ -91,13 +93,10 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
     pBtd->l2cap_disconnection_request(hci_handle,0x0A, interrupt_scid, interrupt_dcid);
     Reset();
     l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
-    pBtd->motionPlusInside = false;
 }
 
 void WII::ACLData(uint8_t* l2capinbuf) {
     if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) || (pBtd->incomingWii && !wiimoteConnected && !activeConnection)) { // acl_handle_ok or it's a new connection
-        pBtd->incomingWii = false;
-        activeConnection = true;
         if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
             if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
@@ -626,6 +625,7 @@ void WII::L2CAP_task() {
                 Notify(PSTR("\r\nDisconnected Control Channel"));
 #endif
                 pBtd->hci_disconnect(hci_handle);
+                hci_handle = -1; // Reset handle
                 l2cap_event_flag = 0; // Reset flags
                 l2cap_state = L2CAP_WAIT;
             }
@@ -649,6 +649,7 @@ void WII::Run() {
             } else if (l2cap_connection_request_control_flag) {
                 hci_handle = pBtd->hci_handle;
                 pBtd->incomingWii = false;
+                activeConnection = true;
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Control Incoming Connection Request"));
 #endif

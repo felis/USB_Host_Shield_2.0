@@ -432,6 +432,7 @@ void SPP::SDP_task() {
                 RFCOMMConnected = false;
                 SDPConnected = false;
                 pBtd->hci_disconnect(hci_handle);
+                hci_handle = -1; // Reset handle
                 l2cap_event_flag = 0; // Reset flags
                 l2cap_sdp_state = L2CAP_SDP_WAIT;
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;

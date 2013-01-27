@@ -42,19 +42,19 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x01, // SELECT
     0x02, // L3
     0x04, // R3
-    0x08, // START    
+    0x08, // START
     
     0x0100, // L2
     0x0200, // R2
     0x0400, // L1
     0x0800, // R1
+
     0x1000, // TRIANGLE
     0x2000, // CIRCLE
     0x4000, // CROSS
     0x8000, // SQUARE
     
-    0x010000, // PS
-    
+    0x010000, // PS   
     0x080000, // MOVE - covers 12 bits - we only need to read the top 8
     0x100000 // T - covers 12 bits - we only need to read the top 8
 };
@@ -78,7 +78,7 @@ const uint8_t ANALOGBUTTONS[] PROGMEM = {
     34, // SQUARE_ANALOG
     0,0, // Skip PS and MOVE
     
-    //Playstation Move Controller
+    // Playstation Move Controller
     15 // T_ANALOG - Both at byte 14 (last reading) and byte 15 (current reading)
 };
 
@@ -94,13 +94,6 @@ enum Colors {
     
     White = 0xFFFFFF, // r = 255, g = 255, b = 255
     Off = 0x00, // r = 0, g = 0, b = 0
-};
-enum AnalogHat {
-    // Note that the location is shiftet 9 when it's connected via USB    
-    LeftHatX = 15,
-    LeftHatY = 16,
-    RightHatX = 17,
-    RightHatY = 18,
 };
 enum Sensor {
     // Note that the location is shiftet 9 when it's connected via USB
