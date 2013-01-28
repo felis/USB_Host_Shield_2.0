@@ -96,13 +96,13 @@ public:
     void setLedToggle(LED a);
     
     /* Commands for Motion controller only */    
-    void moveSetBulb(uint8_t r, uint8_t g, uint8_t b);//Use this to set the Color using RGB values
-    void moveSetBulb(Colors color);//Use this to set the Color using the predefined colors in "enum Colors"
+    void moveSetBulb(uint8_t r, uint8_t g, uint8_t b); // Use this to set the Color using RGB values
+    void moveSetBulb(Colors color); // Use this to set the Color using the predefined colors in "enum Colors"
     void moveSetRumble(uint8_t rumble);
     
-    bool PS3Connected;// Variable used to indicate if the normal playstation controller is successfully connected
-    bool PS3MoveConnected;// Variable used to indicate if the move controller is successfully connected
-    bool PS3NavigationConnected;// Variable used to indicate if the navigation controller is successfully connected
+    bool PS3Connected; // Variable used to indicate if the normal playstation controller is successfully connected
+    bool PS3MoveConnected; // Variable used to indicate if the move controller is successfully connected
+    bool PS3NavigationConnected; // Variable used to indicate if the navigation controller is successfully connected
     
 private:
     /* mandatory members */
@@ -112,12 +112,12 @@ private:
     
     /* Variables filled from HCI event management */
     int16_t hci_handle;
-    uint8_t remote_name[30]; // first 30 chars of remote name
+    uint8_t remote_name[30]; // First 30 chars of remote name
     bool activeConnection; // Used to indicate if it's already has established a connection
     
     /* variables used by high level L2CAP task */    
     uint8_t l2cap_state;
-    uint16_t l2cap_event_flag;// l2cap flags of received bluetooth events
+    uint16_t l2cap_event_flag; // L2CAP flags of received bluetooth events
     
     unsigned long timer;
     
@@ -125,23 +125,23 @@ private:
     uint32_t OldButtonState;
     uint32_t ButtonClickState;
     
-    uint32_t timerHID;// timer used see if there has to be a delay before a new HID command
+    uint32_t timerHID; // Timer used see if there has to be a delay before a new HID command
     uint32_t timerBulbRumble;// used to continuously set PS3 Move controller Bulb and rumble values
     
-    uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap in data
-    uint8_t HIDBuffer[HID_BUFFERSIZE];// Used to store HID commands
-    uint8_t HIDMoveBuffer[HID_BUFFERSIZE];// Used to store HID commands for the Move controller   
+    uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for L2CAP in data
+    uint8_t HIDBuffer[HID_BUFFERSIZE]; // Used to store HID commands
+    uint8_t HIDMoveBuffer[HID_BUFFERSIZE]; // Used to store HID commands for the Move controller   
     
     /* L2CAP Channels */
-    uint8_t control_scid[2];// L2CAP source CID for HID_Control                
-    uint8_t control_dcid[2];//0x0040
-    uint8_t interrupt_scid[2];// L2CAP source CID for HID_Interrupt        
-    uint8_t interrupt_dcid[2];//0x0041
-    uint8_t identifier;//Identifier for connection    
+    uint8_t control_scid[2]; // L2CAP source CID for HID_Control                
+    uint8_t control_dcid[2]; // 0x0040
+    uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt        
+    uint8_t interrupt_dcid[2]; // 0x0041
+    uint8_t identifier; // Identifier for connection    
     
     /* HID Commands */
     void HID_Command(uint8_t* data, uint8_t nbytes);
     void HIDMove_Command(uint8_t* data, uint8_t nbytes);
-    void enable_sixaxis();//Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+    void enable_sixaxis(); // Command used to enable the Dualshock 3 and Navigation controller to send data via Bluetooth
 };
 #endif
