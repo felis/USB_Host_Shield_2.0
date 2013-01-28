@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Kristian Lauszus, TKJ Electronics. All rights reserved.
+/* Copyright (C) 2013 Kristian Lauszus, TKJ Electronics. All rights reserved.
  
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
