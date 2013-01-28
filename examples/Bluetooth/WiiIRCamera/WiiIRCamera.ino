@@ -80,7 +80,7 @@ void loop() {
       }
       if(printObjects > 1) {
         if(Wii.getIRx2() != 0x3FF || Wii.getIRy2() != 0x3FF || Wii.getIRs2() != 0) {
-          Serial.print(F("\r\nx2: "));
+          Serial.print(F("\t\tx2: "));
           Serial.print(Wii.getIRx2());  
           Serial.print(F("\ty2: "));
           Serial.print(Wii.getIRy2()); 
@@ -89,7 +89,7 @@ void loop() {
         }
         if(printObjects > 2) {
           if(Wii.getIRx3() != 0x3FF || Wii.getIRy3() != 0x3FF || Wii.getIRs3() != 0) {
-            Serial.print(F("\r\nx3: "));
+            Serial.print(F("\t\tx3: "));
             Serial.print(Wii.getIRx3());  
             Serial.print(F("\ty3: "));
             Serial.print(Wii.getIRy3()); 
@@ -98,7 +98,7 @@ void loop() {
           }
           if(printObjects > 3) {
             if(Wii.getIRx4() != 0x3FF || Wii.getIRy4() != 0x3FF || Wii.getIRs4() != 0) {
-              Serial.print(F("\r\nx4: "));
+              Serial.print(F("\t\tx4: "));
               Serial.print(Wii.getIRx4());  
               Serial.print(F("\ty4: "));
               Serial.print(Wii.getIRy4()); 
