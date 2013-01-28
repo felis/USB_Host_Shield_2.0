@@ -16,7 +16,7 @@
  */
 
 #include "BTD.h"
-#define DEBUG // Uncomment to print data for debugging
+//#define DEBUG // Uncomment to print data for debugging
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
 const uint8_t BTD::BTD_EVENT_PIPE  = 1;
