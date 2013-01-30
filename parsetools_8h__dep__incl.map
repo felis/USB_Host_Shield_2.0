@@ -1,0 +1,34 @@
+<map id="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/parsetools.h" name="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/parsetools.h">
+<area shape="rect" id="node2" href="$confdescparser_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/confdescparser.h" alt="" coords="1085,93,1189,133"/>
+<area shape="rect" id="node33" href="$parsetools_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/parsetools.cpp" alt="" coords="1213,93,1317,133"/>
+<area shape="rect" id="node3" href="$adk_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/adk.h" alt="" coords="129,186,255,217"/>
+<area shape="rect" id="node5" href="$_b_t_d_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/BTD.h" alt="" coords="413,186,541,217"/>
+<area shape="rect" id="node13" href="$cdcacm_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcacm.h" alt="" coords="817,181,921,221"/>
+<area shape="rect" id="node17" href="$cdcftdi_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcftdi.h" alt="" coords="996,181,1100,221"/>
+<area shape="rect" id="node15" href="$cdcprolific_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcprolific.h" alt="" coords="820,275,924,315"/>
+<area shape="rect" id="node19" href="$le3dp__rptparser_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/examples/HID/le3dp/le3dp\l_rptparser.h" alt="" coords="1077,270,1195,319"/>
+<area shape="rect" id="node21" href="$hidjoystickrptparser_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/examples/HID/USBHIDJoystick\l/hidjoystickrptparser.h" alt="" coords="1220,270,1356,319"/>
+<area shape="rect" id="node23" href="$hid_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/hid.h" alt="" coords="1370,186,1493,217"/>
+<area shape="rect" id="node25" href="$hidboot_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hidboot.h" alt="" coords="1636,275,1740,315"/>
+<area shape="rect" id="node27" href="$hidescriptorparser_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hidescriptorparser.h" alt="" coords="1764,275,1868,315"/>
+<area shape="rect" id="node31" href="$masstorage_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/masstorage.h" alt="" coords="1857,181,1961,221"/>
+<area shape="rect" id="node4" href="$adk_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/adk.cpp" alt="" coords="5,275,109,315"/>
+<area shape="rect" id="node6" href="$_b_t_d_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/BTD.cpp" alt="" coords="564,275,668,315"/>
+<area shape="rect" id="node7" href="$_p_s3_b_t_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.h" alt="" coords="133,275,237,315"/>
+<area shape="rect" id="node9" href="$_s_p_p_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/SPP.h" alt="" coords="262,279,391,310"/>
+<area shape="rect" id="node11" href="$_wii_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/Wii.h" alt="" coords="415,279,539,310"/>
+<area shape="rect" id="node8" href="$_p_s3_b_t_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.cpp" alt="" coords="133,373,237,413"/>
+<area shape="rect" id="node10" href="$_s_p_p_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/SPP.cpp" alt="" coords="275,373,379,413"/>
+<area shape="rect" id="node12" href="$_wii_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/Wii.cpp" alt="" coords="425,373,529,413"/>
+<area shape="rect" id="node14" href="$cdcacm_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcacm.cpp" alt="" coords="692,275,796,315"/>
+<area shape="rect" id="node16" href="$cdcprolific_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcprolific.cpp" alt="" coords="820,373,924,413"/>
+<area shape="rect" id="node18" href="$cdcftdi_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/cdcftdi.cpp" alt="" coords="948,275,1052,315"/>
+<area shape="rect" id="node20" href="$le3dp__rptparser_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/examples/HID/le3dp/le3dp\l_rptparser.cpp" alt="" coords="1077,369,1195,418"/>
+<area shape="rect" id="node22" href="$hidjoystickrptparser_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/examples/HID/USBHIDJoystick\l/hidjoystickrptparser.cpp" alt="" coords="1220,369,1356,418"/>
+<area shape="rect" id="node24" href="$hid_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hid.cpp" alt="" coords="1508,275,1612,315"/>
+<area shape="rect" id="node29" href="$hiduniversal_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hiduniversal.h" alt="" coords="1380,275,1484,315"/>
+<area shape="rect" id="node26" href="$hidboot_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hidboot.cpp" alt="" coords="1636,373,1740,413"/>
+<area shape="rect" id="node28" href="$hidescriptorparser_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hidescriptorparser.cpp" alt="" coords="1764,373,1868,413"/>
+<area shape="rect" id="node30" href="$hiduniversal_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/hiduniversal.cpp" alt="" coords="1380,373,1484,413"/>
+<area shape="rect" id="node32" href="$masstorage_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/masstorage.cpp" alt="" coords="1892,275,1996,315"/>
+</map>
