@@ -96,7 +96,18 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
 }
 
 void WII::ACLData(uint8_t* l2capinbuf) {
-    if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) || (pBtd->incomingWii && !wiimoteConnected && !activeConnection)) { // acl_handle_ok or it's a new connection
+    if(!pBtd->l2capConnectionClaimed && pBtd->incomingWii && !wiimoteConnected && !activeConnection) {
+        if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
+            if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
+                pBtd->incomingWii = false;
+                pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
+                activeConnection = true;
+                hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
+                l2cap_state = L2CAP_WAIT;
+            }
+        }
+    }
+    if ((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) { // acl_handle_ok or it's a new connection
         if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
             if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
@@ -468,6 +479,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                             rollGyroScale = 500; // You might need to adjust these
                                             pitchGyroScale = 400;
                                             yawGyroScale = 415;
+
+                                            gyroYaw = 0;
+                                            gyroRoll = 0;
+                                            gyroPitch = 0;
                                             
                                             motionValuesReset = true;
                                             timer = micros();
@@ -647,9 +662,6 @@ void WII::Run() {
                 pBtd->l2cap_connection_request(hci_handle,identifier,control_dcid,HID_CTRL_PSM);
                 l2cap_state = L2CAP_CONTROL_CONNECT_REQUEST;                
             } else if (l2cap_connection_request_control_flag) {
-                hci_handle = pBtd->hci_handle;
-                pBtd->incomingWii = false;
-                activeConnection = true;
 #ifdef DEBUG
                 Notify(PSTR("\r\nHID Control Incoming Connection Request"));
 #endif
