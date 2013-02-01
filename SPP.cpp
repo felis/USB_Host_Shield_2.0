@@ -680,6 +680,8 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 
 /* Serial commands */
 void SPP::print(const String &str) {
+    if(!connected)
+        return;
     uint8_t length = str.length();
     if(length > (sizeof(l2capoutbuf)-4))
         length = sizeof(l2capoutbuf)-4;
@@ -694,6 +696,8 @@ void SPP::print(const String &str) {
     RFCOMM_Command(l2capoutbuf,length+4);
 }
 void SPP::print(const char* data) {
+    if(!connected)
+        return;
     uint8_t length = strlen(data);
     if(length > (sizeof(l2capoutbuf)-4))
         length = sizeof(l2capoutbuf)-4;
@@ -711,6 +715,8 @@ void SPP::print(uint8_t data) {
     print(&data,1);
 }
 void SPP::print(uint8_t* array, uint8_t length) {
+    if(!connected)
+        return;
     if(length > (sizeof(l2capoutbuf)-4))
         length = sizeof(l2capoutbuf)-4;
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
@@ -784,13 +790,13 @@ void SPP::println(void) {
 }
 
 /* These must be used to print numbers */
-void SPP::printNumber(int16_t n) {
+void SPP::printNumber(int32_t n) {
     bool negative = false;
     if(n < 0) {
         negative = true;
         n = -n;
     }        
-    uint16_t temp = n;
+    uint32_t temp = n;
     uint8_t digits = 0;
     while (temp) {
         temp /= 10;
@@ -814,13 +820,13 @@ void SPP::printNumber(int16_t n) {
             print(buf,digits);
     }
 }
-void SPP::printNumberln(int16_t n) {
+void SPP::printNumberln(int32_t n) {
     bool negative = false;
     if(n < 0) {
         negative = true;
         n = -n;
     }
-    uint16_t temp = n;
+    uint32_t temp = n;
     uint8_t digits = 0;
     while (temp) {
         temp /= 10;
@@ -850,16 +856,19 @@ void SPP::printNumberln(int16_t n) {
     }
 }
 void SPP::printNumber(double n, uint8_t digits) {
-    print(doubleToString(n,digits));
+    char output[10];
+    doubleToString(n,output,digits);
+    print(output);
 }
 void SPP::printNumberln(double n, uint8_t digits) {
-    char buf[12];
-    strcpy(buf,doubleToString(n,digits));
-    strcat(buf,"\r\n");
-    print(buf);
+    char buf[10];
+    char output[12];
+    doubleToString(n,buf,digits);
+    strcpy(output,buf);
+    strcat(output,"\r\n");
+    print(output);
 }
-const char* SPP::doubleToString(double input, uint8_t digits) {
-    char output[10];
+void SPP::doubleToString(double input, char* output, uint8_t digits) {
     char buffer[10];
     if(input < 0) {
         strcpy(output,"-");
@@ -887,7 +896,6 @@ const char* SPP::doubleToString(double input, uint8_t digits) {
     }
     itoa((unsigned long)fractpart,buffer,10); // Convert to string
     strcat(output,buffer);
-    return output;
 }
 
 uint8_t SPP::read() {
