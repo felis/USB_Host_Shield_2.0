@@ -28,6 +28,9 @@ e-mail   :  support@circuitsathome.com
 /* Uncomment the following if you are using a Teensy 2.0 */
 //#define BOARD_TEENSY
 
+/* Uncomment the following if you are using a Sanguino */
+//#define BOARD_SANGUINO
+
 #include <avr/io.h>
 
 #ifdef PORTA
@@ -626,7 +629,44 @@ template<typename Tp_pin, typename Tc_bit>
 #define P45 Pf7
 #endif // Teensy++ 2.0
 
-#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+// Balanduino pin numbers
+// http://balanduino.net/
+#define P0  Pd0 /* 0  - PD0 */
+#define P1  Pd1 /* 1  - PD1 */
+#define P2  Pb2 /* 2  - PB2 */
+#define P3  Pd6 /* 3  - PD6 */
+#define P4  Pd7 /* 4  - PD7 */
+#define P5  Pb3 /* 5  - PB3 */
+#define P6  Pb4 /* 6  - PB4 */
+#define P7  Pa0 /* 7  - PA0 */
+#define P8  Pa1 /* 8  - PA1 */
+#define P9  Pa2 /* 9  - PA2 */
+#define P10 Pa3 /* 10 - PA3 */
+#define P11 Pa4 /* 11 - PA4 */
+#define P12 Pa5 /* 12 - PA5 */
+#define P13 Pc0 /* 13 - PC0 */
+#define P14 Pc1 /* 14 - PC1 */
+#define P15 Pd2 /* 15 - PD2 */
+#define P16 Pd3 /* 16 - PD3 */
+#define P17 Pd4 /* 17 - PD4 */
+#define P18 Pd5 /* 18 - PD5 */
+#define P19 Pc2 /* 19 - PC2 */
+#define P20 Pc3 /* 20 - PC3 */
+#define P21 Pc4 /* 21 - PC4 */
+#define P22 Pc5 /* 22 - PC5 */
+#define P23 Pc6 /* 23 - PC6 */
+#define P24 Pc7 /* 24 - PC7 */
+#define P25 Pb0 /* 25 - PB0 */
+#define P26 Pb1 /* 26 - PB1 */
+#define P27 Pb5 /* 27 - PB5 */
+#define P28 Pb6 /* 28 - PB6 */
+#define P29 Pb7 /* 29 - PB7 */
+#define P30 Pa6 /* 30 - PA6 */
+#define P31 Pa7 /* 31 - PA7 */
+#endif // Balanduino  
+
+#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
 // Sanguino pin numbers
 // http://sanguino.cc/hardware
 #define P0  Pb0
