@@ -85,20 +85,6 @@ PS	LITERAL1
 MOVE	LITERAL1
 T	LITERAL1
 
-UP_ANALOG	LITERAL1
-RIGHT_ANALOG	LITERAL1
-DOWN_ANALOG	LITERAL1
-LEFT_ANALOG	LITERAL1
-L2_ANALOG	LITERAL1
-R2_ANALOG	LITERAL1
-L1_ANALOG	LITERAL1
-R1_ANALOG	LITERAL1
-TRIANGLE_ANALOG	LITERAL1
-CIRCLE_ANALOG	LITERAL1
-CROSS_ANALOG	LITERAL1
-SQUARE_ANALOG	LITERAL1
-T_ANALOG	LITERAL1
-
 LeftHatX	LITERAL1
 LeftHatY	LITERAL1
 RightHatX	LITERAL1
@@ -231,3 +217,44 @@ getPitch				KEYWORD2
 getRoll					KEYWORD2
 getYaw					KEYWORD2
 PAIR					KEYWORD2
+getBatteryLevel			KEYWORD2
+getWiiState				KEYWORD2
+
+
+####################################################
+# Constants and enums (LITERAL1)
+####################################################
+
+PLUS					LITERAL1
+MINUS					LITERAL1
+ONE						LITERAL1
+TWO						LITERAL1
+HOME					LITERAL1
+Z						LITERAL1
+C						LITERAL1
+L						LITERAL1
+R						LITERAL1
+ZL						LITERAL1
+ZR						LITERAL1
+HatX					LITERAL1
+HatY					LITERAL1
+
+
+####################################################
+# Methods and Functions for the IR Camera
+####################################################
+
+IRinitialize			KEYWORD2
+isIRCameraEnabled		KEYWORD2
+getIRx1					KEYWORD2
+getIRy1					KEYWORD2
+getIRs1					KEYWORD2
+getIRx2					KEYWORD2
+getIRy2					KEYWORD2
+getIRs2					KEYWORD2
+getIRx3					KEYWORD2
+getIRy3					KEYWORD2
+getIRs3					KEYWORD2
+getIRx4					KEYWORD2
+getIRy4					KEYWORD2
+getIRs4					KEYWORD2

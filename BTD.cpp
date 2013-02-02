@@ -581,7 +581,7 @@ void BTD::HCI_task() {
         case HCI_CHECK_WII_SERVICE:
             if(pairWithWii) { // Check if it should try to connect to a wiimote
 #ifdef DEBUG
-                Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote"));
+                Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press sync if you are using a Wii U Pro Controller"));
 #endif
                 hci_inquiry();
                 hci_state = HCI_INQUIRY_STATE;
@@ -594,14 +594,16 @@ void BTD::HCI_task() {
             if(hci_wii_found) {
                 hci_inquiry_cancel(); // Stop inquiry
 #ifdef DEBUG
-                Notify(PSTR("\r\nWiimote found"));
-                if(motionPlusInside)
-                    Notify(PSTR(" with Motion Plus Inside"));
+                Notify(PSTR("\r\nWiimote found"));                
                 Notify(PSTR("\r\nNow just create the instance like so:"));
                 Notify(PSTR("\r\nWII Wii(&Btd);"));
                 Notify(PSTR("\r\nAnd then press any button on the Wiimote"));                
 #endif                                
-                hci_state = HCI_CONNECT_WII_STATE;
+                if(motionPlusInside) {
+                    hci_remote_name(); // We need to know the name to distinguish between a Wiimote and a Wii U Pro Controller
+                    hci_state = HCI_REMOTE_NAME_STATE;
+                } else
+                    hci_state = HCI_CONNECT_WII_STATE;
             }
             break;
             
@@ -662,11 +664,37 @@ void BTD::HCI_task() {
                 for (uint8_t i = 0; i < 30; i++) {
                     if(remote_name[i] == NULL)
                         break;
-                    Serial.write(remote_name[i]);   
-                }             
+                    Serial.write(remote_name[i]);
+                }
 #endif
-                hci_accept_connection();
-                hci_state = HCI_CONNECTED_STATE;                                
+                if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
+#ifdef DEBUG
+                    Notify(PSTR("\r\nWiimote is connecting"));
+#endif
+                    if(strncmp((const char*)remote_name, "Nintendo RVL-CNT-01-TR", 22) == 0) {
+#ifdef DEBUG
+                        Notify(PSTR(" with Motion Plus Inside"));
+#endif
+                        motionPlusInside = true;
+                    }
+                    else if(strncmp((const char*)remote_name, "Nintendo RVL-CNT-01-UC", 22) == 0) {
+#ifdef DEBUG
+                        Notify(PSTR(" - Wii U Pro Controller"));
+#endif
+                        motionPlusInside = true;
+                        wiiUProController = true;
+                    } else {
+                        motionPlusInside = false;
+                        wiiUProController = false;
+                    }
+                    incomingWii = true;
+                }
+                if(pairWithWii && motionPlusInside)
+                    hci_state = HCI_CONNECT_WII_STATE;
+                else {
+                    hci_accept_connection();
+                    hci_state = HCI_CONNECTED_STATE;
+                }
             }      
             break;
             
@@ -680,21 +708,7 @@ void BTD::HCI_task() {
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
-                l2capConnectionClaimed = false;
-                if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
-#ifdef DEBUG
-                    Notify(PSTR("\r\nWiimote is connecting"));
-#endif
-                    if(strncmp((const char*)remote_name, "Nintendo RVL-CNT-01-TR", 22) == 0) {
-#ifdef DEBUG
-                        Notify(PSTR(" with Motion Plus Inside"));
-#endif
-                        motionPlusInside = true;
-                    } else
-                        motionPlusInside = false;
-
-                    incomingWii = true;
-                }
+                l2capConnectionClaimed = false;                
                 hci_event_flag = 0;
                 hci_state = HCI_DONE_STATE;
             }
@@ -887,7 +901,7 @@ void BTD::hci_pin_code_request_reply() {
     hcibuf[6] = disc_bdaddr[3];
     hcibuf[7] = disc_bdaddr[4];
     hcibuf[8] = disc_bdaddr[5];    
-    if(pairWithWii) {
+    if(pairWithWii && !wiiUProController) {
         hcibuf[9] = 6; // Pin length is the length of the bt address
         hcibuf[10] = disc_bdaddr[0]; // The pin is the Wiimotes bt address backwards
         hcibuf[11] = disc_bdaddr[1];
@@ -895,6 +909,19 @@ void BTD::hci_pin_code_request_reply() {
         hcibuf[13] = disc_bdaddr[3];
         hcibuf[14] = disc_bdaddr[4];
         hcibuf[15] = disc_bdaddr[5];
+        for(uint8_t i = 16; i < 26; i++)
+            hcibuf[i] = 0x00; // The rest should be 0
+    } else if(pairWithWii && wiiUProController) {
+#ifdef DEBUG
+        Notify(PSTR("\r\nParing with Wii U Pro Controller"));
+#endif
+        hcibuf[9] = 6; // Pin length is the length of the bt address
+        hcibuf[10] = my_bdaddr[0]; // The pin is the Wiimotes bt address backwards
+        hcibuf[11] = my_bdaddr[1];
+        hcibuf[12] = my_bdaddr[2];
+        hcibuf[13] = my_bdaddr[3];
+        hcibuf[14] = my_bdaddr[4];
+        hcibuf[15] = my_bdaddr[5];
         for(uint8_t i = 16; i < 26; i++)
             hcibuf[i] = 0x00; // The rest should be 0
     } else {

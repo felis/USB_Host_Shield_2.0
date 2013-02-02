@@ -185,6 +185,7 @@ public:
     bool incomingWii;
     bool pairWithWii;
     bool motionPlusInside; // True if it's the new Wiimote with the Motion Plus Inside
+    bool wiiUProController; // True if it's a Wii U Pro Controller
     
     /* HCI Commands */
     void HCI_Command(uint8_t* data, uint16_t nbytes);

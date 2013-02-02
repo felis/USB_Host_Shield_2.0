@@ -40,9 +40,9 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x80, // LEFT
 
     0x01, // SELECT
+    0x08, // START
     0x02, // L3
     0x04, // R3
-    0x08, // START
     
     0x0100, // L2
     0x0200, // R2

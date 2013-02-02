@@ -57,6 +57,31 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x00400, // B
     0x00800 // A
 };
+const uint32_t PROCONTROLLERBUTTONS[] PROGMEM = {
+    0x00100, // UP
+    0x00080, // RIGHT
+    0x00040, // DOWN
+    0x00200, // LEFT
+
+    0, // Skip
+    0x00004, // PLUS
+    0x20000, // L3
+    0x10000, // R3
+
+    0x00010, // MINUS
+    0x00008, // HOME
+    0,0, // Skip
+
+    0x04000, // B
+    0x01000, // A
+    0x00800, // X
+    0x02000, // Y
+
+    0x00020, // L
+    0x00002, // R
+    0x08000, // ZL
+    0x00400 // ZR
+};
 
 WII::WII(BTD *p, bool pair):
 pBtd(p) // pointer to USB class instance - mandatory
@@ -84,6 +109,8 @@ void WII::Reset() {
     motionValuesReset = false;
     activeConnection = false;
     pBtd->motionPlusInside = false;
+    pBtd->wiiUProController = false;
+    wiiUProControllerConnected = false;
     l2cap_event_flag = 0; // Reset flags
     l2cap_state = L2CAP_WAIT;
 }
@@ -237,6 +264,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                     if((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
                         if((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33) // These reports have no extensions bytes
                             ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
+                        else if(wiiUProControllerConnected)
+                            ButtonState = (uint32_t)(((~l2capinbuf[23]) & 0xFE) | ((uint16_t)(~l2capinbuf[24]) << 8) | ((uint32_t)((~l2capinbuf[25]) & 0x03) << 16));
                         else if(motionPlusConnected) {
                             if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
                                 ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
@@ -343,6 +372,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"));
 #endif
                                     stateCounter = 300; // Skip the rest in "L2CAP_CHECK_MOTION_PLUS_STATE"
+                                } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x01 && l2capinbuf[20] == 0x20) {
+#ifdef DEBUG
+                                    Notify(PSTR("\r\nWii U Pro Controller connected"));
+#endif
+                                    wiiUProControllerConnected = true;
                                 }
 #ifdef DEBUG
                                 else {
@@ -490,8 +524,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                     }
                                 } else {
                                     if(nunchuckConnected) {
-                                        hatValues[0] = l2capinbuf[15];
-                                        hatValues[1] = l2capinbuf[16];
+                                        hatValues[HatX] = l2capinbuf[15];
+                                        hatValues[HatY] = l2capinbuf[16];
                                         accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x10 >> 3))-416;
                                         accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x20 >> 4))-416;
                                         accZ = (((l2capinbuf[19] & 0xFE) << 2) | (l2capinbuf[20] & 0xC0 >> 5))-416;
@@ -521,8 +555,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 }
                                     
                             } else if(nunchuckConnected) {
-                                hatValues[0] = l2capinbuf[15];
-                                hatValues[1] = l2capinbuf[16];
+                                hatValues[HatX] = l2capinbuf[15];
+                                hatValues[HatY] = l2capinbuf[16];
                                 accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x0C >> 2))-416;
                                 accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x30 >> 4))-416;
                                 accZ = ((l2capinbuf[19] << 2) | (l2capinbuf[20] & 0xC0 >> 6))-416;
@@ -531,6 +565,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 
                                 pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
                                 roll = wiiMoteRoll;
+                            } else if(wiiUProControllerConnected) {
+                                hatValues[LeftHatX] = (l2capinbuf[15] | l2capinbuf[16] << 8);
+                                hatValues[RightHatX] = (l2capinbuf[17] | l2capinbuf[18] << 8);
+                                hatValues[LeftHatY] = (l2capinbuf[19] | l2capinbuf[20] << 8);
+                                hatValues[RightHatY] = (l2capinbuf[21] | l2capinbuf[22] << 8);
                             }
                             break;
 #ifdef DEBUG
@@ -915,7 +954,12 @@ void WII::initMotionPlus() {
 }
 void WII::activateMotionPlus() {
     uint8_t buf[1];
-    if(activateNunchuck) {
+    if(pBtd->wiiUProController) {
+#ifdef DEBUG
+        Notify(PSTR("\r\nActivating Wii U Pro Controller"));
+#endif
+        buf[0] = 0x00; // It seems like you can send anything but 0x04, 0x05, and 0x07
+    } else if(activateNunchuck) {
 #ifdef DEBUG
         Notify(PSTR("\r\nActivating Motion Plus in pass-through mode"));
 #endif
@@ -962,10 +1006,17 @@ void WII::checkMotionPresent() {
 /************************************************************/
 
 bool WII::getButtonPress(Button b) { // Return true when a button is pressed
-    return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));    
+    if(wiiUProControllerConnected)
+        return (ButtonState & pgm_read_dword(&PROCONTROLLERBUTTONS[(uint8_t)b]));    
+    else
+        return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
 }
 bool WII::getButtonClick(Button b) { // Only return true when a button is clicked
-    uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+    uint32_t button;
+    if(wiiUProControllerConnected)
+        button = pgm_read_dword(&PROCONTROLLERBUTTONS[(uint8_t)b]);
+    else
+        button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
     bool click = (ButtonClickState & button);
     ButtonClickState &= ~button;  // clear "click" event
     return click;
@@ -981,7 +1032,17 @@ uint8_t WII::getAnalogHat(Hat a) {
             return output;
     }
 }
-
+uint16_t WII::getAnalogHat(AnalogHat a) {
+    if(!wiiUProControllerConnected)
+        return 2000;
+    else {
+        uint16_t output = hatValues[(uint8_t)a];
+        if(output == 0x00) // The joystick will only read 0 when it is first initializing, so we will just return the center position
+            return 2000;
+        else
+            return output;
+    }
+}
 /************************************************************/
 /*       The following functions are for the IR camera      */
 /************************************************************/

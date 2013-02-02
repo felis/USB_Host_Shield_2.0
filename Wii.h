@@ -104,6 +104,7 @@ public:
     bool getButtonClick(Button b); // This will only be true when the button is clicked the first time
     
     uint8_t getAnalogHat(Hat a); // Used to read the joystick of the Nunchuck
+    uint16_t getAnalogHat(AnalogHat a); // Used to read the joystick of the Wii U Pro Controller
 
     double getPitch() { return pitch; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected
     double getRoll() { return roll; }; // Fusioned angle using a complimentary filter if the Motion Plus is connected
@@ -117,10 +118,14 @@ public:
     void setLedOn(LED a);
     void setLedToggle(LED a);
     void setLedStatus(); // This will set the LEDs, so the user can see which connections are active
+
+    uint8_t getBatteryLevel() { return batteryLevel; }; // Return the battery level
+    uint8_t getWiiState() { return wiiState; }; // Return the wii state, see: http://wiibrew.org/wiki/Wiimote#0x20:_Status
     
     bool wiimoteConnected; // Variable used to indicate if a Wiimote is connected
     bool nunchuckConnected; // Variable used to indicate if a Nunchuck controller is connected
     bool motionPlusConnected; // Variable used to indicate if a Nunchuck controller is connected
+    bool wiiUProControllerConnected; // Variable used to indicate if a Wii U Pro controller is connected
     
     /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
     
@@ -153,9 +158,6 @@ public:
     int16_t gyroYawZero; // These values are set when the controller is first initialized
     int16_t gyroRollZero;
     int16_t gyroPitchZero;
-
-    uint8_t getBatteryLevel() { return batteryLevel; };
-    uint8_t getWiiState() { return wiiState; };
 
 #ifdef WIICAMERA
     /* These are functions for the IR camera */
@@ -197,7 +199,7 @@ private:
     uint32_t ButtonState;
     uint32_t OldButtonState;
     uint32_t ButtonClickState;
-    uint8_t hatValues[2];
+    uint16_t hatValues[4];
     
     uint8_t HIDBuffer[3];// Used to store HID commands
     

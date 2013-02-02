@@ -54,12 +54,17 @@ enum Button {
     C = 11,
     B = 12,
     A = 13,
+    /* These are only available on the Wii U Pro Controller */
+    L = 16,
+    R = 17,
+    ZL = 18,
+    ZR = 19,
 
     /* PS3 controllers buttons */
     SELECT = 4,
-    L3 = 5,
-    R3 = 6,
-    START = 7,    
+    START = 5,
+    L3 = 6,
+    R3 = 7,    
     
     L2 = 8,
     R2 = 9,

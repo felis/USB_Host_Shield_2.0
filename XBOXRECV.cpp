@@ -36,9 +36,9 @@ const uint16_t BUTTONS[] PROGMEM = {
     0x0400, // LEFT
 
     0x2000, // BACK
-    0x4000, // L3
-    0x8000, // R3
     0x1000, // START
+    0x4000, // L3
+    0x8000, // R3    
 
     0,0, // Skip L2 and R2 as these are analog buttons
     0x0001, // L1
