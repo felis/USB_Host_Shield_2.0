@@ -107,7 +107,7 @@ All the information regarding the Xbox 360 controller protocol are form these si
 
 ### [Wii library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp)
 
-The [Wii](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extension via Bluetooth.
+The [Wii](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
@@ -115,7 +115,7 @@ First you have to pair with the controller, this is done automatically by the li
 WII Wii(&Btd,PAIR);
 </code>
 
-And then press 1 & 2 at once on the Wiimote.
+And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
 
 After that you can simply create the instance like so:
 
