@@ -916,7 +916,7 @@ void BTD::hci_pin_code_request_reply() {
         Notify(PSTR("\r\nParing with Wii U Pro Controller"));
 #endif
         hcibuf[9] = 6; // Pin length is the length of the bt address
-        hcibuf[10] = my_bdaddr[0]; // The pin is the Wiimotes bt address backwards
+        hcibuf[10] = my_bdaddr[0]; // The pin is the Bluetooth dongles bt address backwards
         hcibuf[11] = my_bdaddr[1];
         hcibuf[12] = my_bdaddr[2];
         hcibuf[13] = my_bdaddr[3];
