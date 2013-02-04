@@ -425,7 +425,8 @@ void SPP::SDP_task() {
 #endif
                 pBtd->l2cap_disconnection_response(hci_handle,identifier,sdp_dcid,sdp_scid);                
                 l2cap_sdp_state = L2CAP_SDP_WAIT;
-            }
+            } else if(l2cap_connection_request_sdp_flag)
+                l2cap_rfcomm_state = L2CAP_SDP_WAIT;
             break;
         case L2CAP_DISCONNECT_RESPONSE: // This is for both disconnection response from the RFCOMM and SDP channel if they were connected
             if (l2cap_disconnect_response_flag) {
@@ -494,7 +495,8 @@ void SPP::RFCOMM_task()
 #endif
                 pBtd->l2cap_disconnection_response(hci_handle,identifier,rfcomm_dcid,rfcomm_scid);
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
-            }
+            } else if(l2cap_connection_request_rfcomm_flag)
+                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
             break;                    
     }
 }
