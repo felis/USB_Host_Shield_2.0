@@ -630,6 +630,7 @@ template<typename Tp_pin, typename Tc_bit>
 #endif // Teensy++ 2.0
 
 #if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#define BOARD_BALANDUINO
 // Balanduino pin numbers
 // http://balanduino.net/
 #define P0  Pd0 /* 0  - PD0 */
