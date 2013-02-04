@@ -708,7 +708,11 @@ void BTD::HCI_task() {
                 }      
                 PrintHex<uint8_t>(disc_bdaddr[0]);
 #endif
-                l2capConnectionClaimed = false;                
+                // Clear these flags for a new connection
+                l2capConnectionClaimed = false;
+                sdpConnectionClaimed = false;
+                rfcommConnectionClaimed = false;
+                          
                 hci_event_flag = 0;
                 hci_state = HCI_DONE_STATE;
             }

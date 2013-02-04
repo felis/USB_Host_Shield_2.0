@@ -180,6 +180,8 @@ public:
     uint8_t disc_bdaddr[6]; // Last incoming devices Bluetooth address
     uint8_t remote_name[30]; // First 30 chars of last remote name
     uint8_t hci_version;
+    bool sdpConnectionClaimed;
+    bool rfcommConnectionClaimed;
     
     bool connectToWii; // Used to only send the ACL data to the wiimote
     bool incomingWii;

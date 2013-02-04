@@ -79,12 +79,15 @@ void SPP::disconnect(){
     l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
 }
 void SPP::ACLData(uint8_t* l2capinbuf) {
-    if(!pBtd->l2capConnectionClaimed && !connected && !RFCOMMConnected && !SDPConnected) {
+    if(!connected) {
         if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-            if(((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) || ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM)) {                
-                pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
+            if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM && !pBtd->sdpConnectionClaimed) {
+                pBtd->sdpConnectionClaimed = true;
                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_sdp_state = L2CAP_SDP_WAIT; // Reset state
+            } else if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == RFCOMM_PSM && !pBtd->rfcommConnectionClaimed) {
+                pBtd->rfcommConnectionClaimed = true;
+                hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                 l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT; // Reset state
             }
         }
