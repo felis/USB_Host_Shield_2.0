@@ -57,7 +57,7 @@ void loop() {
       For instace "0Hello World" would send "Hello World" to connection 0 
     */
     uint8_t id = buffer[0]-'0'; // Convert from ASCII
-    if(id < length && length > 1) { // And then compare to length and make sure there is any text
+    if(id < length && i > 1) { // And then compare to length and make sure there is any text
       if(SerialBT[id]->connected) { // Check if a device is actually connected
         for(uint8_t i2 = 0; i2 < i-1; i2++) // Don't include the first character
           buffer[i2] = buffer[i2+1];
