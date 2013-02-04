@@ -171,6 +171,8 @@ public:
     };    
     
     bool l2capConnectionClaimed; // This is used by the service to know when to store the device information
+    bool sdpConnectionClaimed;
+    bool rfcommConnectionClaimed;
     
     const char* btdName; // These are set by the SPP library
     const char* btdPin;
@@ -180,8 +182,6 @@ public:
     uint8_t disc_bdaddr[6]; // Last incoming devices Bluetooth address
     uint8_t remote_name[30]; // First 30 chars of last remote name
     uint8_t hci_version;
-    bool sdpConnectionClaimed;
-    bool rfcommConnectionClaimed;
     
     bool connectToWii; // Used to only send the ACL data to the wiimote
     bool incomingWii;
