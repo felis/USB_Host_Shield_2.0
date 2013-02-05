@@ -111,6 +111,7 @@ Collaboration diagram for SPP:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae5cb4167b3ab9c891398f54729c6da81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#ae5cb4167b3ab9c891398f54729c6da81">SPP</a> (<a class="el" href="class_b_t_d.html">BTD</a> *p, const char *name=&quot;Arduino&quot;, const char *pin=&quot;1234&quot;)</td></tr>
 <tr class="separator:ae5cb4167b3ab9c891398f54729c6da81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">BluetoothService implementation</div></td></tr>
 <tr class="memitem:abdfe9453fb82781bec53a191c2e9fb1d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#abdfe9453fb82781bec53a191c2e9fb1d">ACLData</a> (uint8_t *ACLData)</td></tr>
 <tr class="separator:abdfe9453fb82781bec53a191c2e9fb1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2de67ee7ad1be9d2f3daf7dc08dc5f90"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90">Run</a> ()</td></tr>
@@ -119,38 +120,39 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae2c661bd46cd2d74bd29c4c771cd2ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b4b1f85f553c6a2fdd523e50c75c7b0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a2b4b1f85f553c6a2fdd523e50c75c7b0">disconnect</a> ()</td></tr>
 <tr class="separator:a2b4b1f85f553c6a2fdd523e50c75c7b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc3e67901972f2f97aba961475a218f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#adc3e67901972f2f97aba961475a218f5">print</a> (const String &amp;)</td></tr>
-<tr class="separator:adc3e67901972f2f97aba961475a218f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1df7144c2718b4b6f37e9cd67b9e7a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#ab1df7144c2718b4b6f37e9cd67b9e7a5">print</a> (const char *data)</td></tr>
-<tr class="separator:ab1df7144c2718b4b6f37e9cd67b9e7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Serial port profile (SPP) Print functions</div></td></tr>
+<tr class="memitem:acbea2d8894757fad6f9b903cad942b36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">print</a> (const String &amp;str)</td></tr>
+<tr class="separator:acbea2d8894757fad6f9b903cad942b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b2ce856e7431905451c3f45526e1b28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a8b2ce856e7431905451c3f45526e1b28">println</a> (const String &amp;str)</td></tr>
+<tr class="separator:a8b2ce856e7431905451c3f45526e1b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2632bccbdd58b98c483a85e5474fd053"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a2632bccbdd58b98c483a85e5474fd053">print</a> (const char *str)</td></tr>
+<tr class="separator:a2632bccbdd58b98c483a85e5474fd053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f39d99ed5299a38f86b2c2376ddfdc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a8f39d99ed5299a38f86b2c2376ddfdc4">println</a> (const char *str)</td></tr>
+<tr class="separator:a8f39d99ed5299a38f86b2c2376ddfdc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bf2176a1fd3772e2c903eee680307b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a6bf2176a1fd3772e2c903eee680307b4">print</a> (uint8_t data)</td></tr>
 <tr class="separator:a6bf2176a1fd3772e2c903eee680307b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29784e177ce4ea9ee3e155d1a39cf3fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a29784e177ce4ea9ee3e155d1a39cf3fa">print</a> (uint8_t *array, uint8_t length)</td></tr>
-<tr class="separator:a29784e177ce4ea9ee3e155d1a39cf3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11639f99db3a9be39d80bc8292867974"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a11639f99db3a9be39d80bc8292867974">print</a> (const __FlashStringHelper *)</td></tr>
-<tr class="separator:a11639f99db3a9be39d80bc8292867974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e02851525c9f2692f36947b1fa8725c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a4e02851525c9f2692f36947b1fa8725c">println</a> (const String &amp;)</td></tr>
-<tr class="separator:a4e02851525c9f2692f36947b1fa8725c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad21a76ada3a480e1312fb82ba60dbba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#aad21a76ada3a480e1312fb82ba60dbba">println</a> (const char *data)</td></tr>
-<tr class="separator:aad21a76ada3a480e1312fb82ba60dbba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a627a6371ed4f9c251fe0dd4e1b867a2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a627a6371ed4f9c251fe0dd4e1b867a2f">println</a> (uint8_t data)</td></tr>
 <tr class="separator:a627a6371ed4f9c251fe0dd4e1b867a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29784e177ce4ea9ee3e155d1a39cf3fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a29784e177ce4ea9ee3e155d1a39cf3fa">print</a> (uint8_t *array, uint8_t length)</td></tr>
+<tr class="separator:a29784e177ce4ea9ee3e155d1a39cf3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec05fbfff82d2a386a7064254833ce64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#aec05fbfff82d2a386a7064254833ce64">println</a> (uint8_t *array, uint8_t length)</td></tr>
 <tr class="separator:aec05fbfff82d2a386a7064254833ce64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e43764a7f1ef2b9022dad5a38d8a6d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a1e43764a7f1ef2b9022dad5a38d8a6d9">println</a> (const __FlashStringHelper *)</td></tr>
-<tr class="separator:a1e43764a7f1ef2b9022dad5a38d8a6d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa534ca2960b81635c9ef00baaa04b37c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#aa534ca2960b81635c9ef00baaa04b37c">print</a> (const __FlashStringHelper *ifsh)</td></tr>
+<tr class="separator:aa534ca2960b81635c9ef00baaa04b37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53cae4e7a1a6208f348b9509dbe94d24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a53cae4e7a1a6208f348b9509dbe94d24">println</a> (const __FlashStringHelper *ifsh)</td></tr>
+<tr class="separator:a53cae4e7a1a6208f348b9509dbe94d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4afe343fc15bba50507ab9205165b8dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a4afe343fc15bba50507ab9205165b8dd">println</a> (void)</td></tr>
 <tr class="separator:a4afe343fc15bba50507ab9205165b8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d9d28454b84e334a0560a4b2182716e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a1d9d28454b84e334a0560a4b2182716e">printNumber</a> (int16_t n)</td></tr>
-<tr class="separator:a1d9d28454b84e334a0560a4b2182716e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92cde4ff57b4375474c1b5d6b56b4bd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a92cde4ff57b4375474c1b5d6b56b4bd2">printNumberln</a> (int16_t n)</td></tr>
-<tr class="separator:a92cde4ff57b4375474c1b5d6b56b4bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31f14d7249f8a5b6eb2230a42a9d5ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#af31f14d7249f8a5b6eb2230a42a9d5ae">printNumber</a> (int32_t n)</td></tr>
+<tr class="separator:af31f14d7249f8a5b6eb2230a42a9d5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3a2e5fa45ba0fe17d3341998a6c4640"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#ac3a2e5fa45ba0fe17d3341998a6c4640">printNumberln</a> (int32_t n)</td></tr>
+<tr class="separator:ac3a2e5fa45ba0fe17d3341998a6c4640"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7938394e271e0cec64aae6f534eae69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#ae7938394e271e0cec64aae6f534eae69">printNumber</a> (double n, uint8_t digits=2)</td></tr>
 <tr class="separator:ae7938394e271e0cec64aae6f534eae69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cdc30f2314dbd572b8432972469bb25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a2cdc30f2314dbd572b8432972469bb25">printNumberln</a> (double n, uint8_t digits=2)</td></tr>
 <tr class="separator:a2cdc30f2314dbd572b8432972469bb25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02d17c1f81d1a750aca230decc13c39a"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a02d17c1f81d1a750aca230decc13c39a">doubleToString</a> (double input, uint8_t digits)</td></tr>
-<tr class="separator:a02d17c1f81d1a750aca230decc13c39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3117df8f320d9d010b57c30255db054b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a3117df8f320d9d010b57c30255db054b">doubleToString</a> (double input, char *output, uint8_t digits=2)</td></tr>
+<tr class="separator:a3117df8f320d9d010b57c30255db054b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7de4c895e4056ac2964ce5d020611deb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a7de4c895e4056ac2964ce5d020611deb">available</a> ()</td></tr>
 <tr class="separator:a7de4c895e4056ac2964ce5d020611deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53980e0d20944454790febe5c9be66af"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#a53980e0d20944454790febe5c9be66af">read</a> ()</td></tr>
@@ -163,7 +165,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ade5d4f0ab50ddcad14f75fce4450a028"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_p_p.html#ade5d4f0ab50ddcad14f75fce4450a028">connected</a></td></tr>
 <tr class="separator:ade5d4f0ab50ddcad14f75fce4450a028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class implements the Serial Port Protocol (<a class="el" href="class_s_p_p.html">SPP</a>). </p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00093">93</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae5cb4167b3ab9c891398f54729c6da81"></a>
 <div class="memitem">
 <div class="memproto">
@@ -193,6 +199,17 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for the <a class="el" href="class_s_p_p.html">SPP</a> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Pointer to <a class="el" href="class_b_t_d.html">BTD</a> class instance. </td></tr>
+    <tr><td class="paramname">name</td><td>Set the name to <a class="el" href="class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9">BTD::btdName</a>. If argument is omitted, then "Arduino" will be used. </td></tr>
+    <tr><td class="paramname">pin</td><td>Write the pin to <a class="el" href="class_b_t_d.html#a215cb939c01ed3ff56db37841224546c">BTD::btdPin</a>. If argument is omitted, then "1234" will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00045">45</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -218,8 +235,17 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to pass acldata to the services. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ACLData</td><td>Incoming acldata. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a8dc98310fe481357eaa86c53e49af113">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00081">81</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -243,6 +269,10 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get number of bytes waiting to be read. </p>
+<dl class="section return"><dt>Returns</dt><dd>Return the number of bytes ready to be read. </dd></dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00212">212</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
@@ -266,17 +296,20 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used this to disconnect the virtual serial port. </p>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a66ee2f09c6087b82e3920c3d652a99b2">BluetoothService</a>.</p>
 
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00070">70</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a02d17c1f81d1a750aca230decc13c39a"></a>
+<a class="anchor" id="a3117df8f320d9d010b57c30255db054b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * SPP::doubleToString </td>
+          <td class="memname">void SPP::doubleToString </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>input</em>, </td>
@@ -284,8 +317,14 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>digits</em>&#160;</td>
+          <td class="paramname"><em>digits</em> = <code>2</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -294,6 +333,17 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Helper function to convert from double to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Floating-point number to convert. </td></tr>
+    <tr><td class="paramname">output</td><td>Output buffer. </td></tr>
+    <tr><td class="paramname">digits</td><td>Number of digits to convert. If argument is omitted, then 2 digits will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00876">876</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -317,10 +367,13 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Discard all the bytes in the buffer. </p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00219">219</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="adc3e67901972f2f97aba961475a218f5"></a>
+<a class="anchor" id="acbea2d8894757fad6f9b903cad942b36"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -333,10 +386,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to send Strings. Used to send Arduino String data type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00687">687</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab1df7144c2718b4b6f37e9cd67b9e7a5"></a>
+<a class="anchor" id="a2632bccbdd58b98c483a85e5474fd053"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -344,11 +406,20 @@ Public Attributes</h2></td></tr>
           <td class="memname">void SPP::print </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to send standard strings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00703">703</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -365,6 +436,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to send single bytes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Data to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00719">719</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -391,10 +471,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to send arrays. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>Array to send. </td></tr>
+    <tr><td class="paramname">length</td><td>Number of bytes to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00722">722</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a11639f99db3a9be39d80bc8292867974"></a>
+<a class="anchor" id="aa534ca2960b81635c9ef00baaa04b37c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -407,10 +497,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to print strings stored in flash. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ifsh</td><td>String to send - see: <a href="http://playground.arduino.cc/Learning/Memory">http://playground.arduino.cc/Learning/Memory</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00737">737</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4e02851525c9f2692f36947b1fa8725c"></a>
+<a class="anchor" id="a8b2ce856e7431905451c3f45526e1b28"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -423,10 +522,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">print(const String &amp;str)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00753">753</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aad21a76ada3a480e1312fb82ba60dbba"></a>
+<a class="anchor" id="a8f39d99ed5299a38f86b2c2376ddfdc4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -434,11 +542,20 @@ Public Attributes</h2></td></tr>
           <td class="memname">void SPP::println </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#a2632bccbdd58b98c483a85e5474fd053">print(const char* data)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00757">757</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -455,6 +572,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#a6bf2176a1fd3772e2c903eee680307b4">print(uint8_t data)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Data to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00763">763</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -481,10 +607,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#a29784e177ce4ea9ee3e155d1a39cf3fa">print(uint8_t* array, uint8_t length)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>Array to send. </td></tr>
+    <tr><td class="paramname">length</td><td>Number of bytes to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00767">767</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1e43764a7f1ef2b9022dad5a38d8a6d9"></a>
+<a class="anchor" id="a53cae4e7a1a6208f348b9509dbe94d24"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -497,6 +633,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#aa534ca2960b81635c9ef00baaa04b37c">print(const __FlashStringHelper *ifsh)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ifsh</td><td>String to send - see: <a href="http://playground.arduino.cc/Learning/Memory">http://playground.arduino.cc/Learning/Memory</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00774">774</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -513,22 +658,34 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Use this to print newline and carriage return. </p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00792">792</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1d9d28454b84e334a0560a4b2182716e"></a>
+<a class="anchor" id="af31f14d7249f8a5b6eb2230a42a9d5ae"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void SPP::printNumber </td>
           <td>(</td>
-          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to print integers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Integers to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00798">798</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -555,22 +712,41 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to print floating-point numbers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Floating-point number to print. </td></tr>
+    <tr><td class="paramname">digits</td><td>Number of digits to send. If argument is omitted, then 2 digits will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00863">863</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a92cde4ff57b4375474c1b5d6b56b4bd2"></a>
+<a class="anchor" id="ac3a2e5fa45ba0fe17d3341998a6c4640"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void SPP::printNumberln </td>
           <td>(</td>
-          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#af31f14d7249f8a5b6eb2230a42a9d5ae">printNumber(int32_t n)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Integers to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00828">828</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -597,6 +773,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#ae7938394e271e0cec64aae6f534eae69">printNumber(double n, uint8_t digits)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Floating-point number to print. </td></tr>
+    <tr><td class="paramname">digits</td><td>Number of digits to send. If argument is omitted, then 2 digits will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00868">868</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -612,6 +798,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to read the buffer. </p>
+<dl class="section return"><dt>Returns</dt><dd>Return the byte. Will return 0 if no byte is available. </dd></dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00906">906</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -635,8 +825,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Use this to reset the service. </p>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00062">62</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -660,8 +853,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to establish the connection automatically. </p>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00370">370</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,17 +871,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Variable used to indicate if the connection is established. </p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00118">118</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_s_p_p_8h_source.html">SPP.h</a></li>
-<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_s_p_p_8cpp.html">SPP.cpp</a></li>
+<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 30 2013 21:23:58 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 19:53:23 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

@@ -110,7 +110,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a66ee2f09c6087b82e3920c3d652a99b2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bluetooth_service.html#a66ee2f09c6087b82e3920c3d652a99b2">disconnect</a> ()</td></tr>
 <tr class="separator:a66ee2f09c6087b82e3920c3d652a99b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>All Bluetooth services should include this class. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00134">134</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a8dc98310fe481357eaa86c53e49af113"></a>
 <div class="memitem">
 <div class="memproto">
@@ -132,8 +136,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to pass acldata to the Bluetooth service. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ACLData</td><td>Pointer to the incoming acldata. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Reimplemented in <a class="el" href="class_s_p_p.html#abdfe9453fb82781bec53a191c2e9fb1d">SPP</a>, <a class="el" href="class_w_i_i.html#a81e1eb4d9ef9999a84e71d764d54dff7">WII</a>, and <a class="el" href="class_p_s3_b_t.html#aa310ede24b68b1b03cfc49c4308c66b7">PS3BT</a>.</p>
+<p>Reimplemented in <a class="el" href="class_w_i_i.html#a81e1eb4d9ef9999a84e71d764d54dff7">WII</a>, <a class="el" href="class_s_p_p.html#abdfe9453fb82781bec53a191c2e9fb1d">SPP</a>, and <a class="el" href="class_p_s3_b_t.html#aa310ede24b68b1b03cfc49c4308c66b7">PS3BT</a>.</p>
 
 </div>
 </div>
@@ -157,8 +168,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. </p>
 
-<p>Reimplemented in <a class="el" href="class_s_p_p.html#a2b4b1f85f553c6a2fdd523e50c75c7b0">SPP</a>, <a class="el" href="class_w_i_i.html#aabe4780f258dada1c0564a4ac7607370">WII</a>, and <a class="el" href="class_p_s3_b_t.html#a39ad8810c67e85eddc68c8a16d38a985">PS3BT</a>.</p>
+<p>Reimplemented in <a class="el" href="class_w_i_i.html#aabe4780f258dada1c0564a4ac7607370">WII</a>, <a class="el" href="class_s_p_p.html#a2b4b1f85f553c6a2fdd523e50c75c7b0">SPP</a>, and <a class="el" href="class_p_s3_b_t.html#a39ad8810c67e85eddc68c8a16d38a985">PS3BT</a>.</p>
 
 </div>
 </div>
@@ -182,8 +194,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to reset the Bluetooth service. </p>
 
-<p>Reimplemented in <a class="el" href="class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0">SPP</a>, <a class="el" href="class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c">WII</a>, and <a class="el" href="class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f">PS3BT</a>.</p>
+<p>Reimplemented in <a class="el" href="class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c">WII</a>, <a class="el" href="class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0">SPP</a>, and <a class="el" href="class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f">PS3BT</a>.</p>
 
 </div>
 </div>
@@ -207,8 +220,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to run the different state machines in the Bluetooth service. </p>
 
-<p>Reimplemented in <a class="el" href="class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90">SPP</a>, <a class="el" href="class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72">WII</a>, and <a class="el" href="class_p_s3_b_t.html#ab41f25f45573239990f68611dc825086">PS3BT</a>.</p>
+<p>Reimplemented in <a class="el" href="class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72">WII</a>, <a class="el" href="class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90">SPP</a>, and <a class="el" href="class_p_s3_b_t.html#ab41f25f45573239990f68611dc825086">PS3BT</a>.</p>
 
 </div>
 </div>
@@ -218,7 +232,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 30 2013 21:23:57 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 19:53:22 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

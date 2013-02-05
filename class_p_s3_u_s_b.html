@@ -112,6 +112,11 @@ Collaboration diagram for PS3USB:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac919404d4caf4625467756272f8d5502"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#ac919404d4caf4625467756272f8d5502">PS3USB</a> (<a class="el" href="class_u_s_b.html">USB</a> *<a class="el" href="class_p_s3_u_s_b.html#aa1873f41ae0da7c4568cfb7517560c48">pUsb</a>, uint8_t btadr5=0, uint8_t btadr4=0, uint8_t btadr3=0, uint8_t btadr2=0, uint8_t btadr1=0, uint8_t btadr0=0)</td></tr>
 <tr class="separator:ac919404d4caf4625467756272f8d5502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af13993073ab245ece6d3fe9e9f41df87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#af13993073ab245ece6d3fe9e9f41df87">setBdaddr</a> (uint8_t *BDADDR)</td></tr>
+<tr class="separator:af13993073ab245ece6d3fe9e9f41df87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be69a3c6e24bf2b53bc06c85829e62a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a3be69a3c6e24bf2b53bc06c85829e62a">setMoveBdaddr</a> (uint8_t *BDADDR)</td></tr>
+<tr class="separator:a3be69a3c6e24bf2b53bc06c85829e62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">USBDeviceConfig implementation</div></td></tr>
 <tr class="memitem:a0083545cb99fb8786e60281fe7a9050d"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a0083545cb99fb8786e60281fe7a9050d">Init</a> (uint8_t parent, uint8_t port, bool lowspeed)</td></tr>
 <tr class="separator:a0083545cb99fb8786e60281fe7a9050d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5750c5448bf1ec73a7669ca2e4799c98"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a5750c5448bf1ec73a7669ca2e4799c98">Release</a> ()</td></tr>
@@ -122,10 +127,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a04b79c271ca14e1e095c6e305c672627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02a5b0244665d5a790d1020e51c94479"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a02a5b0244665d5a790d1020e51c94479">isReady</a> ()</td></tr>
 <tr class="separator:a02a5b0244665d5a790d1020e51c94479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af13993073ab245ece6d3fe9e9f41df87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#af13993073ab245ece6d3fe9e9f41df87">setBdaddr</a> (uint8_t *BDADDR)</td></tr>
-<tr class="separator:af13993073ab245ece6d3fe9e9f41df87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3be69a3c6e24bf2b53bc06c85829e62a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a3be69a3c6e24bf2b53bc06c85829e62a">setMoveBdaddr</a> (uint8_t *BDADDR)</td></tr>
-<tr class="separator:a3be69a3c6e24bf2b53bc06c85829e62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">PS3 Controller functions</div></td></tr>
 <tr class="memitem:ad1de9af6fb34f4cff6c1ed0af21b0141"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress</a> (<a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b)</td></tr>
 <tr class="separator:ad1de9af6fb34f4cff6c1ed0af21b0141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a50f5ed5b41232336cc6d1870795230"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick</a> (<a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b)</td></tr>
@@ -179,7 +181,13 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a394dbb0a59b587210e5958f08dac48f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ep_info.html">EpInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_s3_u_s_b.html#a394dbb0a59b587210e5958f08dac48f1">epInfo</a> [<a class="el" href="_p_s3_u_s_b_8h.html#a168ab47b14a95d7cf8066d553a9cb862">PS3_MAX_ENDPOINTS</a>]</td></tr>
 <tr class="separator:a394dbb0a59b587210e5958f08dac48f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class implements support for all the official PS3 Controllers: Dualshock 3, Navigation or a Motion controller via <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>Information about the protocol can be found at the wiki: <a href="https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information">https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00064">64</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac919404d4caf4625467756272f8d5502"></a>
 <div class="memitem">
 <div class="memproto">
@@ -233,6 +241,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for the <a class="el" href="class_p_s3_u_s_b.html">PS3USB</a> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pUsb</td><td>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </td></tr>
+    <tr><td class="paramname">btadr5,btadr4,btadr3,btadr2,btadr1,btadr0</td><td>Pass your dongles Bluetooth address into the constructor, so you are able to pair the controller with a Bluetooth dongle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00041">41</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -257,8 +275,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get the device address. </p>
+<dl class="section return"><dt>Returns</dt><dd>The device address. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00098">98</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -275,6 +297,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to get the analog value from button presses. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> to read. The supported buttons are: <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aba595d8bca8bc5e67c37c0a9d89becfa">UP</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aec8379af7490bb9eaaf579cf17876f38">RIGHT</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a9b0b4a95b99523966e0e34ffdadac9da">DOWN</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0adb45120aafd37a973140edee24708065">LEFT</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0ae5bc7ee7d6dda5340a28f91834f10543">L1</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a0adffb24dae0c41be5b803f4d444f066">L2</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0af8d87ff07efe24755164f550526f4dac">R1</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a629d7b403cea5f826352f3aefb9a6d6a">R2</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a2fd33892864d1c342d3bead2f2d9ad56">TRIANGLE</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aa79c827759ea48f0735386c4b1188911">CIRCLE</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0ad699bdf1731bd839b56c299536ba1d9d">CROSS</a>, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a4233fbf0cafb86abcee94b38d769fc59">SQUARE</a>, and <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a21f40778b7db9343a6ca75ec2c41ccce">T</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Analog value in the range of 0-255. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00338">338</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -291,6 +323,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to read the analog joystick. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td><a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92a383cb8895dd296b7f69ce845ed16b0ca">LeftHatX</a>, <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92af3f3925efa9762c4e9e71ac7da7a94a3">LeftHatY</a>, <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92aaeb027a0ae5bbc6ba25e1c78a6486c7b">RightHatX</a>, and <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92a7f1fb2db5381286691f4dec179ed5d5a">RightHatY</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return the analog value in the range of 0-255. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00343">343</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -307,6 +349,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Use this to get <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> and <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a> calculated using the accelerometer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>Either <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> or <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return the angle in the range of 0-360. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00353">353</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -323,6 +375,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00332">332</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -339,6 +394,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00329">329</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,6 +413,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to read the sensors inside the Dualshock 3 controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The Dualshock 3 has a 3-axis accelerometer and a 1-axis gyro inside. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return the raw sensor value. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00348">348</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -371,6 +439,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get the <a class="el" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70b">Status</a> from the controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The <a class="el" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70b">Status</a> you want to read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if correct and false if not. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00378">378</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -386,6 +464,10 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Read all the available <a class="el" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70b">Status</a> from the controller. </p>
+<dl class="section return"><dt>Returns</dt><dd>One large string with all the information. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00385">385</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -426,8 +508,20 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Initialize the PS3 Controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
+    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
+    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00064">64</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,6 +545,10 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to check if the controller has been initialized. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00103">103</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -483,6 +581,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Use this to set the Color using RGB values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r,g,b</td><td>RGB value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00507">507</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -499,6 +606,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Use this to set the color using the predefined colors in <a class="el" href="_p_s3_enums_8h.html#a55ecd4f2ec2ebfe8d5b0163e4ac2a967">Colors</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>The desired color. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00515">515</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -515,6 +631,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Set the rumble value inside the Move controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rumble</td><td>The desired value in the range from 64-255. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00518">518</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -538,8 +663,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00278">278</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -563,8 +692,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00269">269</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -580,6 +713,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to set all LEDs and <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a> off. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00424">424</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -596,6 +732,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to set the Bluetooth address inside the Dualshock 3 and Navigation controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00471">471</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -612,6 +757,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00459">459</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -628,6 +782,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00463">463</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -644,6 +807,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00467">467</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -660,6 +832,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to set the Bluetooth address inside the Move controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00528">528</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,6 +856,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn off <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00430">430</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -691,6 +875,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn on <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Either <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a5819f165165589a8e65b07bf46c7382b">RumbleHigh</a> or <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a080b52389e532b79b9e48f43ae6086ac">RumbleLow</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00438">438</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -712,6 +905,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Device address. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00221">221</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -732,6 +928,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Endpoint info structure. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00223">223</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -744,6 +943,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Variable used to indicate if the normal playstation controller is successfully connected. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00211">211</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -756,6 +958,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Variable used to indicate if the move controller is successfully connected. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00213">213</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -768,6 +973,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Variable used to indicate if the navigation controller is successfully connected. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00215">215</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -788,17 +996,20 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00219">219</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a></li>
-<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_p_s3_u_s_b_8cpp.html">PS3USB.cpp</a></li>
+<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 30 2013 21:23:58 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 19:53:22 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

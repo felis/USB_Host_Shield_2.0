@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['madcatz_5fvid',['MADCATZ_VID',['../_x_b_o_x_r_e_c_v_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'MADCATZ_VID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'MADCATZ_VID():&#160;XBOXUSB.h']]],
+  ['madcatz_5fvid',['MADCATZ_VID',['../_x_b_o_x_r_e_c_v_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'XBOXRECV.h']]],
   ['make_5fport',['MAKE_PORT',['../avrpins_8h.html#a007409bc8f4dbfad293d3e4c59bd2921',1,'avrpins.h']]],
   ['make_5ftccr',['MAKE_TCCR',['../avrpins_8h.html#ade418bf397968e1b184b4342e16e950f',1,'avrpins.h']]],
   ['mass_5fcbw_5fsignature',['MASS_CBW_SIGNATURE',['../masstorage_8h.html#a439c9558fff25c40219c0f20244e666d',1,'masstorage.h']]],

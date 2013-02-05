@@ -3,7 +3,7 @@ var searchData=
   ['universalreportparser',['UniversalReportParser',['../class_universal_report_parser.html',1,'']]],
   ['unknown',['unknown',['../cdcprolific_8h.html#a6003f43ffe2391c0c31ea48f6b772627a5b9f6d065e6e98483b3d3ed01f4f6cbe',1,'cdcprolific.h']]],
   ['unplugged',['Unplugged',['../_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70bae37160f3a65bb54a91fb5efb4f971924',1,'PS3Enums.h']]],
-  ['up',['UP',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aba595d8bca8bc5e67c37c0a9d89becfa',1,'UP():&#160;controllerEnums.h'],['../_x_b_o_x_u_s_b_8h.html#a03bfec859eac87be20f8952c1eb89de0aba595d8bca8bc5e67c37c0a9d89becfa',1,'UP():&#160;XBOXUSB.h']]],
+  ['up',['UP',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aba595d8bca8bc5e67c37c0a9d89becfa',1,'controllerEnums.h']]],
   ['usagepagefunc',['UsagePageFunc',['../class_report_desc_parser_base.html#aeb139df01922910be7558b3c3a893db2',1,'ReportDescParserBase']]],
   ['usagepagefunctions',['usagePageFunctions',['../class_report_desc_parser_base.html#af91679187bb24d185979b3ec045c215b',1,'ReportDescParserBase']]],
   ['usagepagetitles0',['usagePageTitles0',['../class_report_desc_parser_base.html#aa8e343a9f6e9472b560200a6f419ab0d',1,'ReportDescParserBase']]],

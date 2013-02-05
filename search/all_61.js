@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['a',['A',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f',1,'A():&#160;controllerEnums.h'],['../_x_b_o_x_u_s_b_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f',1,'A():&#160;XBOXUSB.h']]],
+  ['a',['A',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f',1,'controllerEnums.h']]],
   ['accessory_5fstring_5fdescription',['ACCESSORY_STRING_DESCRIPTION',['../adk_8h.html#aa376dd887b57d0628df287dd1fce7f3b',1,'adk.h']]],
   ['accessory_5fstring_5fmanufacturer',['ACCESSORY_STRING_MANUFACTURER',['../adk_8h.html#a12e00d6841cbb8fd9ae7c97402efa062',1,'adk.h']]],
   ['accessory_5fstring_5fmodel',['ACCESSORY_STRING_MODEL',['../adk_8h.html#a962954d4b489994aa347721c582fe242',1,'adk.h']]],
@@ -33,10 +33,10 @@ var searchData=
   ['adk_5fsendstr',['ADK_SENDSTR',['../adk_8h.html#a4ab0e7e3adbc8bfc1bcdf29887c9a455',1,'adk.h']]],
   ['adk_5fvid',['ADK_VID',['../adk_8h.html#a37223416b6c1bba6b86ab17211bc9af2',1,'adk.h']]],
   ['aerc',['AERC',['../struct_inquiry_response.html#ad02da835cba8057f07b359903ee0c389',1,'InquiryResponse']]],
-  ['all',['ALL',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ab1d5eac4b1dca480c8056eaea7663b7a',1,'ALL():&#160;controllerEnums.h'],['../_x_b_o_x_u_s_b_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ab1d5eac4b1dca480c8056eaea7663b7a',1,'ALL():&#160;XBOXUSB.h']]],
+  ['all',['ALL',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ab1d5eac4b1dca480c8056eaea7663b7a',1,'controllerEnums.h']]],
   ['allocaddress',['AllocAddress',['../class_address_pool.html#a97df4ef42e50960ce2165f4cdb53e590',1,'AddressPool::AllocAddress()'],['../class_address_pool_impl.html#a14657183c73c631754b31bd0cc588c87',1,'AddressPoolImpl::AllocAddress()']]],
-  ['alternating',['ALTERNATING',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37',1,'ALTERNATING():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37',1,'ALTERNATING():&#160;XBOXUSB.h']]],
-  ['analoghat',['AnalogHat',['../controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92',1,'AnalogHat():&#160;controllerEnums.h'],['../_x_b_o_x_u_s_b_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92',1,'AnalogHat():&#160;XBOXUSB.h']]],
+  ['alternating',['ALTERNATING',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37',1,'XBOXRECV.h']]],
+  ['analoghat',['AnalogHat',['../controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92',1,'controllerEnums.h']]],
   ['angle',['Angle',['../_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1',1,'PS3Enums.h']]],
   ['aplphanumtitles0',['aplphanumTitles0',['../class_report_desc_parser_base.html#a3e2e30f8480a9448da0633ed6d623f19',1,'ReportDescParserBase']]],
   ['aplphanumtitles1',['aplphanumTitles1',['../class_report_desc_parser_base.html#a27178d2579a6aa1fdf8651c7284c75ee',1,'ReportDescParserBase']]],

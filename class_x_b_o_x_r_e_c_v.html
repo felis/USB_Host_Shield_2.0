@@ -112,6 +112,7 @@ Collaboration diagram for XBOXRECV:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac856259af28db351f85302b5eddabf1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#ac856259af28db351f85302b5eddabf1d">XBOXRECV</a> (<a class="el" href="class_u_s_b.html">USB</a> *<a class="el" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">pUsb</a>)</td></tr>
 <tr class="separator:ac856259af28db351f85302b5eddabf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">USBDeviceConfig implementation</div></td></tr>
 <tr class="memitem:a07de216bf16a83501d74463c00bf1fc8"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#a07de216bf16a83501d74463c00bf1fc8">Init</a> (uint8_t parent, uint8_t port, bool lowspeed)</td></tr>
 <tr class="separator:a07de216bf16a83501d74463c00bf1fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0e6b53a818516b7d6af0beaa8cebc7a"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#ad0e6b53a818516b7d6af0beaa8cebc7a">Release</a> ()</td></tr>
@@ -122,6 +123,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2d58b0a20eb804d853713ade83d01631"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a570568108edafee8d060aad8fe40db57"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57">isReady</a> ()</td></tr>
 <tr class="separator:a570568108edafee8d060aad8fe40db57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Xbox Controller functions</div></td></tr>
 <tr class="memitem:ad33cd16d10e438bb8051f7fa6052f6c9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress</a> (uint8_t controller, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b)</td></tr>
 <tr class="separator:ad33cd16d10e438bb8051f7fa6052f6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9a59d90ec1941c7152cdd438c284d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick</a> (uint8_t controller, <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b)</td></tr>
@@ -162,10 +164,15 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a53047c86c8c2f625916af62238d50fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d4bdb1b740c87fd51aca3969e67c730"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">bAddress</a></td></tr>
 <tr class="separator:a1d4bdb1b740c87fd51aca3969e67c730"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af97c8d0efc945fa4ba1d120c8a5a9cbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ep_info.html">EpInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">epInfo</a> [<a class="el" href="_x_b_o_x_u_s_b_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>]</td></tr>
+<tr class="memitem:af97c8d0efc945fa4ba1d120c8a5a9cbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ep_info.html">EpInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">epInfo</a> [<a class="el" href="_x_b_o_x_r_e_c_v_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>]</td></tr>
 <tr class="separator:af97c8d0efc945fa4ba1d120c8a5a9cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class implements support for a Xbox Wirless receiver.</p>
+<p>Up to four controllers can connect to one receiver, if more is needed one can use a second receiver via the <a class="el" href="class_u_s_b_hub.html">USBHub</a> class. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00071">71</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac856259af28db351f85302b5eddabf1d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -179,6 +186,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for the <a class="el" href="class_x_b_o_x_r_e_c_v.html">XBOXRECV</a> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pUsb</td><td>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00056">56</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,6 +212,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to check if a button has changed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to read from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if a button has changed. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00440">440</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -219,8 +245,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get the device address. </p>
+<dl class="section return"><dt>Returns</dt><dd>The device address. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00102">102</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -247,6 +277,17 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return the analog value from the joysticks on the controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to read from. </td></tr>
+    <tr><td class="paramname">a</td><td>Either <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92a383cb8895dd296b7f69ce845ed16b0ca">LeftHatX</a>, <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92af3f3925efa9762c4e9e71ac7da7a94a3">LeftHatY</a>, <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92aaeb027a0ae5bbc6ba25e1c78a6486c7b">RightHatX</a> or <a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92a7f1fb2db5381286691f4dec179ed5d5a">RightHatY</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a signed 16-bit integer. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00437">437</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -263,6 +304,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to get the battery level from the controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to read from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the battery level in percentage in 33% steps. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00464">464</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,6 +340,17 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a> will return true as long as the button is held down While <a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to read from. </td></tr>
+    <tr><td class="paramname">b</td><td><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> to read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a> will return a bool, but <a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a> will return a byte if reading <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a0adffb24dae0c41be5b803f4d444f066">L2</a> or <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a629d7b403cea5f826352f3aefb9a6d6a">R2</a>. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00417">417</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -315,6 +377,17 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a> will return true as long as the button is held down While <a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to read from. </td></tr>
+    <tr><td class="paramname">b</td><td><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> to read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick(uint8_t controller, Button b)</a> will return a bool, but <a class="el" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress(uint8_t controller, Button b)</a> will return a byte if reading <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a0adffb24dae0c41be5b803f4d444f066">L2</a> or <a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a629d7b403cea5f826352f3aefb9a6d6a">R2</a>. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00410">410</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,8 +428,20 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Initialize the Xbox Controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
+    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
+    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00071">71</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -380,6 +465,10 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Used to check if the controller has been initialized. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00107">107</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -403,8 +492,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00294">294</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -428,8 +521,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00285">285</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -454,6 +551,15 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Turn rumble off and all the LEDs on the specific controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00137">137</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -480,6 +586,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn on a LED by using the <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+    <tr><td class="paramname">l</td><td><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ab1d5eac4b1dca480c8056eaea7663b7a">ALL</a>, <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6adac6477842247cab1a8c02c65f431b44">LED1</a>, <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a8379bbaa96d151e6adac488b2a147b7a">LED2</a>, <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a5dec293e081e0fc78369c842fab8452b">LED3</a> and <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ad60e39b8d1701d30aa64f80343217342">LED4</a> is supported by the Xbox controller. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00498">498</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -506,6 +622,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Used to set special LED modes supported by the Xbox controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+    <tr><td class="paramname">lm</td><td>See <a class="el" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2">LEDMode</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00501">501</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -530,6 +656,15 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Turn all LEDs off the specific controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00162">162</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -556,6 +691,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn on a LED by using the <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+    <tr><td class="paramname">l</td><td><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6adac6477842247cab1a8c02c65f431b44">LED1</a>, <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a8379bbaa96d151e6adac488b2a147b7a">LED2</a>, <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a5dec293e081e0fc78369c842fab8452b">LED3</a> and <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ad60e39b8d1701d30aa64f80343217342">LED4</a> is supported by the Xbox controller. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00494">494</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -582,6 +727,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Set LED value. Without using the <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> or <a class="el" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2">LEDMode</a> enum. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+    <tr><td class="paramname">value</td><td>See: <a class="el" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">setLedOff(uint8_t controller)</a>, <a class="el" href="class_x_b_o_x_r_e_c_v.html#a9e17aa44f2946e710fb9343f27290c85">setLedOn(uint8_t controller, LED l)</a>, <a class="el" href="class_x_b_o_x_r_e_c_v.html#a54490f57e16eaee6689ca92351958017">setLedBlink(uint8_t controller, LED l)</a>, and <a class="el" href="class_x_b_o_x_r_e_c_v.html#ace7deafed6fa6991d38417b41a490c57">setLedMode(uint8_t controller, LEDMode lm)</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00486">486</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -606,6 +761,15 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Turn rumble off the specific controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00142">142</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -638,6 +802,17 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Turn rumble on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">controller</td><td>The controller to write to. </td></tr>
+    <tr><td class="paramname">lValue</td><td>Left motor (big weight) inside the controller. </td></tr>
+    <tr><td class="paramname">rValue</td><td>Right motor (small weight) inside the controller. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html#l00530">530</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a>.</p>
 
 </div>
 </div>
@@ -659,6 +834,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Device address. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00204">204</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -670,7 +848,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> XBOXRECV::epInfo[<a class="el" href="_x_b_o_x_u_s_b_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>]</td>
+          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> XBOXRECV::epInfo[<a class="el" href="_x_b_o_x_r_e_c_v_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>]</td>
         </tr>
       </table>
   </td>
@@ -679,6 +857,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Endpoint info structure. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00206">206</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -699,6 +880,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00202">202</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -711,6 +895,9 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Variable used to indicate if the XBOX 360 controller is successfully connected. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00198">198</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
@@ -723,17 +910,20 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>True if a wireless receiver is connected. </p>
+
+<p>Definition at line <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html#l00196">196</a> of file <a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_x_b_o_x_r_e_c_v_8h_source.html">XBOXRECV.h</a></li>
-<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_x_b_o_x_r_e_c_v_8cpp.html">XBOXRECV.cpp</a></li>
+<li>/Users/Lauszus/GitHub/USB_Host_Shield_2.0/<a class="el" href="_x_b_o_x_r_e_c_v_8cpp_source.html">XBOXRECV.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 30 2013 21:23:58 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 19:53:23 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

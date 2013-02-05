@@ -12,6 +12,7 @@ var searchData=
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
   ['responsedataformat',['ResponseDataFormat',['../struct_inquiry_response.html#a801e10546dedbd134568bef84f1b287a',1,'InquiryResponse']]],
   ['revisionid',['RevisionID',['../struct_inquiry_response.html#a23775c8cb582ae07c78449dc1a08c23e',1,'InquiryResponse']]],
+  ['rfcommconnectionclaimed',['rfcommConnectionClaimed',['../class_b_t_d.html#a9e5a34242007b64cd6a226cfd1901e74',1,'BTD']]],
   ['rollgyroscale',['rollGyroScale',['../class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331',1,'WII']]],
   ['rollgyrospeed',['rollGyroSpeed',['../class_w_i_i.html#a3fb552c6ad486e23434dcb347a2a4b84',1,'WII']]],
   ['rptcount',['rptCount',['../class_report_desc_parser_base.html#a2c15a93cace44e39560e4613bbefaf14',1,'ReportDescParserBase']]],

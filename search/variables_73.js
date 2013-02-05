@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['sdpconnectionclaimed',['sdpConnectionClaimed',['../class_b_t_d.html#af5e5b085cec1da5c83c75e80e95b3590',1,'BTD']]],
   ['sensekeyspecific',['SenseKeySpecific',['../struct_request_sense_responce.html#a61d034714befc2fa0fb7dcea30942324',1,'RequestSenseResponce']]],
   ['simutitles0',['simuTitles0',['../class_report_desc_parser_base.html#ac1e1d4825d3eb46d8d0f8554a942c4c9',1,'ReportDescParserBase']]],
   ['simutitles1',['simuTitles1',['../class_report_desc_parser_base.html#a22093c092141a4cf2f6f514b30913697',1,'ReportDescParserBase']]],
