@@ -15,7 +15,6 @@ var searchData=
   ['wii_2eh',['Wii.h',['../_wii_8h.html',1,'']]],
   ['wii_5fflag_5fmotion_5fplus_5fconnected',['WII_FLAG_MOTION_PLUS_CONNECTED',['../_wii_8h.html#a34631633d4557244dc8eda52e8505acd',1,'Wii.h']]],
   ['wii_5fflag_5fnunchuck_5fconnected',['WII_FLAG_NUNCHUCK_CONNECTED',['../_wii_8h.html#ae0ff99c8862a05df8877329982e1ef61',1,'Wii.h']]],
-  ['wiicamera',['WIICAMERA',['../_wii_8h.html#a8a70a2d3fd20f9005aa8dc5849beb147',1,'Wii.h']]],
   ['wiicamerareadme_2emd',['WiiCameraReadme.md',['../_wii_camera_readme_8md.html',1,'']]],
   ['wiimoteconnected',['wiimoteConnected',['../class_w_i_i.html#ae25a8ea1b0713801e0209e795b4596fa',1,'WII']]],
   ['wiimotepitch',['wiimotePitch',['../class_w_i_i.html#a1421306c25a76c0fa24f7ee4b10b757b',1,'WII']]],
