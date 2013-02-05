@@ -114,7 +114,5 @@ var searchData=
   ['btd_5fevent_5fpipe',['BTD_EVENT_PIPE',['../class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec',1,'BTD']]],
   ['btdname',['btdName',['../class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9',1,'BTD']]],
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
-  ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]],
-  ['buttons_5fa',['buttons_a',['../struct_game_pad_event_data.html#a3823108a7b1a97e2c492f771d336625f',1,'GamePadEventData']]],
-  ['buttons_5fb',['buttons_b',['../struct_game_pad_event_data.html#a2dfd94a5403b9bd8db418451dd36fa05',1,'GamePadEventData']]]
+  ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: /Users/Lauszus/GitHub/USB_Host_Shield_2.0/Usb.cpp Source File</title>
+<title>USB_Host_Shield_2.0: Usb.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -14,6 +14,7 @@
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="imageStyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -80,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_c8a8870798f18a14afbce47230dc4059.html">GitHub</a></li><li class="navelem"><a class="el" href="dir_8d22a5dfb299d0b3a2bdc551c5cdbd10.html">USB_Host_Shield_2.0</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_e5fbe6d2783ccd4c93c7856d92d7be6e.html">GitHub</a></li><li class="navelem"><a class="el" href="dir_397a095372f04465e811d0ee219bbf8f.html">USB_Host_Shield_2.0</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -240,10 +241,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    direction = (( bmReqType &amp; 0x80 ) &gt; 0);</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">/* fill in setup packet */</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a3eee7ee04b7b4c1fcc3c49614de62c03">ReqType_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a9bbd6cf5a93a6433d2eb97c59b9102d5">bmRequestType</a>   = bmReqType;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#aa97a807e057cff87129fec90ce2a26e2">ReqType_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a9bbd6cf5a93a6433d2eb97c59b9102d5">bmRequestType</a>   = bmReqType;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a321b931277d6ce278416dc5d74059016">bRequest</a>                  = bRequest;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a84c5ecb1e46bf8a949a92992c8dd1a85">wVal_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a68c9436c00560f96e044052c3fb681e9">wValueLo</a>           = wValLo;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a84c5ecb1e46bf8a949a92992c8dd1a85">wVal_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a04ea2d151f9edb6575fc159a58f1e443">wValueHi</a>           = wValHi;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a47f8d4c4300dccec68d9d39889d782e4">wVal_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a68c9436c00560f96e044052c3fb681e9">wValueLo</a>           = wValLo;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a47f8d4c4300dccec68d9d39889d782e4">wVal_u</a>.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a04ea2d151f9edb6575fc159a58f1e443">wValueHi</a>           = wValHi;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a299d9f88d294369ea88b48b5026f4c7e">wIndex</a>                    = wInd;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    setup_pkt.<a class="code" href="struct_s_e_t_u_p___p_k_t.html#a1ec9b19c0ed1e66e399ad9cf3c4a6537">wLength</a>                   = total;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    </div>
@@ -733,7 +734,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 20:57:22 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 22:35:24 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

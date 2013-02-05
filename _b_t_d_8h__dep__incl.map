@@ -1,9 +1,9 @@
-<map id="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/BTD.h" name="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/BTD.h">
-<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/BTD.cpp" alt="" coords="5,85,109,125"/>
-<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.h" alt="" coords="133,85,237,125"/>
-<area shape="rect" id="node5" href="$_s_p_p_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/SPP.h" alt="" coords="262,90,391,121"/>
-<area shape="rect" id="node7" href="$_wii_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/Wii.h" alt="" coords="415,90,539,121"/>
-<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.cpp" alt="" coords="133,173,237,213"/>
-<area shape="rect" id="node6" href="$_s_p_p_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/SPP.cpp" alt="" coords="275,173,379,213"/>
-<area shape="rect" id="node8" href="$_wii_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/Wii.cpp" alt="" coords="425,173,529,213"/>
+<map id="BTD.h" name="BTD.h">
+<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title="BTD.cpp" alt="" coords="5,75,59,96"/>
+<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="83,75,137,96"/>
+<area shape="rect" id="node5" href="$_s_p_p_8h.html" title="SPP.h" alt="" coords="163,75,208,96"/>
+<area shape="rect" id="node7" href="$_wii_8h.html" title="Wii.h" alt="" coords="236,75,276,96"/>
+<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="71,144,133,165"/>
+<area shape="rect" id="node6" href="$_s_p_p_8cpp.html" title="SPP.cpp" alt="" coords="159,144,212,165"/>
+<area shape="rect" id="node8" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="236,144,284,165"/>
 </map>

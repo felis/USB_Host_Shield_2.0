@@ -76,7 +76,6 @@ var searchData=
   ['simutitles1',['simuTitles1',['../class_report_desc_parser_base.html#a22093c092141a4cf2f6f514b30913697',1,'ReportDescParserBase']]],
   ['simutitles2',['simuTitles2',['../class_report_desc_parser_base.html#abe5d9b9739cc8439f8bc0f2e9d797afc',1,'ReportDescParserBase']]],
   ['skip',['Skip',['../class_byte_skipper.html#a1ff6b49682f75c6edab2966540f2ede0',1,'ByteSkipper']]],
-  ['slider',['slider',['../struct_game_pad_event_data.html#acab82398ad8180a59e61fee607cb8892',1,'GamePadEventData']]],
   ['slowblink',['SLOWBLINK',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2acfcb52b0be6da777e98f28261a9d2454',1,'XBOXRECV.h']]],
   ['snddata',['SndData',['../class_a_d_k.html#ac37bde02b6ed1436712d3619afb07c84',1,'ADK::SndData()'],['../class_a_c_m.html#ac96caeb8d657fa76219872ceb4379923',1,'ACM::SndData()'],['../class_f_t_d_i.html#a90309b11a160bad9ceb0b77545b7a240',1,'FTDI::SndData()']]],
   ['softreset',['SoftReset',['../struct_inquiry_response.html#ac912c8788475256de0bb7139e4a9f069',1,'InquiryResponse']]],

@@ -1,11 +1,11 @@
-<map id="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/controllerEnums.h" name="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/controllerEnums.h">
-<area shape="rect" id="node2" href="$_p_s3_enums_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3Enums.h" alt="" coords="128,93,232,133"/>
-<area shape="rect" id="node7" href="$_wii_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0/Wii.h" alt="" coords="257,98,380,129"/>
-<area shape="rect" id="node9" href="$_x_b_o_x_r_e_c_v_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/XBOXRECV.h" alt="" coords="405,93,509,133"/>
-<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.h" alt="" coords="5,181,109,221"/>
-<area shape="rect" id="node5" href="$_p_s3_u_s_b_8h.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3USB.h" alt="" coords="133,181,237,221"/>
-<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3BT.cpp" alt="" coords="5,269,109,309"/>
-<area shape="rect" id="node6" href="$_p_s3_u_s_b_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/PS3USB.cpp" alt="" coords="133,269,237,309"/>
-<area shape="rect" id="node8" href="$_wii_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/Wii.cpp" alt="" coords="267,181,371,221"/>
-<area shape="rect" id="node10" href="$_x_b_o_x_r_e_c_v_8cpp.html" title="/Users/Lauszus/GitHub\l/USB_Host_Shield_2.0\l/XBOXRECV.cpp" alt="" coords="405,181,509,221"/>
+<map id="controllerEnums.h" name="controllerEnums.h">
+<area shape="rect" id="node2" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="89,75,159,96"/>
+<area shape="rect" id="node7" href="$_wii_8h.html" title="Wii.h" alt="" coords="183,75,223,96"/>
+<area shape="rect" id="node9" href="$_x_b_o_x_r_e_c_v_8h.html" title="XBOXRECV.h" alt="" coords="251,75,324,96"/>
+<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="11,144,65,165"/>
+<area shape="rect" id="node5" href="$_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="94,144,153,165"/>
+<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="5,213,67,235"/>
+<area shape="rect" id="node6" href="$_p_s3_u_s_b_8cpp.html" title="PS3USB.cpp" alt="" coords="92,213,161,235"/>
+<area shape="rect" id="node8" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="179,144,227,165"/>
+<area shape="rect" id="node10" href="$_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="251,144,332,165"/>
 </map>

@@ -24,14 +24,14 @@ var searchData=
   ['reportdescparser',['ReportDescParser',['../class_report_desc_parser.html',1,'']]],
   ['reportdescparser2',['ReportDescParser2',['../class_report_desc_parser2.html',1,'ReportDescParser2'],['../class_report_desc_parser2.html#a6ee7a47ffbc5c2905506c10039fcfaff',1,'ReportDescParser2::ReportDescParser2()']]],
   ['reportdescparserbase',['ReportDescParserBase',['../class_report_desc_parser_base.html',1,'ReportDescParserBase'],['../class_report_desc_parser_base.html#a607a81ff9d8f282298533a1dbf10f8e1',1,'ReportDescParserBase::ReportDescParserBase()']]],
-  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#a3eee7ee04b7b4c1fcc3c49614de62c03',1,'SETUP_PKT']]],
+  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#aa97a807e057cff87129fec90ce2a26e2',1,'SETUP_PKT']]],
   ['requestsense',['RequestSense',['../class_bulk_only.html#a42e3ee7f4fdb3327ff2d5bab0ef05422',1,'BulkOnly']]],
   ['requestsenseresponce',['RequestSenseResponce',['../struct_request_sense_responce.html',1,'']]],
   ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
   ['reserved2',['Reserved2',['../struct_inquiry_response.html#abe5677b01f709411d446dfa6246ca110',1,'InquiryResponse']]],
   ['reserved3',['Reserved3',['../struct_inquiry_response.html#a3ee7e8654e1216110896e27c97125923',1,'InquiryResponse']]],
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
-  ['reset',['reset',['../class_m_a_x3421e.html#ad2b85831a551d8e30496882ce7e57fd2',1,'MAX3421e::reset()'],['../class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48',1,'BluetoothService::Reset()'],['../class_bulk_only.html#a0e90c8ec2622fb6c5b19de16c244a8a1',1,'BulkOnly::Reset()'],['../class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f',1,'PS3BT::Reset()'],['../class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0',1,'SPP::Reset()'],['../class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c',1,'WII::Reset()']]],
+  ['reset',['Reset',['../class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48',1,'BluetoothService::Reset()'],['../class_bulk_only.html#a0e90c8ec2622fb6c5b19de16c244a8a1',1,'BulkOnly::Reset()'],['../class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f',1,'PS3BT::Reset()'],['../class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0',1,'SPP::Reset()'],['../class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c',1,'WII::Reset()'],['../class_m_a_x3421e.html#ad2b85831a551d8e30496882ce7e57fd2',1,'MAX3421e::reset()']]],
   ['reset_5fdownstream_5fdata_5fpipe',['RESET_DOWNSTREAM_DATA_PIPE',['../cdcprolific_8h.html#a810fdf3da740b4c9e309cefb29f4eb3a',1,'cdcprolific.h']]],
   ['reset_5fupstream_5fdata_5fpipe',['RESET_UPSTREAM_DATA_PIPE',['../cdcprolific_8h.html#aea64b328d877a5eead187856dd28f847',1,'cdcprolific.h']]],
   ['resethubpremask',['ResetHubPreMask',['../class_u_s_b.html#a5b4de045ea7fefe0fab967ddf44c39b1',1,'USB']]],
@@ -70,8 +70,6 @@ var searchData=
   ['rotating',['ROTATING',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ab341b3ec217357462f12510d0435c25b',1,'XBOXRECV.h']]],
   ['rperaddr',['rPERADDR',['../max3421e_8h.html#ac6d86063950bdbf438d358c907aefbfa',1,'max3421e.h']]],
   ['rpinctl',['rPINCTL',['../max3421e_8h.html#a6b9f9d34ace73b82db1d41b870942fae',1,'max3421e.h']]],
-  ['rpt_5fgamepad_5flen',['RPT_GAMEPAD_LEN',['../le3dp__rptparser_8h.html#a85032eb316703bbb20cd0eff01743c77',1,'le3dp_rptparser.h']]],
-  ['rpt_5fgemepad_5flen',['RPT_GEMEPAD_LEN',['../hidjoystickrptparser_8h.html#a6de86ce1a3ec99e5ff75238a4457fb56',1,'hidjoystickrptparser.h']]],
   ['rptcount',['rptCount',['../class_report_desc_parser_base.html#a2c15a93cace44e39560e4613bbefaf14',1,'ReportDescParserBase']]],
   ['rptsize',['rptSize',['../class_report_desc_parser_base.html#a222b1c03a4f3e49283a58ecaa853e247',1,'ReportDescParserBase']]],
   ['rrcvbc',['rRCVBC',['../max3421e_8h.html#afa79b794eadcddfca2f62828dd83134b',1,'max3421e.h']]],
@@ -87,6 +85,5 @@ var searchData=
   ['run',['Run',['../class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383',1,'BluetoothService::Run()'],['../class_p_s3_b_t.html#ab41f25f45573239990f68611dc825086',1,'PS3BT::Run()'],['../class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90',1,'SPP::Run()'],['../class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72',1,'WII::Run()']]],
   ['rusbctl',['rUSBCTL',['../max3421e_8h.html#a1bbe8e1e02d9c61c36a84ce452e49264',1,'max3421e.h']]],
   ['rusbien',['rUSBIEN',['../max3421e_8h.html#a8f874c1537144956a08137d1cc944ea5',1,'max3421e.h']]],
-  ['rusbirq',['rUSBIRQ',['../max3421e_8h.html#a1082650791b2a5cffb39d3caab1f48c7',1,'max3421e.h']]],
-  ['rz',['Rz',['../struct_game_pad_event_data.html#a1bcd02d7281e84f17d9614ea6920ac5a',1,'GamePadEventData']]]
+  ['rusbirq',['rUSBIRQ',['../max3421e_8h.html#a1082650791b2a5cffb39d3caab1f48c7',1,'max3421e.h']]]
 ];

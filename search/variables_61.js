@@ -8,6 +8,5 @@ var searchData=
   ['aerc',['AERC',['../struct_inquiry_response.html#ad02da835cba8057f07b359903ee0c389',1,'InquiryResponse']]],
   ['aplphanumtitles0',['aplphanumTitles0',['../class_report_desc_parser_base.html#a3e2e30f8480a9448da0633ed6d623f19',1,'ReportDescParserBase']]],
   ['aplphanumtitles1',['aplphanumTitles1',['../class_report_desc_parser_base.html#a27178d2579a6aa1fdf8651c7284c75ee',1,'ReportDescParserBase']]],
-  ['aplphanumtitles2',['aplphanumTitles2',['../class_report_desc_parser_base.html#abe5eceaf541346851947c28905e41f9c',1,'ReportDescParserBase']]],
-  ['axes',['axes',['../struct_game_pad_event_data.html#a0df2fc7b17238ad73ca512d602576731',1,'GamePadEventData']]]
+  ['aplphanumtitles2',['aplphanumTitles2',['../class_report_desc_parser_base.html#abe5eceaf541346851947c28905e41f9c',1,'ReportDescParserBase']]]
 ];

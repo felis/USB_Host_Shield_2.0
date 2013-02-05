@@ -5,7 +5,7 @@ var searchData=
   ['reladdr',['RelAddr',['../struct_inquiry_response.html#a64121510090cb38926bbb321e98b1a13',1,'InquiryResponse']]],
   ['remote_5fname',['remote_name',['../class_b_t_d.html#aede42d995c384c238fd49d728df01e4e',1,'BTD']]],
   ['removable',['Removable',['../struct_inquiry_response.html#ab6572ef8e5cd457e0699095f6a0c7a3d',1,'InquiryResponse']]],
-  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#a3eee7ee04b7b4c1fcc3c49614de62c03',1,'SETUP_PKT']]],
+  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#aa97a807e057cff87129fec90ce2a26e2',1,'SETUP_PKT']]],
   ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
   ['reserved2',['Reserved2',['../struct_inquiry_response.html#abe5677b01f709411d446dfa6246ca110',1,'InquiryResponse']]],
   ['reserved3',['Reserved3',['../struct_inquiry_response.html#a3ee7e8654e1216110896e27c97125923',1,'InquiryResponse']]],
@@ -16,6 +16,5 @@ var searchData=
   ['rollgyroscale',['rollGyroScale',['../class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331',1,'WII']]],
   ['rollgyrospeed',['rollGyroSpeed',['../class_w_i_i.html#a3fb552c6ad486e23434dcb347a2a4b84',1,'WII']]],
   ['rptcount',['rptCount',['../class_report_desc_parser_base.html#a2c15a93cace44e39560e4613bbefaf14',1,'ReportDescParserBase']]],
-  ['rptsize',['rptSize',['../class_report_desc_parser_base.html#a222b1c03a4f3e49283a58ecaa853e247',1,'ReportDescParserBase']]],
-  ['rz',['Rz',['../struct_game_pad_event_data.html#a1bcd02d7281e84f17d9614ea6920ac5a',1,'GamePadEventData']]]
+  ['rptsize',['rptSize',['../class_report_desc_parser_base.html#a222b1c03a4f3e49283a58ecaa853e247',1,'ReportDescParserBase']]]
 ];

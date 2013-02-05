@@ -23,8 +23,6 @@ var searchData=
   ['rmode',['rMODE',['../max3421e_8h.html#a330db4fc764b8ccae5214645c1ee5423',1,'max3421e.h']]],
   ['rperaddr',['rPERADDR',['../max3421e_8h.html#ac6d86063950bdbf438d358c907aefbfa',1,'max3421e.h']]],
   ['rpinctl',['rPINCTL',['../max3421e_8h.html#a6b9f9d34ace73b82db1d41b870942fae',1,'max3421e.h']]],
-  ['rpt_5fgamepad_5flen',['RPT_GAMEPAD_LEN',['../le3dp__rptparser_8h.html#a85032eb316703bbb20cd0eff01743c77',1,'le3dp_rptparser.h']]],
-  ['rpt_5fgemepad_5flen',['RPT_GEMEPAD_LEN',['../hidjoystickrptparser_8h.html#a6de86ce1a3ec99e5ff75238a4457fb56',1,'hidjoystickrptparser.h']]],
   ['rrcvbc',['rRCVBC',['../max3421e_8h.html#afa79b794eadcddfca2f62828dd83134b',1,'max3421e.h']]],
   ['rrcvfifo',['rRCVFIFO',['../max3421e_8h.html#a5ab905353668c35ea0d9f6989d24b849',1,'max3421e.h']]],
   ['rrevision',['rREVISION',['../max3421e_8h.html#a3e8f39e33c2ae67b48a682a8a45e3f18',1,'max3421e.h']]],

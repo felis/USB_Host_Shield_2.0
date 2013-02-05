@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['gamepadeventdata',['GamePadEventData',['../struct_game_pad_event_data.html',1,'']]],
   ['gametitles0',['gameTitles0',['../class_report_desc_parser_base.html#a63e4a90b00614d8fd5a2bdc4cb022088',1,'ReportDescParserBase']]],
   ['gametitles1',['gameTitles1',['../class_report_desc_parser_base.html#a555da251d25f431655b13823253a6980',1,'ReportDescParserBase']]],
   ['gendesktoptitles0',['genDesktopTitles0',['../class_report_desc_parser_base.html#a85848eb36e6d9abcf55ee3d5ee4b6d8f',1,'ReportDescParserBase']]],

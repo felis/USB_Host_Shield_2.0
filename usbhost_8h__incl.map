@@ -1,5 +1,5 @@
-<map id="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/usbhost.h" name="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/usbhost.h">
-<area shape="rect" id="node2" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="5,93,59,115"/>
-<area shape="rect" id="node4" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="84,93,151,115"/>
-<area shape="rect" id="node5" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="175,93,233,115"/>
+<map id="usbhost.h" name="usbhost.h">
+<area shape="rect" id="node2" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="5,75,59,96"/>
+<area shape="rect" id="node4" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="84,75,151,96"/>
+<area shape="rect" id="node5" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="175,75,233,96"/>
 </map>

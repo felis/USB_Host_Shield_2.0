@@ -12,6 +12,5 @@ var searchData=
   ['totalsize',['totalSize',['../class_report_desc_parser_base.html#aa5223ad6eb8be8c7fb53a98d4ddde594',1,'ReportDescParserBase']]],
   ['trmtsk',['TrmTsk',['../struct_inquiry_response.html#add4ccc2e5f626d29a24e5f38149a2e76',1,'InquiryResponse']]],
   ['ttthinktime',['TTThinkTime',['../struct_hub_descriptor.html#a00002f5db3d923aa11645bfde3cd650e',1,'HubDescriptor']]],
-  ['twist',['twist',['../struct_game_pad_event_data.html#af9fe1cfd2584936b2f556b1885a0a9e0',1,'GamePadEventData']]],
   ['type',['type',['../struct_s_e_t_u_p___p_k_t.html#ad9346ba7b7a4da6829142e23e3ba8a2f',1,'SETUP_PKT']]]
 ];

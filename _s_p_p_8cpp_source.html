@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: /Users/Lauszus/GitHub/USB_Host_Shield_2.0/SPP.cpp Source File</title>
+<title>USB_Host_Shield_2.0: SPP.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -14,6 +14,7 @@
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="imageStyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -80,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_c8a8870798f18a14afbce47230dc4059.html">GitHub</a></li><li class="navelem"><a class="el" href="dir_8d22a5dfb299d0b3a2bdc551c5cdbd10.html">USB_Host_Shield_2.0</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_e5fbe6d2783ccd4c93c7856d92d7be6e.html">GitHub</a></li><li class="navelem"><a class="el" href="dir_397a095372f04465e811d0ee219bbf8f.html">USB_Host_Shield_2.0</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -113,7 +114,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> * CRC (reversed crc) lookup table as calculated by the table generator in ETSI TS 101 369 V6.3.0.</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="_s_p_p_8cpp.html#a5c3da75486e8c6a65da9ecc5c9c588e1">   26</a></span>&#160;<span class="keyword">const</span> uint8_t rfcomm_crc_table[256] <a class="code" href="acm_2acm__terminal_2pgmstrings_8h.html#a3fa5cb2801cd8b7c78af8a465a662564">PROGMEM</a> = { <span class="comment">/* reversed, 8-bit, poly=0x07 */</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="_s_p_p_8cpp.html#a5c3da75486e8c6a65da9ecc5c9c588e1">   26</a></span>&#160;<span class="keyword">const</span> uint8_t rfcomm_crc_table[256] <a class="code" href="hidboot_8cpp.html#ad1eb9d7b0347c20d121c984618c442f0">PROGMEM</a> = { <span class="comment">/* reversed, 8-bit, poly=0x07 */</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C, 0x09, 0x98, 0xEA, 0x7B,</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69, 0x12, 0x83, 0xF1, 0x60, 0x15, 0x84, 0xF6, 0x67,</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    0x38, 0xA9, 0xDB, 0x4A, 0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31, 0xA0, 0xD2, 0x43,</div>
@@ -825,7 +826,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;    RFCOMM_Command(l2capoutbuf,length+4);</div>
 <div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;}</div>
 <div class="line"><a name="l00737"></a><span class="lineno"><a class="code" href="class_s_p_p.html#aa534ca2960b81635c9ef00baaa04b37c">  737</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">SPP::print</a>(<span class="keyword">const</span> __FlashStringHelper *ifsh) {</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="acm_2acm__terminal_2pgmstrings_8h.html#a3fa5cb2801cd8b7c78af8a465a662564">PROGMEM</a> *p = (<span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="acm_2acm__terminal_2pgmstrings_8h.html#a3fa5cb2801cd8b7c78af8a465a662564">PROGMEM</a> *)ifsh;</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="hidboot_8cpp.html#ad1eb9d7b0347c20d121c984618c442f0">PROGMEM</a> *p = (<span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="hidboot_8cpp.html#ad1eb9d7b0347c20d121c984618c442f0">PROGMEM</a> *)ifsh;</div>
 <div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;    <span class="keywordtype">size_t</span> size = 0;</div>
 <div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;    <span class="keywordflow">while</span> (1) { <span class="comment">// Calculate the size of the string</span></div>
 <div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        uint8_t c = pgm_read_byte(p+size);</div>
@@ -862,7 +863,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;    <a class="code" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">print</a>(buf,length+2);</div>
 <div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;}</div>
 <div class="line"><a name="l00774"></a><span class="lineno"><a class="code" href="class_s_p_p.html#a53cae4e7a1a6208f348b9509dbe94d24">  774</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_s_p_p.html#a4afe343fc15bba50507ab9205165b8dd">SPP::println</a>(<span class="keyword">const</span> __FlashStringHelper *ifsh) {</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="acm_2acm__terminal_2pgmstrings_8h.html#a3fa5cb2801cd8b7c78af8a465a662564">PROGMEM</a> *p = (<span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="acm_2acm__terminal_2pgmstrings_8h.html#a3fa5cb2801cd8b7c78af8a465a662564">PROGMEM</a> *)ifsh;    </div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="hidboot_8cpp.html#ad1eb9d7b0347c20d121c984618c442f0">PROGMEM</a> *p = (<span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="hidboot_8cpp.html#ad1eb9d7b0347c20d121c984618c442f0">PROGMEM</a> *)ifsh;    </div>
 <div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;    <span class="keywordtype">size_t</span> size = 0;</div>
 <div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;    <span class="keywordflow">while</span> (1) { <span class="comment">// Calculate the size of the string</span></div>
 <div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;        uint8_t c = pgm_read_byte(p+size);</div>
@@ -1015,7 +1016,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 20:57:22 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 5 2013 22:35:24 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

@@ -168,6 +168,5 @@ var searchData=
   ['bt_5frfcomm_5frpn_5frsp',['BT_RFCOMM_RPN_RSP',['../_s_p_p_8h.html#a336bf1805637fdd66033c9040e606a6b',1,'SPP.h']]],
   ['btd_5fmax_5fendpoints',['BTD_MAX_ENDPOINTS',['../_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd',1,'BTD.h']]],
   ['btd_5fnumservices',['BTD_NUMSERVICES',['../_b_t_d_8h.html#a2222709eed4c8af293e881ea36f599b0',1,'BTD.h']]],
-  ['bufsize',['BUFSIZE',['../acm_2acm__terminal_2pgmstrings_8h.html#aeca034f67218340ecb2261a22c2f3dcd',1,'BUFSIZE():&#160;pgmstrings.h'],['../ftdi_2_u_s_b_f_t_d_i_loopback_2pgmstrings_8h.html#aeca034f67218340ecb2261a22c2f3dcd',1,'BUFSIZE():&#160;pgmstrings.h'],['../_h_i_d_2_u_s_b_h_i_d__desc_2pgmstrings_8h.html#aeca034f67218340ecb2261a22c2f3dcd',1,'BUFSIZE():&#160;pgmstrings.h'],['../hub__demo_2pgmstrings_8h.html#aeca034f67218340ecb2261a22c2f3dcd',1,'BUFSIZE():&#160;pgmstrings.h'],['../_u_s_b__desc_2pgmstrings_8h.html#aeca034f67218340ecb2261a22c2f3dcd',1,'BUFSIZE():&#160;pgmstrings.h']]],
   ['bulk_5fmaxpktsize',['BULK_MAXPKTSIZE',['../_b_t_d_8h.html#a32d591ef5742a99963130616ef146787',1,'BTD.h']]]
 ];

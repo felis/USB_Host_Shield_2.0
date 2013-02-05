@@ -1,15 +1,15 @@
-<map id="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/hidboot.h" name="/Users/Lauszus/GitHub/USB_Host_Shield_2.0/hidboot.h">
-<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="138,301,192,323"/>
-<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="308,301,375,323"/>
-<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="195,232,252,253"/>
-<area shape="rect" id="node8" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="757,301,816,323"/>
-<area shape="rect" id="node9" href="$_usb_8h.html" title="Usb.h" alt="" coords="629,163,672,184"/>
-<area shape="rect" id="node17" href="$hid_8h.html" title="hid.h" alt="" coords="960,93,1000,115"/>
-<area shape="rect" id="node14" href="$printhex_8h.html" title="printhex.h" alt="" coords="1543,371,1600,392"/>
-<area shape="rect" id="node15" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="1195,301,1256,323"/>
-<area shape="rect" id="node16" href="$message_8h.html" title="message.h" alt="" coords="1483,301,1544,323"/>
-<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="1342,163,1425,184"/>
-<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="481,232,537,253"/>
-<area shape="rect" id="node20" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="1094,163,1164,184"/>
-<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="1347,232,1412,253"/>
+<map id="hidboot.h" name="hidboot.h">
+<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="138,283,192,304"/>
+<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="308,283,375,304"/>
+<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="195,213,252,235"/>
+<area shape="rect" id="node8" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="757,283,816,304"/>
+<area shape="rect" id="node9" href="$_usb_8h.html" title="Usb.h" alt="" coords="629,144,672,165"/>
+<area shape="rect" id="node17" href="$hid_8h.html" title="hid.h" alt="" coords="960,75,1000,96"/>
+<area shape="rect" id="node14" href="$printhex_8h.html" title="printhex.h" alt="" coords="1543,352,1600,373"/>
+<area shape="rect" id="node15" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="1195,283,1256,304"/>
+<area shape="rect" id="node16" href="$message_8h.html" title="message.h" alt="" coords="1483,283,1544,304"/>
+<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="1342,144,1425,165"/>
+<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="481,213,537,235"/>
+<area shape="rect" id="node20" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="1094,144,1164,165"/>
+<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="1347,213,1412,235"/>
 </map>

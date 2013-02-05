@@ -46,7 +46,6 @@ var searchData=
   ['available',['available',['../class_s_p_p.html#a7de4c895e4056ac2964ce5d020611deb',1,'SPP']]],
   ['avrpins_2eh',['avrpins.h',['../avrpins_8h.html',1,'']]],
   ['ax',['aX',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa1b657addccd19368e17fd15ce396a2eb',1,'PS3Enums.h']]],
-  ['axes',['axes',['../struct_game_pad_event_data.html#a0df2fc7b17238ad73ca512d602576731',1,'GamePadEventData']]],
   ['axmove',['aXmove',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa832ceb5090692e95e93982849f740de7',1,'PS3Enums.h']]],
   ['ay',['aY',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aaba377ea700e0cdf1c61034ef60b259bd',1,'PS3Enums.h']]],
   ['aymove',['aYmove',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa5c436ac329e20e6b7661152c74e82199',1,'PS3Enums.h']]],

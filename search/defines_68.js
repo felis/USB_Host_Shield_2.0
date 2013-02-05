@@ -34,7 +34,6 @@ var searchData=
   ['hci_5fscanning_5fstate',['HCI_SCANNING_STATE',['../_b_t_d_8h.html#acc9b6954b4bb6c19a9d25242869d5ddf',1,'BTD.h']]],
   ['hci_5fset_5fname_5fstate',['HCI_SET_NAME_STATE',['../_b_t_d_8h.html#a1939cc2e06b3185be07a93c1ac7a10e1',1,'BTD.h']]],
   ['hci_5fwii_5ffound',['hci_wii_found',['../_b_t_d_8h.html#aa12b77df715652f4735cb6620cd595a4',1,'BTD.h']]],
-  ['hibyte',['HIBYTE',['../acm_2acm__terminal_2pgmstrings_8h.html#aa1ba73e45dd29eeb526a52d9a3336f35',1,'HIBYTE():&#160;pgmstrings.h'],['../ftdi_2_u_s_b_f_t_d_i_loopback_2pgmstrings_8h.html#aa1ba73e45dd29eeb526a52d9a3336f35',1,'HIBYTE():&#160;pgmstrings.h'],['../_h_i_d_2_u_s_b_h_i_d__desc_2pgmstrings_8h.html#aa1ba73e45dd29eeb526a52d9a3336f35',1,'HIBYTE():&#160;pgmstrings.h'],['../hub__demo_2pgmstrings_8h.html#aa1ba73e45dd29eeb526a52d9a3336f35',1,'HIBYTE():&#160;pgmstrings.h'],['../_u_s_b__desc_2pgmstrings_8h.html#aa1ba73e45dd29eeb526a52d9a3336f35',1,'HIBYTE():&#160;pgmstrings.h']]],
   ['hid_5fboot_5fintf_5fsubclass',['HID_BOOT_INTF_SUBCLASS',['../hid_8h.html#af36d3643d6fb5f552eac19c356d9baf0',1,'hid.h']]],
   ['hid_5fboot_5fprotocol',['HID_BOOT_PROTOCOL',['../hid_8h.html#a41258c5dd55e5ae0378ec8ded892ce37',1,'hid.h']]],
   ['hid_5fbuffersize',['HID_BUFFERSIZE',['../_p_s3_b_t_8h.html#a465c4c33eae0fd5f934ae12bc8d6ca7e',1,'PS3BT.h']]],

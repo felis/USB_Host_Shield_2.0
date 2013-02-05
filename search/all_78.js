@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../struct_game_pad_event_data.html#ac666838c35a9f42f4fed0abfd64d48f1',1,'GamePadEventData::x()'],['../struct_game_pad_event_data.html#a552f357c47323f078143228b43948472',1,'GamePadEventData::X()'],['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a58833a3110c570fb05130d40c365d1e4',1,'X():&#160;controllerEnums.h']]],
+  ['x',['X',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a58833a3110c570fb05130d40c365d1e4',1,'controllerEnums.h']]],
   ['xbox',['XBOX',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0ad4689acdcdf0e61373d52de14ff07eae',1,'controllerEnums.h']]],
   ['xbox360connected',['Xbox360Connected',['../class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a',1,'XBOXRECV']]],
   ['xbox_5fcontrol_5fpipe',['XBOX_CONTROL_PIPE',['../_x_b_o_x_r_e_c_v_8h.html#a8f4ee68cc0f05690f5f26104c7d9e490',1,'XBOXRECV.h']]],
