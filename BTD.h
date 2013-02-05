@@ -198,7 +198,7 @@ public:
      * @param proto Interface Protocol.
      * @param ep    Endpoint Descriptor.
      */
-	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+    virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
     /**@}*/
 
     /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */
