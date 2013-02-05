@@ -10,17 +10,17 @@ Project main web site is: <http://www.circuitsathome.com>.
 
 Some information can also be found at: <http://blog.tkjelectronics.dk/>.
 
-The shield can be purchased at the main site: <http://www.circuitsathome.com/products-page/arduino-shields>.
+The shield can be purchased at the main site: <http://www.circuitsathome.com/products-page/arduino-shields> or from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
 
-[![USB Host Shield](http://www.circuitsathome.com/wp/wp-content/uploads/2012/02/UHS_20_main-288x216.jpg)](http://www.circuitsathome.com/products-page/arduino-shields)
+![USB Host Shield](http://www.circuitsathome.com/wp/wp-content/uploads/2012/02/UHS_20_main-288x216.jpg)
 
 For more information about the hardware see the [Hardware Manual](http://www.circuitsathome.com/usb-host-shield-hardware-manual).
 
 # Developed By
 
-* __Oleg Mazurov, Circuits@Home__ - <mazurov@circuitsathome.com>
+* <b>Oleg Mazurov, Circuits@Home</b> - <mazurov@circuitsathome.com>
 	* Developer of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
-* __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
+* <b>Kristian Lauszus, TKJ Electronics</b> - <kristianl@tkjelectronics.com>
 	* Developer of the BTD, SPP, PS3, Wii, and Xbox libraries
 
 # How to use the library
