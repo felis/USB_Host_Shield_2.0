@@ -19,6 +19,7 @@
 #define DEBUG // Uncomment to print data for debugging
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
+const uint8_t BTD::BTD_CONTROL_PIPE = 0;
 const uint8_t BTD::BTD_EVENT_PIPE  = 1;
 const uint8_t BTD::BTD_DATAIN_PIPE = 2;
 const uint8_t BTD::BTD_DATAOUT_PIPE = 3;

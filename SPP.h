@@ -89,42 +89,135 @@
 #define BT_RFCOMM_NSC_RSP    0x11
 */
 
+/** This BluetoothService class implements the Serial Port Protocol (SPP). */
 class SPP : public BluetoothService {
 public:
+    /**
+     * Constructor for the SPP class.
+     * @param  p   Pointer to BTD class instance.
+     * @param  name   Set the name to BTD#btdName. If argument is omitted, then "Arduino" will be used.
+     * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "1234" will be used.
+     */
     SPP(BTD *p, const char* name = "Arduino", const char* pin = "1234");
+
+    /** @name BluetoothService implementation */
+    /**
+     * Used to pass acldata to the services.
+     * @param ACLData Incoming acldata.
+     */
+    virtual void ACLData(uint8_t* ACLData);
+    /** Used to establish the connection automatically. */
+    virtual void Run();
+    /** Use this to reset the service. */
+    virtual void Reset();
+    /** Used this to disconnect the virtual serial port. */
+    virtual void disconnect();
+    /**@}*/
     
-    // BluetoothService implementation
-    virtual void ACLData(uint8_t* ACLData); // Used to pass acldata to the services
-    virtual void Run(); // Used to establish the connection automatically
-    virtual void Reset(); // Use this to reset the service
-    virtual void disconnect(); // Used this void to disconnect the virtual serial port
+    /** Variable used to indicate if the connection is established. */
+    bool connected;
     
-    bool connected;// Variable used to indicate if the connection is established
+    /** @name Serial port profile (SPP) Print functions */
+    /** Used to send Strings.  */
+    /**
+     * Used to send Arduino String data type.
+     * @param str String to send.
+     */
+    void print(const String &str);
+    /**
+     * Same as print(const String &str), but will include newline and carriage return.
+     * @param str String to send.
+     */
+    void println(const String &str);
+    /**
+     * Used to send standard strings.
+     * @param str String to send.
+     */
+    void print(const char* str);
+    /**
+     * Same as print(const char* data), but will include newline and carriage return.
+     * @param str String to send.
+     */
+    void println(const char* str);
+    /**
+     * Used to send single bytes.
+     * @param data Data to send.
+     */
+    void print(uint8_t data);
+    /**
+     * Same as print(uint8_t data), but will include newline and carriage return.
+     * @param data Data to send.
+     */
+    void println(uint8_t data);
+    /**
+     * Used to send arrays.
+     * @param array  Array to send.
+     * @param length Number of bytes to send.
+     */
+    void print(uint8_t* array, uint8_t length);
+    /**
+     * Same as print(uint8_t* array, uint8_t length), but will include newline and carriage return.
+     * @param array  Array to send.
+     * @param length Number of bytes to send.
+     */
+    void println(uint8_t* array, uint8_t length);
+    /**
+     * Used to print strings stored in flash.
+     * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
+     */
+    void print(const __FlashStringHelper *ifsh);
+    /**
+     * Same as print(const __FlashStringHelper *ifsh), but will include newline and carriage return.
+     * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
+     */
+    void println(const __FlashStringHelper *ifsh);
+    /** Use this to print newline and carriage return. */
+    void println(void);
     
-    /* Serial port profile (SPP) commands */
-    void print(const String &); // Used to send strings
-    void print(const char* data); // Used to send strings
-    void print(uint8_t data); // Used to send single bytes
-    void print(uint8_t* array, uint8_t length); // Used to send arrays
-    void print(const __FlashStringHelper *); // Used to print strings stored in flash    
+    /**
+     * Used to print integers.
+     * @param n Integers to send.
+     */
+    void printNumber(int32_t n);
+    /**
+     * Same as printNumber(int32_t n), but will include newline and carriage return.
+     * @param n Integers to send.
+     */
+    void printNumberln(int32_t n);
+    /**
+     * Used to print floating-point numbers.
+     * @param n      Floating-point number to print.
+     * @param digits Number of digits to send. If argument is omitted, then 2 digits will be used.
+     */
+    void printNumber(double n, uint8_t digits = 2);
+    /**
+     * Same as printNumber(double n, uint8_t digits), but will include newline and carriage return.
+     * @param n      Floating-point number to print.
+     * @param digits Number of digits to send. If argument is omitted, then 2 digits will be used.
+     */
+    void printNumberln(double n, uint8_t digits = 2);    
     
-    void println(const String &); // Include newline and carriage return
-    void println(const char* data); // Include newline and carriage return
-    void println(uint8_t data); // Include newline and carriage return
-    void println(uint8_t* array, uint8_t length); // Include newline and carriage return
-    void println(const __FlashStringHelper *); // Include newline and carriage return
-    void println(void); // Use this to print newline and carriage return
+    /**
+     * Helper function to convert from double to string.
+     * @param input  Floating-point number to convert.
+     * @param output Output buffer.
+     * @param digits Number of digits to convert. If argument is omitted, then 2 digits will be used.
+     */
+    void doubleToString(double input, char* output, uint8_t digits = 2);
     
-    void printNumber(int32_t n); // These must be used to print numbers
-    void printNumberln(int32_t n); // This will include newline and carriage return
-    void printNumber(double n, uint8_t digits = 2); // These must be used to print floating-point numbers
-    void printNumberln(double n, uint8_t digits = 2); // This will include newline and carriage return
-    
-    void doubleToString(double input, char* output, uint8_t digits = 2); // Helper function to convert from double to string
-    
-    uint8_t available() { return rfcommAvailable; }; // Get the bytes waiting to be read
-    uint8_t read(); // Used to read the buffer
-    void flush() { rfcommAvailable = 0; }; // Discard all the bytes in the buffer
+    /**
+     * Get number of bytes waiting to be read.
+     * @return Return the number of bytes ready to be read.
+     */
+    uint8_t available() { return rfcommAvailable; };
+    /**
+     * Used to read the buffer.
+     * @return Return the byte. Will return 0 if no byte is available.
+     */
+    uint8_t read();
+    /** Discard all the bytes in the buffer. */
+    void flush() { rfcommAvailable = 0; };
+    /**@}*/
     
 private:
     /* Bluetooth dongle library pointer */

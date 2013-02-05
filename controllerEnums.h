@@ -18,13 +18,13 @@
 #ifndef _controllerenums_h
 #define _controllerenums_h
 
-/* 
+/*
  This header file is used to store different enums for the controllers,
  This is necessary so all the different libraries can be used at once
 */
 
+/** Enum used to turn on the LEDs on the different controllers. */
 enum LED {
-    /* Enum used to turn on the LEDs on the different controllers */
     LED1 = 0,
     LED2 = 1,
     LED3 = 2,
@@ -36,15 +36,21 @@ enum LED {
     LED8 = 7,
     LED9 = 8,
     LED10 = 9,
-    ALL = 4, // Used to blink all LEDs on the Xbox controller
+    /** Used to blink all LEDs on the Xbox controller */
+    ALL = 4,
 };
+/** This enum is used to read all the different buttons on the different controllers */
 enum Button {
+    /**@{*/
+    /** These buttons are available on all the the controllers */
     UP = 0,
     RIGHT = 1,
     DOWN = 2,
     LEFT = 3,
+    /**@}*/
 
-    /* Wii buttons */
+    /**@{*/
+    /** Wii buttons */
     PLUS = 5,
     TWO = 6,
     ONE = 7,    
@@ -54,13 +60,18 @@ enum Button {
     C = 11,
     B = 12,
     A = 13,
-    /* These are only available on the Wii U Pro Controller */
+    /**@}*/
+
+    /**@{*/
+    /** These are only available on the Wii U Pro Controller */
     L = 16,
     R = 17,
     ZL = 18,
     ZR = 19,
+    /**@}*/
 
-    /* PS3 controllers buttons */
+    /**@{*/
+    /** PS3 controllers buttons */
     SELECT = 4,
     START = 5,
     L3 = 6,
@@ -77,21 +88,28 @@ enum Button {
     
     PS = 16,
     
-    MOVE = 17, // covers 12 bits - we only need to read the top 8
-    T = 18, // covers 12 bits - we only need to read the top 8
+    MOVE = 17, // Covers 12 bits - we only need to read the top 8
+    T = 18, // Covers 12 bits - we only need to read the top 8
+    /**@}*/
 
-    /* Xbox buttons */
+    /**@{*/
+    /** Xbox buttons */
     BACK = 4,
     X = 14,
     Y = 15,
     XBOX = 16,
     SYNC = 17,
+    /**@}*/
 };
-enum AnalogHat {
-    /* Joysticks on the PS3 and Xbox controllers */
+/** Joysticks on the PS3 and Xbox controllers. */
+enum AnalogHat { 
+    /** Left joystick x-axis */   
     LeftHatX = 0,
+    /** Left joystick y-axis */
     LeftHatY = 1,
+    /** Right joystick x-axis */
     RightHatX = 2,
+    /** Right joystick y-axis */
     RightHatY = 3,
 };
 

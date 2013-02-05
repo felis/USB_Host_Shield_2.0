@@ -292,8 +292,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5))-500;
                         accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4))-500;
                         accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5))-500;                        
-                        wiiMotePitch = (atan2(accY,accZ)+PI)*RAD_TO_DEG;
-                        wiiMoteRoll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
+                        wiimotePitch = (atan2(accY,accZ)+PI)*RAD_TO_DEG;
+                        wiimoteRoll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
                     }
                     switch (l2capinbuf[9]) {
                         case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
@@ -410,13 +410,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         case 0x30: // Core buttons - (a1) 30 BB BB
                             break;
                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
-                            pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
-                            roll = wiiMoteRoll;
+                            pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
+                            roll = wiimoteRoll;
                             break;
                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
-                            pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
-                            roll = wiiMoteRoll;
+                            pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
+                            roll = wiimoteRoll;
 #ifdef WIICAMERA
                             // Read the IR data                            
                             IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
@@ -479,8 +479,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         if(!(l2capinbuf[19] & 0x02)) // Check if fast more is used
                                             rollGyroSpeed *= 4.545;
                                                                                 
-                                        pitch = (0.93*(pitch+(pitchGyroSpeed*(double)(micros()-timer)/1000000)))+(0.07*wiiMotePitch); // Use a complimentary filter to calculate the angle
-                                        roll = (0.93*(roll+(rollGyroSpeed*(double)(micros()-timer)/1000000)))+(0.07*wiiMoteRoll);
+                                        pitch = (0.93*(pitch+(pitchGyroSpeed*(double)(micros()-timer)/1000000)))+(0.07*wiimotePitch); // Use a complimentary filter to calculate the angle
+                                        roll = (0.93*(roll+(rollGyroSpeed*(double)(micros()-timer)/1000000)))+(0.07*wiimoteRoll);
                                         
                                         gyroYaw += (yawGyroSpeed*((double)(micros()-timer)/1000000));
                                         gyroRoll += (rollGyroSpeed*((double)(micros()-timer)/1000000));
@@ -496,10 +496,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         Serial.print(gyroPitch);
                                         */
                                         /*
-                                        Serial.print("\twiiMoteRoll: ");                                        
-                                        Serial.print(wiiMoteRoll);
-                                        Serial.print("\twiiMotePitch: ");
-                                        Serial.print(wiiMotePitch);
+                                        Serial.print("\twiimoteRoll: ");                                        
+                                        Serial.print(wiimoteRoll);
+                                        Serial.print("\twiimotePitch: ");
+                                        Serial.print(wiimotePitch);
                                         */ 
                                     } else {
                                         if((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
@@ -563,8 +563,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 nunchuckPitch = (atan2(accY,accZ)+PI)*RAD_TO_DEG;
                                 nunchuckRoll = (atan2(accX,accZ)+PI)*RAD_TO_DEG;
                                 
-                                pitch = wiiMotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
-                                roll = wiiMoteRoll;
+                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
+                                roll = wiimoteRoll;
                             } else if(wiiUProControllerConnected) {
                                 hatValues[LeftHatX] = (l2capinbuf[15] | l2capinbuf[16] << 8);
                                 hatValues[RightHatX] = (l2capinbuf[17] | l2capinbuf[18] << 8);

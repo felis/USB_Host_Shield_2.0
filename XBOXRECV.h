@@ -55,6 +55,7 @@
 
 #define XBOX_MAX_ENDPOINTS   9
 
+/** Enum used to set special LED modes supported by the Xbox controller. */
 enum LEDMode {
     ROTATING = 0x0A,
     FASTBLINK = 0x0B,
@@ -62,48 +63,147 @@ enum LEDMode {
     ALTERNATING = 0x0D,    
 };
 
+/**
+ * This class implements support for a Xbox Wirless receiver.
+ *
+ * Up to four controllers can connect to one receiver, if more is needed one can use a second receiver via the USBHub class.
+ */
 class XBOXRECV : public USBDeviceConfig {
 public:
+    /**
+     * Constructor for the XBOXRECV class.
+     * @param  pUsb   Pointer to USB class instance.
+     */
     XBOXRECV(USB *pUsb);
-    
-    // USBDeviceConfig implementation
+
+    /** @name USBDeviceConfig implementation */
+    /**
+     * Initialize the Xbox Controller.
+     * @param  parent   Hub number.
+     * @param  port     Port number on the hub.
+     * @param  lowspeed Speed of the device.
+     * @return          0 on success.
+     */
     virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+    /**
+     * Release the USB device.
+     * @return 0 on success.
+     */
     virtual uint8_t Release();
+    /**
+     * Poll the USB Input endpoins and run the state machines.
+     * @return 0 on success.
+     */
     virtual uint8_t Poll();
+    /**
+     * Get the device address.
+     * @return The device address.
+     */
     virtual uint8_t GetAddress() { return bAddress; };
+    /**
+     * Used to check if the controller has been initialized.
+     * @return True if it's ready.
+     */
     virtual bool isReady() { return bPollEnable; };
-    
-    /* 
-     Xbox Controller Readings.
-     getButtonPress will return true as long as the button is held down
-     While getButtonClick will only return it once
-     So for instance if you need to increase a variable once you would use getButtonClick,
-     but if you need to drive a robot forward you would use getButtonPress
-    */
+    /**@}*/
+
+    /** @name Xbox Controller functions */
+    /**
+     * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down
+     * While getButtonClick(uint8_t controller, Button b) will only return it once
+     * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b), 
+     * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
+     * @param  controller The controller to read from.
+     * @param  b          ::Button to read.
+     * @return            getButtonClick(uint8_t controller, Button b) will return a bool, but getButtonPress(uint8_t controller, Button b)
+     * will return a byte if reading ::L2 or ::R2.
+     */
     uint8_t getButtonPress(uint8_t controller, Button b);
     bool getButtonClick(uint8_t controller, Button b);
+    /**@}*/
+
+    /** @name Xbox Controller functions */    
+    /**
+     * Return the analog value from the joysticks on the controller.
+     * @param  controller The controller to read from.
+     * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
+     * @return            Returns a signed 16-bit integer.
+     */
     int16_t getAnalogHat(uint8_t controller, AnalogHat a);
-    
-    /* Xbox Controller Command */
+    /**
+     * Turn rumble off and all the LEDs on the specific controller.
+     * @param  controller The controller to write to.
+     */
     void setAllOff(uint8_t controller) { setRumbleOn(controller,0,0); setLedOff(controller); };
+    /** 
+    * Turn rumble off the specific controller.
+    * @param  controller The controller to write to.
+    */
     void setRumbleOff(uint8_t controller) { setRumbleOn(controller,0,0); };
+    /**
+     * Turn rumble on.
+     * @param controller The controller to write to.
+     * @param lValue     Left motor (big weight) inside the controller.
+     * @param rValue     Right motor (small weight) inside the controller.
+     */
     void setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue);
+    /**
+     * Set LED value. Without using the ::LED or ::LEDMode enum.
+     * @param controller The controller to write to.
+     * @param value      See: 
+     * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
+     * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).
+     */
     void setLedRaw(uint8_t controller, uint8_t value);
+    /**
+    * Turn all LEDs off the specific controller.
+    * @param controller The controller to write to.
+    */
     void setLedOff(uint8_t controller) { setLedRaw(controller,0); };
+    /**
+     * Turn on a LED by using the ::LED enum.
+     * @param controller The controller to write to.
+     * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+     */
     void setLedOn(uint8_t controller, LED l);
+    /**
+     * Turn on a LED by using the ::LED enum.
+     * @param controller The controller to write to.
+     * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+     */
     void setLedBlink(uint8_t controller, LED l);
+    /**
+     * Used to set special LED modes supported by the Xbox controller.
+     * @param controller The controller to write to.
+     * @param lm         See ::LEDMode.
+     */
     void setLedMode(uint8_t controller, LEDMode lm);
-    uint8_t getBatteryLevel(uint8_t controller); // Returns the battery level in percentage in 33% steps
+    /**
+     * Used to get the battery level from the controller.
+     * @param  controller The controller to read from.
+     * @return            Returns the battery level in percentage in 33% steps.
+     */
+    uint8_t getBatteryLevel(uint8_t controller);
+    /**
+     * Used to check if a button has changed.
+     * @param  controller The controller to read from.
+     * @return            True if a button has changed.
+     */
     bool buttonChanged(uint8_t controller);
-    
-    bool XboxReceiverConnected; // True if a wireless receiver is connected
-    uint8_t Xbox360Connected[4]; // Variable used to indicate if the XBOX 360 controller is successfully connected
+    /**@}*/
+
+    /** True if a wireless receiver is connected. */
+    bool XboxReceiverConnected;
+    /** Variable used to indicate if the XBOX 360 controller is successfully connected. */
+    uint8_t Xbox360Connected[4];
     
 protected:           
-    /* Mandatory members */
+    /** Pointer to USB class instance. */
     USB *pUsb;
-    uint8_t	bAddress; // device address
-    EpInfo epInfo[XBOX_MAX_ENDPOINTS]; //endpoint info structure
+    /** Device address. */
+    uint8_t bAddress;
+    /** Endpoint info structure. */
+    EpInfo epInfo[XBOX_MAX_ENDPOINTS];
     
 private:    
     bool bPollEnable;    

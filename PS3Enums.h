@@ -20,6 +20,7 @@
 
 #include "controllerEnums.h"
 
+/** Used to set the LEDs on the controllers */
 const uint8_t LEDS[] PROGMEM = {
     0x01, // LED1
     0x02, // LED2
@@ -33,6 +34,12 @@ const uint8_t LEDS[] PROGMEM = {
     0x0E, // LED9
     0x0F // LED10
 };
+
+/**
+ * Buttons on the controllers
+ *
+ * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ */
 const uint32_t BUTTONS[] PROGMEM = {
     0x10, // UP
     0x20, // RIGHT
@@ -59,9 +66,12 @@ const uint32_t BUTTONS[] PROGMEM = {
     0x100000 // T - covers 12 bits - we only need to read the top 8
 };
 
+/**
+ * Analog buttons on the controllers
+ *
+ * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ */
 const uint8_t ANALOGBUTTONS[] PROGMEM = {
-    // Note that the location is shiftet 9 when it's connected via USB    
-    // Sixaxis Dualshcock 3 & Navigation controller
     23, // UP_ANALOG
     24, // RIGHT_ANALOG
     25, // DOWN_ANALOG
@@ -82,44 +92,69 @@ const uint8_t ANALOGBUTTONS[] PROGMEM = {
     15 // T_ANALOG - Both at byte 14 (last reading) and byte 15 (current reading)
 };
 
+/** Used to set the colors of the move controller. */
 enum Colors {
-    // Used to set the colors of the move controller
-    Red = 0xFF0000, // r = 255, g = 0, b = 0
-    Green = 0xFF00, // r = 0, g = 255, b = 0
-    Blue = 0xFF, // r = 0, g = 0, b = 255
+    /** r = 255, g = 0, b = 0 */
+    Red = 0xFF0000,
+    /** r = 0, g = 255, b = 0 */
+    Green = 0xFF00,
+    /** r = 0, g = 0, b = 255 */
+    Blue = 0xFF,
     
-    Yellow = 0xFFEB04, // r = 255, g = 235, b = 4
-    Lightblue = 0xFFFF, // r = 0, g = 255, b = 255
-    Purble = 0xFF00FF, // r = 255, g = 0, b = 255
+    /** r = 255, g = 235, b = 4 */
+    Yellow = 0xFFEB04,
+    /** r = 0, g = 255, b = 255 */
+    Lightblue = 0xFFFF,
+    /** r = 255, g = 0, b = 255 */
+    Purble = 0xFF00FF,
     
-    White = 0xFFFFFF, // r = 255, g = 255, b = 255
-    Off = 0x00, // r = 0, g = 0, b = 0
+    /** r = 255, g = 255, b = 255 */
+    White = 0xFFFFFF,
+    /** r = 0, g = 0, b = 0 */
+    Off = 0x00,
 };
+
+/**
+ * Sensors inside the Sixaxis Dualshock 3 and Move controller.
+ * 
+ * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ */
 enum Sensor {
-    // Note that the location is shiftet 9 when it's connected via USB
-    // Sensors inside the Sixaxis Dualshock 3 controller
+    /** Accelerometer x-axis */
     aX = 50,
+    /** Accelerometer y-axis */
     aY = 52,
+    /** Accelerometer z-axis */
     aZ = 54,
+    /** Gyro z-axis */
     gZ = 56,
-    
-    // Sensors inside the Move Motion controller
+
+    /** Accelerometer x-axis */
     aXmove = 28,
+    /** Accelerometer z-axis */
     aZmove = 30,
+    /** Accelerometer y-axis */
     aYmove = 32,
     
+    /** Gyro x-axis */
     gXmove = 40,
+    /** Gyro z-axis */
     gZmove = 42,
+    /** Gyro y-axis */
     gYmove = 44,
     
+    /** Temperature sensor */
     tempMove = 46,
     
+    /** Magnetometer x-axis */
     mXmove = 47,
+    /** Magnetometer z-axis */
     mZmove = 49,
+    /** Magnetometer y-axis */
     mYmove = 50,
 };
+/** Used to get the angle calculated using the accelerometer. */
 enum Angle {
-    // Used to get the angle calculated using atan2
     Pitch = 0x01,
     Roll = 0x02,
 };

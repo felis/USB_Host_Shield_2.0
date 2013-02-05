@@ -23,7 +23,7 @@
 /*
  * CRC (reversed crc) lookup table as calculated by the table generator in ETSI TS 101 369 V6.3.0.
  */
-const uint8_t rfcomm_crc_table[256] PROGMEM = {    /* reversed, 8-bit, poly=0x07 */
+const uint8_t rfcomm_crc_table[256] PROGMEM = { /* reversed, 8-bit, poly=0x07 */
     0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C, 0x09, 0x98, 0xEA, 0x7B,
     0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69, 0x12, 0x83, 0xF1, 0x60, 0x15, 0x84, 0xF6, 0x67,
     0x38, 0xA9, 0xDB, 0x4A, 0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31, 0xA0, 0xD2, 0x43,
@@ -700,10 +700,10 @@ void SPP::print(const String &str) {
     
     RFCOMM_Command(l2capoutbuf,length+4);
 }
-void SPP::print(const char* data) {
+void SPP::print(const char* str) {
     if(!connected)
         return;
-    uint8_t length = strlen(data);
+    uint8_t length = strlen(str);
     if(length > (sizeof(l2capoutbuf)-4))
         length = sizeof(l2capoutbuf)-4;
     l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;; // RFCOMM Address
@@ -711,7 +711,7 @@ void SPP::print(const char* data) {
     l2capoutbuf[2] = length << 1 | 1; // Length
     uint8_t i = 0;
     for(; i < length; i++)
-        l2capoutbuf[i+3] = data[i];                                                                
+        l2capoutbuf[i+3] = str[i];                                                                
     l2capoutbuf[i+3] = calcFcs(l2capoutbuf);                            
     
     RFCOMM_Command(l2capoutbuf,length+4);
@@ -754,9 +754,9 @@ void SPP::println(const String &str) {
     String output = str + "\r\n";
     print(output);
 }
-void SPP::println(const char* data) {
-    char output[strlen(data)+3];
-    strcpy(output,data);
+void SPP::println(const char* str) {
+    char output[strlen(str)+3];
+    strcpy(output,str);
     strcat(output,"\r\n");
     print(output);
 }
