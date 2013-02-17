@@ -380,6 +380,12 @@ public:
     bool motionPlusInside;
     /** True if it's a Wii U Pro Controller. */
     bool wiiUProController;
+
+    /**
+     * Read the poll interval taken from the endpoint descriptors.
+     * @return The poll interval in ms.
+     */
+    uint8_t readPollInterval() { return pollInterval; };
     
 protected:
     /** Pointer to USB class instance. */
