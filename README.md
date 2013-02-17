@@ -23,6 +23,27 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * <b>Kristian Lauszus, TKJ Electronics</b> - <kristianl@tkjelectronics.com>
 	* Developer of the BTD, SPP, PS3, Wii, and Xbox libraries
 
+# How to include the library
+
+First download the library by clicking on the following link: <https://github.com/felis/USB_Host_Shield_2.0/archive/master.zip>.
+
+Then uncompress the zip folder and rename the directory to "USB\_Host\_Shield\_20", as any special characters are not supported by the Arduino IDE.
+
+Now open up the Arduino IDE and open "File>Preferences". There you will see the location of your sketchbook. Open that directory and create a directory called "libraries" inside that directory.
+Now move the "USB\_Host\_Shield\_20" directory to the "libraries" directory.
+
+The final structure should look like this:
+
+* Arduino/
+	* libraries/
+		* USB\_Host\_Shield\_20/
+
+Now quit the Arduino IDE and reopen it.
+
+Now you should be able to go open all the examples codes by navigating to "File>Examples>USB\_Host\_Shield\_20" and then select the example you will like to open.
+
+For more information visit the following site: <http://arduino.cc/en/Guide/Libraries>.
+
 # How to use the library
 
 ### Arduino ADK
