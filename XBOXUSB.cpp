@@ -175,13 +175,11 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         goto FailSetConf;        
 
 #ifdef DEBUG
-    Notify(PSTR("\r\nXbox 360 Controller Connected"));
+    Notify(PSTR("\r\nXbox 360 Controller Connected\r\n"));
 #endif                         
-    setLedMode(ROTATING);
-    Xbox360Connected = true;        
-
+    setLedOn(LED1);
+    Xbox360Connected = true;
     bPollEnable = true;
-    Notify(PSTR("\r\n"));
     return 0; // successful configuration
     
     /* diagnostic messages */  
@@ -245,27 +243,24 @@ void XBOXUSB::readReport() {
         return;
     }
 
-    ButtonState = (uint32_t)(readBuf[2] | ((uint16_t)readBuf[3] << 8) | ((uint32_t)readBuf[4] << 16) | ((uint32_t)readBuf[5] << 24));
+    ButtonState = (uint32_t)(readBuf[5] | ((uint16_t)readBuf[4] << 8) | ((uint32_t)readBuf[3] << 16) | ((uint32_t)readBuf[2] << 24));
     
-    //Notify(PSTR("\r\nButtonState");
+    hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[7] << 8) | readBuf[6]);
+    hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[9] << 8) | readBuf[8]);
+    hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[11] << 8) | readBuf[10]);
+    hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
+    
+    //Notify(PSTR("\r\nButtonState"));
     //PrintHex<uint32_t>(ButtonState);
     
     if(ButtonState != OldButtonState) {
-        buttonChanged = true;            
-        if(ButtonState != 0x00) {
-            buttonPressed = true; 
-            buttonReleased = false;
-        } else {
-            buttonPressed = false;
-            buttonReleased = true;
-        }
-    } else {
-        buttonChanged = false;
-        buttonPressed = false;
-        buttonReleased = false;
+        ButtonClickState = (ButtonState >> 16) & ((~OldButtonState) >> 16); // Update click state variable, but don't include the two trigger buttons L2 and R2
+        if(((uint8_t)OldButtonState) == 0 && ((uint8_t)ButtonState) != 0) // The L2 and R2 buttons are special as they are analog buttons
+            R2Clicked = true;
+        if((uint8_t)(OldButtonState >> 8) == 0 && (uint8_t)(ButtonState >> 8) != 0)
+            L2Clicked = true;
+        OldButtonState = ButtonState;
     }
-    
-    OldButtonState = ButtonState; 
 }  
 
 void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
@@ -276,64 +271,62 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
         PrintHex<uint8_t>(readBuf[i]);
         Serial.print(" ");
     }             
-    Serial.println("");
+    Serial.println();
 #endif    
 }
 
-uint8_t XBOXUSB::getButton(Button b) {
-    if (readBuf == NULL)
+uint8_t XBOXUSB::getButtonPress(Button b) {
+    if(b == L2) // These are analog buttons
+        return (uint8_t)(ButtonState >> 8);
+    else if(b == R2)
+        return (uint8_t)ButtonState;
+    return (ButtonState & ((uint32_t)pgm_read_word(&BUTTONS[(uint8_t)b]) << 16));
+}
+bool XBOXUSB::getButtonClick(Button b) {
+    if(b == L2) {
+        if(L2Clicked) {
+            L2Clicked = false;
+            return true;
+        }
         return false;
-    if(b == L2 || b == R2) { // These are analog buttons
-        return (uint8_t)(readBuf[(uint8_t)b]);
     }
-    else {
-        if ((readBuf[(uint16_t)b >> 8] & ((uint8_t)b & 0xff)) > 0)
-            return 1;
-        else
-            return 0;
+    else if(b == R2) {
+        if(R2Clicked) {
+            R2Clicked = false;
+            return true;
+        }
+        return false;
     }
+    uint16_t button = pgm_read_word(&BUTTONS[(uint8_t)b]);
+    bool click = (ButtonClickState & button);
+    ButtonClickState &= ~button;  // clear "click" event
+    return click;
 }
 int16_t XBOXUSB::getAnalogHat(AnalogHat a) {
-    if (readBuf == NULL)
-        return 0;
-    return (int16_t)(readBuf[(uint8_t)a+1] << 8 | readBuf[(uint8_t)a]);            
+    return hatValue[a];
 }
 
-/* Playstation Sixaxis Dualshock and Navigation Controller commands */
+/* Xbox Controller commands */
 void XBOXUSB::XboxCommand(uint8_t* data, uint16_t nbytes) {
     //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x00), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
     pUsb->ctrlReq(bAddress,epInfo[XBOX_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
-void XBOXUSB::setLedOn(LED l) {
-    if(l == ALL) // All LEDs can't be on a the same time
-        return;
+void XBOXUSB::setLedRaw(uint8_t value) {
     writeBuf[0] = 0x01;
     writeBuf[1] = 0x03;
-    writeBuf[2] = (uint8_t)l;
-    writeBuf[2] += 4;
-    
-    XboxCommand(writeBuf, 3);            
-}
-void XBOXUSB::setLedOff() {
-    writeBuf[0] = 0x01;
-    writeBuf[1] = 0x03;
-    writeBuf[2] = 0x00;
+    writeBuf[2] = value;
     
     XboxCommand(writeBuf, 3);
 }
-void XBOXUSB::setLedBlink(LED l) {
-    writeBuf[0] = 0x01;
-    writeBuf[1] = 0x03;
-    writeBuf[2] = (uint8_t)l;
-    
-    XboxCommand(writeBuf, 3);            
+void XBOXUSB::setLedOn(LED led) {
+    if(led != ALL) // All LEDs can't be on a the same time
+        setLedRaw((pgm_read_byte(&LEDS[(uint8_t)led]))+4);
 }
-void XBOXUSB::setLedMode(LEDMode lm) { // This function is used to do some speciel LED stuff the controller supports
-    writeBuf[0] = 0x01;
-    writeBuf[1] = 0x03;
-    writeBuf[2] = (uint8_t)lm;
-    
-    XboxCommand(writeBuf, 3);
+void XBOXUSB::setLedBlink(LED led) {
+    setLedRaw(pgm_read_byte(&LEDS[(uint8_t)led]));
+}
+void XBOXUSB::setLedMode(LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
+    setLedRaw((uint8_t)ledMode);
 }
 void XBOXUSB::setRumbleOn(uint8_t lValue, uint8_t rValue) {
     writeBuf[0] = 0x00;

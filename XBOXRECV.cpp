@@ -22,37 +22,6 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
-const uint8_t LEDS[] PROGMEM = {
-    0x02, // LED1
-    0x03, // LED2
-    0x04, // LED3
-    0x05, // LED4
-    0x01 // ALL - Used to blink all LEDs
- };
-const uint16_t BUTTONS[] PROGMEM = {
-    0x0100, // UP
-    0x0800, // RIGHT
-    0x0200, // DOWN
-    0x0400, // LEFT
-
-    0x2000, // BACK
-    0x1000, // START
-    0x4000, // L3
-    0x8000, // R3    
-
-    0,0, // Skip L2 and R2 as these are analog buttons
-    0x0001, // L1
-    0x0002, // R1    
-
-    0x0020, // B
-    0x0010, // A
-    0x0040, // X
-    0x0080, // Y
-
-    0x0004, // XBOX
-    0x0008 // SYNC
-};
-
 XBOXRECV::XBOXRECV(USB *p):
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory

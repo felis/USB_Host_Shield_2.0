@@ -25,6 +25,7 @@
 #endif
 
 #include "Usb.h"
+#include "xboxEnums.h" 
 
 /* Data Xbox 360 taken from descriptors */
 #define EP_MAXPKTSIZE       32 // max size for data via USB
@@ -54,99 +55,137 @@
 
 #define XBOX_MAX_ENDPOINTS   3
 
-enum LED {
-    ALL = 0x01, // Used to blink all LEDs
-    LED1 = 0x02,
-    LED2 = 0x03,
-    LED3 = 0x04,
-    LED4 = 0x05,
-};
-enum LEDMode {
-    ROTATING = 0x0A,
-    FASTBLINK = 0x0B,
-    SLOWBLINK = 0x0C,
-    ALTERNATING = 0x0D,    
-};
-
-enum Button {
-    // byte location | bit location    
-    UP = (2 << 8) | 0x01,
-    DOWN = (2 << 8) | 0x02,
-    LEFT = (2 << 8) | 0x04,
-    RIGHT = (2 << 8) | 0x08,
-    
-    START = (2 << 8) | 0x10,
-    BACK = (2 << 8) | 0x20,
-    L3 = (2 << 8) | 0x40,
-    R3 = (2 << 8) | 0x80,
-    
-    L1 = (3 << 8) | 0x01,
-    R1 = (3 << 8) | 0x02,
-    XBOX = (3 << 8) | 0x04,
-    
-    A = (3 << 8) | 0x10,
-    B = (3 << 8) | 0x20,
-    X = (3 << 8) | 0x40,
-    Y = (3 << 8) | 0x80,  
-    
-    // These buttons are analog
-    L2 = 4,
-    R2 = 5,
-};
-enum AnalogHat {
-    LeftHatX = 6,
-    LeftHatY = 8,
-    RightHatX = 10,
-    RightHatY = 12,
-};
-
+/** This class implements support for a Xbox wired controller via USB. */
 class XBOXUSB : public USBDeviceConfig {
 public:
+    /**
+     * Constructor for the XBOXUSB class.
+     * @param  pUsb   Pointer to USB class instance.
+     */
     XBOXUSB(USB *pUsb);
     
-    // USBDeviceConfig implementation
+    /** @name USBDeviceConfig implementation */
+    /**
+     * Initialize the Xbox Controller.
+     * @param  parent   Hub number.
+     * @param  port     Port number on the hub.
+     * @param  lowspeed Speed of the device.
+     * @return          0 on success.
+     */
     virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+    /**
+     * Release the USB device.
+     * @return 0 on success.
+     */
     virtual uint8_t Release();
+    /**
+     * Poll the USB Input endpoins and run the state machines.
+     * @return 0 on success.
+     */
     virtual uint8_t Poll();
+    /**
+     * Get the device address.
+     * @return The device address.
+     */
     virtual uint8_t GetAddress() { return bAddress; };
+    /**
+     * Used to check if the controller has been initialized.
+     * @return True if it's ready.
+     */
     virtual bool isReady() { return bPollEnable; };
+    /**@}*/
     
-    /* XBOX Controller Readings */
-    uint8_t getButton(Button b);
+    /** @name Xbox Controller functions */
+    /**
+     * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down.
+     * 
+     * While getButtonClick(uint8_t controller, Button b) will only return it once.
+     * 
+     * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b), 
+     * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
+     * @param  b          ::Button to read.
+     * @return            getButtonClick(uint8_t controller, Button b) will return a bool, but getButtonPress(uint8_t controller, Button b)
+     * will return a byte if reading ::L2 or ::R2.
+     */
+    uint8_t getButtonPress(Button b);
+    bool getButtonClick(Button b);
+    /**@}*/
+
+    /** @name Xbox Controller functions */    
+    /**
+     * Return the analog value from the joysticks on the controller.
+     * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
+     * @return            Returns a signed 16-bit integer.
+     */
     int16_t getAnalogHat(AnalogHat a);
     
-    /* Commands for Dualshock 3 and Navigation controller */    
-    void setAllOff() { setRumbleOn(0,0); setLedOff(); };
+    /** Turn rumble off and all the LEDs on the controller. */   
+    void setAllOff() { setRumbleOn(0,0); setLedRaw(0); };
+    /** Turn rumble off the controller. */
     void setRumbleOff() { setRumbleOn(0,0); };
+    /**
+     * Turn rumble on.
+     * @param lValue     Left motor (big weight) inside the controller.
+     * @param rValue     Right motor (small weight) inside the controller.
+     */
     void setRumbleOn(uint8_t lValue, uint8_t rValue);
-    void setLedOff();
-    void setLedOn(LED l); 
+    /**
+     * Set LED value. Without using the ::LED or ::LEDMode enum.
+     * @param value      See: 
+     * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
+     * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).
+     */
+    void setLedRaw(uint8_t value);
+    /** Turn all LEDs off the controller. */
+    void setLedOff() { setLedRaw(0); };
+    /**
+     * Turn on a LED by using the ::LED enum.
+     * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+     */
+    void setLedOn(LED l);
+    /**
+     * Turn on a LED by using the ::LED enum.
+     * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+     */    
     void setLedBlink(LED l);
+    /**
+     * Used to set special LED modes supported by the Xbox controller.
+     * @param controller The controller to write to.
+     * @param lm         See ::LEDMode.
+     */
     void setLedMode(LEDMode lm);
-        
-    bool Xbox360Connected;// Variable used to indicate if the XBOX 360 controller is successfully connected
-    bool buttonChanged;//Indicate if a button has been changed
-    bool buttonPressed;//Indicate if a button has been pressed
-    bool buttonReleased;//Indicate if a button has been released
+    /**@}*/
+    
+    /** True if a Xbox 360 controller is connected. */
+    bool Xbox360Connected;
     
 protected:           
-    /* mandatory members */
+    /** Pointer to USB class instance. */
     USB *pUsb;
-    uint8_t	bAddress; // device address
-    EpInfo epInfo[XBOX_MAX_ENDPOINTS]; //endpoint info structure
+    /** Device address. */
+    uint8_t	bAddress;
+    /** Endpoint info structure. */
+    EpInfo epInfo[XBOX_MAX_ENDPOINTS];
     
 private:    
-    bool bPollEnable;    
+    bool bPollEnable;
 
+    /* Variables to store the buttons */
     uint32_t ButtonState;
-    uint32_t OldButtonState;     
+    uint32_t OldButtonState;
+    uint16_t ButtonClickState;
+    int16_t hatValue[4];
+    uint16_t controllerStatus;
+    
+    bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
+    bool R2Clicked;
     
     uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
     uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
     
     void readReport(); // read incoming data
     void printReport(); // print incoming date - Uncomment for debugging
-
+    
     /* Private commands */
     void XboxCommand(uint8_t* data, uint16_t nbytes);
 };

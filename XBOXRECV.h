@@ -27,7 +27,7 @@
 #endif
 
 #include "Usb.h"
-#include "controllerEnums.h" 
+#include "xboxEnums.h" 
 
 /* Data Xbox 360 taken from descriptors */
 #define EP_MAXPKTSIZE       32 // max size for data via USB
@@ -51,17 +51,9 @@
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
 
-#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
+#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz receivers
 
 #define XBOX_MAX_ENDPOINTS   9
-
-/** Enum used to set special LED modes supported by the Xbox controller. */
-enum LEDMode {
-    ROTATING = 0x0A,
-    FASTBLINK = 0x0B,
-    SLOWBLINK = 0x0C,
-    ALTERNATING = 0x0D,    
-};
 
 /**
  * This class implements support for a Xbox Wirless receiver.
@@ -78,7 +70,7 @@ public:
 
     /** @name USBDeviceConfig implementation */
     /**
-     * Initialize the Xbox Controller.
+     * Initialize the Xbox wireless receiver.
      * @param  parent   Hub number.
      * @param  port     Port number on the hub.
      * @param  lowspeed Speed of the device.
@@ -109,8 +101,10 @@ public:
 
     /** @name Xbox Controller functions */
     /**
-     * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down
-     * While getButtonClick(uint8_t controller, Button b) will only return it once
+     * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down.
+     * 
+     * While getButtonClick(uint8_t controller, Button b) will only return it once.
+     * 
      * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b), 
      * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
      * @param  controller The controller to read from.

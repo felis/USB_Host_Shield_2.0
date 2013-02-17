@@ -10,7 +10,6 @@ XBOXUSB Xbox(&Usb);
 
 void setup() {
   Serial.begin(115200);
-
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while(1); //halt
@@ -20,7 +19,14 @@ void setup() {
 void loop() {
   Usb.Task();
   if(Xbox.Xbox360Connected) {
-    Xbox.setRumbleOn(Xbox.getButton(L2),Xbox.getButton(R2));
+    if(Xbox.getButtonPress(L2) || Xbox.getButtonPress(R2)) {
+      Serial.print("L2: ");
+      Serial.print(Xbox.getButtonPress(L2));
+      Serial.print("\tR2: ");
+      Serial.println(Xbox.getButtonPress(R2));
+      Xbox.setRumbleOn(Xbox.getButtonPress(L2),Xbox.getButtonPress(R2));
+    } else
+      Xbox.setRumbleOn(0,0);
     if(Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500 || Xbox.getAnalogHat(LeftHatY) > 7500 || Xbox.getAnalogHat(LeftHatY) < -7500 || Xbox.getAnalogHat(RightHatX) > 7500 || Xbox.getAnalogHat(RightHatX) < -7500 || Xbox.getAnalogHat(RightHatY) > 7500 || Xbox.getAnalogHat(RightHatY) < -7500) {
       if(Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500) {
         Serial.print(F("LeftHatX: ")); 
@@ -41,69 +47,56 @@ void loop() {
         Serial.print(F("RightHatY: ")); 
         Serial.print(Xbox.getAnalogHat(RightHatY));  
       }
-      Serial.println("");
+      Serial.println();
+    }
+    
+    if(Xbox.getButtonClick(UP)) {
+      Xbox.setLedOn(LED1);
+      Serial.println(F("Up"));
+    }      
+    if(Xbox.getButtonClick(DOWN)) {
+      Xbox.setLedOn(LED4);
+      Serial.println(F("Down"));
+    }
+    if(Xbox.getButtonClick(LEFT)) {
+      Xbox.setLedOn(LED3);
+      Serial.println(F("Left"));
+    }
+    if(Xbox.getButtonClick(RIGHT)) {
+      Xbox.setLedOn(LED2);
+      Serial.println(F("Right"));
     }
 
-    if(Xbox.buttonPressed) {
-      Serial.print(F("Xbox 360 Controller"));
-      if(Xbox.getButton(UP)) {
-        Xbox.setLedOn(LED1);
-        Serial.print(F(" - UP"));
-      }      
-      if(Xbox.getButton(DOWN)) {
-        Xbox.setLedOn(LED4);
-        Serial.print(F(" - DOWN"));
-      }
-      if(Xbox.getButton(LEFT)) {
-        Xbox.setLedOn(LED3);
-        Serial.print(F(" - LEFT"));
-      }
-      if(Xbox.getButton(RIGHT)) {
-        Xbox.setLedOn(LED2);
-        Serial.print(F(" - RIGHT"));
-      }
+    if(Xbox.getButtonClick(START)) {
+      Xbox.setLedMode(ALTERNATING);
+      Serial.println(F("Start"));
+    }
+    if(Xbox.getButtonClick(BACK)) {
+      Xbox.setLedBlink(ALL);
+      Serial.println(F("Back"));
+    }
+    if(Xbox.getButtonClick(L3))
+      Serial.println(F("L3"));
+    if(Xbox.getButtonClick(R3))
+      Serial.println(F("R3"));
 
-      if(Xbox.getButton(START)) {
-        Xbox.setLedMode(ALTERNATING);
-        Serial.print(F(" - START"));
-      }
-      if(Xbox.getButton(BACK)) {
-        Xbox.setLedBlink(ALL);
-        Serial.print(F(" - BACK"));
-      }
-      if(Xbox.getButton(L3))
-        Serial.print(F(" - L3"));
-      if(Xbox.getButton(R3))
-        Serial.print(F(" - R3"));
+    if(Xbox.getButtonClick(L1))
+      Serial.println(F("L1"));
+    if(Xbox.getButtonClick(R1))
+      Serial.println(F("R1"));
+    if(Xbox.getButtonClick(XBOX)) {
+      Xbox.setLedMode(ROTATING);
+      Serial.println(F("Xbox"));        
+    }
 
-      if(Xbox.getButton(L1))
-        Serial.print(F(" - L1"));
-      if(Xbox.getButton(R1))
-        Serial.print(F(" - R1"));
-      if(Xbox.getButton(XBOX)) {
-        Xbox.setLedMode(ROTATING);
-        Serial.print(F(" - XBOX"));        
-      }
-
-      if(Xbox.getButton(A))
-        Serial.print(F(" - A"));
-      if(Xbox.getButton(B))
-        Serial.print(F(" - B"));
-      if(Xbox.getButton(X))
-        Serial.print(F(" - X"));
-      if(Xbox.getButton(Y))
-        Serial.print(F(" - Y"));
-
-      if(Xbox.getButton(L2)) {
-        Serial.print(F(" - L2:"));
-        Serial.print(Xbox.getButton(L2));
-      }
-      if(Xbox.getButton(R2)) {
-        Serial.print(F(" - R2:"));
-        Serial.print(Xbox.getButton(R2));
-      }
-      Serial.println();        
-    } 
+    if(Xbox.getButtonClick(A))
+      Serial.println(F("A"));
+    if(Xbox.getButtonClick(B))
+      Serial.println(F("B"));
+    if(Xbox.getButtonClick(X))
+      Serial.println(F("X"));
+    if(Xbox.getButtonClick(Y))
+      Serial.println(F("Y"));
   }
   delay(1);
 }
