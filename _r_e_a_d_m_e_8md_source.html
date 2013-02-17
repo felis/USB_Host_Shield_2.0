@@ -110,127 +110,148 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">* &lt;b&gt;Kristian Lauszus, TKJ Electronics&lt;/b&gt; - &lt;kristianl@tkjelectronics.com&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    * Developer of the BTD, SPP, PS3, Wii, and Xbox libraries</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral"># How to use the library</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral"># How to include the library</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">### Arduino ADK</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/avrpins.h):</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">&lt;code&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">\#define BOARD\_MEGA_ADK</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">&lt;/code&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">First download the library by clicking on the following link: &lt;https://github.com/felis/USB_Host_Shield_2.0/archive/master.zip&gt;.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">Then uncompress the zip folder and rename the directory to &quot;USB\_Host\_Shield\_20&quot;, as any special characters are not supported by the Arduino IDE.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">Now open up the Arduino IDE and open &quot;File&gt;Preferences&quot;. There you will see the location of your sketchbook. Open that directory and create a directory called &quot;libraries&quot; inside that directory.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">Now move the &quot;USB\_Host\_Shield\_20&quot; directory to the &quot;libraries&quot; directory.</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">### [Bluetooth libraries](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp)</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">The final structure should look like this:</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">The [BTD library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp) is a general purpose library for an ordinary Bluetooth dongle.</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or SPP which is a virtual serial port via Bluetooth.</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">Some different examples can be found in the [example directory](https://github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Bluetooth).</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">* Arduino/</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">    * libraries/</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">        * USB\_Host\_Shield\_20/</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">&lt;https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">### [SPP library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/SPP.cpp)</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">SPP stands for &quot;Serial Port Profile&quot; and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">It has been tested successfully on Windows, Mac OS X, Linux, and Android.</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">Unfortunately Google broke something in Android 4.2, so it&#39;</span>s currently not working in <span class="keyword">this</span> version of Android.</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;More information can be found at these blog posts:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released&gt;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/&gt;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;To implement the <a class="code" href="class_s_p_p.html">SPP</a> protocol I used a <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> sniffing tool called [PacketLogger](http:<span class="comment">//www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple. </span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;It enables me to see the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> communication between my Mac and any device.</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;### PS3 Library</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;These libraries consist of the [<a class="code" href="class_p_s3_b_t.html">PS3BT</a>](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/PS3BT.cpp) and [PS3USB](https://github.com/felis/USB_Host_Shield_2.0/blob/master/PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;In order to use your Playstation controller via <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> you have to <span class="keyword">set</span> the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via <a class="code" href="class_u_s_b.html">USB</a> and letting the library <span class="keyword">set</span> it automatically.</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;__Note:__ To obtain the address you have to plug in the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> dongle before connecting the controller, or alternatively you could <span class="keyword">set</span> it in code like so: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L12&gt;.</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;For more information about the PS3 protocol see the official wiki: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information&gt;.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;Also take a look at the blog posts:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/01/ps3-controller-bt-library-for-arduino/&gt;</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/sony-ps3-controller-support-added-to-usb-host-library&gt;</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/arduino/interfacing-ps3-controllers-via-usb&gt;</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f">A</a> special thanks go to the following people:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">Now quit the Arduino IDE and reopen it.</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">Now you should be able to go open all the examples codes by navigating to &quot;File&gt;Examples&gt;USB\_Host\_Shield\_20&quot; and then select the example you will like to open.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">For more information visit the following site: &lt;http://arduino.cc/en/Guide/Libraries&gt;.</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral"># How to use the library</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">### Arduino ADK</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/avrpins.h):</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">&lt;code&gt;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">\#define BOARD\_MEGA_ADK</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">&lt;/code&gt;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">### [Bluetooth libraries](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">The [BTD library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp) is a general purpose library for an ordinary Bluetooth dongle.</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or SPP which is a virtual serial port via Bluetooth.</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">Some different examples can be found in the [example directory](https://github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Bluetooth).</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">&lt;https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino&gt;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="stringliteral">### [SPP library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/SPP.cpp)</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">SPP stands for &quot;Serial Port Profile&quot; and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">It has been tested successfully on Windows, Mac OS X, Linux, and Android.</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="stringliteral">Unfortunately Google broke something in Android 4.2, so it&#39;</span>s currently not working in <span class="keyword">this</span> version of Android.</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;More information can be found at these blog posts:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released&gt;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/&gt;</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;1. _Richard Ibbotson_ who made <span class="keyword">this</span> excellent guide: &lt;http:<span class="comment">//www.circuitsathome.com/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part&gt;</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;2. _Tomoyuki Tanaka_ <span class="keywordflow">for</span> releasing his code <span class="keywordflow">for</span> the Arduino <a class="code" href="class_u_s_b.html">USB</a> Host shield connected to the wiimote: &lt;http:<span class="comment">//www.circuitsathome.com/mcu/rc-car-controlled-by-wii-remote-on-arduino&gt;</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;To implement the <a class="code" href="class_s_p_p.html">SPP</a> protocol I used a <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> sniffing tool called [PacketLogger](http:<span class="comment">//www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple. </span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;It enables me to see the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> communication between my Mac and any device.</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;Also a big thanks all the people behind these sites about the Motion controller:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;### PS3 Library</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;* &lt;http:<span class="comment">//thp.io/2010/psmove/&gt;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;* &lt;http:<span class="comment">//www.copenhagengamecollective.org/unimove/&gt;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;* &lt;https:<span class="comment">//github.com/thp/psmoveapi&gt;</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;* &lt;http:<span class="comment">//code.google.com/p/moveonpc/&gt;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">### Xbox 360 Library</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;The library support one Xbox 360 via <a class="code" href="class_u_s_b.html">USB</a> or up to four Xbox 360 controllers wirelessly by <span class="keyword">using</span> a [Xbox 360 wireless receiver](http:<span class="comment">//blog.tkjelectronics.dk/wp-content/uploads/xbox360-wireless-receiver.jpg).</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;To use it via <a class="code" href="class_u_s_b.html">USB</a> use the [<a class="code" href="class_x_b_o_x_u_s_b.html">XBOXUSB</a>](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXUSB.cpp) library or to use it wirelessly use the [XBOXRECV](https://github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXRECV.cpp) library.</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;__Note that a Wireless controller can NOT be used via <a class="code" href="class_u_s_b.html">USB</a>!__</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;Examples code can be found in the [examples directory](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Xbox).</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;Also see the following blog posts:</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library&gt;</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/07/xbox-360-controller-support-added-to-the-usb-host-library/&gt;</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/12/xbox-360-receiver-added-to-the-usb-host-library/&gt;</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;These libraries consist of the [<a class="code" href="class_p_s3_b_t.html">PS3BT</a>](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/PS3BT.cpp) and [PS3USB](https://github.com/felis/USB_Host_Shield_2.0/blob/master/PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;In order to use your Playstation controller via <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> you have to <span class="keyword">set</span> the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via <a class="code" href="class_u_s_b.html">USB</a> and letting the library <span class="keyword">set</span> it automatically.</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;__Note:__ To obtain the address you have to plug in the <a class="code" href="_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba730728c9aac83393ac83f96a8125b8bb">Bluetooth</a> dongle before connecting the controller, or alternatively you could <span class="keyword">set</span> it in code like so: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L12&gt;.</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;For more information about the PS3 protocol see the official wiki: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information&gt;.</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;Also take a look at the blog posts:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/01/ps3-controller-bt-library-for-arduino/&gt;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/sony-ps3-controller-support-added-to-usb-host-library&gt;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/arduino/interfacing-ps3-controllers-via-usb&gt;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f">A</a> special thanks go to the following people:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;1. _Richard Ibbotson_ who made <span class="keyword">this</span> excellent guide: &lt;http:<span class="comment">//www.circuitsathome.com/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part&gt;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;2. _Tomoyuki Tanaka_ <span class="keywordflow">for</span> releasing his code <span class="keywordflow">for</span> the Arduino <a class="code" href="class_u_s_b.html">USB</a> Host shield connected to the wiimote: &lt;http:<span class="comment">//www.circuitsathome.com/mcu/rc-car-controlled-by-wii-remote-on-arduino&gt;</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;Also a big thanks all the people behind these sites about the Motion controller:</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;All the information regarding the Xbox 360 controller protocol are form these sites:</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;* &lt;http:<span class="comment">//tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/UsbInfo&gt;</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;* &lt;http:<span class="comment">//tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/WirelessUsbInfo&gt;</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;* &lt;https:<span class="comment">//github.com/Grumbel/xboxdrv/blob/master/PROTOCOL&gt;</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">### [Wii library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp)</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;The [Wii](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;First you have to pair with the controller, <span class="keyword">this</span> is done automatically by the library <span class="keywordflow">if</span> you create the instance like so:</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;&lt;code&gt;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<a class="code" href="class_w_i_i.html">WII</a> Wii(&amp;Btd,<a class="code" href="_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;&lt;/code&gt;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;And then press 1 &amp; 2 at once on the Wiimote or press sync <span class="keywordflow">if</span> you are <span class="keyword">using</span> a Wii U Pro Controller.</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;After that you can simply create the instance like so:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;&lt;code&gt;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<a class="code" href="class_w_i_i.html">WII</a> Wii(&amp;Btd);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;&lt;/code&gt;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;Then just press any button any button on the Wiimote and it will connect to the dongle.</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;Take a look at the example <span class="keywordflow">for</span> more information: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino&gt;.</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;Also take a look at the blog post:</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/08/wiimote-added-to-usb-host-library/&gt;</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;All the information about the Wii controllers are from these sites:</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote&gt;</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers&gt;</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck&gt;</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus&gt;</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;* The old library created by _Tomoyuki Tanaka_: &lt;https:<span class="comment">//github.com/moyuchin/WiiRemote_on_Arduino&gt; also helped a lot.</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor"># FAQ</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;&gt; When I plug my device into the <a class="code" href="class_u_s_b.html">USB</a> connector nothing happens?</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;Try to connect a external power supply to the Arduino - <span class="keyword">this</span> solves the problem in most cases.</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;* &lt;http:<span class="comment">//thp.io/2010/psmove/&gt;</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;* &lt;http:<span class="comment">//www.copenhagengamecollective.org/unimove/&gt;</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;* &lt;https:<span class="comment">//github.com/thp/psmoveapi&gt;</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;* &lt;http:<span class="comment">//code.google.com/p/moveonpc/&gt;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">### Xbox 360 Library</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;The library support one Xbox 360 via <a class="code" href="class_u_s_b.html">USB</a> or up to four Xbox 360 controllers wirelessly by <span class="keyword">using</span> a [Xbox 360 wireless receiver](http:<span class="comment">//blog.tkjelectronics.dk/wp-content/uploads/xbox360-wireless-receiver.jpg).</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;To use it via <a class="code" href="class_u_s_b.html">USB</a> use the [<a class="code" href="class_x_b_o_x_u_s_b.html">XBOXUSB</a>](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXUSB.cpp) library or to use it wirelessly use the [XBOXRECV](https://github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXRECV.cpp) library.</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;__Note that a Wireless controller can NOT be used via <a class="code" href="class_u_s_b.html">USB</a>!__</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;Examples code can be found in the [examples directory](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Xbox).</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;Also see the following blog posts:</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;* &lt;http:<span class="comment">//www.circuitsathome.com/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library&gt;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/07/xbox-360-controller-support-added-to-the-usb-host-library/&gt;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/12/xbox-360-receiver-added-to-the-usb-host-library/&gt;</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;All the information regarding the Xbox 360 controller protocol are form these sites:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;* &lt;http:<span class="comment">//tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/UsbInfo&gt;</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;* &lt;http:<span class="comment">//tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/WirelessUsbInfo&gt;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;* &lt;https:<span class="comment">//github.com/Grumbel/xboxdrv/blob/master/PROTOCOL&gt;</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">### [Wii library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp)</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;The [Wii](https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;First you have to pair with the controller, <span class="keyword">this</span> is done automatically by the library <span class="keywordflow">if</span> you create the instance like so:</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;&lt;code&gt;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<a class="code" href="class_w_i_i.html">WII</a> Wii(&amp;Btd,<a class="code" href="_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;&lt;/code&gt;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;And then press 1 &amp; 2 at once on the Wiimote or press sync <span class="keywordflow">if</span> you are <span class="keyword">using</span> a Wii U Pro Controller.</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;After that you can simply create the instance like so:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;&lt;code&gt;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<a class="code" href="class_w_i_i.html">WII</a> Wii(&amp;Btd);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;&lt;/code&gt;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;Then just press any button any button on the Wiimote and it will connect to the dongle.</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;Take a look at the example <span class="keywordflow">for</span> more information: &lt;https:<span class="comment">//github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino&gt;.</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;Also take a look at the blog post:</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;* &lt;http:<span class="comment">//blog.tkjelectronics.dk/2012/08/wiimote-added-to-usb-host-library/&gt;</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;All the information about the Wii controllers are from these sites:</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote&gt;</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers&gt;</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck&gt;</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;* &lt;http:<span class="comment">//wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus&gt;</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;* The old library created by _Tomoyuki Tanaka_: &lt;https:<span class="comment">//github.com/moyuchin/WiiRemote_on_Arduino&gt; also helped a lot.</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor"># FAQ</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;&gt; When I plug my device into the <a class="code" href="class_u_s_b.html">USB</a> connector nothing happens?</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;Try to connect a external power supply to the Arduino - <span class="keyword">this</span> solves the problem in most cases.</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
