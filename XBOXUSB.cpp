@@ -280,7 +280,7 @@ uint8_t XBOXUSB::getButtonPress(Button b) {
         return (uint8_t)(ButtonState >> 8);
     else if(b == R2)
         return (uint8_t)ButtonState;
-    return (ButtonState & ((uint32_t)pgm_read_word(&BUTTONS[(uint8_t)b]) << 16));
+    return (ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 bool XBOXUSB::getButtonClick(Button b) {
     if(b == L2) {
@@ -297,7 +297,7 @@ bool XBOXUSB::getButtonClick(Button b) {
         }
         return false;
     }
-    uint16_t button = pgm_read_word(&BUTTONS[(uint8_t)b]);
+    uint16_t button = pgm_read_word(&XBOXBUTTONS[(uint8_t)b]);
     bool click = (ButtonClickState & button);
     ButtonClickState &= ~button;  // clear "click" event
     return click;
@@ -320,10 +320,10 @@ void XBOXUSB::setLedRaw(uint8_t value) {
 }
 void XBOXUSB::setLedOn(LED led) {
     if(led != ALL) // All LEDs can't be on a the same time
-        setLedRaw((pgm_read_byte(&LEDS[(uint8_t)led]))+4);
+        setLedRaw((pgm_read_byte(&XBOXLEDS[(uint8_t)led]))+4);
 }
 void XBOXUSB::setLedBlink(LED led) {
-    setLedRaw(pgm_read_byte(&LEDS[(uint8_t)led]));
+    setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
 }
 void XBOXUSB::setLedMode(LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
     setLedRaw((uint8_t)ledMode);

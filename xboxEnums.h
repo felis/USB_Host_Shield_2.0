@@ -29,7 +29,7 @@ enum LEDMode {
 };
 
 /** Used to set the LEDs on the controllers */
-const uint8_t LEDS[] PROGMEM = {
+const uint8_t XBOXLEDS[] PROGMEM = {
     0x02, // LED1
     0x03, // LED2
     0x04, // LED3
@@ -37,7 +37,7 @@ const uint8_t LEDS[] PROGMEM = {
     0x01 // ALL - Used to blink all LEDs
  };
 /** Buttons on the controllers */ 
-const uint16_t BUTTONS[] PROGMEM = {
+const uint16_t XBOXBUTTONS[] PROGMEM = {
     0x0100, // UP
     0x0800, // RIGHT
     0x0200, // DOWN

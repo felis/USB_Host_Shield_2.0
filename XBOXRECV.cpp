@@ -381,7 +381,7 @@ uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
         return (uint8_t)(ButtonState[controller] >> 8);
     else if(b == R2)
         return (uint8_t)ButtonState[controller];
-    return (ButtonState[controller] & ((uint32_t)pgm_read_word(&BUTTONS[(uint8_t)b]) << 16));
+    return (ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
     if(b == L2) {
@@ -398,7 +398,7 @@ bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
         }
         return false;
     }
-    uint16_t button = pgm_read_word(&BUTTONS[(uint8_t)b]);
+    uint16_t button = pgm_read_word(&XBOXBUTTONS[(uint8_t)b]);
     bool click = (ButtonClickState[controller] & button);
     ButtonClickState[controller] &= ~button;  // clear "click" event
     return click;
@@ -462,10 +462,10 @@ void XBOXRECV::setLedRaw(uint8_t controller, uint8_t value) {
 }
 void XBOXRECV::setLedOn(uint8_t controller, LED led) {
     if(led != ALL) // All LEDs can't be on a the same time
-        setLedRaw(controller,(pgm_read_byte(&LEDS[(uint8_t)led]))+4);
+        setLedRaw(controller,(pgm_read_byte(&XBOXLEDS[(uint8_t)led]))+4);
 }
 void XBOXRECV::setLedBlink(uint8_t controller, LED led) {
-    setLedRaw(controller,pgm_read_byte(&LEDS[(uint8_t)led]));
+    setLedRaw(controller,pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
 }
 void XBOXRECV::setLedMode(uint8_t controller, LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
     setLedRaw(controller,(uint8_t)ledMode);
