@@ -118,7 +118,6 @@ public:
     bool connected;
     
     /** @name Serial port profile (SPP) Print functions */
-    /** Used to send Strings.  */
     /**
      * Used to send Arduino String data type.
      * @param str String to send.
@@ -135,7 +134,7 @@ public:
      */
     void print(const char* str);
     /**
-     * Same as print(const char* data), but will include newline and carriage return.
+     * Same as print(const char* str), but will include newline and carriage return.
      * @param str String to send.
      */
     void println(const char* str);
@@ -175,7 +174,7 @@ public:
     void println(void);
     
     /**
-     * Used to print integers.
+     * Used to print signed integers.
      * @param n Integers to send.
      */
     void printNumber(int32_t n);

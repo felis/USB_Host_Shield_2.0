@@ -57,7 +57,7 @@
  * This class implements support for all the official PS3 Controllers:
  * Dualshock 3, Navigation or a Motion controller via USB.
  * 
- * One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB.
+ * One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB on the Move controller.
  * 
  * Information about the protocol can be found at the wiki: https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information.
  */
@@ -116,8 +116,10 @@ public:
 
     /** @name PS3 Controller functions */
     /**
-     * getButtonPress(Button b) will return true as long as the button is held down
-     * While getButtonClick(Button b) will only return it once
+     * getButtonPress(Button b) will return true as long as the button is held down.
+     * 
+     * While getButtonClick(Button b) will only return it once.
+     * 
      * So you instance if you need to increase a variable once you would use getButtonClick(Button b), 
      * but if you need to drive a robot forward you would use getButtonPress(Button b).
      */

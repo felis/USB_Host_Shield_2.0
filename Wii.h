@@ -98,7 +98,7 @@ public:
     /**
      * Constructor for the WII class.
      * @param  p   Pointer to BTD class instance.
-     * @param  pair   Set this true to pair with the Wiimote. If the argument is omitted then it won't pair with it.
+     * @param  pair   Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it.
      * One can use ::PAIR to set it to true.
      */
     WII(BTD *p, bool pair=false);
@@ -119,8 +119,10 @@ public:
 
     /** @name Wii Controller functions */
     /**
-     * getButtonPress(Button b) will return true as long as the button is held down
-     * While getButtonClick(Button b) will only return it once
+     * getButtonPress(Button b) will return true as long as the button is held down.
+     * 
+     * While getButtonClick(Button b) will only return it once.
+     * 
      * So you instance if you need to increase a variable once you would use getButtonClick(Button b), 
      * but if you need to drive a robot forward you would use getButtonPress(Button b).
      */
@@ -196,7 +198,7 @@ public:
 
     /**
      * Return the battery level of the Wiimote.
-     * @return The barrey level in the range form 0-255.
+     * @return The battery level in the range 0-255.
      */
     uint8_t getBatteryLevel() { return batteryLevel; };
     /**
@@ -281,32 +283,68 @@ public:
     /** Initialises the camera as per the steps from: http://wiibrew.org/wiki/Wiimote#IR_Camera */
     void IRinitialize();
 
-    /** IR object 1 x position (0-1023). */
+    /**
+     * IR object 1 x-position read from the Wii IR camera.
+     * @return The x-position of the object in the range 0-1023.
+     */
     uint16_t getIRx1() { return IR_object_x1; };
-    /** IR object 1 y position (0-767). */
+    /**
+     * IR object 1 y-position read from the Wii IR camera.
+     * @return The y-position of the object in the range 0-767.
+     */
     uint16_t getIRy1() { return IR_object_y1; };
-    /** IR object 1 size (0-15). */
+    /**
+     * IR object 1 size read from the Wii IR camera.
+     * @return The size of the object in the range 0-15.
+     */
     uint8_t getIRs1() { return IR_object_s1; };
 
-    /** IR object 2 x position (0-1023). */
+    /**
+     * IR object 2 x-position read from the Wii IR camera.
+     * @return The x-position of the object in the range 0-1023.
+     */
     uint16_t getIRx2() { return IR_object_x2; };
-    /** IR object 2 y position (0-767). */
+    /**
+     * IR object 2 y-position read from the Wii IR camera.
+     * @return The y-position of the object in the range 0-767.
+     */
     uint16_t getIRy2() { return IR_object_y2; };
-    /** IR object 2 size (0-15). */
+    /**
+     * IR object 2 size read from the Wii IR camera.
+     * @return The size of the object in the range 0-15.
+     */
     uint8_t getIRs2() { return IR_object_s2; };
 
-    /** IR object 3 x position (0-1023). */
+    /**
+     * IR object 3 x-position read from the Wii IR camera.
+     * @return The x-position of the object in the range 0-1023.
+     */
     uint16_t getIRx3() { return IR_object_x3; };
-    /** IR object 3 y position (0-767). */
+    /**
+     * IR object 3 y-position read from the Wii IR camera.
+     * @return The y-position of the object in the range 0-767.
+     */
     uint16_t getIRy3() { return IR_object_y3; };
-    /** IR object 3 size (0-15). */
+    /**
+     * IR object 3 size read from the Wii IR camera.
+     * @return The size of the object in the range 0-15.
+     */
     uint8_t getIRs3() { return IR_object_s3; };
 
-    /** IR object 4 x position (0-1023). */
+    /**
+     * IR object 4 x-position read from the Wii IR camera.
+     * @return The x-position of the object in the range 0-1023.
+     */
     uint16_t getIRx4() { return IR_object_x4; };
-    /** IR object 4 y position (0-767). */
+    /**
+     * IR object 4 y-position read from the Wii IR camera.
+     * @return The y-position of the object in the range 0-767.
+     */
     uint16_t getIRy4() { return IR_object_y4; };
-    /** IR object 4 size (0-15). */
+    /**
+     * IR object 4 size read from the Wii IR camera.
+     * @return The size of the object in the range 0-15.
+     */
     uint8_t getIRs4() { return IR_object_s4; };
 
     /**

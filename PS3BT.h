@@ -90,8 +90,10 @@ public:
             
     /** @name PS3 Controller functions */
     /**
-     * getButtonPress(Button b) will return true as long as the button is held down
-     * While getButtonClick(Button b) will only return it once
+     * getButtonPress(Button b) will return true as long as the button is held down.
+     * 
+     * While getButtonClick(Button b) will only return it once.
+     * 
      * So you instance if you need to increase a variable once you would use getButtonClick(Button b), 
      * but if you need to drive a robot forward you would use getButtonPress(Button b).
      */

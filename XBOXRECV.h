@@ -56,7 +56,7 @@
 #define XBOX_MAX_ENDPOINTS   9
 
 /**
- * This class implements support for a Xbox Wirless receiver.
+ * This class implements support for a Xbox Wireless receiver.
  *
  * Up to four controllers can connect to one receiver, if more is needed one can use a second receiver via the USBHub class.
  */
