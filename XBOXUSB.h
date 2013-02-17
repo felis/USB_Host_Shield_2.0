@@ -97,14 +97,14 @@ public:
     
     /** @name Xbox Controller functions */
     /**
-     * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down.
+     * getButtonPress(Button b) will return true as long as the button is held down.
      * 
-     * While getButtonClick(uint8_t controller, Button b) will only return it once.
+     * While getButtonClick(Button b) will only return it once.
      * 
-     * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b), 
-     * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
+     * So you instance if you need to increase a variable once you would use getButtonClick(Button b), 
+     * but if you need to drive a robot forward you would use getButtonPress(Button b).
      * @param  b          ::Button to read.
-     * @return            getButtonClick(uint8_t controller, Button b) will return a bool, but getButtonPress(uint8_t controller, Button b)
+     * @return            getButtonClick(Button b) will return a bool, but getButtonPress(Button b)
      * will return a byte if reading ::L2 or ::R2.
      */
     uint8_t getButtonPress(Button b);
@@ -132,8 +132,8 @@ public:
     /**
      * Set LED value. Without using the ::LED or ::LEDMode enum.
      * @param value      See: 
-     * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
-     * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).
+     * setLedOff(), setLedOn(LED l),
+     * setLedBlink(LED l), and setLedMode(LEDMode lm).
      */
     void setLedRaw(uint8_t value);
     /** Turn all LEDs off the controller. */
