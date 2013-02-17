@@ -2,7 +2,7 @@ var searchData=
 [
   ['a',['A',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a42a4ade1acd55a49164099104990e09f',1,'controllerEnums.h']]],
   ['all',['ALL',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6ab1d5eac4b1dca480c8056eaea7663b7a',1,'controllerEnums.h']]],
-  ['alternating',['ALTERNATING',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37',1,'XBOXRECV.h']]],
+  ['alternating',['ALTERNATING',['../xbox_enums_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37',1,'xboxEnums.h']]],
   ['ax',['aX',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa1b657addccd19368e17fd15ce396a2eb',1,'PS3Enums.h']]],
   ['axmove',['aXmove',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa832ceb5090692e95e93982849f740de7',1,'PS3Enums.h']]],
   ['ay',['aY',['../_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aaba377ea700e0cdf1c61034ef60b259bd',1,'PS3Enums.h']]],

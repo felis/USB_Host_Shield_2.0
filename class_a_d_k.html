@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: ADK Class Reference</title>
+<title>USB Host Shield 2.0: ADK Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -221,6 +221,238 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac4bd3303b99921289c3f59e2df219e50"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADK::PrintEndpointDescriptor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00339">339</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66b9943dfa89f783a8cdeb655e6fe9b1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ADK::RcvData </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>nbytesptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00327">327</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac37bde02b6ed1436712d3619afb07c84"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ADK::SndData </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00334">334</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8c5c2e212c748966ccd863499d202063"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ADK::Init </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lowspeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00062">62</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7f64af34d7890f87ceab5d144f6c26ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ADK::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00316">316</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af3784434ee6a1c6f3dc5b591f467e703"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint8_t ADK::Poll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00120">120</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a972e8dc98b60ab27528db3af2618c3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint8_t ADK::GetAddress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00121">121</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1dee02856625dfcac4b0cdd4e8672cef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ADK::isReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00122">122</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aac2fac5410faea0e439b4f7e688b3d75"></a>
 <div class="memitem">
 <div class="memproto">
@@ -277,7 +509,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1a972e8dc98b60ab27528db3af2618c3"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a964ec80ac133bf8d65cf0274e37b29da"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -285,26 +518,21 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual uint8_t ADK::GetAddress </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">const uint8_t ADK::epDataInIndex = 1</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00121">121</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00088">88</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8c5c2e212c748966ccd863499d202063"></a>
+<a class="anchor" id="acfc5a7e45f15bba7ff8cd42552796624"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -312,43 +540,21 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t ADK::Init </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>lowspeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">const uint8_t ADK::epDataOutIndex = 2</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00062">62</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00089">89</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1dee02856625dfcac4b0cdd4e8672cef"></a>
+<a class="anchor" id="ab28e3a19569c27f3ed5362e9800065c1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -356,63 +562,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool ADK::isReady </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00122">122</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af3784434ee6a1c6f3dc5b591f467e703"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual uint8_t ADK::Poll </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00120">120</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac4bd3303b99921289c3f59e2df219e50"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ADK::PrintEndpointDescriptor </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
-          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* ADK::pUsb</td>
         </tr>
       </table>
   </td>
@@ -422,94 +572,10 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00339">339</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00092">92</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a66b9943dfa89f783a8cdeb655e6fe9b1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ADK::RcvData </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>nbytesptr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dataptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00327">327</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7f64af34d7890f87ceab5d144f6c26ef"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ADK::Release </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00316">316</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac37bde02b6ed1436712d3619afb07c84"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ADK::SndData </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>nbytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dataptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8cpp_source.html#l00334">334</a> of file <a class="el" href="adk_8cpp_source.html">adk.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="ab22a7c60cec56823727d4ff2cf2c4edf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +642,7 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a964ec80ac133bf8d65cf0274e37b29da"></a>
+<a class="anchor" id="a135db75b9e8cdd59b89f46c44dd83dd4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -584,39 +650,17 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ADK::epDataInIndex = 1</td>
+          <td class="memname">bool ADK::ready</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00088">88</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acfc5a7e45f15bba7ff8cd42552796624"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t ADK::epDataOutIndex = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00089">89</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
+<p>Definition at line <a class="el" href="adk_8h_source.html#l00097">97</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
 
 </div>
 </div>
@@ -642,50 +686,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab28e3a19569c27f3ed5362e9800065c1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* ADK::pUsb</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00092">92</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a135db75b9e8cdd59b89f46c44dd83dd4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ADK::ready</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="adk_8h_source.html#l00097">97</a> of file <a class="el" href="adk_8h_source.html">adk.h</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="adk_8h_source.html">adk.h</a></li>
 <li><a class="el" href="adk_8cpp_source.html">adk.cpp</a></li>
@@ -693,7 +693,7 @@ Static Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

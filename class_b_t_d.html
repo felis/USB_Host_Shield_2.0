@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: BTD Class Reference</title>
+<title>USB Host Shield 2.0: BTD Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -119,6 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a610183f9ddf04155ef2612d1839af7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4adfc7e51ad3b3c03e7c37d1af159e73"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a4adfc7e51ad3b3c03e7c37d1af159e73">registerServiceClass</a> (<a class="el" href="class_bluetooth_service.html">BluetoothService</a> *pService)</td></tr>
 <tr class="separator:a4adfc7e51ad3b3c03e7c37d1af159e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9ecb996243e070e70972370e45e4fd"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd">readPollInterval</a> ()</td></tr>
+<tr class="separator:a2a9ecb996243e070e70972370e45e4fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">USBDeviceConfig implementation</div></td></tr>
 <tr class="memitem:a48608619d8253972dd132edbb3001c5f"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a48608619d8253972dd132edbb3001c5f">Init</a> (uint8_t parent, uint8_t port, bool lowspeed)</td></tr>
 <tr class="separator:a48608619d8253972dd132edbb3001c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,7 +285,7 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a610183f9ddf04155ef2612d1839af7da"></a>
+<a class="anchor" id="a48608619d8253972dd132edbb3001c5f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -291,7 +293,61 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void BTD::disconnect </td>
+          <td class="memname">uint8_t BTD::Init </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lowspeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initialize the Bluetooth dongle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
+    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
+    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00045">45</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa87c23bce56a20f2db47c6a40c8eda87"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::Release </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -299,13 +355,101 @@ Static Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. </p>
+<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00205">205</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00302">302</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76e201c5b561e3a6d0405894ba5c2e41"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::Poll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00312">312</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aecdd9d00fc9c12bb3677ed213a6687c3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint8_t BTD::GetAddress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the device address. </p>
+<dl class="section return"><dt>Returns</dt><dd>The device address. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00184">184</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b2440748bdaaeb552a05b0f0902f5d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool BTD::isReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to check if the dongle has been initialized. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00189">189</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -376,7 +520,7 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aecdd9d00fc9c12bb3677ed213a6687c3"></a>
+<a class="anchor" id="a610183f9ddf04155ef2612d1839af7da"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -384,7 +528,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual uint8_t BTD::GetAddress </td>
+          <td class="memname">void BTD::disconnect </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -392,52 +536,47 @@ Static Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the device address. </p>
-<dl class="section return"><dt>Returns</dt><dd>The device address. </dd></dl>
+<p>Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. </p>
 
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00184">184</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00205">205</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1cb07a155c69bb1fcf45ae030b8947ec"></a>
+<a class="anchor" id="a4adfc7e51ad3b3c03e7c37d1af159e73"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void BTD::hci_accept_connection </td>
+          <td class="memname">int8_t BTD::registerServiceClass </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_bluetooth_service.html">BluetoothService</a> *&#160;</td>
+          <td class="paramname"><em>pService</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Accept the connection with the Bluetooth device. </p>
+<p>Register bluetooth dongle members/services. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pService</td><td>Pointer to <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The serice ID on succes or -1 on fail. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00814">814</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="addd07c18c725a324a05792a83026d36d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_authentication_request </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to try to authenticate with the remote device. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00969">969</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00215">215</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -477,136 +616,21 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae7066ea743f8907708db945ebef3ad76"></a>
+<a class="anchor" id="ae6f942eabd29257bc4896e5f263275b6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void BTD::hci_connect </td>
+          <td class="memname">void BTD::hci_reset </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Connect to a device. </p>
+<p>Reset the Bluetooth dongle. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00878">878</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1bea5dd793a2f47006b4a7642efc9e56"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_disconnect </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>handle</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Disconnect the HCI connection. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handle</td><td>The HCI Handle for the connection. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00978">978</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a678f2c995553ce6a9f48f9b59f2f1555"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_inquiry </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Start a HCI inquiry. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00858">858</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a45ffbc7a40bbb763b0ece907c3dfc9ff"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_inquiry_cancel </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Cancel a HCI inquiry. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00871">871</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af4d28b9c1a3b9688a1871610caee2cfc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_link_key_request_negative_reply </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Command is used to reply to a Link Key Request event from the BR/EDR Controller if the Host does not have a stored Link Key for the connection. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00956">956</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7114d2cb62aa413e5ecb25c45c76832b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_pin_code_negative_request_reply </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Respons when no pin was set. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00943">943</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a70047b0f624c3f0ef29f8b76b8a34938"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_pin_code_request_reply </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Respond with the pin for the connection. The pin is automatically set for the Wii library, but can be customized for the <a class="el" href="class_s_p_p.html">SPP</a> library. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00899">899</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00777">777</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -646,42 +670,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8767529bd203c549348a38ac9c6682b3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_remote_name </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Read the remote devices name. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00829">829</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae6f942eabd29257bc4896e5f263275b6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reset the Bluetooth dongle. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00777">777</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a9a6747d58951f53389922d80e25b886c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -707,24 +695,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aff59ab45d917406141ae0c9c79047f08"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::hci_write_scan_disable </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Disable visibility to other Bluetooth devices. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00795">795</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a7dd7faaec1d3d9a1d8159cc2a4190977"></a>
 <div class="memitem">
 <div class="memproto">
@@ -743,84 +713,208 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a48608619d8253972dd132edbb3001c5f"></a>
+<a class="anchor" id="aff59ab45d917406141ae0c9c79047f08"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::Init </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>lowspeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Initialize the Bluetooth dongle. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
-    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
-    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00045">45</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1b2440748bdaaeb552a05b0f0902f5d8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool BTD::isReady </td>
+          <td class="memname">void BTD::hci_write_scan_disable </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Used to check if the dongle has been initialized. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+<p>Disable visibility to other Bluetooth devices. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00189">189</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00795">795</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8767529bd203c549348a38ac9c6682b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_remote_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Read the remote devices name. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00829">829</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1cb07a155c69bb1fcf45ae030b8947ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_accept_connection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Accept the connection with the Bluetooth device. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00814">814</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1bea5dd793a2f47006b4a7642efc9e56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_disconnect </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disconnect the HCI connection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>The HCI Handle for the connection. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00978">978</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a70047b0f624c3f0ef29f8b76b8a34938"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_pin_code_request_reply </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Respond with the pin for the connection. The pin is automatically set for the Wii library, but can be customized for the <a class="el" href="class_s_p_p.html">SPP</a> library. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00899">899</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7114d2cb62aa413e5ecb25c45c76832b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_pin_code_negative_request_reply </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Respons when no pin was set. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00943">943</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af4d28b9c1a3b9688a1871610caee2cfc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_link_key_request_negative_reply </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Command is used to reply to a Link Key Request event from the BR/EDR Controller if the Host does not have a stored Link Key for the connection. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00956">956</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="addd07c18c725a324a05792a83026d36d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_authentication_request </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to try to authenticate with the remote device. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00969">969</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a678f2c995553ce6a9f48f9b59f2f1555"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_inquiry </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Start a HCI inquiry. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00858">858</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45ffbc7a40bbb763b0ece907c3dfc9ff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_inquiry_cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Cancel a HCI inquiry. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00871">871</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7066ea743f8907708db945ebef3ad76"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_connect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Connect to a device. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00878">878</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -877,92 +971,6 @@ Static Protected Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01014">1014</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab646a59311344966f139bb3b78f30233"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::l2cap_config_request </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rxid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dcid</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>L2CAP Config Request. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handle</td><td>HCI Handle. </td></tr>
-    <tr><td class="paramname">rxid</td><td>Identifier. </td></tr>
-    <tr><td class="paramname">dcid</td><td>Destination Channel Identifier. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01069">1069</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a792ac4529b65235698ecf3d37982c05e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BTD::l2cap_config_response </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>handle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rxid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>scid</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>L2CAP Config Response. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handle</td><td>HCI Handle. </td></tr>
-    <tr><td class="paramname">rxid</td><td>Identifier. </td></tr>
-    <tr><td class="paramname">scid</td><td>Source Channel Identifier. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01085">1085</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1070,6 +1078,92 @@ Static Protected Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01053">1053</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab646a59311344966f139bb3b78f30233"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::l2cap_config_request </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rxid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dcid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>L2CAP Config Request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>HCI Handle. </td></tr>
+    <tr><td class="paramname">rxid</td><td>Identifier. </td></tr>
+    <tr><td class="paramname">dcid</td><td>Destination Channel Identifier. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01069">1069</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a792ac4529b65235698ecf3d37982c05e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::l2cap_config_response </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rxid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>scid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>L2CAP Config Response. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>HCI Handle. </td></tr>
+    <tr><td class="paramname">rxid</td><td>Identifier. </td></tr>
+    <tr><td class="paramname">scid</td><td>Source Channel Identifier. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01085">1085</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1316,7 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a76e201c5b561e3a6d0405894ba5c2e41"></a>
+<a class="anchor" id="a2a9ecb996243e070e70972370e45e4fd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1230,7 +1324,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::Poll </td>
+          <td class="memname">uint8_t BTD::readPollInterval </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1238,16 +1332,14 @@ Static Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+<p>Read the poll interval taken from the endpoint descriptors. </p>
+<dl class="section return"><dt>Returns</dt><dd>The poll interval in ms. </dd></dl>
 
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00312">312</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1284,228 +1376,64 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4adfc7e51ad3b3c03e7c37d1af159e73"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t BTD::registerServiceClass </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_bluetooth_service.html">BluetoothService</a> *&#160;</td>
-          <td class="paramname"><em>pService</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Register bluetooth dongle members/services. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pService</td><td>Pointer to <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class instance. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The serice ID on succes or -1 on fail. </dd></dl>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00215">215</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa87c23bce56a20f2db47c6a40c8eda87"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BTD::Release </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00302">302</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a58f78a9a28db81858dcc34a32a2ec82c"></a>
+<a class="anchor" id="aa7735da01865bab01b569ee836173737"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::bAddress</td>
+          <td class="memname">bool BTD::watingForConnection</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Device address. </p>
+<p>Use this to see if it is waiting for a incoming connection. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00346">346</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a10c34527ae90e95791ac48ac7d1154a2"></a>
+<a class="anchor" id="a0f1c28a03bcbe62cc7c083f97ea27594"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::bConfNum</td>
+          <td class="memname">bool BTD::l2capConnectionClaimed</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Configuration number. </p>
+<p>This is used by the service to know when to store the device information. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00393">393</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00348">348</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a893dd35932821cddda7e482a1904af66"></a>
+<a class="anchor" id="af5e5b085cec1da5c83c75e80e95b3590"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::bNumEP</td>
+          <td class="memname">bool BTD::sdpConnectionClaimed</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Total number of endpoints in the configuration. </p>
+<p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current SDP incoming request. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00395">395</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00350">350</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a49f433ab824f259c3815e180c73bb0ad"></a>
+<a class="anchor" id="a9e5a34242007b64cd6a226cfd1901e74"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t BTD::BTD_CONTROL_PIPE = 0</td>
+          <td class="memname">bool BTD::rfcommConnectionClaimed</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Bluetooth dongle control endpoint. </p>
+<p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current RFCOMM incoming request. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00400">400</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a480510bd399ae74a97cd74c8474ef59c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BTD::BTD_DATAIN_PIPE = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>ACL In endpoint index. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00404">404</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0d82870f7eef8c27c33e6f5989d7a4dd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BTD::BTD_DATAOUT_PIPE = 3</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>ACL Out endpoint index. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00406">406</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a24166c9b308925eeb2f635fae43ca5ec"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BTD::BTD_EVENT_PIPE = 1</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>HCI event endpoint index. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00402">402</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00352">352</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1539,56 +1467,18 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac7caac80fb6f5f0e794af3644887d88e"></a>
+<a class="anchor" id="a1f8e9171a310e50f2c4a3c19066efe5a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool BTD::connectToWii</td>
+          <td class="memname">uint8_t BTD::my_bdaddr[6]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Used to only send the ACL data to the wiimote. </p>
+<p>The bluetooth dongles Bluetooth address. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00374">374</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab23f95f12675d7b4505ca6807d379182"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BTD::disc_bdaddr[6]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Last incoming devices Bluetooth address. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00364">364</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a91d92fee94e5a4cbca472bb3fd883e3e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> BTD::epInfo[<a class="el" href="_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd">BTD_MAX_ENDPOINTS</a>]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Endpoint info structure. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00390">390</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00360">360</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1607,6 +1497,36 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab23f95f12675d7b4505ca6807d379182"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::disc_bdaddr[6]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Last incoming devices Bluetooth address. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00364">364</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aede42d995c384c238fd49d728df01e4e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::remote_name[30]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>First 30 chars of last remote name. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00366">366</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="addaddee110af23a3195ad56f631e69ea"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1619,6 +1539,21 @@ Static Protected Attributes</h2></td></tr>
 <p>The supported HCI Version read from the Bluetooth dongle. Used by the <a class="el" href="class_p_s3_b_t.html">PS3BT</a> library to check the HCI Version of the Bluetooth dongle, it should be at least 3 to work properly with the library. </p>
 
 <p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00372">372</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac7caac80fb6f5f0e794af3644887d88e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BTD::connectToWii</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to only send the ACL data to the wiimote. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00374">374</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1637,18 +1572,18 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0f1c28a03bcbe62cc7c083f97ea27594"></a>
+<a class="anchor" id="a0c8cc2a2dd2cda3e760b8b4c1a2d169c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool BTD::l2capConnectionClaimed</td>
+          <td class="memname">bool BTD::pairWithWii</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This is used by the service to know when to store the device information. </p>
+<p>True when it should pair with the incoming Wiimote. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00348">348</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00378">378</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1667,33 +1602,18 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1f8e9171a310e50f2c4a3c19066efe5a"></a>
+<a class="anchor" id="a962a5714c225dcb633434f02e3657583"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::my_bdaddr[6]</td>
+          <td class="memname">bool BTD::wiiUProController</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The bluetooth dongles Bluetooth address. </p>
+<p>True if it's a Wii U Pro Controller. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00360">360</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0c8cc2a2dd2cda3e760b8b4c1a2d169c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BTD::pairWithWii</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>True when it should pair with the incoming Wiimote. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00378">378</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00382">382</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1716,7 +1636,99 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00386">386</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58f78a9a28db81858dcc34a32a2ec82c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::bAddress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Device address. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00394">394</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a91d92fee94e5a4cbca472bb3fd883e3e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> BTD::epInfo[<a class="el" href="_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd">BTD_MAX_ENDPOINTS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Endpoint info structure. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00396">396</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10c34527ae90e95791ac48ac7d1154a2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::bConfNum</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Configuration number. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00399">399</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a893dd35932821cddda7e482a1904af66"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BTD::bNumEP</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Total number of endpoints in the configuration. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00401">401</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1739,82 +1751,99 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Next poll time based on poll interval taken from the <a class="el" href="class_u_s_b.html">USB</a> descriptor. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00397">397</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00403">403</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aede42d995c384c238fd49d728df01e4e"></a>
+<a class="anchor" id="a49f433ab824f259c3815e180c73bb0ad"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t BTD::remote_name[30]</td>
+          <td class="memname">const uint8_t BTD::BTD_CONTROL_PIPE = 0</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>First 30 chars of last remote name. </p>
+<p>Bluetooth dongle control endpoint. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00366">366</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00406">406</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9e5a34242007b64cd6a226cfd1901e74"></a>
+<a class="anchor" id="a24166c9b308925eeb2f635fae43ca5ec"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool BTD::rfcommConnectionClaimed</td>
+          <td class="memname">const uint8_t BTD::BTD_EVENT_PIPE = 1</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current RFCOMM incoming request. </p>
+<p>HCI event endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00352">352</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00408">408</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af5e5b085cec1da5c83c75e80e95b3590"></a>
+<a class="anchor" id="a480510bd399ae74a97cd74c8474ef59c"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool BTD::sdpConnectionClaimed</td>
+          <td class="memname">const uint8_t BTD::BTD_DATAIN_PIPE = 2</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current SDP incoming request. </p>
+<p>ACL In endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00350">350</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00410">410</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa7735da01865bab01b569ee836173737"></a>
+<a class="anchor" id="a0d82870f7eef8c27c33e6f5989d7a4dd"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool BTD::watingForConnection</td>
+          <td class="memname">const uint8_t BTD::BTD_DATAOUT_PIPE = 3</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Use this to see if it is waiting for a incoming connection. </p>
+<p>ACL Out endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00346">346</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a962a5714c225dcb633434f02e3657583"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BTD::wiiUProController</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>True if it's a Wii U Pro Controller. </p>
-
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00382">382</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00412">412</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1825,7 +1854,7 @@ Static Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

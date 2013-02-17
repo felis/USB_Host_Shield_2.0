@@ -130,7 +130,7 @@ var searchData=
   ['led7',['LED7',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a0f8249a7cb803db1aba3043b227e2902',1,'controllerEnums.h']]],
   ['led8',['LED8',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a42e32062c4a32ac8a0ba01a940519aec',1,'controllerEnums.h']]],
   ['led9',['LED9',['../controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6a013f4214d13b932c7b8529159727b493',1,'controllerEnums.h']]],
-  ['ledmode',['LEDMode',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2',1,'XBOXRECV.h']]],
+  ['ledmode',['LEDMode',['../xbox_enums_8h.html#a57effb96f46e458675a2653d4c543ca2',1,'xboxEnums.h']]],
   ['ledtitles',['ledTitles',['../class_report_desc_parser_base.html#a0837d6d27bc9450a5aa25c1372e5d52c',1,'ReportDescParserBase']]],
   ['left',['LEFT',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0adb45120aafd37a973140edee24708065',1,'controllerEnums.h']]],
   ['lefthatx',['LeftHatX',['../controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92a383cb8895dd296b7f69ce845ed16b0ca',1,'controllerEnums.h']]],

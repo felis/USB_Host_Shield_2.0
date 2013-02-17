@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: masstorage.h File Reference</title>
+<title>USB Host Shield 2.0: masstorage.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -234,17 +234,31 @@ Macros</h2></td></tr>
 <tr class="separator:ab4baa1ea500923e1fc59e5991f05fe99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="affadc780007914e4b4de088b4df8ddf6"></a>
+<a class="anchor" id="aac9153aee4bdb92701df902e06a74eb3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define bmREQ_MASSIN&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#a59754621c21db801e11513ba06a3a02e">USB_SETUP_RECIPIENT_INTERFACE</a></td>
+          <td class="memname">#define SWAP</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">a, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00027">27</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00024">24</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -262,157 +276,143 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a439c9558fff25c40219c0f20244e666d"></a>
+<a class="anchor" id="affadc780007914e4b4de088b4df8ddf6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_CBW_SIGNATURE&#160;&#160;&#160;0x43425355</td>
+          <td class="memname">#define bmREQ_MASSIN&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#a59754621c21db801e11513ba06a3a02e">USB_SETUP_RECIPIENT_INTERFACE</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00054">54</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00027">27</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a012ee34e4ce8d644c2f75099867b26c0"></a>
+<a class="anchor" id="a9564704f249ab75db55a303f331fbedc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_CMD_DIR_IN&#160;&#160;&#160;(1 &lt;&lt; 7)</td>
+          <td class="memname">#define MASS_SUBCLASS_SCSI_NOT_REPORTED&#160;&#160;&#160;0x00</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00058">58</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00030">30</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad74d783991b5eea6ad8ef2feb2ce03ea"></a>
+<a class="anchor" id="a0abf867686c58deb8a409bf82941e125"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_CMD_DIR_OUT&#160;&#160;&#160;(0 &lt;&lt; 7)</td>
+          <td class="memname">#define MASS_SUBCLASS_RBC&#160;&#160;&#160;0x01</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00057">57</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00031">31</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af92587f54f4d56af3dd2fb3a474c0b33"></a>
+<a class="anchor" id="a370a8e5d533df93f23e122dea2468ecb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_CSW_SIGNATURE&#160;&#160;&#160;0x53425355</td>
+          <td class="memname">#define MASS_SUBCLASS_ATAPI&#160;&#160;&#160;0x02</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00055">55</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00032">32</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a75359f810ebeccd313e4ad9c3a88f231"></a>
+<a class="anchor" id="a5b4847f36fec399d12580113ab50e293"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_ERR_DEVICE_DISCONNECTED&#160;&#160;&#160;0x11</td>
+          <td class="memname">#define MASS_SUBCLASS_OBSOLETE1&#160;&#160;&#160;0x03</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00075">75</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00033">33</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a6c2dcf2fe5e2bead7ce82793de900eaf"></a>
+<a class="anchor" id="acbb017bda59fefb8bd39f9ea6f11b8ac"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_ERR_GENERAL_USB_ERROR&#160;&#160;&#160;0xFF</td>
+          <td class="memname">#define MASS_SUBCLASS_UFI&#160;&#160;&#160;0x04</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00077">77</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00034">34</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afe7b492eca9349e54443c5c08f77b238"></a>
+<a class="anchor" id="a54a77ed01b69a7b2d8acbf70ba3ff018"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_ERR_PHASE_ERROR&#160;&#160;&#160;0x01</td>
+          <td class="memname">#define MASS_SUBCLASS_OBSOLETE2&#160;&#160;&#160;0x05</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00074">74</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00035">35</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a450c2a67aa2b6a1f6593113dcb847569"></a>
+<a class="anchor" id="aaf635eb9151eb63855fe227584bb00eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_ERR_SUCCESS&#160;&#160;&#160;0x00</td>
+          <td class="memname">#define MASS_SUBCLASS_SCSI&#160;&#160;&#160;0x06</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00073">73</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00036">36</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a33f8a926c98ea3a3b7aea4006069a251"></a>
+<a class="anchor" id="a9dba9091cf98b47104ccb400482a46ab"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_ERR_UNABLE_TO_RECOVER&#160;&#160;&#160;0x12</td>
+          <td class="memname">#define MASS_SUBCLASS_LSDFS&#160;&#160;&#160;0x07</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00076">76</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00037">37</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab4baa1ea500923e1fc59e5991f05fe99"></a>
+<a class="anchor" id="aeac7060fd6a1fba50872ffb0c9dcba32"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_MAX_ENDPOINTS&#160;&#160;&#160;3</td>
+          <td class="memname">#define MASS_SUBCLASS_IEEE1667&#160;&#160;&#160;0x08</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00183">183</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a17a026f7d64e8daf27b45c295755fdf0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_PROTO_BBB&#160;&#160;&#160;0x50</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00044">44</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00038">38</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -458,6 +458,20 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a17a026f7d64e8daf27b45c295755fdf0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_PROTO_BBB&#160;&#160;&#160;0x50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00044">44</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a32a5145018b9953b26a0c47a3e55f1ea"></a>
 <div class="memitem">
 <div class="memproto">
@@ -486,20 +500,6 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a172c269d960fa57ce6dfeaacc6f6197f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_REQ_BOMSR&#160;&#160;&#160;0xFF</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00052">52</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a42e56089ee1706ec829f8cebb224b1dc"></a>
 <div class="memitem">
 <div class="memproto">
@@ -511,20 +511,6 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00049">49</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3fc37932ad8bcc25c185fb1efbc099b8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_REQ_GET_MAX_LUN&#160;&#160;&#160;0xFE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00051">51</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -542,185 +528,87 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a370a8e5d533df93f23e122dea2468ecb"></a>
+<a class="anchor" id="a3fc37932ad8bcc25c185fb1efbc099b8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_ATAPI&#160;&#160;&#160;0x02</td>
+          <td class="memname">#define MASS_REQ_GET_MAX_LUN&#160;&#160;&#160;0xFE</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00032">32</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00051">51</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aeac7060fd6a1fba50872ffb0c9dcba32"></a>
+<a class="anchor" id="a172c269d960fa57ce6dfeaacc6f6197f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_IEEE1667&#160;&#160;&#160;0x08</td>
+          <td class="memname">#define MASS_REQ_BOMSR&#160;&#160;&#160;0xFF</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00038">38</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00052">52</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9dba9091cf98b47104ccb400482a46ab"></a>
+<a class="anchor" id="a439c9558fff25c40219c0f20244e666d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_LSDFS&#160;&#160;&#160;0x07</td>
+          <td class="memname">#define MASS_CBW_SIGNATURE&#160;&#160;&#160;0x43425355</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00037">37</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00054">54</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5b4847f36fec399d12580113ab50e293"></a>
+<a class="anchor" id="af92587f54f4d56af3dd2fb3a474c0b33"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_OBSOLETE1&#160;&#160;&#160;0x03</td>
+          <td class="memname">#define MASS_CSW_SIGNATURE&#160;&#160;&#160;0x53425355</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00033">33</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00055">55</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a54a77ed01b69a7b2d8acbf70ba3ff018"></a>
+<a class="anchor" id="ad74d783991b5eea6ad8ef2feb2ce03ea"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_OBSOLETE2&#160;&#160;&#160;0x05</td>
+          <td class="memname">#define MASS_CMD_DIR_OUT&#160;&#160;&#160;(0 &lt;&lt; 7)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00035">35</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00057">57</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0abf867686c58deb8a409bf82941e125"></a>
+<a class="anchor" id="a012ee34e4ce8d644c2f75099867b26c0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MASS_SUBCLASS_RBC&#160;&#160;&#160;0x01</td>
+          <td class="memname">#define MASS_CMD_DIR_IN&#160;&#160;&#160;(1 &lt;&lt; 7)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00031">31</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aaf635eb9151eb63855fe227584bb00eb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_SUBCLASS_SCSI&#160;&#160;&#160;0x06</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00036">36</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9564704f249ab75db55a303f331fbedc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_SUBCLASS_SCSI_NOT_REPORTED&#160;&#160;&#160;0x00</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00030">30</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acbb017bda59fefb8bd39f9ea6f11b8ac"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_SUBCLASS_UFI&#160;&#160;&#160;0x04</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00034">34</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a597e2a0f4ee36172c260976af9805415"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_TRANS_FLG_CALLBACK&#160;&#160;&#160;0x01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00079">79</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a473b3774eb9f7df7f20f676f55deb47e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_TRANS_FLG_NO_PHASE_CHECK&#160;&#160;&#160;0x04</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00081">81</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa230fd8de3da0bcfbd1627e9177de452"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASS_TRANS_FLG_NO_STALL_CHECK&#160;&#160;&#160;0x02</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00080">80</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac436d150389d8a97693e63041f440d82"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_FORMAT_UNIT&#160;&#160;&#160;0x04</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00063">63</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00058">58</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -735,76 +623,6 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00060">60</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a95f71a5e11726543881ca39a47563daa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_MODE_SENSE_10&#160;&#160;&#160;0x5A</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00071">71</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab6164a7d5f81211ce8d98b6a731b4f69"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_MODE_SENSE_6&#160;&#160;&#160;0x1A</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00070">70</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad3900f141fb70afb8def054384805a2e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_READ_10&#160;&#160;&#160;0x28</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00065">65</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af3f8eee2dcef5f8a49602fbedad6c7cd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_READ_6&#160;&#160;&#160;0x08</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00064">64</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1f08c7a277432486b2f875035df6790b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_READ_CAPACITY_10&#160;&#160;&#160;0x25</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00066">66</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -836,6 +654,62 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac436d150389d8a97693e63041f440d82"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_FORMAT_UNIT&#160;&#160;&#160;0x04</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00063">63</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af3f8eee2dcef5f8a49602fbedad6c7cd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_READ_6&#160;&#160;&#160;0x08</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00064">64</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3900f141fb70afb8def054384805a2e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_READ_10&#160;&#160;&#160;0x28</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00065">65</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1f08c7a277432486b2f875035df6790b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_READ_CAPACITY_10&#160;&#160;&#160;0x25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00066">66</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aa84c8ac327fad55b9d0e40fea9eda699"></a>
 <div class="memitem">
 <div class="memproto">
@@ -847,20 +721,6 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00067">67</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad1733ce8730cdaab39b9b868b73128a0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCSI_CMD_WRITE_10&#160;&#160;&#160;0x2A</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00069">69</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -878,38 +738,178 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aac9153aee4bdb92701df902e06a74eb3"></a>
+<a class="anchor" id="ad1733ce8730cdaab39b9b868b73128a0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SWAP</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">a, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">b&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))</td>
+          <td class="memname">#define SCSI_CMD_WRITE_10&#160;&#160;&#160;0x2A</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00024">24</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00069">69</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab6164a7d5f81211ce8d98b6a731b4f69"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_MODE_SENSE_6&#160;&#160;&#160;0x1A</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00070">70</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a95f71a5e11726543881ca39a47563daa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCSI_CMD_MODE_SENSE_10&#160;&#160;&#160;0x5A</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00071">71</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a450c2a67aa2b6a1f6593113dcb847569"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_ERR_SUCCESS&#160;&#160;&#160;0x00</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00073">73</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afe7b492eca9349e54443c5c08f77b238"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_ERR_PHASE_ERROR&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00074">74</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75359f810ebeccd313e4ad9c3a88f231"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_ERR_DEVICE_DISCONNECTED&#160;&#160;&#160;0x11</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00075">75</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a33f8a926c98ea3a3b7aea4006069a251"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_ERR_UNABLE_TO_RECOVER&#160;&#160;&#160;0x12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00076">76</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c2dcf2fe5e2bead7ce82793de900eaf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_ERR_GENERAL_USB_ERROR&#160;&#160;&#160;0xFF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00077">77</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a597e2a0f4ee36172c260976af9805415"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_TRANS_FLG_CALLBACK&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00079">79</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa230fd8de3da0bcfbd1627e9177de452"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_TRANS_FLG_NO_STALL_CHECK&#160;&#160;&#160;0x02</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00080">80</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a473b3774eb9f7df7f20f676f55deb47e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_TRANS_FLG_NO_PHASE_CHECK&#160;&#160;&#160;0x04</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00081">81</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4baa1ea500923e1fc59e5991f05fe99"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MASS_MAX_ENDPOINTS&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00183">183</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

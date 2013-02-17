@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: KeyboardReportParser Class Reference</title>
+<title>USB Host Shield 2.0: KeyboardReportParser Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -174,42 +174,6 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a486df60a3d29f73e9052d3efb0c38de6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t KeyboardReportParser::HandleLockingKeys </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_h_i_d.html">HID</a> *&#160;</td>
-          <td class="paramname"><em>hid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hidboot_8cpp_source.html#l00080">80</a> of file <a class="el" href="hidboot_8cpp_source.html">hidboot.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aa21e9230ae4c2f068c404a9c2909a1f3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -243,6 +207,92 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="hidboot_8cpp_source.html#l00108">108</a> of file <a class="el" href="hidboot_8cpp_source.html">hidboot.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a60d8d4d4d187ce5c0e0d69aee7cc772f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KeyboardReportParser::Parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_h_i_d.html">HID</a> *&#160;</td>
+          <td class="paramname"><em>hid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_rpt_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_h_i_d_report_parser.html#ad2837f3d78c7ac3f1c2b3a4815420d97">HIDReportParser</a>.</p>
+
+<p>Definition at line <a class="el" href="hidboot_8cpp_source.html#l00048">48</a> of file <a class="el" href="hidboot_8cpp_source.html">hidboot.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a486df60a3d29f73e9052d3efb0c38de6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t KeyboardReportParser::HandleLockingKeys </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_h_i_d.html">HID</a> *&#160;</td>
+          <td class="paramname"><em>hid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hidboot_8cpp_source.html#l00080">80</a> of file <a class="el" href="hidboot_8cpp_source.html">hidboot.cpp</a>.</p>
 
 </div>
 </div>
@@ -318,57 +368,21 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a60d8d4d4d187ce5c0e0d69aee7cc772f"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ab62ffa0e72677379d1e68538625f2f28"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void KeyboardReportParser::Parse </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_h_i_d.html">HID</a> *&#160;</td>
-          <td class="paramname"><em>hid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>is_rpt_id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>len</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname"><a class="el" href="struct_k_b_d_i_n_f_o.html">KBDINFO</a> KeyboardReportParser::kbdInfo</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_h_i_d_report_parser.html#ad2837f3d78c7ac3f1c2b3a4815420d97">HIDReportParser</a>.</p>
-
-<p>Definition at line <a class="el" href="hidboot_8cpp_source.html#l00048">48</a> of file <a class="el" href="hidboot_8cpp_source.html">hidboot.cpp</a>.</p>
+<p>Definition at line <a class="el" href="hidboot_8h_source.html#l00134">134</a> of file <a class="el" href="hidboot_8h_source.html">hidboot.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a65e6da24b038be3095d06e13b4a280ba"></a>
 <div class="memitem">
 <div class="memproto">
@@ -383,31 +397,15 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae910089ecc7caff18429925affc5dc7f"></a>
+<a class="anchor" id="a7ca6a366c46a1b1915ade7fa61080b20"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t KeyboardReportParser::bLeds</td>
+          <td class="memname">union { ... } 	 KeyboardReportParser::prevState</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hidboot_8h_source.html#l00141">141</a> of file <a class="el" href="hidboot_8h_source.html">hidboot.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab62ffa0e72677379d1e68538625f2f28"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_k_b_d_i_n_f_o.html">KBDINFO</a> KeyboardReportParser::kbdInfo</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hidboot_8h_source.html#l00134">134</a> of file <a class="el" href="hidboot_8h_source.html">hidboot.h</a>.</p>
 
 </div>
 </div>
@@ -425,24 +423,26 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae910089ecc7caff18429925affc5dc7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t KeyboardReportParser::bLeds</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hidboot_8h_source.html#l00141">141</a> of file <a class="el" href="hidboot_8h_source.html">hidboot.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a501560a33428ac6ef5989973c9fb8566"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">union { ... } 	 KeyboardReportParser::kbdLockingKeys</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7ca6a366c46a1b1915ade7fa61080b20"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">union { ... } 	 KeyboardReportParser::prevState</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -456,7 +456,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

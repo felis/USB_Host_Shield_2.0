@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: PS3BT Class Reference</title>
+<title>USB Host Shield 2.0: PS3BT Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -278,6 +278,62 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab41f25f45573239990f68611dc825086"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::Run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to run part of the state maschine. </p>
+
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00506">506</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a576d72cdf12af58ae59c8f2a02f99c0f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Use this to reset the service. </p>
+
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00227">227</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a39ad8810c67e85eddc68c8a16d38a985"></a>
 <div class="memitem">
 <div class="memproto">
@@ -306,29 +362,45 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af9386c460169ea8f07e79c86a8938965"></a>
+<a class="anchor" id="a9b8726849cf6fbaf4e98a9652cb53b61"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double PS3BT::get9DOFValues </td>
+          <td class="memname">bool PS3BT::getButtonPress </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4a">Sensor</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Read the sensors inside the Move controller. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td><a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa832ceb5090692e95e93982849f740de7">aXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa5c436ac329e20e6b7661152c74e82199">aYmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa077e283d0c3f06568c20adf90ced0a3f">aZmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa1851ce90f7a3f6acb062de46e78ca731">gXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9c538a78bbc03fb258e1141acdc69a91">gYmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9ea1d99ce7ddecd65fcb39f30c77037d">gZmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9d1f82ecbf55d931c3f49858d86d4d68">mXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aaee1254b85fe360243299d2041323aa78">mYmove</a>, and <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9d1f82ecbf55d931c3f49858d86d4d68">mXmove</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The value in SI units. </dd></dl>
+<p><a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a>. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00130">130</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00063">63</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a92c617e1d00860dc560af7cfe20938d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PS3BT::getButtonClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00066">66</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
 
 </div>
 </div>
@@ -384,6 +456,32 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a99be7c63e7cb91a26110e0e44b180a0a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PS3BT::getSensor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4a">Sensor</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to read the sensors inside the Dualshock 3 and Move controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The Dualshock 3 has a 3-axis accelerometer and a 1-axis gyro inside. The Move controller has a 3-axis accelerometer, a 3-axis gyro, a 3-axis magnetometer and a temperature sensor inside. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return the raw sensor value. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00082">82</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a5f4d7fd35927694ae815091b487dcd60"></a>
 <div class="memitem">
 <div class="memproto">
@@ -410,50 +508,12 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a92c617e1d00860dc560af7cfe20938d9"></a>
+<a class="anchor" id="af9386c460169ea8f07e79c86a8938965"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PS3BT::getButtonClick </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00066">66</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9b8726849cf6fbaf4e98a9652cb53b61"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PS3BT::getButtonPress </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_b_t.html#a92c617e1d00860dc560af7cfe20938d9">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_b_t.html#a9b8726849cf6fbaf4e98a9652cb53b61">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00063">63</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a99be7c63e7cb91a26110e0e44b180a0a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t PS3BT::getSensor </td>
+          <td class="memname">double PS3BT::get9DOFValues </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4a">Sensor</a>&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
@@ -461,16 +521,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Used to read the sensors inside the Dualshock 3 and Move controller. </p>
+<p>Read the sensors inside the Move controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>The Dualshock 3 has a 3-axis accelerometer and a 1-axis gyro inside. The Move controller has a 3-axis accelerometer, a 3-axis gyro, a 3-axis magnetometer and a temperature sensor inside. </td></tr>
+    <tr><td class="paramname">a</td><td><a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa832ceb5090692e95e93982849f740de7">aXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa5c436ac329e20e6b7661152c74e82199">aYmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa077e283d0c3f06568c20adf90ced0a3f">aZmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa1851ce90f7a3f6acb062de46e78ca731">gXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9c538a78bbc03fb258e1141acdc69a91">gYmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9ea1d99ce7ddecd65fcb39f30c77037d">gZmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9d1f82ecbf55d931c3f49858d86d4d68">mXmove</a>, <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aaee1254b85fe360243299d2041323aa78">mYmove</a>, and <a class="el" href="_p_s3_enums_8h.html#a9628766e5f200cc84b296b071b09ff4aa9d1f82ecbf55d931c3f49858d86d4d68">mXmove</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return the raw sensor value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value in SI units. </dd></dl>
 
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00082">82</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00130">130</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
 
 </div>
 </div>
@@ -535,6 +595,142 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The temperature in degrees celsius. </dd></dl>
 
 <p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00158">158</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ee74242b0c1644496ff04b457f39cd2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setAllOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to set all LEDs and <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a> off. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00571">571</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c87e7db5311a5d56f78c994b5545e4e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setRumbleOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn off <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00577">577</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad18e284705a4899d72937b97e27cb0a4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setRumbleOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>&#160;</td>
+          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn on <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Either <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a5819f165165589a8e65b07bf46c7382b">RumbleHigh</a> or <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a080b52389e532b79b9e48f43ae6086ac">RumbleLow</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00585">585</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa84e4cb30f827c8d8d981c1de82c53ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setLedOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00606">606</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad400e1ce37c2dadd48938187b5021d42"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setLedOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00610">610</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a313d4c962273fc7daccb0319d80c5f61"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3BT::setLedToggle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00614">614</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
 
 </div>
 </div>
@@ -629,198 +825,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a576d72cdf12af58ae59c8f2a02f99c0f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::Reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Use this to reset the service. </p>
-
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00227">227</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab41f25f45573239990f68611dc825086"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::Run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Used to run part of the state maschine. </p>
-
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00506">506</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ee74242b0c1644496ff04b457f39cd2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setAllOff </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to set all LEDs and <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a> off. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00571">571</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa84e4cb30f827c8d8d981c1de82c53ad"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setLedOff </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00606">606</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad400e1ce37c2dadd48938187b5021d42"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setLedOn </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00610">610</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a313d4c962273fc7daccb0319d80c5f61"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setLedToggle </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00614">614</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5c87e7db5311a5d56f78c994b5545e4e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setRumbleOff </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn off <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00577">577</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad18e284705a4899d72937b97e27cb0a4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3BT::setRumbleOn </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>&#160;</td>
-          <td class="paramname"><em>mode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn on <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mode</td><td>Either <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a5819f165165589a8e65b07bf46c7382b">RumbleHigh</a> or <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a080b52389e532b79b9e48f43ae6086ac">RumbleLow</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_b_t_8cpp_source.html#l00585">585</a> of file <a class="el" href="_p_s3_b_t_8cpp_source.html">PS3BT.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a2804535e3164eafca80a6f6c6bd9a4f9"></a>
 <div class="memitem">
@@ -833,7 +837,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the normal playstation controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00198">198</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00200">200</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
 
 </div>
 </div>
@@ -848,7 +852,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the move controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00200">200</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00202">202</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
 
 </div>
 </div>
@@ -863,7 +867,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the navigation controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00202">202</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_b_t_8h_source.html#l00204">204</a> of file <a class="el" href="_p_s3_b_t_8h_source.html">PS3BT.h</a>.</p>
 
 </div>
 </div>
@@ -874,7 +878,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

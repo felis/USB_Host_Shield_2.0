@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: PS3USB Class Reference</title>
+<title>USB Host Shield 2.0: PS3USB Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -184,7 +184,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements support for all the official PS3 Controllers: Dualshock 3, Navigation or a Motion controller via <a class="el" href="class_u_s_b.html">USB</a>.</p>
-<p>One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via <a class="el" href="class_u_s_b.html">USB</a> on the Move controller.</p>
 <p>Information about the protocol can be found at the wiki: <a href="https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information">https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information</a>. </p>
 
 <p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00064">64</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
@@ -256,6 +256,118 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0083545cb99fb8786e60281fe7a9050d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PS3USB::Init </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lowspeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initialize the PS3 Controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
+    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
+    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00064">64</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5750c5448bf1ec73a7669ca2e4799c98"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PS3USB::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00269">269</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9068e2a036012614c0db163830cbcf00"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PS3USB::Poll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00278">278</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a04b79c271ca14e1e095c6e305c672627"></a>
 <div class="memitem">
 <div class="memproto">
@@ -282,6 +394,125 @@ Protected Attributes</h2></td></tr>
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
 
 <p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00098">98</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a02a5b0244665d5a790d1020e51c94479"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool PS3USB::isReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to check if the controller has been initialized. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00103">103</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af13993073ab245ece6d3fe9e9f41df87"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setBdaddr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>BDADDR</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to set the Bluetooth address inside the Dualshock 3 and Navigation controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00471">471</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3be69a3c6e24bf2b53bc06c85829e62a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setMoveBdaddr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>BDADDR</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to set the Bluetooth address inside the Move controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00528">528</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad1de9af6fb34f4cff6c1ed0af21b0141"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PS3USB::getButtonPress </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00329">329</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a50f5ed5b41232336cc6d1870795230"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PS3USB::getButtonClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00332">332</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -337,70 +568,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9b9e5a3a3e80957f47f86f4155fee777"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double PS3USB::getAngle </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1">Angle</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Use this to get <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> and <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a> calculated using the accelerometer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>Either <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> or <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Return the angle in the range of 0-360. </dd></dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00353">353</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9a50f5ed5b41232336cc6d1870795230"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PS3USB::getButtonClick </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00332">332</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad1de9af6fb34f4cff6c1ed0af21b0141"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PS3USB::getButtonPress </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_p_s3_u_s_b.html#a9a50f5ed5b41232336cc6d1870795230">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_p_s3_u_s_b.html#ad1de9af6fb34f4cff6c1ed0af21b0141">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00329">329</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a4fe61beae6f0e36e4df1ea388bed0783"></a>
 <div class="memitem">
 <div class="memproto">
@@ -424,6 +591,32 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Return the raw sensor value. </dd></dl>
 
 <p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00348">348</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9b9e5a3a3e80957f47f86f4155fee777"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double PS3USB::getAngle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1">Angle</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Use this to get <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> and <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a> calculated using the accelerometer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>Either <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1ae3a34b760fa4a6854f28852e91d8bb47">Pitch</a> or <a class="el" href="_p_s3_enums_8h.html#a0200d2d1b3a7930d0be6c50e7c8ae7d1a9d80e5f030503ccac779c6491826a173">Roll</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return the angle in the range of 0-360. </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00353">353</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,84 +665,139 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0083545cb99fb8786e60281fe7a9050d"></a>
+<a class="anchor" id="ac7adc7365bb45d15c37e22f26f012498"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t PS3USB::Init </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>lowspeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Initialize the PS3 Controller. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parent</td><td>Hub number. </td></tr>
-    <tr><td class="paramname">port</td><td>Port number on the hub. </td></tr>
-    <tr><td class="paramname">lowspeed</td><td>Speed of the device. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00064">64</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a02a5b0244665d5a790d1020e51c94479"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool PS3USB::isReady </td>
+          <td class="memname">void PS3USB::setAllOff </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Used to check if the controller has been initialized. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
+<p>Used to set all LEDs and <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a> off. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00103">103</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00424">424</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaa1e66d7397be6364d4f76749cbaad5a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setRumbleOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn off <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00430">430</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5dc4e5d1ebd5ca24da7cdc9dd08c94e1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setRumbleOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>&#160;</td>
+          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn on <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Either <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a5819f165165589a8e65b07bf46c7382b">RumbleHigh</a> or <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a080b52389e532b79b9e48f43ae6086ac">RumbleLow</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00438">438</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adb361fecbe4eb6fc5635dc7135cfff03"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setLedOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00459">459</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a44c4bff09064a09ef97c7bb6b8c0810b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setLedOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00463">463</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acbab64f537f092e2fb125f9001f46090"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PS3USB::setLedToggle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00467">467</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
 
 </div>
 </div>
@@ -644,297 +892,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9068e2a036012614c0db163830cbcf00"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t PS3USB::Poll </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Poll the <a class="el" href="class_u_s_b.html">USB</a> Input endpoins and run the state machines. </p>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00278">278</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5750c5448bf1ec73a7669ca2e4799c98"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t PS3USB::Release </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Release the <a class="el" href="class_u_s_b.html">USB</a> device. </p>
-<dl class="section return"><dt>Returns</dt><dd>0 on success. </dd></dl>
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00269">269</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac7adc7365bb45d15c37e22f26f012498"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setAllOff </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to set all LEDs and <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a> off. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00424">424</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af13993073ab245ece6d3fe9e9f41df87"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setBdaddr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>BDADDR</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to set the Bluetooth address inside the Dualshock 3 and Navigation controller. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00471">471</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adb361fecbe4eb6fc5635dc7135cfff03"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setLedOff </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00459">459</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a44c4bff09064a09ef97c7bb6b8c0810b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setLedOn </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00463">463</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acbab64f537f092e2fb125f9001f46090"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setLedToggle </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00467">467</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3be69a3c6e24bf2b53bc06c85829e62a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setMoveBdaddr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>BDADDR</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to set the Bluetooth address inside the Move controller. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">BDADDR</td><td>Your dongles Bluetooth address. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00528">528</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aaa1e66d7397be6364d4f76749cbaad5a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setRumbleOff </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn off <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00430">430</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5dc4e5d1ebd5ca24da7cdc9dd08c94e1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PS3USB::setRumbleOn </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>&#160;</td>
-          <td class="paramname"><em>mode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn on <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231">Rumble</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mode</td><td>Either <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a5819f165165589a8e65b07bf46c7382b">RumbleHigh</a> or <a class="el" href="_p_s3_enums_8h.html#aff4be38428d075a117a5bb7f6209a231a080b52389e532b79b9e48f43ae6086ac">RumbleLow</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8cpp_source.html#l00438">438</a> of file <a class="el" href="_p_s3_u_s_b_8cpp_source.html">PS3USB.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a3f43df159277003acdf7dd107bda27fd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t PS3USB::bAddress</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Device address. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00221">221</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a394dbb0a59b587210e5958f08dac48f1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> PS3USB::epInfo[<a class="el" href="_p_s3_u_s_b_8h.html#a168ab47b14a95d7cf8066d553a9cb862">PS3_MAX_ENDPOINTS</a>]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Endpoint info structure. </p>
-
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00223">223</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a0dad8754ff18d0c375c2569791d50876"></a>
 <div class="memitem">
 <div class="memproto">
@@ -946,7 +904,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the normal playstation controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00211">211</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00213">213</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -961,7 +919,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the move controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00213">213</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00215">215</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -976,7 +934,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if the navigation controller is successfully connected. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00215">215</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00217">217</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -999,7 +957,53 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
 
-<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00219">219</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00221">221</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f43df159277003acdf7dd107bda27fd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PS3USB::bAddress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Device address. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00223">223</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a394dbb0a59b587210e5958f08dac48f1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> PS3USB::epInfo[<a class="el" href="_p_s3_u_s_b_8h.html#a168ab47b14a95d7cf8066d553a9cb862">PS3_MAX_ENDPOINTS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Endpoint info structure. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_u_s_b_8h_source.html#l00225">225</a> of file <a class="el" href="_p_s3_u_s_b_8h_source.html">PS3USB.h</a>.</p>
 
 </div>
 </div>
@@ -1010,7 +1014,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

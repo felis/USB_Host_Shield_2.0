@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: MAX3421e&lt; SS, INTR &gt; Class Template Reference</title>
+<title>USB Host Shield 2.0: MAX3421e&lt; SS, INTR &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -158,33 +158,14 @@ template&lt;typename SS , typename INTR &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a23e4762107dd807520c8a8ed21ed97a2"></a>
+<a class="anchor" id="a74e387200f57bc03152247d630c166aa"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename SS , typename INTR &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::busprobe </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00230">230</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af1ceb905ac614b98d58579946587b083"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t * <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::bytesRd </td>
+          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::regWr </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>reg</em>, </td>
@@ -193,13 +174,7 @@ template&lt;typename SS , typename INTR &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>nbytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data_p</em>&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -209,7 +184,7 @@ template&lt;typename SS , typename INTR &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00153">153</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00101">101</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
 
 </div>
 </div>
@@ -249,6 +224,142 @@ template&lt;typename SS , typename INTR &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a7b925f552f25cb26eb317f73f9ade664"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::gpioWr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00131">131</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7faae82a8d68c38b43833b8fddcb8e8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::regRd </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>reg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00140">140</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af1ceb905ac614b98d58579946587b083"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t * <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::bytesRd </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data_p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00153">153</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3ceb313de4a652ebd49b9b4eeb763826"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::gpioRd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00171">171</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2b85831a551d8e30496882ce7e57fd2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00182">182</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8414e5a161ca272e435b9ab7f5db92ea"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SS , typename INTR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<ul>
+<li>initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */ </li>
+</ul>
+
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00207">207</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0353d430ba18466706337ed623a224e3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -277,14 +388,14 @@ template&lt;typename SS , typename INTR &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a3ceb313de4a652ebd49b9b4eeb763826"></a>
+<a class="anchor" id="a23e4762107dd807520c8a8ed21ed97a2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename SS , typename INTR &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::gpioRd </td>
+          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::busprobe </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -292,27 +403,7 @@ template&lt;typename SS , typename INTR &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00171">171</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7b925f552f25cb26eb317f73f9ade664"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::gpioWr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00131">131</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00230">230</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
 
 </div>
 </div>
@@ -333,28 +424,6 @@ template&lt;typename SS , typename INTR &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a8414e5a161ca272e435b9ab7f5db92ea"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">int8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::Init </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<ul>
-<li>initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */ </li>
-</ul>
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00207">207</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a6da568ef3f5a7188d94f0287f6e7ad3a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -371,75 +440,6 @@ template&lt;typename SS , typename INTR &gt; </div>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="usbhost_8h_source.html#l00286">286</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae7faae82a8d68c38b43833b8fddcb8e8"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::regRd </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>reg</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00140">140</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a74e387200f57bc03152247d630c166aa"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::regWr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>reg</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00101">101</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad2b85831a551d8e30496882ce7e57fd2"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename SS , typename INTR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t <a class="el" href="class_m_a_x3421e.html">MAX3421e</a>&lt; SS, INTR &gt;::reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhost_8h_source.html#l00182">182</a> of file <a class="el" href="usbhost_8h_source.html">usbhost.h</a>.</p>
 
 </div>
 </div>
@@ -469,7 +469,7 @@ template&lt;typename SS , typename INTR &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

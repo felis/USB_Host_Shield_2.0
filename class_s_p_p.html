@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: SPP Class Reference</title>
+<title>USB Host Shield 2.0: SPP Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -250,7 +250,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7de4c895e4056ac2964ce5d020611deb"></a>
+<a class="anchor" id="a2de67ee7ad1be9d2f3daf7dc08dc5f90"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -258,7 +258,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t SPP::available </td>
+          <td class="memname">void SPP::Run </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -266,14 +266,43 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get number of bytes waiting to be read. </p>
-<dl class="section return"><dt>Returns</dt><dd>Return the number of bytes ready to be read. </dd></dl>
+<p>Used to establish the connection automatically. </p>
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00212">212</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00370">370</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2c661bd46cd2d74bd29c4c771cd2ef0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Use this to reset the service. </p>
+
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00062">62</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -305,75 +334,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3117df8f320d9d010b57c30255db054b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::doubleToString </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>digits</em> = <code>2</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Helper function to convert from double to string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">input</td><td>Floating-point number to convert. </td></tr>
-    <tr><td class="paramname">output</td><td>Output buffer. </td></tr>
-    <tr><td class="paramname">digits</td><td>Number of digits to convert. If argument is omitted, then 2 digits will be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00876">876</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af354c72d54243f891faf4cc60a7b94aa"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::flush </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Discard all the bytes in the buffer. </p>
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00219">219</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="acbea2d8894757fad6f9b903cad942b36"></a>
 <div class="memitem">
 <div class="memproto">
@@ -387,7 +347,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Used to send Strings. Used to send Arduino String data type. </p>
+<p>Used to send Arduino String data type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>String to send. </td></tr>
@@ -396,6 +356,31 @@ Public Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00687">687</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8b2ce856e7431905451c3f45526e1b28"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::println </td>
+          <td>(</td>
+          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">print(const String &amp;str)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00753">753</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -424,6 +409,31 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8f39d99ed5299a38f86b2c2376ddfdc4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::println </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#a2632bccbdd58b98c483a85e5474fd053">print(const char* str)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00757">757</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a6bf2176a1fd3772e2c903eee680307b4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -446,6 +456,31 @@ Public Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00719">719</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a627a6371ed4f9c251fe0dd4e1b867a2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::println </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#a6bf2176a1fd3772e2c903eee680307b4">print(uint8_t data)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Data to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00763">763</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -485,106 +520,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa534ca2960b81635c9ef00baaa04b37c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::print </td>
-          <td>(</td>
-          <td class="paramtype">const __FlashStringHelper *&#160;</td>
-          <td class="paramname"><em>ifsh</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to print strings stored in flash. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ifsh</td><td>String to send - see: <a href="http://playground.arduino.cc/Learning/Memory">http://playground.arduino.cc/Learning/Memory</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00737">737</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8b2ce856e7431905451c3f45526e1b28"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::println </td>
-          <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Same as <a class="el" href="class_s_p_p.html#acbea2d8894757fad6f9b903cad942b36">print(const String &amp;str)</a>, but will include newline and carriage return. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">str</td><td>String to send. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00753">753</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8f39d99ed5299a38f86b2c2376ddfdc4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::println </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Same as <a class="el" href="class_s_p_p.html#a2632bccbdd58b98c483a85e5474fd053">print(const char* data)</a>, but will include newline and carriage return. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">str</td><td>String to send. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00757">757</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a627a6371ed4f9c251fe0dd4e1b867a2f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::println </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Same as <a class="el" href="class_s_p_p.html#a6bf2176a1fd3772e2c903eee680307b4">print(uint8_t data)</a>, but will include newline and carriage return. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>Data to send. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00763">763</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aec05fbfff82d2a386a7064254833ce64"></a>
 <div class="memitem">
 <div class="memproto">
@@ -618,6 +553,31 @@ Public Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00767">767</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa534ca2960b81635c9ef00baaa04b37c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::print </td>
+          <td>(</td>
+          <td class="paramtype">const __FlashStringHelper *&#160;</td>
+          <td class="paramname"><em>ifsh</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to print strings stored in flash. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ifsh</td><td>String to send - see: <a href="http://playground.arduino.cc/Learning/Memory">http://playground.arduino.cc/Learning/Memory</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00737">737</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -678,7 +638,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Used to print integers. </p>
+<p>Used to print signed integers. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>Integers to send. </td></tr>
@@ -687,6 +647,31 @@ Public Attributes</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00798">798</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3a2e5fa45ba0fe17d3341998a6c4640"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::printNumberln </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Same as <a class="el" href="class_s_p_p.html#af31f14d7249f8a5b6eb2230a42a9d5ae">printNumber(int32_t n)</a>, but will include newline and carriage return. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>Integers to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00828">828</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
 
 </div>
 </div>
@@ -726,31 +711,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac3a2e5fa45ba0fe17d3341998a6c4640"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::printNumberln </td>
-          <td>(</td>
-          <td class="paramtype">int32_t&#160;</td>
-          <td class="paramname"><em>n</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Same as <a class="el" href="class_s_p_p.html#af31f14d7249f8a5b6eb2230a42a9d5ae">printNumber(int32_t n)</a>, but will include newline and carriage return. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">n</td><td>Integers to send. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00828">828</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a2cdc30f2314dbd572b8432972469bb25"></a>
 <div class="memitem">
 <div class="memproto">
@@ -787,6 +747,76 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3117df8f320d9d010b57c30255db054b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPP::doubleToString </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>digits</em> = <code>2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Helper function to convert from double to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Floating-point number to convert. </td></tr>
+    <tr><td class="paramname">output</td><td>Output buffer. </td></tr>
+    <tr><td class="paramname">digits</td><td>Number of digits to convert. If argument is omitted, then 2 digits will be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00876">876</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7de4c895e4056ac2964ce5d020611deb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SPP::available </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get number of bytes waiting to be read. </p>
+<dl class="section return"><dt>Returns</dt><dd>Return the number of bytes ready to be read. </dd></dl>
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00211">211</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a53980e0d20944454790febe5c9be66af"></a>
 <div class="memitem">
 <div class="memproto">
@@ -806,7 +836,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae2c661bd46cd2d74bd29c4c771cd2ef0"></a>
+<a class="anchor" id="af354c72d54243f891faf4cc60a7b94aa"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -814,7 +844,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void SPP::Reset </td>
+          <td class="memname">void SPP::flush </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -822,43 +852,13 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Use this to reset the service. </p>
+<p>Discard all the bytes in the buffer. </p>
 
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00062">62</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2de67ee7ad1be9d2f3daf7dc08dc5f90"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SPP::Run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Used to establish the connection automatically. </p>
-
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_s_p_p_8cpp_source.html#l00370">370</a> of file <a class="el" href="_s_p_p_8cpp_source.html">SPP.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00218">218</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
@@ -885,7 +885,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

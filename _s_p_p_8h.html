@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: SPP.h File Reference</title>
+<title>USB Host Shield 2.0: SPP.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -203,437 +203,17 @@ Macros</h2></td></tr>
 <tr class="separator:a336bf1805637fdd66033c9040e606a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ad14b1def5eec64e94cc64a2dcba354ea"></a>
+<a class="anchor" id="a72444116eaac116983a3dec35b1944f0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BT_RFCOMM_MSC_CMD&#160;&#160;&#160;0xE3</td>
+          <td class="memname">#define L2CAP_SDP_WAIT&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00076">76</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab68e7621ab822c3bfb9507c78d0d0550"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BT_RFCOMM_MSC_RSP&#160;&#160;&#160;0xE1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00077">77</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a11185ec5287f08bf49c2c68d8cd52a16"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BT_RFCOMM_PN_CMD&#160;&#160;&#160;0x83</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00074">74</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a17b4a98661e30b6989cbe35ba5da4822"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BT_RFCOMM_PN_RSP&#160;&#160;&#160;0x81</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00075">75</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad9b8c11f7f4f8e8d59ac77999b2ec4a3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BT_RFCOMM_RPN_CMD&#160;&#160;&#160;0x93</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00078">78</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a336bf1805637fdd66033c9040e606a6b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BT_RFCOMM_RPN_RSP&#160;&#160;&#160;0x91</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00079">79</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af31032289d962bc2408debecc2823b8c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define extendAddress&#160;&#160;&#160;0x01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00071">71</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae9459fccc82a24e23dc52ef0e0422273"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_config_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#abaa9eb6a1d27745243ef134ecad34bb2">L2CAP_FLAG_CONFIG_RFCOMM_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00051">51</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5f5f1cfcc3f39ee032185cac348cb068"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_config_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a52cc6e4a2a6d151dd5d0e788b937b2e8">L2CAP_FLAG_CONFIG_SDP_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00050">50</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1c5c7dc5782a562f1b91e835f8aebdb4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_config_success_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a8af4ce4d4c42d85f0d84a514354fc570">L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00053">53</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a37d324cfd5a79f623dcd0fc8fa047447"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_config_success_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a75ef214ce8a03e8d62a1b24554bc1a05">L2CAP_FLAG_CONFIG_SDP_SUCCESS</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00052">52</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a28cbb8ce9ab60e04e2e131a87e06d5f0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_connection_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a61b15e54b1c5f9a28c996ae8e04ca3c0">L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00049">49</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3b1cbac2f2fc44b393ff3cb96448892a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_connection_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a0d649771ff995585c2bff030b7c1a2d3">L2CAP_FLAG_CONNECTION_SDP_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00048">48</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af565a91718a79907aece8a5c278aa0bc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_disconnect_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a9da70c702c0b792d99f8e39713ac0ee7">L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00055">55</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a05022c9cce93cccafc32337771c8704a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_disconnect_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#aac25fa1de5df70a97a6ccc6267d65fea">L2CAP_FLAG_DISCONNECT_SDP_REQUEST</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00054">54</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adf2585ad5d49cf2df2595d860ad6b258"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_DISCONNECT_RESPONSE&#160;&#160;&#160;4</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00028">28</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1412e00ebed70b8d7b41afd769252530"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define l2cap_disconnect_response_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#ae16d9fcc820433592ba171c8b2a9e25d">L2CAP_FLAG_DISCONNECT_RESPONSE</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00056">56</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abaa9eb6a1d27745243ef134ecad34bb2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST&#160;&#160;&#160;0x008</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00040">40</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8af4ce4d4c42d85f0d84a514354fc570"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS&#160;&#160;&#160;0x020</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00042">42</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a52cc6e4a2a6d151dd5d0e788b937b2e8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONFIG_SDP_REQUEST&#160;&#160;&#160;0x004</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00039">39</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a75ef214ce8a03e8d62a1b24554bc1a05"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONFIG_SDP_SUCCESS&#160;&#160;&#160;0x010</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00041">41</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a61b15e54b1c5f9a28c996ae8e04ca3c0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST&#160;&#160;&#160;0x002</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00038">38</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0d649771ff995585c2bff030b7c1a2d3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_CONNECTION_SDP_REQUEST&#160;&#160;&#160;0x001</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00037">37</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae16d9fcc820433592ba171c8b2a9e25d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_DISCONNECT_RESPONSE&#160;&#160;&#160;0x100</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00045">45</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9da70c702c0b792d99f8e39713ac0ee7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST&#160;&#160;&#160;0x080</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00044">44</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aac25fa1de5df70a97a6ccc6267d65fea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST&#160;&#160;&#160;0x040</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00043">43</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac3b4f24642f460c347305dedbebc5e63"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_RFCOMM_DONE&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00034">34</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad7f3cf22bd76c9ccd377d96b4a751fc4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_RFCOMM_REQUEST&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00032">32</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a75321d181cfa3c485bcd96918c1b353e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_RFCOMM_SUCCESS&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00033">33</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0b7cbe1aa26664847a48bd4578bc50bd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_RFCOMM_WAIT&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00031">31</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a25f7af87e6960e2e8ed49006b0b50f3e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define L2CAP_SDP_DONE&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00027">27</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00024">24</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
@@ -665,87 +245,339 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a72444116eaac116983a3dec35b1944f0"></a>
+<a class="anchor" id="a25f7af87e6960e2e8ed49006b0b50f3e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define L2CAP_SDP_WAIT&#160;&#160;&#160;0</td>
+          <td class="memname">#define L2CAP_SDP_DONE&#160;&#160;&#160;3</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00024">24</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00027">27</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac202a65fc9bc1a5d837e5d095b1bb9f2"></a>
+<a class="anchor" id="adf2585ad5d49cf2df2595d860ad6b258"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define L2CAP_UUID&#160;&#160;&#160;0x0100</td>
+          <td class="memname">#define L2CAP_DISCONNECT_RESPONSE&#160;&#160;&#160;4</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00062">62</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00028">28</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2c8ebc5e78dc22e7ae4e79370fada66f"></a>
+<a class="anchor" id="a0b7cbe1aa26664847a48bd4578bc50bd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RFCOMM_DISC&#160;&#160;&#160;0x43</td>
+          <td class="memname">#define L2CAP_RFCOMM_WAIT&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00069">69</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00031">31</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5747e4c0826eb3341fe2476b5229e0d0"></a>
+<a class="anchor" id="ad7f3cf22bd76c9ccd377d96b4a751fc4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RFCOMM_SABM&#160;&#160;&#160;0x2F</td>
+          <td class="memname">#define L2CAP_RFCOMM_REQUEST&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00065">65</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00032">32</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9f534220af893b5ae8c8927564db77c3"></a>
+<a class="anchor" id="a75321d181cfa3c485bcd96918c1b353e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RFCOMM_UA&#160;&#160;&#160;0x63</td>
+          <td class="memname">#define L2CAP_RFCOMM_SUCCESS&#160;&#160;&#160;2</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00066">66</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00033">33</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae9ffac80725386a879ba956251f64373"></a>
+<a class="anchor" id="ac3b4f24642f460c347305dedbebc5e63"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RFCOMM_UIH&#160;&#160;&#160;0xEF</td>
+          <td class="memname">#define L2CAP_RFCOMM_DONE&#160;&#160;&#160;3</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00067">67</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00034">34</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0d649771ff995585c2bff030b7c1a2d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONNECTION_SDP_REQUEST&#160;&#160;&#160;0x001</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00037">37</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a61b15e54b1c5f9a28c996ae8e04ca3c0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST&#160;&#160;&#160;0x002</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00038">38</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a52cc6e4a2a6d151dd5d0e788b937b2e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONFIG_SDP_REQUEST&#160;&#160;&#160;0x004</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00039">39</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abaa9eb6a1d27745243ef134ecad34bb2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST&#160;&#160;&#160;0x008</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00040">40</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75ef214ce8a03e8d62a1b24554bc1a05"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONFIG_SDP_SUCCESS&#160;&#160;&#160;0x010</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00041">41</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8af4ce4d4c42d85f0d84a514354fc570"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS&#160;&#160;&#160;0x020</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00042">42</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aac25fa1de5df70a97a6ccc6267d65fea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST&#160;&#160;&#160;0x040</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00043">43</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9da70c702c0b792d99f8e39713ac0ee7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST&#160;&#160;&#160;0x080</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00044">44</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae16d9fcc820433592ba171c8b2a9e25d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_FLAG_DISCONNECT_RESPONSE&#160;&#160;&#160;0x100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00045">45</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b1cbac2f2fc44b393ff3cb96448892a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_connection_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a0d649771ff995585c2bff030b7c1a2d3">L2CAP_FLAG_CONNECTION_SDP_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00048">48</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28cbb8ce9ab60e04e2e131a87e06d5f0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_connection_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a61b15e54b1c5f9a28c996ae8e04ca3c0">L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00049">49</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f5f1cfcc3f39ee032185cac348cb068"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_config_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a52cc6e4a2a6d151dd5d0e788b937b2e8">L2CAP_FLAG_CONFIG_SDP_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00050">50</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9459fccc82a24e23dc52ef0e0422273"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_config_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#abaa9eb6a1d27745243ef134ecad34bb2">L2CAP_FLAG_CONFIG_RFCOMM_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00051">51</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a37d324cfd5a79f623dcd0fc8fa047447"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_config_success_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a75ef214ce8a03e8d62a1b24554bc1a05">L2CAP_FLAG_CONFIG_SDP_SUCCESS</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00052">52</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1c5c7dc5782a562f1b91e835f8aebdb4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_config_success_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a8af4ce4d4c42d85f0d84a514354fc570">L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00053">53</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a05022c9cce93cccafc32337771c8704a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_disconnect_request_sdp_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#aac25fa1de5df70a97a6ccc6267d65fea">L2CAP_FLAG_DISCONNECT_SDP_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00054">54</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af565a91718a79907aece8a5c278aa0bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_disconnect_request_rfcomm_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#a9da70c702c0b792d99f8e39713ac0ee7">L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00055">55</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1412e00ebed70b8d7b41afd769252530"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define l2cap_disconnect_response_flag&#160;&#160;&#160;(l2cap_event_flag &amp; <a class="el" href="_s_p_p_8h.html#ae16d9fcc820433592ba171c8b2a9e25d">L2CAP_FLAG_DISCONNECT_RESPONSE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00056">56</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
 
 </div>
 </div>
@@ -791,10 +623,178 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac202a65fc9bc1a5d837e5d095b1bb9f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define L2CAP_UUID&#160;&#160;&#160;0x0100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00062">62</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5747e4c0826eb3341fe2476b5229e0d0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RFCOMM_SABM&#160;&#160;&#160;0x2F</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00065">65</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f534220af893b5ae8c8927564db77c3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RFCOMM_UA&#160;&#160;&#160;0x63</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00066">66</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9ffac80725386a879ba956251f64373"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RFCOMM_UIH&#160;&#160;&#160;0xEF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00067">67</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2c8ebc5e78dc22e7ae4e79370fada66f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RFCOMM_DISC&#160;&#160;&#160;0x43</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00069">69</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af31032289d962bc2408debecc2823b8c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define extendAddress&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00071">71</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11185ec5287f08bf49c2c68d8cd52a16"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_PN_CMD&#160;&#160;&#160;0x83</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00074">74</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17b4a98661e30b6989cbe35ba5da4822"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_PN_RSP&#160;&#160;&#160;0x81</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00075">75</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad14b1def5eec64e94cc64a2dcba354ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_MSC_CMD&#160;&#160;&#160;0xE3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00076">76</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab68e7621ab822c3bfb9507c78d0d0550"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_MSC_RSP&#160;&#160;&#160;0xE1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00077">77</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9b8c11f7f4f8e8d59ac77999b2ec4a3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_RPN_CMD&#160;&#160;&#160;0x93</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00078">78</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a336bf1805637fdd66033c9040e606a6b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BT_RFCOMM_RPN_RSP&#160;&#160;&#160;0x91</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_s_p_p_8h_source.html#l00079">79</a> of file <a class="el" href="_s_p_p_8h_source.html">SPP.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

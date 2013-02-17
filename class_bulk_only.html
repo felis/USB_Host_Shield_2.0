@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: BulkOnly Class Reference</title>
+<title>USB Host Shield 2.0: BulkOnly Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -217,6 +217,104 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac8a1d7b2ef82d9f6da44928c78039964"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BulkOnly::PrintEndpointDescriptor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00630">630</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a49762e86fea9ee137097691c5eac062e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BulkOnly::IsValidCBW </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pcbw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00343">343</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa62fd9f43fb0e8b3a9973ead5d577dcb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BulkOnly::IsMeaningfulCBW </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>pcbw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00350">350</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a89fef2c4da56d960c834688cbba8d509"></a>
 <div class="memitem">
 <div class="memproto">
@@ -240,6 +338,442 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00413">413</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6534434c067e35aa71066a2a9ee1b82d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_command_block_wrapper.html">CommandBlockWrapper</a> *&#160;</td>
+          <td class="paramname"><em>cbw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>bsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00545">545</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5e96d4028abd1885359fc36f644b8363"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::HandleUsbError </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00388">388</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe1e768a46e751e6792164334c973b44"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::GetLastUsbError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00229">229</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0e90c8ec2622fb6c5b19de16c244a8a1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00360">360</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3358d6e445096c99817d276315b841cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::GetMaxLUN </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>max_lun</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00365">365</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3605db2357c817d46962b703bec21ea7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::ResetRecovery </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00419">419</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab14f15d29a05f2260aaaeb8e9b3db01"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Inquiry </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>lun</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00442">442</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7f970ddfbc562e53dcdc839753e79067"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::TestUnitReady </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>lun</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00502">502</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf6c027a7a3a9d1c2db13835657048fa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::ReadCapacity </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>lun</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00482">482</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a42e3ee7f4fdb3327ff2d5bab0ef05422"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::RequestSense </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>lun</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00462">462</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a116e4f6f9c5ce8df1c7978a47e7dfc76"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Read </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>lun</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>bsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_u_s_b_read_parser.html">USBReadParser</a> *&#160;</td>
+          <td class="paramname"><em>prs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00521">521</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a51870da9badc037166b86da60bcda6ea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Init </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lowspeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00076">76</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a9b213d1800db2d8e661d242b57b195"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00293">293</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a51b8a76f5e16697476ce2dcff2514bc6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::Poll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00306">306</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a376cb3367071555816e2b0c74ad7eb12"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint8_t BulkOnly::GetAddress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00246">246</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -299,541 +833,95 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a376cb3367071555816e2b0c74ad7eb12"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual uint8_t BulkOnly::GetAddress </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00246">246</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abe1e768a46e751e6792164334c973b44"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::GetLastUsbError </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00229">229</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3358d6e445096c99817d276315b841cc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::GetMaxLUN </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>max_lun</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00365">365</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5e96d4028abd1885359fc36f644b8363"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::HandleUsbError </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00388">388</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a51870da9badc037166b86da60bcda6ea"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Init </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>lowspeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00076">76</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aab14f15d29a05f2260aaaeb8e9b3db01"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Inquiry </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>lun</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00442">442</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa62fd9f43fb0e8b3a9973ead5d577dcb"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BulkOnly::IsMeaningfulCBW </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>pcbw</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00350">350</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a49762e86fea9ee137097691c5eac062e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BulkOnly::IsValidCBW </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>pcbw</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00343">343</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a51b8a76f5e16697476ce2dcff2514bc6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Poll </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00306">306</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac8a1d7b2ef82d9f6da44928c78039964"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BulkOnly::PrintEndpointDescriptor </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
-          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00630">630</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a116e4f6f9c5ce8df1c7978a47e7dfc76"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Read </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>lun</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>addr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>bsize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_u_s_b_read_parser.html">USBReadParser</a> *&#160;</td>
-          <td class="paramname"><em>prs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00521">521</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abf6c027a7a3a9d1c2db13835657048fa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::ReadCapacity </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>lun</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00482">482</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8a9b213d1800db2d8e661d242b57b195"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Release </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00293">293</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a42e3ee7f4fdb3327ff2d5bab0ef05422"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::RequestSense </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>lun</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00462">462</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0e90c8ec2622fb6c5b19de16c244a8a1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00360">360</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3605db2357c817d46962b703bec21ea7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::ResetRecovery </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00419">419</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7f970ddfbc562e53dcdc839753e79067"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::TestUnitReady </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>lun</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00502">502</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6534434c067e35aa71066a2a9ee1b82d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::Transaction </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_command_block_wrapper.html">CommandBlockWrapper</a> *&#160;</td>
-          <td class="paramname"><em>cbw</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>bsize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>flags</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8cpp_source.html#l00545">545</a> of file <a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a9e487226408578a2971570bcf7de62fe"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t BulkOnly::epDataInIndex = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00188">188</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8d527bdc285870f3571481a4fd982721"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t BulkOnly::epDataOutIndex = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00189">189</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a03cd96b415990821bdce43b4004c85e4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t BulkOnly::epInterruptInIndex = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00190">190</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b4ae384eea3aacd8bf916439621973a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* BulkOnly::pUsb</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00192">192</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a9968a2119df66fa0093b020e318d8ac6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -900,50 +988,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a20ff3cc4bb15c557f57a8c6200b412d1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::bLastUsbError</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00205">205</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6bbdd41bf6efc4060f3c36da7d6ed8b2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t BulkOnly::bMaxLUN</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00204">204</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a6cb56ebd0307845321340919e2b35952"></a>
 <div class="memitem">
 <div class="memproto">
@@ -963,182 +1007,6 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00196">196</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a21961ad1130480f534ef3e91f24c56a0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool BulkOnly::bPollEnable</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00198">198</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7b90227b0707d19385b9fa2fae85e184"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t BulkOnly::dCBWDataTransferLength</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00203">203</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7ae682d50badd1386a06f30f35a32d1d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t BulkOnly::dCBWTag</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00202">202</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9e487226408578a2971570bcf7de62fe"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BulkOnly::epDataInIndex = 1</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00188">188</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8d527bdc285870f3571481a4fd982721"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BulkOnly::epDataOutIndex = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00189">189</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aee2247fd0a251e4da36e8c09bbe6917f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> BulkOnly::epInfo[<a class="el" href="masstorage_8h.html#ab4baa1ea500923e1fc59e5991f05fe99">MASS_MAX_ENDPOINTS</a>]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00200">200</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a03cd96b415990821bdce43b4004c85e4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t BulkOnly::epInterruptInIndex = 3</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00190">190</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b4ae384eea3aacd8bf916439621973a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* BulkOnly::pUsb</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00192">192</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -1164,6 +1032,138 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a21961ad1130480f534ef3e91f24c56a0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BulkOnly::bPollEnable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00198">198</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee2247fd0a251e4da36e8c09bbe6917f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_ep_info.html">EpInfo</a> BulkOnly::epInfo[<a class="el" href="masstorage_8h.html#ab4baa1ea500923e1fc59e5991f05fe99">MASS_MAX_ENDPOINTS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00200">200</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ae682d50badd1386a06f30f35a32d1d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BulkOnly::dCBWTag</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00202">202</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b90227b0707d19385b9fa2fae85e184"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BulkOnly::dCBWDataTransferLength</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00203">203</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6bbdd41bf6efc4060f3c36da7d6ed8b2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::bMaxLUN</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00204">204</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a20ff3cc4bb15c557f57a8c6200b412d1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BulkOnly::bLastUsbError</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00205">205</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="masstorage_8h_source.html">masstorage.h</a></li>
 <li><a class="el" href="masstorage_8cpp_source.html">masstorage.cpp</a></li>
@@ -1171,7 +1171,7 @@ Static Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

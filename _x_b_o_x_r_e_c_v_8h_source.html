@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: XBOXRECV.h Source File</title>
+<title>USB Host Shield 2.0: XBOXRECV.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -118,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_usb_8h.html">Usb.h</a>&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="controller_enums_8h.html">controllerEnums.h</a>&quot;</span> </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="xbox_enums_8h.html">xboxEnums.h</a>&quot;</span> </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">/* Data Xbox 360 taken from descriptors */</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0">   33</a></span>&#160;<span class="preprocessor">#define EP_MAXPKTSIZE       32 // max size for data via USB</span></div>
@@ -142,78 +142,71 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a1a97ce2829a30b96ea6640d387d245a9">   51</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a6842663964e470b86786f046e4bc30d9">   52</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575">   54</a></span>&#160;<span class="preprocessor">#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575">   54</a></span>&#160;<span class="preprocessor">#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz receivers</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#af35f872fc33e690571eb99de648e8e96">   56</a></span>&#160;<span class="preprocessor">#define XBOX_MAX_ENDPOINTS   9</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2">   59</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2">LEDMode</a> {</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ab341b3ec217357462f12510d0435c25b">   60</a></span>&#160;    <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ab341b3ec217357462f12510d0435c25b">ROTATING</a> = 0x0A,</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ae88cfa0f6acd518889cef621446d9d2a">   61</a></span>&#160;    <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ae88cfa0f6acd518889cef621446d9d2a">FASTBLINK</a> = 0x0B,</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2acfcb52b0be6da777e98f28261a9d2454">   62</a></span>&#160;    <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2acfcb52b0be6da777e98f28261a9d2454">SLOWBLINK</a> = 0x0C,</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37">   63</a></span>&#160;    <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2a699ca8594a49a8c786c6881a14caeb37">ALTERNATING</a> = 0x0D,    </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html">   71</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_x_b_o_x_r_e_c_v.html">XBOXRECV</a> : <span class="keyword">public</span> <a class="code" href="class_u_s_b_device_config.html">USBDeviceConfig</a> {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_x_b_o_x_r_e_c_v.html#ac856259af28db351f85302b5eddabf1d">XBOXRECV</a>(<a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">pUsb</a>);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a07de216bf16a83501d74463c00bf1fc8">Init</a>(uint8_t parent, uint8_t port, <span class="keywordtype">bool</span> lowspeed);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ad0e6b53a818516b7d6af0beaa8cebc7a">Release</a>();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#aafe1688ba3dc9b9ac425ebbbf001a1cc">Poll</a>();</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a2d58b0a20eb804d853713ade83d01631">  102</a></span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a2d58b0a20eb804d853713ade83d01631">GetAddress</a>() { <span class="keywordflow">return</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">bAddress</a>; };</div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57">  107</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57">isReady</a>() { <span class="keywordflow">return</span> bPollEnable; };</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    int16_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1b277f0980bd53f30283d4af9d9b8926">getAnalogHat</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92">AnalogHat</a> a);</div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a65f4ca4dc0156418fbac30060c06730d">  137</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a65f4ca4dc0156418fbac30060c06730d">setAllOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(controller,0,0); <a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">setLedOff</a>(controller); };</div>
-<div class="line"><a name="l00142"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#aa75c1d01b94b7c50fb518bc0f9228782">  142</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#aa75c1d01b94b7c50fb518bc0f9228782">setRumbleOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(controller,0,0); };</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(uint8_t controller, uint8_t lValue, uint8_t rValue);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a354ede498c38b95a60c1b27deb01e47d">setLedRaw</a>(uint8_t controller, uint8_t value);</div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">  162</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">setLedOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#a354ede498c38b95a60c1b27deb01e47d">setLedRaw</a>(controller,0); };</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a9e17aa44f2946e710fb9343f27290c85">setLedOn</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> l);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a54490f57e16eaee6689ca92351958017">setLedBlink</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> l);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#ace7deafed6fa6991d38417b41a490c57">setLedMode</a>(uint8_t controller, <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2">LEDMode</a> lm);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a671caa6d19debca8ff14dc82ac3ed005">getBatteryLevel</a>(uint8_t controller);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#aa2263642c0d422c6d21fed3933d6044c">buttonChanged</a>(uint8_t controller);</div>
-<div class="line"><a name="l00196"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a5ff16bba78f05af3023f395a342b625c">  196</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a5ff16bba78f05af3023f395a342b625c">XboxReceiverConnected</a>;</div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">  198</a></span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">Xbox360Connected</a>[4];</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keyword">protected</span>:           </div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">  202</a></span>&#160;    <a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">pUsb</a>;</div>
-<div class="line"><a name="l00204"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">  204</a></span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">bAddress</a>;</div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">  206</a></span>&#160;    <a class="code" href="struct_ep_info.html">EpInfo</a> <a class="code" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">epInfo</a>[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>];</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keyword">private</span>:    </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordtype">bool</span> bPollEnable;    </div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="comment">/* Variables to store the buttons */</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    uint32_t ButtonState[4];</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    uint32_t OldButtonState[4];</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    uint16_t ButtonClickState[4];</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    int16_t hatValue[4][4];</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    uint16_t controllerStatus[4];</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordtype">bool</span> buttonStateChanged[4]; <span class="comment">// True if a button has changed</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordtype">bool</span> L2Clicked[4]; <span class="comment">// These buttons are analog, so we use we use these bools to check if they where clicked or not</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordtype">bool</span> R2Clicked[4];</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> timer; <span class="comment">// Timing for checkStatus() signals</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    uint8_t readBuf[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0">EP_MAXPKTSIZE</a>]; <span class="comment">// General purpose buffer for input data</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    uint8_t writeBuf[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0">EP_MAXPKTSIZE</a>]; <span class="comment">// General purpose buffer for output data</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordtype">void</span> readReport(uint8_t controller); <span class="comment">// read incoming data</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">void</span> printReport(uint8_t controller, uint8_t nBytes); <span class="comment">// print incoming date - Uncomment for debugging</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">/* Private commands */</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordtype">void</span> XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordtype">void</span> checkStatus();</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;};</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html">   63</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_x_b_o_x_r_e_c_v.html">XBOXRECV</a> : <span class="keyword">public</span> <a class="code" href="class_u_s_b_device_config.html">USBDeviceConfig</a> {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_x_b_o_x_r_e_c_v.html#ac856259af28db351f85302b5eddabf1d">XBOXRECV</a>(<a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">pUsb</a>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a07de216bf16a83501d74463c00bf1fc8">Init</a>(uint8_t parent, uint8_t port, <span class="keywordtype">bool</span> lowspeed);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ad0e6b53a818516b7d6af0beaa8cebc7a">Release</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#aafe1688ba3dc9b9ac425ebbbf001a1cc">Poll</a>();</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a2d58b0a20eb804d853713ade83d01631">   94</a></span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a2d58b0a20eb804d853713ade83d01631">GetAddress</a>() { <span class="keywordflow">return</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">bAddress</a>; };</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57">   99</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57">isReady</a>() { <span class="keywordflow">return</span> bPollEnable; };</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ad33cd16d10e438bb8051f7fa6052f6c9">getButtonPress</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">getButtonClick</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    int16_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1b277f0980bd53f30283d4af9d9b8926">getAnalogHat</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92">AnalogHat</a> a);</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a65f4ca4dc0156418fbac30060c06730d">  131</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a65f4ca4dc0156418fbac30060c06730d">setAllOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(controller,0,0); <a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">setLedOff</a>(controller); };</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#aa75c1d01b94b7c50fb518bc0f9228782">  136</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#aa75c1d01b94b7c50fb518bc0f9228782">setRumbleOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(controller,0,0); };</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#afd1f58838a9aea8e742103fddbe8fe69">setRumbleOn</a>(uint8_t controller, uint8_t lValue, uint8_t rValue);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a354ede498c38b95a60c1b27deb01e47d">setLedRaw</a>(uint8_t controller, uint8_t value);</div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">  156</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#abedb93ccf24954f652d8f1cbc138924f">setLedOff</a>(uint8_t controller) { <a class="code" href="class_x_b_o_x_r_e_c_v.html#a354ede498c38b95a60c1b27deb01e47d">setLedRaw</a>(controller,0); };</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a9e17aa44f2946e710fb9343f27290c85">setLedOn</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> l);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a54490f57e16eaee6689ca92351958017">setLedBlink</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> l);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#ace7deafed6fa6991d38417b41a490c57">setLedMode</a>(uint8_t controller, <a class="code" href="xbox_enums_8h.html#a57effb96f46e458675a2653d4c543ca2">LEDMode</a> lm);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a671caa6d19debca8ff14dc82ac3ed005">getBatteryLevel</a>(uint8_t controller);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#aa2263642c0d422c6d21fed3933d6044c">buttonChanged</a>(uint8_t controller);</div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a5ff16bba78f05af3023f395a342b625c">  190</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a5ff16bba78f05af3023f395a342b625c">XboxReceiverConnected</a>;</div>
+<div class="line"><a name="l00192"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">  192</a></span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">Xbox360Connected</a>[4];</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="keyword">protected</span>:           </div>
+<div class="line"><a name="l00196"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">  196</a></span>&#160;    <a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8">pUsb</a>;</div>
+<div class="line"><a name="l00198"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">  198</a></span>&#160;    uint8_t <a class="code" href="class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730">bAddress</a>;</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">  200</a></span>&#160;    <a class="code" href="struct_ep_info.html">EpInfo</a> <a class="code" href="class_x_b_o_x_r_e_c_v.html#af97c8d0efc945fa4ba1d120c8a5a9cbb">epInfo</a>[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>];</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">private</span>:    </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordtype">bool</span> bPollEnable;    </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="comment">/* Variables to store the buttons */</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    uint32_t ButtonState[4];</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    uint32_t OldButtonState[4];</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    uint16_t ButtonClickState[4];</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    int16_t hatValue[4][4];</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    uint16_t controllerStatus[4];</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordtype">bool</span> buttonStateChanged[4]; <span class="comment">// True if a button has changed</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    </div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordtype">bool</span> L2Clicked[4]; <span class="comment">// These buttons are analog, so we use we use these bools to check if they where clicked or not</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordtype">bool</span> R2Clicked[4];</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> timer; <span class="comment">// Timing for checkStatus() signals</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    </div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    uint8_t readBuf[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0">EP_MAXPKTSIZE</a>]; <span class="comment">// General purpose buffer for input data</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    uint8_t writeBuf[<a class="code" href="_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0">EP_MAXPKTSIZE</a>]; <span class="comment">// General purpose buffer for output data</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">void</span> readReport(uint8_t controller); <span class="comment">// read incoming data</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordtype">void</span> printReport(uint8_t controller, uint8_t nBytes); <span class="comment">// print incoming date - Uncomment for debugging</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">/* Private commands */</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordtype">void</span> XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordtype">void</span> checkStatus();</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;};</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

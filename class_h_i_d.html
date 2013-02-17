@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: HID Class Reference</title>
+<title>USB Host Shield 2.0: HID Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -207,21 +207,182 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a13dccfb3aa8144626ba587969e3ef3b0"></a>
+<a class="anchor" id="a9e2e57ffd2701ebd171842fa9a3f54bd"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t HID::GetHidDescr </td>
+          <td class="memname">void HID::PrintEndpointDescriptor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00044">44</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a733e3944b51dced26ef257f047c227dc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HID::PrintHidDescriptor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html">USB_HID_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>pDesc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00061">61</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac51c88a0be514a748598008d312adc1d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a>* HID::GetReportParser </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>ep</em>, </td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_h_i_d_universal.html#aff53de37b98aa1e4a6e45be701ddcc65">HIDUniversal</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afd4bcb073a263f662dd5433139d6ebf3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_u_s_b.html">USB</a>* HID::GetUsb </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8h_source.html#l00186">186</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3b964d20c828fb27076f50d220fe275"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool HID::SetReportParser </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>nbytes</em>, </td>
+          <td class="paramtype"><a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a> *&#160;</td>
+          <td class="paramname"><em>prs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_h_i_d_boot.html#a3e44d340fab7e9eedb357ef61e1c19a5">HIDBoot&lt; BOOT_PROTOCOL &gt;</a>, and <a class="el" href="class_h_i_d_universal.html#afbd599879e9c3cdea382e87afd6ab29a">HIDUniversal</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a276ec67d360b59c3144d7ea2e2f5149e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t HID::SetProtocol </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>iface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>protocol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00035">35</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a70be6b7ad992954b8648d7d06e2d4e2b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t HID::GetProtocol </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>iface</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -236,6 +397,8 @@ Static Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00039">39</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
 
 </div>
 </div>
@@ -273,15 +436,83 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a70be6b7ad992954b8648d7d06e2d4e2b"></a>
+<a class="anchor" id="a6b27ed48d16c6ab09a5ea9a97a628149"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t HID::GetProtocol </td>
+          <td class="memname">uint8_t HID::SetIdle </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>iface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>reportID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>duration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00031">31</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a343e92e353615fab16f639b016c214a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t HID::GetReportDescr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_u_s_b_read_parser.html">USBReadParser</a> *&#160;</td>
+          <td class="paramname"><em>parser</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00004">4</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a13dccfb3aa8144626ba587969e3ef3b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t HID::GetHidDescr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>ep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -296,8 +527,6 @@ Static Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00039">39</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,199 +582,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a343e92e353615fab16f639b016c214a6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t HID::GetReportDescr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>ep</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_u_s_b_read_parser.html">USBReadParser</a> *&#160;</td>
-          <td class="paramname"><em>parser</em> = <code>NULL</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00004">4</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac51c88a0be514a748598008d312adc1d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a>* HID::GetReportParser </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reimplemented in <a class="el" href="class_h_i_d_universal.html#aff53de37b98aa1e4a6e45be701ddcc65">HIDUniversal</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afd4bcb073a263f662dd5433139d6ebf3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="class_u_s_b.html">USB</a>* HID::GetUsb </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8h_source.html#l00186">186</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9e2e57ffd2701ebd171842fa9a3f54bd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void HID::PrintEndpointDescriptor </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
-          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00044">44</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a733e3944b51dced26ef257f047c227dc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void HID::PrintHidDescriptor </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html">USB_HID_DESCRIPTOR</a> *&#160;</td>
-          <td class="paramname"><em>pDesc</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00061">61</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b27ed48d16c6ab09a5ea9a97a628149"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t HID::SetIdle </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>iface</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>reportID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>duration</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00031">31</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a276ec67d360b59c3144d7ea2e2f5149e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t HID::SetProtocol </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>iface</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>protocol</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8cpp_source.html#l00035">35</a> of file <a class="el" href="hid_8cpp_source.html">hid.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a58ca963ba0f12d2a457cb247595f38e9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -598,7 +634,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae3b964d20c828fb27076f50d220fe275"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a1583e665c2b930e8683c10dc271f013f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -606,35 +643,20 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool HID::SetReportParser </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a> *&#160;</td>
-          <td class="paramname"><em>prs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* HID::pUsb</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="class_h_i_d_boot.html#a3e44d340fab7e9eedb357ef61e1c19a5">HIDBoot&lt; BOOT_PROTOCOL &gt;</a>, and <a class="el" href="class_h_i_d_universal.html#afbd599879e9c3cdea382e87afd6ab29a">HIDUniversal</a>.</p>
+<p>Definition at line <a class="el" href="hid_8h_source.html#l00167">167</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a525edb36c2cd8470eae703d3b236e4a7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -701,28 +723,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acd92969682030cd5cac310dd7746c7c7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint8_t HID::maxEpPerInterface = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="hid_8h_source.html#l00175">175</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="afe5186f46ac7b580bb3dc289e3f237b2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -745,7 +745,7 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1583e665c2b930e8683c10dc271f013f"></a>
+<a class="anchor" id="acd92969682030cd5cac310dd7746c7c7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -753,17 +753,17 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_u_s_b.html">USB</a>* HID::pUsb</td>
+          <td class="memname">const uint8_t HID::maxEpPerInterface = 2</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="hid_8h_source.html#l00167">167</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
+<p>Definition at line <a class="el" href="hid_8h_source.html#l00175">175</a> of file <a class="el" href="hid_8h_source.html">hid.h</a>.</p>
 
 </div>
 </div>
@@ -796,7 +796,7 @@ Static Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

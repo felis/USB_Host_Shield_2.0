@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: BTD.h Source File</title>
+<title>USB Host Shield 2.0: BTD.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -297,54 +297,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00378"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a0c8cc2a2dd2cda3e760b8b4c1a2d169c">  378</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_t_d.html#a0c8cc2a2dd2cda3e760b8b4c1a2d169c">pairWithWii</a>;</div>
 <div class="line"><a name="l00380"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a3aea445b2349e99ef057db1a4ffdd9dc">  380</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_t_d.html#a3aea445b2349e99ef057db1a4ffdd9dc">motionPlusInside</a>;</div>
 <div class="line"><a name="l00382"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a962a5714c225dcb633434f02e3657583">  382</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_t_d.html#a962a5714c225dcb633434f02e3657583">wiiUProController</a>;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    </div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00386"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a4bcd1d622a6455ee3d0cccc4408700a1">  386</a></span>&#160;    <a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_b_t_d.html#a4bcd1d622a6455ee3d0cccc4408700a1">pUsb</a>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a58f78a9a28db81858dcc34a32a2ec82c">  388</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a58f78a9a28db81858dcc34a32a2ec82c">bAddress</a>;</div>
-<div class="line"><a name="l00390"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a91d92fee94e5a4cbca472bb3fd883e3e">  390</a></span>&#160;    <a class="code" href="struct_ep_info.html">EpInfo</a> <a class="code" href="class_b_t_d.html#a91d92fee94e5a4cbca472bb3fd883e3e">epInfo</a>[<a class="code" href="_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd">BTD_MAX_ENDPOINTS</a>];</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    </div>
-<div class="line"><a name="l00393"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2">  393</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2">bConfNum</a>;</div>
-<div class="line"><a name="l00395"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a893dd35932821cddda7e482a1904af66">  395</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a893dd35932821cddda7e482a1904af66">bNumEP</a>;</div>
-<div class="line"><a name="l00397"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a52d6c7895f6bb01729d01ce28a2f3079">  397</a></span>&#160;    uint32_t <a class="code" href="class_b_t_d.html#a52d6c7895f6bb01729d01ce28a2f3079">qNextPollTime</a>;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    </div>
-<div class="line"><a name="l00400"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a49f433ab824f259c3815e180c73bb0ad">  400</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a49f433ab824f259c3815e180c73bb0ad">BTD_CONTROL_PIPE</a>;</div>
-<div class="line"><a name="l00402"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec">  402</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec">BTD_EVENT_PIPE</a>;</div>
-<div class="line"><a name="l00404"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a480510bd399ae74a97cd74c8474ef59c">  404</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a480510bd399ae74a97cd74c8474ef59c">BTD_DATAIN_PIPE</a>;</div>
-<div class="line"><a name="l00406"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a0d82870f7eef8c27c33e6f5989d7a4dd">  406</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a0d82870f7eef8c27c33e6f5989d7a4dd">BTD_DATAOUT_PIPE</a>;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    </div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_b_t_d.html#aa5976eead215a58553aee683d42405a0">PrintEndpointDescriptor</a>(<span class="keyword">const</span> <a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a>* ep_ptr);        </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;</div>
+<div class="line"><a name="l00388"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd">  388</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd">readPollInterval</a>() { <span class="keywordflow">return</span> pollInterval; };</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    </div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <a class="code" href="class_u_s_b.html">USB</a> *<a class="code" href="class_b_t_d.html#a4bcd1d622a6455ee3d0cccc4408700a1">pUsb</a>;</div>
+<div class="line"><a name="l00394"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a58f78a9a28db81858dcc34a32a2ec82c">  394</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a58f78a9a28db81858dcc34a32a2ec82c">bAddress</a>;</div>
+<div class="line"><a name="l00396"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a91d92fee94e5a4cbca472bb3fd883e3e">  396</a></span>&#160;    <a class="code" href="struct_ep_info.html">EpInfo</a> <a class="code" href="class_b_t_d.html#a91d92fee94e5a4cbca472bb3fd883e3e">epInfo</a>[<a class="code" href="_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd">BTD_MAX_ENDPOINTS</a>];</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    </div>
+<div class="line"><a name="l00399"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2">  399</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2">bConfNum</a>;</div>
+<div class="line"><a name="l00401"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a893dd35932821cddda7e482a1904af66">  401</a></span>&#160;    uint8_t <a class="code" href="class_b_t_d.html#a893dd35932821cddda7e482a1904af66">bNumEP</a>;</div>
+<div class="line"><a name="l00403"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a52d6c7895f6bb01729d01ce28a2f3079">  403</a></span>&#160;    uint32_t <a class="code" href="class_b_t_d.html#a52d6c7895f6bb01729d01ce28a2f3079">qNextPollTime</a>;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    </div>
+<div class="line"><a name="l00406"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a49f433ab824f259c3815e180c73bb0ad">  406</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a49f433ab824f259c3815e180c73bb0ad">BTD_CONTROL_PIPE</a>;</div>
+<div class="line"><a name="l00408"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec">  408</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec">BTD_EVENT_PIPE</a>;</div>
+<div class="line"><a name="l00410"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a480510bd399ae74a97cd74c8474ef59c">  410</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a480510bd399ae74a97cd74c8474ef59c">BTD_DATAIN_PIPE</a>;</div>
+<div class="line"><a name="l00412"></a><span class="lineno"><a class="code" href="class_b_t_d.html#a0d82870f7eef8c27c33e6f5989d7a4dd">  412</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="class_b_t_d.html#a0d82870f7eef8c27c33e6f5989d7a4dd">BTD_DATAOUT_PIPE</a>;</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <a class="code" href="class_bluetooth_service.html">BluetoothService</a>* btService[<a class="code" href="_b_t_d_8h.html#a2222709eed4c8af293e881ea36f599b0">BTD_NUMSERVICES</a>];</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keywordtype">bool</span> bPollEnable;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    uint8_t pollInterval;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_b_t_d.html#aa5976eead215a58553aee683d42405a0">PrintEndpointDescriptor</a>(<span class="keyword">const</span> <a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a>* ep_ptr);        </div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    </div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    <span class="comment">/* Variables used by high level HCI task */</span>    </div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    uint8_t hci_state;  <span class="comment">//current state of bluetooth hci connection</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    uint16_t hci_counter; <span class="comment">// counter used for bluetooth hci reset loops</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    uint8_t hci_num_reset_loops; <span class="comment">// this value indicate how many times it should read before trying to reset</span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    uint16_t hci_event_flag; <span class="comment">// hci flags of received bluetooth events</span></div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    uint8_t inquiry_counter;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;           </div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    uint8_t hcibuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for hci data</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    uint8_t l2capinbuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for l2cap in data</span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    uint8_t l2capoutbuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for l2cap out data</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    </div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    <span class="comment">/* State machines */</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    <span class="keywordtype">void</span> HCI_event_task(); <span class="comment">// Poll the HCI event pipe</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keywordtype">void</span> HCI_task(); <span class="comment">// HCI state machine</span></div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    <span class="keywordtype">void</span> ACL_event_task(); <span class="comment">// ACL input pipe</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    </div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="comment">/* Used to set the Bluetooth Address internally to the PS3 Controllers */</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="keywordtype">void</span> setBdaddr(uint8_t* BDADDR);</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    <span class="keywordtype">void</span> setMoveBdaddr(uint8_t* BDADDR);</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;};</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <a class="code" href="class_bluetooth_service.html">BluetoothService</a>* btService[<a class="code" href="_b_t_d_8h.html#a2222709eed4c8af293e881ea36f599b0">BTD_NUMSERVICES</a>];</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    </div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    <span class="keywordtype">bool</span> bPollEnable;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    uint8_t pollInterval;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    <span class="comment">/* Variables used by high level HCI task */</span>    </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    uint8_t hci_state;  <span class="comment">//current state of bluetooth hci connection</span></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    uint16_t hci_counter; <span class="comment">// counter used for bluetooth hci reset loops</span></div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    uint8_t hci_num_reset_loops; <span class="comment">// this value indicate how many times it should read before trying to reset</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    uint16_t hci_event_flag; <span class="comment">// hci flags of received bluetooth events</span></div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    uint8_t inquiry_counter;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;           </div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    uint8_t hcibuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for hci data</span></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    uint8_t l2capinbuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for l2cap in data</span></div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    uint8_t l2capoutbuf[<a class="code" href="_b_t_d_8h.html#a32d591ef5742a99963130616ef146787">BULK_MAXPKTSIZE</a>];<span class="comment">//General purpose buffer for l2cap out data</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    </div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="comment">/* State machines */</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    <span class="keywordtype">void</span> HCI_event_task(); <span class="comment">// Poll the HCI event pipe</span></div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;    <span class="keywordtype">void</span> HCI_task(); <span class="comment">// HCI state machine</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    <span class="keywordtype">void</span> ACL_event_task(); <span class="comment">// ACL input pipe</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    </div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="comment">/* Used to set the Bluetooth Address internally to the PS3 Controllers */</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;    <span class="keywordtype">void</span> setBdaddr(uint8_t* BDADDR);</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <span class="keywordtype">void</span> setMoveBdaddr(uint8_t* BDADDR);</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;};</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:24 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

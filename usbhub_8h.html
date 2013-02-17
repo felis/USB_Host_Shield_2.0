@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: usbhub.h File Reference</title>
+<title>USB Host Shield 2.0: usbhub.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -292,395 +292,17 @@ Functions</h2></td></tr>
 <tr class="separator:a3855b8d307a18435686f98de2b27266e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a0de6c574786cfa717fe870f5c6095e85"></a>
+<a class="anchor" id="aa4975db58f75ee4def45188399a6552d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_CONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
+          <td class="memname">#define USB_DESCRIPTOR_HUB&#160;&#160;&#160;0x09</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00137">137</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4abaa6a050ca8ad6d7fdbec8114a00da"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_DISCONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00138">138</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac1684402466c99753825a473ca2c0705"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_LS_CONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00141">141</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ade3b85760e3783f70f83acf0672e4c7a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_LS_PORT_ENABLED&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION | bmHUB_PORT_STATUS_C_PORT_ENABLE)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00143">143</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afddf65cd41342622526b3ba73dd39c86"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_LS_RESET_COMPLETE&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_RESET)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00142">142</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abe5aad8b5c7b5299685f8bdaa8a39918"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_EVENT_RESET_COMPLETE&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_RESET)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00139">139</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab8bde19927b76500d3e404933fd40928"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATE_CHECK_DISABLED&#160;&#160;&#160;(0x0000 | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00131">131</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a679968214c68c3f12e2715c14367f79c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATE_DISABLED&#160;&#160;&#160;(0x0000 | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00134">134</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a665c7c813daa901b1f00bd857be5c700"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_ALL_MAIN&#160;&#160;&#160;((0UL  | bmHUB_PORT_STATUS_C_PORT_CONNECTION  | bmHUB_PORT_STATUS_C_PORT_ENABLE  | bmHUB_PORT_STATUS_C_PORT_SUSPEND  | bmHUB_PORT_STATUS_C_PORT_RESET) &lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00128">128</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae3b0889779aa6e8a1d3ba2930284fa72"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_CONNECTION&#160;&#160;&#160;0x0001</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00100">100</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3c0e722bfb569726a93a8a8c26275c39"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_ENABLE&#160;&#160;&#160;0x0002</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00101">101</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ef9915c2c6e2c6e242768eb4075a1f3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT&#160;&#160;&#160;0x0008</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00103">103</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abd2481655494efb6e3afc489c86925ee"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_RESET&#160;&#160;&#160;0x0010</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00104">104</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adca674ff988f065e62325d1b9606d81b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_SUSPEND&#160;&#160;&#160;0x0004</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00102">102</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa37ced8e90e17851487a5e0ac60b17f6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_CONNECTION&#160;&#160;&#160;0x0001</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00088">88</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a57bff9b83725042e906a97e0b30aa189"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_ENABLE&#160;&#160;&#160;0x0002</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00089">89</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a87dd0128a4aa835bec2250134be93eda"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_HIGH_SPEED&#160;&#160;&#160;0x0400</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00095">95</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a743b1d92ef3432b59f79ff282f7a6ce1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_INDICATOR&#160;&#160;&#160;0x1000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00097">97</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a76abd2534bfe6d8a683d529565f9784f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_LOW_SPEED&#160;&#160;&#160;0x0200</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00094">94</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a86cbb5fd8984e19280f4d646f6ed7008"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_OVER_CURRENT&#160;&#160;&#160;0x0008</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00091">91</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4a96858063e84aa1e813dba4d4e3028e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_POWER&#160;&#160;&#160;0x0100</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00093">93</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6dca38e922d1de1d68787fe1345a3c7e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_RESET&#160;&#160;&#160;0x0010</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00092">92</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a41b8aa1c7b52a9051e92fd7a18a004f5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_SUSPEND&#160;&#160;&#160;0x0004</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00090">90</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad1933610b18b16cf58cc59535a749e83"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_PORT_STATUS_PORT_TEST&#160;&#160;&#160;0x0800</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00096">96</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a59556803a33accf2afd96bc034462da3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_STATUS_C_LOCAL_POWER_SOURCE&#160;&#160;&#160;0x01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00111">111</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a23e8528bf710109ba54eab905cc53a3b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_STATUS_C_OVER_CURRENT&#160;&#160;&#160;0x12</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00112">112</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="accd827a9ffd9d8595f09936d2e8062ca"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_STATUS_LOCAL_POWER_SOURCE&#160;&#160;&#160;0x01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00107">107</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab6c9ea26ee7ef5e45963fbe5c6317ec9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmHUB_STATUS_OVER_CURRENT&#160;&#160;&#160;0x12</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00108">108</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00034">34</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -768,20 +390,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a41733c4671241d0a3d0b0b1c98062f8c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define bmREQ_GET_TT_STATE&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#aa1a71b2e05ba5682c956d8dfdf01d40b">USB_SETUP_RECIPIENT_OTHER</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00047">47</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a45cb4dd6ab75bc0a9905a2e622a9480e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -838,6 +446,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a41733c4671241d0a3d0b0b1c98062f8c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmREQ_GET_TT_STATE&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#aa1a71b2e05ba5682c956d8dfdf01d40b">USB_SETUP_RECIPIENT_OTHER</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00047">47</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0fcba8f0043785d09d79e03c98545062"></a>
 <div class="memitem">
 <div class="memproto">
@@ -852,17 +474,59 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a83bd54a52ee93864f5cb4b293cf75ae2"></a>
+<a class="anchor" id="a3bb8b41d9f4f7cb1d149457f4a0943a2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_ERROR_PORT_HAS_BEEN_RESET&#160;&#160;&#160;0xb1</td>
+          <td class="memname">#define HUB_REQUEST_CLEAR_TT_BUFFER&#160;&#160;&#160;8</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00125">125</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00051">51</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3fb567a821ccea05d15cb9af35004efc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_REQUEST_RESET_TT&#160;&#160;&#160;9</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00052">52</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a649515a05f8d2030852e6c328221715b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_REQUEST_GET_TT_STATE&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00053">53</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a01012a4390752f5583e62834ce152b8b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_REQUEST_STOP_TT&#160;&#160;&#160;11</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00054">54</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -894,6 +558,104 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="adf84dc7dfb27ef7dcf3109c11caa4675"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_CONNECTION&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00059">59</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab7ef0e9bb3b28bb47d6f785aef32d249"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_ENABLE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00060">60</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3cc0626838a77459919d92604f8f7cdf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_SUSPEND&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00061">61</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2366fb0fa204e3cc119aac81ce91a0c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_OVER_CURRENT&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00062">62</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36c449de4fc3a18117b033381bf99491"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_RESET&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00063">63</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af32e982ee7adb585a4cef54d199527b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_POWER&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00064">64</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36f70b659b3e9aee023f339974414317"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_PORT_LOW_SPEED&#160;&#160;&#160;9</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00065">65</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="afc369f4d229b302ca399869133ce2cfc"></a>
 <div class="memitem">
 <div class="memproto">
@@ -919,6 +681,20 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="usbhub_8h_source.html#l00067">67</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adbddf185c9fb1ccb2bcfa8a383140009"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_FEATURE_C_PORT_SUSPEND&#160;&#160;&#160;18</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00068">68</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -950,132 +726,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="adbddf185c9fb1ccb2bcfa8a383140009"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_C_PORT_SUSPEND&#160;&#160;&#160;18</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00068">68</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adf84dc7dfb27ef7dcf3109c11caa4675"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_CONNECTION&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00059">59</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab7ef0e9bb3b28bb47d6f785aef32d249"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_ENABLE&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00060">60</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1df89414312fa75a3c9819970a6fc038"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_INDICATOR&#160;&#160;&#160;22</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00072">72</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a36f70b659b3e9aee023f339974414317"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_LOW_SPEED&#160;&#160;&#160;9</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00065">65</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac2366fb0fa204e3cc119aac81ce91a0c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_OVER_CURRENT&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00062">62</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af32e982ee7adb585a4cef54d199527b3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_POWER&#160;&#160;&#160;8</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00064">64</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a36c449de4fc3a18117b033381bf99491"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_RESET&#160;&#160;&#160;4</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00063">63</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3cc0626838a77459919d92604f8f7cdf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_FEATURE_PORT_SUSPEND&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00061">61</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="af05ca66bf0f1ef7e6f7c6b3f940a6128"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1090,73 +740,17 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a80601f55b1a9b43f534dec436a7e724e"></a>
+<a class="anchor" id="a1df89414312fa75a3c9819970a6fc038"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_PORT_INDICATOR_AMBER&#160;&#160;&#160;1</td>
+          <td class="memname">#define HUB_FEATURE_PORT_INDICATOR&#160;&#160;&#160;22</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00083">83</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad46c4b423456bcabf9397cc07834d4cc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_PORT_INDICATOR_AUTO&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00082">82</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0a7c759f4d892c4aa70b623298f6c2f9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_PORT_INDICATOR_GREEN&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00084">84</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aee99581417e17b9351d232a3bc104b09"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_PORT_INDICATOR_OFF&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00085">85</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8df9586afabef769b864a1b3d029f22e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_PORT_TEST_MODE_FORCE_ENABLE&#160;&#160;&#160;5</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00079">79</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00072">72</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -1188,20 +782,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae9ddd93bdc91f3c3a14c1007467f342c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HUB_PORT_TEST_MODE_PACKET&#160;&#160;&#160;4</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00078">78</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a9057bae8ad3f9144916230773cf3c884"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1216,73 +796,353 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3bb8b41d9f4f7cb1d149457f4a0943a2"></a>
+<a class="anchor" id="ae9ddd93bdc91f3c3a14c1007467f342c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_REQUEST_CLEAR_TT_BUFFER&#160;&#160;&#160;8</td>
+          <td class="memname">#define HUB_PORT_TEST_MODE_PACKET&#160;&#160;&#160;4</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00051">51</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00078">78</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a649515a05f8d2030852e6c328221715b"></a>
+<a class="anchor" id="a8df9586afabef769b864a1b3d029f22e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_REQUEST_GET_TT_STATE&#160;&#160;&#160;10</td>
+          <td class="memname">#define HUB_PORT_TEST_MODE_FORCE_ENABLE&#160;&#160;&#160;5</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00053">53</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00079">79</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3fb567a821ccea05d15cb9af35004efc"></a>
+<a class="anchor" id="ad46c4b423456bcabf9397cc07834d4cc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_REQUEST_RESET_TT&#160;&#160;&#160;9</td>
+          <td class="memname">#define HUB_PORT_INDICATOR_AUTO&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00052">52</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00082">82</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a01012a4390752f5583e62834ce152b8b"></a>
+<a class="anchor" id="a80601f55b1a9b43f534dec436a7e724e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HUB_REQUEST_STOP_TT&#160;&#160;&#160;11</td>
+          <td class="memname">#define HUB_PORT_INDICATOR_AMBER&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00054">54</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00083">83</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa4975db58f75ee4def45188399a6552d"></a>
+<a class="anchor" id="a0a7c759f4d892c4aa70b623298f6c2f9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define USB_DESCRIPTOR_HUB&#160;&#160;&#160;0x09</td>
+          <td class="memname">#define HUB_PORT_INDICATOR_GREEN&#160;&#160;&#160;2</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00034">34</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00084">84</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee99581417e17b9351d232a3bc104b09"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_PORT_INDICATOR_OFF&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00085">85</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa37ced8e90e17851487a5e0ac60b17f6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_CONNECTION&#160;&#160;&#160;0x0001</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00088">88</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a57bff9b83725042e906a97e0b30aa189"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_ENABLE&#160;&#160;&#160;0x0002</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00089">89</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a41b8aa1c7b52a9051e92fd7a18a004f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_SUSPEND&#160;&#160;&#160;0x0004</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00090">90</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a86cbb5fd8984e19280f4d646f6ed7008"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_OVER_CURRENT&#160;&#160;&#160;0x0008</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00091">91</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6dca38e922d1de1d68787fe1345a3c7e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_RESET&#160;&#160;&#160;0x0010</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00092">92</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4a96858063e84aa1e813dba4d4e3028e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_POWER&#160;&#160;&#160;0x0100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00093">93</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76abd2534bfe6d8a683d529565f9784f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_LOW_SPEED&#160;&#160;&#160;0x0200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00094">94</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a87dd0128a4aa835bec2250134be93eda"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_HIGH_SPEED&#160;&#160;&#160;0x0400</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00095">95</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad1933610b18b16cf58cc59535a749e83"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_TEST&#160;&#160;&#160;0x0800</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00096">96</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a743b1d92ef3432b59f79ff282f7a6ce1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_PORT_INDICATOR&#160;&#160;&#160;0x1000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00097">97</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3b0889779aa6e8a1d3ba2930284fa72"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_CONNECTION&#160;&#160;&#160;0x0001</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00100">100</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3c0e722bfb569726a93a8a8c26275c39"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_ENABLE&#160;&#160;&#160;0x0002</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00101">101</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adca674ff988f065e62325d1b9606d81b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_SUSPEND&#160;&#160;&#160;0x0004</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00102">102</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ef9915c2c6e2c6e242768eb4075a1f3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT&#160;&#160;&#160;0x0008</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00103">103</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abd2481655494efb6e3afc489c86925ee"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_C_PORT_RESET&#160;&#160;&#160;0x0010</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00104">104</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="accd827a9ffd9d8595f09936d2e8062ca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_STATUS_LOCAL_POWER_SOURCE&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00107">107</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab6c9ea26ee7ef5e45963fbe5c6317ec9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_STATUS_OVER_CURRENT&#160;&#160;&#160;0x12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00108">108</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59556803a33accf2afd96bc034462da3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_STATUS_C_LOCAL_POWER_SOURCE&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00111">111</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a23e8528bf710109ba54eab905cc53a3b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_STATUS_C_OVER_CURRENT&#160;&#160;&#160;0x12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00112">112</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -1300,17 +1160,31 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a643e54a9a113c70ed883993361d69867"></a>
+<a class="anchor" id="aace2952fb308b153172e35c881987324"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define USB_STATE_HUB_PORT_DISABLED&#160;&#160;&#160;0xb4</td>
+          <td class="memname">#define USB_STATE_HUB_PORT_POWERED_OFF&#160;&#160;&#160;0xb1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00120">120</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00117">117</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad99d9887b215bff813b9aaf716a9f53b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USB_STATE_HUB_PORT_WAIT_FOR_POWER_GOOD&#160;&#160;&#160;0xb2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00118">118</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -1328,31 +1202,17 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3c3f54a3aee0fc448dea17401833209d"></a>
+<a class="anchor" id="a643e54a9a113c70ed883993361d69867"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define USB_STATE_HUB_PORT_ENABLED&#160;&#160;&#160;0xb6</td>
+          <td class="memname">#define USB_STATE_HUB_PORT_DISABLED&#160;&#160;&#160;0xb4</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00122">122</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aace2952fb308b153172e35c881987324"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define USB_STATE_HUB_PORT_POWERED_OFF&#160;&#160;&#160;0xb1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00117">117</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00120">120</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -1370,17 +1230,157 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad99d9887b215bff813b9aaf716a9f53b"></a>
+<a class="anchor" id="a3c3f54a3aee0fc448dea17401833209d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define USB_STATE_HUB_PORT_WAIT_FOR_POWER_GOOD&#160;&#160;&#160;0xb2</td>
+          <td class="memname">#define USB_STATE_HUB_PORT_ENABLED&#160;&#160;&#160;0xb6</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00118">118</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00122">122</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83bd54a52ee93864f5cb4b293cf75ae2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HUB_ERROR_PORT_HAS_BEEN_RESET&#160;&#160;&#160;0xb1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00125">125</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a665c7c813daa901b1f00bd857be5c700"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATUS_ALL_MAIN&#160;&#160;&#160;((0UL  | bmHUB_PORT_STATUS_C_PORT_CONNECTION  | bmHUB_PORT_STATUS_C_PORT_ENABLE  | bmHUB_PORT_STATUS_C_PORT_SUSPEND  | bmHUB_PORT_STATUS_C_PORT_RESET) &lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00128">128</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8bde19927b76500d3e404933fd40928"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATE_CHECK_DISABLED&#160;&#160;&#160;(0x0000 | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00131">131</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a679968214c68c3f12e2715c14367f79c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_STATE_DISABLED&#160;&#160;&#160;(0x0000 | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00134">134</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0de6c574786cfa717fe870f5c6095e85"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_CONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00137">137</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4abaa6a050ca8ad6d7fdbec8114a00da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_DISCONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00138">138</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe5aad8b5c7b5299685f8bdaa8a39918"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_RESET_COMPLETE&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_RESET)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00139">139</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac1684402466c99753825a473ca2c0705"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_LS_CONNECT&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION)	&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00141">141</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afddf65cd41342622526b3ba73dd39c86"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_LS_RESET_COMPLETE&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_RESET)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00142">142</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade3b85760e3783f70f83acf0672e4c7a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define bmHUB_PORT_EVENT_LS_PORT_ENABLED&#160;&#160;&#160;(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION | bmHUB_PORT_STATUS_C_PORT_ENABLE)		&lt;&lt; 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="usbhub_8h_source.html#l00143">143</a> of file <a class="el" href="usbhub_8h_source.html">usbhub.h</a>.</p>
 
 </div>
 </div>
@@ -1426,7 +1426,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

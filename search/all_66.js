@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['fastblink',['FASTBLINK',['../_x_b_o_x_r_e_c_v_8h.html#a57effb96f46e458675a2653d4c543ca2ae88cfa0f6acd518889cef621446d9d2a',1,'XBOXRECV.h']]],
+  ['fastblink',['FASTBLINK',['../xbox_enums_8h.html#a57effb96f46e458675a2653d4c543ca2ae88cfa0f6acd518889cef621446d9d2a',1,'xboxEnums.h']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],
   ['flow_5ftx_5fauto',['FLOW_TX_AUTO',['../cdcprolific_8h.html#ac43d59739a4945979e600bb15df8347c',1,'cdcprolific.h']]],
   ['flush',['flush',['../class_s_p_p.html#af354c72d54243f891faf4cc60a7b94aa',1,'SPP']]],

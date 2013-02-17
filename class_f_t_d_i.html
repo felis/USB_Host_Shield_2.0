@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: FTDI Class Reference</title>
+<title>USB Host Shield 2.0: FTDI Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -167,6 +167,275 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="acb8efdc33bd503563018b7eee577aecf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SetBaudRate </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>baud</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00269">269</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a86130f30e67e934346c3c7faf5ee6c56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SetModemControl </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>control</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00307">307</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c107efeff2d46cb711cadd0a6c31636"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SetFlowControl </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>protocol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>xon</em> = <code>0x11</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>xoff</em> = <code>0x13</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00312">312</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab7d7c305729fe4bbc746fa0569261a71"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SetData </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>databm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00317">317</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa367ae72fbfda931cae8ec751e9dc434"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::RcvData </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>bytes_rcvd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00322">322</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a90309b11a160bad9ceb0b77545b7a240"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SndData </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00327">327</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2d40115414dadfee8c284e0f5d397621"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::Init </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lowspeed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00043">43</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aadee262e2eda31deda790d5d10090b6f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00242">242</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f383dd8eb114563194da011f1d613fd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::Poll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00253">253</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae224d7ea581e5df3b11416410a679086"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint8_t FTDI::GetAddress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
+
+<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00144">144</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a3e3f771b9f2a99fcedf7ed665b597109"></a>
 <div class="memitem">
 <div class="memproto">
@@ -223,275 +492,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae224d7ea581e5df3b11416410a679086"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual uint8_t FTDI::GetAddress </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00144">144</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2d40115414dadfee8c284e0f5d397621"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::Init </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>lowspeed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a391dc824a3271671890cebeb829b35ed">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00043">43</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5f383dd8eb114563194da011f1d613fd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::Poll </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00253">253</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa367ae72fbfda931cae8ec751e9dc434"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::RcvData </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>bytes_rcvd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dataptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00322">322</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aadee262e2eda31deda790d5d10090b6f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::Release </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00242">242</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acb8efdc33bd503563018b7eee577aecf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::SetBaudRate </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>baud</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00269">269</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab7d7c305729fe4bbc746fa0569261a71"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::SetData </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>databm</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00317">317</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7c107efeff2d46cb711cadd0a6c31636"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::SetFlowControl </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>protocol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>xon</em> = <code>0x11</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>xoff</em> = <code>0x13</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00312">312</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a86130f30e67e934346c3c7faf5ee6c56"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::SetModemControl </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>control</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00307">307</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a90309b11a160bad9ceb0b77545b7a240"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t FTDI::SndData </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>nbytes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dataptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00327">327</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a></li>
 <li><a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a></li>
@@ -499,7 +499,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

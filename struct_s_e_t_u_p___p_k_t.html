@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: SETUP_PKT Struct Reference</title>
+<title>USB Host Shield 2.0: SETUP_PKT Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -146,17 +146,31 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a321b931277d6ce278416dc5d74059016"></a>
+<a class="anchor" id="a690a55f65b2ce4e69c426b92004a1cc6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t SETUP_PKT::bRequest</td>
+          <td class="memname">uint8_t SETUP_PKT::recipient</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00161">161</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00156">156</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9346ba7b7a4da6829142e23e3ba8a2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SETUP_PKT::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00157">157</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -174,20 +188,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a690a55f65b2ce4e69c426b92004a1cc6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t SETUP_PKT::recipient</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00156">156</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aa97a807e057cff87129fec90ce2a26e2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -200,17 +200,71 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad9346ba7b7a4da6829142e23e3ba8a2f"></a>
+<a class="anchor" id="a321b931277d6ce278416dc5d74059016"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t SETUP_PKT::type</td>
+          <td class="memname">uint8_t SETUP_PKT::bRequest</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00157">157</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00161">161</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1382f4a10a9b0774f803d1125dd9bb52"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t SETUP_PKT::wValue</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00163">163</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68c9436c00560f96e044052c3fb681e9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SETUP_PKT::wValueLo</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00165">165</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a04ea2d151f9edb6575fc159a58f1e443"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SETUP_PKT::wValueHi</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00166">166</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a47f8d4c4300dccec68d9d39889d782e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union { ... }  SETUP_PKT::wVal_u</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -242,67 +296,13 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a47f8d4c4300dccec68d9d39889d782e4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">union { ... }  SETUP_PKT::wVal_u</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a1382f4a10a9b0774f803d1125dd9bb52"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t SETUP_PKT::wValue</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00163">163</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a04ea2d151f9edb6575fc159a58f1e443"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t SETUP_PKT::wValueHi</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00166">166</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a68c9436c00560f96e044052c3fb681e9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t SETUP_PKT::wValueLo</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00165">165</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="_usb_8h_source.html">Usb.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

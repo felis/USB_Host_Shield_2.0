@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: CommandBlockWrapper Struct Reference</title>
+<title>USB Host Shield 2.0: CommandBlockWrapper Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -124,41 +124,45 @@ Public Attributes</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00124">124</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a48e18c9893c711f215f5acb16f0ed118"></a>
+<a class="anchor" id="a9ee458a8e8890e59d0a831f436a08595"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct { ... } </td>
+          <td class="memname">uint32_t CommandBlockWrapper::dCBWSignature</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00126">126</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a9a8390523861fd45c9089610e9c709f1"></a>
+<a class="anchor" id="a228918fae27aaed6af289755bb64a670"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct { ... } </td>
+          <td class="memname">uint32_t CommandBlockWrapper::dCBWTag</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00127">127</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a069c89f584abbf45c13ebb85ca906494"></a>
+<a class="anchor" id="a0f1a4d201bd58866770c01dc0f31a2a3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t CommandBlockWrapper::bmCBWCBLength</td>
+          <td class="memname">uint32_t CommandBlockWrapper::dCBWDataTransferLength</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00138">138</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00128">128</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
 
 </div>
 </div>
@@ -204,6 +208,32 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a48e18c9893c711f215f5acb16f0ed118"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct { ... } </td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a069c89f584abbf45c13ebb85ca906494"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t CommandBlockWrapper::bmCBWCBLength</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00138">138</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ac651509a5fc7789ba59d21fe94c55e77"></a>
 <div class="memitem">
 <div class="memproto">
@@ -215,6 +245,18 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="masstorage_8h_source.html#l00139">139</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a8390523861fd45c9089610e9c709f1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct { ... } </td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -232,55 +274,13 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0f1a4d201bd58866770c01dc0f31a2a3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t CommandBlockWrapper::dCBWDataTransferLength</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00128">128</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9ee458a8e8890e59d0a831f436a08595"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t CommandBlockWrapper::dCBWSignature</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00126">126</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a228918fae27aaed6af289755bb64a670"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t CommandBlockWrapper::dCBWTag</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="masstorage_8h_source.html#l00127">127</a> of file <a class="el" href="masstorage_8h_source.html">masstorage.h</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="masstorage_8h_source.html">masstorage.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

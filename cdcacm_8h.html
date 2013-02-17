@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: cdcacm.h File Reference</title>
+<title>USB Host Shield 2.0: cdcacm.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -256,31 +256,17 @@ Typedefs</h2></td></tr>
 <tr class="separator:acc87178a3e9b6aa98c5bf6aa99c68ef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="aa11e629b02a0cd7d768f796732cb2694"></a>
+<a class="anchor" id="a5797aa38c730dde78bf3181282bd6bf9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ACM_MAX_ENDPOINTS&#160;&#160;&#160;4</td>
+          <td class="memname">#define bmREQ_CDCOUT&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a610dad02930a3061c746f84885e1e11e">USB_SETUP_HOST_TO_DEVICE</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#a59754621c21db801e11513ba06a3a02e">USB_SETUP_RECIPIENT_INTERFACE</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00160">160</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac79c185e34b15634c1ba5d15eb8c831c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define AUX_JACK_HOOK_STATE&#160;&#160;&#160;0x08</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00095">95</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00040">40</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -298,185 +284,171 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5797aa38c730dde78bf3181282bd6bf9"></a>
+<a class="anchor" id="a9d555a2c20cdda9166df1f1a0deb2fe6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define bmREQ_CDCOUT&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a610dad02930a3061c746f84885e1e11e">USB_SETUP_HOST_TO_DEVICE</a>|<a class="el" href="usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b">USB_SETUP_TYPE_CLASS</a>|<a class="el" href="usb__ch9_8h.html#a59754621c21db801e11513ba06a3a02e">USB_SETUP_RECIPIENT_INTERFACE</a></td>
+          <td class="memname">#define CDC_SUBCLASS_DLCM&#160;&#160;&#160;0x01</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00040">40</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00044">44</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a16e45b21be9797a7190330fd10bc1b07"></a>
+<a class="anchor" id="acce3aedc4473cc5526efc16448b89221"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CALL_STATE_CHANGE&#160;&#160;&#160;0x28</td>
+          <td class="memname">#define CDC_SUBCLASS_ACM&#160;&#160;&#160;0x02</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00098">98</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00045">45</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a6c79b8666110840333ad3785bf7ce87c"></a>
+<a class="anchor" id="a8e66107828e9b10a8b37823cb4436209"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_CLEAR_COMM_FEATURE&#160;&#160;&#160;0x04</td>
+          <td class="memname">#define CDC_SUBCLASS_TCM&#160;&#160;&#160;0x03</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00073">73</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00046">46</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4d1029757801882e8d6589c05a3c41db"></a>
+<a class="anchor" id="a279c0e93e9cf1c328e9551e62ebdc342"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_DIAL_DIGITS&#160;&#160;&#160;0x36</td>
+          <td class="memname">#define CDC_SUBCLASS_MCCM&#160;&#160;&#160;0x04</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00090">90</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00047">47</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad0912dac888d01142b225b0c6f8a508f"></a>
+<a class="anchor" id="ab35e4890d2a9820b89f17d86e63e6a30"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_COMM_FEATURE&#160;&#160;&#160;0x03</td>
+          <td class="memname">#define CDC_SUBCLASS_CAPI&#160;&#160;&#160;0x05</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00072">72</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00048">48</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a6170632c774a3163b5a9927cc4e960ec"></a>
+<a class="anchor" id="aad198585b3a333441d39c04c9a6f8dfc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_ENCAPSULATED_RESPONSE&#160;&#160;&#160;0x01</td>
+          <td class="memname">#define CDC_SUBCLASS_ETHERNET&#160;&#160;&#160;0x06</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00068">68</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00049">49</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1068ab45668e413d964a01bc36fa2d43"></a>
+<a class="anchor" id="af1a7d3d1e1dd78003500d6fccd205461"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_LINE_CODING&#160;&#160;&#160;0x21</td>
+          <td class="memname">#define CDC_SUBCLASS_ATM&#160;&#160;&#160;0x07</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00081">81</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00050">50</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a725da0e1d595c7aebacb9fa3df4d7231"></a>
+<a class="anchor" id="ad331bb2702e65696ca33c2d933ab2d73"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_LINE_PARMS&#160;&#160;&#160;0x35</td>
+          <td class="memname">#define CDC_SUBCLASS_WIRELESS_HANDSET&#160;&#160;&#160;0x08</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00089">89</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00051">51</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a257e7150670c8cc0b1d90c8f19c36b38"></a>
+<a class="anchor" id="a27674e866e3a2422d8fc38b873f19723"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_OPERATION_PARMS&#160;&#160;&#160;0x33</td>
+          <td class="memname">#define CDC_SUBCLASS_DEVICE_MANAGEMENT&#160;&#160;&#160;0x09</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00087">87</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00052">52</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7a17ca0755e655bd1fe6ac97b68ec10f"></a>
+<a class="anchor" id="a110580c0368ed8a8d657e6812fa5cffe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_GET_RINGER_PARMS&#160;&#160;&#160;0x31</td>
+          <td class="memname">#define CDC_SUBCLASS_MOBILE_DIRECT_LINE&#160;&#160;&#160;0x0A</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00085">85</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00053">53</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0cdc3e66270e78dc62f6fdab6806e4ac"></a>
+<a class="anchor" id="ab1094071380f381e0b8b88d240aedd03"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_PROTOCOL_3GPP_27_07&#160;&#160;&#160;0x05</td>
+          <td class="memname">#define CDC_SUBCLASS_OBEX&#160;&#160;&#160;0x0B</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00062">62</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00054">54</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a25dc8a5a03fa46bc6d18be73a318b725"></a>
+<a class="anchor" id="a6ef074fafbca12dadc97de1511563629"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_PROTOCOL_C_S0017_0&#160;&#160;&#160;0x06</td>
+          <td class="memname">#define CDC_SUBCLASS_ETHERNET_EMU&#160;&#160;&#160;0x0C</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00063">63</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a74f58c97749d65adfcf0d8fcd8739713"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_PROTOCOL_GSM_7_07&#160;&#160;&#160;0x04</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00061">61</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00055">55</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -522,6 +494,48 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a74f58c97749d65adfcf0d8fcd8739713"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_PROTOCOL_GSM_7_07&#160;&#160;&#160;0x04</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00061">61</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0cdc3e66270e78dc62f6fdab6806e4ac"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_PROTOCOL_3GPP_27_07&#160;&#160;&#160;0x05</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00062">62</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a25dc8a5a03fa46bc6d18be73a318b725"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_PROTOCOL_C_S0017_0&#160;&#160;&#160;0x06</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00063">63</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ae0e669ccb182282b45af577b84ea190f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -533,48 +547,6 @@ Typedefs</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00064">64</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aab5439915442bd5b835d7c755ba5fec1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_PULSE_SETUP&#160;&#160;&#160;0x12</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00076">76</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a763f022025ebdaa3e6fb3dd6b5bef118"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_RING_AUX_JACK&#160;&#160;&#160;0x15</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00079">79</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a868c480caf0abda6b458c82281dda8ad"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SEND_BREAK&#160;&#160;&#160;0x23</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00083">83</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -592,31 +564,17 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af83535db4560a2fa52c72571f914dfc1"></a>
+<a class="anchor" id="a6170632c774a3163b5a9927cc4e960ec"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SEND_PULSE&#160;&#160;&#160;0x13</td>
+          <td class="memname">#define CDC_GET_ENCAPSULATED_RESPONSE&#160;&#160;&#160;0x01</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00077">77</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac39a42b128864ba4fae224be0078adba"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SET_AUX_LINE_STATE&#160;&#160;&#160;0x10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00074">74</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00068">68</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -634,17 +592,45 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a11c392243dec4d03970f1eaa1f8053ae"></a>
+<a class="anchor" id="ad0912dac888d01142b225b0c6f8a508f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SET_CONTROL_LINE_STATE&#160;&#160;&#160;0x22</td>
+          <td class="memname">#define CDC_GET_COMM_FEATURE&#160;&#160;&#160;0x03</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00082">82</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00072">72</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c79b8666110840333ad3785bf7ce87c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_CLEAR_COMM_FEATURE&#160;&#160;&#160;0x04</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00073">73</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac39a42b128864ba4fae224be0078adba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_SET_AUX_LINE_STATE&#160;&#160;&#160;0x10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00074">74</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -662,45 +648,31 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad07ce089c8757b8d2ff37ddd83dc9351"></a>
+<a class="anchor" id="aab5439915442bd5b835d7c755ba5fec1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SET_LINE_CODING&#160;&#160;&#160;0x20</td>
+          <td class="memname">#define CDC_PULSE_SETUP&#160;&#160;&#160;0x12</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00080">80</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00076">76</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a74433e0421d2cfd59982db6417a8ea41"></a>
+<a class="anchor" id="af83535db4560a2fa52c72571f914dfc1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SET_LINE_PARMS&#160;&#160;&#160;0x34</td>
+          <td class="memname">#define CDC_SEND_PULSE&#160;&#160;&#160;0x13</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00088">88</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a437557c6adb23d8cdde7842b62a03a21"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SET_OPERATION_PARMS&#160;&#160;&#160;0x32</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00086">86</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00077">77</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -718,6 +690,76 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a763f022025ebdaa3e6fb3dd6b5bef118"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_RING_AUX_JACK&#160;&#160;&#160;0x15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00079">79</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad07ce089c8757b8d2ff37ddd83dc9351"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_SET_LINE_CODING&#160;&#160;&#160;0x20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00080">80</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1068ab45668e413d964a01bc36fa2d43"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_GET_LINE_CODING&#160;&#160;&#160;0x21</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00081">81</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11c392243dec4d03970f1eaa1f8053ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_SET_CONTROL_LINE_STATE&#160;&#160;&#160;0x22</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00082">82</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a868c480caf0abda6b458c82281dda8ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CDC_SEND_BREAK&#160;&#160;&#160;0x23</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00083">83</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aacceff07ade4b94b3c924d4f4ad6b139"></a>
 <div class="memitem">
 <div class="memproto">
@@ -732,199 +774,87 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acce3aedc4473cc5526efc16448b89221"></a>
+<a class="anchor" id="a7a17ca0755e655bd1fe6ac97b68ec10f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_ACM&#160;&#160;&#160;0x02</td>
+          <td class="memname">#define CDC_GET_RINGER_PARMS&#160;&#160;&#160;0x31</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00045">45</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00085">85</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af1a7d3d1e1dd78003500d6fccd205461"></a>
+<a class="anchor" id="a437557c6adb23d8cdde7842b62a03a21"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_ATM&#160;&#160;&#160;0x07</td>
+          <td class="memname">#define CDC_SET_OPERATION_PARMS&#160;&#160;&#160;0x32</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00050">50</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00086">86</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab35e4890d2a9820b89f17d86e63e6a30"></a>
+<a class="anchor" id="a257e7150670c8cc0b1d90c8f19c36b38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_CAPI&#160;&#160;&#160;0x05</td>
+          <td class="memname">#define CDC_GET_OPERATION_PARMS&#160;&#160;&#160;0x33</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00048">48</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00087">87</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a27674e866e3a2422d8fc38b873f19723"></a>
+<a class="anchor" id="a74433e0421d2cfd59982db6417a8ea41"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_DEVICE_MANAGEMENT&#160;&#160;&#160;0x09</td>
+          <td class="memname">#define CDC_SET_LINE_PARMS&#160;&#160;&#160;0x34</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00052">52</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00088">88</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9d555a2c20cdda9166df1f1a0deb2fe6"></a>
+<a class="anchor" id="a725da0e1d595c7aebacb9fa3df4d7231"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_DLCM&#160;&#160;&#160;0x01</td>
+          <td class="memname">#define CDC_GET_LINE_PARMS&#160;&#160;&#160;0x35</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00044">44</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00089">89</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aad198585b3a333441d39c04c9a6f8dfc"></a>
+<a class="anchor" id="a4d1029757801882e8d6589c05a3c41db"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_SUBCLASS_ETHERNET&#160;&#160;&#160;0x06</td>
+          <td class="memname">#define CDC_DIAL_DIGITS&#160;&#160;&#160;0x36</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00049">49</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ef074fafbca12dadc97de1511563629"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_ETHERNET_EMU&#160;&#160;&#160;0x0C</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00055">55</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a279c0e93e9cf1c328e9551e62ebdc342"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_MCCM&#160;&#160;&#160;0x04</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00047">47</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a110580c0368ed8a8d657e6812fa5cffe"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_MOBILE_DIRECT_LINE&#160;&#160;&#160;0x0A</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00053">53</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab1094071380f381e0b8b88d240aedd03"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_OBEX&#160;&#160;&#160;0x0B</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00054">54</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8e66107828e9b10a8b37823cb4436209"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_TCM&#160;&#160;&#160;0x03</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00046">46</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad331bb2702e65696ca33c2d933ab2d73"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_SUBCLASS_WIRELESS_HANDSET&#160;&#160;&#160;0x08</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00051">51</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0bf4e444b84f8ab8bb1b3dfe16dc93de"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CONNECTION_SPEED_CHANGE&#160;&#160;&#160;0x2a</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00100">100</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0a06858faca59d300fbadd0e37e312c9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LINE_STATE_CHANGE&#160;&#160;&#160;0x29</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00099">99</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00090">90</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -956,6 +886,20 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac79c185e34b15634c1ba5d15eb8c831c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AUX_JACK_HOOK_STATE&#160;&#160;&#160;0x08</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00095">95</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a83130a0c72dea5b783134e28665628ee"></a>
 <div class="memitem">
 <div class="memproto">
@@ -984,6 +928,62 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a16e45b21be9797a7190330fd10bc1b07"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CALL_STATE_CHANGE&#160;&#160;&#160;0x28</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00098">98</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0a06858faca59d300fbadd0e37e312c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LINE_STATE_CHANGE&#160;&#160;&#160;0x29</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00099">99</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0bf4e444b84f8ab8bb1b3dfe16dc93de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONNECTION_SPEED_CHANGE&#160;&#160;&#160;0x2a</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00100">100</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa11e629b02a0cd7d768f796732cb2694"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ACM_MAX_ENDPOINTS&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00160">160</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="aee9cef95b49c643abc3269666b62aa1b"></a>
 <div class="memitem">
@@ -991,6 +991,18 @@ Typedefs</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">typedef  struct <a class="el" href="struct_a_c_m___f_u_n_c___d_e_s_c_r.html">ACM_FUNC_DESCR</a>  <a class="el" href="cdcacm_8h.html#aee9cef95b49c643abc3269666b62aa1b">DLM_FUNC_DESCR</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad377d3305b15e93acb1e0799ee7c3972"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef  struct <a class="el" href="struct_a_c_m___f_u_n_c___d_e_s_c_r.html">ACM_FUNC_DESCR</a>  <a class="el" href="cdcacm_8h.html#ad377d3305b15e93acb1e0799ee7c3972">TEL_OPER_MODES_FUNC_DESCR</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1010,22 +1022,10 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad377d3305b15e93acb1e0799ee7c3972"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef  struct <a class="el" href="struct_a_c_m___f_u_n_c___d_e_s_c_r.html">ACM_FUNC_DESCR</a>  <a class="el" href="cdcacm_8h.html#ad377d3305b15e93acb1e0799ee7c3972">TEL_OPER_MODES_FUNC_DESCR</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:25 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

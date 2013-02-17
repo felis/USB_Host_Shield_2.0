@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>USB_Host_Shield_2.0: WII Class Reference</title>
+<title>USB Host Shield 2.0: WII Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">USB_Host_Shield_2.0
+   <div id="projectname">USB Host Shield 2.0
    </div>
   </td>
  </tr>
@@ -284,7 +284,7 @@ Public Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>Pointer to <a class="el" href="class_b_t_d.html">BTD</a> class instance. </td></tr>
-    <tr><td class="paramname">pair</td><td>Set this true to pair with the Wiimote. If the argument is omitted then it won't pair with it. One can use <a class="el" href="_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a> to set it to true. </td></tr>
+    <tr><td class="paramname">pair</td><td>Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it. One can use <a class="el" href="_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a> to set it to true. </td></tr>
   </table>
   </dd>
 </dl>
@@ -329,6 +329,62 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac5cd06f3e9aa2a0d9b9691f00c047e72"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::Run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to run part of the state maschine. </p>
+
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00689">689</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a769ee2f9a0088da097438bc3cc677f7c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Use this to reset the service. </p>
+
+<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00104">104</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aabe4780f258dada1c0564a4ac7607370"></a>
 <div class="memitem">
 <div class="memproto">
@@ -354,6 +410,48 @@ Public Attributes</h2></td></tr>
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a66ee2f09c6087b82e3920c3d652a99b2">BluetoothService</a>.</p>
 
 <p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00118">118</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acf4b3ef0a4fa0cf71133a22213361288"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WII::getButtonPress </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01008">1008</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adbf9ccb1725dc432e07ca19468713116"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WII::getButtonClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a> will return true as long as the button is held down.</p>
+<p>While <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a> will only return it once.</p>
+<p>So you instance if you need to increase a variable once you would use <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a>. </p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01014">1014</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
 
 </div>
 </div>
@@ -409,383 +507,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae946f7d6e9ce89fb083f5f138c0736c2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getBatteryLevel </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Return the battery level of the Wiimote. </p>
-<dl class="section return"><dt>Returns</dt><dd>The barrey level in the range form 0-255. </dd></dl>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00201">201</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adbf9ccb1725dc432e07ca19468713116"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool WII::getButtonClick </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01014">1014</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acf4b3ef0a4fa0cf71133a22213361288"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool WII::getButtonPress </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a>&#160;</td>
-          <td class="paramname"><em>b</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a> will return true as long as the button is held down While <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a> will only return it once So you instance if you need to increase a variable once you would use <a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick(Button b)</a>, but if you need to drive a robot forward you would use <a class="el" href="class_w_i_i.html#acf4b3ef0a4fa0cf71133a22213361288">getButtonPress(Button b)</a>. </p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01008">1008</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2d8fd822e6e9c271d59c71dc7b757421"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getIRs1 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 1 size (0-15). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00289">289</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="accf6ca623ffe93b3c78aaf60c7fd1f46"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getIRs2 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 2 size (0-15). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00296">296</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a05841e1975803d561f80aeb3dd0a4a1e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getIRs3 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 3 size (0-15). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00303">303</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aef56b9f37422b0a41642b39d10db0735"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getIRs4 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 4 size (0-15). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00310">310</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af380eb3bf65ce33a60aaf35f74a44f6d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRx1 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 1 x position (0-1023). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00285">285</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a551e48a50c7b60722e807e68ae25f084"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRx2 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 2 x position (0-1023). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00292">292</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5648a03968d0c2331867f9b7bcaa3e3e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRx3 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 3 x position (0-1023). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00299">299</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7a92d63c7cf9d3d5b38bdb9ad4d7ef66"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRx4 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 4 x position (0-1023). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00306">306</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a341b9a50bfdb18af9c66a3079e5804d9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRy1 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 1 y position (0-767). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00287">287</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae148de3c99b3fb4ef65ea62d2848df7d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRy2 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 2 y position (0-767). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00294">294</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5e778f879c6d0a73a94bd61e42d05b8d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRy3 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 3 y position (0-767). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00301">301</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a759837b933f63ce7c3235639be29250a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::getIRy4 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>IR object 4 y position (0-767). </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00308">308</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a748172bd57804856594ea8e21601319e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -809,7 +530,7 @@ Public Attributes</h2></td></tr>
 <p>Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pitch in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00149">149</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00151">151</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -836,34 +557,7 @@ Public Attributes</h2></td></tr>
 <p>Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Roll in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00154">154</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8e9ac1d379db5c07c478401046a1c0ac"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WII::getWiiState </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Return the Wiimote state. </p>
-<dl class="section return"><dt>Returns</dt><dd>See: <a href="http://wiibrew.org/wiki/Wiimote#0x20:_Status">http://wiibrew.org/wiki/Wiimote#0x20:_Status</a>. </dd></dl>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00206">206</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00156">156</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -891,108 +585,7 @@ Public Attributes</h2></td></tr>
 <p><b>NOTE:</b> This angle will drift a lot and is only available if the Motion Plus extension is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>The angle calculated using the gyro. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00161">161</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3505abbc01c71d134ce301dfb7c0c5b5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::IRinitialize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initialises the camera as per the steps from: <a href="http://wiibrew.org/wiki/Wiimote#IR_Camera">http://wiibrew.org/wiki/Wiimote#IR_Camera</a> </p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01052">1052</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0a444d7e348026e062751cf723877e8f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool WII::isIRCameraEnabled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Use this to check if the camera is enabled or not. If not call <a class="el" href="class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5">WII::IRinitialize</a> to initialize the IR camera. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if it's enabled, false if not. </dd></dl>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00317">317</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a769ee2f9a0088da097438bc3cc677f7c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::Reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Use this to reset the service. </p>
-
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00104">104</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac5cd06f3e9aa2a0d9b9691f00c047e72"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::Run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Used to run part of the state maschine. </p>
-
-<p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383">BluetoothService</a>.</p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00689">689</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00163">163</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1011,102 +604,6 @@ Public Attributes</h2></td></tr>
 <p>Used to set all LEDs and rumble off. </p>
 
 <p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00855">855</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7efe7577ba30c218f6fbd3804a53d242"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::setLedOff </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00875">875</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3a7b9dd571c5a8597bfb194000bd517c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::setLedOn </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00880">880</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5d3b4a33ebc2ca9ebb154e10a05dbdd4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::setLedStatus </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This will set the LEDs, so the user can see which connections are active.</p>
-<p>The first <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate that the Wiimote is connected,</p>
-<p>the second <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate indicate that a Motion Plus is also connected</p>
-<p>the third <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> will indicate that a Nunchuck controller is also connected. </p>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00890">890</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af7755e2b2a161a550c99de2ca1018ce3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WII::setLedToggle </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00885">885</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
 
 </div>
 </div>
@@ -1164,199 +661,538 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7efe7577ba30c218f6fbd3804a53d242"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::setLedOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> off. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn off. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00875">875</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3a7b9dd571c5a8597bfb194000bd517c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::setLedOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Turn the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> on. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to turn on. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00880">880</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af7755e2b2a161a550c99de2ca1018ce3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::setLedToggle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Toggle the specific <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> to toggle. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00885">885</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5d3b4a33ebc2ca9ebb154e10a05dbdd4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::setLedStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This will set the LEDs, so the user can see which connections are active.</p>
+<p>The first <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate that the Wiimote is connected,</p>
+<p>the second <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate indicate that a Motion Plus is also connected</p>
+<p>the third <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> will indicate that a Nunchuck controller is also connected. </p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00890">890</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae946f7d6e9ce89fb083f5f138c0736c2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getBatteryLevel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the battery level of the Wiimote. </p>
+<dl class="section return"><dt>Returns</dt><dd>The battery level in the range 0-255. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00203">203</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e9ac1d379db5c07c478401046a1c0ac"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getWiiState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the Wiimote state. </p>
+<dl class="section return"><dt>Returns</dt><dd>See: <a href="http://wiibrew.org/wiki/Wiimote#0x20:_Status">http://wiibrew.org/wiki/Wiimote#0x20:_Status</a>. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00208">208</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3505abbc01c71d134ce301dfb7c0c5b5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::IRinitialize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialises the camera as per the steps from: <a href="http://wiibrew.org/wiki/Wiimote#IR_Camera">http://wiibrew.org/wiki/Wiimote#IR_Camera</a> </p>
+
+<p>Definition at line <a class="el" href="_wii_8cpp_source.html#l01052">1052</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af380eb3bf65ce33a60aaf35f74a44f6d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRx1 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 1 x-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00290">290</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a341b9a50bfdb18af9c66a3079e5804d9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRy1 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 1 y-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00295">295</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2d8fd822e6e9c271d59c71dc7b757421"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getIRs1 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 1 size read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00300">300</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a551e48a50c7b60722e807e68ae25f084"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRx2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 2 x-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00306">306</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae148de3c99b3fb4ef65ea62d2848df7d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRy2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 2 y-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00311">311</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="accf6ca623ffe93b3c78aaf60c7fd1f46"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getIRs2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 2 size read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00316">316</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5648a03968d0c2331867f9b7bcaa3e3e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRx3 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 3 x-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00322">322</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5e778f879c6d0a73a94bd61e42d05b8d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRy3 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 3 y-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00327">327</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a05841e1975803d561f80aeb3dd0a4a1e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getIRs3 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 3 size read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00332">332</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a92d63c7cf9d3d5b38bdb9ad4d7ef66"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRx4 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 4 x-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00338">338</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a759837b933f63ce7c3235639be29250a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::getIRy4 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 4 y-position read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00343">343</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef56b9f37422b0a41642b39d10db0735"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WII::getIRs4 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>IR object 4 size read from the Wii IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00348">348</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0a444d7e348026e062751cf723877e8f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WII::isIRCameraEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Use this to check if the camera is enabled or not. If not call <a class="el" href="class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5">WII::IRinitialize</a> to initialize the IR camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if it's enabled, false if not. </dd></dl>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00355">355</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a48bcc2e5c6253d0554d70357625ff3fb"></a>
+<a class="anchor" id="ae25a8ea1b0713801e0209e795b4596fa"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t WII::accX</td>
+          <td class="memname">bool WII::wiimoteConnected</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Accelerometer values used to calculate pitch and roll. </p>
+<p>Variable used to indicate if a Wiimote is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00236">236</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a07bef4e4acd42d680ac676b0e6315b2a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::accY</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Accelerometer values used to calculate pitch and roll. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00237">237</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7323e1f8b76f3f11f91cdb9601759cc4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::accZ</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Accelerometer values used to calculate pitch and roll. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00238">238</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af61f57d34b81f2a878f0126a074e3af4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::gyroPitch</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This is the pitch calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a">WII::pitchGyroScale</a>. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00243">243</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a749ea9dd39ba9a5320c5b24ce93bc544"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroPitchRaw</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Raw value read directly from the Motion Plus. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00267">267</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abbc31ecd4495d70258cfa095e34cb3c3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroPitchZero</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>These values are set when the controller is first initialized. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00274">274</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2a0e4745bff7cfec644bcebe984c2bc8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::gyroRoll</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This is the roll calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331">WII::rollGyroScale</a>. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00245">245</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0784c779ebeae2d459996c35a54ee3b8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroRollRaw</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Raw value read directly from the Motion Plus. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00266">266</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a10d91cd5d73bc655be776b44d27004c9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroRollZero</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>These values are set when the controller is first initialized. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00273">273</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a988db5b35cfc3c543f93f49587a50e62"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::gyroYaw</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This is the yaw calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a0694969a30092b9b1dcb26120c7cff73">WII::yawGyroScale</a>. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00247">247</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab813b65548e827f41a5192fcc34056ea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroYawRaw</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Raw value read directly from the Motion Plus. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00265">265</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad4f0d2456c56414f9b8013b85a1ee7d2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t WII::gyroYawZero</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>These values are set when the controller is first initialized. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00272">272</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a72bd4fad2e524276712a154b8cc2a16c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool WII::motionPlusConnected</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Variable used to indicate if a Nunchuck controller is connected. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00215">215</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00208">208</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1371,142 +1207,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Nunchuck controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00213">213</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00215">215</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2b5a934a1be4d7c5e788d3742dd09cbf"></a>
+<a class="anchor" id="a72bd4fad2e524276712a154b8cc2a16c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double WII::nunchuckPitch</td>
+          <td class="memname">bool WII::motionPlusConnected</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
+<p>Variable used to indicate if a Nunchuck controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00230">230</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad6c01ce2e1f7bac2c8982ecfb3f53f71"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::nunchuckRoll</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00231">231</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aea6ce6f3222df3e547e9957673c7a07a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::pitchGyroScale</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>You might need to fine-tune these values. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00258">258</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acfb290a86aa9a65dd4ae84d02e3c6ded"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::pitchGyroSpeed</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The speed in deg/s from the gyro. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00251">251</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6c0971ae4c9ab752888a5871020c8331"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t WII::rollGyroScale</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>You might need to fine-tune these values. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00259">259</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3fb552c6ad486e23434dcb347a2a4b84"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::rollGyroSpeed</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The speed in deg/s from the gyro. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00252">252</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae25a8ea1b0713801e0209e795b4596fa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool WII::wiimoteConnected</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Variable used to indicate if a Wiimote is connected. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00206">206</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1421306c25a76c0fa24f7ee4b10b757b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::wiimotePitch</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00224">224</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab22594da86218dccf86806b13d6a7a70"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double WII::wiimoteRoll</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
-
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00225">225</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00217">217</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1521,22 +1237,187 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Wii U Pro controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00217">217</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00219">219</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0694969a30092b9b1dcb26120c7cff73"></a>
+<a class="anchor" id="a1421306c25a76c0fa24f7ee4b10b757b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t WII::yawGyroScale</td>
+          <td class="memname">double WII::wiimotePitch</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>You might need to fine-tune these values. </p>
+<p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00260">260</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00226">226</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab22594da86218dccf86806b13d6a7a70"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::wiimoteRoll</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00227">227</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b5a934a1be4d7c5e788d3742dd09cbf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::nunchuckPitch</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00232">232</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad6c01ce2e1f7bac2c8982ecfb3f53f71"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::nunchuckRoll</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00233">233</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a48bcc2e5c6253d0554d70357625ff3fb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::accX</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Accelerometer values used to calculate pitch and roll. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00238">238</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07bef4e4acd42d680ac676b0e6315b2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::accY</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Accelerometer values used to calculate pitch and roll. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00239">239</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7323e1f8b76f3f11f91cdb9601759cc4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::accZ</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Accelerometer values used to calculate pitch and roll. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00240">240</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af61f57d34b81f2a878f0126a074e3af4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::gyroPitch</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is the pitch calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a">WII::pitchGyroScale</a>. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00245">245</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a0e4745bff7cfec644bcebe984c2bc8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::gyroRoll</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is the roll calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331">WII::rollGyroScale</a>. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00247">247</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a988db5b35cfc3c543f93f49587a50e62"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::gyroYaw</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is the yaw calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a0694969a30092b9b1dcb26120c7cff73">WII::yawGyroScale</a>. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00249">249</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acfb290a86aa9a65dd4ae84d02e3c6ded"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::pitchGyroSpeed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The speed in deg/s from the gyro. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00253">253</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3fb552c6ad486e23434dcb347a2a4b84"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WII::rollGyroSpeed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The speed in deg/s from the gyro. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00254">254</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1551,7 +1432,142 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The speed in deg/s from the gyro. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00253">253</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00255">255</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aea6ce6f3222df3e547e9957673c7a07a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::pitchGyroScale</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>You might need to fine-tune these values. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00260">260</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c0971ae4c9ab752888a5871020c8331"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::rollGyroScale</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>You might need to fine-tune these values. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00261">261</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0694969a30092b9b1dcb26120c7cff73"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t WII::yawGyroScale</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>You might need to fine-tune these values. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00262">262</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab813b65548e827f41a5192fcc34056ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroYawRaw</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Raw value read directly from the Motion Plus. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00267">267</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0784c779ebeae2d459996c35a54ee3b8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroRollRaw</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Raw value read directly from the Motion Plus. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00268">268</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a749ea9dd39ba9a5320c5b24ce93bc544"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroPitchRaw</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Raw value read directly from the Motion Plus. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00269">269</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4f0d2456c56414f9b8013b85a1ee7d2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroYawZero</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>These values are set when the controller is first initialized. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00274">274</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10d91cd5d73bc655be776b44d27004c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroRollZero</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>These values are set when the controller is first initialized. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00275">275</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abbc31ecd4495d70258cfa095e34cb3c3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t WII::gyroPitchZero</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>These values are set when the controller is first initialized. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00276">276</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1562,7 +1578,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 5 2013 22:35:26 for USB_Host_Shield_2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
