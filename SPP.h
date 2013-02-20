@@ -128,6 +128,7 @@ public:
      * @param str String to send.
      */
     void println(const String &str);
+    
     /**
      * Used to send standard strings.
      * @param str String to send.
@@ -138,16 +139,18 @@ public:
      * @param str String to send.
      */
     void println(const char* str);
+
     /**
      * Used to send single bytes.
      * @param data Data to send.
      */
-    void print(uint8_t data);
+    void print(uint8_t data) { print(&data,1); };
     /**
      * Same as print(uint8_t data), but will include newline and carriage return.
      * @param data Data to send.
      */
     void println(uint8_t data);
+
     /**
      * Used to send arrays.
      * @param array  Array to send.
@@ -160,16 +163,25 @@ public:
      * @param length Number of bytes to send.
      */
     void println(uint8_t* array, uint8_t length);
+
     /**
      * Used to print strings stored in flash.
      * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
      */
-    void print(const __FlashStringHelper *ifsh);
+    void print(const __FlashStringHelper *ifsh) { printFlashString(ifsh,false); };
     /**
      * Same as print(const __FlashStringHelper *ifsh), but will include newline and carriage return.
      * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
      */
-    void println(const __FlashStringHelper *ifsh);
+    void println(const __FlashStringHelper *ifsh) { printFlashString(ifsh,true); };
+    /**
+     * Helper function to convert from a string stored in flash to a string in ram.
+     * @param ifsh  String to convert.
+     * @param newline Set this to true to include newline and carriage return.
+     */
+    void printFlashString(const __FlashStringHelper *ifsh, bool newline);
+
+
     /** Use this to print newline and carriage return. */
     void println(void);
 

@@ -716,9 +716,6 @@ void SPP::print(const char* str) {
     
     RFCOMM_Command(l2capoutbuf,length+4);
 }
-void SPP::print(uint8_t data) {
-    print(&data,1);
-}
 void SPP::print(uint8_t* array, uint8_t length) {
     if(!connected)
         return;
@@ -733,22 +730,6 @@ void SPP::print(uint8_t* array, uint8_t length) {
     l2capoutbuf[i+3] = calcFcs(l2capoutbuf);
     
     RFCOMM_Command(l2capoutbuf,length+4);
-}
-void SPP::print(const __FlashStringHelper *ifsh) {
-    const char PROGMEM *p = (const char PROGMEM *)ifsh;
-    size_t size = 0;
-    while (1) { // Calculate the size of the string
-        uint8_t c = pgm_read_byte(p+size);
-        if (c == 0)
-            break;
-        size++;
-    }
-    uint8_t buf[size];
-    
-    for(uint8_t i = 0; i < size; i++)
-        buf[i] = pgm_read_byte(p++);
-    
-    print(buf,size);
 }
 void SPP::println(const String &str) {
     String output = str + "\r\n";
@@ -768,26 +749,29 @@ void SPP::println(uint8_t* array, uint8_t length) {
     uint8_t buf[length+2];
     memcpy(buf,array,length);
     buf[length] = '\r';
-    buf[length+1] = '\n';    
+    buf[length+1] = '\n';
     print(buf,length+2);
 }
-void SPP::println(const __FlashStringHelper *ifsh) {
-    const char PROGMEM *p = (const char PROGMEM *)ifsh;    
-    size_t size = 0;
+void SPP::printFlashString(const __FlashStringHelper *ifsh, bool newline) {
+    const char PROGMEM *p = (const char PROGMEM *)ifsh;
+    uint8_t size = 0;
     while (1) { // Calculate the size of the string
         uint8_t c = pgm_read_byte(p+size);
         if (c == 0)
             break;
         size++;
     }
-    uint8_t buf[size+2];
+    uint8_t buf[size+2]; // Add two extra in case it needs to print a newline and carriage return
     
     for(uint8_t i = 0; i < size; i++)
         buf[i] = pgm_read_byte(p++);
     
-    buf[size] = '\r';
-    buf[size+1] = '\n';
-    print(buf,size+2);
+    if(newline) {
+        buf[size] = '\r';
+        buf[size+1] = '\n';
+        print(buf,size+2);
+    } else
+        print(buf,size);
 }
 void SPP::println(void) {
     uint8_t buf[2] = {'\r','\n'};
@@ -805,8 +789,7 @@ void SPP::printNumberln(uint32_t n) {
     intToString(n,output);
     strcat(output,"\r\n");
     print(output);
-}  
-
+}
 void SPP::printNumber(int32_t n) {
     char output[12];
     intToString(n,output);
