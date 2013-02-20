@@ -795,86 +795,72 @@ void SPP::println(void) {
 }
 
 /* These must be used to print numbers */
+void SPP::printNumber(uint32_t n) {
+    char output[11];
+    intToString(n,output);
+    print(output);
+}
+void SPP::printNumberln(uint32_t n) {
+    char output[13];
+    intToString(n,output);
+    strcat(output,"\r\n");
+    print(output);
+}  
+
 void SPP::printNumber(int32_t n) {
-    bool negative = false;
+    char output[12];
     if(n < 0) {
-        negative = true;
-        n = -n;
-    }        
-    uint32_t temp = n;
-    uint8_t digits = 0;
-    while (temp) {
-        temp /= 10;
-        digits++;
-    }        
-    if(digits == 0)
-        print("0");
-    else {
-        uint8_t buf[digits+1]; // Add one extra in case it is negative
-        for(uint8_t i = 1; i < digits+1; i++) {
-            if(negative)
-                buf[digits-i+1] = n%10 + '0'; // Get number and convert to ASCII Character
-            else
-                buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
-            n /= 10;
-        }
-        if(negative) {
-            buf[0] = '-';        
-            print(buf,digits+1);
-        } else
-            print(buf,digits);
-    }
+        char buf[11];
+        intToString(n*-1,buf);
+        strcpy(output,"-");
+        strcat(output,buf);
+    } else
+        intToString(n,output);
+    print(output);
 }
 void SPP::printNumberln(int32_t n) {
-    bool negative = false;
+    char output[14];
     if(n < 0) {
-        negative = true;
-        n = -n;
-    }
-    uint32_t temp = n;
+        char buf[11];
+        intToString(n*-1,buf);
+        strcpy(output,"-");
+        strcat(output,buf);
+    } else
+        intToString(n,output);
+    strcat(output,"\r\n");
+    print(output);
+}
+void SPP::intToString(uint32_t input, char* output) {
+    uint32_t temp = input;
     uint8_t digits = 0;
-    while (temp) {
+    while(temp) {
         temp /= 10;
         digits++;
     }
     if(digits == 0)
-        print("0\r\n");
+        strcpy(output,"0");
     else {
-        uint8_t buf[digits+3]; // Add one extra in case it is negative
-        for(uint8_t i = 1; i < digits+1; i++) {
-            if(negative)
-                buf[digits-i+1] = n%10 + '0'; // Get number and convert to ASCII Character
-            else
-                buf[digits-i] = n%10 + '0'; // Get number and convert to ASCII Character
-            n /= 10;
-        }        
-        if(negative) {
-            buf[0] = '-';
-            buf[digits+1] = '\r';
-            buf[digits+2] = '\n';
-            print(buf,digits+3);
-        } else {
-            buf[digits] = '\r';
-            buf[digits+1] = '\n';
-            print(buf,digits+2);
+        for(uint8_t i = 1; i <= digits; i++) {
+            output[digits-i] = input%10 + '0'; // Get number and convert to ASCII Character
+            input /= 10;
         }
+        output[digits] = '\0'; // Add null character
     }
 }
+
 void SPP::printNumber(double n, uint8_t digits) {
-    char output[10];
+    char output[13+digits];
     doubleToString(n,output,digits);
     print(output);
 }
 void SPP::printNumberln(double n, uint8_t digits) {
-    char buf[10];
-    char output[12];
-    doubleToString(n,buf,digits);
-    strcpy(output,buf);
+    char output[15+digits];
+    doubleToString(n,output,digits);
     strcat(output,"\r\n");
     print(output);
 }
 void SPP::doubleToString(double input, char* output, uint8_t digits) {
-    char buffer[10];
+    char buffer[13+digits];
     if(input < 0) {
         strcpy(output,"-");
         input = -input;
@@ -888,18 +874,18 @@ void SPP::doubleToString(double input, char* output, uint8_t digits) {
         rounding /= 10.0;
     input += rounding;
     
-    unsigned long intpart = (unsigned long)input;
-    itoa(intpart,buffer,10); // Convert to string
+    uint32_t intpart = (uint32_t)input;
+    intToString(intpart,buffer); // Convert to string
     strcat(output,buffer);
     strcat(output,".");
     double fractpart = (input-(double)intpart);
     fractpart *= pow(10,digits);
-    for(uint8_t i=1;i<digits;i++) { // Put zeroes in front of number
+    for(uint8_t i=1;i<digits;i++) { // Put zeros in front of number
         if(fractpart < pow(10,digits-i)) {
             strcat(output,"0");
         }
     }
-    itoa((unsigned long)fractpart,buffer,10); // Convert to string
+    intToString((uint32_t)fractpart,buffer); // Convert to string
     strcat(output,buffer);
 }
 

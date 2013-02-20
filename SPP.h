@@ -172,17 +172,77 @@ public:
     void println(const __FlashStringHelper *ifsh);
     /** Use this to print newline and carriage return. */
     void println(void);
+
+    /**
+     * Used to print unsigned integers.
+     * @param n Unsigned integer to send.
+     */
+    void printNumber(uint8_t n) { printNumber((uint32_t)n); };
+    /**
+     * Same as printNumber(uint8_t n), but will include newline and carriage return.
+     * @param n Unsigned integer to send.
+     */
+    void printNumberln(uint8_t n) { printNumberln((uint32_t)n); };
+    /**
+     * Used to print signed integers.
+     * @param n Signed integer to send.
+     */
+    void printNumber(int8_t n) { printNumber((int32_t)n); };
+    /**
+     * Same as printNumber(int8_t n), but will include newline and carriage return.
+     * @param n Signed integer to send.
+     */
+    void printNumberln(int8_t n) { printNumberln((int32_t)n); };
+
+    /**
+     * Used to print unsigned integers.
+     * @param n Unsigned integer to send.
+     */
+    void printNumber(uint16_t n) { printNumber((uint32_t)n); };
+    /**
+     * Same as printNumber(uint16_t n), but will include newline and carriage return.
+     * @param n Unsigned integer to send.
+     */
+    void printNumberln(uint16_t n) { printNumberln((uint32_t)n); };
+    /**
+     * Used to print signed integers.
+     * @param n Signed integer to send.
+     */
+    void printNumber(int16_t n) { printNumber((int32_t)n); };
+    /**
+     * Same as printNumber(int16_t n), but will include newline and carriage return.
+     * @param n Signed integer to send.
+     */
+    void printNumberln(int16_t n) { printNumberln((int32_t)n); };
+
+    /**
+     * Used to print unsigned integers.
+     * @param n Unsigned integer to send.
+     */
+    void printNumber(uint32_t n);
+    /**
+     * Same as printNumber(uint32_t n), but will include newline and carriage return.
+     * @param n Unsigned integer to send.
+     */
+    void printNumberln(uint32_t n);
     
     /**
      * Used to print signed integers.
-     * @param n Integers to send.
+     * @param n Signed integer to send.
      */
     void printNumber(int32_t n);
     /**
      * Same as printNumber(int32_t n), but will include newline and carriage return.
-     * @param n Integers to send.
+     * @param n Signed integer to send.
      */
     void printNumberln(int32_t n);
+    /**
+     * Helper function to convert from a signed integer to a string.
+     * @param input  Signed integer to convert.
+     * @param output Output buffer.
+     */
+    void intToString(uint32_t input, char* output);
+
     /**
      * Used to print floating-point numbers.
      * @param n      Floating-point number to print.
@@ -194,10 +254,9 @@ public:
      * @param n      Floating-point number to print.
      * @param digits Number of digits to send. If argument is omitted, then 2 digits will be used.
      */
-    void printNumberln(double n, uint8_t digits = 2);    
-    
+    void printNumberln(double n, uint8_t digits = 2);
     /**
-     * Helper function to convert from double to string.
+     * Helper function to convert from a double to a string.
      * @param input  Floating-point number to convert.
      * @param output Output buffer.
      * @param digits Number of digits to convert. If argument is omitted, then 2 digits will be used.
