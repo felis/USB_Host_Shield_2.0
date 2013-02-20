@@ -809,26 +809,23 @@ void SPP::printNumberln(uint32_t n) {
 
 void SPP::printNumber(int32_t n) {
     char output[12];
-    if(n < 0) {
-        char buf[11];
-        intToString(n*-1,buf);
-        strcpy(output,"-");
-        strcat(output,buf);
-    } else
-        intToString(n,output);
+    intToString(n,output);
     print(output);
 }
 void SPP::printNumberln(int32_t n) {
     char output[14];
-    if(n < 0) {
+    intToString(n,output);
+    strcat(output,"\r\n");
+    print(output);
+}
+void SPP::intToString(int32_t input, char* output) {
+    if(input < 0) {
         char buf[11];
-        intToString(n*-1,buf);
+        intToString((uint32_t)(input*-1),buf);
         strcpy(output,"-");
         strcat(output,buf);
     } else
-        intToString(n,output);
-    strcat(output,"\r\n");
-    print(output);
+        intToString((uint32_t)input,output);
 }
 void SPP::intToString(uint32_t input, char* output) {
     uint32_t temp = input;

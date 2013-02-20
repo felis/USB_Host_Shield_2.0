@@ -236,6 +236,13 @@ public:
      * @param n Signed integer to send.
      */
     void printNumberln(int32_t n);
+
+    /**
+     * Helper function to convert from an unsigned integer to a string.
+     * @param input  Unsigned integer to convert.
+     * @param output Output buffer.
+     */
+    void intToString(int32_t input, char* output);
     /**
      * Helper function to convert from a signed integer to a string.
      * @param input  Signed integer to convert.
