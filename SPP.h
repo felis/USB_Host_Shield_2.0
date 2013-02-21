@@ -166,6 +166,7 @@ public:
 
     /**
      * Used to print strings stored in flash.
+     * Use "SerialBT.print(F("String"));" to print a string stored in flash.
      * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
      */
     void print(const __FlashStringHelper *ifsh) { printFlashString(ifsh,false); };
@@ -175,8 +176,8 @@ public:
      */
     void println(const __FlashStringHelper *ifsh) { printFlashString(ifsh,true); };
     /**
-     * Helper function to convert from a string stored in flash to a string in ram.
-     * @param ifsh  String to convert.
+     * Helper function to print a string stored in flash.
+     * @param ifsh  String stored in flash you want to print.
      * @param newline Set this to true to include newline and carriage return.
      */
     void printFlashString(const __FlashStringHelper *ifsh, bool newline);
