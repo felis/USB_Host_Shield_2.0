@@ -370,6 +370,8 @@ public:
      * it should be at least 3 to work properly with the library.
      */
     uint8_t hci_version;
+    /** Call this function to pair with a Wiimote */
+    void pairWithWiimote() { pairWithWii = true; hci_state = HCI_CHECK_WII_SERVICE; };
     /** Used to only send the ACL data to the wiimote. */
     bool connectToWii;
     /** True if a Wiimote is connecting. */
