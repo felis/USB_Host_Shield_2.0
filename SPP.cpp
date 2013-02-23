@@ -244,6 +244,31 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #endif
                 connected = false;
                 sendRfcomm(rfcommChannel,rfcommDirection,rfcommCommandResponse,RFCOMM_UA,rfcommPfBit,rfcommbuf,0x00); // UA Command
+            } else if (rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
+#ifdef DEBUG
+                Notify(PSTR("\r\nReceived UIH Remote Port Negotiation Command"));
+#endif
+                rfcommbuf[0] = BT_RFCOMM_RPN_RSP; // Command
+                rfcommbuf[1] = l2capinbuf[12]; // Length and shiftet like so: length << 1 | 1
+                rfcommbuf[2] = l2capinbuf[13]; // Channel: channel << 1 | 1
+                rfcommbuf[3] = l2capinbuf[14]; // Pre difined for Bluetooth, see 5.5.3 of TS 07.10 Adaption for RFCOMM
+                rfcommbuf[4] = l2capinbuf[15]; // Priority
+                rfcommbuf[5] = l2capinbuf[16]; // Timer
+                rfcommbuf[6] = l2capinbuf[17]; // Max Fram Size LSB
+                rfcommbuf[7] = l2capinbuf[18]; // Max Fram Size MSB
+                rfcommbuf[8] = l2capinbuf[19]; // MaxRatransm.
+                rfcommbuf[9] = l2capinbuf[20]; // Number of Frames
+                sendRfcomm(rfcommChannel,rfcommDirection,0,RFCOMM_UIH,rfcommPfBit,rfcommbuf,0x0A); // UIH Remote Port Negotiation Response
+            }
+            else if(rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_MSC_CMD) { // UIH Modem Status Command
+#ifdef DEBUG
+                Notify(PSTR("\r\nSend UIH Modem Status Response"));
+#endif
+                rfcommbuf[0] = BT_RFCOMM_MSC_RSP; // UIH Modem Status Response
+                rfcommbuf[1] = 2 << 1 | 1; // Length and shiftet like so: length << 1 | 1
+                rfcommbuf[2] = l2capinbuf[13]; // Channel: (1 << 0) | (1 << 1) | (0 << 2) | (channel << 3)
+                rfcommbuf[3] = l2capinbuf[14];
+                sendRfcomm(rfcommChannel,rfcommDirection,0,RFCOMM_UIH,rfcommPfBit,rfcommbuf,0x04);
             }
             if(connected) {
                 /* Read the incoming message */
