@@ -414,6 +414,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                             roll = wiimoteRoll;
                             break;
                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+                            break;
                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
                             pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
                             roll = wiimoteRoll;
