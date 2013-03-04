@@ -46,6 +46,10 @@ For more information visit the following site: <http://arduino.cc/en/Guide/Libra
 
 # How to use the library
 
+### Documentation
+
+Documentation for the library can be found at the following link: <http://felis.github.com/USB_Host_Shield_2.0/>.
+
 ### Arduino ADK
 To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/avrpins.h):
 
