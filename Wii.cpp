@@ -116,6 +116,12 @@ void WII::Reset() {
 }
 
 void WII::disconnect() { // Use this void to disconnect any of the controllers
+    if(motionPlusConnected && !pBtd->motionPlusInside) { // Disable the Motion Plus extension
+#ifdef DEBUG        
+        Notify(PSTR("\r\nDeactivating Motion Plus"));
+#endif
+        initExtension1(); // This will disable the Motion Plus extension        
+    }
     //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
     pBtd->l2cap_disconnection_request(hci_handle,0x0A, interrupt_scid, interrupt_dcid);
     Reset();
