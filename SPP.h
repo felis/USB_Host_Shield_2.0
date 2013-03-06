@@ -340,8 +340,6 @@ private:
     bool firstMessage; // Used to see if it's the first SDP request received    
     uint8_t bytesRead; // Counter to see when it's time to send more credit
     
-    unsigned long printTimer; // Used to set a delay, so it doesn't try to print too fast
-    
     /* State machines */
     void SDP_task(); // SDP state machine
     void RFCOMM_task(); // RFCOMM state machine

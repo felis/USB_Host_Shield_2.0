@@ -654,10 +654,7 @@ void SPP::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
 /*                    RFCOMM Commands                       */
 /************************************************************/
 void SPP::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
-    if ((millis() - printTimer) < 10)// Check if is has been more than 10ms since last command
-        delay((uint32_t)(10 - (millis() - printTimer))); // There have to be a delay between commands
     pBtd->L2CAP_Command(hci_handle,data,nbytes,rfcomm_scid[0],rfcomm_scid[1]);
-    printTimer = millis();
 }
 
 void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length) {
