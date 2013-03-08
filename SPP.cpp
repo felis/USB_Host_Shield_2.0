@@ -308,7 +308,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                     rfcommbuf[3] = 0xE0; // Pre difined for Bluetooth, see 5.5.3 of TS 07.10 Adaption for RFCOMM
                     rfcommbuf[4] = 0x00; // Priority
                     rfcommbuf[5] = 0x00; // Timer
-                    rfcommbuf[6] = 0x40; // Max Fram Size LSB - we will just set this to 64
+                    rfcommbuf[6] = BULK_MAXPKTSIZE-11; // Max Fram Size LSB - set to the size of received data (53)
                     rfcommbuf[7] = 0x00; // Max Fram Size MSB
                     rfcommbuf[8] = 0x00; // MaxRatransm.
                     rfcommbuf[9] = 0x00; // Number of Frames
