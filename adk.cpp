@@ -18,6 +18,7 @@ e-mail   :  support@circuitsathome.com
 /* Google ADK interface */
 
 #include "adk.h"
+#define DEBUG // Uncomment to print data for debugging
 
 const uint8_t	ADK::epDataInIndex  = 1;			
 const uint8_t	ADK::epDataOutIndex = 2;		
@@ -70,12 +71,14 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
   
   // get memory address of USB device address pool
 	AddressPool	&addrPool = pUsb->GetAddressPool();
-
+#ifdef DEBUG
 	USBTRACE("\r\nADK Init");
-	
+#endif
     // check if address has already been assigned to an instance
     if (bAddress) {
+#ifdef DEBUG    	
       USBTRACE("\r\nAddress in use");
+#endif
 		  return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 		}
 		  
@@ -83,12 +86,16 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 	  p = addrPool.GetUsbDevicePtr(0);
 
 	  if (!p) {
+#ifdef DEBUG  	
 	    USBTRACE("\r\nAddress not found");
+#endif
 		  return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
     }
     
 	  if (!p->epinfo) {
+#ifdef DEBUG
 		  USBTRACE("epinfo is null\r\n");
+#endif
 		  return USB_ERROR_EPINFO_IS_NULL;
 	  }
 	  	  
@@ -147,7 +154,9 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		//check if ADK device is already in accessory mode; if yes, configure and exit
 		if(((USB_DEVICE_DESCRIPTOR*)buf)->idVendor == ADK_VID &&
             (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)) {
+#ifdef DEBUG
               USBTRACE("\r\nAcc.mode device detected");
+#endif
               /* go through configurations, find first bulk-IN, bulk-OUT EP, fill epInfo and quit */
 		          num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 		
@@ -160,7 +169,9 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 #if defined(XOOM)
                 //added by Jaylen Scott Vanorden
                 if( rcode ) {
+#ifdef DEBUG
                   USBTRACE2("\r\nGot 1st bad code for config: ", rcode);
+#endif
                   // Try once more
                  rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
                 }
@@ -202,8 +213,9 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 //		          USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr );
 //	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize );
 //	            USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs );
-		          
+#ifdef DEBUG
               USBTRACE("\r\nConfiguration successful");
+#endif
               ready = true;
               return 0; //successful configuration
     }//if( buf->idVendor == ADK_VID...
@@ -216,7 +228,9 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 #if defined(XOOM)
       //added by Jaylen Scott Vanorden
       if( rcode ) {
+#ifdef DEBUG
         USBTRACE2("\r\nGot 1st bad code for proto: ", rcode);
+#endif
         // Try once more
         rcode = getProto((uint8_t*)&adkproto );
       }          
@@ -224,7 +238,9 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		  if( rcode ){
 		    goto FailGetProto; //init fails
 		  }
+#ifdef DEBUG
 		  USBTRACE2("\r\nADK protocol rev. ", adkproto );
+#endif
 		}
 		
 		//sending ID strings
@@ -246,23 +262,33 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed)
 		   
     /* diagnostic messages */  
 FailGetDevDescr:
+#ifdef DEBUG
 	USBTRACE("\r\ngetDevDescr:");
+#endif
 	goto Fail;
 
 FailSetDevTblEntry:
+#ifdef DEBUG
 	USBTRACE("\r\nsetDevTblEn:");
+#endif
 	goto Fail;
 
 FailGetProto:
+#ifdef DEBUG
   USBTRACE("\r\ngetProto:");
+#endif
   goto Fail;
   
 FailSwAcc:
+#ifdef DEBUG
   USBTRACE("\r\nswAcc:");
+#endif
   goto Fail;
   
 SwAttempt:
+#ifdef DEBUG
   USBTRACE("\r\nAccessory mode switch attempt");
+#endif
   goto Fail;    
 
 FailGetConfDescr:
@@ -338,6 +364,7 @@ uint8_t ADK::SndData(uint16_t nbytes, uint8_t *dataptr)
 
 void ADK::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 {
+#ifdef DEBUG
 	Notify(PSTR("Endpoint descriptor:"));
 	Notify(PSTR("\r\nLength:\t\t"));
 	PrintHex<uint8_t>(ep_ptr->bLength);
@@ -352,4 +379,5 @@ void ADK::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 	Notify(PSTR("\r\nPoll Intrv:\t"));
 	PrintHex<uint8_t>(ep_ptr->bInterval);
 	Notify(PSTR("\r\n"));
+#endif
 }
