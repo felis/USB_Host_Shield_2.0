@@ -39,22 +39,23 @@
 /* Bluetooth HCI states for hci_task() */
 #define HCI_INIT_STATE          0
 #define HCI_RESET_STATE         1
-#define HCI_BDADDR_STATE        2
-#define HCI_LOCAL_VERSION_STATE 3
-#define HCI_SET_NAME_STATE      4
-#define HCI_CHECK_WII_SERVICE   5
+#define HCI_CLASS_STATE         2
+#define HCI_BDADDR_STATE        3
+#define HCI_LOCAL_VERSION_STATE 4
+#define HCI_SET_NAME_STATE      5
+#define HCI_CHECK_WII_SERVICE   6
 
-#define HCI_INQUIRY_STATE       6 // These three states are only used if it should pair and connect to a Wii controller
-#define HCI_CONNECT_WII_STATE   7
-#define HCI_CONNECTED_WII_STATE 8
+#define HCI_INQUIRY_STATE       7 // These three states are only used if it should pair and connect to a Wii controller
+#define HCI_CONNECT_WII_STATE   8
+#define HCI_CONNECTED_WII_STATE 9
 
-#define HCI_SCANNING_STATE      9
-#define HCI_CONNECT_IN_STATE    10
-#define HCI_REMOTE_NAME_STATE   11
-#define HCI_CONNECTED_STATE     12
-#define HCI_DISABLE_SCAN_STATE  13
-#define HCI_DONE_STATE          14
-#define HCI_DISCONNECT_STATE    15
+#define HCI_SCANNING_STATE      10
+#define HCI_CONNECT_IN_STATE    11
+#define HCI_REMOTE_NAME_STATE   12
+#define HCI_CONNECTED_STATE     13
+#define HCI_DISABLE_SCAN_STATE  14
+#define HCI_DONE_STATE          15
+#define HCI_DISCONNECT_STATE    16
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
@@ -274,6 +275,8 @@ public:
     void hci_inquiry_cancel();
     /** Connect to a device. */
     void hci_connect();
+    /** Used to a set the class of the device. */
+    void hci_write_class_of_device();
     /**@}*/
     
     /** @name L2CAP Commands */

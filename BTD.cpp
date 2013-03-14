@@ -529,8 +529,8 @@ void BTD::HCI_task() {
 #ifdef DEBUG
                 Notify(PSTR("\r\nHCI Reset complete"));
 #endif
-                hci_state = HCI_BDADDR_STATE;
-                hci_read_bdaddr(); 
+                hci_state = HCI_CLASS_STATE;
+                hci_write_class_of_device(); 
             }
             else if (hci_counter > hci_num_reset_loops) {
                 hci_num_reset_loops *= 10;
@@ -541,6 +541,16 @@ void BTD::HCI_task() {
 #endif
                 hci_state = HCI_INIT_STATE;
                 hci_counter = 0;
+            }
+            break;
+
+        case HCI_CLASS_STATE:
+            if(hci_cmd_complete) {
+#ifdef DEBUG
+                Notify(PSTR("\r\nWrite class of device"));
+#endif
+                hci_state = HCI_BDADDR_STATE;
+                hci_read_bdaddr(); 
             }
             break;
             
@@ -984,6 +994,15 @@ void BTD::hci_disconnect(uint16_t handle) { // This is called by the different s
     hcibuf[4] = (uint8_t)((handle >> 8) & 0x0F);//connection handle - high byte
     hcibuf[5] = 0x13; // reason
     
+    HCI_Command(hcibuf, 6);
+}
+void BTD::hci_write_class_of_device() { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+    hcibuf[0] = 0x24; // HCI OCF = 3
+    hcibuf[1] = 0x03 << 2; // HCI OGF = 3
+    hcibuf[2] = 0x03; // parameter length = 3
+    hcibuf[3] = 0x04; // Robot
+    hcibuf[4] = 0x08; // Toy
+    hcibuf[5] = 0x00;
     HCI_Command(hcibuf, 6);
 }
 /*******************************************************************
