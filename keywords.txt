@@ -1,4 +1,24 @@
 ####################################################
+# Syntax Coloring Map For USB Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+USB	KEYWORD1
+
+####################################################
+# Syntax Coloring Map For BTD (Bluetooth) Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+BTD	KEYWORD1
+
+####################################################
 # Syntax Coloring Map For PS3 Bluetooth/USB Library
 ####################################################
 
@@ -12,32 +32,32 @@ PS3USB	KEYWORD1
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
-setBdaddr		KEYWORD2
+setBdaddr	KEYWORD2
 setMoveBdaddr	KEYWORD2
 
 getButtonPress	KEYWORD2
 getButtonClick	KEYWORD2
 getAnalogButton	KEYWORD2
 getAnalogHat	KEYWORD2
-getSensor		KEYWORD2
-getAngle		KEYWORD2
+getSensor	KEYWORD2
+getAngle	KEYWORD2
 get9DOFValues	KEYWORD2
-getStatus		KEYWORD2
+getStatus	KEYWORD2
 getStatusString	KEYWORD2
 getTemperature	KEYWORD2
-disconnect		KEYWORD2
+disconnect	KEYWORD2
 
-setAllOff		KEYWORD2
+setAllOff	KEYWORD2
 setRumbleOff	KEYWORD2
-setRumbleOn		KEYWORD2
-setLedOff		KEYWORD2
-setLedOn		KEYWORD2
+setRumbleOn	KEYWORD2
+setLedOff	KEYWORD2
+setLedOn	KEYWORD2
 setLedToggle	KEYWORD2
-moveSetBulb		KEYWORD2
+moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 
-PS3Connected			KEYWORD2
-PS3MoveConnected		KEYWORD2
+PS3Connected	KEYWORD2
+PS3MoveConnected	KEYWORD2
 PS3NavigationConnected	KEYWORD2
 
 watingForConnection	KEYWORD2
@@ -140,42 +160,42 @@ RumbleLow	LITERAL1
 # Datatypes (KEYWORD1)
 ####################################################
 
-XBOXUSB				KEYWORD1
-XBOXRECV			KEYWORD1
+XBOXUSB	KEYWORD1
+XBOXRECV	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
 
-setLedRaw				KEYWORD2
-setLedBlink				KEYWORD2
-setLedMode				KEYWORD2
-getBatteryLevel			KEYWORD2
-buttonChanged			KEYWORD2
+setLedRaw	KEYWORD2
+setLedBlink	KEYWORD2
+setLedMode	KEYWORD2
+getBatteryLevel	KEYWORD2
+buttonChanged	KEYWORD2
 
 XboxReceiverConnected	KEYWORD2
-Xbox360Connected		KEYWORD2
+Xbox360Connected	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
 ####################################################
 
-ALL					LITERAL1
+ALL	LITERAL1
 
-ROTATING			LITERAL1
-FASTBLINK			LITERAL1
-SLOWBLINK			LITERAL1
-ALTERNATING			LITERAL1
+ROTATING	LITERAL1
+FASTBLINK	LITERAL1
+SLOWBLINK	LITERAL1
+ALTERNATING	LITERAL1
 
-BACK				LITERAL1
+BACK	LITERAL1
 
-XBOX				LITERAL1
-SYNC				LITERAL1
+XBOX	LITERAL1
+SYNC	LITERAL1
 
-A					LITERAL1
-B					LITERAL1
-X					LITERAL1
-Y					LITERAL1
+A	LITERAL1
+B	LITERAL1
+X	LITERAL1
+Y	LITERAL1
 
 ####################################################
 # Syntax Coloring Map For RFCOMM/SPP Library
@@ -185,15 +205,15 @@ Y					LITERAL1
 # Datatypes (KEYWORD1)
 ####################################################
 
-SPP					KEYWORD1
+SPP	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
 
-connected			KEYWORD2
-printNumber			KEYWORD2
-printNumberln		KEYWORD2
+connected	KEYWORD2
+printNumber	KEYWORD2
+printNumberln	KEYWORD2
 
 ####################################################
 # Syntax Coloring Map For Wiimote Library
@@ -203,58 +223,59 @@ printNumberln		KEYWORD2
 # Datatypes (KEYWORD1)
 ####################################################
 
-WII					KEYWORD1
+WII	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
 ####################################################
 
-wiimoteConnected		KEYWORD2
-nunchuckConnected		KEYWORD2
-motionPlusConnected		KEYWORD2
-setRumbleToggle			KEYWORD2
-getPitch				KEYWORD2
-getRoll					KEYWORD2
-getYaw					KEYWORD2
-PAIR					KEYWORD2
-getBatteryLevel			KEYWORD2
-getWiiState				KEYWORD2
-
+wiimoteConnected	KEYWORD2
+nunchuckConnected	KEYWORD2
+motionPlusConnected	KEYWORD2
+wiiUProControllerConnected	KEYWORD2
+setRumbleToggle	KEYWORD2
+getPitch	KEYWORD2
+getRoll	KEYWORD2
+getYaw	KEYWORD2
+PAIR	KEYWORD2
+getBatteryLevel	KEYWORD2
+getWiiState	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
 ####################################################
 
-PLUS					LITERAL1
-MINUS					LITERAL1
-ONE						LITERAL1
-TWO						LITERAL1
-HOME					LITERAL1
-Z						LITERAL1
-C						LITERAL1
-L						LITERAL1
-R						LITERAL1
-ZL						LITERAL1
-ZR						LITERAL1
-HatX					LITERAL1
-HatY					LITERAL1
-
+PLUS	LITERAL1
+MINUS	LITERAL1
+ONE	LITERAL1
+TWO	LITERAL1
+HOME	LITERAL1
+Z	LITERAL1
+C	LITERAL1
+L	LITERAL1
+R	LITERAL1
+ZL	LITERAL1
+ZR	LITERAL1
+HatX	LITERAL1
+HatY	LITERAL1
+nunchuckPitch	LITERAL1
+nunchuckRoll	LITERAL1
 
 ####################################################
 # Methods and Functions for the IR Camera
 ####################################################
 
-IRinitialize			KEYWORD2
-isIRCameraEnabled		KEYWORD2
-getIRx1					KEYWORD2
-getIRy1					KEYWORD2
-getIRs1					KEYWORD2
-getIRx2					KEYWORD2
-getIRy2					KEYWORD2
-getIRs2					KEYWORD2
-getIRx3					KEYWORD2
-getIRy3					KEYWORD2
-getIRs3					KEYWORD2
-getIRx4					KEYWORD2
-getIRy4					KEYWORD2
-getIRs4					KEYWORD2
+IRinitialize	KEYWORD2
+isIRCameraEnabled	KEYWORD2
+getIRx1	KEYWORD2
+getIRy1	KEYWORD2
+getIRs1	KEYWORD2
+getIRx2	KEYWORD2
+getIRy2	KEYWORD2
+getIRs2	KEYWORD2
+getIRx3	KEYWORD2
+getIRy3	KEYWORD2
+getIRs3	KEYWORD2
+getIRx4	KEYWORD2
+getIRy4	KEYWORD2
+getIRs4	KEYWORD2
