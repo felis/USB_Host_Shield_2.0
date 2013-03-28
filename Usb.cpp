@@ -176,7 +176,7 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
 
                                 // Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
                                 if (!rcode && p)
-                                        ((USBReadParser*) p)->Parse(read, dataptr, total - left);
+                                        ((USBReadParser*)p)->Parse(read, dataptr, total - left);
 
                                 left -= read;
 
@@ -236,14 +236,14 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
                 /* the only case when absense of RCVDAVIRQ makes sense is when toggle error occured. Need to add handling for that */
                 if ((regRd(rHIRQ) & bmRCVDAVIRQ) == 0) {
                         //printf("Problem! NO RCVDAVIRQ!\r\n");
-                        rcode = 0xf0;  //receive error
+                        rcode = 0xf0; //receive error
                         break;
                 }
                 pktsize = regRd(rRCVBC); //number of received bytes
                 //printf("Got %i bytes ", pktsize);
                 assert(pktsize <= nbytes);
 
-                int16_t mem_left = (int16_t) nbytes - *((int16_t*) nbytesptr);
+                int16_t mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
                 if (mem_left < 0)
                         mem_left = 0;
@@ -591,7 +591,7 @@ uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser 
         if (ret)
                 return ret;
 
-        uint16_t total = ((USB_CONFIGURATION_DESCRIPTOR*) buf)->wTotalLength;
+        uint16_t total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
 
         //USBTRACE2("\r\ntotal conf.size:", total);
 

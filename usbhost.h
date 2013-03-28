@@ -96,9 +96,9 @@ template< typename SS, typename INTR >
 void MAX3421e< SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         SS::Clear();
         SPDR = (reg | 0x02);
-        while (!(SPSR & (1 << SPIF)));
+        while(!(SPSR & (1 << SPIF)));
         SPDR = data;
-        while (!(SPSR & (1 << SPIF)));
+        while(!(SPSR & (1 << SPIF)));
         SS::Set();
         return;
 };
@@ -109,14 +109,14 @@ template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         SS::Clear();
         SPDR = (reg | 0x02); //set WR bit and send register number
-        while (nbytes--) {
-                while (!(SPSR & (1 << SPIF))); //check if previous byte was sent
+        while(nbytes--) {
+                while(!(SPSR & (1 << SPIF))); //check if previous byte was sent
                 SPDR = (*data_p); // send next data byte
                 data_p++; // advance data pointer
         }
-        while (!(SPSR & (1 << SPIF)));
+        while(!(SPSR & (1 << SPIF)));
         SS::Set();
-        return ( data_p);
+        return( data_p);
 }
 /* GPIO write                                           */
 /*GPIO byte is split between 2 registers, so two writes are needed to write one byte */
@@ -135,11 +135,11 @@ template< typename SS, typename INTR >
 uint8_t MAX3421e< SS, INTR >::regRd(uint8_t reg) {
         SS::Clear();
         SPDR = reg;
-        while (!(SPSR & (1 << SPIF)));
+        while(!(SPSR & (1 << SPIF)));
         SPDR = 0; //send empty byte
-        while (!(SPSR & (1 << SPIF)));
+        while(!(SPSR & (1 << SPIF)));
         SS::Set();
-        return ( SPDR);
+        return( SPDR);
 }
 /* multiple-byte register read  */
 
@@ -148,16 +148,16 @@ template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         SS::Clear();
         SPDR = reg;
-        while (!(SPSR & (1 << SPIF))); //wait
-        while (nbytes) {
+        while(!(SPSR & (1 << SPIF))); //wait
+        while(nbytes) {
                 SPDR = 0; //send empty byte
                 nbytes--;
-                while (!(SPSR & (1 << SPIF)));
+                while(!(SPSR & (1 << SPIF)));
                 *data_p = SPDR;
                 data_p++;
         }
         SS::Set();
-        return ( data_p);
+        return( data_p);
 }
 /* GPIO read. See gpioWr for explanation */
 
@@ -168,7 +168,7 @@ uint8_t MAX3421e< SS, INTR >::gpioRd() {
         gpin = regRd(rIOPINS2); //pins 4-7
         gpin &= 0xf0; //clean lower nibble
         gpin |= (regRd(rIOPINS1) >> 4); //shift low bits and OR with upper from previous operation.
-        return ( gpin);
+        return( gpin);
 }
 
 /* reset MAX3421E. Returns number of cycles it took for PLL to stabilize after reset
@@ -178,12 +178,12 @@ uint16_t MAX3421e< SS, INTR >::reset() {
         uint16_t i = 0;
         regWr(rUSBCTL, bmCHIPRES);
         regWr(rUSBCTL, 0x00);
-        while (++i) {
-                if ((regRd(rUSBIRQ) & bmOSCOKIRQ)) {
+        while(++i) {
+                if((regRd(rUSBIRQ) & bmOSCOKIRQ)) {
                         break;
                 }
         }
-        return ( i);
+        return( i);
 }
 ///* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 //template< typename SS, typename INTR >
@@ -200,8 +200,8 @@ uint16_t MAX3421e< SS, INTR >::reset() {
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
 int8_t MAX3421e< SS, INTR >::Init() {
-        if (reset() == 0) { //OSCOKIRQ hasn't asserted in time
-                return ( -1);
+        if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
+                return( -1);
         }
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
 
@@ -209,13 +209,13 @@ int8_t MAX3421e< SS, INTR >::Init() {
 
         /* check if device is connected */
         regWr(rHCTL, bmSAMPLEBUS); // sample USB bus
-        while (!(regRd(rHCTL) & bmSAMPLEBUS)); //wait for sample operation to finish
+        while(!(regRd(rHCTL) & bmSAMPLEBUS)); //wait for sample operation to finish
 
         busprobe(); //check if anything is connected
 
         regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
         regWr(rCPUCTL, 0x01); //enable interrupt pin
-        return ( 0);
+        return( 0);
 }
 
 /* probe bus to determine device presence and speed and switch host to this speed */
@@ -224,9 +224,9 @@ void MAX3421e< SS, INTR >::busprobe() {
         uint8_t bus_sample;
         bus_sample = regRd(rHRSL); //Get J,K status
         bus_sample &= (bmJSTATUS | bmKSTATUS); //zero the rest of the byte
-        switch (bus_sample) { //start full-speed or low-speed host
+        switch(bus_sample) { //start full-speed or low-speed host
                 case( bmJSTATUS):
-                        if ((regRd(rMODE) & bmLOWSPEED) == 0) {
+                        if((regRd(rMODE) & bmLOWSPEED) == 0) {
                                 regWr(rMODE, MODE_FS_HOST); //start full-speed host
                                 vbusState = FSHOST;
                         } else {
@@ -235,7 +235,7 @@ void MAX3421e< SS, INTR >::busprobe() {
                         }
                         break;
                 case( bmKSTATUS):
-                        if ((regRd(rMODE) & bmLOWSPEED) == 0) {
+                        if((regRd(rMODE) & bmLOWSPEED) == 0) {
                                 regWr(rMODE, MODE_LS_HOST); //start low-speed host
                                 vbusState = LSHOST;
                         } else {
@@ -262,7 +262,7 @@ uint8_t MAX3421e< SS, INTR >::Task(void) {
         //Serial.println( vbusState, HEX );
         pinvalue = INTR::IsSet(); //Read();
         //pinvalue = digitalRead( MAX_INT );
-        if (pinvalue == 0) {
+        if(pinvalue == 0) {
                 rcode = IntHandler();
         }
         //    pinvalue = digitalRead( MAX_GPX );
@@ -270,7 +270,7 @@ uint8_t MAX3421e< SS, INTR >::Task(void) {
         //        GpxHandler();
         //    }
         //    usbSM();                                //USB state machine
-        return ( rcode);
+        return( rcode);
 }
 
 template< typename SS, typename INTR >
@@ -281,13 +281,13 @@ uint8_t MAX3421e< SS, INTR >::IntHandler() {
         //if( HIRQ & bmFRAMEIRQ ) {               //->1ms SOF interrupt handler
         //    HIRQ_sendback |= bmFRAMEIRQ;
         //}//end FRAMEIRQ handling
-        if (HIRQ & bmCONDETIRQ) {
+        if(HIRQ & bmCONDETIRQ) {
                 busprobe();
                 HIRQ_sendback |= bmCONDETIRQ;
         }
         /* End HIRQ interrupts handling, clear serviced IRQs    */
         regWr(rHIRQ, HIRQ_sendback);
-        return ( HIRQ_sendback);
+        return( HIRQ_sendback);
 }
 //template< typename SS, typename INTR >
 //uint8_t MAX3421e< SS, INTR >::GpxHandler()

@@ -17,7 +17,7 @@ e-mail   :  support@circuitsathome.com
 #include "hidboot.h"
 
 void MouseReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
-        MOUSEINFO *pmi = (MOUSEINFO*) buf;
+        MOUSEINFO *pmi = (MOUSEINFO*)buf;
 
         if (prevState.mouseInfo.bmLeftButton == 0 && pmi->bmLeftButton == 1)
                 OnLeftButtonDown(pmi);
@@ -112,20 +112,20 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
                         // Lower case letters
                 else
                         return (key - 4 + 'a');
-        }                // Numbers
+        }// Numbers
         else if (key > 0x1d && key < 0x27) {
                 if (shift)
-                        return ((uint8_t) pgm_read_byte(&numKeys[key - 0x1e]));
+                        return ((uint8_t)pgm_read_byte(&numKeys[key - 0x1e]));
                 else
                         return (key - 0x1e + '1');
-        }                // Keypad Numbers
+        }// Keypad Numbers
         else if (key > 0x58 && key < 0x62) {
                 if (kbdLockingKeys.kbdLeds.bmNumLock == 1)
                         return (key - 0x59 + '1');
         } else if (key > 0x2c && key < 0x39)
-                return ((shift) ? (uint8_t) pgm_read_byte(&symKeysUp[key - 0x2d]) : (uint8_t) pgm_read_byte(&symKeysLo[key - 0x2d]));
+                return ((shift) ? (uint8_t)pgm_read_byte(&symKeysUp[key - 0x2d]) : (uint8_t)pgm_read_byte(&symKeysLo[key - 0x2d]));
         else if (key > 0x53 && key < 0x59)
-                return (uint8_t) pgm_read_byte(&padKeys[key - 0x54]);
+                return (uint8_t)pgm_read_byte(&padKeys[key - 0x54]);
         else {
                 switch (key) {
                         case KEY_SPACE: return (0x20);

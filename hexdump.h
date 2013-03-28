@@ -41,15 +41,15 @@ public:
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
-        for (LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
-                if (!byteCount) {
+        for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
+                if(!byteCount) {
                         SerialPrintHex<OFFSET_TYPE > (byteTotal);
                         Serial.print(": ");
                 }
                 SerialPrintHex<uint8_t > (pbuf[j]);
                 Serial.print(" ");
 
-                if (byteCount == 15) {
+                if(byteCount == 15) {
                         Serial.println("");
                         byteCount = 0xFF;
                 }

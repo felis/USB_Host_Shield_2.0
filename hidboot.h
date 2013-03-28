@@ -60,7 +60,7 @@ class MouseReportParser : public HIDReportParser {
 
         union {
                 MOUSEINFO mouseInfo;
-                uint8_t bInfo[sizeof (MOUSEINFO)];
+                uint8_t bInfo[sizeof(MOUSEINFO)];
         } prevState;
 
 public:
@@ -140,7 +140,7 @@ protected:
 
         union {
                 KBDINFO kbdInfo;
-                uint8_t bInfo[sizeof (KBDINFO)];
+                uint8_t bInfo[sizeof(KBDINFO)];
         } prevState;
 
         union {
@@ -221,13 +221,13 @@ bPollEnable(false),
 pRptParser(NULL) {
         Initialize();
 
-        if (pUsb)
+        if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
 
 template <const uint8_t BOOT_PROTOCOL>
 void HIDBoot<BOOT_PROTOCOL>::Initialize() {
-        for (uint8_t i = 0; i < totalEndpoints; i++) {
+        for(uint8_t i = 0; i < totalEndpoints; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
@@ -240,7 +240,7 @@ void HIDBoot<BOOT_PROTOCOL>::Initialize() {
 
 template <const uint8_t BOOT_PROTOCOL>
 uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-        const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
+        const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
         uint8_t rcode;
@@ -256,16 +256,16 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
         USBTRACE("BM Init\r\n");
 
-        if (bAddress)
+        if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -281,10 +281,10 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Get device descriptor
         rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*) buf);
 
-        if (!rcode)
+        if(!rcode)
                 len = (buf[0] > constBufSize) ? constBufSize : buf[0];
 
-        if (rcode) {
+        if(rcode) {
                 // Restore p->epinfo
                 p->epinfo = oldep_ptr;
 
@@ -297,7 +297,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
@@ -306,7 +306,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
 
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -320,15 +320,15 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
         p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
 
-        if (len)
+        if(len)
                 rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*) buf);
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
 
         num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
@@ -336,12 +336,12 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         //USBTRACE2("NC:", num_of_conf);
 
-        for (uint8_t i = 0; i < num_of_conf; i++) {
+        for(uint8_t i = 0; i < num_of_conf; i++) {
                 ConfigDescParser<
                         USB_CLASS_HID,
                         HID_BOOT_INTF_SUBCLASS,
@@ -350,11 +350,11 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
-                if (bNumEP > 1)
+                if(bNumEP > 1)
                         break;
         } // for
 
-        if (bNumEP < 2)
+        if(bNumEP < 2)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         //USBTRACE2("\r\nbAddr:", bAddress);
@@ -368,20 +368,20 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
         //USBTRACE2("\r\nIf:", bIfaceNum);
 
         rcode = SetProtocol(bIfaceNum, HID_BOOT_PROTOCOL);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetProtocol;
 
-        if (BOOT_PROTOCOL == 1) {
+        if(BOOT_PROTOCOL == 1) {
                 rcode = SetIdle(bIfaceNum, 0, 0);
 
-                if (rcode)
+                if(rcode)
                         goto FailSetIdle;
         }
         USBTRACE("BM configured\r\n");
@@ -424,7 +424,7 @@ Fail:
 template <const uint8_t BOOT_PROTOCOL>
 void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
         // If the first configuration satisfies, the others are not concidered.
-        if (bNumEP > 1 && conf != bConfNum)
+        if(bNumEP > 1 && conf != bConfNum)
                 return;
 
         bConfNum = conf;
@@ -432,7 +432,7 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
 
         uint8_t index;
 
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) {
+        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) {
                 index = epInterruptInIndex;
 
                 // Fill in the endpoint info structure
@@ -461,10 +461,10 @@ template <const uint8_t BOOT_PROTOCOL>
 uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
         uint8_t rcode = 0;
 
-        if (!bPollEnable)
+        if(!bPollEnable)
                 return 0;
 
-        if (qNextPollTime <= millis()) {
+        if(qNextPollTime <= millis()) {
                 qNextPollTime = millis() + 10;
 
                 const uint8_t const_buff_len = 16;
@@ -474,8 +474,8 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
 
                 uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
 
-                if (rcode) {
-                        if (rcode != hrNAK)
+                if(rcode) {
+                        if(rcode != hrNAK)
                                 USBTRACE2("Poll:", rcode);
                         return rcode;
                 }
@@ -484,7 +484,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
                 //if (read)
                 //	Serial.println("");
 
-                if (pRptParser)
+                if(pRptParser)
                         pRptParser->Parse((HID*)this, 0, (uint8_t) read, buf);
         }
         return rcode;

@@ -41,8 +41,7 @@ pUsb(p), //pointer to USB class instance - mandatory
 bAddress(0), //device address - mandatory
 bConfNum(0), //configuration number
 bNumEP(1), //if config descriptor needs to be parsed
-ready(false)
- {
+ready(false) {
         // initialize endpoint data structures
         for (uint8_t i = 0; i < ADK_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
@@ -101,7 +100,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
@@ -114,7 +113,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         bAddress = addrPool.AllocAddress(parent, false, port);
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -145,11 +144,11 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         }
 
         //check if ADK device is already in accessory mode; if yes, configure and exit
-        if (((USB_DEVICE_DESCRIPTOR*) buf)->idVendor == ADK_VID &&
-                (((USB_DEVICE_DESCRIPTOR*) buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*) buf)->idProduct == ADB_PID)) {
+        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor == ADK_VID &&
+                (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)) {
                 USBTRACE("\r\nAcc.mode device detected");
                 /* go through configurations, find first bulk-IN, bulk-OUT EP, fill epInfo and quit */
-                num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+                num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
                 //USBTRACE2("\r\nNC:",num_of_conf);
 
@@ -286,7 +285,7 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
         // Fill in the endpoint info structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t) pep->wMaxPacketSize;
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
 
         bNumEP++;
 

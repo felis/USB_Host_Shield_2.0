@@ -40,9 +40,9 @@ struct EpInfo {
                         uint8_t bmSndToggle : 1; // Send toggle, when zero bmSNDTOG0, bmSNDTOG1 otherwise
                         uint8_t bmRcvToggle : 1; // Send toggle, when zero bmRCVTOG0, bmRCVTOG1 otherwise
                         uint8_t bmNakPower : 6; // Binary order for NAK_LIMIT value
-                }__attribute__((packed));
+                } __attribute__((packed));
         };
-}__attribute__((packed));
+} __attribute__((packed));
 
 //	  7   6   5   4   3   2   1   0
 //  ---------------------------------
@@ -63,10 +63,10 @@ struct UsbDeviceAddress {
                         uint8_t bmParent : 3; // parent hub address
                         uint8_t bmHub : 1; // hub flag
                         uint8_t bmReserved : 1; // reserved, must be zerro
-                }__attribute__((packed));
+                } __attribute__((packed));
                 uint8_t devAddress;
         };
-}__attribute__((packed));
+} __attribute__((packed));
 
 #define bmUSB_DEV_ADDR_ADDRESS		0x07
 #define bmUSB_DEV_ADDR_PARENT		0x38
@@ -78,7 +78,7 @@ struct UsbDevice {
         uint8_t epcount; // number of endpoints
         bool lowspeed; // indicates if a device is the low speed one
         //	uint8_t			devclass;		// device class
-}__attribute__((packed));
+} __attribute__((packed));
 
 class AddressPool {
 public:
@@ -112,8 +112,8 @@ class AddressPoolImpl : public AddressPool {
         // Returns thePool index for a given address
 
         uint8_t FindAddressIndex(uint8_t address = 0) {
-                for (uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++) {
-                        if (thePool[i].address == address)
+                for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++) {
+                        if(thePool[i].address == address)
                                 return i;
                 }
                 return 0;
@@ -121,8 +121,8 @@ class AddressPoolImpl : public AddressPool {
         // Returns thePool child index for a given parent
 
         uint8_t FindChildIndex(UsbDeviceAddress addr, uint8_t start = 1) {
-                for (uint8_t i = (start < 1 || start >= MAX_DEVICES_ALLOWED) ? 1 : start; i < MAX_DEVICES_ALLOWED; i++) {
-                        if (((UsbDeviceAddress*) & thePool[i].address)->bmParent == addr.bmAddress)
+                for(uint8_t i = (start < 1 || start >= MAX_DEVICES_ALLOWED) ? 1 : start; i < MAX_DEVICES_ALLOWED; i++) {
+                        if(((UsbDeviceAddress*) & thePool[i].address)->bmParent == addr.bmAddress)
                                 return i;
                 }
                 return 0;
@@ -131,16 +131,16 @@ class AddressPoolImpl : public AddressPool {
 
         void FreeAddressByIndex(uint8_t index) {
                 // Zerro field is reserved and should not be affected
-                if (index == 0)
+                if(index == 0)
                         return;
 
                 // If a hub was switched off all port addresses should be freed
-                if (((UsbDeviceAddress*) & thePool[index].address)->bmHub == 1) {
-                        for (uint8_t i = 1; (i = FindChildIndex(*((UsbDeviceAddress*) & thePool[index].address), i));)
+                if(((UsbDeviceAddress*) & thePool[index].address)->bmHub == 1) {
+                        for(uint8_t i = 1; (i = FindChildIndex(*((UsbDeviceAddress*) & thePool[index].address), i));)
                                 FreeAddressByIndex(i);
 
                         // If the hub had the last allocated address, hubCounter should be decremented
-                        if (hubCounter == ((UsbDeviceAddress*) & thePool[index].address)->bmAddress)
+                        if(hubCounter == ((UsbDeviceAddress*) & thePool[index].address)->bmAddress)
                                 hubCounter--;
                 }
                 InitEntry(index);
@@ -148,7 +148,7 @@ class AddressPoolImpl : public AddressPool {
         // Initializes the whole address pool at once
 
         void InitAllAddresses() {
-                for (uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
+                for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
                         InitEntry(i);
 
                 hubCounter = 0;
@@ -172,22 +172,22 @@ public:
         // Returns a pointer to a specified address entry
 
         virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) {
-                if (!addr)
+                if(!addr)
                         return thePool;
 
                 uint8_t index = FindAddressIndex(addr);
 
-                return (!index) ? NULL : thePool + index;
+                return(!index) ? NULL : thePool + index;
         };
 
         // Performs an operation specified by pfunc for each addressed device
 
         void ForEachUsbDevice(UsbDeviceHandleFunc pfunc) {
-                if (!pfunc)
+                if(!pfunc)
                         return;
 
-                for (uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
-                        if (thePool[i].address)
+                for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
+                        if(thePool[i].address)
                                 pfunc(thePool + i);
         };
         // Allocates new address
@@ -196,20 +196,20 @@ public:
                 /* if (parent != 0 && port == 0)
                         Serial.println("PRT:0"); */
 
-                if (parent > 127 || port > 7)
+                if(parent > 127 || port > 7)
                         return 0;
 
-                if (is_hub && hubCounter == 7)
+                if(is_hub && hubCounter == 7)
                         return 0;
 
                 // finds first empty address entry starting from one
                 uint8_t index = FindAddressIndex(0);
 
-                if (!index) // if empty entry is not found
+                if(!index) // if empty entry is not found
                         return 0;
 
-                if (parent == 0) {
-                        if (is_hub) {
+                if(parent == 0) {
+                        if(is_hub) {
                                 thePool[index].address = 0x41;
                                 hubCounter++;
                         } else
@@ -222,7 +222,7 @@ public:
 
                 addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
 
-                if (is_hub) {
+                if(is_hub) {
                         addr.bmHub = 1;
                         addr.bmAddress = ++hubCounter;
                 } else {
@@ -244,7 +244,7 @@ public:
 
         virtual void FreeAddress(uint8_t addr) {
                 // if the root hub is disconnected all the addresses should be initialized
-                if (addr == 0x41) {
+                if(addr == 0x41) {
                         InitAllAddresses();
                         return;
                 }

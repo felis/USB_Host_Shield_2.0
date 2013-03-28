@@ -7,7 +7,7 @@ uint8_t HID::GetReportDescr(uint8_t ep, USBReadParser *parser) {
         uint8_t buf[constBufLen];
 
         uint8_t rcode = pUsb->ctrlReq(bAddress, ep, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00,
-                HID_DESCRIPTOR_REPORT, 0x0000, 128, constBufLen, buf, (USBReadParser*) parser);
+                HID_DESCRIPTOR_REPORT, 0x0000, 128, constBufLen, buf, (USBReadParser*)parser);
 
         //return ((rcode != hrSTALL) ? rcode : 0);
         return rcode;

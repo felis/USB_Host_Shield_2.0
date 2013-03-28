@@ -147,7 +147,7 @@ typedef struct {
                         uint8_t recipient : 5; //          Recipient of the request
                         uint8_t type : 2; //          Type of request
                         uint8_t direction : 1; //          Direction of data X-fer
-                }__attribute__((packed));
+                } __attribute__((packed));
         } ReqType_u;
         uint8_t bRequest; //   1      Request
 
@@ -157,7 +157,7 @@ typedef struct {
                 struct {
                         uint8_t wValueLo;
                         uint8_t wValueHi;
-                }__attribute__((packed));
+                } __attribute__((packed));
         } wVal_u;
         uint16_t wIndex; //   4      Depends on bRequest
         uint16_t wLength; //   6      Depends on bRequest
@@ -190,12 +190,12 @@ public:
         };
 
         AddressPool& GetAddressPool() {
-                return (AddressPool&) addrPool;
+                return(AddressPool&) addrPool;
         };
 
         uint8_t RegisterDeviceClass(USBDeviceConfig *pdev) {
-                for (uint8_t i = 0; i < USB_NUMDEVICES; i++) {
-                        if (!devConfig[i]) {
+                for(uint8_t i = 0; i < USB_NUMDEVICES; i++) {
+                        if(!devConfig[i]) {
                                 devConfig[i] = pdev;
                                 return 0;
                         }
@@ -250,27 +250,27 @@ private:
 //get device descriptor
 
 inline uint8_t USB::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
-        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
+        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
 }
 //get configuration descriptor
 
 inline uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
-        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
+        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
 }
 //get string descriptor
 
 inline uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
-        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
+        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
 }
 //set address
 
 inline uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
-        return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
+        return( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
 }
 //set configuration
 
 inline uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
-        return ( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
+        return( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
 }
 
 #endif // defined(USB_METHODS_INLINE)

@@ -178,13 +178,13 @@ public:
         }
 
         static void Set(uint8_t val) {
-                if (val)
+                if(val)
                         Set();
                 else Clear();
         }
 
         static void SetDir(uint8_t val) {
-                if (val)
+                if(val)
                         SetDirWrite();
                 else SetDirRead();
         }
@@ -210,12 +210,12 @@ public:
         }
 
         static void WaiteForSet() {
-                while (IsSet() == 0) {
+                while(IsSet() == 0) {
                 }
         }
 
         static void WaiteForClear() {
-                while (IsSet()) {
+                while(IsSet()) {
                 }
         }
 }; //class TPin...
@@ -411,7 +411,7 @@ class Tp_Tc {
 public:
 
         static void SetDir(uint8_t val) {
-                if (val)
+                if(val)
                         SetDirWrite();
                 else SetDirRead();
         }

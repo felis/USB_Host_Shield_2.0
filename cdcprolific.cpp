@@ -57,7 +57,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
@@ -65,11 +65,11 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailGetDevDescr;
 
-        if (((USB_DEVICE_DESCRIPTOR*) buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*) buf)->idProduct != PL_PID)
+        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Save type of PL chip
-        wPLType = ((USB_DEVICE_DESCRIPTOR*) buf)->bcdDevice;
+        wPLType = ((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
@@ -78,7 +78,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -102,7 +102,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);

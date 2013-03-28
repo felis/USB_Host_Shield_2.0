@@ -1,6 +1,6 @@
 #include "hidescriptorparser.h"
 
-const char * const ReportDescParserBase::usagePageTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::usagePageTitles0[] PROGMEM = {
         pstrUsagePageGenericDesktopControls,
         pstrUsagePageSimulationControls,
         pstrUsagePageVRControls,
@@ -18,7 +18,7 @@ const char * const ReportDescParserBase::usagePageTitles0[] PROGMEM ={
         pstrUsagePageUnicode
 };
 
-const char * const ReportDescParserBase::usagePageTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::usagePageTitles1[] PROGMEM = {
         pstrUsagePageBarCodeScanner,
         pstrUsagePageScale,
         pstrUsagePageMSRDevices,
@@ -26,7 +26,7 @@ const char * const ReportDescParserBase::usagePageTitles1[] PROGMEM ={
         pstrUsagePageCameraControl,
         pstrUsagePageArcade
 };
-const char * const ReportDescParserBase::genDesktopTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::genDesktopTitles0[] PROGMEM = {
         pstrUsagePointer,
         pstrUsageMouse,
         pstrUsageJoystick,
@@ -37,7 +37,7 @@ const char * const ReportDescParserBase::genDesktopTitles0[] PROGMEM ={
         pstrUsageTabletPCSystemControls
 
 };
-const char * const ReportDescParserBase::genDesktopTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::genDesktopTitles1[] PROGMEM = {
         pstrUsageX,
         pstrUsageY,
         pstrUsageZ,
@@ -64,7 +64,7 @@ const char * const ReportDescParserBase::genDesktopTitles1[] PROGMEM ={
         pstrUsageFeatureNotification,
         pstrUsageResolutionMultiplier
 };
-const char * const ReportDescParserBase::genDesktopTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::genDesktopTitles2[] PROGMEM = {
         pstrUsageSystemControl,
         pstrUsageSystemPowerDown,
         pstrUsageSystemSleep,
@@ -86,7 +86,7 @@ const char * const ReportDescParserBase::genDesktopTitles2[] PROGMEM ={
         pstrUsageDPadRight,
         pstrUsageDPadLeft
 };
-const char * const ReportDescParserBase::genDesktopTitles3[] PROGMEM ={
+const char * const ReportDescParserBase::genDesktopTitles3[] PROGMEM = {
         pstrUsageSystemDock,
         pstrUsageSystemUndock,
         pstrUsageSystemSetup,
@@ -97,7 +97,7 @@ const char * const ReportDescParserBase::genDesktopTitles3[] PROGMEM ={
         pstrUsageSystemSpeakerMute,
         pstrUsageSystemHibernate
 };
-const char * const ReportDescParserBase::genDesktopTitles4[] PROGMEM ={
+const char * const ReportDescParserBase::genDesktopTitles4[] PROGMEM = {
         pstrUsageSystemDisplayInvert,
         pstrUsageSystemDisplayInternal,
         pstrUsageSystemDisplayExternal,
@@ -107,7 +107,7 @@ const char * const ReportDescParserBase::genDesktopTitles4[] PROGMEM ={
         pstrUsageSystemDisplaySwapPriSec,
         pstrUsageSystemDisplayLCDAutoscale
 };
-const char * const ReportDescParserBase::simuTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::simuTitles0[] PROGMEM = {
         pstrUsageFlightSimulationDevice,
         pstrUsageAutomobileSimulationDevice,
         pstrUsageTankSimulationDevice,
@@ -121,7 +121,7 @@ const char * const ReportDescParserBase::simuTitles0[] PROGMEM ={
         pstrUsageMagicCarpetSimulationDevice,
         pstrUsageBicycleSimulationDevice
 };
-const char * const ReportDescParserBase::simuTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::simuTitles1[] PROGMEM = {
         pstrUsageFlightControlStick,
         pstrUsageFlightStick,
         pstrUsageCyclicControl,
@@ -129,7 +129,7 @@ const char * const ReportDescParserBase::simuTitles1[] PROGMEM ={
         pstrUsageFlightYoke,
         pstrUsageTrackControl
 };
-const char * const ReportDescParserBase::simuTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::simuTitles2[] PROGMEM = {
         pstrUsageAileron,
         pstrUsageAileronTrim,
         pstrUsageAntiTorqueControl,
@@ -164,7 +164,7 @@ const char * const ReportDescParserBase::simuTitles2[] PROGMEM ={
         pstrUsageFrontBrake,
         pstrUsageRearBrake
 };
-const char * const ReportDescParserBase::vrTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::vrTitles0[] PROGMEM = {
         pstrUsageBelt,
         pstrUsageBodySuit,
         pstrUsageFlexor,
@@ -176,17 +176,17 @@ const char * const ReportDescParserBase::vrTitles0[] PROGMEM ={
         pstrUsageVest,
         pstrUsageAnimatronicDevice
 };
-const char * const ReportDescParserBase::vrTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::vrTitles1[] PROGMEM = {
         pstrUsageStereoEnable,
         pstrUsageDisplayEnable
 };
-const char * const ReportDescParserBase::sportsCtrlTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::sportsCtrlTitles0[] PROGMEM = {
         pstrUsageBaseballBat,
         pstrUsageGolfClub,
         pstrUsageRowingMachine,
         pstrUsageTreadmill
 };
-const char * const ReportDescParserBase::sportsCtrlTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::sportsCtrlTitles1[] PROGMEM = {
         pstrUsageOar,
         pstrUsageSlope,
         pstrUsageRate,
@@ -198,7 +198,7 @@ const char * const ReportDescParserBase::sportsCtrlTitles1[] PROGMEM ={
         pstrUsageStickType,
         pstrUsageStickHeight
 };
-const char * const ReportDescParserBase::sportsCtrlTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::sportsCtrlTitles2[] PROGMEM = {
         pstrUsagePutter,
         pstrUsage1Iron,
         pstrUsage2Iron,
@@ -220,12 +220,12 @@ const char * const ReportDescParserBase::sportsCtrlTitles2[] PROGMEM ={
         pstrUsage7Wood,
         pstrUsage9Wood
 };
-const char * const ReportDescParserBase::gameTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::gameTitles0[] PROGMEM = {
         pstrUsage3DGameController,
         pstrUsagePinballDevice,
         pstrUsageGunDevice
 };
-const char * const ReportDescParserBase::gameTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::gameTitles1[] PROGMEM = {
         pstrUsagePointOfView,
         pstrUsageTurnRightLeft,
         pstrUsagePitchForwardBackward,
@@ -252,7 +252,7 @@ const char * const ReportDescParserBase::gameTitles1[] PROGMEM ={
         pstrUsageGamepadFireJump,
         pstrUsageGamepadTrigger
 };
-const char * const ReportDescParserBase::genDevCtrlTitles[] PROGMEM ={
+const char * const ReportDescParserBase::genDevCtrlTitles[] PROGMEM = {
         pstrUsageBatteryStrength,
         pstrUsageWirelessChannel,
         pstrUsageWirelessID,
@@ -261,7 +261,7 @@ const char * const ReportDescParserBase::genDevCtrlTitles[] PROGMEM ={
         pstrUsageSecurityCodeCharErased,
         pstrUsageSecurityCodeCleared
 };
-const char * const ReportDescParserBase::ledTitles[] PROGMEM ={
+const char * const ReportDescParserBase::ledTitles[] PROGMEM = {
         pstrUsageNumLock,
         pstrUsageCapsLock,
         pstrUsageScrollLock,
@@ -340,7 +340,7 @@ const char * const ReportDescParserBase::ledTitles[] PROGMEM ={
         pstrUsageSystemSuspend,
         pstrUsageExternalPowerConnected
 };
-const char * const ReportDescParserBase::telTitles0 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles0 [] PROGMEM = {
         pstrUsagePhone,
         pstrUsageAnsweringMachine,
         pstrUsageMessageControls,
@@ -349,7 +349,7 @@ const char * const ReportDescParserBase::telTitles0 [] PROGMEM ={
         pstrUsageTelephonyKeyPad,
         pstrUsageProgrammableButton
 };
-const char * const ReportDescParserBase::telTitles1 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles1 [] PROGMEM = {
         pstrUsageHookSwitch,
         pstrUsageFlash,
         pstrUsageFeature,
@@ -369,20 +369,20 @@ const char * const ReportDescParserBase::telTitles1 [] PROGMEM ={
         pstrUsageCallerID,
         pstrUsageSend
 };
-const char * const ReportDescParserBase::telTitles2 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles2 [] PROGMEM = {
         pstrUsageSpeedDial,
         pstrUsageStoreNumber,
         pstrUsageRecallNumber,
         pstrUsagePhoneDirectory
 };
-const char * const ReportDescParserBase::telTitles3 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles3 [] PROGMEM = {
         pstrUsageVoiceMail,
         pstrUsageScreenCalls,
         pstrUsageDoNotDisturb,
         pstrUsageMessage,
         pstrUsageAnswerOnOff
 };
-const char * const ReportDescParserBase::telTitles4 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles4 [] PROGMEM = {
         pstrUsageInsideDialTone,
         pstrUsageOutsideDialTone,
         pstrUsageInsideRingTone,
@@ -399,7 +399,7 @@ const char * const ReportDescParserBase::telTitles4 [] PROGMEM ={
         pstrUsageOutsideRingback,
         pstrUsageRinger
 };
-const char * const ReportDescParserBase::telTitles5 [] PROGMEM ={
+const char * const ReportDescParserBase::telTitles5 [] PROGMEM = {
         pstrUsagePhoneKey0,
         pstrUsagePhoneKey1,
         pstrUsagePhoneKey2,
@@ -417,7 +417,7 @@ const char * const ReportDescParserBase::telTitles5 [] PROGMEM ={
         pstrUsagePhoneKeyC,
         pstrUsagePhoneKeyD
 };
-const char * const ReportDescParserBase::consTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles0[] PROGMEM = {
         pstrUsageConsumerControl,
         pstrUsageNumericKeyPad,
         pstrUsageProgrammableButton,
@@ -425,12 +425,12 @@ const char * const ReportDescParserBase::consTitles0[] PROGMEM ={
         pstrUsageHeadphone,
         pstrUsageGraphicEqualizer
 };
-const char * const ReportDescParserBase::consTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles1[] PROGMEM = {
         pstrUsagePlus10,
         pstrUsagePlus100,
         pstrUsageAMPM
 };
-const char * const ReportDescParserBase::consTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles2[] PROGMEM = {
         pstrUsagePower,
         pstrUsageReset,
         pstrUsageSleep,
@@ -440,7 +440,7 @@ const char * const ReportDescParserBase::consTitles2[] PROGMEM ={
         pstrUsageFunctionButtons
 
 };
-const char * const ReportDescParserBase::consTitles3[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles3[] PROGMEM = {
         pstrUsageMenu,
         pstrUsageMenuPick,
         pstrUsageMenuUp,
@@ -451,7 +451,7 @@ const char * const ReportDescParserBase::consTitles3[] PROGMEM ={
         pstrUsageMenuValueIncrease,
         pstrUsageMenuValueDecrease
 };
-const char * const ReportDescParserBase::consTitles4[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles4[] PROGMEM = {
         pstrUsageDataOnScreen,
         pstrUsageClosedCaption,
         pstrUsageClosedCaptionSelect,
@@ -460,7 +460,7 @@ const char * const ReportDescParserBase::consTitles4[] PROGMEM ={
         pstrUsageSnapshot,
         pstrUsageStill
 };
-const char * const ReportDescParserBase::consTitles5[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles5[] PROGMEM = {
         pstrUsageSelection,
         pstrUsageAssignSelection,
         pstrUsageModeStep,
@@ -499,7 +499,7 @@ const char * const ReportDescParserBase::consTitles5[] PROGMEM ={
         pstrUsageWeekly,
         pstrUsageMonthly
 };
-const char * const ReportDescParserBase::consTitles6[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles6[] PROGMEM = {
         pstrUsagePlay,
         pstrUsagePause,
         pstrUsageRecord,
@@ -532,7 +532,7 @@ const char * const ReportDescParserBase::consTitles6[] PROGMEM ={
         pstrUsagePlayPause,
         pstrUsagePlaySkip
 };
-const char * const ReportDescParserBase::consTitles7[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles7[] PROGMEM = {
         pstrUsageVolume,
         pstrUsageBalance,
         pstrUsageMute,
@@ -545,7 +545,7 @@ const char * const ReportDescParserBase::consTitles7[] PROGMEM ={
         pstrUsageVolumeIncrement,
         pstrUsageVolumeDecrement
 };
-const char * const ReportDescParserBase::consTitles8[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles8[] PROGMEM = {
         pstrUsageSpeedSelect,
         pstrUsagePlaybackSpeed,
         pstrUsageStandardPlay,
@@ -553,7 +553,7 @@ const char * const ReportDescParserBase::consTitles8[] PROGMEM ={
         pstrUsageExtendedPlay,
         pstrUsageSlow
 };
-const char * const ReportDescParserBase::consTitles9[] PROGMEM ={
+const char * const ReportDescParserBase::consTitles9[] PROGMEM = {
         pstrUsageFanEnable,
         pstrUsageFanSpeed,
         pstrUsageLightEnable,
@@ -569,7 +569,7 @@ const char * const ReportDescParserBase::consTitles9[] PROGMEM ={
         pstrUsageHoldupAlarm,
         pstrUsageMedicalAlarm
 };
-const char * const ReportDescParserBase::consTitlesA[] PROGMEM ={
+const char * const ReportDescParserBase::consTitlesA[] PROGMEM = {
         pstrUsageBalanceRight,
         pstrUsageBalanceLeft,
         pstrUsageBassIncrement,
@@ -577,7 +577,7 @@ const char * const ReportDescParserBase::consTitlesA[] PROGMEM ={
         pstrUsageTrebleIncrement,
         pstrUsageTrebleDecrement
 };
-const char * const ReportDescParserBase::consTitlesB[] PROGMEM ={
+const char * const ReportDescParserBase::consTitlesB[] PROGMEM = {
         pstrUsageSpeakerSystem,
         pstrUsageChannelLeft,
         pstrUsageChannelRight,
@@ -590,14 +590,14 @@ const char * const ReportDescParserBase::consTitlesB[] PROGMEM ={
         pstrUsageChannelTop,
         pstrUsageChannelUnknown
 };
-const char * const ReportDescParserBase::consTitlesC[] PROGMEM ={
+const char * const ReportDescParserBase::consTitlesC[] PROGMEM = {
         pstrUsageSubChannel,
         pstrUsageSubChannelIncrement,
         pstrUsageSubChannelDecrement,
         pstrUsageAlternateAudioIncrement,
         pstrUsageAlternateAudioDecrement
 };
-const char * const ReportDescParserBase::consTitlesD[] PROGMEM ={
+const char * const ReportDescParserBase::consTitlesD[] PROGMEM = {
         pstrUsageApplicationLaunchButtons,
         pstrUsageALLaunchButtonConfigTool,
         pstrUsageALProgrammableButton,
@@ -671,7 +671,7 @@ const char * const ReportDescParserBase::consTitlesD[] PROGMEM ={
         pstrUsageALResearchSearchBrowser,
         pstrUsageALAudioPlayer
 };
-const char * const ReportDescParserBase::consTitlesE[] PROGMEM ={
+const char * const ReportDescParserBase::consTitlesE[] PROGMEM = {
         pstrUsageGenericGUIAppControls,
         pstrUsageACNew,
         pstrUsageACOpen,
@@ -814,7 +814,7 @@ const char * const ReportDescParserBase::consTitlesE[] PROGMEM ={
         pstrUsageACDistributeHorizontaly,
         pstrUsageACDistributeVerticaly
 };
-const char * const ReportDescParserBase::digitTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::digitTitles0[] PROGMEM = {
         pstrUsageDigitizer,
         pstrUsagePen,
         pstrUsageLightPen,
@@ -829,13 +829,13 @@ const char * const ReportDescParserBase::digitTitles0[] PROGMEM ={
         pstrUsageMultiplePointDigitizer,
         pstrUsageFreeSpaceWand
 };
-const char * const ReportDescParserBase::digitTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::digitTitles1[] PROGMEM = {
         pstrUsageStylus,
         pstrUsagePuck,
         pstrUsageFinger
 
 };
-const char * const ReportDescParserBase::digitTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::digitTitles2[] PROGMEM = {
         pstrUsageTipPressure,
         pstrUsageBarrelPressure,
         pstrUsageInRange,
@@ -860,11 +860,11 @@ const char * const ReportDescParserBase::digitTitles2[] PROGMEM ={
         pstrUsageEraser,
         pstrUsageTabletPick
 };
-const char * const ReportDescParserBase::aplphanumTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::aplphanumTitles0[] PROGMEM = {
         pstrUsageAlphanumericDisplay,
         pstrUsageBitmappedDisplay
 };
-const char * const ReportDescParserBase::aplphanumTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::aplphanumTitles1[] PROGMEM = {
         pstrUsageDisplayAttributesReport,
         pstrUsageASCIICharacterSet,
         pstrUsageDataReadBack,
@@ -912,7 +912,7 @@ const char * const ReportDescParserBase::aplphanumTitles1[] PROGMEM ={
         pstrUsageCharAttributeUnderline,
         pstrUsageCharAttributeBlink
 };
-const char * const ReportDescParserBase::aplphanumTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::aplphanumTitles2[] PROGMEM = {
         pstrUsageBitmapSizeX,
         pstrUsageBitmapSizeY,
         pstrUsagePageReserved,
@@ -935,7 +935,7 @@ const char * const ReportDescParserBase::aplphanumTitles2[] PROGMEM ={
         pstrUsageSoftButtonOffset2,
         pstrUsageSoftButtonReport
 };
-const char * const ReportDescParserBase::medInstrTitles0[] PROGMEM ={
+const char * const ReportDescParserBase::medInstrTitles0[] PROGMEM = {
         pstrUsageVCRAcquisition,
         pstrUsageFreezeThaw,
         pstrUsageClipStore,
@@ -945,18 +945,18 @@ const char * const ReportDescParserBase::medInstrTitles0[] PROGMEM ={
         pstrUsagePrint,
         pstrUsageMicrophoneEnable
 };
-const char * const ReportDescParserBase::medInstrTitles1[] PROGMEM ={
+const char * const ReportDescParserBase::medInstrTitles1[] PROGMEM = {
         pstrUsageCine,
         pstrUsageTransmitPower,
         pstrUsageVolume,
         pstrUsageFocus,
         pstrUsageDepth
 };
-const char * const ReportDescParserBase::medInstrTitles2[] PROGMEM ={
+const char * const ReportDescParserBase::medInstrTitles2[] PROGMEM = {
         pstrUsageSoftStepPrimary,
         pstrUsageSoftStepSecondary
 };
-const char * const ReportDescParserBase::medInstrTitles3[] PROGMEM ={
+const char * const ReportDescParserBase::medInstrTitles3[] PROGMEM = {
         pstrUsageZoomSelect,
         pstrUsageZoomAdjust,
         pstrUsageSpectralDopplerModeSelect,
@@ -968,14 +968,14 @@ const char * const ReportDescParserBase::medInstrTitles3[] PROGMEM ={
         pstrUsage2DModeSelect,
         pstrUsage2DModeAdjust
 };
-const char * const ReportDescParserBase::medInstrTitles4[] PROGMEM ={
+const char * const ReportDescParserBase::medInstrTitles4[] PROGMEM = {
         pstrUsageSoftControlSelect,
         pstrUsageSoftControlAdjust
 };
 
 void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) {
-        uint16_t cntdn = (uint16_t) len;
-        uint8_t *p = (uint8_t*) pbuf;
+        uint16_t cntdn = (uint16_t)len;
+        uint8_t *p = (uint8_t*)pbuf;
 
 
         totalSize = 0;
@@ -1108,13 +1108,13 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         itemParseState = 3;
                 case 3:
                 {
-                        uint8_t data = *((uint8_t*) varBuffer);
+                        uint8_t data = *((uint8_t*)varBuffer);
 
                         switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
                                         if (pfUsage) {
                                                 if (theBuffer.valueSize > 1)
-                                                        pfUsage(*((uint16_t*) varBuffer));
+                                                        pfUsage(*((uint16_t*)varBuffer));
                                                 else
                                                         pfUsage(data);
                                         }
@@ -1179,7 +1179,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                 case (TYPE_MAIN | TAG_MAIN_INPUT):
                                 case (TYPE_MAIN | TAG_MAIN_OUTPUT):
                                 case (TYPE_MAIN | TAG_MAIN_FEATURE):
-                                        totalSize += (uint16_t) rptSize * (uint16_t) rptCount;
+                                        totalSize += (uint16_t)rptSize * (uint16_t)rptCount;
                                         rptSize = 0;
                                         rptCount = 0;
                                         Notify(PSTR("("), 0x80);
@@ -1193,7 +1193,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         return enErrorSuccess;
 }
 
-ReportDescParserBase::UsagePageFunc ReportDescParserBase::usagePageFunctions[] /*PROGMEM*/ ={
+ReportDescParserBase::UsagePageFunc ReportDescParserBase::usagePageFunctions[] /*PROGMEM*/ = {
         &ReportDescParserBase::PrintGenericDesktopPageUsage,
         &ReportDescParserBase::PrintSimulationControlsPageUsage,
         &ReportDescParserBase::PrintVRControlsPageUsage,
@@ -1240,13 +1240,13 @@ void ReportDescParserBase::PrintUsagePage(uint16_t page) {
         Notify(pstrSpace, 0x80);
 
         if (page > 0x00 && page < 0x11)
-                Notify((char*) pgm_read_word(&usagePageTitles0[page - 1]), 0x80);
+                Notify((char*)pgm_read_word(&usagePageTitles0[page - 1]), 0x80);
         else if (page > 0x7f && page < 0x84)
                 Notify(pstrUsagePageMonitor, 0x80);
         else if (page > 0x83 && page < 0x8c)
                 Notify(pstrUsagePagePower, 0x80);
         else if (page > 0x8b && page < 0x92)
-                Notify((char*) pgm_read_word(&usagePageTitles1[page - 0x8c]), 0x80);
+                Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]), 0x80);
         else if (page > 0xfeff && page <= 0xffff)
                 Notify(pstrUsagePageVendorDefined, 0x80);
         else
@@ -1283,15 +1283,15 @@ void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0a)
-                Notify((char*) pgm_read_word(&genDesktopTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&genDesktopTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x49)
-                Notify((char*) pgm_read_word(&genDesktopTitles1[usage - 0x30]), 0x80);
+                Notify((char*)pgm_read_word(&genDesktopTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x7f && usage < 0x94)
-                Notify((char*) pgm_read_word(&genDesktopTitles2[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_word(&genDesktopTitles2[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa9)
-                Notify((char*) pgm_read_word(&genDesktopTitles3[usage - 0xa0]), 0x80);
+                Notify((char*)pgm_read_word(&genDesktopTitles3[usage - 0xa0]), 0x80);
         else if (usage > 0xaf && usage < 0xb8)
-                Notify((char*) pgm_read_word(&genDesktopTitles4[usage - 0xb0]), 0x80);
+                Notify((char*)pgm_read_word(&genDesktopTitles4[usage - 0xb0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1300,11 +1300,11 @@ void ReportDescParserBase::PrintSimulationControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0d)
-                Notify((char*) pgm_read_word(&simuTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&simuTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x26)
-                Notify((char*) pgm_read_word(&simuTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_word(&simuTitles1[usage - 0x20]), 0x80);
         else if (usage > 0xaf && usage < 0xd1)
-                Notify((char*) pgm_read_word(&simuTitles2[usage - 0xb0]), 0x80);
+                Notify((char*)pgm_read_word(&simuTitles2[usage - 0xb0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1313,9 +1313,9 @@ void ReportDescParserBase::PrintVRControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0b)
-                Notify((char*) pgm_read_word(&vrTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&vrTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x22)
-                Notify((char*) pgm_read_word(&vrTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_word(&vrTitles1[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1324,11 +1324,11 @@ void ReportDescParserBase::PrintSportsControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x05)
-                Notify((char*) pgm_read_word(&sportsCtrlTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&sportsCtrlTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x3a)
-                Notify((char*) pgm_read_word(&sportsCtrlTitles1[usage - 0x30]), 0x80);
+                Notify((char*)pgm_read_word(&sportsCtrlTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x4f && usage < 0x64)
-                Notify((char*) pgm_read_word(&sportsCtrlTitles2[usage - 0x50]), 0x80);
+                Notify((char*)pgm_read_word(&sportsCtrlTitles2[usage - 0x50]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1337,9 +1337,9 @@ void ReportDescParserBase::PrintGameControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x04)
-                Notify((char*) pgm_read_word(&gameTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&gameTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x3a)
-                Notify((char*) pgm_read_word(&gameTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_word(&gameTitles1[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1348,7 +1348,7 @@ void ReportDescParserBase::PrintGenericDeviceControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x1f && usage < 0x27)
-                Notify((char*) pgm_read_word(&genDevCtrlTitles[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_word(&genDevCtrlTitles[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1357,7 +1357,7 @@ void ReportDescParserBase::PrintLEDPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x4e)
-                Notify((char*) pgm_read_word(&ledTitles[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&ledTitles[usage - 1]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1366,17 +1366,17 @@ void ReportDescParserBase::PrintTelephonyPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x08)
-                Notify((char*) pgm_read_word(&telTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x32)
-                Notify((char*) pgm_read_word(&telTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x4f && usage < 0x54)
-                Notify((char*) pgm_read_word(&telTitles2[usage - 0x4f]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles2[usage - 0x4f]), 0x80);
         else if (usage > 0x6f && usage < 0x75)
-                Notify((char*) pgm_read_word(&telTitles3[usage - 0x6f]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles3[usage - 0x6f]), 0x80);
         else if (usage > 0x8f && usage < 0x9f)
-                Notify((char*) pgm_read_word(&telTitles4[usage - 0x8f]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles4[usage - 0x8f]), 0x80);
         else if (usage > 0xaf && usage < 0xc0)
-                Notify((char*) pgm_read_word(&telTitles5[usage - 0xaf]), 0x80);
+                Notify((char*)pgm_read_word(&telTitles5[usage - 0xaf]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1385,35 +1385,35 @@ void ReportDescParserBase::PrintConsumerPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x07)
-                Notify((char*) pgm_read_word(&consTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*) pgm_read_word(&consTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x37)
-                Notify((char*) pgm_read_word(&consTitles2[usage - 0x2f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles2[usage - 0x2f]), 0x80);
         else if (usage > 0x3f && usage < 0x49)
-                Notify((char*) pgm_read_word(&consTitles3[usage - 0x3f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles3[usage - 0x3f]), 0x80);
         else if (usage > 0x5f && usage < 0x67)
-                Notify((char*) pgm_read_word(&consTitles4[usage - 0x5f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles4[usage - 0x5f]), 0x80);
         else if (usage > 0x7f && usage < 0xa5)
-                Notify((char*) pgm_read_word(&consTitles5[usage - 0x7f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles5[usage - 0x7f]), 0x80);
         else if (usage > 0xaf && usage < 0xcf)
-                Notify((char*) pgm_read_word(&consTitles6[usage - 0xaf]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles6[usage - 0xaf]), 0x80);
         else if (usage > 0xdf && usage < 0xeb)
-                Notify((char*) pgm_read_word(&consTitles7[usage - 0xdf]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles7[usage - 0xdf]), 0x80);
         else if (usage > 0xef && usage < 0xf6)
-                Notify((char*) pgm_read_word(&consTitles8[usage - 0xef]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles8[usage - 0xef]), 0x80);
         else if (usage > 0xff && usage < 0x10e)
-                Notify((char*) pgm_read_word(&consTitles9[usage - 0xff]), 0x80);
+                Notify((char*)pgm_read_word(&consTitles9[usage - 0xff]), 0x80);
         else if (usage > 0x14f && usage < 0x156)
-                Notify((char*) pgm_read_word(&consTitlesA[usage - 0x14f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitlesA[usage - 0x14f]), 0x80);
         else if (usage > 0x15f && usage < 0x16b)
-                Notify((char*) pgm_read_word(&consTitlesB[usage - 0x15f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitlesB[usage - 0x15f]), 0x80);
         else if (usage > 0x16f && usage < 0x175)
-                Notify((char*) pgm_read_word(&consTitlesC[usage - 0x16f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitlesC[usage - 0x16f]), 0x80);
         else if (usage > 0x17f && usage < 0x1c8)
-                Notify((char*) pgm_read_word(&consTitlesD[usage - 0x17f]), 0x80);
+                Notify((char*)pgm_read_word(&consTitlesD[usage - 0x17f]), 0x80);
         else if (usage > 0x1ff && usage < 0x29d)
-                Notify((char*) pgm_read_word(&consTitlesE[usage - 0x1ff]), 0x80);
+                Notify((char*)pgm_read_word(&consTitlesE[usage - 0x1ff]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1422,11 +1422,11 @@ void ReportDescParserBase::PrintDigitizerPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0e)
-                Notify((char*) pgm_read_word(&digitTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&digitTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*) pgm_read_word(&digitTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_word(&digitTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x47)
-                Notify((char*) pgm_read_word(&digitTitles2[usage - 0x2f]), 0x80);
+                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x2f]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1435,11 +1435,11 @@ void ReportDescParserBase::PrintAlphanumDisplayPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x03)
-                Notify((char*) pgm_read_word(&aplphanumTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_word(&aplphanumTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x4e)
-                Notify((char*) pgm_read_word(&aplphanumTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_word(&aplphanumTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x7f && usage < 0x96)
-                Notify((char*) pgm_read_word(&digitTitles2[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x80]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1450,17 +1450,17 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
         if (usage == 1)
                 Notify(pstrUsageMedicalUltrasound, 0x80);
         else if (usage > 0x1f && usage < 0x28)
-                Notify((char*) pgm_read_word(&medInstrTitles0[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_word(&medInstrTitles0[usage - 0x1f]), 0x80);
         else if (usage > 0x3f && usage < 0x45)
-                Notify((char*) pgm_read_word(&medInstrTitles1[usage - 0x40]), 0x80);
+                Notify((char*)pgm_read_word(&medInstrTitles1[usage - 0x40]), 0x80);
         else if (usage > 0x5f && usage < 0x62)
-                Notify((char*) pgm_read_word(&medInstrTitles2[usage - 0x60]), 0x80);
+                Notify((char*)pgm_read_word(&medInstrTitles2[usage - 0x60]), 0x80);
         else if (usage == 0x70)
                 Notify(pstrUsageDepthGainCompensation, 0x80);
         else if (usage > 0x7f && usage < 0x8a)
-                Notify((char*) pgm_read_word(&medInstrTitles3[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_word(&medInstrTitles3[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa2)
-                Notify((char*) pgm_read_word(&medInstrTitles4[usage - 0xa0]), 0x80);
+                Notify((char*)pgm_read_word(&medInstrTitles4[usage - 0xa0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1497,13 +1497,13 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         itemParseState = 3;
                 case 3:
                 {
-                        uint8_t data = *((uint8_t*) varBuffer);
+                        uint8_t data = *((uint8_t*)varBuffer);
 
                         switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
                                         if (pfUsage) {
                                                 if (theBuffer.valueSize > 1)
-                                                        pfUsage(*((uint16_t*) varBuffer));
+                                                        pfUsage(*((uint16_t*)varBuffer));
                                                 else
                                                         pfUsage(data);
                                         }
@@ -1536,7 +1536,7 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                 case (TYPE_MAIN | TAG_MAIN_INPUT):
                                         OnInputItem(data);
 
-                                        totalSize += (uint16_t) rptSize * (uint16_t) rptCount;
+                                        totalSize += (uint16_t)rptSize * (uint16_t)rptCount;
 
                                         rptSize = 0;
                                         rptCount = 0;

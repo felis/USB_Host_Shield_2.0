@@ -79,7 +79,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
@@ -94,7 +94,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -118,7 +118,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
@@ -226,7 +226,7 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
         // Fill in the endpoint info structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t) pep->wMaxPacketSize;
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
         epInfo[index].epAttribs = 0;
 
         bNumEP++;
@@ -304,11 +304,11 @@ uint8_t ACM::ClearCommFeature(uint16_t fid) {
 }
 
 uint8_t ACM::SetLineCoding(const LINE_CODING *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*) dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
 }
 
 uint8_t ACM::GetLineCoding(LINE_CODING *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*) dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
 }
 
 uint8_t ACM::SetControlLineState(uint8_t state) {

@@ -43,7 +43,7 @@ bool PTPListParser::Parse(uint8_t **pp, uint16_t *pcntdn, PTP_ARRAY_EL_FUNC pf, 
                                 return false;
 
                         arLen = 0;
-                        arLen = (pBuf->valueSize >= 4) ? *((uint32_t*) pBuf->pValue) : (uint32_t) (*((uint16_t*) pBuf->pValue));
+                        arLen = (pBuf->valueSize >= 4) ? *((uint32_t*)pBuf->pValue) : (uint32_t)(*((uint16_t*)pBuf->pValue));
                         arLenCntdn = arLen;
                         nStage = 2;
 

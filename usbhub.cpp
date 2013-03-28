@@ -74,7 +74,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         p->lowspeed = lowspeed;
 
                         // Get device descriptor
-                        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*) buf);
+                        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*)buf);
 
                         p->lowspeed = false;
 
@@ -89,17 +89,17 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
                         // Extract device class from device descriptor
                         // If device class is not a hub return
-                        if (((USB_DEVICE_DESCRIPTOR*) buf)->bDeviceClass != 0x09)
+                        if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass != 0x09)
                                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
                         // Allocate new address according to device class
-                        bAddress = addrPool.AllocAddress(parent, (((USB_DEVICE_DESCRIPTOR*) buf)->bDeviceClass == 0x09) ? true : false, port);
+                        bAddress = addrPool.AllocAddress(parent, (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x09) ? true : false, port);
 
                         if (!bAddress)
                                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
                         // Extract Max Packet Size from the device descriptor
-                        epInfo[0].maxPktSize = ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+                        epInfo[0].maxPktSize = ((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
                         // Assign new address to the device
                         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -118,7 +118,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         p->epinfo = oldep_ptr;
 
                         if (len)
-                                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*) buf);
+                                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*)buf);
 
                         if (rcode)
                                 goto FailGetDevDescr;
@@ -139,7 +139,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                 goto FailGetHubDescr;
 
                         // Save number of ports for future use
-                        bNbrPorts = ((HubDescriptor*) buf)->bNbrPorts;
+                        bNbrPorts = ((HubDescriptor*)buf)->bNbrPorts;
 
                         bInitState = 2;
 
@@ -148,7 +148,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         rcode = pUsb->getConfDescr(bAddress, 0, 8, 0, buf);
 
                         if (!rcode) {
-                                cd_len = ((USB_CONFIGURATION_DESCRIPTOR*) buf)->wTotalLength;
+                                cd_len = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
                                 rcode = pUsb->getConfDescr(bAddress, 0, cd_len, 0, buf);
                         }
                         if (rcode)

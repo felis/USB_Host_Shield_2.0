@@ -82,7 +82,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
@@ -97,7 +97,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -121,7 +121,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
@@ -220,7 +220,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                         PrintHex<uint8_t > (capacity.data[i], 0x80);
                                 Notify(PSTR("\r\n\r\n"), 0x80);
                                 // Only 512/1024/2048/4096 are valid values!
-                                uint32_t c = ((uint32_t) capacity.data[4] << 24) + ((uint32_t) capacity.data[5] << 16) + ((uint32_t) capacity.data[6] << 8) + (uint32_t) capacity.data[7];
+                                uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
                                 if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
                                         rcode = 255;
                                         goto FailInvalidSectorSize;
@@ -354,7 +354,7 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
 
         // Fill in the endpoint info structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t) pep->wMaxPacketSize;
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
         epInfo[index].epAttribs = 0;
 
         bNumEP++;
@@ -611,7 +611,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t) bsize * blocks);
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
         cbw.bmCBWFlags = MASS_CMD_DIR_IN,
                 cbw.bmCBWLUN = lun;
         cbw.bmCBWCBLength = 10;
@@ -638,7 +638,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t) bsize * blocks);
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
         cbw.bmCBWFlags = MASS_CMD_DIR_IN,
                 cbw.bmCBWLUN = lun;
         cbw.bmCBWCBLength = 10;
@@ -666,7 +666,7 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t) bsize * blocks);
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
         cbw.bmCBWFlags = MASS_CMD_DIR_OUT,
                 cbw.bmCBWLUN = lun;
         cbw.bmCBWCBLength = 10;
@@ -681,7 +681,7 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         cbw.CBWCB[3] = ((addr >> 16) & 0xff);
         cbw.CBWCB[2] = ((addr >> 24) & 0xff);
 
-        return HandleSCSIError(Transaction(&cbw, bsize, (void*) buf, 0));
+        return HandleSCSIError(Transaction(&cbw, bsize, (void*)buf, 0));
 }
 
 uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *pbuf) {
@@ -714,7 +714,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
 
         ErrorMessage<uint8_t > (PSTR("CBW.dCBWTag"), pcbw->dCBWTag);
 
-        ret = HandleUsbError(pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*) pcbw), epDataOutIndex);
+        ret = HandleUsbError(pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw), epDataOutIndex);
 
         if (ret) {
                 ErrorMessage<uint8_t > (PSTR("CBW"), ret);
@@ -732,16 +732,16 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                                 uint8_t rbuf[read];
                                 uint8_t err = 0;
                                 ret = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &read, rbuf);
-                                if (ret == hrSUCCESS) ((USBReadParser*) buf)->Parse(read, rbuf, 0);
+                                if (ret == hrSUCCESS) ((USBReadParser*)buf)->Parse(read, rbuf, 0);
                                 if (ret == hrSTALL) err = ClearEpHalt(epDataInIndex);
                                 if (ret) {
                                         ErrorMessage<uint8_t > (PSTR("RDR"), err);
                                         return MASS_ERR_GENERAL_USB_ERROR;
                                 }
                         } else
-                                ret = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &read, (uint8_t*) buf);
+                                ret = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &read, (uint8_t*)buf);
                 } else
-                        ret = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, read, (uint8_t*) buf);
+                        ret = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, read, (uint8_t*)buf);
 
                 ret = HandleUsbError(ret, (pcbw->bmCBWFlags & MASS_CMD_DIR_IN) ? epDataInIndex : epDataOutIndex);
 
@@ -798,7 +798,7 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
 
         switch (status) {
                 case 0: return MASS_ERR_SUCCESS;
-                //case 4: return MASS_ERR_UNIT_BUSY;
+                        //case 4: return MASS_ERR_UNIT_BUSY;
                 case 2:
                         ErrorMessage<uint8_t > (PSTR("Phase"), status);
                         ResetRecovery();

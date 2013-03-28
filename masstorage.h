@@ -104,7 +104,7 @@ struct Capacity {
         uint8_t data[8];
         //uint32_t dwBlockAddress;
         //uint32_t dwBlockLength;
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct InquiryResponse {
         uint8_t DeviceType : 5;
@@ -136,14 +136,14 @@ struct InquiryResponse {
         uint8_t VendorID[8];
         uint8_t ProductID[16];
         uint8_t RevisionID[4];
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct CommandBlockWrapperBase {
         uint32_t dCBWSignature;
         uint32_t dCBWTag;
         uint32_t dCBWDataTransferLength;
         uint8_t bmCBWFlags;
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct CommandBlockWrapper : public CommandBlockWrapperBase {
 
@@ -158,14 +158,14 @@ struct CommandBlockWrapper : public CommandBlockWrapperBase {
         };
 
         uint8_t CBWCB[16];
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct CommandStatusWrapper {
         uint32_t dCSWSignature;
         uint32_t dCSWTag;
         uint32_t dCSWDataResidue;
         uint8_t bCSWStatus;
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct RequestSenseResponce {
         uint8_t bResponseCode;
@@ -184,7 +184,7 @@ struct RequestSenseResponce {
         uint8_t bAdditionalSenseQualifier;
         uint8_t bFieldReplaceableUnitCode;
         uint8_t SenseKeySpecific[3];
-}__attribute__((packed));
+} __attribute__((packed));
 
 #define MASS_MAX_ENDPOINTS		3
 

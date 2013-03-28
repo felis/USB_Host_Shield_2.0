@@ -32,7 +32,7 @@ e-mail   :  support@circuitsathome.com
 struct MultiValueBuffer {
         uint8_t valueSize;
         void *pValue;
-}__attribute__((packed));
+} __attribute__((packed));
 
 class MultiByteValueParser {
         uint8_t * pBuf;
@@ -72,17 +72,17 @@ public:
         };
 
         bool Skip(uint8_t **pp, uint16_t *pcntdn, uint16_t bytes_to_skip) {
-                switch (nStage) {
+                switch(nStage) {
                         case 0:
                                 countDown = bytes_to_skip;
                                 nStage++;
                         case 1:
-                                for (; countDown && (*pcntdn); countDown--, (*pp)++, (*pcntdn)--);
+                                for(; countDown && (*pcntdn); countDown--, (*pp)++, (*pcntdn)--);
 
-                                if (!countDown)
+                                if(!countDown)
                                         nStage = 0;
                 };
-                return (!countDown);
+                return(!countDown);
         };
 };
 
@@ -132,7 +132,7 @@ public:
                 valSize = val_size;
                 prsMode = mode;
 
-                if (prsMode == modeRange) {
+                if(prsMode == modeRange) {
                         arLenCntdn = arLen = 3;
                         nStage = 2;
                 } else {

@@ -1,15 +1,15 @@
 /* Copyright (C) 2012 Kristian Lauszus, TKJ Electronics. All rights reserved.
- 
+
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
  Foundation and appearing in the file GPL2.TXT included in the packaging of
  this file. Please note that GPL2 Section 2[b] requires that all works based
  on this software must also be made publicly available under the terms of
  the GPL2 ("Copyleft").
- 
+
  Contact information
  -------------------
- 
+
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
@@ -39,7 +39,7 @@
 #define L2CAP_CONTROL_CONNECT_REQUEST   3
 #define L2CAP_CONTROL_CONFIG_REQUEST    4
 #define L2CAP_INTERRUPT_CONNECT_REQUEST 5
- 
+
 #define L2CAP_INTERRUPT_CONFIG_REQUEST  6
 
 #define L2CAP_CHECK_MOTION_PLUS_STATE   7
@@ -82,10 +82,10 @@
 
 /** Enum used to read the joystick on the Nunchuck. */
 enum Hat {
-    /** Read the x-axis on the Nunchuck joystick. */
-    HatX = 0,
-    /** Read the y-axis on the Nunchuck joystick. */
-    HatY = 1,
+        /** Read the x-axis on the Nunchuck joystick. */
+        HatX = 0,
+        /** Read the y-axis on the Nunchuck joystick. */
+        HatY = 1,
 };
 
 /**
@@ -95,347 +95,394 @@ enum Hat {
  */
 class WII : public BluetoothService {
 public:
-    /**
-     * Constructor for the WII class.
-     * @param  p   Pointer to BTD class instance.
-     * @param  pair   Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it.
-     * One can use ::PAIR to set it to true.
-     */
-    WII(BTD *p, bool pair=false);
+        /**
+         * Constructor for the WII class.
+         * @param  p   Pointer to BTD class instance.
+         * @param  pair   Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it.
+         * One can use ::PAIR to set it to true.
+         */
+        WII(BTD *p, bool pair = false);
 
-    /** @name BluetoothService implementation */
-    /**
-     * Used to pass acldata to the services.
-     * @param ACLData Incoming acldata.
-     */
-    virtual void ACLData(uint8_t* ACLData);
-    /** Used to run part of the state maschine. */
-    virtual void Run();
-    /** Use this to reset the service. */
-    virtual void Reset();
-    /** Used this to disconnect any of the controllers. */
-    virtual void disconnect();
-    /**@}*/
+        /** @name BluetoothService implementation */
+        /**
+         * Used to pass acldata to the services.
+         * @param ACLData Incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData);
+        /** Used to run part of the state maschine. */
+        virtual void Run();
+        /** Use this to reset the service. */
+        virtual void Reset();
+        /** Used this to disconnect any of the controllers. */
+        virtual void disconnect();
+        /**@}*/
 
-    /** @name Wii Controller functions */
-    /**
-     * getButtonPress(Button b) will return true as long as the button is held down.
-     * 
-     * While getButtonClick(Button b) will only return it once.
-     * 
-     * So you instance if you need to increase a variable once you would use getButtonClick(Button b), 
-     * but if you need to drive a robot forward you would use getButtonPress(Button b).
-     */
-    bool getButtonPress(Button b);
-    bool getButtonClick(Button b);
-    /**@}*/
+        /** @name Wii Controller functions */
+        /**
+         * getButtonPress(Button b) will return true as long as the button is held down.
+         *
+         * While getButtonClick(Button b) will only return it once.
+         *
+         * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
+         * but if you need to drive a robot forward you would use getButtonPress(Button b).
+         */
+        bool getButtonPress(Button b);
+        bool getButtonClick(Button b);
+        /**@}*/
 
-    /** @name Wii Controller functions */
-    /**
-     * Used to read the joystick of the Nunchuck.
-     * @param  a Either ::HatX or ::HatY.
-     * @return   Return the analog value in the range from approximately 25-230.
-     */
-    uint8_t getAnalogHat(Hat a);
-    /**
-     * Used to read the joystick of the Wii U Pro Controller.
-     * @param  a Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
-     * @return   Return the analog value in the range from approximately 800-3200.
-     */
-    uint16_t getAnalogHat(AnalogHat a);
+        /** @name Wii Controller functions */
+        /**
+         * Used to read the joystick of the Nunchuck.
+         * @param  a Either ::HatX or ::HatY.
+         * @return   Return the analog value in the range from approximately 25-230.
+         */
+        uint8_t getAnalogHat(Hat a);
+        /**
+         * Used to read the joystick of the Wii U Pro Controller.
+         * @param  a Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
+         * @return   Return the analog value in the range from approximately 800-3200.
+         */
+        uint16_t getAnalogHat(AnalogHat a);
 
-    /**
-     * Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
-     * @return Pitch in the range from 0-360.
-     */
-    double getPitch() { return pitch; };
-    /**
-     * Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
-     * @return Roll in the range from 0-360.
-     */
-    double getRoll() { return roll; };
-    /**
-     * This is the yaw calculated by the gyro.
-     * 
-     * <B>NOTE:</B> This angle will drift a lot and is only available if the Motion Plus extension is connected.
-     * @return The angle calculated using the gyro.
-     */
-    double getYaw() { return gyroYaw; };
-    
-    /** Used to set all LEDs and rumble off. */
-    void setAllOff();
-    /** Turn off rumble. */
-    void setRumbleOff();
-    /** Turn on rumble. */
-    void setRumbleOn();
-    /** Toggle rumble. */
-    void setRumbleToggle();
-    /**
-     * Turn the specific ::LED off.
-     * @param a The ::LED to turn off.
-     */
-    void setLedOff(LED a);
-    /**
-     * Turn the specific ::LED on.
-     * @param a The ::LED to turn on.
-     */
-    void setLedOn(LED a);
-    /**
-     * Toggle the specific ::LED.
-     * @param a The ::LED to toggle.
-     */
-    void setLedToggle(LED a);
-    /**
-     * This will set the LEDs, so the user can see which connections are active.
-     * 
-     * The first ::LED indicate that the Wiimote is connected,
-     * 
-     * the second ::LED indicate indicate that a Motion Plus is also connected
-     * 
-     * the third ::LED will indicate that a Nunchuck controller is also connected.
-     */
-    void setLedStatus();
+        /**
+         * Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
+         * @return Pitch in the range from 0-360.
+         */
+        double getPitch() {
+                return pitch;
+        };
 
-    /**
-     * Return the battery level of the Wiimote.
-     * @return The battery level in the range 0-255.
-     */
-    uint8_t getBatteryLevel() { return batteryLevel; };
-    /**
-     * Return the Wiimote state.
-     * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
-     */
-    uint8_t getWiiState() { return wiiState; };
-    /**@}*/
+        /**
+         * Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
+         * @return Roll in the range from 0-360.
+         */
+        double getRoll() {
+                return roll;
+        };
 
-    /**@{*/    
-    /** Variable used to indicate if a Wiimote is connected. */
-    bool wiimoteConnected;
-    /** Variable used to indicate if a Nunchuck controller is connected. */
-    bool nunchuckConnected;
-    /** Variable used to indicate if a Nunchuck controller is connected. */
-    bool motionPlusConnected;
-    /** Variable used to indicate if a Wii U Pro controller is connected. */
-    bool wiiUProControllerConnected;
-    /**@}*/
-    
-    /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
-    
-    /**@{*/
-    /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
-    double wiimotePitch;
-    double wiimoteRoll;
-    /**@}*/
+        /**
+         * This is the yaw calculated by the gyro.
+         *
+         * <B>NOTE:</B> This angle will drift a lot and is only available if the Motion Plus extension is connected.
+         * @return The angle calculated using the gyro.
+         */
+        double getYaw() {
+                return gyroYaw;
+        };
 
-    /**@{*/
-    /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
-    double nunchuckPitch;
-    double nunchuckRoll;
-    /**@}*/
+        /** Used to set all LEDs and rumble off. */
+        void setAllOff();
+        /** Turn off rumble. */
+        void setRumbleOff();
+        /** Turn on rumble. */
+        void setRumbleOn();
+        /** Toggle rumble. */
+        void setRumbleToggle();
+        /**
+         * Turn the specific ::LED off.
+         * @param a The ::LED to turn off.
+         */
+        void setLedOff(LED a);
+        /**
+         * Turn the specific ::LED on.
+         * @param a The ::LED to turn on.
+         */
+        void setLedOn(LED a);
+        /**
+         * Toggle the specific ::LED.
+         * @param a The ::LED to toggle.
+         */
+        void setLedToggle(LED a);
+        /**
+         * This will set the LEDs, so the user can see which connections are active.
+         *
+         * The first ::LED indicate that the Wiimote is connected,
+         *
+         * the second ::LED indicate indicate that a Motion Plus is also connected
+         *
+         * the third ::LED will indicate that a Nunchuck controller is also connected.
+         */
+        void setLedStatus();
 
-    /**@{*/
-    /** Accelerometer values used to calculate pitch and roll. */
-    int16_t accX;
-    int16_t accY;
-    int16_t accZ;
-    /**@}*/
+        /**
+         * Return the battery level of the Wiimote.
+         * @return The battery level in the range 0-255.
+         */
+        uint8_t getBatteryLevel() {
+                return batteryLevel;
+        };
 
-    /* Variables for the gyro inside the Motion Plus */
-    /** This is the pitch calculated by the gyro - use this to tune WII#pitchGyroScale. */
-    double gyroPitch;
-    /** This is the roll calculated by the gyro - use this to tune WII#rollGyroScale. */
-    double gyroRoll;
-    /** This is the yaw calculated by the gyro - use this to tune WII#yawGyroScale. */
-    double gyroYaw;
+        /**
+         * Return the Wiimote state.
+         * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
+         */
+        uint8_t getWiiState() {
+                return wiiState;
+        };
+        /**@}*/
 
-    /**@{*/
-    /** The speed in deg/s from the gyro. */
-    double pitchGyroSpeed;
-    double rollGyroSpeed;
-    double yawGyroSpeed;
-    /**@}*/
-    
-    /**@{*/
-    /** You might need to fine-tune these values. */
-    uint16_t pitchGyroScale;
-    uint16_t rollGyroScale;
-    uint16_t yawGyroScale;
-    /**@}*/
-    
-    /**@{*/
-    /** Raw value read directly from the Motion Plus. */
-    int16_t gyroYawRaw;
-    int16_t gyroRollRaw;
-    int16_t gyroPitchRaw;
-    /**@}*/
-    
-    /**@{*/
-    /** These values are set when the controller is first initialized. */
-    int16_t gyroYawZero;
-    int16_t gyroRollZero;
-    int16_t gyroPitchZero;
-    /**@}*/
+        /**@{*/
+        /** Variable used to indicate if a Wiimote is connected. */
+        bool wiimoteConnected;
+        /** Variable used to indicate if a Nunchuck controller is connected. */
+        bool nunchuckConnected;
+        /** Variable used to indicate if a Nunchuck controller is connected. */
+        bool motionPlusConnected;
+        /** Variable used to indicate if a Wii U Pro controller is connected. */
+        bool wiiUProControllerConnected;
+        /**@}*/
+
+        /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
+
+        /**@{*/
+        /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
+        double wiimotePitch;
+        double wiimoteRoll;
+        /**@}*/
+
+        /**@{*/
+        /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
+        double nunchuckPitch;
+        double nunchuckRoll;
+        /**@}*/
+
+        /**@{*/
+        /** Accelerometer values used to calculate pitch and roll. */
+        int16_t accX;
+        int16_t accY;
+        int16_t accZ;
+        /**@}*/
+
+        /* Variables for the gyro inside the Motion Plus */
+        /** This is the pitch calculated by the gyro - use this to tune WII#pitchGyroScale. */
+        double gyroPitch;
+        /** This is the roll calculated by the gyro - use this to tune WII#rollGyroScale. */
+        double gyroRoll;
+        /** This is the yaw calculated by the gyro - use this to tune WII#yawGyroScale. */
+        double gyroYaw;
+
+        /**@{*/
+        /** The speed in deg/s from the gyro. */
+        double pitchGyroSpeed;
+        double rollGyroSpeed;
+        double yawGyroSpeed;
+        /**@}*/
+
+        /**@{*/
+        /** You might need to fine-tune these values. */
+        uint16_t pitchGyroScale;
+        uint16_t rollGyroScale;
+        uint16_t yawGyroScale;
+        /**@}*/
+
+        /**@{*/
+        /** Raw value read directly from the Motion Plus. */
+        int16_t gyroYawRaw;
+        int16_t gyroRollRaw;
+        int16_t gyroPitchRaw;
+        /**@}*/
+
+        /**@{*/
+        /** These values are set when the controller is first initialized. */
+        int16_t gyroYawZero;
+        int16_t gyroRollZero;
+        int16_t gyroPitchZero;
+        /**@}*/
 
 #ifdef WIICAMERA
-    /** @name Wiimote IR camera functions
-     * You will have to uncomment #WIICAMERA in Wii.h to use the IR camera.
-     */
-    /** Initialises the camera as per the steps from: http://wiibrew.org/wiki/Wiimote#IR_Camera */
-    void IRinitialize();
+        /** @name Wiimote IR camera functions
+         * You will have to uncomment #WIICAMERA in Wii.h to use the IR camera.
+         */
+        /** Initialises the camera as per the steps from: http://wiibrew.org/wiki/Wiimote#IR_Camera */
+        void IRinitialize();
 
-    /**
-     * IR object 1 x-position read from the Wii IR camera.
-     * @return The x-position of the object in the range 0-1023.
-     */
-    uint16_t getIRx1() { return IR_object_x1; };
-    /**
-     * IR object 1 y-position read from the Wii IR camera.
-     * @return The y-position of the object in the range 0-767.
-     */
-    uint16_t getIRy1() { return IR_object_y1; };
-    /**
-     * IR object 1 size read from the Wii IR camera.
-     * @return The size of the object in the range 0-15.
-     */
-    uint8_t getIRs1() { return IR_object_s1; };
+        /**
+         * IR object 1 x-position read from the Wii IR camera.
+         * @return The x-position of the object in the range 0-1023.
+         */
+        uint16_t getIRx1() {
+                return IR_object_x1;
+        };
 
-    /**
-     * IR object 2 x-position read from the Wii IR camera.
-     * @return The x-position of the object in the range 0-1023.
-     */
-    uint16_t getIRx2() { return IR_object_x2; };
-    /**
-     * IR object 2 y-position read from the Wii IR camera.
-     * @return The y-position of the object in the range 0-767.
-     */
-    uint16_t getIRy2() { return IR_object_y2; };
-    /**
-     * IR object 2 size read from the Wii IR camera.
-     * @return The size of the object in the range 0-15.
-     */
-    uint8_t getIRs2() { return IR_object_s2; };
+        /**
+         * IR object 1 y-position read from the Wii IR camera.
+         * @return The y-position of the object in the range 0-767.
+         */
+        uint16_t getIRy1() {
+                return IR_object_y1;
+        };
 
-    /**
-     * IR object 3 x-position read from the Wii IR camera.
-     * @return The x-position of the object in the range 0-1023.
-     */
-    uint16_t getIRx3() { return IR_object_x3; };
-    /**
-     * IR object 3 y-position read from the Wii IR camera.
-     * @return The y-position of the object in the range 0-767.
-     */
-    uint16_t getIRy3() { return IR_object_y3; };
-    /**
-     * IR object 3 size read from the Wii IR camera.
-     * @return The size of the object in the range 0-15.
-     */
-    uint8_t getIRs3() { return IR_object_s3; };
+        /**
+         * IR object 1 size read from the Wii IR camera.
+         * @return The size of the object in the range 0-15.
+         */
+        uint8_t getIRs1() {
+                return IR_object_s1;
+        };
 
-    /**
-     * IR object 4 x-position read from the Wii IR camera.
-     * @return The x-position of the object in the range 0-1023.
-     */
-    uint16_t getIRx4() { return IR_object_x4; };
-    /**
-     * IR object 4 y-position read from the Wii IR camera.
-     * @return The y-position of the object in the range 0-767.
-     */
-    uint16_t getIRy4() { return IR_object_y4; };
-    /**
-     * IR object 4 size read from the Wii IR camera.
-     * @return The size of the object in the range 0-15.
-     */
-    uint8_t getIRs4() { return IR_object_s4; };
+        /**
+         * IR object 2 x-position read from the Wii IR camera.
+         * @return The x-position of the object in the range 0-1023.
+         */
+        uint16_t getIRx2() {
+                return IR_object_x2;
+        };
 
-    /**
-     * Use this to check if the camera is enabled or not.
-     * If not call WII#IRinitialize to initialize the IR camera.
-     * @return     True if it's enabled, false if not.
-     */
-    bool isIRCameraEnabled() { return (wiiState & 0x08); };
-    /**@}*/
+        /**
+         * IR object 2 y-position read from the Wii IR camera.
+         * @return The y-position of the object in the range 0-767.
+         */
+        uint16_t getIRy2() {
+                return IR_object_y2;
+        };
+
+        /**
+         * IR object 2 size read from the Wii IR camera.
+         * @return The size of the object in the range 0-15.
+         */
+        uint8_t getIRs2() {
+                return IR_object_s2;
+        };
+
+        /**
+         * IR object 3 x-position read from the Wii IR camera.
+         * @return The x-position of the object in the range 0-1023.
+         */
+        uint16_t getIRx3() {
+                return IR_object_x3;
+        };
+
+        /**
+         * IR object 3 y-position read from the Wii IR camera.
+         * @return The y-position of the object in the range 0-767.
+         */
+        uint16_t getIRy3() {
+                return IR_object_y3;
+        };
+
+        /**
+         * IR object 3 size read from the Wii IR camera.
+         * @return The size of the object in the range 0-15.
+         */
+        uint8_t getIRs3() {
+                return IR_object_s3;
+        };
+
+        /**
+         * IR object 4 x-position read from the Wii IR camera.
+         * @return The x-position of the object in the range 0-1023.
+         */
+        uint16_t getIRx4() {
+                return IR_object_x4;
+        };
+
+        /**
+         * IR object 4 y-position read from the Wii IR camera.
+         * @return The y-position of the object in the range 0-767.
+         */
+        uint16_t getIRy4() {
+                return IR_object_y4;
+        };
+
+        /**
+         * IR object 4 size read from the Wii IR camera.
+         * @return The size of the object in the range 0-15.
+         */
+        uint8_t getIRs4() {
+                return IR_object_s4;
+        };
+
+        /**
+         * Use this to check if the camera is enabled or not.
+         * If not call WII#IRinitialize to initialize the IR camera.
+         * @return     True if it's enabled, false if not.
+         */
+        bool isIRCameraEnabled() {
+                return(wiiState & 0x08);
+        };
+        /**@}*/
 #endif
-    
+
 private:
-    /* Mandatory members */
-    BTD *pBtd;
-    
-    void L2CAP_task(); // L2CAP state machine
-    
-    /* Variables filled from HCI event management */
-    uint16_t hci_handle;
-    bool activeConnection; // Used to indicate if it's already has established a connection
-    
-    /* variables used by high level L2CAP task */    
-    uint8_t l2cap_state;
-    uint16_t l2cap_event_flag;// l2cap flags of received bluetooth events    
-    
-    uint32_t ButtonState;
-    uint32_t OldButtonState;
-    uint32_t ButtonClickState;
-    uint16_t hatValues[4];
-    
-    uint8_t HIDBuffer[3];// Used to store HID commands
-    
-    uint16_t stateCounter;
-    bool unknownExtensionConnected;
-    bool extensionConnected;
-    
-    /* L2CAP Channels */
-    uint8_t control_scid[2]; // L2CAP source CID for HID_Control
-    uint8_t control_dcid[2]; // 0x0060
-    uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
-    uint8_t interrupt_dcid[2]; // 0x0061
-    uint8_t identifier; // Identifier for connection
-    
-    /* HID Commands */
-    void HID_Command(uint8_t* data, uint8_t nbytes);
-    void setReportMode(bool continuous, uint8_t mode);
-    void statusRequest();
-    
-    void writeData(uint32_t offset, uint8_t size, uint8_t* data);
-    void initExtension1();
-    void initExtension2();
-    
-    void readData(uint32_t offset, uint16_t size, bool EEPROM);
-    void readExtensionType();
-    void readCalData();
-    
-    void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
-    void initMotionPlus();
-    void activateMotionPlus();
+        /* Mandatory members */
+        BTD *pBtd;
 
-    double pitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
-    double roll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
-    
-    bool activateNunchuck;
-    bool motionValuesReset; // This bool is true when the gyro values has been reset
-    unsigned long timer;
+        void L2CAP_task(); // L2CAP state machine
 
-    uint8_t wiiState; // Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
-    uint8_t batteryLevel;
-    
+        /* Variables filled from HCI event management */
+        uint16_t hci_handle;
+        bool activeConnection; // Used to indicate if it's already has established a connection
+
+        /* variables used by high level L2CAP task */
+        uint8_t l2cap_state;
+        uint16_t l2cap_event_flag; // l2cap flags of received bluetooth events
+
+        uint32_t ButtonState;
+        uint32_t OldButtonState;
+        uint32_t ButtonClickState;
+        uint16_t hatValues[4];
+
+        uint8_t HIDBuffer[3]; // Used to store HID commands
+
+        uint16_t stateCounter;
+        bool unknownExtensionConnected;
+        bool extensionConnected;
+
+        /* L2CAP Channels */
+        uint8_t control_scid[2]; // L2CAP source CID for HID_Control
+        uint8_t control_dcid[2]; // 0x0060
+        uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
+        uint8_t interrupt_dcid[2]; // 0x0061
+        uint8_t identifier; // Identifier for connection
+
+        /* HID Commands */
+        void HID_Command(uint8_t* data, uint8_t nbytes);
+        void setReportMode(bool continuous, uint8_t mode);
+        void statusRequest();
+
+        void writeData(uint32_t offset, uint8_t size, uint8_t* data);
+        void initExtension1();
+        void initExtension2();
+
+        void readData(uint32_t offset, uint16_t size, bool EEPROM);
+        void readExtensionType();
+        void readCalData();
+
+        void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
+        void initMotionPlus();
+        void activateMotionPlus();
+
+        double pitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        double roll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+
+        bool activateNunchuck;
+        bool motionValuesReset; // This bool is true when the gyro values has been reset
+        unsigned long timer;
+
+        uint8_t wiiState; // Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
+        uint8_t batteryLevel;
+
 #ifdef WIICAMERA
-    /* Private function and variables for the readings from teh IR Camera */
-    void enableIRCamera1(); // Sets bit 2 of output report 13 
-    void enableIRCamera2(); // Sets bit 2 of output report 1A
-    void writeSensitivityBlock1();
-    void writeSensitivityBlock2();
-    void write0x08Value();
-    void setWiiModeNumber(uint8_t mode_number);
-    
-    uint16_t IR_object_x1; // IR x position 10 bits
-    uint16_t IR_object_y1; // IR y position 10 bits
-    uint8_t IR_object_s1; // IR size value
-    uint16_t IR_object_x2;
-    uint16_t IR_object_y2;
-    uint8_t IR_object_s2;
-    uint16_t IR_object_x3; // IR x position 10 bits
-    uint16_t IR_object_y3; // IR y position 10 bits
-    uint8_t IR_object_s3; // IR size value
-    uint16_t IR_object_x4;
-    uint16_t IR_object_y4;
-    uint8_t IR_object_s4;
+        /* Private function and variables for the readings from teh IR Camera */
+        void enableIRCamera1(); // Sets bit 2 of output report 13
+        void enableIRCamera2(); // Sets bit 2 of output report 1A
+        void writeSensitivityBlock1();
+        void writeSensitivityBlock2();
+        void write0x08Value();
+        void setWiiModeNumber(uint8_t mode_number);
+
+        uint16_t IR_object_x1; // IR x position 10 bits
+        uint16_t IR_object_y1; // IR y position 10 bits
+        uint8_t IR_object_s1; // IR size value
+        uint16_t IR_object_x2;
+        uint16_t IR_object_y2;
+        uint8_t IR_object_s2;
+        uint16_t IR_object_x3; // IR x position 10 bits
+        uint16_t IR_object_y3; // IR y position 10 bits
+        uint8_t IR_object_s3; // IR size value
+        uint16_t IR_object_x4;
+        uint16_t IR_object_y4;
+        uint8_t IR_object_s4;
 #endif
 };
 #endif

@@ -112,7 +112,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*)buf);
 
         if (!rcode)
                 len = (buf[0] > constBufSize) ? constBufSize : buf[0];
@@ -134,7 +134,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -159,12 +159,12 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         if (len)
-                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*) buf);
+                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*)buf);
 
         if (rcode)
                 goto FailGetDevDescr;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
@@ -287,7 +287,7 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
         if (index) {
                 // Fill in the endpoint info structure
                 epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
-                epInfo[bNumEP].maxPktSize = (uint8_t) pep->wMaxPacketSize;
+                epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
                 epInfo[bNumEP].epAttribs = 0;
                 epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
 
@@ -339,7 +339,7 @@ uint8_t HIDUniversal::Poll() {
 
                 for (uint8_t i = 0; i < bNumIface; i++) {
                         uint8_t index = hidInterfaces[i].epIndex[epInterruptInIndex];
-                        uint16_t read = (uint16_t) epInfo[index].maxPktSize;
+                        uint16_t read = (uint16_t)epInfo[index].maxPktSize;
 
                         ZeroMemory(constBuffLen, buf);
 
@@ -371,7 +371,7 @@ uint8_t HIDUniversal::Poll() {
                         HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 
                         if (prs)
-                                prs->Parse(this, bHasReportId, (uint8_t) read, buf);
+                                prs->Parse(this, bHasReportId, (uint8_t)read, buf);
                 }
         }
         return rcode;

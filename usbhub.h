@@ -155,11 +155,11 @@ struct HubDescriptor {
                 uint16_t TTThinkTime : 2;
                 uint16_t PortIndicatorsSupported : 1;
                 uint16_t Reserved : 8;
-        }__attribute__((packed));
+        } __attribute__((packed));
 
         uint8_t bPwrOn2PwrGood;
         uint8_t bHubContrCurrent;
-}__attribute__((packed));
+} __attribute__((packed));
 
 struct HubEvent {
 
@@ -168,11 +168,11 @@ struct HubEvent {
                 struct {
                         uint16_t bmStatus; // port status bits
                         uint16_t bmChange; // port status change bits
-                }__attribute__((packed));
+                } __attribute__((packed));
                 uint32_t bmEvent;
                 uint8_t evtBuff[4];
         };
-}__attribute__((packed));
+} __attribute__((packed));
 
 class USBHub : USBDeviceConfig {
         static bool bResetInitiated; // True when reset is triggered
@@ -216,42 +216,42 @@ public:
 // Clear Hub Feature
 
 inline uint8_t USBHub::ClearHubFeature(uint8_t fid) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Clear Port Feature
 
 inline uint8_t USBHub::ClearPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000 | port) | (sel << 8)), 0, 0, NULL, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000 | port) | (sel << 8)), 0, 0, NULL, NULL));
 }
 // Get Hub Descriptor
 
 inline uint8_t USBHub::GetHubDescriptor(uint8_t index, uint16_t nbytes, uint8_t *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL));
 }
 // Get Hub Status
 
 inline uint8_t USBHub::GetHubStatus(uint16_t nbytes, uint8_t* dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 // Get Port Status
 
 inline uint8_t USBHub::GetPortStatus(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Descriptor
 
 inline uint8_t USBHub::SetHubDescriptor(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Feature
 
 inline uint8_t USBHub::SetHubFeature(uint8_t fid) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Set Port Feature
 
 inline uint8_t USBHub::SetPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
 }
 
 void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);
