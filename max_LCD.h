@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 //HD44780 compatible LCD display via MAX3421E GPOUT support header
 //pinout: D[4-7] -> GPOUT[4-7], RS-> GPOUT[2], E ->GPOUT[3]
 //
@@ -63,40 +63,40 @@ e-mail   :  support@circuitsathome.com
 #define LCD_5x10DOTS			0x04
 #define LCD_5x8DOTS				0x00
 
-class Max_LCD //: public Print 
+class Max_LCD //: public Print
 {
-	USB	*pUsb;
+        USB *pUsb;
 
 public:
-	Max_LCD(USB *pusb);
-	void init();
-	void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
-	void clear();
-	void home();
-	void noDisplay();
-	void display();
-	void noBlink();
-	void blink();
-	void noCursor();
-	void cursor();
-	void scrollDisplayLeft();
-	void scrollDisplayRight();
-	void leftToRight();
-	void rightToLeft();
-	void autoscroll();
-	void noAutoscroll();
-	void createChar(uint8_t, uint8_t[]);
-	void setCursor(uint8_t, uint8_t); 
-	virtual void write(uint8_t);
-	void command(uint8_t);
+        Max_LCD(USB *pusb);
+        void init();
+        void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
+        void clear();
+        void home();
+        void noDisplay();
+        void display();
+        void noBlink();
+        void blink();
+        void noCursor();
+        void cursor();
+        void scrollDisplayLeft();
+        void scrollDisplayRight();
+        void leftToRight();
+        void rightToLeft();
+        void autoscroll();
+        void noAutoscroll();
+        void createChar(uint8_t, uint8_t[]);
+        void setCursor(uint8_t, uint8_t);
+        virtual void write(uint8_t);
+        void command(uint8_t);
 
 private:
-	void sendbyte( uint8_t val );
-	uint8_t _displayfunction; //tokill
-	uint8_t _displaycontrol;
-	uint8_t _displaymode;
-	uint8_t _initialized;
-	uint8_t _numlines,_currline;
+        void sendbyte(uint8_t val);
+        uint8_t _displayfunction; //tokill
+        uint8_t _displaycontrol;
+        uint8_t _displaymode;
+        uint8_t _initialized;
+        uint8_t _numlines, _currline;
 };
 
 #endif

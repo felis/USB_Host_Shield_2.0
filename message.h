@@ -13,24 +13,26 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #if !defined(__MESSAGE_H__)
 #define __MESSAGE_H__
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
+
+void Notify(char const * msg, int lvl);
+void NotifyStr(char const * msg, int lvl);
+
 #include "printhex.h"
 
-void Notify(char const * msg);
 //void Notify(const char* msg);
 
-template <class ERROR_TYPE>	
-void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0)
-{
-	Notify(msg);
-	Notify(PSTR(": "));
-	PrintHex<ERROR_TYPE>(rcode);
-	Notify(PSTR("\r\n"));
+template <class ERROR_TYPE>
+void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
+        Notify(msg, 0x80);
+        Notify(PSTR(": "), 0x80);
+        PrintHex<ERROR_TYPE > (rcode, 0x80);
+        Notify(PSTR("\r\n"), 0x80);
 }
 
 

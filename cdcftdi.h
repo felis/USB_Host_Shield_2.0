@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #if !defined(__CDCFTDI_H__)
 #define __CDCFTDI_H__
 
@@ -41,7 +41,7 @@ e-mail   :  support@circuitsathome.com
 #define bmREQ_FTDI_IN   0xc0
 
 //#define bmREQ_FTDI_OUT		USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-//#define bmREQ_FTDI_IN		USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE 
+//#define bmREQ_FTDI_IN		USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 
 #define FTDI_VID			0x0403  // FTDI VID
 #define FTDI_PID			0x6001  // FTDI PID
@@ -51,7 +51,7 @@ e-mail   :  support@circuitsathome.com
 #define FT2232				0x0500
 #define FT232R				0x0600
 
-// Commands 
+// Commands
 #define FTDI_SIO_RESET 						0 /* Reset the port */
 #define FTDI_SIO_MODEM_CTRL 				1 /* Set the modem control register */
 #define FTDI_SIO_SET_FLOW_CTRL				2 /* Set flow control register */
@@ -82,7 +82,7 @@ e-mail   :  support@circuitsathome.com
 #define FTDI_SIO_SET_RTS_HIGH				( 2 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
 #define FTDI_SIO_SET_RTS_LOW				( 0 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
 
-#define FTDI_SIO_DISABLE_FLOW_CTRL			0x0 
+#define FTDI_SIO_DISABLE_FLOW_CTRL			0x0
 #define FTDI_SIO_RTS_CTS_HS					(0x1 << 8)
 #define FTDI_SIO_DTR_DSR_HS					(0x2 << 8)
 #define FTDI_SIO_XON_XOFF_HS				(0x4 << 8)
@@ -94,10 +94,9 @@ e-mail   :  support@circuitsathome.com
 
 class FTDI;
 
-class FTDIAsyncOper
-{
+class FTDIAsyncOper {
 public:
-	virtual uint8_t OnInit(FTDI *pftdi) = 0;
+        virtual uint8_t OnInit(FTDI *pftdi) = 0;
 };
 
 
@@ -105,46 +104,48 @@ public:
 //		so only three endpoints are allocated.
 #define FTDI_MAX_ENDPOINTS					3
 
-class FTDI : public USBDeviceConfig, public UsbConfigXtracter
-{
-	static const uint8_t	epDataInIndex;			// DataIn endpoint index
-	static const uint8_t	epDataOutIndex;			// DataOUT endpoint index
-	static const uint8_t	epInterruptInIndex;		// InterruptIN  endpoint index
+class FTDI : public USBDeviceConfig, public UsbConfigXtracter {
+        static const uint8_t epDataInIndex; // DataIn endpoint index
+        static const uint8_t epDataOutIndex; // DataOUT endpoint index
+        static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
 
-	FTDIAsyncOper	*pAsync;
-	USB				*pUsb;
-	uint8_t			bAddress;
-	uint8_t			bConfNum;				// configuration number
-	uint8_t			bNumIface;				// number of interfaces in the configuration
-	uint8_t			bNumEP;					// total number of EP in the configuration
-	uint32_t		qNextPollTime;			// next poll time
-	bool			bPollEnable;			// poll enable flag
-	uint16_t		wFTDIType;				// Type of FTDI chip
+        FTDIAsyncOper *pAsync;
+        USB *pUsb;
+        uint8_t bAddress;
+        uint8_t bConfNum; // configuration number
+        uint8_t bNumIface; // number of interfaces in the configuration
+        uint8_t bNumEP; // total number of EP in the configuration
+        uint32_t qNextPollTime; // next poll time
+        bool bPollEnable; // poll enable flag
+        uint16_t wFTDIType; // Type of FTDI chip
 
-	EpInfo			epInfo[FTDI_MAX_ENDPOINTS];
+        EpInfo epInfo[FTDI_MAX_ENDPOINTS];
 
-	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+        void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-	FTDI(USB *pusb, FTDIAsyncOper *pasync);
+        FTDI(USB *pusb, FTDIAsyncOper *pasync);
 
-	uint8_t SetBaudRate(uint32_t baud);
-	uint8_t SetModemControl(uint16_t control);
-	uint8_t SetFlowControl(uint8_t protocol, uint8_t xon = 0x11, uint8_t xoff = 0x13);
-	uint8_t SetData(uint16_t databm);
+        uint8_t SetBaudRate(uint32_t baud);
+        uint8_t SetModemControl(uint16_t control);
+        uint8_t SetFlowControl(uint8_t protocol, uint8_t xon = 0x11, uint8_t xoff = 0x13);
+        uint8_t SetData(uint16_t databm);
 
-	// Methods for recieving and sending data
-	uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
-	uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
+        // Methods for recieving and sending data
+        uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
+        uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
-	// USBDeviceConfig implementation
-	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-	virtual uint8_t Release();
-	virtual uint8_t Poll();
-	virtual uint8_t GetAddress() { return bAddress; };
+        // USBDeviceConfig implementation
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        virtual uint8_t Release();
+        virtual uint8_t Poll();
 
-	// UsbConfigXtracter implementation
-	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        virtual uint8_t GetAddress() {
+                return bAddress;
+        };
+
+        // UsbConfigXtracter implementation
+        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 };
 
 #endif // __CDCFTDI_H__

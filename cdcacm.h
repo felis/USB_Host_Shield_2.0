@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #if !defined(__CDCACM_H__)
 #define __CDCACM_H__
 
@@ -38,7 +38,7 @@ e-mail   :  support@circuitsathome.com
 #include "confdescparser.h"
 
 #define bmREQ_CDCOUT        USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define bmREQ_CDCIN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE 
+#define bmREQ_CDCIN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 
 // CDC Subclass Constants
 #define CDC_SUBCLASS_DLCM					0x01	// Direct Line Control Model
@@ -89,123 +89,97 @@ e-mail   :  support@circuitsathome.com
 #define CDC_GET_LINE_PARMS					0x35
 #define CDC_DIAL_DIGITS						0x36
 
-//Class-Specific Notification Codes
-#define NETWORK_CONNECTION  0x00
-#define RESPONSE_AVAILABLE  0x01
-#define AUX_JACK_HOOK_STATE 0x08
-#define RING_DETECT         0x09
-#define SERIAL_STATE        0x20
-#define CALL_STATE_CHANGE   0x28
-#define LINE_STATE_CHANGE   0x29
-#define CONNECTION_SPEED_CHANGE 0x2a
-
-
 // CDC Functional Descriptor Structures
-typedef struct
-{
-	uint8_t		bFunctionLength;
-	uint8_t		bDescriptorType;
-	uint8_t		bDescriptorSubtype;
-	uint8_t		bmCapabilities;
-	uint8_t		bDataInterface;
+
+typedef struct {
+        uint8_t bFunctionLength;
+        uint8_t bDescriptorType;
+        uint8_t bDescriptorSubtype;
+        uint8_t bmCapabilities;
+        uint8_t bDataInterface;
 } CALL_MGMNT_FUNC_DESCR;
 
-typedef struct
-{
-	uint8_t		bFunctionLength;
-	uint8_t		bDescriptorType;
-	uint8_t		bDescriptorSubtype;
-	uint8_t		bmCapabilities;
-} ACM_FUNC_DESCR, DLM_FUNC_DESCR, TEL_OPER_MODES_FUNC_DESCR, 
-	TEL_CALL_STATE_REP_CPBL_FUNC_DESCR;
+typedef struct {
+        uint8_t bFunctionLength;
+        uint8_t bDescriptorType;
+        uint8_t bDescriptorSubtype;
+        uint8_t bmCapabilities;
+} ACM_FUNC_DESCR, DLM_FUNC_DESCR, TEL_OPER_MODES_FUNC_DESCR,
+TEL_CALL_STATE_REP_CPBL_FUNC_DESCR;
 
-typedef struct
-{
-	uint8_t		bFunctionLength;
-	uint8_t		bDescriptorType;
-	uint8_t		bDescriptorSubtype;
-	uint8_t		bRingerVolSteps;
-	uint8_t		bNumRingerPatterns;
+typedef struct {
+        uint8_t bFunctionLength;
+        uint8_t bDescriptorType;
+        uint8_t bDescriptorSubtype;
+        uint8_t bRingerVolSteps;
+        uint8_t bNumRingerPatterns;
 } TEL_RINGER_FUNC_DESCR;
 
-typedef struct
-{
-	uint32_t	dwDTERate;			// Data Terminal Rate in bits per second
-	uint8_t		bCharFormat;		// 0 - 1 stop bit, 1 - 1.5 stop bits, 2 - 2 stop bits
-	uint8_t		bParityType;		// 0 - None, 1 - Odd, 2 - Even, 3 - Mark, 4 - Space
-	uint8_t		bDataBits;			// Data bits (5, 6, 7, 8 or 16)
+typedef struct {
+        uint32_t dwDTERate; // Data Terminal Rate in bits per second
+        uint8_t bCharFormat; // 0 - 1 stop bit, 1 - 1.5 stop bits, 2 - 2 stop bits
+        uint8_t bParityType; // 0 - None, 1 - Odd, 2 - Even, 3 - Mark, 4 - Space
+        uint8_t bDataBits; // Data bits (5, 6, 7, 8 or 16)
 } LINE_CODING;
-
-typedef struct
-{
-  uint8_t   bmRequestType;  // 0xa1 for class-specific notifications
-  uint8_t   bNotification;
-  uint16_t  wValue;
-  uint16_t  wIndex;
-  uint16_t  wLength;
-  uint16_t  bmState;        //UART state bitmap for SERIAL_STATE, other notifications variable length
-} CLASS_NOTIFICATION;  
 
 class ACM;
 
-class CDCAsyncOper
-{
+class CDCAsyncOper {
 public:
-	virtual uint8_t OnInit(ACM *pacm) = 0;
-	//virtual void OnDataRcvd(ACM *pacm, uint8_t nbytes, uint8_t *dataptr) = 0;
-	//virtual void OnDisconnected(ACM *pacm) = 0;
+        virtual uint8_t OnInit(ACM *pacm) = 0;
+        //virtual void OnDataRcvd(ACM *pacm, uint8_t nbytes, uint8_t *dataptr) = 0;
+        //virtual void OnDisconnected(ACM *pacm) = 0;
 };
 
 
 #define ACM_MAX_ENDPOINTS			4
 
-class ACM : public USBDeviceConfig, public UsbConfigXtracter
-{
+class ACM : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
-	static const uint8_t	epDataInIndex;			// DataIn endpoint index
-	static const uint8_t	epDataOutIndex;			// DataOUT endpoint index
-	static const uint8_t	epInterruptInIndex;		// InterruptIN  endpoint index
+        static const uint8_t epDataInIndex; // DataIn endpoint index
+        static const uint8_t epDataOutIndex; // DataOUT endpoint index
+        static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
 
-	USB			*pUsb;
-	CDCAsyncOper	*pAsync;
-	uint8_t		bAddress;
-	uint8_t		bConfNum;				// configuration number
-	uint8_t		bControlIface;			// Control interface value
-	uint8_t		bDataIface;				// Data interface value
-	uint8_t		bNumEP;					// total number of EP in the configuration
-	uint32_t	qNextPollTime;			// next poll time
-	bool		bPollEnable;			// poll enable flag
-	bool  ready;      //device ready indicator        
+        USB *pUsb;
+        CDCAsyncOper *pAsync;
+        uint8_t bAddress;
+        uint8_t bConfNum; // configuration number
+        uint8_t bControlIface; // Control interface value
+        uint8_t bDataIface; // Data interface value
+        uint8_t bNumEP; // total number of EP in the configuration
+        uint32_t qNextPollTime; // next poll time
+        bool bPollEnable; // poll enable flag
 
-	EpInfo		epInfo[ACM_MAX_ENDPOINTS];
+        EpInfo epInfo[ACM_MAX_ENDPOINTS];
 
-	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+        void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-	ACM(USB *pusb, CDCAsyncOper *pasync);
+        ACM(USB *pusb, CDCAsyncOper *pasync);
 
-	uint8_t SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);
-	uint8_t GetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);
-	uint8_t ClearCommFeature(uint16_t fid);
-	uint8_t SetLineCoding(const LINE_CODING *dataptr);
-	uint8_t GetLineCoding(LINE_CODING *dataptr);
-	uint8_t SetControlLineState(uint8_t state);
-	uint8_t SendBreak(uint16_t duration);
-	uint8_t GetNotif( uint16_t *bytes_rcvd, uint8_t *dataptr );
+        uint8_t SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);
+        uint8_t GetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);
+        uint8_t ClearCommFeature(uint16_t fid);
+        uint8_t SetLineCoding(const LINE_CODING *dataptr);
+        uint8_t GetLineCoding(LINE_CODING *dataptr);
+        uint8_t SetControlLineState(uint8_t state);
+        uint8_t SendBreak(uint16_t duration);
 
-	// Methods for recieving and sending data
-	uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
-	uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
+        // Methods for recieving and sending data
+        uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
+        uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
-	// USBDeviceConfig implementation
-	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-	virtual uint8_t Release();
-	virtual uint8_t Poll();
-	virtual uint8_t GetAddress() { return bAddress; };
-	virtual bool isReady() { return ready; };
+        // USBDeviceConfig implementation
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        virtual uint8_t Release();
+        virtual uint8_t Poll();
 
-	// UsbConfigXtracter implementation
-	virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        virtual uint8_t GetAddress() {
+                return bAddress;
+        };
+
+        // UsbConfigXtracter implementation
+        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 };
 
 #endif // __CDCACM_H__

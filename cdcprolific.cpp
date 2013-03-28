@@ -13,215 +13,173 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #include "cdcprolific.h"
 
 PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
-	ACM(p, pasync)
-	//wPLType(0)
-{
+ACM(p, pasync),
+wPLType(0) {
 }
 
-uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed)
-{
-	const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
+uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+        const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
-	uint8_t		buf[constBufSize];
-	uint8_t		rcode;
-	UsbDevice	*p = NULL;
-	EpInfo		*oldep_ptr = NULL;
-	uint8_t		num_of_conf;	// number of configurations
-	enum pl2303_type pltype = unknown;
+        uint8_t buf[constBufSize];
+        uint8_t rcode;
+        UsbDevice *p = NULL;
+        EpInfo *oldep_ptr = NULL;
+        uint8_t num_of_conf; // number of configurations
 
-	AddressPool	&addrPool = pUsb->GetAddressPool();
+        AddressPool &addrPool = pUsb->GetAddressPool();
 
-	USBTRACE("PL Init\r\n");
+        USBTRACE("PL Init\r\n");
 
-	if (bAddress)
-		return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
+        if (bAddress)
+                return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
-	// Get pointer to pseudo device with address 0 assigned
-	p = addrPool.GetUsbDevicePtr(0);
+        // Get pointer to pseudo device with address 0 assigned
+        p = addrPool.GetUsbDevicePtr(0);
 
-	if (!p)
-		return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        if (!p)
+                return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-	if (!p->epinfo)
-	{
-		USBTRACE("epinfo\r\n");
-		return USB_ERROR_EPINFO_IS_NULL;
-	}
+        if (!p->epinfo) {
+                USBTRACE("epinfo\r\n");
+                return USB_ERROR_EPINFO_IS_NULL;
+        }
 
-	// Save old pointer to EP_RECORD of address 0
-	oldep_ptr = p->epinfo;
+        // Save old pointer to EP_RECORD of address 0
+        oldep_ptr = p->epinfo;
 
-	// Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
-	p->epinfo = epInfo;
+        // Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
+        p->epinfo = epInfo;
 
-	p->lowspeed = lowspeed;
+        p->lowspeed = lowspeed;
 
-	// Get device descriptor
-	rcode = pUsb->getDevDescr( 0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf );
+        // Get device descriptor
+        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*) buf);
 
-	// Restore p->epinfo
-	p->epinfo = oldep_ptr;
+        // Restore p->epinfo
+        p->epinfo = oldep_ptr;
 
-	if( rcode ) 
-		goto FailGetDevDescr;
+        if (rcode)
+                goto FailGetDevDescr;
 
-	if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID ) {
-		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-	}
-	
-	/* determine chip variant */	
-		
-  if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x02 ) {
-    pltype = type_0;
-  }
-	else if (((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0 == 0x40 ) { 
-		pltype = rev_HX;
-	}
-  else if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0x00) {
-    pltype = type_1;
-  }
-	else if (((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass == 0xff) {
-		pltype = type_1;
-	}
+        if (((USB_DEVICE_DESCRIPTOR*) buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*) buf)->idProduct != PL_PID)
+                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-	// Allocate new address according to device class
-	bAddress = addrPool.AllocAddress(parent, false, port);
+        // Save type of PL chip
+        wPLType = ((USB_DEVICE_DESCRIPTOR*) buf)->bcdDevice;
 
-	if (!bAddress)
-		return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
+        // Allocate new address according to device class
+        bAddress = addrPool.AllocAddress(parent, false, port);
 
-	// Extract Max Packet Size from the device descriptor
-	epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; 
+        if (!bAddress)
+                return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
-	// Assign new address to the device
-	rcode = pUsb->setAddr( 0, 0, bAddress );
+        // Extract Max Packet Size from the device descriptor
+        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
 
-	if (rcode)
-	{
-		p->lowspeed = false;
-		addrPool.FreeAddress(bAddress);
-		bAddress = 0;
-		USBTRACE2("setAddr:",rcode);
-		return rcode;
-	}
+        // Assign new address to the device
+        rcode = pUsb->setAddr(0, 0, bAddress);
 
-	USBTRACE2("Addr:", bAddress);
+        if (rcode) {
+                p->lowspeed = false;
+                addrPool.FreeAddress(bAddress);
+                bAddress = 0;
+                USBTRACE2("setAddr:", rcode);
+                return rcode;
+        }
 
-	p->lowspeed = false;
+        USBTRACE2("Addr:", bAddress);
 
-	p = addrPool.GetUsbDevicePtr(bAddress);
+        p->lowspeed = false;
 
-	if (!p)
-		return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        p = addrPool.GetUsbDevicePtr(bAddress);
 
-	p->lowspeed = lowspeed;
+        if (!p)
+                return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-	num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        p->lowspeed = lowspeed;
 
-	// Assign epInfo to epinfo pointer
-	rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
 
-	if (rcode)
-		goto FailSetDevTblEntry;
+        // Assign epInfo to epinfo pointer
+        rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-	USBTRACE2("NC:", num_of_conf);
+        if (rcode)
+                goto FailSetDevTblEntry;
 
-	for( uint8_t i=0; i<num_of_conf; i++ )
-	{
-		//HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
-		ConfigDescParser<0xFF, 0, 0, CP_MASK_COMPARE_CLASS>	confDescrParser(this);
+        USBTRACE2("NC:", num_of_conf);
 
-		//rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
-		rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
-		
-		if (bNumEP > 1)
-			break;
-	} // for
-	
-	if ( bNumEP < 2 )
-		return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+        for (uint8_t i = 0; i < num_of_conf; i++) {
+                HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
+                ConfigDescParser < 0xFF, 0, 0, CP_MASK_COMPARE_CLASS> confDescrParser(this);
 
-	// Assign epInfo to epinfo pointer
-	rcode = pUsb->setEpInfoEntry( bAddress, bNumEP, epInfo );
+                rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
 
-	USBTRACE2("Conf:", bConfNum);
+                if (rcode)
+                        goto FailGetConfDescr;
 
-	// Set Configuration Value
-	rcode = pUsb->setConf(bAddress, 0, bConfNum);
+                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
-	if (rcode)
-		goto FailSetConfDescr;
+                if (rcode)
+                        goto FailGetConfDescr;
 
-#if defined(PL2303_COMPAT)
-	/* shamanic dance - sending Prolific init data as-is */
-	vendorRead( 0x84, 0x84, 0, buf );
-	vendorWrite( 0x04, 0x04, 0 );
-	vendorRead( 0x84, 0x84, 0, buf );
-	vendorRead( 0x83, 0x83, 0, buf );
-	vendorRead( 0x84, 0x84, 0, buf );
-	vendorWrite( 0x04, 0x04, 1 );
-	vendorRead( 0x84, 0x84, 0, buf);
-	vendorRead( 0x83, 0x83, 0, buf);
-	vendorWrite( 0, 0, 1 );
-	vendorWrite( 1, 0, 0 );
-	if ( pltype == rev_HX ) {
-		vendorWrite( 2, 0, 0x44 );
-		vendorWrite( 0x06, 0x06, 0 );   //from W7 init
-	}
-	else {
-		vendorWrite( 2, 0, 0x24 );
-	}
-	/* shamanic dance end */
-#endif	
-	
-  /* calling post-init callback */
-	rcode = pAsync->OnInit(this);
+                if (bNumEP > 1)
+                        break;
+        } // for
 
-	if (rcode)
-		goto FailOnInit;
+        if (bNumEP < 2)
+                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-	USBTRACE("PL configured\r\n");
+        // Assign epInfo to epinfo pointer
+        rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-	//bPollEnable = true;
-	ready = true;
-	return 0;
+        USBTRACE2("Conf:", bConfNum);
+
+        // Set Configuration Value
+        rcode = pUsb->setConf(bAddress, 0, bConfNum);
+
+        if (rcode)
+                goto FailSetConfDescr;
+
+        rcode = pAsync->OnInit(this);
+
+        if (rcode)
+                goto FailOnInit;
+
+        USBTRACE("PL configured\r\n");
+
+        bPollEnable = true;
+        return 0;
 
 FailGetDevDescr:
-	USBTRACE("getDevDescr:");
-	goto Fail;
+        USBTRACE("getDevDescr:");
+        goto Fail;
 
 FailSetDevTblEntry:
-	USBTRACE("setDevTblEn:");
-	goto Fail;
+        USBTRACE("setDevTblEn:");
+        goto Fail;
 
 FailGetConfDescr:
-	USBTRACE("getConf:");
-	goto Fail;
+        USBTRACE("getConf:");
+        goto Fail;
 
 FailSetConfDescr:
-	USBTRACE("setConf:");
-	goto Fail;
-
-FailSetControlLineState:
-	USBTRACE("SetControlLineState:");
-	goto Fail;
-
-FailSetLineCoding:
-	USBTRACE("SetLineCoding:");
-	goto Fail;
+        USBTRACE("setConf:");
+        goto Fail;
 
 FailOnInit:
-	USBTRACE("OnInit:");
-	goto Fail;
+        USBTRACE("OnInit:");
+        goto Fail;
 
 Fail:
-	Serial.println(rcode, HEX);
-	Release();
-	return rcode;
+        PrintHex<uint8_t > (rcode, 0x80);
+        Notify(PSTR("\r\n"), 0x80);
+        //Serial.println(rcode, HEX);
+        Release();
+        return rcode;
 }
 
 //uint8_t PL::Poll()

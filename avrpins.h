@@ -13,23 +13,12 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 
 /* derived from Konstantin Chizhov's AVR port templates */
 
 #ifndef _avrpins_h_
 #define _avrpins_h_
-
-#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
-/* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
-//#define BOARD_MEGA_ADK
-#endif
-
-/* Uncomment the following if you are using a Teensy 2.0 */
-//#define BOARD_TEENSY
-
-/* Uncomment the following if you are using a Sanguino */
-//#define BOARD_SANGUINO
 
 #include <avr/io.h>
 
@@ -122,6 +111,7 @@ e-mail   :  support@circuitsathome.com
     };
 
 #ifdef USE_PORTA
+
 MAKE_PORT(PORTA, DDRA, PINA, Porta, 'A')
 #endif
 #ifdef USE_PORTB
@@ -171,238 +161,271 @@ MAKE_TCCR(TCCR1A, Tccr1a)
 MAKE_TCCR(TCCR2A, Tccr2a)
 #endif
 
-  // this class represents one pin in a IO port.
-  // It is fully static.
-  template<typename PORT, uint8_t PIN>
-  class TPin
-  {
-//    BOOST_STATIC_ASSERT(PIN < PORT::Width);
-  public:
-    typedef PORT Port;
-    enum{Number = PIN};
+// this class represents one pin in a IO port.
+// It is fully static.
+template<typename PORT, uint8_t PIN>
+class TPin {
+        //    BOOST_STATIC_ASSERT(PIN < PORT::Width);
+public:
+        typedef PORT Port;
 
-    static void Set() { PORT::Set(1 << PIN); }
+        enum {
+                Number = PIN
+        };
 
-    static void Set(uint8_t val){
-      if(val)
-        Set();
-      else Clear();}
+        static void Set() {
+                PORT::Set(1 << PIN);
+        }
 
-    static void SetDir(uint8_t val){
-      if(val)
-        SetDirWrite();
-      else SetDirRead();}
+        static void Set(uint8_t val) {
+                if (val)
+                        Set();
+                else Clear();
+        }
 
-    static void Clear(){PORT::Clear(1 << PIN);}
+        static void SetDir(uint8_t val) {
+                if (val)
+                        SetDirWrite();
+                else SetDirRead();
+        }
 
-    static void Toggle(){PORT::Toggle(1 << PIN);}
+        static void Clear() {
+                PORT::Clear(1 << PIN);
+        }
 
-    static void SetDirRead(){PORT::DirClear(1 << PIN);}
+        static void Toggle() {
+                PORT::Toggle(1 << PIN);
+        }
 
-    static void SetDirWrite(){PORT::DirSet(1 << PIN);}
+        static void SetDirRead() {
+                PORT::DirClear(1 << PIN);
+        }
 
-    static uint8_t IsSet(){return PORT::PinRead() & (uint8_t)(1 << PIN);} 
-  
-    static void WaiteForSet(){ while(IsSet()==0){} }
+        static void SetDirWrite() {
+                PORT::DirSet(1 << PIN);
+        }
 
-    static void WaiteForClear(){ while(IsSet()){} }
-  }; //class TPin...
+        static uint8_t IsSet() {
+                return PORT::PinRead() & (uint8_t) (1 << PIN);
+        }
 
-  // this class represents one bit in TCCR port.
-  // used to set/clear TCCRx bits
-  // It is fully static.
-  template<typename TCCR, uint8_t COM>
-  class TCom
-  {
-//    BOOST_STATIC_ASSERT(PIN < PORT::Width);
-  public:
-    typedef TCCR Tccr;
-    enum{Com = COM};
+        static void WaiteForSet() {
+                while (IsSet() == 0) {
+                }
+        }
 
-    static void Set() { TCCR::Set(1 << COM); }
+        static void WaiteForClear() {
+                while (IsSet()) {
+                }
+        }
+}; //class TPin...
 
-    static void Clear() { TCCR::Clear(1 << COM); }
+// this class represents one bit in TCCR port.
+// used to set/clear TCCRx bits
+// It is fully static.
 
-    static void Toggle() { TCCR::Toggle(1 << COM); }
-  }; //class TCom...
+template<typename TCCR, uint8_t COM>
+class TCom {
+        //    BOOST_STATIC_ASSERT(PIN < PORT::Width);
+public:
+        typedef TCCR Tccr;
 
-//Short pin definitions 
+        enum {
+                Com = COM
+        };
+
+        static void Set() {
+                TCCR::Set(1 << COM);
+        }
+
+        static void Clear() {
+                TCCR::Clear(1 << COM);
+        }
+
+        static void Toggle() {
+                TCCR::Toggle(1 << COM);
+        }
+}; //class TCom...
+
+//Short pin definitions
 #ifdef USE_PORTA
-typedef TPin<Porta, 0> Pa0;
-typedef TPin<Porta, 1> Pa1;
-typedef TPin<Porta, 2> Pa2;
-typedef TPin<Porta, 3> Pa3;
-typedef TPin<Porta, 4> Pa4;
-typedef TPin<Porta, 5> Pa5;
-typedef TPin<Porta, 6> Pa6;
-typedef TPin<Porta, 7> Pa7;
+typedef TPin<Porta, 0 > Pa0;
+typedef TPin<Porta, 1 > Pa1;
+typedef TPin<Porta, 2 > Pa2;
+typedef TPin<Porta, 3 > Pa3;
+typedef TPin<Porta, 4 > Pa4;
+typedef TPin<Porta, 5 > Pa5;
+typedef TPin<Porta, 6 > Pa6;
+typedef TPin<Porta, 7 > Pa7;
 #endif
 
 #ifdef USE_PORTB
-typedef TPin<Portb, 0> Pb0;
-typedef TPin<Portb, 1> Pb1;
-typedef TPin<Portb, 2> Pb2;
-typedef TPin<Portb, 3> Pb3;
-typedef TPin<Portb, 4> Pb4;
-typedef TPin<Portb, 5> Pb5;
-typedef TPin<Portb, 6> Pb6;
-typedef TPin<Portb, 7> Pb7;
+typedef TPin<Portb, 0 > Pb0;
+typedef TPin<Portb, 1 > Pb1;
+typedef TPin<Portb, 2 > Pb2;
+typedef TPin<Portb, 3 > Pb3;
+typedef TPin<Portb, 4 > Pb4;
+typedef TPin<Portb, 5 > Pb5;
+typedef TPin<Portb, 6 > Pb6;
+typedef TPin<Portb, 7 > Pb7;
 #endif
 
 #ifdef USE_PORTC
-typedef TPin<Portc, 0> Pc0;
-typedef TPin<Portc, 1> Pc1;
-typedef TPin<Portc, 2> Pc2;
-typedef TPin<Portc, 3> Pc3;
-typedef TPin<Portc, 4> Pc4;
-typedef TPin<Portc, 5> Pc5;
-typedef TPin<Portc, 6> Pc6;
-typedef TPin<Portc, 7> Pc7;
+typedef TPin<Portc, 0 > Pc0;
+typedef TPin<Portc, 1 > Pc1;
+typedef TPin<Portc, 2 > Pc2;
+typedef TPin<Portc, 3 > Pc3;
+typedef TPin<Portc, 4 > Pc4;
+typedef TPin<Portc, 5 > Pc5;
+typedef TPin<Portc, 6 > Pc6;
+typedef TPin<Portc, 7 > Pc7;
 #endif
 
 #ifdef USE_PORTD
-typedef TPin<Portd, 0> Pd0;
-typedef TPin<Portd, 1> Pd1;
-typedef TPin<Portd, 2> Pd2;
-typedef TPin<Portd, 3> Pd3;
-typedef TPin<Portd, 4> Pd4;
-typedef TPin<Portd, 5> Pd5;
-typedef TPin<Portd, 6> Pd6;
-typedef TPin<Portd, 7> Pd7;
+typedef TPin<Portd, 0 > Pd0;
+typedef TPin<Portd, 1 > Pd1;
+typedef TPin<Portd, 2 > Pd2;
+typedef TPin<Portd, 3 > Pd3;
+typedef TPin<Portd, 4 > Pd4;
+typedef TPin<Portd, 5 > Pd5;
+typedef TPin<Portd, 6 > Pd6;
+typedef TPin<Portd, 7 > Pd7;
 #endif
 
 #ifdef USE_PORTE
-typedef TPin<Porte, 0> Pe0;
-typedef TPin<Porte, 1> Pe1;
-typedef TPin<Porte, 2> Pe2;
-typedef TPin<Porte, 3> Pe3;
-typedef TPin<Porte, 4> Pe4;
-typedef TPin<Porte, 5> Pe5;
-typedef TPin<Porte, 6> Pe6;
-typedef TPin<Porte, 7> Pe7;
+typedef TPin<Porte, 0 > Pe0;
+typedef TPin<Porte, 1 > Pe1;
+typedef TPin<Porte, 2 > Pe2;
+typedef TPin<Porte, 3 > Pe3;
+typedef TPin<Porte, 4 > Pe4;
+typedef TPin<Porte, 5 > Pe5;
+typedef TPin<Porte, 6 > Pe6;
+typedef TPin<Porte, 7 > Pe7;
 #endif
 
 #ifdef USE_PORTF
-typedef TPin<Portf, 0> Pf0;
-typedef TPin<Portf, 1> Pf1;
-typedef TPin<Portf, 2> Pf2;
-typedef TPin<Portf, 3> Pf3;
-typedef TPin<Portf, 4> Pf4;
-typedef TPin<Portf, 5> Pf5;
-typedef TPin<Portf, 6> Pf6;
-typedef TPin<Portf, 7> Pf7;
+typedef TPin<Portf, 0 > Pf0;
+typedef TPin<Portf, 1 > Pf1;
+typedef TPin<Portf, 2 > Pf2;
+typedef TPin<Portf, 3 > Pf3;
+typedef TPin<Portf, 4 > Pf4;
+typedef TPin<Portf, 5 > Pf5;
+typedef TPin<Portf, 6 > Pf6;
+typedef TPin<Portf, 7 > Pf7;
 #endif
 
 #ifdef USE_PORTG
-typedef TPin<Portg, 0> Pg0;
-typedef TPin<Portg, 1> Pg1;
-typedef TPin<Portg, 2> Pg2;
-typedef TPin<Portg, 3> Pg3;
-typedef TPin<Portg, 4> Pg4;
-typedef TPin<Portg, 5> Pg5;
-typedef TPin<Portg, 6> Pg6;
-typedef TPin<Portg, 7> Pg7;
+typedef TPin<Portg, 0 > Pg0;
+typedef TPin<Portg, 1 > Pg1;
+typedef TPin<Portg, 2 > Pg2;
+typedef TPin<Portg, 3 > Pg3;
+typedef TPin<Portg, 4 > Pg4;
+typedef TPin<Portg, 5 > Pg5;
+typedef TPin<Portg, 6 > Pg6;
+typedef TPin<Portg, 7 > Pg7;
 #endif
 
 #ifdef USE_PORTH
-typedef TPin<Porth, 0> Ph0;
-typedef TPin<Porth, 1> Ph1;
-typedef TPin<Porth, 2> Ph2;
-typedef TPin<Porth, 3> Ph3;
-typedef TPin<Porth, 4> Ph4;
-typedef TPin<Porth, 5> Ph5;
-typedef TPin<Porth, 6> Ph6;
-typedef TPin<Porth, 7> Ph7;
+typedef TPin<Porth, 0 > Ph0;
+typedef TPin<Porth, 1 > Ph1;
+typedef TPin<Porth, 2 > Ph2;
+typedef TPin<Porth, 3 > Ph3;
+typedef TPin<Porth, 4 > Ph4;
+typedef TPin<Porth, 5 > Ph5;
+typedef TPin<Porth, 6 > Ph6;
+typedef TPin<Porth, 7 > Ph7;
 #endif
 
 #ifdef USE_PORTJ
-typedef TPin<Portj, 0> Pj0;
-typedef TPin<Portj, 1> Pj1;
-typedef TPin<Portj, 2> Pj2;
-typedef TPin<Portj, 3> Pj3;
-typedef TPin<Portj, 4> Pj4;
-typedef TPin<Portj, 5> Pj5;
-typedef TPin<Portj, 6> Pj6;
-typedef TPin<Portj, 7> Pj7;
+typedef TPin<Portj, 0 > Pj0;
+typedef TPin<Portj, 1 > Pj1;
+typedef TPin<Portj, 2 > Pj2;
+typedef TPin<Portj, 3 > Pj3;
+typedef TPin<Portj, 4 > Pj4;
+typedef TPin<Portj, 5 > Pj5;
+typedef TPin<Portj, 6 > Pj6;
+typedef TPin<Portj, 7 > Pj7;
 #endif
 
 #ifdef USE_PORTK
-typedef TPin<Portk, 0> Pk0;
-typedef TPin<Portk, 1> Pk1;
-typedef TPin<Portk, 2> Pk2;
-typedef TPin<Portk, 3> Pk3;
-typedef TPin<Portk, 4> Pk4;
-typedef TPin<Portk, 5> Pk5;
-typedef TPin<Portk, 6> Pk6;
-typedef TPin<Portk, 7> Pk7;
+typedef TPin<Portk, 0 > Pk0;
+typedef TPin<Portk, 1 > Pk1;
+typedef TPin<Portk, 2 > Pk2;
+typedef TPin<Portk, 3 > Pk3;
+typedef TPin<Portk, 4 > Pk4;
+typedef TPin<Portk, 5 > Pk5;
+typedef TPin<Portk, 6 > Pk6;
+typedef TPin<Portk, 7 > Pk7;
 #endif
 
 #ifdef USE_PORTL
-typedef TPin<Portl, 0> Pl0;
-typedef TPin<Portl, 1> Pl1;
-typedef TPin<Portl, 2> Pl2;
-typedef TPin<Portl, 3> Pl3;
-typedef TPin<Portl, 4> Pl4;
-typedef TPin<Portl, 5> Pl5;
-typedef TPin<Portl, 6> Pl6;
-typedef TPin<Portl, 7> Pl7;
+typedef TPin<Portl, 0 > Pl0;
+typedef TPin<Portl, 1 > Pl1;
+typedef TPin<Portl, 2 > Pl2;
+typedef TPin<Portl, 3 > Pl3;
+typedef TPin<Portl, 4 > Pl4;
+typedef TPin<Portl, 5 > Pl5;
+typedef TPin<Portl, 6 > Pl6;
+typedef TPin<Portl, 7 > Pl7;
 #endif
 
 #ifdef USE_PORTQ
-typedef TPin<Portq, 0> Pq0;
-typedef TPin<Portq, 1> Pq1;
-typedef TPin<Portq, 2> Pq2;
-typedef TPin<Portq, 3> Pq3;
-typedef TPin<Portq, 4> Pq4;
-typedef TPin<Portq, 5> Pq5;
-typedef TPin<Portq, 6> Pq6;
-typedef TPin<Portq, 7> Pq7;
+typedef TPin<Portq, 0 > Pq0;
+typedef TPin<Portq, 1 > Pq1;
+typedef TPin<Portq, 2 > Pq2;
+typedef TPin<Portq, 3 > Pq3;
+typedef TPin<Portq, 4 > Pq4;
+typedef TPin<Portq, 5 > Pq5;
+typedef TPin<Portq, 6 > Pq6;
+typedef TPin<Portq, 7 > Pq7;
 #endif
 
 #ifdef USE_PORTR
-typedef TPin<Portr, 0> Pr0;
-typedef TPin<Portr, 1> Pr1;
-typedef TPin<Portr, 2> Pr2;
-typedef TPin<Portr, 3> Pr3;
-typedef TPin<Portr, 4> Pr4;
-typedef TPin<Portr, 5> Pr5;
-typedef TPin<Portr, 6> Pr6;
-typedef TPin<Portr, 7> Pr7;
+typedef TPin<Portr, 0 > Pr0;
+typedef TPin<Portr, 1 > Pr1;
+typedef TPin<Portr, 2 > Pr2;
+typedef TPin<Portr, 3 > Pr3;
+typedef TPin<Portr, 4 > Pr4;
+typedef TPin<Portr, 5 > Pr5;
+typedef TPin<Portr, 6 > Pr6;
+typedef TPin<Portr, 7 > Pr7;
 #endif
 
 #ifdef USE_TCCR0A
-typedef TCom<Tccr0a, COM0A1> Tc0a;  //P6
-typedef TCom<Tccr0a, COM0B1> Tc0b;  //P5
+typedef TCom<Tccr0a, COM0A1> Tc0a; //P6
+typedef TCom<Tccr0a, COM0B1> Tc0b; //P5
 #endif
 
 #ifdef USE_TCCR1A
-typedef TCom<Tccr1a, COM1A1> Tc1a;  //P9
-typedef TCom<Tccr1a, COM1B1> Tc1b;  //P10
+typedef TCom<Tccr1a, COM1A1> Tc1a; //P9
+typedef TCom<Tccr1a, COM1B1> Tc1b; //P10
 #endif
 
 #ifdef USE_TCCR2A
-typedef TCom<Tccr2a, COM2A1> Tc2a;  //P11
-typedef TCom<Tccr2a, COM2B1> Tc2b;  //P3
+typedef TCom<Tccr2a, COM2A1> Tc2a; //P11
+typedef TCom<Tccr2a, COM2B1> Tc2b; //P3
 #endif
 
 template<typename Tp_pin, typename Tc_bit>
-  class Tp_Tc
-  {
-    public:
-      static void SetDir(uint8_t val){
-        if(val)
-          SetDirWrite();
-        else SetDirRead();
-      }
-      static void SetDirRead(){
-        Tp_pin::SetDirRead(); //set pin direction
-        Tc_bit::Clear();      //disconnect pin from PWM  
-      }
-      static void SetDirWrite(){
-        Tp_pin::SetDirWrite();
-        Tc_bit::Clear();
-      }
-  };
+class Tp_Tc {
+public:
+
+        static void SetDir(uint8_t val) {
+                if (val)
+                        SetDirWrite();
+                else SetDirRead();
+        }
+
+        static void SetDirRead() {
+                Tp_pin::SetDirRead(); //set pin direction
+                Tc_bit::Clear(); //disconnect pin from PWM
+        }
+
+        static void SetDirWrite() {
+                Tp_pin::SetDirWrite();
+                Tc_bit::Clear();
+        }
+};
 
 /* pin definitions for cases where it's necessary to clear compare output mode bits */
 
@@ -416,7 +439,7 @@ template<typename Tp_pin, typename Tc_bit>
 /* Arduino pin definitions  */
 #if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
 
-//  "Mega" Arduino pin numbers 
+//  "Mega" Arduino pin numbers
 
 #define P0  Pe0
 #define P1  Pe1
@@ -424,7 +447,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P3  Pe5
 #define P4  Pg5
 #define P5  Pe5
-#define P6  Ph3 
+#define P6  Ph3
 #define P7  Ph4
 
 #define P8  Ph5
@@ -441,7 +464,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P18  Pd3
 #define P19  Pd2
 #define P20  Pd1
-#define P21  Pd0 
+#define P21  Pd0
 
 #define P22 Pa0
 #define P23 Pa1
@@ -476,7 +499,6 @@ template<typename Tp_pin, typename Tc_bit>
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
-#define P54 Pe6 // INT on Arduino ADK
 
 #endif  //"Mega" pin numbers
 
@@ -489,7 +511,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P3  Pd3
 #define P4  Pd4
 #define P5  Pd5
-#define P6  Pd6 
+#define P6  Pd6
 #define P7  Pd7
 
 #define P8  Pb0
@@ -508,47 +530,7 @@ template<typename Tp_pin, typename Tc_bit>
 
 #endif // "Classic" Arduino pin numbers
 
-#if !defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
-// Arduino Leonardo pin numbers
-
-#define P0  Pd2 // D0 - PD2
-#define P1  Pd3 // D1 - PD3
-#define P2  Pd1 // D2 - PD1
-#define P3  Pd0 // D3 - PD0
-#define P4  Pd4 // D4 - PD4
-#define P5  Pc6 // D5 - PC6
-#define P6  Pd7 // D6 - PD7
-#define P7  Pe6 // D7 - PE6
-
-#define P8  Pb4 // D8 - PB4
-#define P9  Pb5 // D9 - PB5
-#define P10 Pb6 // D10 - PB6
-#define P11 Pb7 // D11 - PB7
-#define P12 Pd6 // D12 - PD6
-#define P13 Pc7 // D13 - PC7
-
-#define P14 Pb3 // D14 - MISO - PB3
-#define P15 Pb1 // D15 - SCK - PB1
-#define P16 Pb2 // D16 - MOSI - PB2
-#define P17 Pb0 // D17 - SS - PB0
-
-#define P18 Pf7 // D18 - A0 - PF7
-#define P19 Pf6 // D19 - A1 - PF6
-#define P20 Pf5 // D20 - A2 - PF5
-#define P21 Pf4 // D21 - A3 - PF4
-#define P22 Pf1 // D22 - A4 - PF1
-#define P23 Pf0 // D23 - A5 - PF0
-
-#define P24 Pd4 // D24 / D4 - A6 - PD4
-#define P25 Pd7 // D25 / D6 - A7 - PD7
-#define P26 Pb4 // D26 / D8 - A8 - PB4
-#define P27 Pb5 // D27 / D9 - A9 - PB5
-#define P28 Pb6 // D28 / D10 - A10 - PB6
-#define P29 Pd6 // D29 / D12 - A11 - PD6
-
-#endif // Arduino Leonardo pin numbers
-
-#if defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
+#if defined(__AVR_ATmega32U4__)
 // Teensy 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pb0
@@ -629,45 +611,7 @@ template<typename Tp_pin, typename Tc_bit>
 #define P45 Pf7
 #endif // Teensy++ 2.0
 
-#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
-#define BOARD_BALANDUINO
-// Balanduino pin numbers
-// http://balanduino.net/
-#define P0  Pd0 /* 0  - PD0 */
-#define P1  Pd1 /* 1  - PD1 */
-#define P2  Pb2 /* 2  - PB2 */
-#define P3  Pd6 /* 3  - PD6 */
-#define P4  Pd7 /* 4  - PD7 */
-#define P5  Pb3 /* 5  - PB3 */
-#define P6  Pb4 /* 6  - PB4 */
-#define P7  Pa0 /* 7  - PA0 */
-#define P8  Pa1 /* 8  - PA1 */
-#define P9  Pa2 /* 9  - PA2 */
-#define P10 Pa3 /* 10 - PA3 */
-#define P11 Pa4 /* 11 - PA4 */
-#define P12 Pa5 /* 12 - PA5 */
-#define P13 Pc0 /* 13 - PC0 */
-#define P14 Pc1 /* 14 - PC1 */
-#define P15 Pd2 /* 15 - PD2 */
-#define P16 Pd3 /* 16 - PD3 */
-#define P17 Pd4 /* 17 - PD4 */
-#define P18 Pd5 /* 18 - PD5 */
-#define P19 Pc2 /* 19 - PC2 */
-#define P20 Pc3 /* 20 - PC3 */
-#define P21 Pc4 /* 21 - PC4 */
-#define P22 Pc5 /* 22 - PC5 */
-#define P23 Pc6 /* 23 - PC6 */
-#define P24 Pc7 /* 24 - PC7 */
-#define P25 Pb0 /* 25 - PB0 */
-#define P26 Pb1 /* 26 - PB1 */
-#define P27 Pb5 /* 27 - PB5 */
-#define P28 Pb6 /* 28 - PB6 */
-#define P29 Pb7 /* 29 - PB7 */
-#define P30 Pa6 /* 30 - PA6 */
-#define P31 Pa7 /* 31 - PA7 */
-#endif // Balanduino  
-
-#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
 // Sanguino pin numbers
 // http://sanguino.cc/hardware
 #define P0  Pb0
