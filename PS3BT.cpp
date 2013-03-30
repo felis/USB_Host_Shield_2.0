@@ -589,10 +589,10 @@ void PS3BT::setRumbleOff() {
 }
 
 void PS3BT::setRumbleOn(Rumble mode) {
-        if ((mode & 0x30) > 0) {
-                uint8_t power[2] = { 0xff, 0 }; // Defaults to RumbleLow
+        if ((mode & 0x30) > 0x00) {
+                uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
                 if (mode == RumbleHigh) {
-                        power[0] = 0;
+                        power[0] = 0x00;
                         power[1] = 0xff;
                 }
                 setRumbleOn(0xfe, power[0], 0xfe, power[1]);
