@@ -445,22 +445,24 @@ void PS3USB::setRumbleOff() {
 }
 
 void PS3USB::setRumbleOn(Rumble mode) {
-    if ((mode & 0x30) > 0) {
-        uint8_t power[2] = { 0xff, 0 }; // Defaults to RumbleLow
-        if (mode == RumbleHigh) {
-            power[0] = 0;
-            power[1] = 0xff;
+        if ((mode & 0x30) > 0x00) {
+                uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
+                if (mode == RumbleHigh) {
+                        power[0] = 0x00;
+                        power[1] = 0xff;
+                }
+                setRumbleOn(0xfe, power[0], 0xfe, power[1]);
         }
-        setRumbleOn(0xfe, power[0], 0xfe, power[1]);
-    }
 }
+
 void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
-    writeBuf[1] = rightDuration;
-    writeBuf[2] = rightPower;
-    writeBuf[3] = leftDuration;
-    writeBuf[4] = leftPower;
-    PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+        writeBuf[1] = rightDuration;
+        writeBuf[2] = rightPower;
+        writeBuf[3] = leftDuration;
+        writeBuf[4] = leftPower;
+        PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedOff(LED a) {
         writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
