@@ -22,10 +22,24 @@ e-mail   :  support@circuitsathome.com
 
 void Notify(char const * msg, int lvl);
 void NotifyStr(char const * msg, int lvl);
+#ifdef DEBUG
+void NotifyFailGetDevDescr(void);
+void NotifyFailSetDevTblEntry(void);
+void NotifyFailGetConfDescr(void);
+void NotifyFailSetConfDescr(void);
+void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID);
+void NotifyFail(uint8_t rcode);
+#else
+#define NotifyFailGetDevDescr()
+#define NotifyFailSetDevTblEntry()
+#define NotifyFailGetConfDescr()
+#define NotifyFailSetConfDescr()
+#define NotifyFailUnknownDevice(VID, PID)
+#define NotifyFail(rcode)
+#endif
+extern int UsbDEBUGlvl;
 
 #include "printhex.h"
-
-//void Notify(const char* msg);
 
 template <class ERROR_TYPE>
 void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {

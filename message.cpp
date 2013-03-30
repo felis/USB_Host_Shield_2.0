@@ -45,3 +45,32 @@ void NotifyStr(char const * msg, int lvl) {
 
         while (c = *msg++) Notifyc(c, lvl);
 }
+
+#ifdef DEBUG
+void NotifyFailGetDevDescr(void) {
+        Notify(PSTR("\r\ngetDevDescr"), 0x80);
+}
+
+void NotifyFailSetDevTblEntry(void) {
+        Notify(PSTR("\r\nsetDevTblEn"), 0x80);
+}
+void NotifyFailGetConfDescr(void) {
+        Notify(PSTR("\r\ngetConf"), 0x80);
+}
+
+void NotifyFailSetConf(void) {
+        Notify(PSTR("\r\nsetConf"), 0x80);
+}
+
+void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID) {
+        Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
+        PrintHex<uint16_t > (VID, 0x80);
+        Notify(PSTR(" PID: "), 0x80);
+        PrintHex<uint16_t > (PID, 0x80);
+}
+
+void NotifyFail(uint8_t rcode) {
+        PrintHex<uint8_t > (rcode, 0x80);
+        Notify(PSTR("\r\n"), 0x80);
+}
+#endif

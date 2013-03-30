@@ -221,29 +221,27 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
-        USBTRACE("getDevDescr:");
+        NotifyFailGetDevDescr();
         goto Fail;
 
 FailSetDevTblEntry:
-        USBTRACE("setDevTblEn:");
+        NotifyFailSetDevTblEntry();
         goto Fail;
 
 FailGetConfDescr:
-        USBTRACE("getConf:");
+        NotifyFailGetConfDescr();
         goto Fail;
 
 FailSetConfDescr:
-        USBTRACE("setConf:");
+        NotifyFailSetConfDescr();
         goto Fail;
+
 
 FailSetIdle:
         USBTRACE("SetIdle:");
-        goto Fail;
 
 Fail:
-        PrintHex<uint8_t > (rcode, 0x80);
-        Notify(PSTR("\r\n"), 0x80);
-        //Serial.println(rcode, HEX);
+        NotifyFail(rcode);
         Release();
         return rcode;
 }

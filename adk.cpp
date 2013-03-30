@@ -176,7 +176,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 // Set Configuration Value
                 rcode = pUsb->setConf(bAddress, 0, bConfNum);
                 if (rcode) {
-                        goto FailSetConf;
+                        goto FailSetConfDescr;
                 }
                 /* print endpoint structure */
                 //		          USBTRACE("\r\nEndpoint Structure:");
@@ -227,11 +227,19 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
-        USBTRACE("\r\ngetDevDescr:");
+        NotifyFailGetDevDescr();
         goto Fail;
 
 FailSetDevTblEntry:
-        USBTRACE("\r\nsetDevTblEn:");
+        NotifyFailSetDevTblEntry();
+        goto Fail;
+
+FailGetConfDescr:
+        NotifyFailGetConfDescr();
+        goto Fail;
+
+FailSetConfDescr:
+        NotifyFailSetConfDescr();
         goto Fail;
 
 FailGetProto:
@@ -244,22 +252,15 @@ FailSwAcc:
 
 SwAttempt:
         USBTRACE("\r\nAccessory mode switch attempt");
-        goto Fail;
+        // goto Fail;
 
-FailGetConfDescr:
-        //	USBTRACE("getConf:");
-        goto Fail;
-        //
-FailSetConf:
-        //	USBTRACE("setConf:");
-        goto Fail;
-        //
-        //FailOnInit:
+//FailOnInit:
         //	USBTRACE("OnInit:");
         //	goto Fail;
         //
 Fail:
         //USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
+        //NotifyFail(rcode);
         Release();
         return rcode;
 }
