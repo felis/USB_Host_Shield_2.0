@@ -589,24 +589,14 @@ void PS3BT::setRumbleOff() {
 }
 
 void PS3BT::setRumbleOn(Rumble mode) {
-        /* Still not totally sure how it works, maybe something like this instead?
-         * 3 - duration_right
-         * 4 - power_right
-         * 5 - duration_left
-         * 6 - power_left
-         */
-        if ((mode & 0x30) > 0) {
-                HIDBuffer[3] = 0xfe;
-                HIDBuffer[5] = 0xfe;
-                if (mode == RumbleHigh) {
-                        HIDBuffer[4] = 0; //low mode off
-                        HIDBuffer[6] = 0xff; //high mode on
-                } else {
-                        HIDBuffer[4] = 0xff; //low mode on
-                        HIDBuffer[6] = 0; //high mode off
-                }
-                HID_Command(HIDBuffer, HID_BUFFERSIZE);
+    if ((mode & 0x30) > 0) {
+        uint8_t power[2] = { 0xff, 0 }; // Defaults to RumbleLow
+        if (mode == RumbleHigh) {
+            power[0] = 0;
+            power[1] = 0xff;
         }
+        setRumbleOn(0xfe, power[0], 0xfe, power[1]);
+    }
 }
 void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
     HIDBuffer[3] = rightDuration;

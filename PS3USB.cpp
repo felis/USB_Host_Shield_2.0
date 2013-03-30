@@ -445,24 +445,14 @@ void PS3USB::setRumbleOff() {
 }
 
 void PS3USB::setRumbleOn(Rumble mode) {
-        /* Still not totally sure how it works, maybe something like this instead?
-         * 3 - duration_right
-         * 4 - power_right
-         * 5 - duration_left
-         * 6 - power_left
-         */
-        if ((mode & 0x30) > 0) {
-                writeBuf[1] = 0xfe;
-                writeBuf[3] = 0xfe;
-                if (mode == RumbleHigh) {
-                        writeBuf[2] = 0; //low mode off
-                        writeBuf[4] = 0xff; //high mode on
-                } else {
-                        writeBuf[2] = 0xff; //low mode on
-                        writeBuf[4] = 0; //high mode off
-                }
-                PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+    if ((mode & 0x30) > 0) {
+        uint8_t power[2] = { 0xff, 0 }; // Defaults to RumbleLow
+        if (mode == RumbleHigh) {
+            power[0] = 0;
+            power[1] = 0xff;
         }
+        setRumbleOn(0xfe, power[0], 0xfe, power[1]);
+    }
 }
 void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
     writeBuf[1] = rightDuration;
