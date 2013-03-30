@@ -47,10 +47,20 @@ e-mail   :  support@circuitsathome.com
 extern int UsbDEBUGlvl;
 /* shield pins. First parameter - SS pin, second parameter - INT pin */
 
+#if defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#define BOARD_TEENSY_PLUS_PLUS
+#endif
+
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3> MAX3421E; // Black Widow
+#elif defined(BOARD_TEENSY_PLUS_PLUS)
+typedef MAX3421e<P9, P8> MAX3421E; // Teensy++ 2.0 & 1.0
+#elif defined(BOARD_MEGA_ADK)
+typedef MAX3421e<P53, P54> MAX3421E; // Arduino Mega ADK
+#elif defined(BOARD_BALANDUINO)
+typedef MAX3421e<P20, P19> MAX3421E; // Balanduino
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560
+typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo etc.)
 #endif
 
 //Debug macros. In 1.0 it is possible to move strings to PROGMEM by defining USBTRACE (Serial.print(F(s)))
