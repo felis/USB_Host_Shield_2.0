@@ -185,6 +185,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         bInitState = 0;
         return 0;
 
+// Oleg, No debugging?? -- xxxajk
 FailGetDevDescr:
         goto Fail;
 

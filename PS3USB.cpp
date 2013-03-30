@@ -187,7 +187,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         rcode = pUsb->setConf(bAddress, epInfo[ PS3_CONTROL_PIPE ].epAddr, 1);
         if (rcode)
-                goto FailSetConf;
+                goto FailSetConfDescr;
 
         if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
                 if (PID == PS3_PID) {
@@ -232,34 +232,25 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
-#ifdef DEBUG
-        Notify(PSTR("\r\ngetDevDescr:"), 0x80);
-#endif
+        NotifyFailGetDevDescr();
         goto Fail;
+
 FailSetDevTblEntry:
-#ifdef DEBUG
-        Notify(PSTR("\r\nsetDevTblEn:"), 0x80);
-#endif
+        NotifyFailSetDevTblEntry();
         goto Fail;
-FailSetConf:
-#ifdef DEBUG
-        Notify(PSTR("\r\nsetConf:"), 0x80);
-#endif
+
+FailSetConfDescr:
+        NotifyFailSetConfDescr();
         goto Fail;
 FailUnknownDevice:
-#ifdef DEBUG
-        Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
-        PrintHex<uint16_t > (VID, 0x80);
-        Notify(PSTR(" PID: "), 0x80);
-        PrintHex<uint16_t > (PID, 0x80);
-#endif
+        NotifyFailUnknownDevice(VID,PID);
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-        goto Fail;
-Fail:
+        Fail:
+
 #ifdef DEBUG
         Notify(PSTR("\r\nPS3 Init Failed, error code: "), 0x80);
-        Serial.print(rcode, HEX);
 #endif
+        NotifyFail(rcode);
         Release();
         return rcode;
 }

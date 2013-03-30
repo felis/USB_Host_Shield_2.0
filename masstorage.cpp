@@ -1,4 +1,5 @@
 #include "masstorage.h"
+
 const uint8_t BulkOnly::epDataInIndex = 1;
 const uint8_t BulkOnly::epDataOutIndex = 2;
 const uint8_t BulkOnly::epInterruptInIndex = 3;
@@ -160,7 +161,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
         if (rcode)
-                goto FailSetConf;
+                goto FailSetConfDescr;
 
         delay(10000);
 
@@ -280,19 +281,19 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
-        USBTRACE("getDevDescr:");
+        NotifyFailGetDevDescr();
         goto Fail;
 
 FailSetDevTblEntry:
-        USBTRACE("setDevTblEn:");
+        NotifyFailSetDevTblEntry();
         goto Fail;
 
 FailGetConfDescr:
-        USBTRACE("getConf:");
+        NotifyFailGetConfDescr();
         goto Fail;
 
-FailSetConf:
-        USBTRACE("setConf:");
+FailSetConfDescr:
+        NotifyFailSetConfDescr();
         goto Fail;
 
 FailOnInit:
@@ -325,12 +326,9 @@ FailModeSense0:
 
 FailModeSense1:
         USBTRACE("ModeSense1:");
-        goto Fail;
 
 Fail:
-        PrintHex<uint8_t > (rcode, 0x80);
-        Notify(PSTR("\r\n"), 0x80);
-        //Serial.println(rcode, HEX);
+        NotifyFail(rcode);
         Release();
         return rcode;
 }

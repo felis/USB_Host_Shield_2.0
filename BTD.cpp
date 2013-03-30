@@ -143,7 +143,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 /* We only need the Control endpoint, so we don't have to initialize the other endpoints of device */
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1);
                 if (rcode)
-                        goto FailSetConf;
+                        goto FailSetConfDescr;
 
                 if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
 #ifdef DEBUG
@@ -193,7 +193,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 // Set Configuration Value
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bConfNum);
                 if (rcode)
-                        goto FailSetConf;
+                        goto FailSetConfDescr;
 
                 hci_num_reset_loops = 100; // only loop 100 times before trying to send the hci reset command
                 hci_counter = 0;
@@ -209,40 +209,30 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
-#ifdef DEBUG
-        Notify(PSTR("\r\ngetDevDescr"), 0x80);
-#endif
+        NotifyFailGetDevDescr();
         goto Fail;
+
 FailSetDevTblEntry:
-#ifdef DEBUG
-        Notify(PSTR("\r\nsetDevTblEn"), 0x80);
-#endif
+        NotifyFailSetDevTblEntry();
         goto Fail;
+
 FailGetConfDescr:
-#ifdef DEBUG
-        Notify(PSTR("\r\ngetConf"), 0x80);
-#endif
+        NotifyFailGetConfDescr();
         goto Fail;
-FailSetConf:
-#ifdef DEBUG
-        Notify(PSTR("\r\nsetConf"), 0x80);
-#endif
+
+FailSetConfDescr:
+        NotifyFailSetConfDescr();
         goto Fail;
-FailUnknownDevice:
-#ifdef DEBUG
-        Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
-        PrintHex<uint16_t > (VID, 0x80);
-        Notify(PSTR(" PID: "), 0x80);
-        PrintHex<uint16_t > (PID, 0x80);
-#endif
+
+        FailUnknownDevice:
+        NotifyFailUnknownDevice(VID,PID);
         pUsb->setAddr(bAddress, 0, 0); // Reset address
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-        goto Fail;
 Fail:
 #ifdef DEBUG
         Notify(PSTR("\r\nBTD Init Failed, error code: "), 0x80);
-        Serial.print(rcode);
 #endif
+        NotifyFail(rcode);
         Release();
         return rcode;
 }

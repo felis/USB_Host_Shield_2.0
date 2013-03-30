@@ -238,6 +238,7 @@ getPitch	KEYWORD2
 getRoll	KEYWORD2
 getYaw	KEYWORD2
 PAIR	KEYWORD2
+statusRequest	KEYWORD2
 getBatteryLevel	KEYWORD2
 getWiiState	KEYWORD2
 
