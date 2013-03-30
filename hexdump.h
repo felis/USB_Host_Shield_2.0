@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #if !defined(__HEXDUMP_H__)
 #define __HEXDUMP_H__
 
@@ -22,37 +22,38 @@ e-mail   :  support@circuitsathome.com
 #include "printhex.h"
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
-class HexDumper : public BASE_CLASS
-{
-	uint8_t		byteCount;
-	OFFSET_TYPE    	byteTotal;
+class HexDumper : public BASE_CLASS {
+        uint8_t byteCount;
+        OFFSET_TYPE byteTotal;
 
 public:
-	HexDumper() : byteCount(0), byteTotal(0) {};
-	void Initialize() { byteCount = 0; byteTotal = 0; };
 
-	virtual void Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset);
+        HexDumper() : byteCount(0), byteTotal(0) {
+        };
+
+        void Initialize() {
+                byteCount = 0;
+                byteTotal = 0;
+        };
+
+        virtual void Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset);
 };
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
-void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset)
-{
-	for (LEN_TYPE j=0; j<len; j++, byteCount++, byteTotal++)
-	{
-        	if (!byteCount)
-        	{
-			PrintHex<OFFSET_TYPE>(byteTotal);
-            		Serial.print(": ");
-        	}
-		PrintHex<uint8_t>(pbuf[j]);
-		Serial.print(" ");
+void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
+        for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
+                if(!byteCount) {
+                        SerialPrintHex<OFFSET_TYPE > (byteTotal);
+                        Serial.print(": ");
+                }
+                SerialPrintHex<uint8_t > (pbuf[j]);
+                Serial.print(" ");
 
-		if (byteCount == 15)
-		{
-			Serial.println("");
-			byteCount = 0xFF;
-		}
-	}
+                if(byteCount == 15) {
+                        Serial.println("");
+                        byteCount = 0xFF;
+                }
+        }
 }
 
 #endif // __HEXDUMP_H__

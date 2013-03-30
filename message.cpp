@@ -13,19 +13,35 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #include "message.h"
+// 0x80 is the default (i.e. trace) to turn off set this global to something lower.
+// this allows for 126 other debugging levels.
+// TO-DO: Allow assignment to a different serial port
+int UsbDEBUGlvl = 0x80;
 
-void Notify(char const * msg)
-//void Notify(const char* msg)
-{
-	if(!msg) return;
-	char c;
-
-	while((c = pgm_read_byte(msg++)))
+void Notifyc(char c, int lvl) {
+        if (UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
-  Serial.print(c);
-#else  	
-		Serial.print(c,BYTE);
-#endif		
+        Serial.print(c);
+#else
+        Serial.print(c, BYTE);
+#endif
+        Serial.flush();
+}
+
+void Notify(char const * msg, int lvl) {
+        if (UsbDEBUGlvl < lvl) return;
+        if (!msg) return;
+        char c;
+
+        while ((c = pgm_read_byte(msg++))) Notifyc(c, lvl);
+}
+
+void NotifyStr(char const * msg, int lvl) {
+        if (UsbDEBUGlvl < lvl) return;
+        if (!msg) return;
+        char c;
+
+        while (c = *msg++) Notifyc(c, lvl);
 }
