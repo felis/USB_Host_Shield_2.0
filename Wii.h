@@ -205,13 +205,16 @@ public:
         void setLedStatus();
 
         /**
+         * Call this to update battery level and Wiimote state
+         */
+        void statusRequest();
+        /**
          * Return the battery level of the Wiimote.
          * @return The battery level in the range 0-255.
          */
         uint8_t getBatteryLevel() {
                 return batteryLevel;
         };
-
         /**
          * Return the Wiimote state.
          * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
@@ -438,7 +441,6 @@ private:
         /* HID Commands */
         void HID_Command(uint8_t* data, uint8_t nbytes);
         void setReportMode(bool continuous, uint8_t mode);
-        void statusRequest();
 
         void writeData(uint32_t offset, uint8_t size, uint8_t* data);
         void initExtension1();

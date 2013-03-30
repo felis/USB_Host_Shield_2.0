@@ -439,10 +439,7 @@ ControllerStatus Breakdown
     ControllerStatus[controller] & 0x8000   // 0
  */
 uint8_t XBOXRECV::getBatteryLevel(uint8_t controller) {
-        uint8_t batteryLevel = ((controllerStatus[controller] & 0x00C0) >> 6) * 33;
-        if (batteryLevel == 99)
-                batteryLevel = 100;
-        return batteryLevel;
+        return ((controllerStatus[controller] & 0x00C0) >> 6);
 }
 
 void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
