@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 #if !defined(__USBHUB_H__)
 #define __USBHUB_H__
 
@@ -24,6 +24,7 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+
 
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
@@ -76,7 +77,7 @@ e-mail   :  support@circuitsathome.com
 #define HUB_PORT_TEST_MODE_K					2
 #define HUB_PORT_TEST_MODE_SE0_NAK				3
 #define HUB_PORT_TEST_MODE_PACKET				4
-#define HUB_PORT_TEST_MODE_FORCE_ENABLE			5 
+#define HUB_PORT_TEST_MODE_FORCE_ENABLE			5
 
 // Hub Port Indicator Color
 #define HUB_PORT_INDICATOR_AUTO					0
@@ -84,7 +85,7 @@ e-mail   :  support@circuitsathome.com
 #define HUB_PORT_INDICATOR_GREEN				2
 #define HUB_PORT_INDICATOR_OFF					3
 
-// Hub Port Status Bitmasks 
+// Hub Port Status Bitmasks
 #define bmHUB_PORT_STATUS_PORT_CONNECTION		0x0001
 #define bmHUB_PORT_STATUS_PORT_ENABLE			0x0002
 #define bmHUB_PORT_STATUS_PORT_SUSPEND			0x0004
@@ -127,7 +128,7 @@ e-mail   :  support@circuitsathome.com
 // The bit mask to check for all necessary state bits
 #define bmHUB_PORT_STATUS_ALL_MAIN				((0UL  | bmHUB_PORT_STATUS_C_PORT_CONNECTION  | bmHUB_PORT_STATUS_C_PORT_ENABLE  | bmHUB_PORT_STATUS_C_PORT_SUSPEND  | bmHUB_PORT_STATUS_C_PORT_RESET) << 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)
 
-// Bit mask to check for DISABLED state in HubEvent::bmStatus field 
+// Bit mask to check for DISABLED state in HubEvent::bmStatus field
 #define bmHUB_PORT_STATE_CHECK_DISABLED			(0x0000 | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_SUSPEND)
 
 // Hub Port States
@@ -142,116 +143,115 @@ e-mail   :  support@circuitsathome.com
 #define bmHUB_PORT_EVENT_LS_RESET_COMPLETE		(((0UL | bmHUB_PORT_STATUS_C_PORT_RESET)		<< 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)
 #define bmHUB_PORT_EVENT_LS_PORT_ENABLED		(((0UL | bmHUB_PORT_STATUS_C_PORT_CONNECTION | bmHUB_PORT_STATUS_C_PORT_ENABLE)		<< 16) | bmHUB_PORT_STATUS_PORT_POWER | bmHUB_PORT_STATUS_PORT_ENABLE | bmHUB_PORT_STATUS_PORT_CONNECTION | bmHUB_PORT_STATUS_PORT_LOW_SPEED)
 
-struct HubDescriptor
-{
-	uint8_t		bDescLength;						// descriptor length
-	uint8_t		bDescriptorType;					// descriptor type
-	uint8_t		bNbrPorts;							// number of ports a hub equiped with
-	
-	struct 
-	{
-		uint16_t	LogPwrSwitchMode		: 2;
-		uint16_t	CompoundDevice			: 1;
-		uint16_t	OverCurrentProtectMode	: 2;
-		uint16_t	TTThinkTime				: 2;
-		uint16_t	PortIndicatorsSupported : 1;
-		uint16_t	Reserved				: 8;
-	};
+struct HubDescriptor {
+        uint8_t bDescLength; // descriptor length
+        uint8_t bDescriptorType; // descriptor type
+        uint8_t bNbrPorts; // number of ports a hub equiped with
 
-	uint8_t		bPwrOn2PwrGood;
-	uint8_t		bHubContrCurrent;
-};
+        struct {
+                uint16_t LogPwrSwitchMode : 2;
+                uint16_t CompoundDevice : 1;
+                uint16_t OverCurrentProtectMode : 2;
+                uint16_t TTThinkTime : 2;
+                uint16_t PortIndicatorsSupported : 1;
+                uint16_t Reserved : 8;
+        } __attribute__((packed));
 
-struct HubEvent
-{
-	union
-	{
-		struct
-		{
-			uint16_t	bmStatus;			// port status bits
-			uint16_t	bmChange;			// port status change bits
-		};
-		uint32_t		bmEvent;
-		uint8_t			evtBuff[4];
-	};
-};
+        uint8_t bPwrOn2PwrGood;
+        uint8_t bHubContrCurrent;
+} __attribute__((packed));
 
-class USBHub : USBDeviceConfig
-{
-	static bool bResetInitiated;		// True when reset is triggered
+struct HubEvent {
 
-	USB			*pUsb;					// USB class instance pointer
+        union {
 
-	EpInfo		epInfo[2];				// interrupt endpoint info structure
+                struct {
+                        uint16_t bmStatus; // port status bits
+                        uint16_t bmChange; // port status change bits
+                } __attribute__((packed));
+                uint32_t bmEvent;
+                uint8_t evtBuff[4];
+        };
+} __attribute__((packed));
 
-	uint8_t		bAddress;				// address
-	uint8_t		bNbrPorts;				// number of ports
-	uint8_t		bInitState;				// initialization state variable
-	uint32_t	qNextPollTime;			// next poll time
-	bool		bPollEnable;			// poll enable flag
+class USBHub : USBDeviceConfig {
+        static bool bResetInitiated; // True when reset is triggered
 
-	uint8_t CheckHubStatus();
-	uint8_t PortStatusChange(uint8_t port, HubEvent &evt);
+        USB *pUsb; // USB class instance pointer
+
+        EpInfo epInfo[2]; // interrupt endpoint info structure
+
+        uint8_t bAddress; // address
+        uint8_t bNbrPorts; // number of ports
+        uint8_t bInitState; // initialization state variable
+        uint32_t qNextPollTime; // next poll time
+        bool bPollEnable; // poll enable flag
+
+        uint8_t CheckHubStatus();
+        uint8_t PortStatusChange(uint8_t port, HubEvent &evt);
 
 public:
-	USBHub(USB *p);
+        USBHub(USB *p);
 
-	uint8_t ClearHubFeature( uint8_t fid );
-	uint8_t ClearPortFeature( uint8_t fid, uint8_t port, uint8_t sel = 0 );
-	uint8_t GetHubDescriptor( uint8_t index, uint16_t nbytes, uint8_t *dataptr );
-	uint8_t GetHubStatus( uint16_t nbytes, uint8_t* dataptr );
-	uint8_t GetPortStatus( uint8_t port, uint16_t nbytes, uint8_t* dataptr );
-	uint8_t SetHubDescriptor( uint8_t port, uint16_t nbytes, uint8_t* dataptr );
-	uint8_t SetHubFeature( uint8_t fid );
-	uint8_t SetPortFeature( uint8_t fid, uint8_t port, uint8_t sel = 0 );
+        uint8_t ClearHubFeature(uint8_t fid);
+        uint8_t ClearPortFeature(uint8_t fid, uint8_t port, uint8_t sel = 0);
+        uint8_t GetHubDescriptor(uint8_t index, uint16_t nbytes, uint8_t *dataptr);
+        uint8_t GetHubStatus(uint16_t nbytes, uint8_t* dataptr);
+        uint8_t GetPortStatus(uint8_t port, uint16_t nbytes, uint8_t* dataptr);
+        uint8_t SetHubDescriptor(uint8_t port, uint16_t nbytes, uint8_t* dataptr);
+        uint8_t SetHubFeature(uint8_t fid);
+        uint8_t SetPortFeature(uint8_t fid, uint8_t port, uint8_t sel = 0);
 
-	void PrintHubStatus();
+        void PrintHubStatus();
 
-	virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-	virtual uint8_t Release();
-	virtual uint8_t Poll();
-	virtual uint8_t GetAddress() { return bAddress; };
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        virtual uint8_t Release();
+        virtual uint8_t Poll();
+
+        virtual uint8_t GetAddress() {
+                return bAddress;
+        };
 };
 
 // Clear Hub Feature
-inline uint8_t USBHub::ClearHubFeature( uint8_t fid ) 
-{
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL ));
+
+inline uint8_t USBHub::ClearHubFeature(uint8_t fid) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Clear Port Feature
-inline uint8_t USBHub::ClearPortFeature( uint8_t fid, uint8_t port, uint8_t sel ) 
-{
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000|port)|(sel<<8)), 0, 0, NULL, NULL ));
+
+inline uint8_t USBHub::ClearPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000 | port) | (sel << 8)), 0, 0, NULL, NULL));
 }
 // Get Hub Descriptor
-inline uint8_t USBHub::GetHubDescriptor( uint8_t index, uint16_t nbytes, uint8_t *dataptr ) 
-{
-	return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL ));
+
+inline uint8_t USBHub::GetHubDescriptor(uint8_t index, uint16_t nbytes, uint8_t *dataptr) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL));
 }
 // Get Hub Status
-inline uint8_t USBHub::GetHubStatus( uint16_t nbytes, uint8_t* dataptr ) 
-{
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL ));
+
+inline uint8_t USBHub::GetHubStatus(uint16_t nbytes, uint8_t* dataptr) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 // Get Port Status
-inline uint8_t USBHub::GetPortStatus( uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
-{
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL ));
+
+inline uint8_t USBHub::GetPortStatus(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Descriptor
-inline uint8_t USBHub::SetHubDescriptor( uint8_t port, uint16_t nbytes, uint8_t* dataptr ) 
-{
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL ));
+
+inline uint8_t USBHub::SetHubDescriptor(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Feature
-inline uint8_t USBHub::SetHubFeature( uint8_t fid ) 
-{
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL ));
+
+inline uint8_t USBHub::SetHubFeature(uint8_t fid) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Set Port Feature
-inline uint8_t USBHub::SetPortFeature( uint8_t fid, uint8_t port, uint8_t sel ) 
-{
-    return( pUsb->ctrlReq( bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000|sel)<<8)|port), 0, 0, NULL, NULL ));
+
+inline uint8_t USBHub::SetPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
+        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
 }
 
 void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);

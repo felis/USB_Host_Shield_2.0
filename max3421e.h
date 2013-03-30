@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 /* MAX3421E register/bit names and bitmasks */
 
 #ifndef _max3421e_h_
@@ -37,7 +37,7 @@ e-mail   :  support@circuitsathome.com
 
 /* MAX3421E command byte format: rrrrr0wa where 'r' is register number  */
 //
-// MAX3421E Registers in HOST mode. 
+// MAX3421E Registers in HOST mode.
 //
 #define rRCVFIFO    0x08    //1<<3
 #define rSNDFIFO    0x10    //2<<3
@@ -141,7 +141,7 @@ e-mail   :  support@circuitsathome.com
 
 #define rHIRQ       0xc8    //25<<3
 /* HIRQ Bits */
-#define bmBUSEVENTIRQ   0x01   // indicates BUS Reset Done or BUS Resume     
+#define bmBUSEVENTIRQ   0x01   // indicates BUS Reset Done or BUS Resume
 #define bmRWUIRQ        0x02
 #define bmRCVDAVIRQ     0x04
 #define bmSNDBAVIRQ     0x08
@@ -194,7 +194,7 @@ e-mail   :  support@circuitsathome.com
 #define tokIN     0x00  // HS=0, ISO=0, OUTNIN=0, SETUP=0
 #define tokOUT    0x20  // HS=0, ISO=0, OUTNIN=1, SETUP=0
 #define tokINHS   0x80  // HS=1, ISO=0, OUTNIN=0, SETUP=0
-#define tokOUTHS  0xA0  // HS=1, ISO=0, OUTNIN=1, SETUP=0 
+#define tokOUTHS  0xA0  // HS=1, ISO=0, OUTNIN=1, SETUP=0
 #define tokISOIN  0x40  // HS=0, ISO=1, OUTNIN=0, SETUP=0
 #define tokISOOUT 0x60  // HS=0, ISO=1, OUTNIN=1, SETUP=0
 
@@ -206,7 +206,7 @@ e-mail   :  support@circuitsathome.com
 #define bmKSTATUS   0x40
 #define bmJSTATUS   0x80
 #define bmSE0       0x00    //SE0 - disconnect state
-#define bmSE1       0xc0    //SE1 - illegal state       
+#define bmSE1       0xc0    //SE1 - illegal state
 
 /* Host error result codes, the 4 LSB's in the HRSL register */
 #define hrSUCCESS   0x00
