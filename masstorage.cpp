@@ -1,5 +1,5 @@
-#include "message.h"
 #include "masstorage.h"
+
 const uint8_t BulkOnly::epDataInIndex = 1;
 const uint8_t BulkOnly::epDataOutIndex = 2;
 const uint8_t BulkOnly::epInterruptInIndex = 3;

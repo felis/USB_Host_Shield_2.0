@@ -20,8 +20,6 @@ e-mail   :  support@circuitsathome.com
 #include <inttypes.h>
 
 #include <avr/pgmspace.h>
-#include "printhex.h"
-#include "hexdump.h"
 #include "message.h"
 #include "parsetools.h"
 
