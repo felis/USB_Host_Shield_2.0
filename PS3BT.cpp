@@ -608,7 +608,13 @@ void PS3BT::setRumbleOn(Rumble mode) {
                 HID_Command(HIDBuffer, HID_BUFFERSIZE);
         }
 }
-
+void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
+    HIDBuffer[3] = rightDuration;
+    HIDBuffer[4] = rightPower;
+    HIDBuffer[5] = leftDuration;
+    HIDBuffer[6] = leftPower;
+    HID_Command(HIDBuffer, HID_BUFFERSIZE);
+}
 void PS3BT::setLedOff(LED a) {
         HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
