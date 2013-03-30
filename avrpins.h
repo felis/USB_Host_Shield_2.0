@@ -20,6 +20,17 @@ e-mail   :  support@circuitsathome.com
 #ifndef _avrpins_h_
 #define _avrpins_h_
 
+#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
+/* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
+//#define BOARD_MEGA_ADK
+#endif
+
+/* Uncomment the following if you are using a Teensy 2.0 */
+//#define BOARD_TEENSY
+
+/* Uncomment the following if you are using a Sanguino */
+//#define BOARD_SANGUINO
+
 #include <avr/io.h>
 
 #ifdef PORTA
@@ -499,6 +510,7 @@ public:
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
+#define P54 Pe6 // INT on Arduino ADK
 
 #endif  //"Mega" pin numbers
 
@@ -530,7 +542,47 @@ public:
 
 #endif // "Classic" Arduino pin numbers
 
-#if defined(__AVR_ATmega32U4__)
+#if !defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
+// Arduino Leonardo pin numbers
+
+#define P0  Pd2 // D0 - PD2
+#define P1  Pd3 // D1 - PD3
+#define P2  Pd1 // D2 - PD1
+#define P3  Pd0 // D3 - PD0
+#define P4  Pd4 // D4 - PD4
+#define P5  Pc6 // D5 - PC6
+#define P6  Pd7 // D6 - PD7
+#define P7  Pe6 // D7 - PE6
+
+#define P8  Pb4 // D8 - PB4
+#define P9  Pb5 // D9 - PB5
+#define P10 Pb6 // D10 - PB6
+#define P11 Pb7 // D11 - PB7
+#define P12 Pd6 // D12 - PD6
+#define P13 Pc7 // D13 - PC7
+
+#define P14 Pb3 // D14 - MISO - PB3
+#define P15 Pb1 // D15 - SCK - PB1
+#define P16 Pb2 // D16 - MOSI - PB2
+#define P17 Pb0 // D17 - SS - PB0
+
+#define P18 Pf7 // D18 - A0 - PF7
+#define P19 Pf6 // D19 - A1 - PF6
+#define P20 Pf5 // D20 - A2 - PF5
+#define P21 Pf4 // D21 - A3 - PF4
+#define P22 Pf1 // D22 - A4 - PF1
+#define P23 Pf0 // D23 - A5 - PF0
+
+#define P24 Pd4 // D24 / D4 - A6 - PD4
+#define P25 Pd7 // D25 / D6 - A7 - PD7
+#define P26 Pb4 // D26 / D8 - A8 - PB4
+#define P27 Pb5 // D27 / D9 - A9 - PB5
+#define P28 Pb6 // D28 / D10 - A10 - PB6
+#define P29 Pd6 // D29 / D12 - A11 - PD6
+
+#endif // Arduino Leonardo pin numbers
+
+#if defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
 // Teensy 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pb0
@@ -611,7 +663,45 @@ public:
 #define P45 Pf7
 #endif // Teensy++ 2.0
 
-#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#define BOARD_BALANDUINO
+// Balanduino pin numbers
+// http://balanduino.net/
+#define P0  Pd0 /* 0  - PD0 */
+#define P1  Pd1 /* 1  - PD1 */
+#define P2  Pb2 /* 2  - PB2 */
+#define P3  Pd6 /* 3  - PD6 */
+#define P4  Pd7 /* 4  - PD7 */
+#define P5  Pb3 /* 5  - PB3 */
+#define P6  Pb4 /* 6  - PB4 */
+#define P7  Pa0 /* 7  - PA0 */
+#define P8  Pa1 /* 8  - PA1 */
+#define P9  Pa2 /* 9  - PA2 */
+#define P10 Pa3 /* 10 - PA3 */
+#define P11 Pa4 /* 11 - PA4 */
+#define P12 Pa5 /* 12 - PA5 */
+#define P13 Pc0 /* 13 - PC0 */
+#define P14 Pc1 /* 14 - PC1 */
+#define P15 Pd2 /* 15 - PD2 */
+#define P16 Pd3 /* 16 - PD3 */
+#define P17 Pd4 /* 17 - PD4 */
+#define P18 Pd5 /* 18 - PD5 */
+#define P19 Pc2 /* 19 - PC2 */
+#define P20 Pc3 /* 20 - PC3 */
+#define P21 Pc4 /* 21 - PC4 */
+#define P22 Pc5 /* 22 - PC5 */
+#define P23 Pc6 /* 23 - PC6 */
+#define P24 Pc7 /* 24 - PC7 */
+#define P25 Pb0 /* 25 - PB0 */
+#define P26 Pb1 /* 26 - PB1 */
+#define P27 Pb5 /* 27 - PB5 */
+#define P28 Pb6 /* 28 - PB6 */
+#define P29 Pb7 /* 29 - PB7 */
+#define P30 Pa6 /* 30 - PA6 */
+#define P31 Pa7 /* 31 - PA7 */
+#endif // Balanduino  
+
+#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
 // Sanguino pin numbers
 // http://sanguino.cc/hardware
 #define P0  Pb0
