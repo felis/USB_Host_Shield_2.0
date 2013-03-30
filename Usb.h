@@ -18,9 +18,7 @@ e-mail   :  support@circuitsathome.com
 #ifndef _usb_h_
 #define _usb_h_
 
-
 //#define BOARD_BLACK_WIDDOW
-
 
 #define USB_METHODS_INLINE
 
@@ -39,12 +37,8 @@ e-mail   :  support@circuitsathome.com
 #else
 #include <WProgram.h>
 #endif
-
-#include "printhex.h"
-#include "hexdump.h"
 #include "message.h"
 
-extern int UsbDEBUGlvl;
 /* shield pins. First parameter - SS pin, second parameter - INT pin */
 
 #ifdef BOARD_BLACK_WIDDOW

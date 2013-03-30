@@ -14,6 +14,8 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
+
+#define DEBUG
 #include "message.h"
 // 0x80 is the default (i.e. trace) to turn off set this global to something lower.
 // this allows for 126 other debugging levels.
@@ -46,7 +48,6 @@ void NotifyStr(char const * msg, int lvl) {
         while (c = *msg++) Notifyc(c, lvl);
 }
 
-#ifdef DEBUG
 void NotifyFailGetDevDescr(void) {
         Notify(PSTR("\r\ngetDevDescr"), 0x80);
 }
@@ -58,7 +59,7 @@ void NotifyFailGetConfDescr(void) {
         Notify(PSTR("\r\ngetConf"), 0x80);
 }
 
-void NotifyFailSetConf(void) {
+void NotifyFailSetConfDescr(void) {
         Notify(PSTR("\r\nsetConf"), 0x80);
 }
 
@@ -73,4 +74,3 @@ void NotifyFail(uint8_t rcode) {
         PrintHex<uint8_t > (rcode, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 }
-#endif

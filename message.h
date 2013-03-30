@@ -20,6 +20,10 @@ e-mail   :  support@circuitsathome.com
 #include <inttypes.h>
 #include <avr/pgmspace.h>
 
+extern int UsbDEBUGlvl;
+
+#include "printhex.h"
+
 void Notify(char const * msg, int lvl);
 void NotifyStr(char const * msg, int lvl);
 #ifdef DEBUG
@@ -37,9 +41,6 @@ void NotifyFail(uint8_t rcode);
 #define NotifyFailUnknownDevice(VID, PID)
 #define NotifyFail(rcode)
 #endif
-extern int UsbDEBUGlvl;
-
-#include "printhex.h"
 
 template <class ERROR_TYPE>
 void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
@@ -49,5 +50,6 @@ void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
         Notify(PSTR("\r\n"), 0x80);
 }
 
+#include "hexdump.h"
 
 #endif // __MESSAGE_H__
