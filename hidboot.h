@@ -390,16 +390,21 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         return 0;
 
 FailGetDevDescr:
-        USBTRACE("getDevDescr:");
+        NotifyFailGetDevDescr();
         goto Fail;
 
 FailSetDevTblEntry:
-        USBTRACE("setDevTblEn:");
+        NotifyFailSetDevTblEntry();
         goto Fail;
 
 FailGetConfDescr:
-        USBTRACE("getConf:");
+        NotifyFailGetConfDescr();
         goto Fail;
+
+FailSetConfDescr:
+        NotifyFailSetConfDescr();
+        goto Fail;
+
 
 FailSetProtocol:
         USBTRACE("SetProto:");
@@ -409,14 +414,8 @@ FailSetIdle:
         USBTRACE("SetIdle:");
         goto Fail;
 
-FailSetConfDescr:
-        USBTRACE("setConf:");
-        goto Fail;
-
 Fail:
-        PrintHex<uint8_t > (rcode, 0x80);
-        Notify(PSTR("\n"), 0x80);
-        // Serial.println(rcode, HEX);
+        NotifyFail(rcode);
         Release();
         return rcode;
 }

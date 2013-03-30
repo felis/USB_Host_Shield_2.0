@@ -191,7 +191,7 @@ public:
         /**
          * Used to get the battery level from the controller.
          * @param  controller The controller to read from.
-         * @return            Returns the battery level in percentage in 33% steps.
+         * @return            Returns the battery level as an integer in the range of 0-3.
          */
         uint8_t getBatteryLevel(uint8_t controller);
         /**

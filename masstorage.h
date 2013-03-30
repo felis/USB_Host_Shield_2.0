@@ -1,6 +1,8 @@
 #if !defined(__MASSTORAGE_H__)
 #define __MASSTORAGE_H__
 
+#define DEBUG
+
 #include <inttypes.h>
 #include "avrpins.h"
 #include <avr/pgmspace.h>
@@ -14,10 +16,6 @@
 #else
 #include <WProgram.h>
 #endif
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
 
 #include <confdescparser.h>
 
