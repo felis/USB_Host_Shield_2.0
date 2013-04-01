@@ -224,7 +224,7 @@ FailSetConfDescr:
         NotifyFailSetConfDescr();
         goto Fail;
 
-        FailUnknownDevice:
+FailUnknownDevice:
         NotifyFailUnknownDevice(VID,PID);
         pUsb->setAddr(bAddress, 0, 0); // Reset address
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
@@ -315,7 +315,7 @@ void BTD::HCI_event_task() {
         /* check the event pipe*/
         uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
-        if (!rcode || rcode == hrNAK) // Check for errors
+        if (!rcode) // Check for errors
         {
                 switch (hcibuf[0]) //switch on event type
                 {
@@ -403,6 +403,7 @@ void BTD::HCI_event_task() {
 #ifdef EXTRADEBUG
                                 else {
                                         Notify(PSTR("\r\nConnection Failed"), 0x80);
+                                        hci_state = HCI_CHECK_WII_SERVICE;
                                 }
 #endif
                                 break;
@@ -416,8 +417,8 @@ void BTD::HCI_event_task() {
 
                         case EV_REMOTE_NAME_COMPLETE:
                                 if (!hcibuf[2]) { // check if reading is OK
-                                        for (uint8_t i = 0; i < 30; i++)
-                                                remote_name[i] = hcibuf[9 + i]; //store first 30 bytes
+                                        for (uint8_t i = 0; i < min(sizeof(remote_name),sizeof(hcibuf)-9); i++)
+                                                remote_name[i] = hcibuf[9 + i];
                                         hci_event_flag |= HCI_FLAG_REMOTE_NAME_COMPLETE;
                                 }
                                 break;
@@ -429,6 +430,14 @@ void BTD::HCI_event_task() {
                                 disc_bdaddr[3] = hcibuf[5];
                                 disc_bdaddr[4] = hcibuf[6];
                                 disc_bdaddr[5] = hcibuf[7];
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nClass of device: "), 0x80);
+                                PrintHex<uint8_t > (hcibuf[10], 0x80);
+                                Notify(PSTR(" "), 0x80);
+                                PrintHex<uint8_t > (hcibuf[9], 0x80);
+                                Notify(PSTR(" "), 0x80);
+                                PrintHex<uint8_t > (hcibuf[8], 0x80);
+#endif
                                 hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
                                 break;
 
@@ -489,14 +498,14 @@ void BTD::HCI_event_task() {
                                 break;
 #endif
                 } // switch
-                HCI_task();
         }
 #ifdef EXTRADEBUG
-        else {
+        else if (rcode != hrNAK) {
                 Notify(PSTR("\r\nHCI event error: "), 0x80);
                 PrintHex<uint8_t > (rcode, 0x80);
         }
 #endif
+        HCI_task();
 }
 
 /* Poll Bluetooth and print result */
@@ -666,6 +675,7 @@ void BTD::HCI_task() {
                                 }
 #endif
                                 if (strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
+                                        incomingWii = true;
 #ifdef DEBUG
                                         Notify(PSTR("\r\nWiimote is connecting"), 0x80);
 #endif
@@ -684,7 +694,6 @@ void BTD::HCI_task() {
                                                 motionPlusInside = false;
                                                 wiiUProController = false;
                                         }
-                                        incomingWii = true;
                                 }
                                 if (pairWithWii && motionPlusInside)
                                         hci_state = HCI_CONNECT_WII_STATE;
