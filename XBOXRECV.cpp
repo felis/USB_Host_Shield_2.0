@@ -229,7 +229,7 @@ FailSetConfDescr:
         NotifyFailSetConfDescr();
         goto Fail;
 
-        FailUnknownDevice:
+FailUnknownDevice:
         NotifyFailUnknownDevice(VID,PID);
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
