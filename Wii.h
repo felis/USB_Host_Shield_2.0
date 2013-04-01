@@ -178,6 +178,12 @@ public:
         void setRumbleOn();
         /** Toggle rumble. */
         void setRumbleToggle();
+
+        /**
+         * Set LED value without using the ::LED enum.
+         * @param value See: ::LED enum.
+         */
+        void setLedRaw(uint8_t value);
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.

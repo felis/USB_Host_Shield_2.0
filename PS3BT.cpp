@@ -581,22 +581,20 @@ void PS3BT::setAllOff() {
 
 void PS3BT::setRumbleOff() {
         HIDBuffer[3] = 0x00;
-        HIDBuffer[4] = 0x00; //low mode off
+        HIDBuffer[4] = 0x00;
         HIDBuffer[5] = 0x00;
-        HIDBuffer[6] = 0x00; //high mode off
+        HIDBuffer[6] = 0x00;
 
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
 void PS3BT::setRumbleOn(Rumble mode) {
-        if ((mode & 0x30) > 0x00) {
-                uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
-                if (mode == RumbleHigh) {
-                        power[0] = 0x00;
-                        power[1] = 0xff;
-                }
-                setRumbleOn(0xfe, power[0], 0xfe, power[1]);
+        uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
+        if (mode == RumbleHigh) {
+                power[0] = 0x00;
+                power[1] = 0xff;
         }
+        setRumbleOn(0xfe, power[0], 0xfe, power[1]);
 }
 
 void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
@@ -607,6 +605,10 @@ void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftD
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
+void PS3BT::setLedRaw(uint8_t value) {
+        HIDBuffer[11] = value;
+        HID_Command(HIDBuffer, HID_BUFFERSIZE);
+}
 void PS3BT::setLedOff(LED a) {
         HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         HID_Command(HIDBuffer, HID_BUFFERSIZE);

@@ -190,6 +190,12 @@ public:
          * @param leftPower The intensity of the left/high rumble effect.
          */
         void setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower);
+
+        /**
+         * Set LED value without using the ::LED enum.
+         * @param value See: ::LED enum.
+         */
+        void setLedRaw(uint8_t value);
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.

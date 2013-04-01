@@ -869,6 +869,11 @@ void WII::setRumbleToggle() {
         HID_Command(HIDBuffer, 3);
 }
 
+void WII::setLedRaw(uint8_t value) {
+        HIDBuffer[1] = 0x11;
+        HIDBuffer[2] = value | (HIDBuffer[2] & 0x01); // Keep the rumble bit
+        HID_Command(HIDBuffer, 3);
+}
 void WII::setLedOff(LED a) {
         HIDBuffer[1] = 0x11;
         HIDBuffer[2] &= ~(pgm_read_byte(&LEDS[(uint8_t)a]));
