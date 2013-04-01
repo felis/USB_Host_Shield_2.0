@@ -152,14 +152,22 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         else // must be a navigation controller
                                 Notify(PSTR("\r\nNavigation Controller Connected"), 0x80);
 #endif
-                        /* Set internal bluetooth address */
+                        /* Set internal Bluetooth address */
                         setBdaddr(my_bdaddr);
-                } else { // must be a Motion controller
+                } else { // It must be a Motion controller
 #ifdef DEBUG
                         Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
                         setMoveBdaddr(my_bdaddr);
                 }
+#ifdef DEBUG
+                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                for (int8_t i = 5; i > 0; i--) {
+                        PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                        Notify(PSTR(":"), 0x80);
+                }
+                PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+#endif
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
                 pUsb->setAddr(bAddress, 0, 0); // Reset address
                 Release(); // Release device
@@ -1178,29 +1186,22 @@ void BTD::l2cap_information_response(uint16_t handle, uint8_t rxid, uint8_t info
         L2CAP_Command(handle, l2capoutbuf, 12);
 }
 
-/* PS3 Commands - only set Bluetooth address is implemented */
-void BTD::setBdaddr(uint8_t* BDADDR) {
-        /* Set the internal bluetooth address */
+/* PS3 Commands - only set Bluetooth address is implemented in this library */
+void BTD::setBdaddr(uint8_t* bdaddr) {
+        /* Set the internal Bluetooth address */
         uint8_t buf[8];
         buf[0] = 0x01;
         buf[1] = 0x00;
-        for (uint8_t i = 0; i < 6; i++)
-                buf[i + 2] = BDADDR[5 - i]; //Copy into buffer, has to be written reversed
 
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        for (uint8_t i = 0; i < 6; i++)
+                buf[i + 2] = bdaddr[5 - i]; // Copy into buffer, has to be written reversed
+
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
-#ifdef DEBUG
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Notify(PSTR(":"), 0x80);
-        }
-        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
-#endif
 }
 
-void BTD::setMoveBdaddr(uint8_t* BDADDR) {
-        /* Set the internal bluetooth address */
+void BTD::setMoveBdaddr(uint8_t* bdaddr) {
+        /* Set the internal Bluetooth address */
         uint8_t buf[11];
         buf[0] = 0x05;
         buf[7] = 0x10;
@@ -1209,16 +1210,8 @@ void BTD::setMoveBdaddr(uint8_t* BDADDR) {
         buf[10] = 0x12;
 
         for (uint8_t i = 0; i < 6; i++)
-                buf[i + 1] = BDADDR[i];
+                buf[i + 1] = bdaddr[i];
 
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
-#ifdef DEBUG
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Notify(PSTR(":"), 0x80);
-        }
-        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
-#endif
 }
