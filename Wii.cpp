@@ -824,7 +824,7 @@ void WII::Run() {
                                 else if (stateCounter == 400)
                                         readExtensionType(); // Check if it has been activated
                                 else if (stateCounter == 450) {
-                                        setLedStatus();
+                                        //setLedStatus();
                                         stateCounter = 0;
                                         unknownExtensionConnected = false;
                                 }
