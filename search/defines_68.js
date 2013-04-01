@@ -2,6 +2,7 @@ var searchData=
 [
   ['hci_5fbdaddr_5fstate',['HCI_BDADDR_STATE',['../_b_t_d_8h.html#a86fd72d2518d27c02c15af635b55fc8f',1,'BTD.h']]],
   ['hci_5fcheck_5fwii_5fservice',['HCI_CHECK_WII_SERVICE',['../_b_t_d_8h.html#a36daee23c5d0f4276e6eb32f3fd79124',1,'BTD.h']]],
+  ['hci_5fclass_5fstate',['HCI_CLASS_STATE',['../_b_t_d_8h.html#aa4e852587db5ad51c6c5cfb8e9d4f002',1,'BTD.h']]],
   ['hci_5fcmd_5fcomplete',['hci_cmd_complete',['../_b_t_d_8h.html#a9cc765dd92016efe6eaeff535a5193c1',1,'BTD.h']]],
   ['hci_5fconnect_5fcomplete',['hci_connect_complete',['../_b_t_d_8h.html#ae43eba7b19fa5c92de5344819b99ec61',1,'BTD.h']]],
   ['hci_5fconnect_5fevent',['hci_connect_event',['../_b_t_d_8h.html#a11ae66a6caad9105b8e7658189dcfa7b',1,'BTD.h']]],

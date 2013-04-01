@@ -1,14 +1,14 @@
 <map id="hid.h" name="hid.h">
-<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="130,213,184,235"/>
-<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="327,213,393,235"/>
-<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="195,144,252,165"/>
-<area shape="rect" id="node8" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="221,213,280,235"/>
-<area shape="rect" id="node9" href="$_usb_8h.html" title="Usb.h" alt="" coords="521,75,564,96"/>
-<area shape="rect" id="node14" href="$printhex_8h.html" title="printhex.h" alt="" coords="1010,283,1067,304"/>
-<area shape="rect" id="node15" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="1111,213,1172,235"/>
-<area shape="rect" id="node16" href="$message_8h.html" title="message.h" alt="" coords="823,213,884,235"/>
-<area shape="rect" id="node17" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="983,75,1067,96"/>
-<area shape="rect" id="node19" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="1438,75,1508,96"/>
-<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="481,144,537,165"/>
-<area shape="rect" id="node18" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="993,144,1057,165"/>
+<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="5,213,59,235"/>
+<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="140,213,207,235"/>
+<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="121,144,177,165"/>
+<area shape="rect" id="node8" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="256,213,315,235"/>
+<area shape="rect" id="node9" href="$_usb_8h.html" title="Usb.h" alt="" coords="401,75,444,96"/>
+<area shape="rect" id="node15" href="$printhex_8h.html" title="printhex.h" alt="" coords="775,283,832,304"/>
+<area shape="rect" id="node16" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="968,283,1029,304"/>
+<area shape="rect" id="node14" href="$message_8h.html" title="message.h" alt="" coords="765,213,827,235"/>
+<area shape="rect" id="node17" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="867,75,951,96"/>
+<area shape="rect" id="node19" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="1186,75,1256,96"/>
+<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="355,144,412,165"/>
+<area shape="rect" id="node18" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="918,144,983,165"/>
 </map>

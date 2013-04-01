@@ -1,7 +1,8 @@
 var searchData=
 [
   ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a486df60a3d29f73e9052d3efb0c38de6',1,'KeyboardReportParser']]],
-  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a5e96d4028abd1885359fc36f644b8363',1,'BulkOnly']]],
+  ['handlescsierror',['HandleSCSIError',['../class_bulk_only.html#af6fe2aa6efba8f803254024956e36160',1,'BulkOnly']]],
+  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a95db37657ac766bc84a3767254808737',1,'BulkOnly']]],
   ['hat',['Hat',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7',1,'Wii.h']]],
   ['hatx',['HatX',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7aed1a7a35bf1b9c1003fbe3dd4a61a06d',1,'Wii.h']]],
   ['haty',['HatY',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7ae2ac743b5ba1752933e09f1dac48d97b',1,'Wii.h']]],
@@ -9,6 +10,7 @@ var searchData=
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fbdaddr_5fstate',['HCI_BDADDR_STATE',['../_b_t_d_8h.html#a86fd72d2518d27c02c15af635b55fc8f',1,'BTD.h']]],
   ['hci_5fcheck_5fwii_5fservice',['HCI_CHECK_WII_SERVICE',['../_b_t_d_8h.html#a36daee23c5d0f4276e6eb32f3fd79124',1,'BTD.h']]],
+  ['hci_5fclass_5fstate',['HCI_CLASS_STATE',['../_b_t_d_8h.html#aa4e852587db5ad51c6c5cfb8e9d4f002',1,'BTD.h']]],
   ['hci_5fcmd_5fcomplete',['hci_cmd_complete',['../_b_t_d_8h.html#a9cc765dd92016efe6eaeff535a5193c1',1,'BTD.h']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],
   ['hci_5fconnect',['hci_connect',['../class_b_t_d.html#ae7066ea743f8907708db945ebef3ad76',1,'BTD']]],
@@ -56,6 +58,7 @@ var searchData=
   ['hci_5fset_5fname_5fstate',['HCI_SET_NAME_STATE',['../_b_t_d_8h.html#a1939cc2e06b3185be07a93c1ac7a10e1',1,'BTD.h']]],
   ['hci_5fversion',['hci_version',['../class_b_t_d.html#addaddee110af23a3195ad56f631e69ea',1,'BTD']]],
   ['hci_5fwii_5ffound',['hci_wii_found',['../_b_t_d_8h.html#aa12b77df715652f4735cb6620cd595a4',1,'BTD.h']]],
+  ['hci_5fwrite_5fclass_5fof_5fdevice',['hci_write_class_of_device',['../class_b_t_d.html#a9a17405df60591b909ff1502fb8f3141',1,'BTD']]],
   ['hci_5fwrite_5fscan_5fdisable',['hci_write_scan_disable',['../class_b_t_d.html#aff59ab45d917406141ae0c9c79047f08',1,'BTD']]],
   ['hci_5fwrite_5fscan_5fenable',['hci_write_scan_enable',['../class_b_t_d.html#a7dd7faaec1d3d9a1d8159cc2a4190977',1,'BTD']]],
   ['hexdump_2eh',['hexdump.h',['../hexdump_8h.html',1,'']]],

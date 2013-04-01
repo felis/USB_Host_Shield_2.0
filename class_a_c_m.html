@@ -128,8 +128,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af2e08e5f03f17ed039985147a7129bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a618cbff52737740e76977db557ddff"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a2a618cbff52737740e76977db557ddff">SendBreak</a> (uint16_t duration)</td></tr>
 <tr class="separator:a2a618cbff52737740e76977db557ddff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4deddfbfb1d9010b71096cbfd46b2dfb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a4deddfbfb1d9010b71096cbfd46b2dfb">GetNotif</a> (uint16_t *bytes_rcvd, uint8_t *dataptr)</td></tr>
-<tr class="separator:a4deddfbfb1d9010b71096cbfd46b2dfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f455b7a649522c29f2e63d668b0ccca"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a7f455b7a649522c29f2e63d668b0ccca">RcvData</a> (uint16_t *nbytesptr, uint8_t *dataptr)</td></tr>
 <tr class="separator:a7f455b7a649522c29f2e63d668b0ccca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac96caeb8d657fa76219872ceb4379923"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#ac96caeb8d657fa76219872ceb4379923">SndData</a> (uint16_t nbytes, uint8_t *dataptr)</td></tr>
@@ -142,8 +140,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a79e4da2cae9145d895a6a1211a96fe36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0bb108012af9a99bb98aefca036d84"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a7e0bb108012af9a99bb98aefca036d84">GetAddress</a> ()</td></tr>
 <tr class="separator:a7e0bb108012af9a99bb98aefca036d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7161082e88359738596dd12a706ee286"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a7161082e88359738596dd12a706ee286">isReady</a> ()</td></tr>
-<tr class="separator:a7161082e88359738596dd12a706ee286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5b411a7ccc82bd77a7c5cfba6cd9a86"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#af5b411a7ccc82bd77a7c5cfba6cd9a86">EndpointXtract</a> (uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *ep)</td></tr>
 <tr class="separator:af5b411a7ccc82bd77a7c5cfba6cd9a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -172,8 +168,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a6701d70ae4734e8a81971d9fb8b085f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd6716c4fc871942fca55e1501dc5b09"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#acd6716c4fc871942fca55e1501dc5b09">bPollEnable</a></td></tr>
 <tr class="separator:acd6716c4fc871942fca55e1501dc5b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ebf4b872b0ed66e93b4ed39f46290fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a8ebf4b872b0ed66e93b4ed39f46290fd">ready</a></td></tr>
-<tr class="separator:a8ebf4b872b0ed66e93b4ed39f46290fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60fb6a365b78fb80a4a9842e364cf1a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ep_info.html">EpInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_c_m.html#a60fb6a365b78fb80a4a9842e364cf1a3">epInfo</a> [<a class="el" href="cdcacm_8h.html#aa11e629b02a0cd7d768f796732cb2694">ACM_MAX_ENDPOINTS</a>]</td></tr>
 <tr class="separator:a60fb6a365b78fb80a4a9842e364cf1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -188,7 +182,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00162">162</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00137">137</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa5d83ef9d48dab404090e9136522707a"></a>
 <div class="memitem">
@@ -241,7 +235,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00343">343</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00319">319</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,7 +269,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00307">307</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00291">291</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -309,7 +303,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00312">312</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00295">295</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -327,7 +321,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00317">317</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00299">299</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +339,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00322">322</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00303">303</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +357,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00327">327</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00307">307</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +375,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00332">332</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00311">311</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -399,35 +393,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00337">337</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4deddfbfb1d9010b71096cbfd46b2dfb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ACM::GetNotif </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>bytes_rcvd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dataptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00302">302</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00315">315</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -455,7 +421,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00291">291</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00283">283</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -483,7 +449,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00296">296</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00287">287</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -529,7 +495,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_p_l2303.html#a23c849fb504c1fe6f46c84d04c0a47cf">PL2303</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00050">50</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00046">46</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -556,7 +522,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00239">239</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00234">234</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -583,7 +549,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00254">254</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00247">247</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -610,32 +576,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00204">204</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7161082e88359738596dd12a706ee286"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool ACM::isReady </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00205">205</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00177">177</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -691,7 +632,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_usb_config_xtracter.html#aceb5da8339172cbb2e9ce2064e34e5ef">UsbConfigXtracter</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00211">211</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8cpp_source.html#l00207">207</a> of file <a class="el" href="cdcacm_8cpp_source.html">cdcacm.cpp</a>.</p>
 
 </div>
 </div>
@@ -714,7 +655,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00165">165</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00139">139</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -736,7 +677,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00166">166</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00140">140</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -758,7 +699,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00167">167</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00141">141</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -780,7 +721,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00169">169</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00143">143</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -802,7 +743,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00170">170</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00144">144</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -824,7 +765,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00171">171</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00145">145</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -846,7 +787,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00172">172</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00146">146</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -868,7 +809,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00173">173</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00147">147</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -890,7 +831,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00174">174</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00148">148</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -912,7 +853,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00175">175</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00149">149</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -934,7 +875,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00176">176</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00150">150</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -956,29 +897,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00177">177</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8ebf4b872b0ed66e93b4ed39f46290fd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ACM::ready</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00178">178</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00151">151</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +919,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00180">180</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcacm_8h_source.html#l00153">153</a> of file <a class="el" href="cdcacm_8h_source.html">cdcacm.h</a>.</p>
 
 </div>
 </div>

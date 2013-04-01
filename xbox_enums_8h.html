@@ -121,8 +121,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a33b4e3a0eceeb86e6bfacec058c6faee"><td class="memItemLeft" align="right" valign="top">const uint8_t XBOXLEDS[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox_enums_8h.html#a33b4e3a0eceeb86e6bfacec058c6faee">PROGMEM</a></td></tr>
-<tr class="separator:a33b4e3a0eceeb86e6bfacec058c6faee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a867f3bf7a14d4647290f1ac7f76b23ee"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox_enums_8h.html#a867f3bf7a14d4647290f1ac7f76b23ee">XBOXLEDS</a> []</td></tr>
+<tr class="separator:a867f3bf7a14d4647290f1ac7f76b23ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e55826e75b9b88578c8b0edaaf523d7"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="xbox_enums_8h.html#a7e55826e75b9b88578c8b0edaaf523d7">XBOXBUTTONS</a> []</td></tr>
+<tr class="separator:a7e55826e75b9b88578c8b0edaaf523d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a57effb96f46e458675a2653d4c543ca2"></a>
@@ -151,26 +153,63 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a33b4e3a0eceeb86e6bfacec058c6faee"></a>
+<a class="anchor" id="a867f3bf7a14d4647290f1ac7f76b23ee"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const uint16_t XBOXBUTTONS [] PROGMEM</td>
+          <td class="memname">const uint8_t XBOXLEDS[]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    0x02, </div>
-<div class="line">    0x03, </div>
-<div class="line">    0x04, </div>
-<div class="line">    0x05, </div>
-<div class="line">    0x01 </div>
-<div class="line"> }</div>
-</div><!-- fragment --><p>Used to set the LEDs on the controllers</p>
-<p>Buttons on the controllers </p>
+<div class="line">        0x02, </div>
+<div class="line">        0x03, </div>
+<div class="line">        0x04, </div>
+<div class="line">        0x05, </div>
+<div class="line">        0x01 </div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Used to set the LEDs on the controllers </p>
 
 <p>Definition at line <a class="el" href="xbox_enums_8h_source.html#l00032">32</a> of file <a class="el" href="xbox_enums_8h_source.html">xboxEnums.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7e55826e75b9b88578c8b0edaaf523d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t XBOXBUTTONS[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        0x0100, </div>
+<div class="line">        0x0800, </div>
+<div class="line">        0x0200, </div>
+<div class="line">        0x0400, </div>
+<div class="line"></div>
+<div class="line">        0x2000, </div>
+<div class="line">        0x1000, </div>
+<div class="line">        0x4000, </div>
+<div class="line">        0x8000, </div>
+<div class="line"></div>
+<div class="line">        0, 0, </div>
+<div class="line">        0x0001, </div>
+<div class="line">        0x0002, </div>
+<div class="line"></div>
+<div class="line">        0x0020, </div>
+<div class="line">        0x0010, </div>
+<div class="line">        0x0040, </div>
+<div class="line">        0x0080, </div>
+<div class="line"></div>
+<div class="line">        0x0004, </div>
+<div class="line">        0x0008 </div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Buttons on the controllers </p>
+
+<p>Definition at line <a class="el" href="xbox_enums_8h_source.html#l00040">40</a> of file <a class="el" href="xbox_enums_8h_source.html">xboxEnums.h</a>.</p>
 
 </div>
 </div>

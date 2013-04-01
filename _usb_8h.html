@@ -101,15 +101,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="usb__ch9_8h_source.html">usb_ch9.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="address_8h_source.html">address.h</a>&quot;</code><br/>
 <code>#include &quot;Arduino.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="printhex_8h_source.html">printhex.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="hexdump_8h_source.html">hexdump.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="message_8h_source.html">message.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Usb.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_usb_8h__incl.png" border="0" usemap="#_usb_8h" alt=""/></div>
 <map name="_usb_8h" id="_usb_8h">
-<area shape="rect" id="node4" href="avrpins_8h.html" title="avrpins.h" alt="" coords="5,144,59,165"/><area shape="rect" id="node6" href="max3421e_8h.html" title="max3421e.h" alt="" coords="180,144,247,165"/><area shape="rect" id="node7" href="usbhost_8h.html" title="usbhost.h" alt="" coords="181,75,237,96"/><area shape="rect" id="node8" href="usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="97,144,156,165"/><area shape="rect" id="node9" href="address_8h.html" title="address.h" alt="" coords="314,75,371,96"/><area shape="rect" id="node12" href="printhex_8h.html" title="printhex.h" alt="" coords="653,144,709,165"/><area shape="rect" id="node13" href="hexdump_8h.html" title="hexdump.h" alt="" coords="551,75,612,96"/><area shape="rect" id="node15" href="message_8h.html" title="message.h" alt="" coords="453,75,515,96"/></map>
+<area shape="rect" id="node4" href="avrpins_8h.html" title="avrpins.h" alt="" coords="320,144,374,165"/><area shape="rect" id="node6" href="max3421e_8h.html" title="max3421e.h" alt="" coords="146,144,213,165"/><area shape="rect" id="node7" href="usbhost_8h.html" title="usbhost.h" alt="" coords="268,75,325,96"/><area shape="rect" id="node8" href="usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="237,144,296,165"/><area shape="rect" id="node9" href="address_8h.html" title="address.h" alt="" coords="82,75,138,96"/><area shape="rect" id="node12" href="message_8h.html" title="message.h" alt="" coords="450,75,512,96"/><area shape="rect" id="node14" href="printhex_8h.html" title="printhex.h" alt="" coords="587,144,644,165"/><area shape="rect" id="node15" href="hexdump_8h.html" title="hexdump.h" alt="" coords="450,144,512,165"/></map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -136,9 +134,9 @@ Classes</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a59c611df6811225e1cca2d1ce5a09cfb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#a59c611df6811225e1cca2d1ce5a09cfb">USB_METHODS_INLINE</a></td></tr>
 <tr class="separator:a59c611df6811225e1cca2d1ce5a09cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#afc6fe7f947af35317a49a4dcfc8189fd">USBTRACE</a>(s)&#160;&#160;&#160;(Serial.print((s)))</td></tr>
+<tr class="memitem:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#afc6fe7f947af35317a49a4dcfc8189fd">USBTRACE</a>(s)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(s), 0x80))</td></tr>
 <tr class="separator:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe3f00986df48a9254f8bf0992041d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#adbe3f00986df48a9254f8bf0992041d3">USBTRACE2</a>(s, r)&#160;&#160;&#160;(Serial.print((s)), Serial.println((r),HEX))</td></tr>
+<tr class="memitem:adbe3f00986df48a9254f8bf0992041d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#adbe3f00986df48a9254f8bf0992041d3">USBTRACE2</a>(s, r)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(s), 0x80), PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td></tr>
 <tr class="separator:adbe3f00986df48a9254f8bf0992041d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060f3a6423f1e3640aa7b14d5ce72285"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#a3b51a35acaa76cafbb987c07186a7868">USB_SETUP_TYPE_STANDARD</a>|<a class="el" href="usb__ch9_8h.html#ad48131dc5ca47b4b2def65e7bbc8442f">USB_SETUP_RECIPIENT_DEVICE</a></td></tr>
 <tr class="separator:a060f3a6423f1e3640aa7b14d5ce72285"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,7 +263,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00025">25</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00023">23</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -278,12 +276,12 @@ Typedefs</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">s</td><td>)</td>
-          <td>&#160;&#160;&#160;(Serial.print((s)))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(s), 0x80))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00067">67</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00061">61</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -306,12 +304,12 @@ Typedefs</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(Serial.print((s)), Serial.println((r),HEX))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(s), 0x80), PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00068">68</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00062">62</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -325,7 +323,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00073">73</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00067">67</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -339,7 +337,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00074">74</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00068">68</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +351,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00075">75</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00069">69</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -367,7 +365,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00082">82</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00076">76</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -381,7 +379,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00083">83</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00077">77</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -395,7 +393,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00084">84</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00078">78</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -409,7 +407,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00085">85</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00079">79</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -423,7 +421,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00086">86</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00080">80</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -437,7 +435,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00087">87</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00081">81</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -451,7 +449,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00088">88</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00082">82</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -465,7 +463,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00089">89</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00083">83</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -479,7 +477,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00090">90</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00084">84</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -493,7 +491,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00091">91</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00085">85</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -507,7 +505,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00092">92</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00086">86</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +519,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00093">93</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00087">87</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -535,7 +533,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00094">94</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00088">88</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -549,7 +547,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00095">95</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00089">89</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -563,7 +561,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00096">96</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00090">90</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -577,7 +575,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00097">97</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00091">91</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -591,7 +589,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00098">98</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00092">92</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -605,7 +603,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00099">99</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00093">93</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -619,7 +617,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00100">100</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00094">94</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -633,7 +631,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00103">103</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00097">97</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -647,7 +645,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00104">104</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00098">98</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -661,7 +659,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00105">105</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00099">99</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -675,7 +673,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00106">106</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00100">100</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -689,7 +687,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00107">107</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00101">101</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -703,7 +701,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00108">108</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00102">102</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -717,7 +715,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00109">109</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00103">103</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -731,7 +729,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00110">110</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00104">104</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -745,7 +743,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00111">111</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00105">105</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -759,7 +757,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00112">112</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00106">106</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -773,7 +771,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00113">113</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00107">107</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -787,7 +785,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00114">114</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00108">108</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -801,7 +799,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00125">125</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00118">118</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -815,7 +813,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00127">127</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00120">120</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -829,7 +827,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00128">128</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00121">121</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -843,7 +841,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00130">130</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00123">123</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -857,7 +855,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00132">132</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00125">125</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -871,7 +869,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00135">135</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00128">128</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -885,7 +883,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00137">137</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00130">130</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -899,7 +897,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00138">138</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00131">131</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -913,7 +911,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00139">139</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00132">132</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -927,7 +925,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00140">140</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00133">133</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -941,7 +939,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00141">141</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00134">134</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -955,7 +953,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00142">142</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00135">135</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -969,7 +967,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00143">143</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00136">136</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -983,7 +981,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00144">144</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00137">137</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -997,7 +995,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00145">145</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00138">138</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +1009,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00146">146</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00139">139</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -1025,7 +1023,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00147">147</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00140">140</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -1039,7 +1037,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00148">148</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00141">141</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -1053,7 +1051,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00149">149</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00142">142</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>
@@ -1068,7 +1066,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_usb_8h_source.html#l00063">63</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
+<p>Definition at line <a class="el" href="_usb_8h_source.html#l00057">57</a> of file <a class="el" href="_usb_8h_source.html">Usb.h</a>.</p>
 
 </div>
 </div>

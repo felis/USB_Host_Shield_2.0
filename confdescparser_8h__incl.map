@@ -1,6 +1,6 @@
 <map id="confdescparser.h" name="confdescparser.h">
-<area shape="rect" id="node4" href="$printhex_8h.html" title="printhex.h" alt="" coords="38,213,95,235"/>
-<area shape="rect" id="node6" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="224,144,285,165"/>
-<area shape="rect" id="node7" href="$message_8h.html" title="message.h" alt="" coords="139,144,200,165"/>
-<area shape="rect" id="node8" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="101,75,165,96"/>
+<area shape="rect" id="node4" href="$message_8h.html" title="message.h" alt="" coords="208,144,269,165"/>
+<area shape="rect" id="node8" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="135,75,200,96"/>
+<area shape="rect" id="node5" href="$printhex_8h.html" title="printhex.h" alt="" coords="25,213,81,235"/>
+<area shape="rect" id="node7" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="208,213,269,235"/>
 </map>

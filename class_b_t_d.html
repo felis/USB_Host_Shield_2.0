@@ -119,6 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a610183f9ddf04155ef2612d1839af7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4adfc7e51ad3b3c03e7c37d1af159e73"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a4adfc7e51ad3b3c03e7c37d1af159e73">registerServiceClass</a> (<a class="el" href="class_bluetooth_service.html">BluetoothService</a> *pService)</td></tr>
 <tr class="separator:a4adfc7e51ad3b3c03e7c37d1af159e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b66a27c0fd359e3129f53451352b55c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a6b66a27c0fd359e3129f53451352b55c">pairWithWiimote</a> ()</td></tr>
+<tr class="separator:a6b66a27c0fd359e3129f53451352b55c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a9ecb996243e070e70972370e45e4fd"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd">readPollInterval</a> ()</td></tr>
 <tr class="separator:a2a9ecb996243e070e70972370e45e4fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">USBDeviceConfig implementation</div></td></tr>
@@ -170,6 +172,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a45ffbc7a40bbb763b0ece907c3dfc9ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7066ea743f8907708db945ebef3ad76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#ae7066ea743f8907708db945ebef3ad76">hci_connect</a> ()</td></tr>
 <tr class="separator:ae7066ea743f8907708db945ebef3ad76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a17405df60591b909ff1502fb8f3141"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#a9a17405df60591b909ff1502fb8f3141">hci_write_class_of_device</a> ()</td></tr>
+<tr class="separator:a9a17405df60591b909ff1502fb8f3141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">L2CAP Commands</div></td></tr>
 <tr class="memitem:aad7d8ef46e60b48ff4aaabefb0b290e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_d.html#aad7d8ef46e60b48ff4aaabefb0b290e7">L2CAP_Command</a> (uint16_t handle, uint8_t *data, uint8_t nbytes, uint8_t channelLow=0x01, uint8_t channelHigh=0x00)</td></tr>
 <tr class="separator:aad7d8ef46e60b48ff4aaabefb0b290e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -257,7 +261,7 @@ Static Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Bluetooth Dongle class will take care of all the <a class="el" href="class_u_s_b.html">USB</a> communication and then pass the data to the <a class="el" href="class_bluetooth_service.html">BluetoothService</a> classes. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00153">153</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00154">154</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5f07597fe15a2b917cce405fe87f2981"></a>
 <div class="memitem">
@@ -364,7 +368,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a74c06c5fe641b20faeeebd39e33248b3">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00302">302</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00292">292</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -393,7 +397,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#a4961e92df3e75c38e6953fb08b11f8b6">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00312">312</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00303">303</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -422,7 +426,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_u_s_b_device_config.html#aae3130517514c902bad5f153849b3811">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00184">184</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00186">186</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -449,7 +453,7 @@ Static Protected Attributes</h2></td></tr>
 <p>Used to check if the dongle has been initialized. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if it's ready. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00189">189</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00194">194</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -516,7 +520,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_usb_config_xtracter.html#aceb5da8339172cbb2e9ce2064e34e5ef">UsbConfigXtracter</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00252">252</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00241">241</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -542,7 +546,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00205">205</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00212">212</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -576,7 +580,7 @@ Static Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The serice ID on succes or -1 on fail. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00215">215</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00223">223</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -612,7 +616,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00773">773</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00779">779</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -630,7 +634,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Reset the Bluetooth dongle. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00777">777</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00784">784</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -648,7 +652,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Read the Bluetooth address of the dongle. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00802">802</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00812">812</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -666,7 +670,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Read the HCI Version of the Bluetooth dongle. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00808">808</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00819">819</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -691,7 +695,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00847">847</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00861">861</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -709,7 +713,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Enable visibility to other Bluetooth devices. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00784">784</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00792">792</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -727,7 +731,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Disable visibility to other Bluetooth devices. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00795">795</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00804">804</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -745,7 +749,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Read the remote devices name. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00829">829</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00842">842</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -763,7 +767,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Accept the connection with the Bluetooth device. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00814">814</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00826">826</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -788,7 +792,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00978">978</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01000">1000</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -806,7 +810,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Respond with the pin for the connection. The pin is automatically set for the Wii library, but can be customized for the <a class="el" href="class_s_p_p.html">SPP</a> library. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00899">899</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00917">917</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -824,7 +828,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Respons when no pin was set. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00943">943</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00962">962</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -842,7 +846,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Command is used to reply to a Link Key Request event from the BR/EDR Controller if the Host does not have a stored Link Key for the connection. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00956">956</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00976">976</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -860,7 +864,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Used to try to authenticate with the remote device. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00969">969</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00990">990</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -878,7 +882,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Start a HCI inquiry. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00858">858</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00873">873</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -896,7 +900,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Cancel a HCI inquiry. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00871">871</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00887">887</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -914,7 +918,25 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Connect to a device. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00878">878</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00895">895</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a17405df60591b909ff1502fb8f3141"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::hci_write_class_of_device </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to a set the class of the device. </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01012">1012</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -970,7 +992,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01014">1014</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01047">1047</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1020,7 +1042,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01041">1041</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01075">1075</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1099,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01053">1053</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01088">1088</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1120,7 +1142,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01069">1069</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01105">1105</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1163,7 +1185,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01085">1085</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01122">1122</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1213,7 +1235,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01103">1103</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01141">1141</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1263,7 +1285,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01114">1114</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01153">1153</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1312,7 +1334,33 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01125">1125</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l01165">1165</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b66a27c0fd359e3129f53451352b55c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BTD::pairWithWiimote </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Call this function to pair with a Wiimote </p>
+
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00385">385</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1339,7 +1387,7 @@ Static Protected Attributes</h2></td></tr>
 <p>Read the poll interval taken from the endpoint descriptors. </p>
 <dl class="section return"><dt>Returns</dt><dd>The poll interval in ms. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00404">404</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1372,7 +1420,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00283">283</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8cpp_source.html#l00273">273</a> of file <a class="el" href="_b_t_d_8cpp_source.html">BTD.cpp</a>.</p>
 
 </div>
 </div>
@@ -1388,7 +1436,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Use this to see if it is waiting for a incoming connection. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00346">346</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00356">356</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1403,7 +1451,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is used by the service to know when to store the device information. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00348">348</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00358">358</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1418,7 +1466,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current SDP incoming request. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00350">350</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00360">360</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1433,7 +1481,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is used by the <a class="el" href="class_s_p_p.html">SPP</a> library to claim the current RFCOMM incoming request. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00352">352</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00362">362</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1448,7 +1496,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The name you wish to make the dongle show up as. It is set automatically by the <a class="el" href="class_s_p_p.html">SPP</a> library. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00355">355</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00365">365</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1463,7 +1511,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The pin you wish to make the dongle use for authentication. It is set automatically by the <a class="el" href="class_s_p_p.html">SPP</a> library. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00357">357</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00367">367</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1478,7 +1526,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The bluetooth dongles Bluetooth address. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00360">360</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00370">370</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1493,7 +1541,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>HCI handle for the last connection. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00362">362</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00372">372</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1508,7 +1556,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Last incoming devices Bluetooth address. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00364">364</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00374">374</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1523,7 +1571,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>First 30 chars of last remote name. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00366">366</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00376">376</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1538,7 +1586,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The supported HCI Version read from the Bluetooth dongle. Used by the <a class="el" href="class_p_s3_b_t.html">PS3BT</a> library to check the HCI Version of the Bluetooth dongle, it should be at least 3 to work properly with the library. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00372">372</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00382">382</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1553,7 +1601,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Used to only send the ACL data to the wiimote. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00374">374</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1568,7 +1616,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True if a Wiimote is connecting. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00376">376</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00392">392</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1583,7 +1631,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True when it should pair with the incoming Wiimote. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00378">378</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00394">394</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1598,7 +1646,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True if it's the new Wiimote with the Motion Plus Inside or a Wii U Pro Controller. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00380">380</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00396">396</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1613,7 +1661,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True if it's a Wii U Pro Controller. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00382">382</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00398">398</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1636,7 +1684,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00388">388</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00406">406</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1659,7 +1707,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Device address. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00394">394</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00412">412</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1682,7 +1730,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Endpoint info structure. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00396">396</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00414">414</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1705,7 +1753,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Configuration number. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00399">399</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00417">417</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1728,7 +1776,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Total number of endpoints in the configuration. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00401">401</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00419">419</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1751,7 +1799,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Next poll time based on poll interval taken from the <a class="el" href="class_u_s_b.html">USB</a> descriptor. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00403">403</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00421">421</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1774,7 +1822,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Bluetooth dongle control endpoint. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00406">406</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00424">424</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1797,7 +1845,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>HCI event endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00408">408</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00426">426</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1820,7 +1868,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>ACL In endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00410">410</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00428">428</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>
@@ -1843,7 +1891,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>ACL Out endpoint index. </p>
 
-<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00412">412</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_d_8h_source.html#l00430">430</a> of file <a class="el" href="_b_t_d_8h_source.html">BTD.h</a>.</p>
 
 </div>
 </div>

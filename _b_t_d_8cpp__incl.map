@@ -1,14 +1,14 @@
 <map id="BTD.cpp" name="BTD.cpp">
-<area shape="rect" id="node2" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="549,75,594,96"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="342,144,385,165"/>
-<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="708,144,791,165"/>
-<area shape="rect" id="node6" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="251,283,305,304"/>
-<area shape="rect" id="node8" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="159,283,226,304"/>
-<area shape="rect" id="node9" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="175,213,231,235"/>
-<area shape="rect" id="node10" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="349,283,407,304"/>
-<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="41,213,98,235"/>
-<area shape="rect" id="node14" href="$printhex_8h.html" title="printhex.h" alt="" coords="721,352,778,373"/>
-<area shape="rect" id="node15" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="634,283,695,304"/>
-<area shape="rect" id="node17" href="$message_8h.html" title="message.h" alt="" coords="719,283,781,304"/>
-<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="788,213,853,235"/>
+<area shape="rect" id="node2" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="551,75,596,96"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="288,213,331,235"/>
+<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="635,144,719,165"/>
+<area shape="rect" id="node6" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="5,352,59,373"/>
+<area shape="rect" id="node8" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="180,352,247,373"/>
+<area shape="rect" id="node9" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="181,283,237,304"/>
+<area shape="rect" id="node10" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="97,352,156,373"/>
+<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="314,283,371,304"/>
+<area shape="rect" id="node14" href="$message_8h.html" title="message.h" alt="" coords="648,283,709,304"/>
+<area shape="rect" id="node16" href="$printhex_8h.html" title="printhex.h" alt="" coords="650,352,707,373"/>
+<area shape="rect" id="node17" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="783,352,844,373"/>
+<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="715,213,780,235"/>
 </map>

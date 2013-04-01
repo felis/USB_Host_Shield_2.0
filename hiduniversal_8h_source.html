@@ -95,75 +95,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hid_8h.html">hid.h</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//#include &quot;hidescriptorparser.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_h_i_d_universal.html">HIDUniversal</a> : <span class="keyword">public</span> <a class="code" href="class_h_i_d.html">HID</a></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">struct </span>ReportParser</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        uint8_t             rptId;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a>     *rptParser;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }   rptParsers[<a class="code" href="hid_8h.html#aeeb08a8b14bc04296f1c839872abc8af">MAX_REPORT_PARSERS</a>];</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// HID class specific descriptor type and length info obtained from HID descriptor</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html">HID_CLASS_DESCRIPTOR_LEN_AND_TYPE</a>   descrInfo[<a class="code" href="hid_8h.html#a9901c86718db1fefe5d116aa254361cf">HID_MAX_HID_CLASS_DESCRIPTORS</a>];</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">// Returns HID class specific descriptor length by its type and order number</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    uint16_t GetHidClassDescrLen(uint8_t type, uint8_t num);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="struct_ep_info.html">EpInfo</a>      epInfo[<a class="code" href="class_h_i_d.html#a884aa67312324e7d23a052a6dc80337e">totalEndpoints</a>];</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">struct </span>HIDInterface</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">struct</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            uint8_t     bmInterface : 3;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            uint8_t     bmAltSet    : 3;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            uint8_t     bmProtocol  : 2;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_h_i_d_universal.html">HIDUniversal</a> : <span class="keyword">public</span> <a class="code" href="class_h_i_d.html">HID</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">struct </span>ReportParser {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                uint8_t rptId;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a> *rptParser;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        } rptParsers[<a class="code" href="hid_8h.html#aeeb08a8b14bc04296f1c839872abc8af">MAX_REPORT_PARSERS</a>];</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="comment">// HID class specific descriptor type and length info obtained from HID descriptor</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html">HID_CLASS_DESCRIPTOR_LEN_AND_TYPE</a> descrInfo[<a class="code" href="hid_8h.html#a9901c86718db1fefe5d116aa254361cf">HID_MAX_HID_CLASS_DESCRIPTORS</a>];</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="comment">// Returns HID class specific descriptor length by its type and order number</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        uint16_t GetHidClassDescrLen(uint8_t type, uint8_t num);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="struct_ep_info.html">EpInfo</a> epInfo[<a class="code" href="class_h_i_d.html#a884aa67312324e7d23a052a6dc80337e">totalEndpoints</a>];</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">struct </span>HIDInterface {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                        uint8_t bmInterface : 3;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        uint8_t bmAltSet : 3;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        uint8_t bmProtocol : 2;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                uint8_t epIndex[<a class="code" href="class_h_i_d.html#acd92969682030cd5cac310dd7746c7c7">maxEpPerInterface</a>];</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        };</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        uint8_t         epIndex[<a class="code" href="class_h_i_d.html#acd92969682030cd5cac310dd7746c7c7">maxEpPerInterface</a>];</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    };</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    HIDInterface    hidInterfaces[<a class="code" href="class_h_i_d.html#afe5186f46ac7b580bb3dc289e3f237b2">maxHidInterfaces</a>];</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    uint8_t     bConfNum;               <span class="comment">// configuration number</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    uint8_t     bNumIface;              <span class="comment">// number of interfaces in the configuration</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint8_t     bNumEP;                 <span class="comment">// total number of EP in the configuration</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    uint32_t    qNextPollTime;          <span class="comment">// next poll time</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span>        bPollEnable;            <span class="comment">// poll enable flag</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint16_t constBuffLen = 64;    <span class="comment">// event buffer length</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    uint8_t prevBuf[constBuffLen];      <span class="comment">// previous event buffer</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> Initialize();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    HIDInterface* FindInterface(uint8_t iface, uint8_t alt, uint8_t proto);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> ZeroMemory(uint8_t len, uint8_t *buf);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> BuffersIdentical(uint8_t len, uint8_t *buf1, uint8_t *buf2);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1">   53</a></span>&#160;    <span class="keywordtype">bool</span>        <a class="code" href="class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1">bHasReportId</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// HID implementation</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a>* <a class="code" href="class_h_i_d_universal.html#aff53de37b98aa1e4a6e45be701ddcc65">GetReportParser</a>(uint8_t <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#a60f06d86767b4b2c973d08383c7a0048">   57</a></span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#a60f06d86767b4b2c973d08383c7a0048">OnInitSuccessful</a>() { <span class="keywordflow">return</span> 0; };</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="class_h_i_d_universal.html#abdbac688c7e4b682055cebd82e13a595">HIDUniversal</a>(<a class="code" href="class_u_s_b.html">USB</a> *p);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// HID implementation</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_h_i_d_universal.html#afbd599879e9c3cdea382e87afd6ab29a">SetReportParser</a>(uint8_t <span class="keywordtype">id</span>, <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a> *prs);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// USBDeviceConfig implementation</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#a384b0e219f763e2d6407636bfd4ccea7">Init</a>(uint8_t parent, uint8_t port, <span class="keywordtype">bool</span> lowspeed);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#af999fc50ef4b5dec0391bda79ec83bda">Release</a>();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#ac27e857a0d9619c8abc31be0b690c83c">Poll</a>();</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#abcc6921b7beaf0aac2acbcdddd535626">   69</a></span>&#160;    <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#abcc6921b7beaf0aac2acbcdddd535626">GetAddress</a>() { <span class="keywordflow">return</span> <a class="code" href="class_h_i_d.html#a525edb36c2cd8470eae703d3b236e4a7">bAddress</a>; };</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        HIDInterface hidInterfaces[<a class="code" href="class_h_i_d.html#afe5186f46ac7b580bb3dc289e3f237b2">maxHidInterfaces</a>];</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        uint8_t bConfNum; <span class="comment">// configuration number</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        uint8_t bNumIface; <span class="comment">// number of interfaces in the configuration</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        uint8_t bNumEP; <span class="comment">// total number of EP in the configuration</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        uint32_t qNextPollTime; <span class="comment">// next poll time</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">bool</span> bPollEnable; <span class="comment">// poll enable flag</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> uint16_t constBuffLen = 64; <span class="comment">// event buffer length</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        uint8_t prevBuf[constBuffLen]; <span class="comment">// previous event buffer</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">void</span> Initialize();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        HIDInterface* FindInterface(uint8_t iface, uint8_t alt, uint8_t proto);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> ZeroMemory(uint8_t len, uint8_t *buf);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">bool</span> BuffersIdentical(uint8_t len, uint8_t *buf1, uint8_t *buf2);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">void</span> SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1">   51</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1">bHasReportId</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// HID implementation</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a>* <a class="code" href="class_h_i_d_universal.html#aff53de37b98aa1e4a6e45be701ddcc65">GetReportParser</a>(uint8_t <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#a60f06d86767b4b2c973d08383c7a0048">   56</a></span>&#160;        <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#a60f06d86767b4b2c973d08383c7a0048">OnInitSuccessful</a>() {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        };</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="class_h_i_d_universal.html#abdbac688c7e4b682055cebd82e13a595">HIDUniversal</a>(<a class="code" href="class_u_s_b.html">USB</a> *p);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// HID implementation</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_h_i_d_universal.html#afbd599879e9c3cdea382e87afd6ab29a">SetReportParser</a>(uint8_t <span class="keywordtype">id</span>, <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a> *prs);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// USBDeviceConfig implementation</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#a384b0e219f763e2d6407636bfd4ccea7">Init</a>(uint8_t parent, uint8_t port, <span class="keywordtype">bool</span> lowspeed);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#af999fc50ef4b5dec0391bda79ec83bda">Release</a>();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#ac27e857a0d9619c8abc31be0b690c83c">Poll</a>();</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// UsbConfigXtracter implementation</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_h_i_d_universal.html#ab9b13f27eca16e0accc14fff9bd318e2">EndpointXtract</a>(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, <span class="keyword">const</span> <a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *ep);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="class_h_i_d_universal.html#abcc6921b7beaf0aac2acbcdddd535626">   71</a></span>&#160;        <span class="keyword">virtual</span> uint8_t <a class="code" href="class_h_i_d_universal.html#abcc6921b7beaf0aac2acbcdddd535626">GetAddress</a>() {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_h_i_d.html#a525edb36c2cd8470eae703d3b236e4a7">bAddress</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        };</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif // __HIDUNIVERSAL_H__</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// UsbConfigXtracter implementation</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_h_i_d_universal.html#ab9b13f27eca16e0accc14fff9bd318e2">EndpointXtract</a>(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, <span class="keyword">const</span> <a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *ep);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif // __HIDUNIVERSAL_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

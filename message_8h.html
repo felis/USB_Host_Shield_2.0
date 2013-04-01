@@ -86,7 +86,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">message.h File Reference</div>  </div>
 </div><!--header-->
@@ -94,33 +96,175 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br/>
 <code>#include &lt;avr/pgmspace.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="printhex_8h_source.html">printhex.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="hexdump_8h_source.html">hexdump.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for message.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="message_8h__incl.png" border="0" usemap="#message_8h" alt=""/></div>
 <map name="message_8h" id="message_8h">
-<area shape="rect" id="node4" href="printhex_8h.html" title="printhex.h" alt="" coords="189,75,245,96"/></map>
+<area shape="rect" id="node4" href="printhex_8h.html" title="printhex.h" alt="" coords="203,75,260,96"/><area shape="rect" id="node6" href="hexdump_8h.html" title="hexdump.h" alt="" coords="67,75,128,96"/></map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="message_8h__dep__incl.png" border="0" usemap="#message_8hdep" alt=""/></div>
 <map name="message_8hdep" id="message_8hdep">
-<area shape="rect" id="node2" href="_usb_8h.html" title="Usb.h" alt="" coords="727,144,769,165"/><area shape="rect" id="node3" href="adk_8h.html" title="adk.h" alt="" coords="355,213,396,235"/><area shape="rect" id="node40" href="confdescparser_8h.html" title="confdescparser.h" alt="" coords="1005,144,1088,165"/><area shape="rect" id="node41" href="parsetools_8h.html" title="parsetools.h" alt="" coords="973,75,1037,96"/><area shape="rect" id="node13" href="cdcacm_8h.html" title="cdcacm.h" alt="" coords="841,213,897,235"/><area shape="rect" id="node17" href="cdcftdi_8h.html" title="cdcftdi.h" alt="" coords="973,213,1024,235"/><area shape="rect" id="node15" href="cdcprolific_8h.html" title="cdcprolific.h" alt="" coords="1031,283,1095,304"/><area shape="rect" id="node19" href="hid_8h.html" title="hid.h" alt="" coords="1151,213,1191,235"/><area shape="rect" id="node21" href="hidboot_8h.html" title="hidboot.h" alt="" coords="1287,283,1341,304"/><area shape="rect" id="node23" href="hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="1367,283,1460,304"/><area shape="rect" id="node27" href="masstorage_8h.html" title="masstorage.h" alt="" coords="1317,213,1387,235"/><area shape="rect" id="node43" href="message_8cpp.html" title="message.cpp" alt="" coords="1513,75,1583,96"/><area shape="rect" id="node5" href="_b_t_d_8h.html" title="BTD.h" alt="" coords="671,213,716,235"/><area shape="rect" id="node29" href="max___l_c_d_8h.html" title="max_LCD.h" alt="" coords="421,213,485,235"/><area shape="rect" id="node31" href="_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="510,213,569,235"/><area shape="rect" id="node33" href="_usb_8cpp.html" title="Usb.cpp" alt="" coords="594,213,645,235"/><area shape="rect" id="node34" href="usbhub_8h.html" title="usbhub.h" alt="" coords="14,213,68,235"/><area shape="rect" id="node36" href="_x_b_o_x_r_e_c_v_8h.html" title="XBOXRECV.h" alt="" coords="117,213,189,235"/><area shape="rect" id="node38" href="_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="234,213,301,235"/><area shape="rect" id="node4" href="adk_8cpp.html" title="adk.cpp" alt="" coords="300,283,351,304"/><area shape="rect" id="node6" href="_b_t_d_8cpp.html" title="BTD.cpp" alt="" coords="700,283,753,304"/><area shape="rect" id="node7" href="_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="778,283,832,304"/><area shape="rect" id="node9" href="_s_p_p_8h.html" title="SPP.h" alt="" coords="567,283,612,304"/><area shape="rect" id="node11" href="_wii_8h.html" title="Wii.h" alt="" coords="636,283,676,304"/><area shape="rect" id="node8" href="_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="774,352,836,373"/><area shape="rect" id="node10" href="_s_p_p_8cpp.html" title="SPP.cpp" alt="" coords="559,352,612,373"/><area shape="rect" id="node12" href="_wii_8cpp.html" title="Wii.cpp" alt="" coords="636,352,684,373"/><area shape="rect" id="node14" href="cdcacm_8cpp.html" title="cdcacm.cpp" alt="" coords="857,283,921,304"/><area shape="rect" id="node16" href="cdcprolific_8cpp.html" title="cdcprolific.cpp" alt="" coords="1026,352,1099,373"/><area shape="rect" id="node18" href="cdcftdi_8cpp.html" title="cdcftdi.cpp" alt="" coords="946,283,1005,304"/><area shape="rect" id="node20" href="hid_8cpp.html" title="hid.cpp" alt="" coords="1119,283,1167,304"/><area shape="rect" id="node25" href="hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="1191,283,1263,304"/><area shape="rect" id="node22" href="hidboot_8cpp.html" title="hidboot.cpp" alt="" coords="1283,352,1347,373"/><area shape="rect" id="node24" href="hidescriptorparser_8cpp.html" title="hidescriptorparser.cpp" alt="" coords="1371,352,1472,373"/><area shape="rect" id="node26" href="hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="1179,352,1259,373"/><area shape="rect" id="node28" href="masstorage_8cpp.html" title="masstorage.cpp" alt="" coords="1485,283,1563,304"/><area shape="rect" id="node30" href="max___l_c_d_8cpp.html" title="max_LCD.cpp" alt="" coords="375,283,448,304"/><area shape="rect" id="node32" href="_p_s3_u_s_b_8cpp.html" title="PS3USB.cpp" alt="" coords="473,283,543,304"/><area shape="rect" id="node35" href="usbhub_8cpp.html" title="usbhub.cpp" alt="" coords="5,283,69,304"/><area shape="rect" id="node37" href="_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="94,283,175,304"/><area shape="rect" id="node39" href="_x_b_o_x_u_s_b_8cpp.html" title="XBOXUSB.cpp" alt="" coords="199,283,275,304"/><area shape="rect" id="node42" href="parsetools_8cpp.html" title="parsetools.cpp" alt="" coords="905,144,980,165"/></map>
+<area shape="rect" id="node2" href="_usb_8h.html" title="Usb.h" alt="" coords="752,144,795,165"/><area shape="rect" id="node3" href="adk_8h.html" title="adk.h" alt="" coords="1049,213,1089,235"/><area shape="rect" id="node40" href="confdescparser_8h.html" title="confdescparser.h" alt="" coords="983,144,1067,165"/><area shape="rect" id="node41" href="parsetools_8h.html" title="parsetools.h" alt="" coords="1087,75,1152,96"/><area shape="rect" id="node13" href="cdcacm_8h.html" title="cdcacm.h" alt="" coords="491,213,547,235"/><area shape="rect" id="node17" href="cdcftdi_8h.html" title="cdcftdi.h" alt="" coords="1114,213,1165,235"/><area shape="rect" id="node15" href="cdcprolific_8h.html" title="cdcprolific.h" alt="" coords="487,283,551,304"/><area shape="rect" id="node19" href="hid_8h.html" title="hid.h" alt="" coords="1292,213,1332,235"/><area shape="rect" id="node21" href="hidboot_8h.html" title="hidboot.h" alt="" coords="1222,283,1276,304"/><area shape="rect" id="node23" href="hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="1469,283,1563,304"/><area shape="rect" id="node43" href="message_8cpp.html" title="message.cpp" alt="" coords="1508,75,1577,96"/><area shape="rect" id="node5" href="_b_t_d_8h.html" title="BTD.h" alt="" coords="928,213,973,235"/><area shape="rect" id="node27" href="masstorage_8h.html" title="masstorage.h" alt="" coords="782,213,852,235"/><area shape="rect" id="node29" href="max___l_c_d_8h.html" title="max_LCD.h" alt="" coords="403,213,467,235"/><area shape="rect" id="node31" href="_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="698,213,757,235"/><area shape="rect" id="node33" href="_usb_8cpp.html" title="Usb.cpp" alt="" coords="622,213,673,235"/><area shape="rect" id="node34" href="usbhub_8h.html" title="usbhub.h" alt="" coords="46,213,100,235"/><area shape="rect" id="node36" href="_x_b_o_x_r_e_c_v_8h.html" title="XBOXRECV.h" alt="" coords="213,213,285,235"/><area shape="rect" id="node38" href="_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="310,213,377,235"/><area shape="rect" id="node4" href="adk_8cpp.html" title="adk.cpp" alt="" coords="1063,283,1113,304"/><area shape="rect" id="node6" href="_b_t_d_8cpp.html" title="BTD.cpp" alt="" coords="772,283,825,304"/><area shape="rect" id="node7" href="_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="850,283,904,304"/><area shape="rect" id="node9" href="_s_p_p_8h.html" title="SPP.h" alt="" coords="929,283,975,304"/><area shape="rect" id="node11" href="_wii_8h.html" title="Wii.h" alt="" coords="999,283,1039,304"/><area shape="rect" id="node8" href="_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="838,352,900,373"/><area shape="rect" id="node10" href="_s_p_p_8cpp.html" title="SPP.cpp" alt="" coords="925,352,979,373"/><area shape="rect" id="node12" href="_wii_8cpp.html" title="Wii.cpp" alt="" coords="1003,352,1051,373"/><area shape="rect" id="node14" href="cdcacm_8cpp.html" title="cdcacm.cpp" alt="" coords="397,283,461,304"/><area shape="rect" id="node16" href="cdcprolific_8cpp.html" title="cdcprolific.cpp" alt="" coords="482,352,555,373"/><area shape="rect" id="node18" href="cdcftdi_8cpp.html" title="cdcftdi.cpp" alt="" coords="1138,283,1197,304"/><area shape="rect" id="node20" href="hid_8cpp.html" title="hid.cpp" alt="" coords="1301,283,1349,304"/><area shape="rect" id="node25" href="hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="1373,283,1445,304"/><area shape="rect" id="node22" href="hidboot_8cpp.html" title="hidboot.cpp" alt="" coords="1217,352,1281,373"/><area shape="rect" id="node24" href="hidescriptorparser_8cpp.html" title="hidescriptorparser.cpp" alt="" coords="1469,352,1571,373"/><area shape="rect" id="node26" href="hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="1365,352,1445,373"/><area shape="rect" id="node28" href="masstorage_8cpp.html" title="masstorage.cpp" alt="" coords="669,283,747,304"/><area shape="rect" id="node30" href="max___l_c_d_8cpp.html" title="max_LCD.cpp" alt="" coords="299,283,372,304"/><area shape="rect" id="node32" href="_p_s3_u_s_b_8cpp.html" title="PS3USB.cpp" alt="" coords="575,283,644,304"/><area shape="rect" id="node35" href="usbhub_8cpp.html" title="usbhub.cpp" alt="" coords="5,283,69,304"/><area shape="rect" id="node37" href="_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="94,283,175,304"/><area shape="rect" id="node39" href="_x_b_o_x_u_s_b_8cpp.html" title="XBOXUSB.cpp" alt="" coords="199,283,275,304"/><area shape="rect" id="node42" href="parsetools_8cpp.html" title="parsetools.cpp" alt="" coords="1092,144,1167,165"/></map>
 </div>
 </div>
 <p><a href="message_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a9a7f2f4c3d000d5017ee1d0bacd57ff1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a9a7f2f4c3d000d5017ee1d0bacd57ff1">NotifyFailGetDevDescr</a>()</td></tr>
+<tr class="separator:a9a7f2f4c3d000d5017ee1d0bacd57ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221739ed933e6f3d0c2533d12e3c5e6e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a221739ed933e6f3d0c2533d12e3c5e6e">NotifyFailSetDevTblEntry</a>()</td></tr>
+<tr class="separator:a221739ed933e6f3d0c2533d12e3c5e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66511c691935586edd527d0333662650"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a66511c691935586edd527d0333662650">NotifyFailGetConfDescr</a>()</td></tr>
+<tr class="separator:a66511c691935586edd527d0333662650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74853f99e2c72f25393f4e4d97518b0c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a74853f99e2c72f25393f4e4d97518b0c">NotifyFailSetConfDescr</a>()</td></tr>
+<tr class="separator:a74853f99e2c72f25393f4e4d97518b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae736f590b1ff3782749a4587e5c3fce"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#aae736f590b1ff3782749a4587e5c3fce">NotifyFailUnknownDevice</a>(VID, PID)</td></tr>
+<tr class="separator:aae736f590b1ff3782749a4587e5c3fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ff5fd979410766516f888b2c04e6bf2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a0ff5fd979410766516f888b2c04e6bf2">NotifyFail</a>(rcode)</td></tr>
+<tr class="separator:a0ff5fd979410766516f888b2c04e6bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a968335d1c8fd7b45c95634e0828411be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a968335d1c8fd7b45c95634e0828411be">Notify</a> (char const *msg)</td></tr>
-<tr class="separator:a968335d1c8fd7b45c95634e0828411be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e8693828152de8408add858dc461dea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a1e8693828152de8408add858dc461dea">Notify</a> (char const *msg, int lvl)</td></tr>
+<tr class="separator:a1e8693828152de8408add858dc461dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a389f3cf4766145374f70464477c3156a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a389f3cf4766145374f70464477c3156a">NotifyStr</a> (char const *msg, int lvl)</td></tr>
+<tr class="separator:a389f3cf4766145374f70464477c3156a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52358bfe833f47f63e7de398847aa2e7"><td class="memTemplParams" colspan="2">template&lt;class ERROR_TYPE &gt; </td></tr>
 <tr class="memitem:a52358bfe833f47f63e7de398847aa2e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="message_8h.html#a52358bfe833f47f63e7de398847aa2e7">ErrorMessage</a> (char const *msg, ERROR_TYPE rcode=0)</td></tr>
 <tr class="separator:a52358bfe833f47f63e7de398847aa2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a25b114fa75a1d5c09bde2dadc5a27f78"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="message_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78">UsbDEBUGlvl</a></td></tr>
+<tr class="separator:a25b114fa75a1d5c09bde2dadc5a27f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a9a7f2f4c3d000d5017ee1d0bacd57ff1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFailGetDevDescr</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">void</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00037">37</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a221739ed933e6f3d0c2533d12e3c5e6e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFailSetDevTblEntry</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">void</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00038">38</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66511c691935586edd527d0333662650"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFailGetConfDescr</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">void</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00039">39</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a74853f99e2c72f25393f4e4d97518b0c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFailSetConfDescr</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">void</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00040">40</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aae736f590b1ff3782749a4587e5c3fce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFailUnknownDevice</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">VID, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">PID&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00041">41</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ff5fd979410766516f888b2c04e6bf2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NotifyFail</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">rcode</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8h_source.html#l00042">42</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a968335d1c8fd7b45c95634e0828411be"></a>
+<a class="anchor" id="a1e8693828152de8408add858dc461dea"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -128,13 +272,51 @@ Functions</h2></td></tr>
           <td class="memname">void Notify </td>
           <td>(</td>
           <td class="paramtype">char const *&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lvl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="message_8cpp_source.html#l00019">19</a> of file <a class="el" href="message_8cpp_source.html">message.cpp</a>.</p>
+<p>Definition at line <a class="el" href="message_8cpp_source.html#l00035">35</a> of file <a class="el" href="message_8cpp_source.html">message.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a389f3cf4766145374f70464477c3156a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NotifyStr </td>
+          <td>(</td>
+          <td class="paramtype">char const *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lvl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8cpp_source.html#l00043">43</a> of file <a class="el" href="message_8cpp_source.html">message.cpp</a>.</p>
 
 </div>
 </div>
@@ -164,7 +346,22 @@ template&lt;class ERROR_TYPE &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="message_8h_source.html#l00028">28</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+<p>Definition at line <a class="el" href="message_8h_source.html#l00046">46</a> of file <a class="el" href="message_8h_source.html">message.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="a25b114fa75a1d5c09bde2dadc5a27f78"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int UsbDEBUGlvl</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="message_8cpp_source.html#l00023">23</a> of file <a class="el" href="message_8cpp_source.html">message.cpp</a>.</p>
 
 </div>
 </div>

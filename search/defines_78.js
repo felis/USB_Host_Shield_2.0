@@ -16,6 +16,5 @@ var searchData=
   ['xbox_5fvid',['XBOX_VID',['../_x_b_o_x_r_e_c_v_8h.html#a8e7834e5604c4fb588cceab9258d0568',1,'XBOX_VID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a8e7834e5604c4fb588cceab9258d0568',1,'XBOX_VID():&#160;XBOXUSB.h']]],
   ['xbox_5fwireless_5fpid',['XBOX_WIRELESS_PID',['../_x_b_o_x_u_s_b_8h.html#a10c2a7a8da78e76d7020c2c347f0a687',1,'XBOXUSB.h']]],
   ['xbox_5fwireless_5freceiver_5fpid',['XBOX_WIRELESS_RECEIVER_PID',['../_x_b_o_x_r_e_c_v_8h.html#a1a97ce2829a30b96ea6640d387d245a9',1,'XBOX_WIRELESS_RECEIVER_PID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a1a97ce2829a30b96ea6640d387d245a9',1,'XBOX_WIRELESS_RECEIVER_PID():&#160;XBOXUSB.h']]],
-  ['xbox_5fwireless_5freceiver_5fthird_5fparty_5fpid',['XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID',['../_x_b_o_x_r_e_c_v_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXUSB.h']]],
-  ['xoom',['XOOM',['../adk_8h.html#aeb9a797aace2bcf4a9d1f786a632ca4b',1,'adk.h']]]
+  ['xbox_5fwireless_5freceiver_5fthird_5fparty_5fpid',['XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID',['../_x_b_o_x_r_e_c_v_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXUSB.h']]]
 ];

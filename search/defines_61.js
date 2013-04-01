@@ -15,6 +15,5 @@ var searchData=
   ['adk_5fmax_5fendpoints',['ADK_MAX_ENDPOINTS',['../adk_8h.html#ac39da606ffc273bd855152107297d6a1',1,'adk.h']]],
   ['adk_5fpid',['ADK_PID',['../adk_8h.html#a32e861258886323d4dbcf066641597a4',1,'adk.h']]],
   ['adk_5fsendstr',['ADK_SENDSTR',['../adk_8h.html#a4ab0e7e3adbc8bfc1bcdf29887c9a455',1,'adk.h']]],
-  ['adk_5fvid',['ADK_VID',['../adk_8h.html#a37223416b6c1bba6b86ab17211bc9af2',1,'adk.h']]],
-  ['aux_5fjack_5fhook_5fstate',['AUX_JACK_HOOK_STATE',['../cdcacm_8h.html#ac79c185e34b15634c1ba5d15eb8c831c',1,'cdcacm.h']]]
+  ['adk_5fvid',['ADK_VID',['../adk_8h.html#a37223416b6c1bba6b86ab17211bc9af2',1,'adk.h']]]
 ];

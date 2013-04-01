@@ -185,8 +185,12 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aefe67abcaf27811cfe8d010add39ae4e"><td class="memItemLeft" align="right" valign="top">const uint8_t LEDS[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_s3_enums_8h.html#aefe67abcaf27811cfe8d010add39ae4e">PROGMEM</a></td></tr>
-<tr class="separator:aefe67abcaf27811cfe8d010add39ae4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af83672eccf0c7a02847ce75bc5c55a1a"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_s3_enums_8h.html#af83672eccf0c7a02847ce75bc5c55a1a">LEDS</a> []</td></tr>
+<tr class="separator:af83672eccf0c7a02847ce75bc5c55a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3392eea150ac9151bef45148f0d7895"><td class="memItemLeft" align="right" valign="top">const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_s3_enums_8h.html#af3392eea150ac9151bef45148f0d7895">BUTTONS</a> []</td></tr>
+<tr class="separator:af3392eea150ac9151bef45148f0d7895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb19c2ede75659ab3b926996a8a09f2f"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_s3_enums_8h.html#abb19c2ede75659ab3b926996a8a09f2f">ANALOGBUTTONS</a> []</td></tr>
+<tr class="separator:abb19c2ede75659ab3b926996a8a09f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a55ecd4f2ec2ebfe8d5b0163e4ac2a967"></a>
@@ -307,7 +311,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00157">157</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00158">158</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
 
 </div>
 </div>
@@ -363,7 +367,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00161">161</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00163">163</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
 
 </div>
 </div>
@@ -383,40 +387,113 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00188">188</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00191">191</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="aefe67abcaf27811cfe8d010add39ae4e"></a>
+<a class="anchor" id="af83672eccf0c7a02847ce75bc5c55a1a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ANALOGBUTTONS [] PROGMEM</td>
+          <td class="memname">const uint8_t LEDS[]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    0x01, </div>
-<div class="line">    0x02, </div>
-<div class="line">    0x04, </div>
-<div class="line">    0x08, </div>
-<div class="line">    </div>
-<div class="line">    0x09, </div>
-<div class="line">    0x0A, </div>
-<div class="line">    0x0C, </div>
-<div class="line">    0x0D, </div>
-<div class="line">    0x0E, </div>
-<div class="line">    0x0F </div>
+<div class="line">        0x01, </div>
+<div class="line">        0x02, </div>
+<div class="line">        0x04, </div>
+<div class="line">        0x08, </div>
+<div class="line"></div>
+<div class="line">        0x09, </div>
+<div class="line">        0x0A, </div>
+<div class="line">        0x0C, </div>
+<div class="line">        0x0D, </div>
+<div class="line">        0x0E, </div>
+<div class="line">        0x0F </div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Used to set the LEDs on the controllers</p>
-<p>Buttons on the controllers</p>
-<p><b>Note:</b> that the location is shiftet 9 when it's connected via <a class="el" href="class_u_s_b.html">USB</a>.</p>
-<p>Analog buttons on the controllers</p>
-<p><b>Note:</b> that the location is shiftet 9 when it's connected via <a class="el" href="class_u_s_b.html">USB</a>. </p>
+</div><!-- fragment --><p>Used to set the LEDs on the controllers </p>
 
 <p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00024">24</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af3392eea150ac9151bef45148f0d7895"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t BUTTONS[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        0x10, </div>
+<div class="line">        0x20, </div>
+<div class="line">        0x40, </div>
+<div class="line">        0x80, </div>
+<div class="line"></div>
+<div class="line">        0x01, </div>
+<div class="line">        0x08, </div>
+<div class="line">        0x02, </div>
+<div class="line">        0x04, </div>
+<div class="line"></div>
+<div class="line">        0x0100, </div>
+<div class="line">        0x0200, </div>
+<div class="line">        0x0400, </div>
+<div class="line">        0x0800, </div>
+<div class="line"></div>
+<div class="line">        0x1000, </div>
+<div class="line">        0x2000, </div>
+<div class="line">        0x4000, </div>
+<div class="line">        0x8000, </div>
+<div class="line"></div>
+<div class="line">        0x010000, </div>
+<div class="line">        0x080000, </div>
+<div class="line">        0x100000 </div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Buttons on the controllers</p>
+<p><b>Note:</b> that the location is shiftet 9 when it's connected via <a class="el" href="class_u_s_b.html">USB</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00043">43</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abb19c2ede75659ab3b926996a8a09f2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t ANALOGBUTTONS[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        23, </div>
+<div class="line">        24, </div>
+<div class="line">        25, </div>
+<div class="line">        26, </div>
+<div class="line">        0, 0, 0, 0, </div>
+<div class="line"></div>
+<div class="line">        27, </div>
+<div class="line">        28, </div>
+<div class="line">        29, </div>
+<div class="line">        30, </div>
+<div class="line">        31, </div>
+<div class="line">        32, </div>
+<div class="line">        33, </div>
+<div class="line">        34, </div>
+<div class="line">        0, 0, </div>
+<div class="line"></div>
+<div class="line">        </div>
+<div class="line">        15 </div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Analog buttons on the controllers</p>
+<p><b>Note:</b> that the location is shiftet 9 when it's connected via <a class="el" href="class_u_s_b.html">USB</a>. </p>
+
+<p>Definition at line <a class="el" href="_p_s3_enums_8h_source.html#l00074">74</a> of file <a class="el" href="_p_s3_enums_8h_source.html">PS3Enums.h</a>.</p>
 
 </div>
 </div>

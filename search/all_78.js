@@ -20,13 +20,14 @@ var searchData=
   ['xbox_5fwireless_5fpid',['XBOX_WIRELESS_PID',['../_x_b_o_x_u_s_b_8h.html#a10c2a7a8da78e76d7020c2c347f0a687',1,'XBOXUSB.h']]],
   ['xbox_5fwireless_5freceiver_5fpid',['XBOX_WIRELESS_RECEIVER_PID',['../_x_b_o_x_r_e_c_v_8h.html#a1a97ce2829a30b96ea6640d387d245a9',1,'XBOX_WIRELESS_RECEIVER_PID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a1a97ce2829a30b96ea6640d387d245a9',1,'XBOX_WIRELESS_RECEIVER_PID():&#160;XBOXUSB.h']]],
   ['xbox_5fwireless_5freceiver_5fthird_5fparty_5fpid',['XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID',['../_x_b_o_x_r_e_c_v_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a6842663964e470b86786f046e4bc30d9',1,'XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID():&#160;XBOXUSB.h']]],
+  ['xboxbuttons',['XBOXBUTTONS',['../xbox_enums_8h.html#a7e55826e75b9b88578c8b0edaaf523d7',1,'xboxEnums.h']]],
   ['xboxenums_2eh',['xboxEnums.h',['../xbox_enums_8h.html',1,'']]],
+  ['xboxleds',['XBOXLEDS',['../xbox_enums_8h.html#a867f3bf7a14d4647290f1ac7f76b23ee',1,'xboxEnums.h']]],
   ['xboxreceiverconnected',['XboxReceiverConnected',['../class_x_b_o_x_r_e_c_v.html#a5ff16bba78f05af3023f395a342b625c',1,'XBOXRECV']]],
   ['xboxrecv',['XBOXRECV',['../class_x_b_o_x_r_e_c_v.html',1,'XBOXRECV'],['../class_x_b_o_x_r_e_c_v.html#ac856259af28db351f85302b5eddabf1d',1,'XBOXRECV::XBOXRECV()']]],
   ['xboxrecv_2ecpp',['XBOXRECV.cpp',['../_x_b_o_x_r_e_c_v_8cpp.html',1,'']]],
   ['xboxrecv_2eh',['XBOXRECV.h',['../_x_b_o_x_r_e_c_v_8h.html',1,'']]],
   ['xboxusb',['XBOXUSB',['../class_x_b_o_x_u_s_b.html',1,'XBOXUSB'],['../class_x_b_o_x_u_s_b.html#a4b676a33152112e6edfb14be125a78d2',1,'XBOXUSB::XBOXUSB()']]],
   ['xboxusb_2ecpp',['XBOXUSB.cpp',['../_x_b_o_x_u_s_b_8cpp.html',1,'']]],
-  ['xboxusb_2eh',['XBOXUSB.h',['../_x_b_o_x_u_s_b_8h.html',1,'']]],
-  ['xoom',['XOOM',['../adk_8h.html#aeb9a797aace2bcf4a9d1f786a632ca4b',1,'adk.h']]]
+  ['xboxusb_2eh',['XBOXUSB.h',['../_x_b_o_x_u_s_b_8h.html',1,'']]]
 ];

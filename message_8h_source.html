@@ -104,28 +104,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">Circuits At Home, LTD</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">Web      :  http://www.circuitsathome.com</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">e-mail   :  support@circuitsathome.com</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#if !defined(__MESSAGE_H__)</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __MESSAGE_H__</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;inttypes.h&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;avr/pgmspace.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="printhex_8h.html">printhex.h</a>&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8cpp.html#a968335d1c8fd7b45c95634e0828411be">Notify</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * msg);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//void Notify(const char* msg);</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="message_8cpp.html#a25b114fa75a1d5c09bde2dadc5a27f78">UsbDEBUGlvl</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="printhex_8h.html">printhex.h</a>&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> ERROR_TYPE&gt; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="message_8h.html#a52358bfe833f47f63e7de398847aa2e7">   28</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a52358bfe833f47f63e7de398847aa2e7">ErrorMessage</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * msg, ERROR_TYPE rcode = 0)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="message_8cpp.html#a968335d1c8fd7b45c95634e0828411be">Notify</a>(msg);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="message_8cpp.html#a968335d1c8fd7b45c95634e0828411be">Notify</a>(PSTR(<span class="stringliteral">&quot;: &quot;</span>));</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    PrintHex&lt;ERROR_TYPE&gt;(rcode);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="message_8cpp.html#a968335d1c8fd7b45c95634e0828411be">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>));</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif // __MESSAGE_H__</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * msg, <span class="keywordtype">int</span> lvl);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8cpp.html#a389f3cf4766145374f70464477c3156a">NotifyStr</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * msg, <span class="keywordtype">int</span> lvl);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="keywordtype">void</span> <a class="code" href="message_8h.html#a9a7f2f4c3d000d5017ee1d0bacd57ff1">NotifyFailGetDevDescr</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a221739ed933e6f3d0c2533d12e3c5e6e">NotifyFailSetDevTblEntry</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a66511c691935586edd527d0333662650">NotifyFailGetConfDescr</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a74853f99e2c72f25393f4e4d97518b0c">NotifyFailSetConfDescr</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#aae736f590b1ff3782749a4587e5c3fce">NotifyFailUnknownDevice</a>(uint16_t VID, uint16_t PID);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a0ff5fd979410766516f888b2c04e6bf2">NotifyFail</a>(uint8_t rcode);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="message_8h.html#a9a7f2f4c3d000d5017ee1d0bacd57ff1">   37</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFailGetDevDescr()</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="message_8h.html#a221739ed933e6f3d0c2533d12e3c5e6e">   38</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFailSetDevTblEntry()</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="message_8h.html#a66511c691935586edd527d0333662650">   39</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFailGetConfDescr()</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="message_8h.html#a74853f99e2c72f25393f4e4d97518b0c">   40</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFailSetConfDescr()</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="message_8h.html#aae736f590b1ff3782749a4587e5c3fce">   41</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFailUnknownDevice(VID, PID)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="message_8h.html#a0ff5fd979410766516f888b2c04e6bf2">   42</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define NotifyFail(rcode)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> ERROR_TYPE&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="message_8h.html#a52358bfe833f47f63e7de398847aa2e7">   46</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="message_8h.html#a52358bfe833f47f63e7de398847aa2e7">ErrorMessage</a>(<span class="keywordtype">char</span> <span class="keyword">const</span> * msg, ERROR_TYPE rcode = 0) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(msg, 0x80);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        PrintHex&lt;ERROR_TYPE &gt; (rcode, 0x80);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hexdump_8h.html">hexdump.h</a>&quot;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif // __MESSAGE_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

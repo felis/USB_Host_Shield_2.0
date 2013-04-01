@@ -1,7 +1,8 @@
 var searchData=
 [
   ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a486df60a3d29f73e9052d3efb0c38de6',1,'KeyboardReportParser']]],
-  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a5e96d4028abd1885359fc36f644b8363',1,'BulkOnly']]],
+  ['handlescsierror',['HandleSCSIError',['../class_bulk_only.html#af6fe2aa6efba8f803254024956e36160',1,'BulkOnly']]],
+  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a95db37657ac766bc84a3767254808737',1,'BulkOnly']]],
   ['hci_5faccept_5fconnection',['hci_accept_connection',['../class_b_t_d.html#a1cb07a155c69bb1fcf45ae030b8947ec',1,'BTD']]],
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],
@@ -17,6 +18,7 @@ var searchData=
   ['hci_5fremote_5fname',['hci_remote_name',['../class_b_t_d.html#a8767529bd203c549348a38ac9c6682b3',1,'BTD']]],
   ['hci_5freset',['hci_reset',['../class_b_t_d.html#ae6f942eabd29257bc4896e5f263275b6',1,'BTD']]],
   ['hci_5fset_5flocal_5fname',['hci_set_local_name',['../class_b_t_d.html#a9a6747d58951f53389922d80e25b886c',1,'BTD']]],
+  ['hci_5fwrite_5fclass_5fof_5fdevice',['hci_write_class_of_device',['../class_b_t_d.html#a9a17405df60591b909ff1502fb8f3141',1,'BTD']]],
   ['hci_5fwrite_5fscan_5fdisable',['hci_write_scan_disable',['../class_b_t_d.html#aff59ab45d917406141ae0c9c79047f08',1,'BTD']]],
   ['hci_5fwrite_5fscan_5fenable',['hci_write_scan_enable',['../class_b_t_d.html#a7dd7faaec1d3d9a1d8159cc2a4190977',1,'BTD']]],
   ['hexdumper',['HexDumper',['../class_hex_dumper.html#a94f38f5aff5066f0e1a82fcb896f5337',1,'HexDumper']]],

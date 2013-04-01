@@ -1,13 +1,13 @@
 <map id="PS3USB.h" name="PS3USB.h">
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="397,75,440,96"/>
-<area shape="rect" id="node17" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="797,75,866,96"/>
-<area shape="rect" id="node6" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="528,213,582,235"/>
-<area shape="rect" id="node8" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="146,213,213,235"/>
-<area shape="rect" id="node9" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="212,144,269,165"/>
-<area shape="rect" id="node10" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="237,213,296,235"/>
-<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="79,144,136,165"/>
-<area shape="rect" id="node13" href="$printhex_8h.html" title="printhex.h" alt="" coords="608,213,665,235"/>
-<area shape="rect" id="node14" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="430,144,492,165"/>
-<area shape="rect" id="node16" href="$message_8h.html" title="message.h" alt="" coords="345,144,406,165"/>
-<area shape="rect" id="node18" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="794,144,880,165"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="449,75,492,96"/>
+<area shape="rect" id="node17" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="653,75,723,96"/>
+<area shape="rect" id="node6" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="474,213,528,235"/>
+<area shape="rect" id="node8" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="553,213,620,235"/>
+<area shape="rect" id="node9" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="442,144,499,165"/>
+<area shape="rect" id="node10" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="391,213,449,235"/>
+<area shape="rect" id="node11" href="$address_8h.html" title="address.h" alt="" coords="701,144,757,165"/>
+<area shape="rect" id="node13" href="$message_8h.html" title="message.h" alt="" coords="204,144,265,165"/>
+<area shape="rect" id="node15" href="$printhex_8h.html" title="printhex.h" alt="" coords="71,213,128,235"/>
+<area shape="rect" id="node16" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="204,213,265,235"/>
+<area shape="rect" id="node18" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="782,144,868,165"/>
 </map>

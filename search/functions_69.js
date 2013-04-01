@@ -5,10 +5,12 @@ var searchData=
   ['inquiry',['Inquiry',['../class_bulk_only.html#aab14f15d29a05f2260aaaeb8e9b3db01',1,'BulkOnly']]],
   ['inthandler',['IntHandler',['../class_m_a_x3421e.html#a6da568ef3f5a7188d94f0287f6e7ad3a',1,'MAX3421e']]],
   ['intransfer',['inTransfer',['../class_u_s_b.html#ad75d64f648b102fab2bd75e53e1324a4',1,'USB']]],
+  ['inttostring',['intToString',['../class_s_p_p.html#a8959dc26a7e6a614127a4527a6b5a509',1,'SPP::intToString(int32_t input, char *output)'],['../class_s_p_p.html#a137a472e06c9e371755a4b2dd1036b6c',1,'SPP::intToString(uint32_t input, char *output)']]],
   ['irinitialize',['IRinitialize',['../class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5',1,'WII']]],
   ['isircameraenabled',['isIRCameraEnabled',['../class_w_i_i.html#a0a444d7e348026e062751cf723877e8f',1,'WII']]],
   ['ismeaningfulcbw',['IsMeaningfulCBW',['../class_bulk_only.html#aa62fd9f43fb0e8b3a9973ead5d577dcb',1,'BulkOnly']]],
-  ['isready',['isReady',['../class_a_d_k.html#a1dee02856625dfcac4b0cdd4e8672cef',1,'ADK::isReady()'],['../class_b_t_d.html#a1b2440748bdaaeb552a05b0f0902f5d8',1,'BTD::isReady()'],['../class_a_c_m.html#a7161082e88359738596dd12a706ee286',1,'ACM::isReady()'],['../class_p_s3_u_s_b.html#a02a5b0244665d5a790d1020e51c94479',1,'PS3USB::isReady()'],['../class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57',1,'XBOXRECV::isReady()'],['../class_x_b_o_x_u_s_b.html#ac2507bfe85896b7fcc772894a7a9f272',1,'XBOXUSB::isReady()']]],
+  ['isready',['isReady',['../class_a_d_k.html#a1dee02856625dfcac4b0cdd4e8672cef',1,'ADK::isReady()'],['../class_b_t_d.html#a1b2440748bdaaeb552a05b0f0902f5d8',1,'BTD::isReady()'],['../class_p_s3_u_s_b.html#a02a5b0244665d5a790d1020e51c94479',1,'PS3USB::isReady()'],['../class_x_b_o_x_r_e_c_v.html#a570568108edafee8d060aad8fe40db57',1,'XBOXRECV::isReady()'],['../class_x_b_o_x_u_s_b.html#ac2507bfe85896b7fcc772894a7a9f272',1,'XBOXUSB::isReady()']]],
   ['isset',['IsSet',['../class_t_pin.html#a8a1716471e1e7708a0a897dc19dbb26a',1,'TPin']]],
-  ['isvalidcbw',['IsValidCBW',['../class_bulk_only.html#a49762e86fea9ee137097691c5eac062e',1,'BulkOnly']]]
+  ['isvalidcbw',['IsValidCBW',['../class_bulk_only.html#a49762e86fea9ee137097691c5eac062e',1,'BulkOnly']]],
+  ['isvalidcsw',['IsValidCSW',['../class_bulk_only.html#a5fe83ed4e7e0f4fd44de349b9a84cced',1,'BulkOnly']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['oemtoascii',['OemToAscii',['../class_keyboard_report_parser.html#aa21e9230ae4c2f068c404a9c2909a1f3',1,'KeyboardReportParser']]],
-  ['oninit',['OnInit',['../class_c_d_c_async_oper.html#a899353c3cbf83d7f874d11e5d9db4722',1,'CDCAsyncOper::OnInit()'],['../class_f_t_d_i_async_oper.html#ae9178132b564edd5f75b65d6943aa400',1,'FTDIAsyncOper::OnInit()']]],
+  ['oninit',['OnInit',['../class_c_d_c_async_oper.html#a899353c3cbf83d7f874d11e5d9db4722',1,'CDCAsyncOper::OnInit()'],['../class_f_t_d_i_async_oper.html#ae9178132b564edd5f75b65d6943aa400',1,'FTDIAsyncOper::OnInit()'],['../class_bulk_only.html#a3d253a0bc8f1ac5b7fe1c9e7078691e3',1,'BulkOnly::OnInit()']]],
   ['oninitsuccessful',['OnInitSuccessful',['../class_h_i_d_universal.html#a60f06d86767b4b2c973d08383c7a0048',1,'HIDUniversal']]],
   ['onkeydown',['OnKeyDown',['../class_keyboard_report_parser.html#af855e596bbbb9755535f6e69f4ca2305',1,'KeyboardReportParser']]],
   ['onkeyup',['OnKeyUp',['../class_keyboard_report_parser.html#a57710d31e5379db14779f960f5c714b2',1,'KeyboardReportParser']]],
