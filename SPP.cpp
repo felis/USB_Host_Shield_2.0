@@ -191,13 +191,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #endif
                 } else if (l2capinbuf[6] == sdp_dcid[0] && l2capinbuf[7] == sdp_dcid[1]) { // SDP
                         if (l2capinbuf[8] == SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU) {
-                                /*
-                                Serial.print("\r\nUUID: 0x");
-                                Serial.print(l2capinbuf[16],HEX);
-                                Serial.print(" ");
-                                Serial.print(l2capinbuf[17],HEX);
-                                 */
-                                if ((l2capinbuf[16] << 8 | l2capinbuf[17]) == SERIALPORT_UUID) {
+                                if (((l2capinbuf[16] << 8 | l2capinbuf[17]) == SERIALPORT_UUID) || ((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000 && (l2capinbuf[18] << 8 | l2capinbuf[19]) == SERIALPORT_UUID)) { // Check if it's sending the full UUID, see: https://www.bluetooth.org/Technical/AssignedNumbers/service_discovery.htm, we will just check the first four bytes
                                         if (firstMessage) {
                                                 serialPortResponse1(l2capinbuf[9], l2capinbuf[10]);
                                                 firstMessage = false;
@@ -213,8 +207,19 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                                 l2capResponse2(l2capinbuf[9], l2capinbuf[10]); // L2CAP continuation state
                                                 firstMessage = true;
                                         }
-                                } else
+                                } else {
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nLength: "), 0x80);
+                                        uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
+                                        PrintHex<uint16_t> (length, 0x80);
+                                        Notify(PSTR("\r\nData: "), 0x80);
+                                        for (uint8_t i = 0; i < length; i++) {
+                                                PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
+                                                Notify(PSTR(" "), 0x80);
+                                        }
+#endif
                                         serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
+                                }
                         }
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
                         rfcommChannel = l2capinbuf[8] & 0xF8;

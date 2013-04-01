@@ -70,7 +70,6 @@ The BTD library will also make it possible to use multiple services at once, the
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
 It has been tested successfully on Windows, Mac OS X, Linux, and Android.
-Unfortunately Google broke something in Android 4.2, so it's currently not working in this version of Android.
 
 More information can be found at these blog posts:
 
