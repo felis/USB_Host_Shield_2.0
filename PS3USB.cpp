@@ -20,24 +20,6 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
-const uint8_t PS3_REPORT_BUFFER[] PROGMEM = {
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-const uint8_t MOVE_REPORT_BUFFER[] PROGMEM = {
-        0x02, 0x00, // Always 0x02, 0x00,
-        0x00, 0x00, 0x00, // r, g, b,
-        0x00, // Always 0x00,
-        0x00 // Rumble
-};
-
 PS3USB::PS3USB(USB *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
@@ -220,9 +202,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
                 moveSetBulb(Red);
 
-                // Needed for Move commands to work
-                for (uint8_t i = 0; i < MOVE_REPORT_BUFFER_SIZE; i++)
-                        writeBuf[i] = pgm_read_byte(&MOVE_REPORT_BUFFER[i]);
+                writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
 
         bPollEnable = true;

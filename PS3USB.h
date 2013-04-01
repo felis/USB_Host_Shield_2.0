@@ -44,9 +44,6 @@
 #define PS3NAVIGATION_PID   0x042F  // Navigation controller
 #define PS3MOVE_PID         0x03D5  // Motion controller
 
-#define PS3_REPORT_BUFFER_SIZE      48 // Size of the output report buffer for the Dualshock and Navigation controllers
-#define MOVE_REPORT_BUFFER_SIZE     7 // Size of the output report buffer for the Move Controller
-
 // used in control endpoint header for HID Commands
 #define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define HID_REQUEST_SET_REPORT      0x09

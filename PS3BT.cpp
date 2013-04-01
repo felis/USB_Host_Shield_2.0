@@ -20,18 +20,6 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
-const uint8_t OUTPUT_REPORT_BUFFER[] PROGMEM = {
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0xff, 0x27, 0x10, 0x00, 0x32,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-
 PS3BT::PS3BT(BTD *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
 pBtd(p) // pointer to USB class instance - mandatory
 {
@@ -243,8 +231,8 @@ void PS3BT::Reset() {
         l2cap_state = L2CAP_WAIT;
 
         // Needed for PS3 Dualshock Controller commands to work via bluetooth
-        for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
-                HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
+        for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
+                HIDBuffer[i + 2] = pgm_read_byte(&PS3_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
 }
 
 void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
@@ -573,8 +561,8 @@ void PS3BT::HID_Command(uint8_t* data, uint8_t nbytes) {
 }
 
 void PS3BT::setAllOff() {
-        for (uint8_t i = 0; i < OUTPUT_REPORT_BUFFER_SIZE; i++)
-                HIDBuffer[i + 2] = pgm_read_byte(&OUTPUT_REPORT_BUFFER[i]); //First two bytes reserved for report type and ID
+        for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
+                HIDBuffer[i + 2] = pgm_read_byte(&PS3_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
 
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }

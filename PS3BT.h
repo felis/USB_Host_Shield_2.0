@@ -21,8 +21,7 @@
 #include "BTD.h"
 #include "PS3Enums.h"
 
-#define HID_BUFFERSIZE              50 // size of the buffer for the Playstation Motion Controller
-#define OUTPUT_REPORT_BUFFER_SIZE   48 //Size of the output report buffer for the controllers
+#define HID_BUFFERSIZE              50 // Size of the buffer for the Playstation Motion Controller
 
 /* Bluetooth L2CAP states for L2CAP_task() */
 #define L2CAP_WAIT                   0
