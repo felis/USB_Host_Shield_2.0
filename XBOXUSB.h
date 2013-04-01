@@ -165,7 +165,6 @@ public:
         void setLedBlink(LED l);
         /**
          * Used to set special LED modes supported by the Xbox controller.
-         * @param controller The controller to write to.
          * @param lm         See ::LEDMode.
          */
         void setLedMode(LEDMode lm);
