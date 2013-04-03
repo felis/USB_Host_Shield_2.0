@@ -732,8 +732,7 @@ void SPP::print(const String &str) {
         uint8_t length = str.length();
         if (length > (sizeof (l2capoutbuf) - 4))
                 length = sizeof (l2capoutbuf) - 4;
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;
-        ; // RFCOMM Address
+        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
         l2capoutbuf[2] = length << 1 | 1; // Length
         uint8_t i = 0;
@@ -750,8 +749,7 @@ void SPP::print(const char* str) {
         uint8_t length = strlen(str);
         if (length > (sizeof (l2capoutbuf) - 4))
                 length = sizeof (l2capoutbuf) - 4;
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;
-        ; // RFCOMM Address
+        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
         l2capoutbuf[2] = length << 1 | 1; // Length
         uint8_t i = 0;
@@ -767,8 +765,7 @@ void SPP::print(uint8_t* array, uint8_t length) {
                 return;
         if (length > (sizeof (l2capoutbuf) - 4))
                 length = sizeof (l2capoutbuf) - 4;
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress;
-        ; // RFCOMM Address
+        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
         l2capoutbuf[2] = length << 1 | 1; // Length
         uint8_t i = 0;
