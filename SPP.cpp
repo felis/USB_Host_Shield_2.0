@@ -729,51 +729,87 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 void SPP::print(const String &str) {
         if (!connected)
                 return;
-        uint8_t length = str.length();
-        if (length > (sizeof (l2capoutbuf) - 4))
-                length = sizeof (l2capoutbuf) - 4;
+        int16_t stringLength = str.length(); // This will be used to store the characters that still needs to be sent
+        uint8_t length; // This is the length of the string we are sending
+        uint8_t offset = 0; // This is used to keep track of where we are in the string
+
         l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-        l2capoutbuf[2] = length << 1 | 1; // Length
-        uint8_t i = 0;
-        for (; i < length; i++)
-                l2capoutbuf[i + 3] = str[i];
-        l2capoutbuf[i + 3] = calcFcs(l2capoutbuf);
+        
+        do {
+                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
+                        length = sizeof (l2capoutbuf) - 4;
+                else
+                        length = stringLength;
 
-        RFCOMM_Command(l2capoutbuf, length + 4);
+                l2capoutbuf[2] = length << 1 | 1; // Length
+                uint8_t i = 0;
+                for (; i < length; i++)
+                        l2capoutbuf[i + 3] = str[i + offset];
+                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
+
+                RFCOMM_Command(l2capoutbuf, length + 4);
+
+                stringLength -= length;
+                offset += length; // Increment the offset
+        } while (stringLength); // We will run this loop until this variable is less than 0
 }
 
 void SPP::print(const char* str) {
         if (!connected)
                 return;
-        uint8_t length = strlen(str);
-        if (length > (sizeof (l2capoutbuf) - 4))
-                length = sizeof (l2capoutbuf) - 4;
+        int16_t stringLength = strlen(str); // This will be used to store the characters that still needs to be sent
+        uint8_t length; // This is the length of the string we are sending
+        uint8_t offset = 0; // This is used to keep track of where we are in the string
+
         l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-        l2capoutbuf[2] = length << 1 | 1; // Length
-        uint8_t i = 0;
-        for (; i < length; i++)
-                l2capoutbuf[i + 3] = str[i];
-        l2capoutbuf[i + 3] = calcFcs(l2capoutbuf);
 
-        RFCOMM_Command(l2capoutbuf, length + 4);
+        do {
+                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
+                        length = sizeof (l2capoutbuf) - 4;
+                else
+                        length = stringLength;
+
+                l2capoutbuf[2] = length << 1 | 1; // Length
+                uint8_t i = 0;
+                for (; i < length; i++)
+                        l2capoutbuf[i + 3] = str[i + offset];
+                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
+
+                RFCOMM_Command(l2capoutbuf, length + 4);
+
+                stringLength -= length;
+                offset += length; // Increment the offset
+        } while (stringLength); // We will run this loop until this variable is less than 0
 }
 
-void SPP::print(uint8_t* array, uint8_t length) {
+void SPP::print(uint8_t* array, int16_t stringLength) {
         if (!connected)
                 return;
-        if (length > (sizeof (l2capoutbuf) - 4))
-                length = sizeof (l2capoutbuf) - 4;
+        uint8_t length; // This is the length of the string we are sending
+        uint8_t offset = 0; // This is used to keep track of where we are in the string
+
         l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-        l2capoutbuf[2] = length << 1 | 1; // Length
-        uint8_t i = 0;
-        for (; i < length; i++)
-                l2capoutbuf[i + 3] = array[i];
-        l2capoutbuf[i + 3] = calcFcs(l2capoutbuf);
 
-        RFCOMM_Command(l2capoutbuf, length + 4);
+        do {
+                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
+                        length = sizeof (l2capoutbuf) - 4;
+                else
+                        length = stringLength;
+
+                l2capoutbuf[2] = length << 1 | 1; // Length
+                uint8_t i = 0;
+                for (; i < length; i++)
+                        l2capoutbuf[i + 3] = array[i + offset];
+                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
+
+                RFCOMM_Command(l2capoutbuf, length + 4);
+
+                stringLength -= length;
+                offset += length; // Increment the offset
+        } while (stringLength); // We will run this loop until this variable is less than 0
 }
 
 void SPP::println(const String &str) {
