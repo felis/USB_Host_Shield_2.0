@@ -199,7 +199,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                                 serialPortResponse2(l2capinbuf[9], l2capinbuf[10]); // Serialport continuation state
                                                 firstMessage = true;
                                         }
-                                } else if ((l2capinbuf[16] << 8 | l2capinbuf[17]) == L2CAP_UUID) {
+                                } else if (((l2capinbuf[16] << 8 | l2capinbuf[17]) == L2CAP_UUID) || ((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000 && (l2capinbuf[18] << 8 | l2capinbuf[19]) == L2CAP_UUID)) {
                                         if (firstMessage) {
                                                 l2capResponse1(l2capinbuf[9], l2capinbuf[10]);
                                                 firstMessage = false;
