@@ -298,9 +298,11 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t BTD::Release() {
-        for (uint8_t i = 0; i < BTD_NUMSERVICES; i++)
+        for (uint8_t i = 0; i < BTD_NUMSERVICES; i++) {
                 if (btService[i])
                         btService[i]->Reset(); // Reset all Bluetooth services
+        }
+        
         pUsb->GetAddressPool().FreeAddress(bAddress);
         bAddress = 0;
         bPollEnable = false;
@@ -794,6 +796,7 @@ void BTD::hci_reset() {
         hcibuf[0] = 0x03; // HCI OCF = 3
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = 0x00;
+
         HCI_Command(hcibuf, 3);
 }
 
@@ -806,6 +809,7 @@ void BTD::hci_write_scan_enable() {
                 hcibuf[3] = 0x03; // Inquiry Scan enabled. Page Scan enabled.
         else
                 hcibuf[3] = 0x02; // Inquiry Scan disabled. Page Scan enabled.
+
         HCI_Command(hcibuf, 4);
 }
 
@@ -814,6 +818,7 @@ void BTD::hci_write_scan_disable() {
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = 0x01; // parameter length = 1
         hcibuf[3] = 0x00; // Inquiry Scan disabled. Page Scan disabled.
+
         HCI_Command(hcibuf, 4);
 }
 
@@ -821,6 +826,7 @@ void BTD::hci_read_bdaddr() {
         hcibuf[0] = 0x09; // HCI OCF = 9
         hcibuf[1] = 0x04 << 2; // HCI OGF = 4
         hcibuf[2] = 0x00;
+
         HCI_Command(hcibuf, 3);
 }
 
@@ -828,6 +834,7 @@ void BTD::hci_read_local_version_information() {
         hcibuf[0] = 0x01; // HCI OCF = 1
         hcibuf[1] = 0x04 << 2; // HCI OGF = 4
         hcibuf[2] = 0x00;
+
         HCI_Command(hcibuf, 3);
 }
 
@@ -895,7 +902,7 @@ void BTD::hci_inquiry() {
 void BTD::hci_inquiry_cancel() {
         hcibuf[0] = 0x02;
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
-        hcibuf[2] = 0x0; // Parameter Total Length = 0
+        hcibuf[2] = 0x00; // Parameter Total Length = 0
 
         HCI_Command(hcibuf, 3);
 }
@@ -1016,6 +1023,7 @@ void BTD::hci_write_class_of_device() { // See http://bluetooth-pentest.narod.ru
         hcibuf[3] = 0x04; // Robot
         hcibuf[4] = 0x08; // Toy
         hcibuf[5] = 0x00;
+
         HCI_Command(hcibuf, 6);
 }
 /*******************************************************************
@@ -1147,6 +1155,7 @@ void BTD::l2cap_disconnection_request(uint16_t handle, uint8_t rxid, uint8_t* dc
         l2capoutbuf[5] = dcid[1];
         l2capoutbuf[6] = scid[0];
         l2capoutbuf[7] = scid[1];
+
         L2CAP_Command(handle, l2capoutbuf, 8);
 }
 
@@ -1159,6 +1168,7 @@ void BTD::l2cap_disconnection_response(uint16_t handle, uint8_t rxid, uint8_t* d
         l2capoutbuf[5] = dcid[1];
         l2capoutbuf[6] = scid[0];
         l2capoutbuf[7] = scid[1];
+
         L2CAP_Command(handle, l2capoutbuf, 8);
 }
 
@@ -1175,6 +1185,7 @@ void BTD::l2cap_information_response(uint16_t handle, uint8_t rxid, uint8_t info
         l2capoutbuf[9] = 0x00;
         l2capoutbuf[10] = 0x00;
         l2capoutbuf[11] = 0x00;
+
         L2CAP_Command(handle, l2capoutbuf, 12);
 }
 
