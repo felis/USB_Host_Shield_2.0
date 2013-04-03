@@ -89,6 +89,16 @@ e-mail   :  support@circuitsathome.com
 #define CDC_GET_LINE_PARMS					0x35
 #define CDC_DIAL_DIGITS						0x36
 
+//Class-Specific Notification Codes
+#define NETWORK_CONNECTION  0x00
+#define RESPONSE_AVAILABLE  0x01
+#define AUX_JACK_HOOK_STATE 0x08
+#define RING_DETECT         0x09
+#define SERIAL_STATE        0x20
+#define CALL_STATE_CHANGE   0x28
+#define LINE_STATE_CHANGE   0x29
+#define CONNECTION_SPEED_CHANGE 0x2a
+
 // CDC Functional Descriptor Structures
 
 typedef struct {
@@ -122,6 +132,16 @@ typedef struct {
         uint8_t bDataBits; // Data bits (5, 6, 7, 8 or 16)
 } LINE_CODING;
 
+typedef struct
+{
+  uint8_t   bmRequestType;  // 0xa1 for class-specific notifications
+  uint8_t   bNotification;
+  uint16_t  wValue;
+  uint16_t  wIndex;
+  uint16_t  wLength;
+  uint16_t  bmState;        //UART state bitmap for SERIAL_STATE, other notifications variable length
+} CLASS_NOTIFICATION;  
+
 class ACM;
 
 class CDCAsyncOper {
@@ -149,6 +169,7 @@ protected:
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
+       	bool  ready;      //device ready indicator        
 
         EpInfo epInfo[ACM_MAX_ENDPOINTS];
 
@@ -164,6 +185,7 @@ public:
         uint8_t GetLineCoding(LINE_CODING *dataptr);
         uint8_t SetControlLineState(uint8_t state);
         uint8_t SendBreak(uint16_t duration);
+        uint8_t GetNotif( uint16_t *bytes_rcvd, uint8_t *dataptr );
 
         // Methods for recieving and sending data
         uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
@@ -177,6 +199,10 @@ public:
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
+
+				virtual bool isReady() {
+								return ready;
+				};
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
