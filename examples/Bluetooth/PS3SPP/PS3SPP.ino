@@ -21,7 +21,7 @@ PS3BT PS3(&Btd); // This will just create the instance
 //PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
 boolean firstMessage = true;
-String output; // We will store the data in these string so we doesn't overflow the dongle
+String output = ""; // We will store the data in this string so we doesn't overflow the dongle
 
 void setup() {
   Serial.begin(115200); // This wil lprint the debugging from the libraries
@@ -30,6 +30,7 @@ void setup() {
     while(1); //halt
   }
   Serial.print(F("\r\nBluetooth Library Started"));
+  output.reserve(200); // Reserve 200 bytes for the output string
 }
 void loop() {
   Usb.Task();
@@ -130,8 +131,10 @@ void loop() {
       if(PS3.getButtonClick(R3))
         output += " - R3";               
 
-      if(PS3.getButtonClick(SELECT))
-        output += " - Select";
+      if(PS3.getButtonClick(SELECT)) {
+        output += " - Select - ";
+        output += PS3.getStatusString();
+      }
       if(PS3.getButtonClick(START))
         output += " - Start";  
 
@@ -141,6 +144,7 @@ void loop() {
         if(SerialBT.connected)
           SerialBT.println(string);
       }
-    }             
+    }
+    delay(10);
   }
 }
