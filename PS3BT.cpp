@@ -108,7 +108,8 @@ double PS3BT::getAngle(Angle a) {
                 accXval = -(int16_t)(getSensor(aXmove) - zeroG);
                 accYval = (int16_t)(getSensor(aYmove) - zeroG);
                 accZval = (int16_t)(getSensor(aZmove) - zeroG);
-        }
+        } else
+                return 0;
 
         // Convert to 360 degrees resolution
         // atan2 outputs the value of -π to π (radians)
@@ -162,7 +163,8 @@ String PS3BT::getTemperature() {
                 output += String(input % 100);
 
                 return output;
-        }
+        } else
+                return "Error";
 }
 
 bool PS3BT::getStatus(Status c) {
@@ -219,7 +221,8 @@ String PS3BT::getStatusString() {
                 else strcat(statusOutput, "Error");
 
                 return statusOutput;
-        }
+        } else
+                return "Error";
 }
 
 void PS3BT::Reset() {

@@ -390,7 +390,8 @@ String PS3USB::getStatusString() {
                 else strcat(statusOutput, "Error");
 
                 return statusOutput;
-        }
+        } else
+                return "Error";
 }
 
 /* Playstation Sixaxis Dualshock and Navigation Controller commands */
