@@ -932,27 +932,19 @@ void BTD::hci_pin_code_request_reply() {
         hcibuf[6] = disc_bdaddr[3];
         hcibuf[7] = disc_bdaddr[4];
         hcibuf[8] = disc_bdaddr[5];
-        if (pairWithWii && !wiiUProController) {
-                hcibuf[9] = 6; // Pin length is the length of the bt address
-                hcibuf[10] = disc_bdaddr[0]; // The pin is the Wiimotes bt address backwards
-                hcibuf[11] = disc_bdaddr[1];
-                hcibuf[12] = disc_bdaddr[2];
-                hcibuf[13] = disc_bdaddr[3];
-                hcibuf[14] = disc_bdaddr[4];
-                hcibuf[15] = disc_bdaddr[5];
-                for (uint8_t i = 16; i < 26; i++)
-                        hcibuf[i] = 0x00; // The rest should be 0
-        } else if (pairWithWii && wiiUProController) {
+        if (pairWithWii) {
+                hcibuf[9] = 6; // Pin length is the length of the Bluetooth address
+                if(wiiUProController) {
 #ifdef DEBUG
-                Notify(PSTR("\r\nParing with Wii U Pro Controller"), 0x80);
+                        Notify(PSTR("\r\nParing with Wii U Pro Controller"), 0x80);
 #endif
-                hcibuf[9] = 6; // Pin length is the length of the bt address
-                hcibuf[10] = my_bdaddr[0]; // The pin is the Bluetooth dongles bt address backwards
-                hcibuf[11] = my_bdaddr[1];
-                hcibuf[12] = my_bdaddr[2];
-                hcibuf[13] = my_bdaddr[3];
-                hcibuf[14] = my_bdaddr[4];
-                hcibuf[15] = my_bdaddr[5];
+                        for(uint8_t i = 0; i < 6; i++)
+                                hcibuf[10 + i] = my_bdaddr[i]; // The pin is the Bluetooth dongles Bluetooth address backwards
+                }
+                else {
+                        for(uint8_t i = 0; i < 6; i++)
+                                hcibuf[10 + i] = disc_bdaddr[i]; // The pin is the Wiimote's Bluetooth address backwards
+                }
                 for (uint8_t i = 16; i < 26; i++)
                         hcibuf[i] = 0x00; // The rest should be 0
         } else {
