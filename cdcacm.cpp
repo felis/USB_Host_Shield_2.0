@@ -28,6 +28,7 @@ bControlIface(0),
 bDataIface(0),
 bNumEP(1),
 qNextPollTime(0),
+ready(false),
 bPollEnable(false) {
         for (uint8_t i = 0; i < ACM_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
@@ -173,6 +174,8 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailOnInit;
 
         USBTRACE("ACM configured\r\n");
+        
+        ready = true;
 
         //bPollEnable = true;
 
