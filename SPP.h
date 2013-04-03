@@ -158,7 +158,7 @@ public:
          * @param array  Array to send.
          * @param length Number of bytes to send.
          */
-        void print(uint8_t* array, uint8_t length);
+        void print(uint8_t* array, int16_t length);
         /**
          * Same as print(uint8_t* array, uint8_t length), but will include newline and carriage return.
          * @param array  Array to send.
