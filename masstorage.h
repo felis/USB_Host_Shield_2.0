@@ -207,7 +207,8 @@ protected:
         uint8_t bLastUsbError; // Last USB error
         uint8_t bMaxLUN; // Max LUN
         uint8_t bTheLUN; // Active LUN
-
+        // TO-ADD:
+        // uint32_t CurrentCapacity; // use this to check for media changes.
 protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 

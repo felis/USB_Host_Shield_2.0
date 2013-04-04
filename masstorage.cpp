@@ -30,8 +30,8 @@ bLastUsbError(0) {
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
 
-                if (!i)
-                        epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+                //if (!i)
+                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
         if (pUsb)
                 pUsb->RegisterDeviceClass(this);
@@ -52,8 +52,8 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
 
-                if (!i)
-                        epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+                //if (!i)
+                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
 
         AddressPool &addrPool = pUsb->GetAddressPool();
@@ -184,24 +184,6 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         uint8_t count = 0;
 
                         MediaCTL(lun, 0x01);
-                        while (rcode = TestUnitReady(lun)) {
-                                if (rcode == MASS_ERR_NO_MEDIA)
-                                        break;
-
-                                if (rcode == MASS_ERR_DEVICE_DISCONNECTED)
-                                        goto Fail;
-
-                                if (!count)
-                                        Notify(PSTR("Not ready...\r\n"), 0x80);
-
-                                if (count == 0xff)
-                                        break;
-
-                                delay(100);
-                                count++;
-                        }
-                        if (count == 0xff)
-                                continue;
 
                         rcode = 0;
                         InquiryResponse response;
@@ -226,6 +208,24 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                         rcode = 255;
                                         goto FailInvalidSectorSize;
                                 }
+                                while (rcode = TestUnitReady(lun)) {
+                                        if (rcode == MASS_ERR_NO_MEDIA)
+                                                break;
+
+                                        if (rcode == MASS_ERR_DEVICE_DISCONNECTED)
+                                                goto Fail;
+
+                                        if (!count)
+                                                Notify(PSTR("Not ready...\r\n"), 0x80);
+
+                                        if (count == 0xff)
+                                                break;
+
+                                        delay(100);
+                                        count++;
+                                }
+                                if (count == 0xff)
+                                        continue;
                         }
 
                         rcode = 0;
@@ -260,14 +260,14 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 }
                 Notify(PSTR("==========\r\n"), 0x80);
         }
-
+        /*
         if (TestUnitReady(bTheLUN)) {
                 Notify(PSTR("Unit not ready\r\n"), 0x80);
 
                 rcode = MASS_ERR_UNIT_NOT_READY;
                 //goto FailOnInit;
         }
-
+         */
         rcode = OnInit();
 
         if (rcode)
@@ -492,7 +492,7 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("---------\r\n"), 0x80);
 
         CommandBlockWrapper cbw;
-
+        SetCurLUN(lun);
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
         cbw.dCBWDataTransferLength = bsize;
@@ -514,6 +514,7 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         Notify(PSTR("----------------\r\n"), 0x80);
 
         CommandBlockWrapper cbw;
+        SetCurLUN(lun);
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
@@ -528,7 +529,7 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         cbw.CBWCB[0] = SCSI_CMD_REQUEST_SENSE;
         cbw.CBWCB[4] = size;
 
-        return HandleSCSIError(Transaction(&cbw, size, buf, 0));
+        return Transaction(&cbw, size, buf, 0);
 }
 
 uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
@@ -537,6 +538,7 @@ uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
 
         CommandBlockWrapper cbw;
 
+        SetCurLUN(lun);
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
         cbw.dCBWDataTransferLength = bsize;
@@ -554,6 +556,7 @@ uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
 }
 
 uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
+        SetCurLUN(lun);
         if (!bAddress) // || !bPollEnable)
                 return MASS_ERR_UNIT_NOT_READY;
 
@@ -579,6 +582,7 @@ uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
 
 /* Media control: 0x00 Stop Motor, 0x01 Start Motor, 0x02 Eject Media, 0x03 Load Media */
 uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
+        SetCurLUN(lun);
         uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
         if (bAddress) {
                 CommandBlockWrapper cbw;
@@ -605,6 +609,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         Notify(PSTR("\r\nRead\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
+        SetCurLUN(lun);
         CommandBlockWrapper cbw;
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
@@ -662,6 +667,7 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         //MediaCTL(lun, 0x01);
         CommandBlockWrapper cbw;
 
+        SetCurLUN(lun);
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
         cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
@@ -687,6 +693,7 @@ uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpa
         Notify(PSTR("------------\r\n"), 0x80);
 
         CommandBlockWrapper cbw;
+        SetCurLUN(lun);
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
