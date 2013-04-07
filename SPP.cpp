@@ -207,7 +207,9 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                                 l2capResponse2(l2capinbuf[9], l2capinbuf[10]); // L2CAP continuation state
                                                 firstMessage = true;
                                         }
-                                } else {
+                                } else
+                                        serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
+
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nUUID: "), 0x80);
                                         uint16_t uuid;
@@ -226,8 +228,6 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                                 Notify(PSTR(" "), 0x80);
                                         }
 #endif
-                                        serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
-                                }
                         }
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
                         rfcommChannel = l2capinbuf[8] & 0xF8;
