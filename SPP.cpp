@@ -209,24 +209,23 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         }
                                 } else
                                         serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
-
 #ifdef EXTRADEBUG
-                                        Notify(PSTR("\r\nUUID: "), 0x80);
-                                        uint16_t uuid;
-                                        if((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000) // Check if it's sending the UUID as a 128-bit UUID
-                                                uuid = (l2capinbuf[18] << 8 | l2capinbuf[19]);
-                                        else // Short UUID
-                                                uuid = (l2capinbuf[16] << 8 | l2capinbuf[17]);
-                                        PrintHex<uint16_t> (uuid, 0x80);
+                                Notify(PSTR("\r\nUUID: "), 0x80);
+                                uint16_t uuid;
+                                if((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000) // Check if it's sending the UUID as a 128-bit UUID
+                                        uuid = (l2capinbuf[18] << 8 | l2capinbuf[19]);
+                                else // Short UUID
+                                        uuid = (l2capinbuf[16] << 8 | l2capinbuf[17]);
+                                PrintHex<uint16_t> (uuid, 0x80);
 
-                                        Notify(PSTR("\r\nLength: "), 0x80);
-                                        uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
-                                        PrintHex<uint16_t> (length, 0x80);
-                                        Notify(PSTR("\r\nData: "), 0x80);
-                                        for (uint8_t i = 0; i < length; i++) {
-                                                PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
-                                                Notify(PSTR(" "), 0x80);
-                                        }
+                                Notify(PSTR("\r\nLength: "), 0x80);
+                                uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
+                                PrintHex<uint16_t> (length, 0x80);
+                                Notify(PSTR("\r\nData: "), 0x80);
+                                for (uint8_t i = 0; i < length; i++) {
+                                        PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
+                                        Notify(PSTR(" "), 0x80);
+                                }
 #endif
                         }
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
