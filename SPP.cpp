@@ -726,61 +726,17 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 
 /* Serial commands */
 void SPP::print(const String &str) {
-        if (!connected)
-                return;
-        uint8_t stringLength = str.length(); // This will be used to store the characters that still needs to be sent
-        uint8_t length; // This is the length of the string we are sending
-        uint8_t offset = 0; // This is used to keep track of where we are in the string
+        uint8_t length = str.length(); // Get the length of the string
+        uint8_t buf[length];
 
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-        
-        while (stringLength) { // We will run this while loop until this variable is 0
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing buffer
-                        length = sizeof (l2capoutbuf) - 4;
-                else
-                        length = stringLength;
+        for(uint8_t i = 0; i < length; i++)
+                buf[i] = str[i];
 
-                l2capoutbuf[2] = length << 1 | 1; // Length
-                uint8_t i = 0;
-                for (; i < length; i++)
-                        l2capoutbuf[i + 3] = str[i + offset];
-                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
-
-                RFCOMM_Command(l2capoutbuf, length + 4);
-
-                stringLength -= length;
-                offset += length; // Increment the offset
-        }
+        print(buf,length);
 }
 
 void SPP::print(const char* str) {
-        if (!connected)
-                return;
-        uint8_t stringLength = strlen(str); // This will be used to store the characters that still needs to be sent
-        uint8_t length; // This is the length of the string we are sending
-        uint8_t offset = 0; // This is used to keep track of where we are in the string
-
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-
-        while (stringLength) { // We will run this while loop until this variable is 0
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing buffer
-                        length = sizeof (l2capoutbuf) - 4;
-                else
-                        length = stringLength;
-
-                l2capoutbuf[2] = length << 1 | 1; // Length
-                uint8_t i = 0;
-                for (; i < length; i++)
-                        l2capoutbuf[i + 3] = str[i + offset];
-                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
-
-                RFCOMM_Command(l2capoutbuf, length + 4);
-
-                stringLength -= length;
-                offset += length; // Increment the offset
-        }
+        print((uint8_t*) str, strlen(str));
 }
 
 void SPP::print(uint8_t* array, uint8_t stringLength) {
