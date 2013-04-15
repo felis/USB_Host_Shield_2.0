@@ -386,7 +386,7 @@ uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
                 return (uint8_t)(ButtonState[controller] >> 8);
         else if (b == R2)
                 return (uint8_t)ButtonState[controller];
-        return (ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 
 bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
