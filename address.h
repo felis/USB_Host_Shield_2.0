@@ -70,7 +70,7 @@ struct UsbDeviceAddress {
 
 #define bmUSB_DEV_ADDR_ADDRESS		0x07
 #define bmUSB_DEV_ADDR_PARENT		0x38
-#define bmUSB_DEV_ADDR_HUB			0x40
+#define bmUSB_DEV_ADDR_HUB		0x40
 
 struct UsbDevice {
         EpInfo *epinfo; // endpoint info pointer

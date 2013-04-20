@@ -132,7 +132,7 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
         SETUP_PKT setup_pkt;
 
         EpInfo *pep = NULL;
-        uint16_t nak_limit;
+        uint16_t nak_limit = 0;
 
         rcode = SetAddress(addr, ep, &pep, nak_limit);
 
@@ -274,7 +274,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 /* rcode 0 if no errors. rcode 01-0f is relayed from HRSL                       */
 uint8_t USB::outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data) {
         EpInfo *pep = NULL;
-        uint16_t nak_limit;
+        uint16_t nak_limit = 0;
 
         uint8_t rcode = SetAddress(addr, ep, &pep, nak_limit);
 
@@ -358,7 +358,7 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
                 regWr(rHXFR, (token | ep)); //launch the transfer
                 rcode = USB_ERROR_TRANSFER_TIMEOUT;
 
-                while (millis() < timeout) //wait for transfer completion
+                while (timeout > millis()) //wait for transfer completion
                 {
                         tmpdata = regRd(rHIRQ);
 
@@ -459,15 +459,22 @@ void USB::Task(void) //USB state machine
                                 tmpdata = regRd(rMODE) | bmSOFKAENAB; //start SOF generation
                                 regWr(rMODE, tmpdata);
                                 usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_SOF;
-                                delay = millis() + 20; //20ms wait after reset per USB spec
+                                //delay = millis() + 20; //20ms wait after reset per USB spec
                         }
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_SOF: //todo: change check order
-                        if (regRd(rHIRQ) & bmFRAMEIRQ) //when first SOF received we can continue
-                        {
+                        if (regRd(rHIRQ) & bmFRAMEIRQ) {
+                                //when first SOF received _and_ 20ms has passed we can continue
+                                /*
                                 if (delay < millis()) //20ms passed
                                         usb_task_state = USB_STATE_CONFIGURING;
+                                 */
+                                usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_RESET;
+                                delay = millis() + 20;
                         }
+                        break;
+                case USB_ATTACHED_SUBSTATE_WAIT_RESET:
+                        if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
                         break;
                 case USB_STATE_CONFIGURING:
                         rcode = Configuring(0, 0, lowspeed);
@@ -483,6 +490,7 @@ void USB::Task(void) //USB state machine
                 case USB_STATE_RUNNING:
                         break;
                 case USB_STATE_ERROR:
+                        //MAX3421E::Init();
                         break;
         } // switch( usb_task_state )
 }
