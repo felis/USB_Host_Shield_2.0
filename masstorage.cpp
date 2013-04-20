@@ -25,6 +25,12 @@ qNextPollTime(0),
 bPollEnable(false),
 dCBWTag(0),
 bLastUsbError(0) {
+        ClearAllEP();
+        if (pUsb)
+                pUsb->RegisterDeviceClass(this);
+}
+
+void BulkOnly::ClearAllEP() {
         for (uint8_t i = 0; i < MASS_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
@@ -33,8 +39,18 @@ bLastUsbError(0) {
                 //if (!i)
                 epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
-        if (pUsb)
-                pUsb->RegisterDeviceClass(this);
+        // clear all LUN data as well
+        for (uint8_t i = 0; i < MASS_MAX_SUPPORTED_LUN; i++) LUNOk[i] = false;
+        bIface = 0;
+        bNumEP = 1;
+
+        bAddress = 0;
+        qNextPollTime = 0;
+        bPollEnable = false;
+        bLastUsbError = 0;
+        bMaxLUN = 0;
+        bTheLUN = 0;
+        dCBWTag = 0;
 }
 
 uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
@@ -47,22 +63,13 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         EpInfo *oldep_ptr = NULL;
         uint8_t num_of_conf; // number of configurations
 
-        for (uint8_t i = 0; i < MASS_MAX_ENDPOINTS; i++) {
-                epInfo[i].epAddr = 0;
-                epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
-
-                //if (!i)
-                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
-        }
-
+        ClearAllEP();
         AddressPool &addrPool = pUsb->GetAddressPool();
 
 
         if (bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
-        USBTRACE("MS Init\r\n");
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
@@ -152,6 +159,8 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (bNumEP < 3)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
+        USBTRACE("MS Init\r\n");
+        delay(120);
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
@@ -163,7 +172,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailSetConfDescr;
 
-        delay(10000);
+        delay(120); // Delay a bit for slow firmware.
 
         rcode = GetMaxLUN(&bMaxLUN);
         if (rcode)
@@ -171,65 +180,110 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         ErrorMessage<uint8_t > (PSTR("MaxLUN"), bMaxLUN);
 
-        delay(10);
+        if (bMaxLUN >= MASS_MAX_SUPPORTED_LUN) bMaxLUN = MASS_MAX_SUPPORTED_LUN - 1;
+        ErrorMessage<uint8_t > (PSTR("MaxLUN"), bMaxLUN);
+
+        delay(20); // Delay a bit for slow firmware.
 
         bTheLUN = bMaxLUN;
 
+        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
+                InquiryResponse response;
+                rcode = Inquiry(lun, sizeof (InquiryResponse), (uint8_t*) & response);
+                if (rcode) {
+                        ErrorMessage<uint8_t > (PSTR("Inquiry"), rcode);
+                } else {
+                        uint8_t buf[192];
+                        rcode = ModeSense(lun, 0, 0x3f, 0, 192, buf);
+
+                        // 0xfe is OK, pass and don't report it
+                        if (rcode != 0xfe && rcode != 0x00) {
+                                ErrorMessage<uint8_t > (PSTR("ModeSense"), rcode);
+                        } else {
+                                Notify(PSTR("ModeSense: OK\r\n\r\n"), 0x80);
+                        }
+                }
+        }
+        {
+                bool good;
+                for (uint8_t i = 1; i == 0; i++) {
+                        good = false;
+                        CheckMedia();
+                        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) good |= LUNOk[lun];
+                        if (good) break;
+                        delay(118); // 255 loops =~ 30 seconds to allow for spin up, as per SCSI spec.
+                }
+        }
+        CheckMedia(); // Check one last time.
+
+#if 0
         //if (bMaxLUN > 0)
+
         {
                 for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
                         ErrorMessage<uint8_t > (PSTR("\r\nLUN"), lun);
                         Notify(PSTR("--------\r\n"), 0x80);
-
+                        if (!LUNOk[lun]) {
+                                ErrorMessage<uint8_t > (PSTR("Skip no media on LUN"), lun);
+                                continue;
+                        }
                         uint8_t count = 0;
+                        while (rcode = TestUnitReady(lun)) {
+                                if (rcode == MASS_ERR_NO_MEDIA)
+                                        break;
 
+                                if (rcode == MASS_ERR_DEVICE_DISCONNECTED)
+                                        goto Fail;
+
+                                if (!count)
+                                        Notify(PSTR("Not ready...\r\n"), 0x80);
+
+                                if (count == 0xff)
+                                        break;
+
+                                delay(100);
+                                count++;
+                        }
+                        // There is no sense to try and read capacity if there is no media.
+                        // This is here in the event the check to skip has a false positive.
+                        if (count == 0xff || rcode == MASS_ERR_NO_MEDIA) {
+                                LUNOk[lun] = false;
+                                continue;
+                        }
+                        /*
                         MediaCTL(lun, 0x01);
 
-                        rcode = 0;
-                        InquiryResponse response;
-                        rcode = Inquiry(lun, sizeof (InquiryResponse), (uint8_t*) & response);
-
-                        if (rcode)
-                                ErrorMessage<uint8_t > (PSTR("Inquiry"), rcode);
-
+                         */
                         rcode = 0;
                         Capacity capacity;
                         rcode = ReadCapacity(lun, sizeof (Capacity), (uint8_t*) & capacity);
 
-                        if (rcode)
+                        if (rcode) {
                                 ErrorMessage<uint8_t > (PSTR("ReadCapacity"), rcode);
-                        else {
+                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY FAIL ON LUN"), lun);
+                                LUNOk[lun] = false;
+                        } else {
+                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY OK ON LUN"), lun);
                                 for (uint8_t i = 0; i<sizeof (Capacity); i++)
                                         PrintHex<uint8_t > (capacity.data[i], 0x80);
                                 Notify(PSTR("\r\n\r\n"), 0x80);
                                 // Only 512/1024/2048/4096 are valid values!
                                 uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
                                 if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
-                                        rcode = 255;
-                                        goto FailInvalidSectorSize;
+                                        //rcode = 255;
+                                        //goto FailInvalidSectorSize;
+                                        LUNOk[lun] = false;
+                                } else {
+                                        // Store capacity information.
+                                        CurrentSectorSize[lun] = (uint16_t)(c & 0xFFFF);
+                                        CurrentCapacity[lun] = ((uint32_t)capacity.data[0] << 24) + ((uint32_t)capacity.data[1] << 16) + ((uint32_t)capacity.data[2] << 8) + (uint32_t)capacity.data[3];
+                                        if (CurrentCapacity[lun] == 0xffffffffLU || CurrentCapacity[lun] == 0x00LU) {
+                                                // Buggy firmware will report 0xffffffff for empty
+                                                LUNOk[lun] = false;
+                                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
+                                        }
                                 }
-                                while (rcode = TestUnitReady(lun)) {
-                                        if (rcode == MASS_ERR_NO_MEDIA)
-                                                break;
-
-                                        if (rcode == MASS_ERR_DEVICE_DISCONNECTED)
-                                                goto Fail;
-
-                                        if (!count)
-                                                Notify(PSTR("Not ready...\r\n"), 0x80);
-
-                                        if (count == 0xff)
-                                                break;
-
-                                        delay(100);
-                                        count++;
-                                }
-                                if (count == 0xff)
-                                        continue;
                         }
-
-                        rcode = 0;
-#if 0
                         {
                                 uint8_t buf[512];
                                 rcode = Read(lun, 0, 512, 1, buf);
@@ -256,7 +310,6 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                 else
                                         Notify(PSTR("ModeSense: OK\r\n\r\n"), 0x80);
                         }
-#endif
                 }
                 Notify(PSTR("==========\r\n"), 0x80);
         }
@@ -268,6 +321,8 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 //goto FailOnInit;
         }
          */
+
+#endif
         rcode = OnInit();
 
         if (rcode)
@@ -303,34 +358,51 @@ FailOnInit:
 FailGetMaxLUN:
         USBTRACE("GetMaxLUN:");
         goto Fail;
+        /*
+        FailInquiry:
+                USBTRACE("Inquiry:");
+                goto Fail;
 
-FailInquiry:
-        USBTRACE("Inquiry:");
-        goto Fail;
+        FailReadCapacity:
+                USBTRACE("ReadCapacity:");
+                goto Fail;
 
-FailReadCapacity:
-        USBTRACE("ReadCapacity:");
-        goto Fail;
+         FailRead0:
+                USBTRACE("Read0:");
+                goto Fail;
 
+        FailModeSense0:
+                USBTRACE("ModeSense0:");
+                goto Fail;
+
+        FailModeSense1:
+                USBTRACE("ModeSense1:");
+
+         */
 FailInvalidSectorSize:
         USBTRACE("Sector Size is NOT VALID: ");
         goto Fail;
-
-FailRead0:
-        USBTRACE("Read0:");
-        goto Fail;
-
-FailModeSense0:
-        USBTRACE("ModeSense0:");
-        goto Fail;
-
-FailModeSense1:
-        USBTRACE("ModeSense1:");
 
 Fail:
         NotifyFail(rcode);
         Release();
         return rcode;
+}
+
+uint32_t BulkOnly::GetCapacity(uint8_t lun) {
+        if (LUNOk[lun])
+                return CurrentCapacity[lun];
+        return 0LU;
+}
+
+uint16_t BulkOnly::GetSectorSize(uint8_t lun) {
+        if (LUNOk[lun])
+                return CurrentSectorSize[lun];
+        return 0U;
+}
+
+bool BulkOnly::LUNIsGood(uint8_t lun) {
+        return LUNOk[lun];
 }
 
 void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
@@ -361,26 +433,71 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
 }
 
 uint8_t BulkOnly::Release() {
+        ClearAllEP();
         pUsb->GetAddressPool().FreeAddress(bAddress);
-
-        bIface = 0;
-        bNumEP = 1;
-
-        bAddress = 0;
-        qNextPollTime = 0;
-        bPollEnable = false;
-        bLastUsbError = 0;
-        bMaxLUN = 0;
-        bTheLUN = 0;
-        dCBWTag = 0;
         return 0;
 }
+
+void BulkOnly::CheckMedia() {
+        uint8_t rcode;
+        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
+                bool wasOK = LUNOk[lun];
+                rcode = TestUnitReady(lun);
+                if (rcode) {
+                        //printf("\r\n[[[[[[[[[[[[[[[[[ LUN %i TUR %2.2X\r\n", lun, rcode);
+                        LUNOk[lun] = false;
+                } else {
+                        LUNOk[lun] = true;
+                }
+                if (!wasOK && LUNOk[lun]) {
+                        Capacity capacity;
+                        rcode = ReadCapacity(lun, sizeof (Capacity), (uint8_t*) & capacity);
+
+                        if (rcode) {
+                                ErrorMessage<uint8_t > (PSTR("ReadCapacity"), rcode);
+                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY FAIL ON LUN"), lun);
+                                LUNOk[lun] = false;
+                        } else {
+                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY OK ON LUN"), lun);
+                                for (uint8_t i = 0; i<sizeof (Capacity); i++)
+                                        PrintHex<uint8_t > (capacity.data[i], 0x80);
+                                Notify(PSTR("\r\n\r\n"), 0x80);
+                                // Only 512/1024/2048/4096 are valid values!
+                                uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
+                                if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
+                                        //rcode = 255;
+                                        //goto FailInvalidSectorSize;
+                                        LUNOk[lun] = false;
+                                } else {
+                                        // Store capacity information.
+                                        CurrentSectorSize[lun] = (uint16_t)(c & 0xFFFF);
+                                        CurrentCapacity[lun] = ((uint32_t)capacity.data[0] << 24) + ((uint32_t)capacity.data[1] << 16) + ((uint32_t)capacity.data[2] << 8) + (uint32_t)capacity.data[3];
+                                        if (CurrentCapacity[lun] == 0xffffffffLU || CurrentCapacity[lun] == 0x00LU) {
+                                                // Buggy firmware will report 0xffffffff or 0 for no media
+                                                ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
+                                                LUNOk[lun] = false;
+                                        }
+                                }
+                        }
+
+                }
+        }
+
+}
+// Scan for media change
+// @Oleg -- should we scan ALL LUN, or just one at a time?
 
 uint8_t BulkOnly::Poll() {
         uint8_t rcode = 0;
 
         if (!bPollEnable)
                 return 0;
+        // needs a poll interval of 1 second.
+        if (qNextPollTime <= millis()) {
+                CheckMedia();
+                qNextPollTime = millis() + 1000;
+        }
+        rcode = 0;
 
         return rcode;
 }
@@ -487,6 +604,8 @@ uint8_t BulkOnly::ResetRecovery() {
         return bLastUsbError;
 }
 
+// don't test if OK
+
 uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nInquiry\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
@@ -508,6 +627,8 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
 
         return HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
 }
+
+// don't test if OK, only for use internally.
 
 uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         Notify(PSTR("\r\nRequestSense\r\n"), 0x80);
@@ -535,7 +656,7 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
 uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nReadCapacity\r\n"), 0x80);
         Notify(PSTR("---------------\r\n"), 0x80);
-
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         CommandBlockWrapper cbw;
 
         SetCurLUN(lun);
@@ -555,7 +676,10 @@ uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         return HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
 }
 
+// don't test if OK
+
 uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
+        //        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         SetCurLUN(lun);
         if (!bAddress) // || !bPollEnable)
                 return MASS_ERR_UNIT_NOT_READY;
@@ -581,6 +705,8 @@ uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
 }
 
 /* Media control: 0x00 Stop Motor, 0x01 Start Motor, 0x02 Eject Media, 0x03 Load Media */
+// don't test if OK
+
 uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
         SetCurLUN(lun);
         uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
@@ -606,6 +732,7 @@ uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
 }
 
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         Notify(PSTR("\r\nRead\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
@@ -633,6 +760,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 
 /* We won't be needing this... */
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
 #if 0
         Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
@@ -661,6 +789,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 }
 
 uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t *buf) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         Notify(PSTR("\r\nWrite\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
@@ -687,6 +816,8 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
 
         return HandleSCSIError(Transaction(&cbw, bsize, (void*)buf, 0));
 }
+
+// don't test if OK
 
 uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *pbuf) {
         Notify(PSTR("\r\rModeSense\r\n"), 0x80);

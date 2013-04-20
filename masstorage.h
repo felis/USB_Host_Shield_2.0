@@ -3,6 +3,15 @@
 
 #define DEBUG
 
+//<RANT>
+// @Oleg -- Perhaps we need a central 'config.h', many of these includes and
+// defines could be handled there, allowing for easier config.
+
+// <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
+// Set this to 1 to support single LUN devices, and save RAM. -- I.E. thumb drives.
+// Each LUN needs ~13 bytes to be able to track the state of each unit.
+#define MASS_MAX_SUPPORTED_LUN 8
+
 #include <inttypes.h>
 #include "avrpins.h"
 #include <avr/pgmspace.h>
@@ -18,6 +27,9 @@
 #endif
 
 #include <confdescparser.h>
+
+// </RANT>
+
 
 #define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
@@ -207,8 +219,10 @@ protected:
         uint8_t bLastUsbError; // Last USB error
         uint8_t bMaxLUN; // Max LUN
         uint8_t bTheLUN; // Active LUN
-        // TO-ADD:
-        // uint32_t CurrentCapacity; // use this to check for media changes.
+        uint32_t CurrentCapacity[MASS_MAX_SUPPORTED_LUN]; // Total sectors
+        uint16_t CurrentSectorSize[MASS_MAX_SUPPORTED_LUN]; // Sector size, clipped to 16 bits
+        bool LUNOk[MASS_MAX_SUPPORTED_LUN]; // use this to check for media changes.
+
 protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
@@ -224,6 +238,8 @@ protected:
 
 public:
         BulkOnly(USB *p);
+
+        // Some of these should NOT be public.
 
         uint8_t GetLastUsbError() {
                 return bLastUsbError;
@@ -252,6 +268,10 @@ public:
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs);
         uint8_t Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t *buf);
 
+        bool LUNIsGood(uint8_t lun);
+        uint32_t GetCapacity(uint8_t lun);
+        uint16_t GetSectorSize(uint8_t lun);
+
         // USBDeviceConfig implementation
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
@@ -270,6 +290,9 @@ protected:
         virtual uint8_t OnInit() {
                 return 0;
         };
+private:
+        void ClearAllEP();
+        void CheckMedia();
 };
 
 #endif // __MASSTORAGE_H__
