@@ -139,20 +139,20 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                                //Serial.print("\r\nSDP Configuration Complete");
+                                                //Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_SUCCESS;
                                         } else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                                                //Serial.print("\r\nRFCOMM Configuration Complete");
+                                                //Notify(PSTR("\r\nRFCOMM Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS;
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                        //Serial.print("\r\nSDP Configuration Request");
+                                        //Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_REQUEST;
                                 } else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                                        //Serial.print("\r\nRFCOMM Configuration Request");
+                                        //Notify(PSTR("\r\nRFCOMM Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_REQUEST;
                                 }
@@ -168,11 +168,11 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
                                 if (l2capinbuf[12] == sdp_scid[0] && l2capinbuf[13] == sdp_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: SDP Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: SDP Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_RESPONSE;
                                 } else if (l2capinbuf[12] == rfcomm_scid[0] && l2capinbuf[13] == rfcomm_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: RFCOMM Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: RFCOMM Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_RESPONSE;
                                 }
@@ -240,20 +240,20 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 
 #ifdef EXTRADEBUG
                         Notify(PSTR("\r\nRFCOMM Channel: "), 0x80);
-                        Serial.print(rfcommChannel >> 3, HEX);
+                        PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
                         Notify(PSTR(" Direction: "), 0x80);
-                        Serial.print(rfcommDirection >> 2, HEX);
+                        PrintHex<uint8_t > (rfcommDirection >> 2, 0x80);
                         Notify(PSTR(" CommandResponse: "), 0x80);
-                        Serial.print(rfcommCommandResponse >> 1, HEX);
+                        PrintHex<uint8_t > (rfcommCommandResponse >> 1, 0x80);
                         Notify(PSTR(" ChannelType: "), 0x80);
-                        Serial.print(rfcommChannelType, HEX);
+                        PrintHex<uint8_t > (rfcommChannelType, 0x80);
                         Notify(PSTR(" PF_BIT: "), 0x80);
-                        Serial.print(rfcommPfBit, HEX);
+                        PrintHex<uint8_t > (rfcommPfBit, 0x80);
 #endif
                         if (rfcommChannelType == RFCOMM_DISC) {
 #ifdef DEBUG
                                 Notify(PSTR("\r\nReceived Disconnect RFCOMM Command on channel: "), 0x80);
-                                Serial.print(rfcommChannel >> 3, HEX);
+                                PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
 #endif
                                 connected = false;
                                 sendRfcomm(rfcommChannel, rfcommDirection, rfcommCommandResponse, RFCOMM_UA, rfcommPfBit, rfcommbuf, 0x00); // UA Command
@@ -270,15 +270,15 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         }
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nRFCOMM Data Available: "), 0x80);
-                                        Serial.print(rfcommAvailable);
+                                        Notify(rfcommAvailable, 0x80);
                                         if (offset) {
                                                 Notify(PSTR(" - Credit: 0x"), 0x80);
-                                                Serial.print(l2capinbuf[11], HEX);
+                                                PrintHex<uint8_t > (l2capinbuf[11], 0x80);
                                         }
 #endif
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
                                         for (uint8_t i = 0; i < length; i++)
-                                                Serial.write(l2capinbuf[i + 11 + offset]);
+                                                Notifyc(l2capinbuf[i + 11 + offset], 0x80);
 #endif
                                 } else if (rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
 #ifdef DEBUG
@@ -688,7 +688,7 @@ void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t cha
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Data: "), 0x80);
         for (i = 0; i < length + 4; i++) {
-                Serial.print(l2capoutbuf[i], HEX);
+                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -704,7 +704,7 @@ void SPP::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Credit Data: "), 0x80);
         for (uint8_t i = 0; i < 5; i++) {
-                Serial.print(l2capoutbuf[i], HEX);
+                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -929,7 +929,7 @@ uint8_t SPP::read() {
                 sendRfcommCredit(rfcommChannelConnection, rfcommDirection, 0, RFCOMM_UIH, 0x10, sizeof (rfcommDataBuffer)); // Send more credit
 #ifdef EXTRADEBUG
                 Notify(PSTR("\r\nSent "), 0x80);
-                Serial.print(sizeof (rfcommDataBuffer));
+                Notify((uint8_t)sizeof (rfcommDataBuffer), 0x80);
                 Notify(PSTR(" more credit"), 0x80);
 #endif
         }

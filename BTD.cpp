@@ -373,7 +373,7 @@ void BTD::HCI_event_task() {
                                 if (hcibuf[2]) { // Check that there is more than zero responses
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nNumber of responses: "), 0x80);
-                                        Serial.print(hcibuf[2]);
+                                        Notify(hcibuf[2], 0x80);
 #endif
                                         for (uint8_t i = 0; i < hcibuf[2]; i++) {
                                                 if ((hcibuf[4 + 8 * hcibuf[2] + 3 * i] == 0x04 && hcibuf[5 + 8 * hcibuf[2] + 3 * i] == 0x25 && hcibuf[6 + 8 * hcibuf[2] + 3 * i] == 0x00) || (hcibuf[4 + 8 * hcibuf[2] + 3 * i] == 0x08 && hcibuf[5 + 8 * hcibuf[2] + 3 * i] == 0x05 && hcibuf[6 + 8 * hcibuf[2] + 3 * i] == 0x00)) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html and http://wiibrew.org/wiki/Wiimote#SDP_information
@@ -460,7 +460,7 @@ void BTD::HCI_event_task() {
                                 } else if (btdPin != NULL) {
 #ifdef DEBUG
                                         Notify(PSTR("\r\nBluetooth pin is set too: "), 0x80);
-                                        Serial.print(btdPin);
+                                        NotifyStr(btdPin, 0x80);
 #endif
                                         hci_pin_code_request_reply();
                                 } else {
@@ -590,7 +590,7 @@ void BTD::HCI_task() {
                         if (hci_cmd_complete) {
 #ifdef DEBUG
                                 Notify(PSTR("\r\nThe name is set to: "), 0x80);
-                                Serial.print(btdName);
+                                NotifyStr(btdName, 0x80);
 #endif
                                 hci_state = HCI_CHECK_WII_SERVICE;
                         }
@@ -681,7 +681,7 @@ void BTD::HCI_task() {
                                 for (uint8_t i = 0; i < 30; i++) {
                                         if (remote_name[i] == NULL)
                                                 break;
-                                        Serial.write(remote_name[i]);
+                                        Notifyc(remote_name[i], 0x80);
                                 }
 #endif
                                 if (strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
@@ -1073,9 +1073,9 @@ void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t 
                 Notify(PSTR("\r\nError sending L2CAP message: 0x"), 0x80);
                 PrintHex<uint8_t > (rcode, 0x80);
                 Notify(PSTR(" - Channel ID: "), 0x80);
-                Serial.print(channelHigh);
+                PrintHex<uint8_t > (channelHigh, 0x80);
                 Notify(PSTR(" "), 0x80);
-                Serial.print(channelLow);
+                PrintHex<uint8_t > (channelLow, 0x80);
 #endif
         }
 }
