@@ -1,3 +1,6 @@
+// enable USBTRACE() and USBTRACE2() debug messages
+#define ENABLE_USBTRACE_DEBUG
+
 #include <avr/pgmspace.h>
 
 #include <avrpins.h>
