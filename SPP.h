@@ -68,7 +68,7 @@
 //#define RFCOMM_DM       0x0F
 #define RFCOMM_DISC     0x43
 
-#define extendAddress   0x01 // Allways 1
+#define extendAddress   0x01 // Always 1
 
 // Multiplexer message types
 #define BT_RFCOMM_PN_CMD     0x83
@@ -158,7 +158,7 @@ public:
          * @param array  Array to send.
          * @param length Number of bytes to send.
          */
-        void print(uint8_t* array, int16_t length);
+        void print(uint8_t* array, uint8_t length);
         /**
          * Same as print(uint8_t* array, uint8_t length), but will include newline and carriage return.
          * @param array  Array to send.
@@ -341,10 +341,10 @@ private:
 
         uint16_t hci_handle; // The HCI Handle for the connection
 
-        /* Variables used by L2CAP state maschines */
+        /* Variables used by L2CAP state machines */
         uint8_t l2cap_sdp_state;
         uint8_t l2cap_rfcomm_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received bluetooth events
+        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 
         uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
         uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands
@@ -358,7 +358,7 @@ private:
 
         /* RFCOMM Variables */
         uint8_t rfcommChannel;
-        uint8_t rfcommChannelConnection; // This is the channel the SPP chanel will be running at
+        uint8_t rfcommChannelConnection; // This is the channel the SPP channel will be running at
         uint8_t rfcommDirection;
         uint8_t rfcommCommandResponse;
         uint8_t rfcommChannelType;

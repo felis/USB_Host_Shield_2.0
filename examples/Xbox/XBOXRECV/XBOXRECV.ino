@@ -89,8 +89,8 @@ void loop() {
         if(Xbox.getButtonClick(i,XBOX)) {
           Xbox.setLedMode(i,ROTATING);
           Serial.print(F("Xbox (Battery: "));
-          Serial.print(Xbox.getBatteryLevel(i));
-          Serial.println(F("%)"));
+          Serial.print(Xbox.getBatteryLevel(i)); // The battery level in the range 0-3
+          Serial.println(F(")"));
         }
         if(Xbox.getButtonClick(i,SYNC))
           Serial.println(F("Sync"));

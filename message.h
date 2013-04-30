@@ -24,6 +24,8 @@ extern int UsbDEBUGlvl;
 
 #include "printhex.h"
 
+void Notify(uint8_t b, int lvl);
+void Notify(double d, int lvl);
 void Notify(char const * msg, int lvl);
 void NotifyStr(char const * msg, int lvl);
 #ifdef DEBUG

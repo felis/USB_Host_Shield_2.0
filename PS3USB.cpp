@@ -205,6 +205,15 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
 
+#ifdef DEBUG
+        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+        for (int8_t i = 5; i > 0; i--) {
+                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                Notify(PSTR(":"), 0x80);
+        }
+        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+#endif
+
         bPollEnable = true;
         Notify(PSTR("\r\n"), 0x80);
         timer = millis();
@@ -290,9 +299,9 @@ void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
                 return;
         for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++) {
                 PrintHex<uint8_t > (readBuf[i], 0x80);
-                Serial.print(" ");
+                Notify(PSTR(" "), 0x80);
         }
-        Serial.println();
+        Notify(PSTR("\r\n"), 0x80);
 #endif
 }
 
@@ -462,15 +471,6 @@ void PS3USB::setBdaddr(uint8_t* BDADDR) {
 
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
-#ifdef DEBUG
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Serial.print(":");
-        }
-        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
-#endif
-        return;
 }
 
 void PS3USB::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navigation controller to send data via USB
@@ -527,13 +527,4 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
 
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
-#ifdef DEBUG
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Serial.print(":");
-        }
-        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
-#endif
-        return;
 }

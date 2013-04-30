@@ -161,13 +161,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
                                         if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) { // Success
-                                                //Serial.print("\r\nHID Control Connection Complete");
+                                                //Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
                                                 control_scid[1] = l2capinbuf[13];
                                                 l2cap_event_flag |= L2CAP_FLAG_CONTROL_CONNECTED;
                                         } else if (l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
-                                                //Serial.print("\r\nHID Interrupt Connection Complete");
+                                                //Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 interrupt_scid[0] = l2capinbuf[12];
                                                 interrupt_scid[1] = l2capinbuf[13];
@@ -201,21 +201,21 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                                //Serial.print("\r\nHID Control Configuration Complete");
+                                                //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
                                         } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                                //Serial.print("\r\nHID Interrupt Configuration Complete");
+                                                //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                        //Serial.print("\r\nHID Control Configuration Request");
+                                        //Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], control_scid);
                                 } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                        //Serial.print("\r\nHID Interrupt Configuration Request");
+                                        //Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], interrupt_scid);
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
@@ -236,11 +236,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
                                 if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: Control Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE;
                                 } else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: Interrupt Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE;
                                 }
@@ -253,7 +253,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
-                        //Serial.print("\r\nL2CAP Interrupt");
+                        //Notify(PSTR("\r\nL2CAP Interrupt"), 0x80);
                         if (wiimoteConnected) {
                                 if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
                                         if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
@@ -481,19 +481,19 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                                 timer = micros();
                                                                                 /*
                                                                                 // Uncomment these lines to tune the gyro scale variabels
-                                                                                Serial.print("\r\ngyroYaw: ");
-                                                                                Serial.print(gyroYaw);
-                                                                                Serial.print("\tgyroRoll: ");
-                                                                                Serial.print(gyroRoll);
-                                                                                Serial.print("\tgyroPitch: ");
-                                                                                Serial.print(gyroPitch);
-                                                                                 */
+                                                                                Notify(PSTR("\r\ngyroYaw: "), 0x80);
+                                                                                Notify(gyroYaw, 0x80);
+                                                                                Notify(PSTR("\tgyroRoll: "), 0x80);
+                                                                                Notify(gyroRoll, 0x80);
+                                                                                Notify(PSTR("\tgyroPitch: "), 0x80);
+                                                                                Notify(gyroPitch, 0x80);
+                                                                                */
                                                                                 /*
-                                                                                Serial.print("\twiimoteRoll: ");
-                                                                                Serial.print(wiimoteRoll);
-                                                                                Serial.print("\twiimotePitch: ");
-                                                                                Serial.print(wiimotePitch);
-                                                                                 */
+                                                                                Notify(PSTR("\twiimoteRoll: "), 0x80);
+                                                                                Notify(wiimoteRoll, 0x80);
+                                                                                Notify(PSTR("\twiimotePitch: "), 0x80);
+                                                                                Notify(wiimotePitch, 0x80);
+                                                                                */
                                                                         } else {
                                                                                 if ((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
 #ifdef DEBUG
@@ -567,7 +567,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG
                                                 default:
                                                         Notify(PSTR("\r\nUnknown Report type: "), 0x80);
-                                                        Serial.print(l2capinbuf[9], HEX);
+                                                        PrintHex<uint8_t > (l2capinbuf[9], 0x80);
                                                         break;
 #endif
                                         }

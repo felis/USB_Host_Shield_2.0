@@ -278,7 +278,7 @@ uint8_t XBOXRECV::Poll() {
                 if (bufferSize > 0) { // The number of received bytes
 #ifdef EXTRADEBUG
                         Notify(PSTR("Bytes Received: "), 0x80);
-                        Serial.print(bufferSize);
+                        PrintHex<uint16_t > (bufferSize, 0x80);
                         Notify(PSTR("\r\n"), 0x80);
 #endif
                         readReport(i);
@@ -298,7 +298,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                 Xbox360Connected[controller] = readBuf[1];
 #ifdef DEBUG
                 Notify(PSTR("Controller "), 0x80);
-                Serial.print(controller);
+                Notify(controller, 0x80);
 #endif
                 if (Xbox360Connected[controller]) {
 #ifdef DEBUG
@@ -371,13 +371,13 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
         if (readBuf == NULL)
                 return;
         Notify(PSTR("Controller "), 0x80);
-        Serial.print(controller);
+        Notify(controller, 0x80);
         Notify(PSTR(": "), 0x80);
         for (uint8_t i = 0; i < nBytes; i++) {
                 PrintHex<uint8_t > (readBuf[i], 0x80);
-                Serial.print(" ");
+                Notify(PSTR(" "), 0x80);
         }
-        Serial.println();
+        Notify(PSTR("\r\n"), 0x80);
 #endif
 }
 
@@ -386,7 +386,7 @@ uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
                 return (uint8_t)(ButtonState[controller] >> 8);
         else if (b == R2)
                 return (uint8_t)ButtonState[controller];
-        return (ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 
 bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
