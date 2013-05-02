@@ -159,7 +159,7 @@ public:
         virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
 protected:
-        uint8_t HandleLockingKeys(HID* hid, uint8_t key);
+        virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key);
 
         virtual void OnKeyDown(uint8_t mod, uint8_t key) {
         };
