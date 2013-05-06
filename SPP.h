@@ -90,7 +90,7 @@
  */
 
 /** This BluetoothService class implements the Serial Port Protocol (SPP). */
-class SPP : public BluetoothService {
+class SPP : public BluetoothService, public Stream {
 public:
         /**
          * Constructor for the SPP class.
@@ -119,216 +119,50 @@ public:
 
         /** @name Serial port profile (SPP) Print functions */
         /**
-         * Used to send Arduino String data type.
-         * @param str String to send.
-         */
-        void print(const String &str);
-        /**
-         * Same as print(const String &str), but will include newline and carriage return.
-         * @param str String to send.
-         */
-        void println(const String &str);
-
-        /**
-         * Used to send standard strings.
-         * @param str String to send.
-         */
-        void print(const char* str);
-        /**
-         * Same as print(const char* str), but will include newline and carriage return.
-         * @param str String to send.
-         */
-        void println(const char* str);
-
-        /**
-         * Used to send single bytes.
-         * @param data Data to send.
-         */
-        void print(uint8_t data) {
-                print(&data, 1);
-        };
-        /**
-         * Same as print(uint8_t data), but will include newline and carriage return.
-         * @param data Data to send.
-         */
-        void println(uint8_t data);
-
-        /**
-         * Used to send arrays.
-         * @param array  Array to send.
-         * @param length Number of bytes to send.
-         */
-        void print(uint8_t* array, uint8_t length);
-        /**
-         * Same as print(uint8_t* array, uint8_t length), but will include newline and carriage return.
-         * @param array  Array to send.
-         * @param length Number of bytes to send.
-         */
-        void println(uint8_t* array, uint8_t length);
-
-        /**
-         * Used to print strings stored in flash.
-         * Use "SerialBT.print(F("String"));" to print a string stored in flash.
-         * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
-         */
-        void print(const __FlashStringHelper *ifsh) {
-                printFlashString(ifsh, false);
-        };
-
-        /**
-         * Same as print(const __FlashStringHelper *ifsh), but will include newline and carriage return.
-         * @param ifsh String to send - see: http://playground.arduino.cc/Learning/Memory.
-         */
-        void println(const __FlashStringHelper *ifsh) {
-                printFlashString(ifsh, true);
-        };
-        /**
-         * Helper function to print a string stored in flash.
-         * @param ifsh  String stored in flash you want to print.
-         * @param newline Set this to true to include newline and carriage return.
-         */
-        void printFlashString(const __FlashStringHelper *ifsh, bool newline);
-
-
-        /** Use this to print newline and carriage return. */
-        void println(void);
-
-        /**
-         * Used to print unsigned integers.
-         * @param n Unsigned integer to send.
-         */
-        void printNumber(uint8_t n) {
-                printNumber((uint32_t) n);
-        };
-
-        /**
-         * Same as printNumber(uint8_t n), but will include newline and carriage return.
-         * @param n Unsigned integer to send.
-         */
-        void printNumberln(uint8_t n) {
-                printNumberln((uint32_t) n);
-        };
-
-        /**
-         * Used to print signed integers.
-         * @param n Signed integer to send.
-         */
-        void printNumber(int8_t n) {
-                printNumber((int32_t) n);
-        };
-
-        /**
-         * Same as printNumber(int8_t n), but will include newline and carriage return.
-         * @param n Signed integer to send.
-         */
-        void printNumberln(int8_t n) {
-                printNumberln((int32_t) n);
-        };
-
-        /**
-         * Used to print unsigned integers.
-         * @param n Unsigned integer to send.
-         */
-        void printNumber(uint16_t n) {
-                printNumber((uint32_t) n);
-        };
-
-        /**
-         * Same as printNumber(uint16_t n), but will include newline and carriage return.
-         * @param n Unsigned integer to send.
-         */
-        void printNumberln(uint16_t n) {
-                printNumberln((uint32_t) n);
-        };
-
-        /**
-         * Used to print signed integers.
-         * @param n Signed integer to send.
-         */
-        void printNumber(int16_t n) {
-                printNumber((int32_t) n);
-        };
-
-        /**
-         * Same as printNumber(int16_t n), but will include newline and carriage return.
-         * @param n Signed integer to send.
-         */
-        void printNumberln(int16_t n) {
-                printNumberln((int32_t) n);
-        };
-
-        /**
-         * Used to print unsigned integers.
-         * @param n Unsigned integer to send.
-         */
-        void printNumber(uint32_t n);
-        /**
-         * Same as printNumber(uint32_t n), but will include newline and carriage return.
-         * @param n Unsigned integer to send.
-         */
-        void printNumberln(uint32_t n);
-
-        /**
-         * Used to print signed integers.
-         * @param n Signed integer to send.
-         */
-        void printNumber(int32_t n);
-        /**
-         * Same as printNumber(int32_t n), but will include newline and carriage return.
-         * @param n Signed integer to send.
-         */
-        void printNumberln(int32_t n);
-
-        /**
-         * Helper function to convert from an unsigned integer to a string.
-         * @param input  Unsigned integer to convert.
-         * @param output Output buffer.
-         */
-        void intToString(int32_t input, char* output);
-        /**
-         * Helper function to convert from a signed integer to a string.
-         * @param input  Signed integer to convert.
-         * @param output Output buffer.
-         */
-        void intToString(uint32_t input, char* output);
-
-        /**
-         * Used to print floating-point numbers.
-         * @param n      Floating-point number to print.
-         * @param digits Number of digits to send. If argument is omitted, then 2 digits will be used.
-         */
-        void printNumber(double n, uint8_t digits = 2);
-        /**
-         * Same as printNumber(double n, uint8_t digits), but will include newline and carriage return.
-         * @param n      Floating-point number to print.
-         * @param digits Number of digits to send. If argument is omitted, then 2 digits will be used.
-         */
-        void printNumberln(double n, uint8_t digits = 2);
-        /**
-         * Helper function to convert from a double to a string.
-         * @param input  Floating-point number to convert.
-         * @param output Output buffer.
-         * @param digits Number of digits to convert. If argument is omitted, then 2 digits will be used.
-         */
-        void doubleToString(double input, char* output, uint8_t digits = 2);
-
-        /**
          * Get number of bytes waiting to be read.
          * @return Return the number of bytes ready to be read.
          */
-        uint8_t available() {
-                return rfcommAvailable;
-        };
+        virtual int available(void);
+        /** Discard all the bytes in the buffer. */
+        virtual void flush(void);
+        /**
+         * Used to read the next value in the buffer without advancing to the next one.
+         * @return Return the byte. Will return -1 if no byte is available.
+         */
+        virtual int peek(void);
         /**
          * Used to read the buffer.
-         * @return Return the byte. Will return 0 if no byte is available.
+         * @return Return the byte. Will return -1 if no byte is available.
          */
-        uint8_t read();
-
-        /** Discard all the bytes in the buffer. */
-        void flush() {
-                rfcommAvailable = 0;
-        };
+        virtual int read(void);
+        /**
+         * Writes the byte to send to a buffer. The message is send when either send(const uint8_t* data, size_t size) or after Usb.Task() is called.
+         * @param  data The byte to write.
+         * @return      Return the number of bytes written.
+         */
+        virtual size_t write(uint8_t data);
+        /**
+         * Writes the bytes to send to a buffer. The message is send when either send(const uint8_t* data, size_t size) or after Usb.Task() is called.
+         * @param  data The data array to send.
+         * @param  size Size of the data.
+         * @return      Return the number of bytes written.
+         */
+        virtual size_t write(const uint8_t* data, size_t size);
+        /** Pull in write(const char *str) from Print */
+        using Print::write;
+        /**
+         * This will send all the bytes in the buffer.
+         * This is called whenever Usb.Task() is called,
+         * but can also be called via this function.
+         */
+        void send(void);
+        /**
+         * Used to provide Boolean tests for the class.
+         * @return Return true if SPP communication is connected.
+         */
+        operator bool() {
+                return connected;
+        }
         /**@}*/
 
 private:
@@ -369,6 +203,8 @@ private:
         bool creditSent;
 
         uint8_t rfcommDataBuffer[100]; // Create a 100 sized buffer for incoming data
+        uint8_t sppOutputBuffer[100]; // Create a 100 sized buffer for outgoing SPP data
+        uint8_t sppIndex;
         uint8_t rfcommAvailable;
 
         bool firstMessage; // Used to see if it's the first SDP request received

@@ -67,6 +67,7 @@ void SPP::Reset() {
         l2cap_sdp_state = L2CAP_SDP_WAIT;
         l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
         l2cap_event_flag = 0;
+        sppIndex = 0;
 }
 
 void SPP::disconnect() {
@@ -381,6 +382,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         waitForLastCommand = false;
                                         creditSent = false;
                                         connected = true; // The RFCOMM channel is now established
+                                        sppIndex = 0;
                                 }
 #ifdef DEBUG
                                 else if (rfcommChannelType != RFCOMM_DISC) {
@@ -413,7 +415,9 @@ void SPP::Run() {
                 creditSent = false;
                 waitForLastCommand = false;
                 connected = true; // The RFCOMM channel is now established
+                sppIndex = 0;
         }
+        send(); // Send all bytes currently in the buffer
 }
 
 void SPP::SDP_task() {
@@ -725,22 +729,21 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 }
 
 /* Serial commands */
-void SPP::print(const String &str) {
-        uint8_t length = str.length(); // Get the length of the string
-        uint8_t buf[length];
-
-        for(uint8_t i = 0; i < length; i++)
-                buf[i] = str[i];
-
-        print(buf,length);
+size_t SPP::write(uint8_t data) {
+        return write(&data,1);
 }
 
-void SPP::print(const char* str) {
-        print((uint8_t*) str, strlen(str));
+size_t SPP::write(const uint8_t* data, size_t size) {
+        for(uint8_t i = 0; i < size; i++) {
+                if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
+                        return i; // Don't send any more if buffer is already full
+                sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function 
+        }
+        return size;
 }
 
-void SPP::print(uint8_t* array, uint8_t stringLength) {
-        if (!connected)
+void SPP::send() {
+        if (!connected || !sppIndex)
                 return;
         uint8_t length; // This is the length of the string we are sending
         uint8_t offset = 0; // This is used to keep track of where we are in the string
@@ -748,177 +751,42 @@ void SPP::print(uint8_t* array, uint8_t stringLength) {
         l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
 
-        while (stringLength) { // We will run this while loop until this variable is 0
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing buffer
+        while (sppIndex) { // We will run this while loop until this variable is 0
+                if (sppIndex > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger than the outgoing buffer
                         length = sizeof (l2capoutbuf) - 4;
                 else
-                        length = stringLength;
+                        length = sppIndex;
 
                 l2capoutbuf[2] = length << 1 | 1; // Length
                 uint8_t i = 0;
                 for (; i < length; i++)
-                        l2capoutbuf[i + 3] = array[i + offset];
+                        l2capoutbuf[i + 3] = sppOutputBuffer[i + offset];
                 l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
 
                 RFCOMM_Command(l2capoutbuf, length + 4);
 
-                stringLength -= length;
+                sppIndex -= length;
                 offset += length; // Increment the offset
         }
 }
 
-void SPP::println(const String &str) {
-        String output = str + "\r\n";
-        print(output);
+int SPP::available(void) {
+        return rfcommAvailable;
+};
+
+void SPP::flush(void) {
+        rfcommAvailable = 0;
 }
 
-void SPP::println(const char* str) {
-        char output[strlen(str) + 3];
-        strcpy(output, str);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::println(uint8_t data) {
-        uint8_t buf[3] = {data, '\r', '\n'};
-        print(buf, 3);
-}
-
-void SPP::println(uint8_t* array, uint8_t length) {
-        uint8_t buf[length + 2];
-        memcpy(buf, array, length);
-        buf[length] = '\r';
-        buf[length + 1] = '\n';
-        print(buf, length + 2);
-}
-
-void SPP::printFlashString(const __FlashStringHelper *ifsh, bool newline) {
-        const char PROGMEM *p = (const char PROGMEM *)ifsh;
-        uint8_t size = 0;
-        while (1) { // Calculate the size of the string
-                uint8_t c = pgm_read_byte(p + size);
-                if (c == 0)
-                        break;
-                size++;
-        }
-        uint8_t buf[size + 2]; // Add two extra in case it needs to print a newline and carriage return
-
-        for (uint8_t i = 0; i < size; i++)
-                buf[i] = pgm_read_byte(p++);
-
-        if (newline) {
-                buf[size] = '\r';
-                buf[size + 1] = '\n';
-                print(buf, size + 2);
-        } else
-                print(buf, size);
-}
-
-void SPP::println(void) {
-        uint8_t buf[2] = {'\r', '\n'};
-        print(buf, 2);
-}
-
-/* These must be used to print numbers */
-void SPP::printNumber(uint32_t n) {
-        char output[11];
-        intToString(n, output);
-        print(output);
-}
-
-void SPP::printNumberln(uint32_t n) {
-        char output[13];
-        intToString(n, output);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::printNumber(int32_t n) {
-        char output[12];
-        intToString(n, output);
-        print(output);
-}
-
-void SPP::printNumberln(int32_t n) {
-        char output[14];
-        intToString(n, output);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::intToString(int32_t input, char* output) {
-        if (input < 0) {
-                char buf[11];
-                intToString((uint32_t)(input*-1), buf);
-                strcpy(output, "-");
-                strcat(output, buf);
-        } else
-                intToString((uint32_t)input, output);
-}
-
-void SPP::intToString(uint32_t input, char* output) {
-        uint32_t temp = input;
-        uint8_t digits = 0;
-        while (temp) {
-                temp /= 10;
-                digits++;
-        }
-        if (digits == 0)
-                strcpy(output, "0");
-        else {
-                for (uint8_t i = 1; i <= digits; i++) {
-                        output[digits - i] = input % 10 + '0'; // Get number and convert to ASCII Character
-                        input /= 10;
-                }
-                output[digits] = '\0'; // Add null character
-        }
-}
-
-void SPP::printNumber(double n, uint8_t digits) {
-        char output[13 + digits];
-        doubleToString(n, output, digits);
-        print(output);
-}
-
-void SPP::printNumberln(double n, uint8_t digits) {
-        char output[15 + digits];
-        doubleToString(n, output, digits);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::doubleToString(double input, char* output, uint8_t digits) {
-        char buffer[13 + digits];
-        if (input < 0) {
-                strcpy(output, "-");
-                input = -input;
-        } else
-                strcpy(output, "");
-
-        // Round correctly
-        double rounding = 0.5;
-        for (uint8_t i = 0; i < digits; i++)
-                rounding /= 10.0;
-        input += rounding;
-
-        uint32_t intpart = (uint32_t)input;
-        intToString(intpart, buffer); // Convert to string
-        strcat(output, buffer);
-        strcat(output, ".");
-        double fractpart = (input - (double)intpart);
-        fractpart *= pow(10, digits);
-        for (uint8_t i = 1; i < digits; i++) { // Put zeros in front of number
-                if (fractpart < pow(10, digits - i)) {
-                        strcat(output, "0");
-                }
-        }
-        intToString((uint32_t)fractpart, buffer); // Convert to string
-        strcat(output, buffer);
-}
-
-uint8_t SPP::read() {
+int SPP::peek(void) {
         if (rfcommAvailable == 0) // Don't read if there is nothing in the buffer
-                return 0;
+                return -1;
+        return rfcommDataBuffer[0];
+}
+
+int SPP::read(void) {
+        if (rfcommAvailable == 0) // Don't read if there is nothing in the buffer
+                return -1;
         uint8_t output = rfcommDataBuffer[0];
         for (uint8_t i = 1; i < rfcommAvailable; i++)
                 rfcommDataBuffer[i - 1] = rfcommDataBuffer[i]; // Shift the buffer one left

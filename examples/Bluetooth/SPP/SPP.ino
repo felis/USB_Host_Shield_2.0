@@ -22,14 +22,14 @@ void setup() {
   Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task();
+  Usb.Task(); // The SPP data is actually not send until Usb.Task() is called
   if(SerialBT.connected) {
     if(firstMessage) {
       firstMessage = false;
       SerialBT.println(F("Hello from Arduino")); // Send welcome message
     }
     if(Serial.available())
-      SerialBT.print(Serial.read());
+      SerialBT.write(Serial.read());
     if(SerialBT.available())
       Serial.write(SerialBT.read());
   } 
