@@ -100,6 +100,16 @@ public:
          */
         SPP(BTD *p, const char* name = "Arduino", const char* pin = "1234");
 
+        /**
+         * Used to provide Boolean tests for the class.
+         * @return Return true if SPP communication is connected.
+         */
+        operator bool() {
+                return connected;
+        }
+        /** Variable used to indicate if the connection is established. */
+        bool connected;
+
         /** @name BluetoothService implementation */
         /**
          * Used to pass acldata to the services.
@@ -114,9 +124,6 @@ public:
         virtual void disconnect();
         /**@}*/
 
-        /** Variable used to indicate if the connection is established. */
-        bool connected;
-
         /** @name Serial port profile (SPP) Print functions */
         /**
          * Get number of bytes waiting to be read.
@@ -127,22 +134,22 @@ public:
         virtual void flush(void);
         /**
          * Used to read the next value in the buffer without advancing to the next one.
-         * @return Return the byte. Will return -1 if no byte is available.
+         * @return Return the byte. Will return -1 if no bytes are available.
          */
         virtual int peek(void);
         /**
          * Used to read the buffer.
-         * @return Return the byte. Will return -1 if no byte is available.
+         * @return Return the byte. Will return -1 if no bytes are available.
          */
         virtual int read(void);
         /**
-         * Writes the byte to send to a buffer. The message is send when either send(const uint8_t* data, size_t size) or after Usb.Task() is called.
+         * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The byte to write.
          * @return      Return the number of bytes written.
          */
         virtual size_t write(uint8_t data);
         /**
-         * Writes the bytes to send to a buffer. The message is send when either send(const uint8_t* data, size_t size) or after Usb.Task() is called.
+         * Writes the bytes to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The data array to send.
          * @param  size Size of the data.
          * @return      Return the number of bytes written.
@@ -156,13 +163,6 @@ public:
          * but can also be called via this function.
          */
         void send(void);
-        /**
-         * Used to provide Boolean tests for the class.
-         * @return Return true if SPP communication is connected.
-         */
-        operator bool() {
-                return connected;
-        }
         /**@}*/
 
 private:
