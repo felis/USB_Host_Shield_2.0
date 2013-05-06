@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ready',['ready',['../class_a_d_k.html#a135db75b9e8cdd59b89f46c44dd83dd4',1,'ADK']]],
+  ['ready',['ready',['../class_a_d_k.html#a135db75b9e8cdd59b89f46c44dd83dd4',1,'ADK::ready()'],['../class_a_c_m.html#a8ebf4b872b0ed66e93b4ed39f46290fd',1,'ACM::ready()']]],
   ['recipient',['recipient',['../struct_s_e_t_u_p___p_k_t.html#a690a55f65b2ce4e69c426b92004a1cc6',1,'SETUP_PKT']]],
   ['reladdr',['RelAddr',['../struct_inquiry_response.html#a64121510090cb38926bbb321e98b1a13',1,'InquiryResponse']]],
   ['remote_5fname',['remote_name',['../class_b_t_d.html#aede42d995c384c238fd49d728df01e4e',1,'BTD']]],

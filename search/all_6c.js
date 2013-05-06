@@ -139,6 +139,7 @@ var searchData=
   ['lefttoright',['leftToRight',['../class_max___l_c_d.html#a2814b0a44a6ef3773df74981ab24d382',1,'Max_LCD']]],
   ['lightblue',['Lightblue',['../_p_s3_enums_8h.html#a55ecd4f2ec2ebfe8d5b0163e4ac2a967a7ff0cc1f92da1e4577a4bf08d0ffbd5a',1,'PS3Enums.h']]],
   ['line_5fcoding',['LINE_CODING',['../struct_l_i_n_e___c_o_d_i_n_g.html',1,'']]],
+  ['line_5fstate_5fchange',['LINE_STATE_CHANGE',['../cdcacm_8h.html#a0a06858faca59d300fbadd0e37e312c9',1,'cdcacm.h']]],
   ['linked',['Linked',['../struct_inquiry_response.html#ac0ee71a9c07b0c1fd9ff09461a81fa0e',1,'InquiryResponse']]],
   ['logpwrswitchmode',['LogPwrSwitchMode',['../struct_hub_descriptor.html#a68084f6fd86bff9598573ac845be6fe3',1,'HubDescriptor']]],
   ['low',['Low',['../_p_s3_enums_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70ba7a352a3dd2accc1dd65a4538c3754ee8',1,'PS3Enums.h']]],

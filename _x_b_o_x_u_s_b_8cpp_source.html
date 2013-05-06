@@ -351,9 +351,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; <a class="code" href="_x_b_o_x_u_s_b_8h.html#aaa3e91675875fbf14a37369f9513874a">XBOX_REPORT_BUFFER_SIZE</a>; i++) {</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                PrintHex&lt;uint8_t &gt; (readBuf[i], 0x80);</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                Serial.print(<span class="stringliteral">&quot; &quot;</span>);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot; &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        Serial.println();</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>

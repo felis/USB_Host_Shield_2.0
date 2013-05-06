@@ -6,5 +6,5 @@ var searchData=
   ['adk',['ADK',['../class_a_d_k.html#a29492dcd9b7f6023b7866cd05188d61c',1,'ADK']]],
   ['allocaddress',['AllocAddress',['../class_address_pool.html#a97df4ef42e50960ce2165f4cdb53e590',1,'AddressPool::AllocAddress()'],['../class_address_pool_impl.html#a14657183c73c631754b31bd0cc588c87',1,'AddressPoolImpl::AllocAddress()']]],
   ['autoscroll',['autoscroll',['../class_max___l_c_d.html#a5800c4121d13e36f272c5e1e30da2a3b',1,'Max_LCD']]],
-  ['available',['available',['../class_s_p_p.html#a7de4c895e4056ac2964ce5d020611deb',1,'SPP']]]
+  ['available',['available',['../class_s_p_p.html#a731eb43856854b6a406e9cfa3f9e57a4',1,'SPP']]]
 ];

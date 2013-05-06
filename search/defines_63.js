@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['call_5fstate_5fchange',['CALL_STATE_CHANGE',['../cdcacm_8h.html#a16e45b21be9797a7190330fd10bc1b07',1,'cdcacm.h']]],
   ['can_5fbe_5fauto',['CAN_BE_AUTO',['../cdcprolific_8h.html#a30dcf1962e23ca3176695f4eaa5d5c28',1,'cdcprolific.h']]],
   ['can_5fnotify',['CAN_NOTIFY',['../cdcprolific_8h.html#a197aa848c18becf5360bd06d2b9b8757',1,'cdcprolific.h']]],
   ['cdc_5fclear_5fcomm_5ffeature',['CDC_CLEAR_COMM_FEATURE',['../cdcacm_8h.html#a6c79b8666110840333ad3785bf7ce87c',1,'cdcacm.h']]],
@@ -46,6 +47,7 @@ var searchData=
   ['clr_5fe',['CLR_E',['../max___l_c_d_8cpp.html#a2382451f16ea0f18bf54dba5c7cfb471',1,'max_LCD.cpp']]],
   ['clr_5frs',['CLR_RS',['../max___l_c_d_8cpp.html#af60058c58ef619d81e5779d74324041e',1,'max_LCD.cpp']]],
   ['conf_5fdescr_5flen',['CONF_DESCR_LEN',['../usb__ch9_8h.html#a7256578391c91b980eec63daa6e87b6b',1,'usb_ch9.h']]],
+  ['connection_5fspeed_5fchange',['CONNECTION_SPEED_CHANGE',['../cdcacm_8h.html#a0bf4e444b84f8ab8bb1b3dfe16dc93de',1,'cdcacm.h']]],
   ['continue_5fsend',['CONTINUE_SEND',['../cdcprolific_8h.html#ab31d90a1365ace8148b4ffb5b09c3204',1,'cdcprolific.h']]],
   ['cp_5fmask_5fcompare_5fall',['CP_MASK_COMPARE_ALL',['../confdescparser_8h.html#ad6da11ef61b1efe75758448abeb4cbe7',1,'confdescparser.h']]],
   ['cp_5fmask_5fcompare_5fclass',['CP_MASK_COMPARE_CLASS',['../confdescparser_8h.html#a97d95efc3446be55adbb1801c356c55c',1,'confdescparser.h']]],

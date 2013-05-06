@@ -35,6 +35,7 @@ var searchData=
   ['getlastusberror',['GetLastUsbError',['../class_bulk_only.html#abe1e768a46e751e6792164334c973b44',1,'BulkOnly']]],
   ['getlinecoding',['GetLineCoding',['../class_a_c_m.html#a9d922317b25a7ae086a6fe79984ab8d1',1,'ACM']]],
   ['getmaxlun',['GetMaxLUN',['../class_bulk_only.html#a3358d6e445096c99817d276315b841cc',1,'BulkOnly']]],
+  ['getnotif',['GetNotif',['../class_a_c_m.html#a4deddfbfb1d9010b71096cbfd46b2dfb',1,'ACM']]],
   ['getpitch',['getPitch',['../class_w_i_i.html#a748172bd57804856594ea8e21601319e',1,'WII']]],
   ['getportstatus',['GetPortStatus',['../class_u_s_b_hub.html#a01c0b9d64fd5314963e7d7f70c0a99c3',1,'USBHub']]],
   ['getprotocol',['GetProtocol',['../class_h_i_d.html#a70be6b7ad992954b8648d7d06e2d4e2b',1,'HID']]],

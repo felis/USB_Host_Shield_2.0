@@ -12,5 +12,6 @@ var searchData=
   ['onmousemove',['OnMouseMove',['../class_mouse_report_parser.html#a3e231baff6196df63dbad9a44f4945a7',1,'MouseReportParser']]],
   ['onrightbuttondown',['OnRightButtonDown',['../class_mouse_report_parser.html#a6884349e6b2de0cbfedf3e1a77c23870',1,'MouseReportParser']]],
   ['onrightbuttonup',['OnRightButtonUp',['../class_mouse_report_parser.html#a1bdfee565073cd8b77cbeb9e184c174f',1,'MouseReportParser']]],
+  ['operator_20bool',['operator bool',['../class_s_p_p.html#ac90f0765c478bd624cee3b8d493d8432',1,'SPP']]],
   ['outtransfer',['outTransfer',['../class_u_s_b.html#affbc018973a588995457d535b0ac7ee7',1,'USB']]]
 ];

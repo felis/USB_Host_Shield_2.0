@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_t_com.html" title="TCom\&lt; TCCR, COM \&gt;" alt="" coords="6,5,109,27"/>
+<area shape="rect" id="node1" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,51,88,72"/>
+<area shape="rect" id="node2" href="$class_p_s3_b_t.html" title="PS3BT" alt="" coords="136,5,184,27"/>
+<area shape="rect" id="node3" href="$class_s_p_p.html" title="SPP" alt="" coords="141,96,179,117"/>
+<area shape="rect" id="node4" href="$class_w_i_i.html" title="WII" alt="" coords="141,51,179,72"/>
 </map>

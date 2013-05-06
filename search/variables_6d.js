@@ -11,6 +11,5 @@ var searchData=
   ['motionplusconnected',['motionPlusConnected',['../class_w_i_i.html#a72bd4fad2e524276712a154b8cc2a16c',1,'WII']]],
   ['motionplusinside',['motionPlusInside',['../class_b_t_d.html#a3aea445b2349e99ef057db1a4ffdd9dc',1,'BTD']]],
   ['mouseinfo',['mouseInfo',['../class_mouse_report_parser.html#a9daf20ab8deb57500426e40827b0a79c',1,'MouseReportParser']]],
-  ['move_5freport_5fbuffer',['MOVE_REPORT_BUFFER',['../_p_s3_u_s_b_8cpp.html#a1417ae57ea78c9a70a275149e90d2d5d',1,'PS3USB.cpp']]],
   ['my_5fbdaddr',['my_bdaddr',['../class_b_t_d.html#a1f8e9171a310e50f2c4a3c19066efe5a',1,'BTD']]]
 ];

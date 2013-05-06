@@ -49,5 +49,5 @@ var searchData=
   ['mode_5ffs_5fhost',['MODE_FS_HOST',['../max3421e_8h.html#a456c3175b4836ed1d2b276faeba55121',1,'max3421e.h']]],
   ['mode_5fls_5fhost',['MODE_LS_HOST',['../max3421e_8h.html#ab3da1b5bd1f43ba9f9da604841ba8802',1,'max3421e.h']]],
   ['motion_5fplus_5fconnected_5fflag',['motion_plus_connected_flag',['../_wii_8h.html#a3d4b4f06162f96e91d97650f5c2e60f7',1,'Wii.h']]],
-  ['move_5freport_5fbuffer_5fsize',['MOVE_REPORT_BUFFER_SIZE',['../_p_s3_u_s_b_8h.html#a2c6c24a4b63d9a34926fb35d6b49cd17',1,'PS3USB.h']]]
+  ['move_5freport_5fbuffer_5fsize',['MOVE_REPORT_BUFFER_SIZE',['../_p_s3_enums_8h.html#a2c6c24a4b63d9a34926fb35d6b49cd17',1,'PS3Enums.h']]]
 ];

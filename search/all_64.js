@@ -36,7 +36,6 @@ var searchData=
   ['dispatchpkt',['dispatchPkt',['../class_u_s_b.html#a343d4b321cf8e99f0504cb04c7ce8b10',1,'USB']]],
   ['display',['display',['../class_max___l_c_d.html#a9eeefc04930595cc168129d159547124',1,'Max_LCD']]],
   ['dlm_5ffunc_5fdescr',['DLM_FUNC_DESCR',['../cdcacm_8h.html#aee9cef95b49c643abc3269666b62aa1b',1,'cdcacm.h']]],
-  ['doubletostring',['doubleToString',['../class_s_p_p.html#a3117df8f320d9d010b57c30255db054b',1,'SPP']]],
   ['down',['DOWN',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a9b0b4a95b99523966e0e34ffdadac9da',1,'controllerEnums.h']]],
   ['dwdterate',['dwDTERate',['../struct_l_i_n_e___c_o_d_i_n_g.html#ae9fd7d7247b4c50df89a6dd5ed955073',1,'LINE_CODING']]],
   ['dx',['dX',['../struct_m_o_u_s_e_i_n_f_o.html#a8b67db1c54e5db9782a0b5b707dcf9db',1,'MOUSEINFO']]],

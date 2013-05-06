@@ -110,7 +110,7 @@ Collaboration diagram for WII:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6597cb0e240a8ccb4ebdb236daef712e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a6597cb0e240a8ccb4ebdb236daef712e">WII</a> (<a class="el" href="class_b_t_d.html">BTD</a> *p, bool pair=false)</td></tr>
+<tr class="memitem:a6597cb0e240a8ccb4ebdb236daef712e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a6597cb0e240a8ccb4ebdb236daef712e">WII</a> (<a class="el" href="class_b_t_d.html">BTD</a> *p, bool <a class="el" href="class_w_i_i.html#a39c3101b26cc549d5258018b3d05c608">pair</a>=false)</td></tr>
 <tr class="separator:a6597cb0e240a8ccb4ebdb236daef712e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">BluetoothService implementation</div></td></tr>
 <tr class="memitem:a81e1eb4d9ef9999a84e71d764d54dff7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a81e1eb4d9ef9999a84e71d764d54dff7">ACLData</a> (uint8_t *ACLData)</td></tr>
@@ -126,6 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acf4b3ef0a4fa0cf71133a22213361288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbf9ccb1725dc432e07ca19468713116"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#adbf9ccb1725dc432e07ca19468713116">getButtonClick</a> (<a class="el" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b)</td></tr>
 <tr class="separator:adbf9ccb1725dc432e07ca19468713116"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c3101b26cc549d5258018b3d05c608"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a39c3101b26cc549d5258018b3d05c608">pair</a> (void)</td></tr>
+<tr class="separator:a39c3101b26cc549d5258018b3d05c608"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab16e907132354be9848fd91a6a5171db"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#ab16e907132354be9848fd91a6a5171db">getAnalogHat</a> (<a class="el" href="_wii_8h.html#a3edd2b2fd262b698309012868fad0be7">Hat</a> a)</td></tr>
 <tr class="separator:ab16e907132354be9848fd91a6a5171db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab684ac791f235aed4d5ccf485081c075"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#ab684ac791f235aed4d5ccf485081c075">getAnalogHat</a> (<a class="el" href="controller_enums_8h.html#aaaabdefc068fd57ec2bef2b62ea4ba92">AnalogHat</a> a)</td></tr>
@@ -459,6 +461,33 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a39c3101b26cc549d5258018b3d05c608"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::pair </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Call this to start the paring sequence with a controller </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00135">135</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ab16e907132354be9848fd91a6a5171db"></a>
 <div class="memitem">
 <div class="memproto">
@@ -534,7 +563,7 @@ Public Attributes</h2></td></tr>
 <p>Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pitch in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00151">151</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00156">156</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -561,7 +590,7 @@ Public Attributes</h2></td></tr>
 <p>Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Roll in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00159">159</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00164">164</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -589,7 +618,7 @@ Public Attributes</h2></td></tr>
 <p><b>NOTE:</b> This angle will drift a lot and is only available if the Motion Plus extension is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>The angle calculated using the gyro. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00169">169</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00174">174</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -827,7 +856,7 @@ Public Attributes</h2></td></tr>
 <p>Return the battery level of the Wiimote. </p>
 <dl class="section return"><dt>Returns</dt><dd>The battery level in the range 0-255. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00221">221</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00226">226</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -854,7 +883,7 @@ Public Attributes</h2></td></tr>
 <p>Return the Wiimote state. </p>
 <dl class="section return"><dt>Returns</dt><dd>See: <a href="http://wiibrew.org/wiki/Wiimote#0x20:_Status">http://wiibrew.org/wiki/Wiimote#0x20:_Status</a>. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00228">228</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00233">233</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -899,7 +928,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 1 x-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00312">312</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00317">317</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -926,7 +955,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 1 y-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00320">320</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00325">325</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -953,7 +982,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 1 size read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00328">328</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00333">333</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -980,7 +1009,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 2 x-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00336">336</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00341">341</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1007,7 +1036,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 2 y-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00344">344</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00349">349</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1034,7 +1063,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 2 size read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00352">352</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00357">357</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1061,7 +1090,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 3 x-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00360">360</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00365">365</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1088,7 +1117,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 3 y-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00368">368</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00373">373</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1115,7 +1144,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 3 size read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00376">376</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00381">381</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1142,7 +1171,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 4 x-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The x-position of the object in the range 0-1023. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00384">384</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00389">389</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1169,7 +1198,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 4 y-position read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The y-position of the object in the range 0-767. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00392">392</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00397">397</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1196,7 +1225,7 @@ Public Attributes</h2></td></tr>
 <p>IR object 4 size read from the Wii IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size of the object in the range 0-15. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00400">400</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00405">405</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1223,7 +1252,7 @@ Public Attributes</h2></td></tr>
 <p>Use this to check if the camera is enabled or not. If not call <a class="el" href="class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5">WII::IRinitialize</a> to initialize the IR camera. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if it's enabled, false if not. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00409">409</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00414">414</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1239,7 +1268,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Wiimote is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00230">230</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00235">235</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1254,7 +1283,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Nunchuck controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00237">237</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00242">242</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1269,7 +1298,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Nunchuck controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00239">239</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00244">244</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1284,7 +1313,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Variable used to indicate if a Wii U Pro controller is connected. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00241">241</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00246">246</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1299,7 +1328,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00248">248</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00253">253</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1314,7 +1343,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pitch and roll calculated from the accelerometer inside the Wiimote. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00249">249</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00254">254</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1329,7 +1358,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00254">254</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00259">259</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1344,7 +1373,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pitch and roll calculated from the accelerometer inside the Nunchuck. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00255">255</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00260">260</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1359,7 +1388,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Accelerometer values used to calculate pitch and roll. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00260">260</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00265">265</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1374,7 +1403,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Accelerometer values used to calculate pitch and roll. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00261">261</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00266">266</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1389,7 +1418,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Accelerometer values used to calculate pitch and roll. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00262">262</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00267">267</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1404,7 +1433,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is the pitch calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a">WII::pitchGyroScale</a>. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00267">267</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00272">272</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1419,7 +1448,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is the roll calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331">WII::rollGyroScale</a>. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00269">269</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00274">274</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1434,7 +1463,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>This is the yaw calculated by the gyro - use this to tune <a class="el" href="class_w_i_i.html#a0694969a30092b9b1dcb26120c7cff73">WII::yawGyroScale</a>. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00271">271</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00276">276</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1449,7 +1478,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The speed in deg/s from the gyro. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00275">275</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00280">280</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1464,7 +1493,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The speed in deg/s from the gyro. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00276">276</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00281">281</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1479,7 +1508,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The speed in deg/s from the gyro. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00277">277</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00282">282</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1494,7 +1523,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>You might need to fine-tune these values. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00282">282</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00287">287</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1538,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>You might need to fine-tune these values. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00283">283</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00288">288</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1524,7 +1553,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>You might need to fine-tune these values. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00284">284</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00289">289</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1539,7 +1568,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Raw value read directly from the Motion Plus. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00289">289</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00294">294</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1554,7 +1583,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Raw value read directly from the Motion Plus. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00290">290</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00295">295</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1569,7 +1598,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Raw value read directly from the Motion Plus. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00291">291</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00296">296</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1584,7 +1613,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>These values are set when the controller is first initialized. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00296">296</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00301">301</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1599,7 +1628,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>These values are set when the controller is first initialized. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00297">297</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00302">302</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -1614,7 +1643,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>These values are set when the controller is first initialized. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00298">298</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00303">303</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>

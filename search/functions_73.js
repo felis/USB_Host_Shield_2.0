@@ -2,6 +2,7 @@ var searchData=
 [
   ['scrolldisplayleft',['scrollDisplayLeft',['../class_max___l_c_d.html#af5c3a45b45470fa3f274467521512759',1,'Max_LCD']]],
   ['scrolldisplayright',['scrollDisplayRight',['../class_max___l_c_d.html#adee56aad25a1301b4beae69251450190',1,'Max_LCD']]],
+  ['send',['send',['../class_s_p_p.html#ab6c20e303965056403ae5aef1d228858',1,'SPP']]],
   ['sendbreak',['SendBreak',['../class_a_c_m.html#a2a618cbff52737740e76977db557ddff',1,'ACM']]],
   ['serialprinthex',['SerialPrintHex',['../printhex_8h.html#a7ac5c085b9fdf94266b7c273695efa87',1,'printhex.h']]],
   ['set',['Set',['../class_t_pin.html#a4145dbd89f451fb99bad733a2d812dcd',1,'TPin::Set()'],['../class_t_pin.html#a678cff558da4bcba222b4e72c39152c4',1,'TPin::Set(uint8_t val)'],['../class_t_com.html#a49ca6df4226096b2c5529b94899b5c43',1,'TCom::Set()']]],

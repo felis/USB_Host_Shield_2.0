@@ -369,7 +369,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                <span class="keywordflow">if</span> (bufferSize &gt; 0) { <span class="comment">// The number of received bytes</span></div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#ifdef EXTRADEBUG</span></div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="preprocessor"></span>                        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;Bytes Received: &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        Serial.print(bufferSize);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        PrintHex&lt;uint16_t &gt; (bufferSize, 0x80);</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor"></span>                        readReport(i);</div>
@@ -389,7 +389,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                <a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">Xbox360Connected</a>[controller] = readBuf[1];</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;Controller &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                Serial.print(controller);</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(controller, 0x80);</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">if</span> (<a class="code" href="class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a">Xbox360Connected</a>[controller]) {</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
@@ -462,13 +462,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">if</span> (readBuf == NULL)</div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;Controller &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        Serial.print(controller);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(controller, 0x80);</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;: &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nBytes; i++) {</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                PrintHex&lt;uint8_t &gt; (readBuf[i], 0x80);</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                Serial.print(<span class="stringliteral">&quot; &quot;</span>);</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot; &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        }</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        Serial.println();</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <a class="code" href="message_8cpp.html#a1e8693828152de8408add858dc461dea">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;</div>
@@ -477,7 +477,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                <span class="keywordflow">return</span> (uint8_t)(ButtonState[controller] &gt;&gt; 8);</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (b == <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a629d7b403cea5f826352f3aefb9a6d6a">R2</a>)</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                <span class="keywordflow">return</span> (uint8_t)ButtonState[controller];</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keywordflow">return</span> (ButtonState[controller] &amp; ((uint32_t)pgm_read_word(&amp;<a class="code" href="xbox_enums_8h.html#a7e55826e75b9b88578c8b0edaaf523d7">XBOXBUTTONS</a>[(uint8_t)b]) &lt;&lt; 16));</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keywordflow">return</span> (<span class="keywordtype">bool</span>)(ButtonState[controller] &amp; ((uint32_t)pgm_read_word(&amp;<a class="code" href="xbox_enums_8h.html#a7e55826e75b9b88578c8b0edaaf523d7">XBOXBUTTONS</a>[(uint8_t)b]) &lt;&lt; 16));</div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;}</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;</div>
 <div class="line"><a name="l00392"></a><span class="lineno"><a class="code" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">  392</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_x_b_o_x_r_e_c_v.html#a5e9a59d90ec1941c7152cdd438c284d0">XBOXRECV::getButtonClick</a>(uint8_t controller, <a class="code" href="controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> b) {</div>

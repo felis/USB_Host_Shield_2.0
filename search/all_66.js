@@ -3,7 +3,7 @@ var searchData=
   ['fastblink',['FASTBLINK',['../xbox_enums_8h.html#a57effb96f46e458675a2653d4c543ca2ae88cfa0f6acd518889cef621446d9d2a',1,'xboxEnums.h']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],
   ['flow_5ftx_5fauto',['FLOW_TX_AUTO',['../cdcprolific_8h.html#ac43d59739a4945979e600bb15df8347c',1,'cdcprolific.h']]],
-  ['flush',['flush',['../class_s_p_p.html#af354c72d54243f891faf4cc60a7b94aa',1,'SPP']]],
+  ['flush',['flush',['../class_s_p_p.html#a235d75f40a32a5905fd8fedcc37aa350',1,'SPP']]],
   ['foreachusbdevice',['ForEachUsbDevice',['../class_address_pool_impl.html#a09e6dc797f82543eba0879369116182e',1,'AddressPoolImpl::ForEachUsbDevice()'],['../class_u_s_b.html#a8346db8f2219f65257d735834940bc42',1,'USB::ForEachUsbDevice()']]],
   ['freeaddress',['FreeAddress',['../class_address_pool.html#a15fde13223dcb1da89305ad229763562',1,'AddressPool::FreeAddress()'],['../class_address_pool_impl.html#a3d59841faa336c359b0736ca45988ce5',1,'AddressPoolImpl::FreeAddress()']]],
   ['fshost',['FSHOST',['../max3421e_8h.html#a8ec45bdb8c5273e99c3ab89349cb43f9',1,'max3421e.h']]],

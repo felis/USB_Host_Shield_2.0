@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rcvdata',['RcvData',['../class_a_d_k.html#a66b9943dfa89f783a8cdeb655e6fe9b1',1,'ADK::RcvData()'],['../class_a_c_m.html#a7f455b7a649522c29f2e63d668b0ccca',1,'ACM::RcvData()'],['../class_f_t_d_i.html#aa367ae72fbfda931cae8ec751e9dc434',1,'FTDI::RcvData()']]],
-  ['read',['Read',['../class_bulk_only.html#a470a8f0ffd6694d9dfc834da5efa627a',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf)'],['../class_bulk_only.html#a52f54376dcd7f5baf17718105e8f085d',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs)'],['../class_s_p_p.html#a53980e0d20944454790febe5c9be66af',1,'SPP::read()']]],
+  ['read',['read',['../class_s_p_p.html#aae8dc037e845480f582afea57b858b95',1,'SPP::read()'],['../class_bulk_only.html#a470a8f0ffd6694d9dfc834da5efa627a',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf)'],['../class_bulk_only.html#a52f54376dcd7f5baf17718105e8f085d',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs)']]],
   ['readcapacity',['ReadCapacity',['../class_bulk_only.html#abf6c027a7a3a9d1c2db13835657048fa',1,'BulkOnly']]],
   ['readpollinterval',['readPollInterval',['../class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd',1,'BTD']]],
   ['registerdeviceclass',['RegisterDeviceClass',['../class_u_s_b.html#a3f66bf622590413ef2e1864f93a3e0d2',1,'USB']]],

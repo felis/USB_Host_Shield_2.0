@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['network_5fconnection',['NETWORK_CONNECTION',['../cdcacm_8h.html#a9e48b736a3dbd35ebbe8507b29dec86a',1,'cdcacm.h']]],
   ['notifyfail',['NotifyFail',['../message_8h.html#a0ff5fd979410766516f888b2c04e6bf2',1,'message.h']]],
   ['notifyfailgetconfdescr',['NotifyFailGetConfDescr',['../message_8h.html#a66511c691935586edd527d0333662650',1,'message.h']]],
   ['notifyfailgetdevdescr',['NotifyFailGetDevDescr',['../message_8h.html#a9a7f2f4c3d000d5017ee1d0bacd57ff1',1,'message.h']]],

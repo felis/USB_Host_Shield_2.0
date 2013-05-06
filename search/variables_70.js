@@ -10,7 +10,7 @@ var searchData=
   ['prevstate',['prevState',['../class_keyboard_report_parser.html#aea2971182f9022436206092132aead32',1,'KeyboardReportParser']]],
   ['procontrollerbuttons',['PROCONTROLLERBUTTONS',['../_wii_8cpp.html#a6571a59427c954eefde75bb40f02443e',1,'Wii.cpp']]],
   ['productid',['ProductID',['../struct_inquiry_response.html#a02c12d5c3f7b9e821c6f28dc827f5629',1,'InquiryResponse']]],
-  ['ps3_5freport_5fbuffer',['PS3_REPORT_BUFFER',['../_p_s3_u_s_b_8cpp.html#a8cf62ee374ebaa5f7582c073e624bc74',1,'PS3USB.cpp']]],
+  ['ps3_5freport_5fbuffer',['PS3_REPORT_BUFFER',['../_p_s3_enums_8h.html#a8cf62ee374ebaa5f7582c073e624bc74',1,'PS3Enums.h']]],
   ['ps3connected',['PS3Connected',['../class_p_s3_b_t.html#a2804535e3164eafca80a6f6c6bd9a4f9',1,'PS3BT::PS3Connected()'],['../class_p_s3_u_s_b.html#a0dad8754ff18d0c375c2569791d50876',1,'PS3USB::PS3Connected()']]],
   ['ps3moveconnected',['PS3MoveConnected',['../class_p_s3_b_t.html#a9273b6796948b83772117b3805421b4a',1,'PS3BT::PS3MoveConnected()'],['../class_p_s3_u_s_b.html#a89aa4233f3eeeb99693a099da527ec28',1,'PS3USB::PS3MoveConnected()']]],
   ['ps3navigationconnected',['PS3NavigationConnected',['../class_p_s3_b_t.html#ab35277632083d43f8750d130bea6d430',1,'PS3BT::PS3NavigationConnected()'],['../class_p_s3_u_s_b.html#a54b2dcaa1e9acef83de2376b50c7ff09',1,'PS3USB::PS3NavigationConnected()']]],

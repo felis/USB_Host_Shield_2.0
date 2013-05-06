@@ -4,6 +4,5 @@ var searchData=
   ['on',['ON',['../max3421e_8h.html#ad76d1750a6cdeebd506bfcd6752554d2',1,'max3421e.h']]],
   ['otg_5ffeature_5fa_5falt_5fhnp_5fsupport',['OTG_FEATURE_A_ALT_HNP_SUPPORT',['../usb__ch9_8h.html#a4c05deae742762f3110366a7bb8bffc2',1,'usb_ch9.h']]],
   ['otg_5ffeature_5fa_5fhnp_5fsupport',['OTG_FEATURE_A_HNP_SUPPORT',['../usb__ch9_8h.html#ac95e8be488ed9ca8ebf9541306fe070b',1,'usb_ch9.h']]],
-  ['otg_5ffeature_5fb_5fhnp_5fenable',['OTG_FEATURE_B_HNP_ENABLE',['../usb__ch9_8h.html#ab1eb008c2545555250224ffdd22e6ef7',1,'usb_ch9.h']]],
-  ['output_5freport_5fbuffer_5fsize',['OUTPUT_REPORT_BUFFER_SIZE',['../_p_s3_b_t_8h.html#a8e1b40b58f50a692cda94418934e9ba6',1,'PS3BT.h']]]
+  ['otg_5ffeature_5fb_5fhnp_5fenable',['OTG_FEATURE_B_HNP_ENABLE',['../usb__ch9_8h.html#ab1eb008c2545555250224ffdd22e6ef7',1,'usb_ch9.h']]]
 ];
