@@ -736,7 +736,7 @@ size_t SPP::write(uint8_t data) {
 size_t SPP::write(const uint8_t* data, size_t size) {
         for(uint8_t i = 0; i < size; i++) {
                 if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
-                        return i; // Don't send any more if buffer is already full
+                        send(); // Send the current data in the buffer
                 sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function 
         }
         return size;
