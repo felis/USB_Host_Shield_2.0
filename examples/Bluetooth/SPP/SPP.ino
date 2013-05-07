@@ -22,7 +22,8 @@ void setup() {
   Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task(); // The SPP data is actually not send until Usb.Task() is called
+  Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
+  
   if(SerialBT.connected) {
     if(firstMessage) {
       firstMessage = false;
