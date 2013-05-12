@@ -438,6 +438,7 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
                 epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[index].maxPktSize = (uint8_t) pep->wMaxPacketSize;
                 epInfo[index].epAttribs = 0;
+                epInfo[index].bmNakPower = USB_NAK_NOWAIT;
 
                 bNumEP++;
         }
