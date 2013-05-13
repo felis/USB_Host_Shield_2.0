@@ -145,40 +145,45 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 if (rcode)
                         goto FailSetConfDescr;
 
-                if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
 #ifdef DEBUG
+                if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
                         if (PID == PS3_PID)
                                 Notify(PSTR("\r\nDualshock 3 Controller Connected"), 0x80);
-                        else // must be a navigation controller
+                        else // It must be a navigation controller
                                 Notify(PSTR("\r\nNavigation Controller Connected"), 0x80);
-#endif
-                        /* Set internal Bluetooth address */
-                        setBdaddr(my_bdaddr);
-                } else { // It must be a Motion controller
-#ifdef DEBUG
+                } else // It must be a Motion controller
                         Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
-                        setMoveBdaddr(my_bdaddr);
-                }
+
+                if (my_bdaddr[0] == 0x00 && my_bdaddr[1] == 0x00 && my_bdaddr[2] == 0x00 && my_bdaddr[3] == 0x00 && my_bdaddr[4] == 0x00 && my_bdaddr[5] == 0x00) {
 #ifdef DEBUG
-                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-                for (int8_t i = 5; i > 0; i--) {
-                        PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                        Notify(PSTR(":"), 0x80);
-                }
-                PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\n\rOr set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
 #endif
+                } else {
+                        if (PID == PS3_PID || PID == PS3NAVIGATION_PID)
+                                setBdaddr(my_bdaddr); // Set internal Bluetooth address
+                        else
+                                setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+#ifdef DEBUG
+                        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                        for (int8_t i = 5; i > 0; i--) {
+                                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                                Notify(PSTR(":"), 0x80);
+                        }
+                        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+#endif
+                }
+
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
                 pUsb->setAddr(bAddress, 0, 0); // Reset address
                 Release(); // Release device
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // return
+                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // Return
         } else {
                 num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
-                // check if attached device is a Bluetooth dongle and fill endpoint data structure
-                // first interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
-                // and 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT,
-                // not necessarily in this order
+                // Check if attached device is a Bluetooth dongle and fill endpoint data structure
+                // First interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
+                // And 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT, not necessarily in this order
                 for (uint8_t i = 0; i < num_of_conf; i++) {
                         ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
                         rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
@@ -251,7 +256,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
         //ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
         //ErrorMessage<uint8_t>(PSTR("Alt.Set"),alt);
 
-        if (alt) // wrong interface - by BT spec, no alt setting
+        if (alt) // Wrong interface - by BT spec, no alt setting
                 return;
 
         bConfNum = conf;
@@ -261,7 +266,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
                 index = BTD_EVENT_PIPE;
 
         else {
-                if ((pep->bmAttributes & 0x02) == 2) // bulk endpoint found
+                if ((pep->bmAttributes & 0x02) == 2) // Bulk endpoint found
                         index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
                 else
                         return;
