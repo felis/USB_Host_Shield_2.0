@@ -575,19 +575,22 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
  * 5: pUsb->setEpInfoEntry(bAddress, 1, epInfo), exit on fail
  * 6: while (configurations) {
  *              for(each configuration) {
- *                      6a: Ask device if it likes configuration. Returns 0 on OK.
- *                          If successful, the driver configured device.
- *                          The driver now owns the endpoints, and takes over managing them.
- *                          The following will need codes:
- *                              Everything went well, instance consumed, exit with success.
- *                              Instance already in use, ignore it, try next driver.
- *                              Not a supported device, ignore it, try next driver.
- *                              Not a supported configuration for this device, ignore it, try next driver.
- *                              Could not configure device, fatal, exit with fail.
- *
+ *                      for (each driver) {
+ *                              6a: Ask device if it likes configuration. Returns 0 on OK.
+ *                                      If successful, the driver configured device.
+ *                                      The driver now owns the endpoints, and takes over managing them.
+ *                                      The following will need codes:
+ *                                          Everything went well, instance consumed, exit with success.
+ *                                          Instance already in use, ignore it, try next driver.
+ *                                          Not a supported device, ignore it, try next driver.
+ *                                          Not a supported configuration for this device, ignore it, try next driver.
+ *                                          Could not configure device, fatal, exit with fail.
+ *                      }
  *              }
  *    }
- * 7: if we get here, no driver likes the device, so exit failure.
+ * 7: for(each driver) {
+ *      7a: Ask device if it knows this VID/PID. Acts exactly like 6a, but using VID/PID
+ * 8: if we get here, no driver likes the device plugged in, so exit failure.
  *
  */
 uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
