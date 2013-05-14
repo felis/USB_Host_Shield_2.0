@@ -18,12 +18,12 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 
 # Developed By
 
-* <b>Oleg Mazurov, Circuits@Home</b> - <mazurov@circuitsathome.com>
-* <b>Alexei Glushchenko Circuits@Home</b> - <alex-gl@mail.ru>
+* __Oleg Mazurov, Circuits@Home__ - <mazurov@circuitsathome.com>
+* __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
-* <b>Kristian Lauszus, TKJ Electronics</b> - <kristianl@tkjelectronics.com>
+* __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
 	* Developer of the BTD, SPP, PS3, Wii, and Xbox libraries
-* <b>Andrew Kroll </b> - <xxxajk@gmail.com>
+* __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
 # How to include the library
