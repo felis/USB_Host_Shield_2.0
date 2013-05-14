@@ -183,23 +183,34 @@ Fail:
         return rcode;
 };
 
-// This will be used to check for write protect.
+boolean BulkOnly::WriteProtected(uint8_t lun) {
+        return WriteOk[lun];
+}
 
+// Check for write protect.
 uint8_t BulkOnly::Page3F(uint8_t lun) {
         uint8_t buf[192];
         for (int i = 0; i < 192; i++) {
                 buf[i] = 0x00;
         }
+        WriteOk[lun] = true;
         uint8_t rc = ModeSense(lun, 0, 0x3f, 0, 192, buf);
         //if (rc) rc = ModeSense(lun, 0, 0x00, 0, 4, buf);
         //if (rc) rc = ModeSense(lun, 0, 0x3f, 0, 192, buf);
         if (!rc) {
-                // write_protect = ((buf[2] & 0x80) != 0);
+                WriteOk[lun] = ((buf[2] & 0x80) == 0);
                 Notify(PSTR("Mode Sense: "), 0x80);
                 for (int i = 0; i < 4; i++) {
                         PrintHex<uint8_t > (buf[i], 0x80);
                         Notify(PSTR(" "), 0x80);
                 }
+#if 0
+                if(WriteOk[lun]) {
+                        Notify(PSTR(" Writes Allowed"), 0x80);
+                } else {
+                        Notify(PSTR(" Writes Denied"), 0x80);
+                }
+#endif
                 Notify(PSTR("\r\n"), 0x80);
         }
         return rc;
@@ -808,7 +819,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 
 uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t * buf) {
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-        //Poll();
+        if(!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
         Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
         PrintHex<uint8_t > (lun, 0x90);
         //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);

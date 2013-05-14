@@ -106,6 +106,7 @@
 #define MASS_ERR_WRITE_STALL    	0x14
 #define MASS_ERR_READ_NAKS              0x15
 #define MASS_ERR_WRITE_NAKS             0x16
+#define MASS_ERR_WRITE_PROTECTED        0x17
 #define MASS_ERR_GENERAL_SCSI_ERROR	0xFE
 #define MASS_ERR_GENERAL_USB_ERROR	0xFF
 #define MASS_ERR_USER			0xA0	// For subclasses to define their own error codes
@@ -226,18 +227,9 @@ protected:
         uint32_t CurrentCapacity[MASS_MAX_SUPPORTED_LUN]; // Total sectors
         uint16_t CurrentSectorSize[MASS_MAX_SUPPORTED_LUN]; // Sector size, clipped to 16 bits
         bool LUNOk[MASS_MAX_SUPPORTED_LUN]; // use this to check for media changes.
-
+        bool WriteOk[MASS_MAX_SUPPORTED_LUN];
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
-        bool IsValidCBW(uint8_t size, uint8_t *pcbw);
-        bool IsMeaningfulCBW(uint8_t size, uint8_t *pcbw);
-
-        bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
-
-        uint8_t ClearEpHalt(uint8_t index);
-        uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
-        uint8_t HandleUsbError(uint8_t error, uint8_t index);
-        uint8_t HandleSCSIError(uint8_t status);
 
         // Additional Initialization Method for Subclasses
 
@@ -246,8 +238,6 @@ protected:
         };
 public:
         BulkOnly(USB *p);
-
-        // Some of these should NOT be public.
 
         uint8_t GetLastUsbError() {
                 return bLastUsbError;
@@ -261,11 +251,12 @@ public:
                 return bTheLUN; // Active LUN
         }
 
-
+        boolean WriteProtected(uint8_t lun);
         uint8_t MediaCTL(uint8_t lun, uint8_t ctl);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs);
         uint8_t Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t *buf);
+        uint8_t LockMedia(uint8_t lun, uint8_t lock);
 
         bool LUNIsGood(uint8_t lun);
         uint32_t GetCapacity(uint8_t lun);
@@ -299,7 +290,15 @@ private:
         void CheckMedia();
         boolean CheckLUN(uint8_t lun);
         uint8_t Page3F(uint8_t lun);
-        uint8_t LockMedia(uint8_t lun, uint8_t lock);
+        bool IsValidCBW(uint8_t size, uint8_t *pcbw);
+        bool IsMeaningfulCBW(uint8_t size, uint8_t *pcbw);
+
+        bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
+
+        uint8_t ClearEpHalt(uint8_t index);
+        uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
+        uint8_t HandleUsbError(uint8_t error, uint8_t index);
+        uint8_t HandleSCSIError(uint8_t status);
 
 };
 
