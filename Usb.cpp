@@ -170,11 +170,16 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
                                 //uint16_t read = (left<nbytes) ? left : nbytes;
 
                                 rcode = InTransfer(pep, nak_limit, &read, dataptr);
+                                if (rcode == hrTOGERR) {
+                                        // yes, we flip it wrong here so that next time it is actually correct!
+                                        pep->bmRcvToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 0 : 1;
+                                        continue;
+                                }
 
                                 if (rcode)
                                         return rcode;
 
-                                // Invoke callback function if inTransfer completed successfuly and callback function pointer is specified
+                                // Invoke callback function if inTransfer completed successfully and callback function pointer is specified
                                 if (!rcode && p)
                                         ((USBReadParser*)p)->Parse(read, dataptr, total - left);
 
@@ -227,21 +232,33 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
         while (1) // use a 'return' to exit this loop
         {
                 rcode = dispatchPkt(tokIN, pep->epAddr, nak_limit); //IN packet to EP-'endpoint'. Function takes care of NAKS.
-
+                if (rcode == hrTOGERR) {
+                        // yes, we flip it wrong here so that next time it is actually correct!
+                        pep->bmRcvToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 0 : 1;
+                        regWr(rHCTL, (pep->bmRcvToggle) ? bmRCVTOG1 : bmRCVTOG0); //set toggle value
+                        continue;
+                }
                 if (rcode) {
-                        //printf("Problem! %i\r\n", rcode);
+                        //printf(">>>>>>>> Problem! dispatchPkt %2.2x\r\n", rcode);
                         break; //should be 0, indicating ACK. Else return error code.
                 }
                 /* check for RCVDAVIRQ and generate error if not present */
-                /* the only case when absense of RCVDAVIRQ makes sense is when toggle error occured. Need to add handling for that */
+                /* the only case when absence of RCVDAVIRQ makes sense is when toggle error occurred. Need to add handling for that */
                 if ((regRd(rHIRQ) & bmRCVDAVIRQ) == 0) {
-                        //printf("Problem! NO RCVDAVIRQ!\r\n");
+                        //printf(">>>>>>>> Problem! NO RCVDAVIRQ!\r\n");
                         rcode = 0xf0; //receive error
                         break;
                 }
                 pktsize = regRd(rRCVBC); //number of received bytes
-                //printf("Got %i bytes ", pktsize);
-                assert(pktsize <= nbytes);
+                //printf("Got %i bytes \r\n", pktsize);
+                // This would be OK, but...
+                //assert(pktsize <= nbytes);
+                if (pktsize > nbytes) {
+                        // This can happen. Use of assert on Arduino locks up the Arduino.
+                        // So I will trim the value, and hope for the best.
+                        //printf(">>>>>>>> Problem! Wanted %i bytes but got %i.\r\n", nbytes, pktsize);
+                        pktsize = nbytes;
+                }
 
                 int16_t mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
@@ -315,15 +332,22 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                                 case hrNAK:
                                         nak_count++;
                                         if (nak_limit && (nak_count == nak_limit))
-                                                return ( rcode);
+                                                goto breakout;
+                                        //return ( rcode);
                                         break;
                                 case hrTIMEOUT:
                                         retry_count++;
                                         if (retry_count == USB_RETRY_LIMIT)
-                                                return ( rcode);
+                                                goto breakout;
+                                        //return ( rcode);
+                                        break;
+                                case hrTOGERR:
+                                        // yes, we flip it wrong here so that next time it is actually correct!
+                                        pep->bmSndToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 0 : 1;
+                                        regWr(rHCTL, (pep->bmSndToggle) ? bmSNDTOG1 : bmSNDTOG0); //set toggle value
                                         break;
                                 default:
-                                        return ( rcode);
+                                        goto breakout;
                         }//switch( rcode
 
                         /* process NAK according to Host out NAK bug */
@@ -338,10 +362,12 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                 bytes_left -= bytes_tosend;
                 data_p += bytes_tosend;
         }//while( bytes_left...
+breakout:
+
         pep->bmSndToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 1 : 0; //bmSNDTOG1 : bmSNDTOG0;  //update toggle
         return ( rcode); //should be 0 in all cases
 }
-/* dispatch usb packet. Assumes peripheral address is set and relevant buffer is loaded/empty       */
+/* dispatch USB packet. Assumes peripheral address is set and relevant buffer is loaded/empty       */
 /* If NAK, tries to re-send up to nak_limit times                                                   */
 /* If nak_limit == 0, do not count NAKs, exit after timeout                                         */
 /* If bus timeout, re-sends up to USB_RETRY_LIMIT times                                             */
@@ -370,8 +396,8 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
 
                 }//while ( millis() < timeout
 
-                if (rcode != 0x00) //exit if timeout
-                        return ( rcode);
+                //if (rcode != 0x00) //exit if timeout
+                //        return ( rcode);
 
                 rcode = (regRd(rHRSL) & 0x0f); //analyze transfer result
 
@@ -379,15 +405,15 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
                         case hrNAK:
                                 nak_count++;
                                 if (nak_limit && (nak_count == nak_limit))
-                                        return ( rcode);
+                                        return (rcode);
                                 break;
                         case hrTIMEOUT:
                                 retry_count++;
                                 if (retry_count == USB_RETRY_LIMIT)
-                                        return ( rcode);
+                                        return (rcode);
                                 break;
                         default:
-                                return ( rcode);
+                                return (rcode);
                 }//switch( rcode
 
         }//while( timeout > millis()
@@ -536,15 +562,26 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
 };
 
 uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
-        //static uint8_t dev_index = 0;
         uint8_t rcode = 0;
 
         for (; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if (!devConfig[devConfigIndex])
                         continue;
 
+                rcode = devConfig[devConfigIndex]->ConfigureDevice(parent, port, lowspeed);
+                if (rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
+                        if (parent == 0) {
+                                // Send a bus reset on the root interface.
+                                regWr(rHCTL, bmBUSRST); //issue bus reset
+                                delay(102); // delay 102ms, compensate for clock inaccuracy.
+                        } /* else {
+                           * @Oleg
+                           * TO-DO:
+                           * How do we do an individual bus reset on a child interface?
+                           * Is that even possible with the current code?
+                           */
+                }
                 rcode = devConfig[devConfigIndex]->Init(parent, port, lowspeed);
-
                 if (!rcode) {
                         devConfigIndex = 0;
                         return 0;

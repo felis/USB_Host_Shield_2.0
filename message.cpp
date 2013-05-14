@@ -63,6 +63,28 @@ void NotifyFailSetConfDescr(void) {
         Notify(PSTR("\r\nsetConf"), 0x80);
 }
 
+void NotifyFailGetDevDescr(uint8_t reason) {
+        NotifyFailGetDevDescr();
+        NotifyFail(reason);
+}
+
+void NotifyFailSetDevTblEntry(uint8_t reason) {
+        NotifyFailSetDevTblEntry();
+        NotifyFail(reason);
+
+}
+
+void NotifyFailGetConfDescr(uint8_t reason) {
+        NotifyFailGetConfDescr();
+        NotifyFail(reason);
+}
+
+/* Will we need this in the future?
+void NotifyFailSetConfDescr(uint8_t reason) {
+        NotifyFailSetConfDescr();
+        NotifyFail(reason);
+}
+*/
 void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID) {
         Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
         PrintHex<uint16_t > (VID, 0x80);

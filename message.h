@@ -27,6 +27,10 @@ extern int UsbDEBUGlvl;
 void Notify(char const * msg, int lvl);
 void NotifyStr(char const * msg, int lvl);
 #ifdef DEBUG
+void NotifyFailGetDevDescr(uint8_t reason);
+void NotifyFailSetDevTblEntry(uint8_t reason);
+void NotifyFailGetConfDescr(uint8_t reason);
+
 void NotifyFailGetDevDescr(void);
 void NotifyFailSetDevTblEntry(void);
 void NotifyFailGetConfDescr(void);
@@ -41,6 +45,14 @@ void NotifyFail(uint8_t rcode);
 #define NotifyFailUnknownDevice(VID, PID)
 #define NotifyFail(rcode)
 #endif
+
+template <class ERROR_TYPE>
+void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
+        Notify(msg, level);
+        Notify(PSTR(": "), level);
+        PrintHex<ERROR_TYPE > (rcode, level);
+        Notify(PSTR("\r\n"), level);
+}
 
 template <class ERROR_TYPE>
 void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
