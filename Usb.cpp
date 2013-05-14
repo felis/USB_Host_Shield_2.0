@@ -445,7 +445,9 @@ void USB::Task(void) //USB state machine
                         lowspeed = false;
                         break;
                 case LSHOST:
-                        lowspeed = true;
+                        if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
+                                lowspeed = true;
+                        }
                 case FSHOST: //attached
                         if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
                                 delay = millis() + USB_SETTLE_DELAY;
@@ -561,6 +563,33 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 };
 
+/*
+ * This is broken. We need to enumerate differently.
+ * It causes major problems with several devices if detected in an unexpected order.
+ *
+ * New steps proposal:
+ * 1: get address pool instance. exit on fail
+ * 2: pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf). exit on fail.
+ * 3: bus reset, 100ms delay
+ * 4: set address
+ * 5: pUsb->setEpInfoEntry(bAddress, 1, epInfo), exit on fail
+ * 6: while (configurations) {
+ *              for(each configuration) {
+ *                      6a: Ask device if it likes configuration. Returns 0 on OK.
+ *                          If successful, the driver configured device.
+ *                          The driver now owns the endpoints, and takes over managing them.
+ *                          The following will need codes:
+ *                              Everything went well, instance consumed, exit with success.
+ *                              Instance already in use, ignore it, try next driver.
+ *                              Not a supported device, ignore it, try next driver.
+ *                              Not a supported configuration for this device, ignore it, try next driver.
+ *                              Could not configure device, fatal, exit with fail.
+ *
+ *              }
+ *    }
+ * 7: if we get here, no driver likes the device, so exit failure.
+ *
+ */
 uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode = 0;
 
@@ -586,13 +615,13 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
                         devConfigIndex = 0;
                         return 0;
                 }
+                //printf("ERROR ENUMERATING %2.2x\r\n", rcode);
                 if (!(rcode == USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED || rcode == USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE)) {
                         // in case of an error dev_index should be reset to 0
                         //		in order to start from the very beginning the
                         //		next time the program gets here
                         if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)
                                 devConfigIndex = 0;
-
                         return rcode;
                 }
         }
