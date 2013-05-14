@@ -123,7 +123,7 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        USBTRACE("MS Init\r\n");
+        USBTRACE("MS ConfigureDevice\r\n");
         ClearAllEP();
         delay(2000);
         AddressPool &addrPool = pUsb->GetAddressPool();
@@ -221,10 +221,12 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         uint8_t num_of_conf = epInfo[1].epAddr; // number of configurations
         epInfo[1].epAddr = 0;
+        USBTRACE("MS Init\r\n");
+
         AddressPool &addrPool = pUsb->GetAddressPool();
         UsbDevice *p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if (!p) 
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         // Assign new address to the device
