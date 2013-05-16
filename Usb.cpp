@@ -567,6 +567,16 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
  * This is broken. We need to enumerate differently.
  * It causes major problems with several devices if detected in an unexpected order.
  *
+ *
+ * Oleg - I wouldn't do anything before the newly connected device is considered sane.
+ * i.e.(delays are not indicated for brevity):
+ * 1. reset
+ * 2. GetDevDescr();
+ * 3a. If ACK, continue with allocating address, addressing, etc.
+ * 3b. Else reset again, count resets, stop at some number (5?).
+ * 4. When max.number of resets is reached, toggle power/fail
+ * If desired, this could be modified by performing two resets with GetDevDescr() in the middle - however, from my experience, if a device answers to GDD()
+ * it doesn't need to be reset again
  * New steps proposal:
  * 1: get address pool instance. exit on fail
  * 2: pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf). exit on fail.
