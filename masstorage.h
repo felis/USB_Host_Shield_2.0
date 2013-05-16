@@ -1,7 +1,6 @@
 #if !defined(__MASSTORAGE_H__)
 #define __MASSTORAGE_H__
 
-#define DEBUG
 
 //<RANT>
 // @Oleg -- Perhaps we need a central 'config.h', many of these includes and
@@ -19,6 +18,7 @@
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+#include <message.h>
 
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"

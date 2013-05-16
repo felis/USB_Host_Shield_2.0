@@ -16,7 +16,7 @@
  */
 
 #include "XBOXUSB.h"
-#define DEBUG // Uncomment to print data for debugging
+//#define DEBUG // Uncomment to print data for debugging -- NO! see message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -183,25 +183,33 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 FailUnknownDevice:
-        NotifyFailUnknownDevice(VID,PID);
+#ifdef DEBUG
+        NotifyFailUnknownDevice(VID, PID);
+#endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 Fail:
 #ifdef DEBUG
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
-#endif
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }

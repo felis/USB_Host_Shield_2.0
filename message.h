@@ -17,20 +17,24 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__MESSAGE_H__)
 #define __MESSAGE_H__
 
+// uncomment to activate
+#define DEBUG
+
 #include <inttypes.h>
 #include <avr/pgmspace.h>
 
 extern int UsbDEBUGlvl;
 
 #include "printhex.h"
+void E_Notify(char const * msg, int lvl);
+void E_NotifyStr(char const * msg, int lvl);
 
-void Notify(char const * msg, int lvl);
-void NotifyStr(char const * msg, int lvl);
 #ifdef DEBUG
+#define Notify E_Notify
+#define NotifyStr E_NotifyStr
 void NotifyFailGetDevDescr(uint8_t reason);
 void NotifyFailSetDevTblEntry(uint8_t reason);
 void NotifyFailGetConfDescr(uint8_t reason);
-
 void NotifyFailGetDevDescr(void);
 void NotifyFailSetDevTblEntry(void);
 void NotifyFailGetConfDescr(void);
@@ -38,28 +42,37 @@ void NotifyFailSetConfDescr(void);
 void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID);
 void NotifyFail(uint8_t rcode);
 #else
-#define NotifyFailGetDevDescr()
-#define NotifyFailSetDevTblEntry()
-#define NotifyFailGetConfDescr()
-#define NotifyFailSetConfDescr()
-#define NotifyFailUnknownDevice(VID, PID)
-#define NotifyFail(rcode)
+#define Notify(...) ((void)0)
+#define NotifyStr(...) ((void)0)
+#define NotifyFailGetDevDescr(...) ((void)0)
+#define NotifyFailSetDevTblEntry(...) ((void)0)
+#define NotifyFailGetConfDescr(...) ((void)0)
+#define NotifyFailGetDevDescr(...) ((void)0)
+#define NotifyFailSetDevTblEntry(...) ((void)0)
+#define NotifyFailGetConfDescr(...) ((void)0)
+#define NotifyFailSetConfDescr(...) ((void)0)
+#define NotifyFailUnknownDevice(...) ((void)0)
+#define NotifyFail(...) ((void)0)
 #endif
 
 template <class ERROR_TYPE>
 void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
+#ifdef DEBUG
         Notify(msg, level);
         Notify(PSTR(": "), level);
         PrintHex<ERROR_TYPE > (rcode, level);
         Notify(PSTR("\r\n"), level);
+#endif
 }
 
 template <class ERROR_TYPE>
 void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
+#ifdef DEBUG
         Notify(msg, 0x80);
         Notify(PSTR(": "), 0x80);
         PrintHex<ERROR_TYPE > (rcode, 0x80);
         Notify(PSTR("\r\n"), 0x80);
+#endif
 }
 
 #include "hexdump.h"

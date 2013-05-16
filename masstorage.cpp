@@ -174,9 +174,10 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
 FailGetDevDescr:
+#ifdef DEBUG
         NotifyFailGetDevDescr(rcode);
+#endif
         rcode = USB_ERROR_FailGetDevDescr;
-        goto Fail;
 
 Fail:
         Release();
@@ -188,6 +189,7 @@ boolean BulkOnly::WriteProtected(uint8_t lun) {
 }
 
 // Check for write protect.
+
 uint8_t BulkOnly::Page3F(uint8_t lun) {
         uint8_t buf[192];
         for (int i = 0; i < 192; i++) {
@@ -205,7 +207,7 @@ uint8_t BulkOnly::Page3F(uint8_t lun) {
                         Notify(PSTR(" "), 0x80);
                 }
 #if 0
-                if(WriteOk[lun]) {
+                if (WriteOk[lun]) {
                         Notify(PSTR(" Writes Allowed"), 0x80);
                 } else {
                         Notify(PSTR(" Writes Denied"), 0x80);
@@ -226,7 +228,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         AddressPool &addrPool = pUsb->GetAddressPool();
         UsbDevice *p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p) 
+        if (!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         // Assign new address to the device
@@ -358,30 +360,44 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailSetConfDescr:
+#ifdef DEBUG
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 
 FailOnInit:
+#ifdef DEBUG
         USBTRACE("OnInit:");
         goto Fail;
+#endif
 
 FailGetMaxLUN:
+#ifdef DEBUG
         USBTRACE("GetMaxLUN:");
         goto Fail;
+#endif
 
 FailInvalidSectorSize:
+#ifdef DEBUG
         USBTRACE("Sector Size is NOT VALID: ");
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
-FailGetConfDescr:
+        FailGetConfDescr:
+#ifdef DEBUG
         NotifyFailGetConfDescr();
+#endif
 
 Fail:
+#ifdef DEBUG
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -449,7 +465,6 @@ uint8_t BulkOnly::Poll() {
         return rcode;
 }
 
-
 uint8_t BulkOnly::GetMaxLUN(uint8_t *plun) {
         uint8_t ret = pUsb->ctrlReq(bAddress, 0, bmREQ_MASSIN, MASS_REQ_GET_MAX_LUN, 0, 0, bIface, 1, 1, plun, NULL);
 
@@ -465,7 +480,7 @@ uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
 
         uint8_t ret = 0;
 
-        while(ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT,
+        while (ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT,
                 USB_REQUEST_CLEAR_FEATURE, USB_FEATURE_ENDPOINT_HALT, 0, ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr), 0, 0, NULL, NULL))
                 == 0x01) delay(6);
 
@@ -476,7 +491,7 @@ uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
         }
         epInfo[index].bmSndToggle = 0;
         epInfo[index].bmRcvToggle = 0;
-                // epAttribs = 0;
+        // epAttribs = 0;
         return 0;
 }
 
@@ -490,6 +505,7 @@ uint8_t BulkOnly::Reset() {
 #endif
         return r;
 }
+
 uint8_t BulkOnly::ResetRecovery() {
         Notify(PSTR("\r\nResetRecovery\r\n"), 0x80);
         Notify(PSTR("-----------------\r\n"), 0x80);
@@ -821,7 +837,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
 
 uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t * buf) {
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-        if(!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
+        if (!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
         Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
         PrintHex<uint8_t > (lun, 0x90);
         //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
@@ -917,7 +933,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         pcbw->bmReserved2 = 0;
         ErrorMessage<uint32_t > (PSTR("CBW.dCBWTag"), pcbw->dCBWTag);
 
-        while((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw)) == hrBUSY) delay(1);
+        while ((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw)) == hrBUSY) delay(1);
 
         ret = HandleUsbError(usberr, epDataOutIndex);
         //ret = HandleUsbError(pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw), epDataOutIndex);
@@ -928,14 +944,14 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                         if (!write) {
                                 if (callback) {
                                         uint8_t rbuf[bytes];
-                                        while((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, rbuf)) == hrBUSY) delay(1);
+                                        while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, rbuf)) == hrBUSY) delay(1);
                                         if (usberr == hrSUCCESS) ((USBReadParser*)buf)->Parse(bytes, rbuf, 0);
                                 } else {
-                                        while((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
+                                        while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
                                 }
                                 ret = HandleUsbError(usberr, epDataInIndex);
                         } else {
-                                while((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
+                                while ((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
                                 ret = HandleUsbError(usberr, epDataOutIndex);
                         }
                         if (ret) {
@@ -949,7 +965,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                 bytes = sizeof (CommandStatusWrapper);
                 int tries = 2;
                 while (tries--) {
-                        while((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*) & csw)) == hrBUSY) delay(1);
+                        while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*) & csw)) == hrBUSY) delay(1);
                         if (!usberr) break;
                         ClearEpHalt(epDataInIndex);
                         //HandleUsbError(usberr, epDataInIndex);

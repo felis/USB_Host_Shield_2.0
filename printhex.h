@@ -22,30 +22,36 @@ e-mail   :  support@circuitsathome.com
 #else
 #include <WProgram.h>
 #endif
-void Notifyc(char c, int lvl);
+
+void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
+#ifdef DEBUG
         int num_nibbles = sizeof(T) * 2;
 
         do {
                 char v = 48 + (((val >> (num_nibbles - 1) * 4)) & 0x0f);
                 if(v > 57) v += 7;
-                Notifyc(v, lvl);
+                E_Notifyc(v, lvl);
         } while(--num_nibbles);
+#endif
 }
 
 template <class T>
 void PrintBin(T val, int lvl) {
+#ifdef DEBUG
         for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
-                        Notifyc('1', lvl);
+                        E_Notifyc('1', lvl);
                 else
-                        Notifyc('0', lvl);
+                        E_Notifyc('0', lvl);
+#endif
 }
 
 template <class T>
 void SerialPrintHex(T val) {
+#ifdef DEBUG
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -53,10 +59,12 @@ void SerialPrintHex(T val) {
                 if(v > 57) v += 7;
                 Serial.print(v);
         } while(--num_nibbles);
+#endif
 }
 
 template <class T>
 void PrintHex2(Print *prn, T val) {
+#ifdef DEBUG
         T mask = (((T) 1) << (((sizeof(T) << 1) - 1) << 2));
 
         while(mask > 1) {
@@ -66,6 +74,7 @@ void PrintHex2(Print *prn, T val) {
                 mask >>= 4;
         }
         prn->print((T) val, HEX);
+#endif
 }
 
 #endif // __PRINTHEX_H__
