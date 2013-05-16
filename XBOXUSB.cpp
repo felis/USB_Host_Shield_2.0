@@ -268,9 +268,9 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
                 return;
         for (uint8_t i = 0; i < XBOX_REPORT_BUFFER_SIZE; i++) {
                 PrintHex<uint8_t > (readBuf[i], 0x80);
-                Serial.print(" ");
+                Notify(PSTR(" "), 0x80);
         }
-        Serial.println();
+        Notify(PSTR("\r\n"), 0x80);
 #endif
 }
 

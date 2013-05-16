@@ -16,7 +16,7 @@
  */
 
 #include "PS3BT.h"
-#define DEBUG // Uncomment to print data for debugging
+//#define DEBUG // Uncomment to print data for debugging -- NO! see message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
@@ -258,7 +258,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #ifdef DEBUG
                                 if (pBtd->hci_version < 3) { // Check the HCI Version of the Bluetooth dongle
                                         Notify(PSTR("\r\nYour dongle may not support reading the analog buttons, sensors and status\r\nYour HCI Version is: "), 0x80);
-                                        Serial.print(pBtd->hci_version);
+                                        Notify(pBtd->hci_version, 0x80);
                                         Notify(PSTR("\r\nBut should be at least 3\r\nThis means that it doesn't support Bluetooth Version 2.0+EDR"), 0x80);
                                 }
 #endif
@@ -273,15 +273,15 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #ifdef DEBUG
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[13], 0x80);
-                                Serial.print(" ");
+                                Notify(PSTR(" "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[12], 0x80);
-                                Serial.print(" Data: ");
+                                Notify(PSTR(" Data: "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[17], 0x80);
-                                Serial.print(" ");
+                                Notify(PSTR(" "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[16], 0x80);
-                                Serial.print(" ");
+                                Notify(PSTR(" "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[15], 0x80);
-                                Serial.print(" ");
+                                Notify(PSTR(" "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
@@ -311,20 +311,20 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                                //Serial.print("\r\nHID Control Configuration Complete");
+                                                //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
                                         } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                                //Serial.print("\r\nHID Interrupt Configuration Complete");
+                                                //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                        //Serial.print("\r\nHID Control Configuration Request");
+                                        //Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_REQUEST;
                                 } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                        //Serial.print("\r\nHID Interrupt Configuration Request");
+                                        //Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST;
                                 }
@@ -346,11 +346,11 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
                                 if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: Control Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE;
                                 } else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: Interrupt Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE;
                                 }
@@ -362,7 +362,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
-                        //Serial.print("\r\nL2CAP Interrupt");
+                        //Notify(PSTR("\r\nL2CAP Interrupt"), 0x80);
                         if (PS3Connected || PS3MoveConnected || PS3NavigationConnected) {
                                 /* Read Report */
                                 if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
@@ -382,9 +382,9 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
                                         for (uint8_t i = 10; i < 58; i++) {
                                                 PrintHex<uint8_t > (l2capinbuf[i], 0x80);
-                                                Serial.print(" ");
+                                                Notify(PSTR(" "), 0x80);
                                         }
-                                        Serial.println();
+                                        Notify(PSTR("\r\n"), 0x80);
 #endif
                                 }
                         }
@@ -597,7 +597,7 @@ void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftD
 }
 
 void PS3BT::setLedRaw(uint8_t value) {
-        HIDBuffer[11] = value;
+        HIDBuffer[11] = value << 1;
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setLedOff(LED a) {

@@ -27,11 +27,14 @@ extern int UsbDEBUGlvl;
 
 #include "printhex.h"
 void E_Notify(char const * msg, int lvl);
+void E_Notify(uint8_t b, int lvl);
 void E_NotifyStr(char const * msg, int lvl);
+void E_Notifyc(char c, int lvl);
 
 #ifdef DEBUG
 #define Notify E_Notify
 #define NotifyStr E_NotifyStr
+#define Notifyc E_Notifyc
 void NotifyFailGetDevDescr(uint8_t reason);
 void NotifyFailSetDevTblEntry(uint8_t reason);
 void NotifyFailGetConfDescr(uint8_t reason);
@@ -44,6 +47,7 @@ void NotifyFail(uint8_t rcode);
 #else
 #define Notify(...) ((void)0)
 #define NotifyStr(...) ((void)0)
+#define Notifyc(...) ((void)0)
 #define NotifyFailGetDevDescr(...) ((void)0)
 #define NotifyFailSetDevTblEntry(...) ((void)0)
 #define NotifyFailGetConfDescr(...) ((void)0)

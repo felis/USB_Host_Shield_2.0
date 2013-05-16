@@ -286,7 +286,7 @@ uint8_t XBOXRECV::Poll() {
                 if (bufferSize > 0) { // The number of received bytes
 #ifdef EXTRADEBUG
                         Notify(PSTR("Bytes Received: "), 0x80);
-                        Serial.print(bufferSize);
+                        PrintHex<uint16_t > (bufferSize, 0x80);
                         Notify(PSTR("\r\n"), 0x80);
 #endif
                         readReport(i);
@@ -306,7 +306,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                 Xbox360Connected[controller] = readBuf[1];
 #ifdef DEBUG
                 Notify(PSTR("Controller "), 0x80);
-                Serial.print(controller);
+                Notify(controller, 0x80);
 #endif
                 if (Xbox360Connected[controller]) {
 #ifdef DEBUG
@@ -333,7 +333,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                                 case 3: led = LED4;
                                         break;
                         }
-                        setLedOn(controller, led);
+                        setLedOn(led, controller);
                 }
 #ifdef DEBUG
                 else
@@ -379,25 +379,25 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
         if (readBuf == NULL)
                 return;
         Notify(PSTR("Controller "), 0x80);
-        Serial.print(controller);
+        Notify(controller, 0x80);
         Notify(PSTR(": "), 0x80);
         for (uint8_t i = 0; i < nBytes; i++) {
                 PrintHex<uint8_t > (readBuf[i], 0x80);
-                Serial.print(" ");
+                Notify(PSTR(" "), 0x80);
         }
-        Serial.println();
+        Notify(PSTR("\r\n"), 0x80);
 #endif
 }
 
-uint8_t XBOXRECV::getButtonPress(uint8_t controller, Button b) {
+uint8_t XBOXRECV::getButtonPress(Button b, uint8_t controller) {
         if (b == L2) // These are analog buttons
                 return (uint8_t)(ButtonState[controller] >> 8);
         else if (b == R2)
                 return (uint8_t)ButtonState[controller];
-        return (ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 
-bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
+bool XBOXRECV::getButtonClick(Button b, uint8_t controller) {
         if (b == L2) {
                 if (L2Clicked[controller]) {
                         L2Clicked[controller] = false;
@@ -417,7 +417,7 @@ bool XBOXRECV::getButtonClick(uint8_t controller, Button b) {
         return click;
 }
 
-int16_t XBOXRECV::getAnalogHat(uint8_t controller, AnalogHat a) {
+int16_t XBOXRECV::getAnalogHat(AnalogHat a, uint8_t controller) {
         return hatValue[controller][a];
 }
 
@@ -470,7 +470,7 @@ void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
 #endif
 }
 
-void XBOXRECV::setLedRaw(uint8_t controller, uint8_t value) {
+void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {
         writeBuf[0] = 0x00;
         writeBuf[1] = 0x00;
         writeBuf[2] = 0x08;
@@ -479,16 +479,16 @@ void XBOXRECV::setLedRaw(uint8_t controller, uint8_t value) {
         XboxCommand(controller, writeBuf, 4);
 }
 
-void XBOXRECV::setLedOn(uint8_t controller, LED led) {
+void XBOXRECV::setLedOn(LED led, uint8_t controller) {
         if (led != ALL) // All LEDs can't be on a the same time
                 setLedRaw(controller, (pgm_read_byte(&XBOXLEDS[(uint8_t)led])) + 4);
 }
 
-void XBOXRECV::setLedBlink(uint8_t controller, LED led) {
+void XBOXRECV::setLedBlink(LED led, uint8_t controller) {
         setLedRaw(controller, pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
 }
 
-void XBOXRECV::setLedMode(uint8_t controller, LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
+void XBOXRECV::setLedMode(LEDMode ledMode, uint8_t controller) { // This function is used to do some speciel LED stuff the controller supports
         setLedRaw(controller, (uint8_t)ledMode);
 }
 
@@ -518,7 +518,7 @@ void XBOXRECV::checkStatus() {
         }
 }
 
-void XBOXRECV::setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue) {
+void XBOXRECV::setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller) {
         writeBuf[0] = 0x00;
         writeBuf[1] = 0x01;
         writeBuf[2] = 0x0f;

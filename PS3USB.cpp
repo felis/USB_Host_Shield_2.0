@@ -209,7 +209,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
         for (int8_t i = 5; i > 0; i--) {
                 PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Serial.print(":");
+                Notify(PSTR(":"), 0x80);
         }
         PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
@@ -306,9 +306,9 @@ void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
                 return;
         for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++) {
                 PrintHex<uint8_t > (readBuf[i], 0x80);
-                Serial.print(" ");
+                Notify(PSTR(" "), 0x80);
         }
-        Serial.println();
+        Notify(PSTR("\r\n"), 0x80);
 #endif
 }
 
@@ -452,7 +452,7 @@ void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t left
 }
 
 void PS3USB::setLedRaw(uint8_t value) {
-        writeBuf[9] = value;
+        writeBuf[9] = value << 1;
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 

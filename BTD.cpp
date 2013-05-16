@@ -145,40 +145,45 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 if (rcode)
                         goto FailSetConfDescr;
 
-                if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
 #ifdef DEBUG
+                if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
                         if (PID == PS3_PID)
                                 Notify(PSTR("\r\nDualshock 3 Controller Connected"), 0x80);
-                        else // must be a navigation controller
+                        else // It must be a navigation controller
                                 Notify(PSTR("\r\nNavigation Controller Connected"), 0x80);
-#endif
-                        /* Set internal Bluetooth address */
-                        setBdaddr(my_bdaddr);
-                } else { // It must be a Motion controller
-#ifdef DEBUG
+                } else // It must be a Motion controller
                         Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
-                        setMoveBdaddr(my_bdaddr);
-                }
+
+                if (my_bdaddr[0] == 0x00 && my_bdaddr[1] == 0x00 && my_bdaddr[2] == 0x00 && my_bdaddr[3] == 0x00 && my_bdaddr[4] == 0x00 && my_bdaddr[5] == 0x00) {
 #ifdef DEBUG
-                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-                for (int8_t i = 5; i > 0; i--) {
-                        PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                        Notify(PSTR(":"), 0x80);
-                }
-                PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\n\rOr set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
 #endif
+                } else {
+                        if (PID == PS3_PID || PID == PS3NAVIGATION_PID)
+                                setBdaddr(my_bdaddr); // Set internal Bluetooth address
+                        else
+                                setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+#ifdef DEBUG
+                        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                        for (int8_t i = 5; i > 0; i--) {
+                                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                                Notify(PSTR(":"), 0x80);
+                        }
+                        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+#endif
+                }
+
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
                 pUsb->setAddr(bAddress, 0, 0); // Reset address
                 Release(); // Release device
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // return
+                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // Return
         } else {
                 num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
-                // check if attached device is a Bluetooth dongle and fill endpoint data structure
-                // first interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
-                // and 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT,
-                // not necessarily in this order
+                // Check if attached device is a Bluetooth dongle and fill endpoint data structure
+                // First interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
+                // And 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT, not necessarily in this order
                 for (uint8_t i = 0; i < num_of_conf; i++) {
                         ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
                         rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
@@ -261,7 +266,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
         //ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
         //ErrorMessage<uint8_t>(PSTR("Alt.Set"),alt);
 
-        if (alt) // wrong interface - by BT spec, no alt setting
+        if (alt) // Wrong interface - by BT spec, no alt setting
                 return;
 
         bConfNum = conf;
@@ -271,7 +276,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
                 index = BTD_EVENT_PIPE;
 
         else {
-                if ((pep->bmAttributes & 0x02) == 2) // bulk endpoint found
+                if ((pep->bmAttributes & 0x02) == 2) // Bulk endpoint found
                         index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
                 else
                         return;
@@ -383,7 +388,7 @@ void BTD::HCI_event_task() {
                                 if (hcibuf[2]) { // Check that there is more than zero responses
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nNumber of responses: "), 0x80);
-                                        Serial.print(hcibuf[2]);
+                                        Notify(hcibuf[2], 0x80);
 #endif
                                         for (uint8_t i = 0; i < hcibuf[2]; i++) {
                                                 if ((hcibuf[4 + 8 * hcibuf[2] + 3 * i] == 0x04 && hcibuf[5 + 8 * hcibuf[2] + 3 * i] == 0x25 && hcibuf[6 + 8 * hcibuf[2] + 3 * i] == 0x00) || (hcibuf[4 + 8 * hcibuf[2] + 3 * i] == 0x08 && hcibuf[5 + 8 * hcibuf[2] + 3 * i] == 0x05 && hcibuf[6 + 8 * hcibuf[2] + 3 * i] == 0x00)) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html and http://wiibrew.org/wiki/Wiimote#SDP_information
@@ -470,7 +475,7 @@ void BTD::HCI_event_task() {
                                 } else if (btdPin != NULL) {
 #ifdef DEBUG
                                         Notify(PSTR("\r\nBluetooth pin is set too: "), 0x80);
-                                        Serial.print(btdPin);
+                                        NotifyStr(btdPin, 0x80);
 #endif
                                         hci_pin_code_request_reply();
                                 } else {
@@ -600,7 +605,7 @@ void BTD::HCI_task() {
                         if (hci_cmd_complete) {
 #ifdef DEBUG
                                 Notify(PSTR("\r\nThe name is set to: "), 0x80);
-                                Serial.print(btdName);
+                                NotifyStr(btdName, 0x80);
 #endif
                                 hci_state = HCI_CHECK_WII_SERVICE;
                         }
@@ -691,7 +696,7 @@ void BTD::HCI_task() {
                                 for (uint8_t i = 0; i < 30; i++) {
                                         if (remote_name[i] == NULL)
                                                 break;
-                                        Serial.write(remote_name[i]);
+                                        Notifyc(remote_name[i], 0x80);
                                 }
 #endif
                                 if (strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
@@ -1082,9 +1087,9 @@ void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t 
                 Notify(PSTR("\r\nError sending L2CAP message: 0x"), 0x80);
                 PrintHex<uint8_t > (rcode, 0x80);
                 Notify(PSTR(" - Channel ID: "), 0x80);
-                Serial.print(channelHigh);
+                PrintHex<uint8_t > (channelHigh, 0x80);
                 Notify(PSTR(" "), 0x80);
-                Serial.print(channelLow);
+                PrintHex<uint8_t > (channelLow, 0x80);
 #endif
         }
 }

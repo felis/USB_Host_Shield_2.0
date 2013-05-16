@@ -67,6 +67,7 @@ void SPP::Reset() {
         l2cap_sdp_state = L2CAP_SDP_WAIT;
         l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
         l2cap_event_flag = 0;
+        sppIndex = 0;
 }
 
 void SPP::disconnect() {
@@ -139,20 +140,20 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                                //Serial.print("\r\nSDP Configuration Complete");
+                                                //Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_SUCCESS;
                                         } else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                                                //Serial.print("\r\nRFCOMM Configuration Complete");
+                                                //Notify(PSTR("\r\nRFCOMM Configuration Complete"), 0x80);
                                                 l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS;
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                        //Serial.print("\r\nSDP Configuration Request");
+                                        //Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_SDP_REQUEST;
                                 } else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
-                                        //Serial.print("\r\nRFCOMM Configuration Request");
+                                        //Notify(PSTR("\r\nRFCOMM Configuration Request"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_CONFIG_RFCOMM_REQUEST;
                                 }
@@ -168,11 +169,11 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
                                 if (l2capinbuf[12] == sdp_scid[0] && l2capinbuf[13] == sdp_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: SDP Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: SDP Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_RESPONSE;
                                 } else if (l2capinbuf[12] == rfcomm_scid[0] && l2capinbuf[13] == rfcomm_scid[1]) {
-                                        //Serial.print("\r\nDisconnect Response: RFCOMM Channel");
+                                        //Notify(PSTR("\r\nDisconnect Response: RFCOMM Channel"), 0x80);
                                         identifier = l2capinbuf[9];
                                         l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_RESPONSE;
                                 }
@@ -207,27 +208,26 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                                 l2capResponse2(l2capinbuf[9], l2capinbuf[10]); // L2CAP continuation state
                                                 firstMessage = true;
                                         }
-                                } else {
-#ifdef EXTRADEBUG
-                                        Notify(PSTR("\r\nUUID: "), 0x80);
-                                        uint16_t uuid;
-                                        if((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000) // Check if it's sending the UUID as a 128-bit UUID
-                                                uuid = (l2capinbuf[18] << 8 | l2capinbuf[19]);
-                                        else // Short UUID
-                                                uuid = (l2capinbuf[16] << 8 | l2capinbuf[17]);
-                                        PrintHex<uint16_t> (uuid, 0x80);
-
-                                        Notify(PSTR("\r\nLength: "), 0x80);
-                                        uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
-                                        PrintHex<uint16_t> (length, 0x80);
-                                        Notify(PSTR("\r\nData: "), 0x80);
-                                        for (uint8_t i = 0; i < length; i++) {
-                                                PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
-                                                Notify(PSTR(" "), 0x80);
-                                        }
-#endif
+                                } else
                                         serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nUUID: "), 0x80);
+                                uint16_t uuid;
+                                if((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000) // Check if it's sending the UUID as a 128-bit UUID
+                                        uuid = (l2capinbuf[18] << 8 | l2capinbuf[19]);
+                                else // Short UUID
+                                        uuid = (l2capinbuf[16] << 8 | l2capinbuf[17]);
+                                PrintHex<uint16_t> (uuid, 0x80);
+
+                                Notify(PSTR("\r\nLength: "), 0x80);
+                                uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
+                                PrintHex<uint16_t> (length, 0x80);
+                                Notify(PSTR("\r\nData: "), 0x80);
+                                for (uint8_t i = 0; i < length; i++) {
+                                        PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
+                                        Notify(PSTR(" "), 0x80);
                                 }
+#endif
                         }
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
                         rfcommChannel = l2capinbuf[8] & 0xF8;
@@ -241,20 +241,20 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 
 #ifdef EXTRADEBUG
                         Notify(PSTR("\r\nRFCOMM Channel: "), 0x80);
-                        Serial.print(rfcommChannel >> 3, HEX);
+                        PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
                         Notify(PSTR(" Direction: "), 0x80);
-                        Serial.print(rfcommDirection >> 2, HEX);
+                        PrintHex<uint8_t > (rfcommDirection >> 2, 0x80);
                         Notify(PSTR(" CommandResponse: "), 0x80);
-                        Serial.print(rfcommCommandResponse >> 1, HEX);
+                        PrintHex<uint8_t > (rfcommCommandResponse >> 1, 0x80);
                         Notify(PSTR(" ChannelType: "), 0x80);
-                        Serial.print(rfcommChannelType, HEX);
+                        PrintHex<uint8_t > (rfcommChannelType, 0x80);
                         Notify(PSTR(" PF_BIT: "), 0x80);
-                        Serial.print(rfcommPfBit, HEX);
+                        PrintHex<uint8_t > (rfcommPfBit, 0x80);
 #endif
                         if (rfcommChannelType == RFCOMM_DISC) {
 #ifdef DEBUG
                                 Notify(PSTR("\r\nReceived Disconnect RFCOMM Command on channel: "), 0x80);
-                                Serial.print(rfcommChannel >> 3, HEX);
+                                PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
 #endif
                                 connected = false;
                                 sendRfcomm(rfcommChannel, rfcommDirection, rfcommCommandResponse, RFCOMM_UA, rfcommPfBit, rfcommbuf, 0x00); // UA Command
@@ -271,15 +271,15 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         }
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nRFCOMM Data Available: "), 0x80);
-                                        Serial.print(rfcommAvailable);
+                                        Notify(rfcommAvailable, 0x80);
                                         if (offset) {
                                                 Notify(PSTR(" - Credit: 0x"), 0x80);
-                                                Serial.print(l2capinbuf[11], HEX);
+                                                PrintHex<uint8_t > (l2capinbuf[11], 0x80);
                                         }
 #endif
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
                                         for (uint8_t i = 0; i < length; i++)
-                                                Serial.write(l2capinbuf[i + 11 + offset]);
+                                                Notifyc(l2capinbuf[i + 11 + offset], 0x80);
 #endif
                                 } else if (rfcommChannelType == RFCOMM_UIH && l2capinbuf[11] == BT_RFCOMM_RPN_CMD) { // UIH Remote Port Negotiation Command
 #ifdef DEBUG
@@ -382,6 +382,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         waitForLastCommand = false;
                                         creditSent = false;
                                         connected = true; // The RFCOMM channel is now established
+                                        sppIndex = 0;
                                 }
 #ifdef DEBUG
                                 else if (rfcommChannelType != RFCOMM_DISC) {
@@ -414,7 +415,9 @@ void SPP::Run() {
                 creditSent = false;
                 waitForLastCommand = false;
                 connected = true; // The RFCOMM channel is now established
+                sppIndex = 0;
         }
+        send(); // Send all bytes currently in the buffer
 }
 
 void SPP::SDP_task() {
@@ -681,7 +684,7 @@ void SPP::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
 void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length) {
         l2capoutbuf[0] = channel | direction | CR | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = channelType | pfBit; // RFCOMM Control
-        l2capoutbuf[2] = length << 1 | 0x01; // Length and format (allways 0x01 bytes format)
+        l2capoutbuf[2] = length << 1 | 0x01; // Length and format (always 0x01 bytes format)
         uint8_t i = 0;
         for (; i < length; i++)
                 l2capoutbuf[i + 3] = data[i];
@@ -689,7 +692,7 @@ void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t cha
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Data: "), 0x80);
         for (i = 0; i < length + 4; i++) {
-                Serial.print(l2capoutbuf[i], HEX);
+                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -705,7 +708,7 @@ void SPP::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Credit Data: "), 0x80);
         for (uint8_t i = 0; i < 5; i++) {
-                Serial.print(l2capoutbuf[i], HEX);
+                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -726,66 +729,21 @@ uint8_t SPP::calcFcs(uint8_t *data) {
 }
 
 /* Serial commands */
-void SPP::print(const String &str) {
-        if (!connected)
-                return;
-        int16_t stringLength = str.length(); // This will be used to store the characters that still needs to be sent
-        uint8_t length; // This is the length of the string we are sending
-        uint8_t offset = 0; // This is used to keep track of where we are in the string
-
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-        
-        do {
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
-                        length = sizeof (l2capoutbuf) - 4;
-                else
-                        length = stringLength;
-
-                l2capoutbuf[2] = length << 1 | 1; // Length
-                uint8_t i = 0;
-                for (; i < length; i++)
-                        l2capoutbuf[i + 3] = str[i + offset];
-                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
-
-                RFCOMM_Command(l2capoutbuf, length + 4);
-
-                stringLength -= length;
-                offset += length; // Increment the offset
-        } while (stringLength); // We will run this loop until this variable is less than 0
+size_t SPP::write(uint8_t data) {
+        return write(&data,1);
 }
 
-void SPP::print(const char* str) {
-        if (!connected)
-                return;
-        int16_t stringLength = strlen(str); // This will be used to store the characters that still needs to be sent
-        uint8_t length; // This is the length of the string we are sending
-        uint8_t offset = 0; // This is used to keep track of where we are in the string
-
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-
-        do {
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
-                        length = sizeof (l2capoutbuf) - 4;
-                else
-                        length = stringLength;
-
-                l2capoutbuf[2] = length << 1 | 1; // Length
-                uint8_t i = 0;
-                for (; i < length; i++)
-                        l2capoutbuf[i + 3] = str[i + offset];
-                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
-
-                RFCOMM_Command(l2capoutbuf, length + 4);
-
-                stringLength -= length;
-                offset += length; // Increment the offset
-        } while (stringLength); // We will run this loop until this variable is less than 0
+size_t SPP::write(const uint8_t* data, size_t size) {
+        for(uint8_t i = 0; i < size; i++) {
+                if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
+                        send(); // Send the current data in the buffer
+                sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function 
+        }
+        return size;
 }
 
-void SPP::print(uint8_t* array, int16_t stringLength) {
-        if (!connected)
+void SPP::send() {
+        if (!connected || !sppIndex)
                 return;
         uint8_t length; // This is the length of the string we are sending
         uint8_t offset = 0; // This is used to keep track of where we are in the string
@@ -793,177 +751,42 @@ void SPP::print(uint8_t* array, int16_t stringLength) {
         l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
         l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
 
-        do {
-                if (stringLength > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger that the outgoing puffer
+        while (sppIndex) { // We will run this while loop until this variable is 0
+                if (sppIndex > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger than the outgoing buffer
                         length = sizeof (l2capoutbuf) - 4;
                 else
-                        length = stringLength;
+                        length = sppIndex;
 
                 l2capoutbuf[2] = length << 1 | 1; // Length
                 uint8_t i = 0;
                 for (; i < length; i++)
-                        l2capoutbuf[i + 3] = array[i + offset];
+                        l2capoutbuf[i + 3] = sppOutputBuffer[i + offset];
                 l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
 
                 RFCOMM_Command(l2capoutbuf, length + 4);
 
-                stringLength -= length;
+                sppIndex -= length;
                 offset += length; // Increment the offset
-        } while (stringLength); // We will run this loop until this variable is less than 0
-}
-
-void SPP::println(const String &str) {
-        String output = str + "\r\n";
-        print(output);
-}
-
-void SPP::println(const char* str) {
-        char output[strlen(str) + 3];
-        strcpy(output, str);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::println(uint8_t data) {
-        uint8_t buf[3] = {data, '\r', '\n'};
-        print(buf, 3);
-}
-
-void SPP::println(uint8_t* array, uint8_t length) {
-        uint8_t buf[length + 2];
-        memcpy(buf, array, length);
-        buf[length] = '\r';
-        buf[length + 1] = '\n';
-        print(buf, length + 2);
-}
-
-void SPP::printFlashString(const __FlashStringHelper *ifsh, bool newline) {
-        const char PROGMEM *p = (const char PROGMEM *)ifsh;
-        uint8_t size = 0;
-        while (1) { // Calculate the size of the string
-                uint8_t c = pgm_read_byte(p + size);
-                if (c == 0)
-                        break;
-                size++;
-        }
-        uint8_t buf[size + 2]; // Add two extra in case it needs to print a newline and carriage return
-
-        for (uint8_t i = 0; i < size; i++)
-                buf[i] = pgm_read_byte(p++);
-
-        if (newline) {
-                buf[size] = '\r';
-                buf[size + 1] = '\n';
-                print(buf, size + 2);
-        } else
-                print(buf, size);
-}
-
-void SPP::println(void) {
-        uint8_t buf[2] = {'\r', '\n'};
-        print(buf, 2);
-}
-
-/* These must be used to print numbers */
-void SPP::printNumber(uint32_t n) {
-        char output[11];
-        intToString(n, output);
-        print(output);
-}
-
-void SPP::printNumberln(uint32_t n) {
-        char output[13];
-        intToString(n, output);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::printNumber(int32_t n) {
-        char output[12];
-        intToString(n, output);
-        print(output);
-}
-
-void SPP::printNumberln(int32_t n) {
-        char output[14];
-        intToString(n, output);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::intToString(int32_t input, char* output) {
-        if (input < 0) {
-                char buf[11];
-                intToString((uint32_t)(input*-1), buf);
-                strcpy(output, "-");
-                strcat(output, buf);
-        } else
-                intToString((uint32_t)input, output);
-}
-
-void SPP::intToString(uint32_t input, char* output) {
-        uint32_t temp = input;
-        uint8_t digits = 0;
-        while (temp) {
-                temp /= 10;
-                digits++;
-        }
-        if (digits == 0)
-                strcpy(output, "0");
-        else {
-                for (uint8_t i = 1; i <= digits; i++) {
-                        output[digits - i] = input % 10 + '0'; // Get number and convert to ASCII Character
-                        input /= 10;
-                }
-                output[digits] = '\0'; // Add null character
         }
 }
 
-void SPP::printNumber(double n, uint8_t digits) {
-        char output[13 + digits];
-        doubleToString(n, output, digits);
-        print(output);
+int SPP::available(void) {
+        return rfcommAvailable;
+};
+
+void SPP::flush(void) {
+        rfcommAvailable = 0;
 }
 
-void SPP::printNumberln(double n, uint8_t digits) {
-        char output[15 + digits];
-        doubleToString(n, output, digits);
-        strcat(output, "\r\n");
-        print(output);
-}
-
-void SPP::doubleToString(double input, char* output, uint8_t digits) {
-        char buffer[13 + digits];
-        if (input < 0) {
-                strcpy(output, "-");
-                input = -input;
-        } else
-                strcpy(output, "");
-
-        // Round correctly
-        double rounding = 0.5;
-        for (uint8_t i = 0; i < digits; i++)
-                rounding /= 10.0;
-        input += rounding;
-
-        uint32_t intpart = (uint32_t)input;
-        intToString(intpart, buffer); // Convert to string
-        strcat(output, buffer);
-        strcat(output, ".");
-        double fractpart = (input - (double)intpart);
-        fractpart *= pow(10, digits);
-        for (uint8_t i = 1; i < digits; i++) { // Put zeros in front of number
-                if (fractpart < pow(10, digits - i)) {
-                        strcat(output, "0");
-                }
-        }
-        intToString((uint32_t)fractpart, buffer); // Convert to string
-        strcat(output, buffer);
-}
-
-uint8_t SPP::read() {
+int SPP::peek(void) {
         if (rfcommAvailable == 0) // Don't read if there is nothing in the buffer
-                return 0;
+                return -1;
+        return rfcommDataBuffer[0];
+}
+
+int SPP::read(void) {
+        if (rfcommAvailable == 0) // Don't read if there is nothing in the buffer
+                return -1;
         uint8_t output = rfcommDataBuffer[0];
         for (uint8_t i = 1; i < rfcommAvailable; i++)
                 rfcommDataBuffer[i - 1] = rfcommDataBuffer[i]; // Shift the buffer one left
@@ -974,7 +797,7 @@ uint8_t SPP::read() {
                 sendRfcommCredit(rfcommChannelConnection, rfcommDirection, 0, RFCOMM_UIH, 0x10, sizeof (rfcommDataBuffer)); // Send more credit
 #ifdef EXTRADEBUG
                 Notify(PSTR("\r\nSent "), 0x80);
-                Serial.print(sizeof (rfcommDataBuffer));
+                Notify((uint8_t)sizeof (rfcommDataBuffer), 0x80);
                 Notify(PSTR(" more credit"), 0x80);
 #endif
         }

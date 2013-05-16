@@ -113,93 +113,93 @@ public:
          *
          * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b),
          * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
-         * @param  controller The controller to read from.
          * @param  b          ::Button to read.
+         * @param  controller The controller to read from. Default to 0.
          * @return            getButtonClick(uint8_t controller, Button b) will return a bool, but getButtonPress(uint8_t controller, Button b)
          * will return a byte if reading ::L2 or ::R2.
          */
-        uint8_t getButtonPress(uint8_t controller, Button b);
-        bool getButtonClick(uint8_t controller, Button b);
+        uint8_t getButtonPress(Button b, uint8_t controller = 0);
+        bool getButtonClick(Button b, uint8_t controller = 0);
         /**@}*/
 
         /** @name Xbox Controller functions */
         /**
-         * Return the analog value from the joysticks on the controller.
-         * @param  controller The controller to read from.
+         * Return the analog value from the joysticks on the controller.         
          * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
+         * @param  controller The controller to read from. Default to 0.
          * @return            Returns a signed 16-bit integer.
          */
-        int16_t getAnalogHat(uint8_t controller, AnalogHat a);
+        int16_t getAnalogHat(AnalogHat a, uint8_t controller = 0);
 
         /**
          * Turn rumble off and all the LEDs on the specific controller.
-         * @param  controller The controller to write to.
+         * @param  controller The controller to write to. Default to 0.
          */
-        void setAllOff(uint8_t controller) {
-                setRumbleOn(controller, 0, 0);
+        void setAllOff(uint8_t controller = 0) {
+                setRumbleOn(0, 0, controller);
                 setLedOff(controller);
         };
 
         /**
          * Turn rumble off the specific controller.
-         * @param  controller The controller to write to.
+         * @param  controller The controller to write to. Default to 0.
          */
-        void setRumbleOff(uint8_t controller) {
-                setRumbleOn(controller, 0, 0);
+        void setRumbleOff(uint8_t controller = 0) {
+                setRumbleOn(0, 0, controller);
         };
         /**
-         * Turn rumble on.
-         * @param controller The controller to write to.
+         * Turn rumble on.         
          * @param lValue     Left motor (big weight) inside the controller.
          * @param rValue     Right motor (small weight) inside the controller.
+         * @param controller The controller to write to. Default to 0.
          */
-        void setRumbleOn(uint8_t controller, uint8_t lValue, uint8_t rValue);
+        void setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller = 0);
         /**
          * Set LED value. Without using the ::LED or ::LEDMode enum.
-         * @param controller The controller to write to.
          * @param value      See:
          * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
          * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).
+         * @param controller The controller to write to. Default to 0.
          */
-        void setLedRaw(uint8_t controller, uint8_t value);
+        void setLedRaw(uint8_t value, uint8_t controller = 0);
 
         /**
          * Turn all LEDs off the specific controller.
-         * @param controller The controller to write to.
+         * @param controller The controller to write to. Default to 0.
          */
-        void setLedOff(uint8_t controller) {
-                setLedRaw(controller, 0);
+        void setLedOff(uint8_t controller = 0) {
+                setLedRaw(0, controller);
         };
         /**
-         * Turn on a LED by using the ::LED enum.
-         * @param controller The controller to write to.
+         * Turn on a LED by using the ::LED enum.         
          * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+         * @param controller The controller to write to. Default to 0.
          */
-        void setLedOn(uint8_t controller, LED l);
+        void setLedOn(LED l, uint8_t controller = 0);
         /**
-         * Turn on a LED by using the ::LED enum.
-         * @param controller The controller to write to.
+         * Turn on a LED by using the ::LED enum.         
          * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+         * @param controller The controller to write to. Default to 0.
          */
-        void setLedBlink(uint8_t controller, LED l);
+        void setLedBlink(LED l, uint8_t controller = 0);
         /**
-         * Used to set special LED modes supported by the Xbox controller.
-         * @param controller The controller to write to.
+         * Used to set special LED modes supported by the Xbox controller.         
          * @param lm         See ::LEDMode.
+         * @param controller The controller to write to. Default to 0.
          */
-        void setLedMode(uint8_t controller, LEDMode lm);
+        void setLedMode(LEDMode lm, uint8_t controller = 0);
         /**
          * Used to get the battery level from the controller.
-         * @param  controller The controller to read from.
+         * @param  controller The controller to read from. Default to 0.
          * @return            Returns the battery level as an integer in the range of 0-3.
          */
-        uint8_t getBatteryLevel(uint8_t controller);
+        uint8_t getBatteryLevel(uint8_t controller = 0);
         /**
          * Used to check if a button has changed.
-         * @param  controller The controller to read from.
+         * @param  controller The controller to read from. Default to 0.
          * @return            True if a button has changed.
          */
-        bool buttonChanged(uint8_t controller);
+        bool buttonChanged(uint8_t controller = 0);
         /**@}*/
 
         /** True if a wireless receiver is connected. */

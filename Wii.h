@@ -131,6 +131,11 @@ public:
         /**@}*/
 
         /** @name Wii Controller functions */
+        /** Call this to start the paring sequence with a controller */
+        void pair(void) {
+                if(pBtd)
+                        pBtd->pairWithWiimote();
+        }
         /**
          * Used to read the joystick of the Nunchuck.
          * @param  a Either ::HatX or ::HatY.

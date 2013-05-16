@@ -47,6 +47,22 @@ void E_NotifyStr(char const * msg, int lvl) {
         while (c = *msg++) E_Notifyc(c, lvl);
 }
 
+void E_Notify(uint8_t b, int lvl) {
+        if (UsbDEBUGlvl < lvl) return;
+#if defined(ARDUINO) && ARDUINO >=100
+        Serial.print(b);
+#else
+        Serial.print(b, DEC);
+#endif
+        Serial.flush();
+}
+
+void E_Notify(double d, int lvl) {
+        if (UsbDEBUGlvl < lvl) return;
+        Serial.print(d);
+        Serial.flush();
+}
+
 #ifdef DEBUG
 void NotifyFailGetDevDescr(void) {
         Notify(PSTR("\r\ngetDevDescr"), 0x80);

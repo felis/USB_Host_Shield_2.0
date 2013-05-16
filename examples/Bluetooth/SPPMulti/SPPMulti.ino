@@ -34,7 +34,8 @@ void setup() {
   Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task();
+  Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
+  
   for(uint8_t i=0;i<length;i++) {
     if(SerialBT[i]->connected) {
       if(firstMessage[i]) {
@@ -44,7 +45,7 @@ void loop() {
       if(SerialBT[i]->available())
         Serial.write(SerialBT[i]->read());
     } 
-    else 
+    else
       firstMessage[i] = true;
   }
   if(Serial.available()) {
@@ -61,7 +62,7 @@ void loop() {
       if(SerialBT[id]->connected) { // Check if a device is actually connected
         for(uint8_t i2 = 0; i2 < i-1; i2++) // Don't include the first character
           buffer[i2] = buffer[i2+1];
-        SerialBT[id]->println(buffer,i-1); // Send the data
+        SerialBT[id]->write(buffer,i-1); // Send the data
       }
     }
   } 
