@@ -473,15 +473,15 @@ void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {
 
 void XBOXRECV::setLedOn(LED led, uint8_t controller) {
         if (led != ALL) // All LEDs can't be on a the same time
-                setLedRaw(controller, (pgm_read_byte(&XBOXLEDS[(uint8_t)led])) + 4);
+                setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]) + 4, controller);
 }
 
 void XBOXRECV::setLedBlink(LED led, uint8_t controller) {
-        setLedRaw(controller, pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
+        setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]), controller);
 }
 
 void XBOXRECV::setLedMode(LEDMode ledMode, uint8_t controller) { // This function is used to do some speciel LED stuff the controller supports
-        setLedRaw(controller, (uint8_t)ledMode);
+        setLedRaw((uint8_t)ledMode, controller);
 }
 
 /* PC runs this at interval of approx 2 seconds
