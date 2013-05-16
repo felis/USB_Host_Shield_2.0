@@ -597,7 +597,7 @@ void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftD
 }
 
 void PS3BT::setLedRaw(uint8_t value) {
-        HIDBuffer[11] = value;
+        HIDBuffer[11] = value << 1;
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 void PS3BT::setLedOff(LED a) {

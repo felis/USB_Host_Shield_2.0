@@ -445,7 +445,7 @@ void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t left
 }
 
 void PS3USB::setLedRaw(uint8_t value) {
-        writeBuf[9] = value;
+        writeBuf[9] = value << 1;
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 void PS3USB::setLedOff(LED a) {
