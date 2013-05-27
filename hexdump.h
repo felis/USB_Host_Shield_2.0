@@ -19,6 +19,10 @@ e-mail   :  support@circuitsathome.com
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
+#include "printhex.h"
+#include "message.h"
+
+extern int UsbDEBUGlvl;
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 class HexDumper : public BASE_CLASS {
