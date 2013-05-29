@@ -241,7 +241,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
                 }
                 pktsize = regRd(rRCVBC); //number of received bytes
                 //printf("Got %i bytes ", pktsize);
-                assert(pktsize <= nbytes);
+                //assert(pktsize <= nbytes);
 
                 int16_t mem_left = (int16_t)nbytes - *((int16_t*)nbytesptr);
 
