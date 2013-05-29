@@ -51,6 +51,9 @@ typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
+#if defined(__MK20DX128__)
+typedef SPi< P13, P11, P12, P10 > spi;
+#endif
 
 template< typename SS, typename INTR > class MAX3421e /* : public spi */ {
         static uint8_t vbusState;
