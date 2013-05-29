@@ -302,7 +302,7 @@ void XBOXRECV::readReport(uint8_t controller) {
 #endif
                 if (Xbox360Connected[controller]) {
 #ifdef DEBUG
-                        char* str = 0;
+                        const char* str = 0;
                         switch (readBuf[1]) {
                                 case 0x80: str = PSTR(" as controller\r\n");
                                         break;
