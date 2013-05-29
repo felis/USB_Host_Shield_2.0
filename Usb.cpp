@@ -16,16 +16,16 @@ e-mail   :  support@circuitsathome.com
  */
 /* USB functions */
 
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "Usb.h"
-
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
 #else
 #include <WProgram.h>
 #endif
+
+#include "avrpins.h"
+#include "max3421e.h"
+#include "usbhost.h"
+#include "Usb.h"
 
 static uint8_t usb_error = 0;
 static uint8_t usb_task_state;

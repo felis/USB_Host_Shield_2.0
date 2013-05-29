@@ -17,17 +17,17 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__PARSETOOLS_H__)
 #define __PARSETOOLS_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
 #else
 #include <WProgram.h>
 #endif
+
+#include <inttypes.h>
+#include <avr/pgmspace.h>
+#include "printhex.h"
+#include "hexdump.h"
+#include "message.h"
 
 struct MultiValueBuffer {
         uint8_t valueSize;

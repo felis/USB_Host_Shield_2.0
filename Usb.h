@@ -18,6 +18,12 @@ e-mail   :  support@circuitsathome.com
 #ifndef _usb_h_
 #define _usb_h_
 
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
+
 //#define BOARD_BLACK_WIDDOW
 
 #define USB_METHODS_INLINE
@@ -31,12 +37,6 @@ e-mail   :  support@circuitsathome.com
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "address.h"
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
 #include "message.h"
 
 /* shield pins. First parameter - SS pin, second parameter - INT pin */

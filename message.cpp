@@ -15,6 +15,12 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
+
 #define DEBUG
 #include "message.h"
 // 0x80 is the default (i.e. trace) to turn off set this global to something lower.
