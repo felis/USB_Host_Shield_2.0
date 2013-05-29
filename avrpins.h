@@ -22,6 +22,9 @@ e-mail   :  support@circuitsathome.com
 
 #if defined(__AVR__)
 
+// pointers are 16 bits on AVR
+#define pgm_read_pointer(p) pgm_read_word(p)
+
 #if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
 /* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
 //#define BOARD_MEGA_ADK

@@ -1222,7 +1222,7 @@ void ReportDescParserBase::SetUsagePage(uint16_t page) {
                 //else if (page > 0x83 && page < 0x8c)
                 //	Notify(pstrUsagePagePower);
                 //else if (page > 0x8b && page < 0x92)
-                //	Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]));
+                //	Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]));
                 //else if (page > 0xfeff && page <= 0xffff)
                 //	Notify(pstrUsagePageVendorDefined);
         else
@@ -1240,13 +1240,13 @@ void ReportDescParserBase::PrintUsagePage(uint16_t page) {
         Notify(pstrSpace, 0x80);
 
         if (page > 0x00 && page < 0x11)
-                Notify((char*)pgm_read_word(&usagePageTitles0[page - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&usagePageTitles0[page - 1]), 0x80);
         else if (page > 0x7f && page < 0x84)
                 Notify(pstrUsagePageMonitor, 0x80);
         else if (page > 0x83 && page < 0x8c)
                 Notify(pstrUsagePagePower, 0x80);
         else if (page > 0x8b && page < 0x92)
-                Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]), 0x80);
+                Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]), 0x80);
         else if (page > 0xfeff && page <= 0xffff)
                 Notify(pstrUsagePageVendorDefined, 0x80);
         else
@@ -1283,15 +1283,15 @@ void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0a)
-                Notify((char*)pgm_read_word(&genDesktopTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDesktopTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x49)
-                Notify((char*)pgm_read_word(&genDesktopTitles1[usage - 0x30]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDesktopTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x7f && usage < 0x94)
-                Notify((char*)pgm_read_word(&genDesktopTitles2[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDesktopTitles2[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa9)
-                Notify((char*)pgm_read_word(&genDesktopTitles3[usage - 0xa0]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDesktopTitles3[usage - 0xa0]), 0x80);
         else if (usage > 0xaf && usage < 0xb8)
-                Notify((char*)pgm_read_word(&genDesktopTitles4[usage - 0xb0]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDesktopTitles4[usage - 0xb0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1300,11 +1300,11 @@ void ReportDescParserBase::PrintSimulationControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0d)
-                Notify((char*)pgm_read_word(&simuTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&simuTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x26)
-                Notify((char*)pgm_read_word(&simuTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_pointer(&simuTitles1[usage - 0x20]), 0x80);
         else if (usage > 0xaf && usage < 0xd1)
-                Notify((char*)pgm_read_word(&simuTitles2[usage - 0xb0]), 0x80);
+                Notify((char*)pgm_read_pointer(&simuTitles2[usage - 0xb0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1313,9 +1313,9 @@ void ReportDescParserBase::PrintVRControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0b)
-                Notify((char*)pgm_read_word(&vrTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&vrTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x22)
-                Notify((char*)pgm_read_word(&vrTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_pointer(&vrTitles1[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1324,11 +1324,11 @@ void ReportDescParserBase::PrintSportsControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x05)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&sportsCtrlTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x3a)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles1[usage - 0x30]), 0x80);
+                Notify((char*)pgm_read_pointer(&sportsCtrlTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x4f && usage < 0x64)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles2[usage - 0x50]), 0x80);
+                Notify((char*)pgm_read_pointer(&sportsCtrlTitles2[usage - 0x50]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1337,9 +1337,9 @@ void ReportDescParserBase::PrintGameControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x04)
-                Notify((char*)pgm_read_word(&gameTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&gameTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x3a)
-                Notify((char*)pgm_read_word(&gameTitles1[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_pointer(&gameTitles1[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1348,7 +1348,7 @@ void ReportDescParserBase::PrintGenericDeviceControlsPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x1f && usage < 0x27)
-                Notify((char*)pgm_read_word(&genDevCtrlTitles[usage - 0x20]), 0x80);
+                Notify((char*)pgm_read_pointer(&genDevCtrlTitles[usage - 0x20]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1357,7 +1357,7 @@ void ReportDescParserBase::PrintLEDPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x4e)
-                Notify((char*)pgm_read_word(&ledTitles[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&ledTitles[usage - 1]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1366,17 +1366,17 @@ void ReportDescParserBase::PrintTelephonyPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x08)
-                Notify((char*)pgm_read_word(&telTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x32)
-                Notify((char*)pgm_read_word(&telTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x4f && usage < 0x54)
-                Notify((char*)pgm_read_word(&telTitles2[usage - 0x4f]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles2[usage - 0x4f]), 0x80);
         else if (usage > 0x6f && usage < 0x75)
-                Notify((char*)pgm_read_word(&telTitles3[usage - 0x6f]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles3[usage - 0x6f]), 0x80);
         else if (usage > 0x8f && usage < 0x9f)
-                Notify((char*)pgm_read_word(&telTitles4[usage - 0x8f]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles4[usage - 0x8f]), 0x80);
         else if (usage > 0xaf && usage < 0xc0)
-                Notify((char*)pgm_read_word(&telTitles5[usage - 0xaf]), 0x80);
+                Notify((char*)pgm_read_pointer(&telTitles5[usage - 0xaf]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1385,35 +1385,35 @@ void ReportDescParserBase::PrintConsumerPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x07)
-                Notify((char*)pgm_read_word(&consTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*)pgm_read_word(&consTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x37)
-                Notify((char*)pgm_read_word(&consTitles2[usage - 0x2f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles2[usage - 0x2f]), 0x80);
         else if (usage > 0x3f && usage < 0x49)
-                Notify((char*)pgm_read_word(&consTitles3[usage - 0x3f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles3[usage - 0x3f]), 0x80);
         else if (usage > 0x5f && usage < 0x67)
-                Notify((char*)pgm_read_word(&consTitles4[usage - 0x5f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles4[usage - 0x5f]), 0x80);
         else if (usage > 0x7f && usage < 0xa5)
-                Notify((char*)pgm_read_word(&consTitles5[usage - 0x7f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles5[usage - 0x7f]), 0x80);
         else if (usage > 0xaf && usage < 0xcf)
-                Notify((char*)pgm_read_word(&consTitles6[usage - 0xaf]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles6[usage - 0xaf]), 0x80);
         else if (usage > 0xdf && usage < 0xeb)
-                Notify((char*)pgm_read_word(&consTitles7[usage - 0xdf]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles7[usage - 0xdf]), 0x80);
         else if (usage > 0xef && usage < 0xf6)
-                Notify((char*)pgm_read_word(&consTitles8[usage - 0xef]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles8[usage - 0xef]), 0x80);
         else if (usage > 0xff && usage < 0x10e)
-                Notify((char*)pgm_read_word(&consTitles9[usage - 0xff]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitles9[usage - 0xff]), 0x80);
         else if (usage > 0x14f && usage < 0x156)
-                Notify((char*)pgm_read_word(&consTitlesA[usage - 0x14f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitlesA[usage - 0x14f]), 0x80);
         else if (usage > 0x15f && usage < 0x16b)
-                Notify((char*)pgm_read_word(&consTitlesB[usage - 0x15f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitlesB[usage - 0x15f]), 0x80);
         else if (usage > 0x16f && usage < 0x175)
-                Notify((char*)pgm_read_word(&consTitlesC[usage - 0x16f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitlesC[usage - 0x16f]), 0x80);
         else if (usage > 0x17f && usage < 0x1c8)
-                Notify((char*)pgm_read_word(&consTitlesD[usage - 0x17f]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitlesD[usage - 0x17f]), 0x80);
         else if (usage > 0x1ff && usage < 0x29d)
-                Notify((char*)pgm_read_word(&consTitlesE[usage - 0x1ff]), 0x80);
+                Notify((char*)pgm_read_pointer(&consTitlesE[usage - 0x1ff]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1422,11 +1422,11 @@ void ReportDescParserBase::PrintDigitizerPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0e)
-                Notify((char*)pgm_read_word(&digitTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&digitTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*)pgm_read_word(&digitTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_pointer(&digitTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x47)
-                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x2f]), 0x80);
+                Notify((char*)pgm_read_pointer(&digitTitles2[usage - 0x2f]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1435,11 +1435,11 @@ void ReportDescParserBase::PrintAlphanumDisplayPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x03)
-                Notify((char*)pgm_read_word(&aplphanumTitles0[usage - 1]), 0x80);
+                Notify((char*)pgm_read_pointer(&aplphanumTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x4e)
-                Notify((char*)pgm_read_word(&aplphanumTitles1[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_pointer(&aplphanumTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x7f && usage < 0x96)
-                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_pointer(&digitTitles2[usage - 0x80]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
@@ -1450,17 +1450,17 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
         if (usage == 1)
                 Notify(pstrUsageMedicalUltrasound, 0x80);
         else if (usage > 0x1f && usage < 0x28)
-                Notify((char*)pgm_read_word(&medInstrTitles0[usage - 0x1f]), 0x80);
+                Notify((char*)pgm_read_pointer(&medInstrTitles0[usage - 0x1f]), 0x80);
         else if (usage > 0x3f && usage < 0x45)
-                Notify((char*)pgm_read_word(&medInstrTitles1[usage - 0x40]), 0x80);
+                Notify((char*)pgm_read_pointer(&medInstrTitles1[usage - 0x40]), 0x80);
         else if (usage > 0x5f && usage < 0x62)
-                Notify((char*)pgm_read_word(&medInstrTitles2[usage - 0x60]), 0x80);
+                Notify((char*)pgm_read_pointer(&medInstrTitles2[usage - 0x60]), 0x80);
         else if (usage == 0x70)
                 Notify(pstrUsageDepthGainCompensation, 0x80);
         else if (usage > 0x7f && usage < 0x8a)
-                Notify((char*)pgm_read_word(&medInstrTitles3[usage - 0x80]), 0x80);
+                Notify((char*)pgm_read_pointer(&medInstrTitles3[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa2)
-                Notify((char*)pgm_read_word(&medInstrTitles4[usage - 0xa0]), 0x80);
+                Notify((char*)pgm_read_pointer(&medInstrTitles4[usage - 0xa0]), 0x80);
         else
                 Notify(pstrUsagePageUndefined, 0x80);
 }
