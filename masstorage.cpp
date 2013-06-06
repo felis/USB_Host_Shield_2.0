@@ -318,7 +318,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         while (rcode = TestUnitReady(lun)) {
                                 if (rcode == 0x08) break; // break on no media, this is OK to do.
                                 // try to lock media and spin up
-                                if (tries > 2) {
+                                if (tries < 14) {
                                         LockMedia(lun, 1);
                                         MediaCTL(lun, 1); // I actually have a USB stick that needs this!
                                 } else delay(2 * (tries + 1));
