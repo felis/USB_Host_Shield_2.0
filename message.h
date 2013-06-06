@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 #define __MESSAGE_H__
 
 // uncomment to activate
-#define DEBUG
+//#define DEBUG
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
