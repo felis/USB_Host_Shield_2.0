@@ -20,7 +20,8 @@ e-mail   :  support@circuitsathome.com
 
 //#define BOARD_BLACK_WIDDOW
 
-#define USB_METHODS_INLINE
+// Not used anymore?
+//#define USB_METHODS_INLINE
 
 #include <inttypes.h>
 
@@ -105,19 +106,15 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 #define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD9
 #define USB_ERROR_INVALID_MAX_PKT_SIZE			0xDA
 #define USB_ERROR_EP_NOT_FOUND_IN_TBL			0xDB
+#define USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET      0xE0
+#define USB_ERROR_FailGetDevDescr                       0xE1
+#define USB_ERROR_FailSetDevTblEntry                    0xE2
+#define USB_ERROR_FailGetConfDescr                      0xE3
 #define USB_ERROR_TRANSFER_TIMEOUT			0xFF
 
-class USBDeviceConfig {
-public:
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
-        virtual uint8_t Release() = 0;
-        virtual uint8_t Poll() = 0;
-        virtual uint8_t GetAddress() = 0;
-};
-
-#define USB_XFER_TIMEOUT	5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
+#define USB_XFER_TIMEOUT        10000 //30000    // (5000) USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
 //#define USB_NAK_LIMIT		32000   //NAK limit for a transfer. 0 means NAKs are not counted
-#define USB_RETRY_LIMIT		3       //retry limit for a transfer
+#define USB_RETRY_LIMIT		3       // 3 retry limit for a transfer
 #define USB_SETTLE_DELAY	200     //settle delay in milliseconds
 
 #define USB_NUMDEVICES		16	//number of USB devices
@@ -135,11 +132,21 @@ public:
 #define USB_ATTACHED_SUBSTATE_RESET_DEVICE                  0x30
 #define USB_ATTACHED_SUBSTATE_WAIT_RESET_COMPLETE           0x40
 #define USB_ATTACHED_SUBSTATE_WAIT_SOF                      0x50
+#define USB_ATTACHED_SUBSTATE_WAIT_RESET                    0x51
 #define USB_ATTACHED_SUBSTATE_GET_DEVICE_DESCRIPTOR_SIZE    0x60
 #define USB_STATE_ADDRESSING                                0x70
 #define USB_STATE_CONFIGURING                               0x80
 #define USB_STATE_RUNNING                                   0x90
 #define USB_STATE_ERROR                                     0xa0
+
+class USBDeviceConfig {
+public:
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {return 0; }
+        virtual uint8_t Release() = 0;
+        virtual uint8_t Poll() = 0;
+        virtual uint8_t GetAddress() = 0;
+};
 
 /* USB Setup Packet Structure   */
 typedef struct {
@@ -169,7 +176,7 @@ typedef struct {
 
 
 
-// Base class for incomming data parser
+// Base class for incoming data parser
 
 class USBReadParser {
 public:

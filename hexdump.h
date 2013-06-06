@@ -19,6 +19,10 @@ e-mail   :  support@circuitsathome.com
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
+#include "printhex.h"
+#include "message.h"
+
+extern int UsbDEBUGlvl;
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 class HexDumper : public BASE_CLASS {
@@ -40,7 +44,6 @@ public:
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
-#ifdef DEBUG
         if(UsbDEBUGlvl >= 0x80) {  // Fully bypass this block of code if we do not debug.
                 for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
                         if(!byteCount) {
@@ -56,7 +59,6 @@ void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, con
                         }
                 }
         }
-#endif
 }
 
 #endif // __HEXDUMP_H__

@@ -1,7 +1,15 @@
 #if !defined(__MASSTORAGE_H__)
 #define __MASSTORAGE_H__
 
-#define DEBUG
+
+//<RANT>
+// @Oleg -- Perhaps we need a central 'config.h', many of these includes and
+// defines could be handled there, allowing for easier config.
+
+// <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
+// Set this to 1 to support single LUN devices, and save RAM. -- I.E. thumb drives.
+// Each LUN needs ~13 bytes to be able to track the state of each unit.
+#define MASS_MAX_SUPPORTED_LUN 8
 
 #include <inttypes.h>
 #include "avrpins.h"
@@ -10,6 +18,7 @@
 #include "usbhost.h"
 #include "usb_ch9.h"
 #include "Usb.h"
+#include <message.h>
 
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
@@ -18,6 +27,9 @@
 #endif
 
 #include <confdescparser.h>
+
+// </RANT>
+
 
 #define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
@@ -68,7 +80,7 @@
 #define SCSI_CMD_MODE_SENSE_6		0x1A
 #define SCSI_CMD_MODE_SENSE_10		0x5A
 #define SCSI_CMD_START_STOP_UNIT	0x1B
-
+#define SCSI_CMD_PREVENT_REMOVAL        0x1E
 #define SCSI_S_NOT_READY		0x02
 #define SCSI_S_MEDIUM_ERROR		0x03
 #define SCSI_S_ILLEGAL_REQUEST		0x05
@@ -76,7 +88,7 @@
 
 #define SCSI_ASC_MEDIUM_NOT_PRESENT     0x3A
 #define SCSI_ASC_LBA_OUT_OF_RANGE       0x21
-
+#define SCSI_ASC_MEDIA_CHANGED          0x28
 
 #define MASS_ERR_SUCCESS		0x00
 #define MASS_ERR_PHASE_ERROR		0x02
@@ -87,9 +99,14 @@
 #define MASS_ERR_INVALID_CSW		0x07
 #define MASS_ERR_NO_MEDIA		0x08
 #define MASS_ERR_BAD_LBA                0x09
+#define MASS_ERR_MEDIA_CHANGED          0x0A
 #define MASS_ERR_DEVICE_DISCONNECTED    0x11
 #define MASS_ERR_UNABLE_TO_RECOVER	0x12	// Reset recovery error
 #define MASS_ERR_INVALID_LUN		0x13
+#define MASS_ERR_WRITE_STALL    	0x14
+#define MASS_ERR_READ_NAKS              0x15
+#define MASS_ERR_WRITE_NAKS             0x16
+#define MASS_ERR_WRITE_PROTECTED        0x17
 #define MASS_ERR_GENERAL_SCSI_ERROR	0xFE
 #define MASS_ERR_GENERAL_USB_ERROR	0xFF
 #define MASS_ERR_USER			0xA0	// For subclasses to define their own error codes
@@ -97,6 +114,8 @@
 #define MASS_TRANS_FLG_CALLBACK         0x01	// Callback is involved
 #define MASS_TRANS_FLG_NO_STALL_CHECK   0x02	// STALL condition is not checked
 #define MASS_TRANS_FLG_NO_PHASE_CHECK   0x04	// PHASE_ERROR is not checked
+
+#define MASS_MAX_ENDPOINTS		3
 
 struct Capacity {
         uint8_t data[8];
@@ -184,8 +203,6 @@ struct RequestSenseResponce {
         uint8_t SenseKeySpecific[3];
 } __attribute__((packed));
 
-#define MASS_MAX_ENDPOINTS		3
-
 class BulkOnly : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
         static const uint8_t epDataInIndex; // DataIn endpoint index
@@ -207,20 +224,18 @@ protected:
         uint8_t bLastUsbError; // Last USB error
         uint8_t bMaxLUN; // Max LUN
         uint8_t bTheLUN; // Active LUN
-
-protected:
+        uint32_t CurrentCapacity[MASS_MAX_SUPPORTED_LUN]; // Total sectors
+        uint16_t CurrentSectorSize[MASS_MAX_SUPPORTED_LUN]; // Sector size, clipped to 16 bits
+        bool LUNOk[MASS_MAX_SUPPORTED_LUN]; // use this to check for media changes.
+        bool WriteOk[MASS_MAX_SUPPORTED_LUN];
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
-        bool IsValidCBW(uint8_t size, uint8_t *pcbw);
-        bool IsMeaningfulCBW(uint8_t size, uint8_t *pcbw);
 
-        bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
+        // Additional Initialization Method for Subclasses
 
-        uint8_t ClearEpHalt(uint8_t index);
-        uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
-        uint8_t HandleUsbError(uint8_t error, uint8_t index);
-        uint8_t HandleSCSIError(uint8_t status);
-
+        virtual uint8_t OnInit() {
+                return 0;
+        };
 public:
         BulkOnly(USB *p);
 
@@ -236,23 +251,21 @@ public:
                 return bTheLUN; // Active LUN
         }
 
-        uint8_t Reset();
-        uint8_t GetMaxLUN(uint8_t *max_lun);
-        uint8_t SetCurLUN(uint8_t lun);
-
-        uint8_t ResetRecovery();
-        uint8_t Inquiry(uint8_t lun, uint16_t size, uint8_t *buf);
-        uint8_t TestUnitReady(uint8_t lun);
-        uint8_t ReadCapacity(uint8_t lun, uint16_t size, uint8_t *buf);
-        uint8_t RequestSense(uint8_t lun, uint16_t size, uint8_t *buf);
-        uint8_t ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *buf);
+        boolean WriteProtected(uint8_t lun);
         uint8_t MediaCTL(uint8_t lun, uint8_t ctl);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs);
         uint8_t Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t *buf);
+        uint8_t LockMedia(uint8_t lun, uint8_t lock);
+
+        bool LUNIsGood(uint8_t lun);
+        uint32_t GetCapacity(uint8_t lun);
+        uint16_t GetSectorSize(uint8_t lun);
 
         // USBDeviceConfig implementation
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+
         virtual uint8_t Release();
         virtual uint8_t Poll();
 
@@ -263,12 +276,30 @@ public:
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
-protected:
-        // Additional Initialization Method for Subclasses
+private:
+        uint8_t Inquiry(uint8_t lun, uint16_t size, uint8_t *buf);
+        uint8_t TestUnitReady(uint8_t lun);
+        uint8_t RequestSense(uint8_t lun, uint16_t size, uint8_t *buf);
+        uint8_t ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *buf);
+        uint8_t GetMaxLUN(uint8_t *max_lun);
+        uint8_t SetCurLUN(uint8_t lun);
+        uint8_t Reset();
+        uint8_t ResetRecovery();
+        uint8_t ReadCapacity(uint8_t lun, uint16_t size, uint8_t *buf);
+        void ClearAllEP();
+        void CheckMedia();
+        boolean CheckLUN(uint8_t lun);
+        uint8_t Page3F(uint8_t lun);
+        bool IsValidCBW(uint8_t size, uint8_t *pcbw);
+        bool IsMeaningfulCBW(uint8_t size, uint8_t *pcbw);
 
-        virtual uint8_t OnInit() {
-                return 0;
-        };
+        bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
+
+        uint8_t ClearEpHalt(uint8_t index);
+        uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
+        uint8_t HandleUsbError(uint8_t error, uint8_t index);
+        uint8_t HandleSCSIError(uint8_t status);
+
 };
 
 #endif // __MASSTORAGE_H__

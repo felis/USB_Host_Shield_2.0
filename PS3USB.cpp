@@ -16,7 +16,7 @@
  */
 
 #include "PS3USB.h"
-#define DEBUG // Uncomment to print data for debugging
+//#define DEBUG // Uncomment to print data for debugging -- NO! see message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
@@ -221,25 +221,32 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG
         NotifyFailGetDevDescr();
         goto Fail;
-
+#endif
 FailSetDevTblEntry:
+#ifdef DEBUG
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG
         NotifyFailSetConfDescr();
+#endif
         goto Fail;
 FailUnknownDevice:
-        NotifyFailUnknownDevice(VID,PID);
+#ifdef DEBUG
+        NotifyFailUnknownDevice(VID, PID);
+#endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-        Fail:
+Fail:
 
 #ifdef DEBUG
         Notify(PSTR("\r\nPS3 Init Failed, error code: "), 0x80);
-#endif
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -427,7 +434,7 @@ void PS3USB::setRumbleOff() {
 
 void PS3USB::setRumbleOn(Rumble mode) {
         if ((mode & 0x30) > 0x00) {
-                uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
+                uint8_t power[2] = {0xff, 0x00}; // Defaults to RumbleLow
                 if (mode == RumbleHigh) {
                         power[0] = 0x00;
                         power[1] = 0xff;
@@ -448,14 +455,17 @@ void PS3USB::setLedRaw(uint8_t value) {
         writeBuf[9] = value << 1;
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedOff(LED a) {
         writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedOn(LED a) {
         writeBuf[9] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedToggle(LED a) {
         writeBuf[9] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);

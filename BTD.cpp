@@ -16,7 +16,7 @@
  */
 
 #include "BTD.h"
-#define DEBUG // Uncomment to print data for debugging
+// #define DEBUG // Uncomment to print data for debugging -- NO! see message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
 const uint8_t BTD::BTD_CONTROL_PIPE = 0;
@@ -222,30 +222,40 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG
         NotifyFailSetConfDescr();
+#endif
         goto Fail;
 
 FailUnknownDevice:
-        NotifyFailUnknownDevice(VID,PID);
+#ifdef DEBUG
+        NotifyFailUnknownDevice(VID, PID);
+#endif
         pUsb->setAddr(bAddress, 0, 0); // Reset address
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 Fail:
 #ifdef DEBUG
         Notify(PSTR("\r\nBTD Init Failed, error code: "), 0x80);
-#endif
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -307,7 +317,7 @@ uint8_t BTD::Release() {
                 if (btService[i])
                         btService[i]->Reset(); // Reset all Bluetooth services
         }
-        
+
         pUsb->GetAddressPool().FreeAddress(bAddress);
         bAddress = 0;
         bPollEnable = false;
@@ -432,7 +442,7 @@ void BTD::HCI_event_task() {
 
                         case EV_REMOTE_NAME_COMPLETE:
                                 if (!hcibuf[2]) { // check if reading is OK
-                                        for (uint8_t i = 0; i < min(sizeof(remote_name),sizeof(hcibuf)-9); i++)
+                                        for (uint8_t i = 0; i < min(sizeof (remote_name), sizeof (hcibuf) - 9); i++)
                                                 remote_name[i] = hcibuf[9 + i];
                                         hci_event_flag |= HCI_FLAG_REMOTE_NAME_COMPLETE;
                                 }
@@ -946,15 +956,14 @@ void BTD::hci_pin_code_request_reply() {
         hcibuf[8] = disc_bdaddr[5];
         if (pairWithWii) {
                 hcibuf[9] = 6; // Pin length is the length of the Bluetooth address
-                if(wiiUProController) {
+                if (wiiUProController) {
 #ifdef DEBUG
                         Notify(PSTR("\r\nParing with Wii U Pro Controller"), 0x80);
 #endif
-                        for(uint8_t i = 0; i < 6; i++)
+                        for (uint8_t i = 0; i < 6; i++)
                                 hcibuf[10 + i] = my_bdaddr[i]; // The pin is the Bluetooth dongles Bluetooth address backwards
-                }
-                else {
-                        for(uint8_t i = 0; i < 6; i++)
+                } else {
+                        for (uint8_t i = 0; i < 6; i++)
                                 hcibuf[10 + i] = disc_bdaddr[i]; // The pin is the Wiimote's Bluetooth address backwards
                 }
                 for (uint8_t i = 16; i < 26; i++)

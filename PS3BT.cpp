@@ -16,7 +16,7 @@
  */
 
 #include "PS3BT.h"
-#define DEBUG // Uncomment to print data for debugging
+//#define DEBUG // Uncomment to print data for debugging -- NO! see message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
@@ -271,7 +271,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                 if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG
-                                Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);                                
+                                Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
                                 PrintHex<uint8_t > (l2capinbuf[12], 0x80);

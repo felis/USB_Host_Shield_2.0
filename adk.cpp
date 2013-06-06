@@ -227,33 +227,45 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 
 FailGetProto:
+#ifdef DEBUG
         USBTRACE("\r\ngetProto:");
         goto Fail;
+#endif
 
 FailSwAcc:
+#ifdef DEBUG
         USBTRACE("\r\nswAcc:");
         goto Fail;
+#endif
 
 SwAttempt:
+#ifdef DEBUG
         USBTRACE("\r\nAccessory mode switch attempt");
-        // goto Fail;
-
+#endif
 //FailOnInit:
         //	USBTRACE("OnInit:");
         //	goto Fail;

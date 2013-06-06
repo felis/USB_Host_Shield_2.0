@@ -21,7 +21,7 @@ e-mail   :  support@circuitsathome.com
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"
-
+#include <stdio.h>
 /* SPI initialization */
 template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SPi {
 public:
@@ -34,7 +34,7 @@ public:
                 SPI_SS::SetDirWrite();
                 /* mode 00 (CPOL=0, CPHA=0) master, fclk/2. Mode 11 (CPOL=11, CPHA=11) is also supported by MAX3421E */
                 SPCR = 0x50;
-                SPSR = 0x01;
+                SPSR = 0x01; // 0x01
                 /**/
                 //tmp = SPSR;
                 //tmp = SPDR;
@@ -159,9 +159,18 @@ uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* dat
                 SPDR = 0; //send empty byte
                 nbytes--;
                 while(!(SPSR & (1 << SPIF)));
-                *data_p = SPDR;
+#if 0
+                {
+                        *data_p = SPDR;
+                        printf("%2.2x ", *data_p);
+                }
                 data_p++;
         }
+        printf("\r\n");
+#else
+                *data_p++ = SPDR;
+        }
+#endif
         SS::Set();
         return( data_p);
 }
