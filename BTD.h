@@ -129,7 +129,7 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMSERVICES     4 // Max number of Bluetooth services
+#define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than four simply increase this number
 
 /** All Bluetooth services should include this class. */
 class BluetoothService {

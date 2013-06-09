@@ -52,6 +52,11 @@ void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t 
 
         //KBDINFO	*pki = (KBDINFO*)buf;
 
+	    // provide event for changed control key state
+		if (prevState.bInfo[0x00] != buf[0x00]) {
+			OnControlKeysChanged(prevState.bInfo[0x00], buf[0x00]);
+		}
+	
         for (uint8_t i = 2; i < 8; i++) {
                 bool down = false;
                 bool up = false;
