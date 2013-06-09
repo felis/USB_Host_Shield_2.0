@@ -20,7 +20,7 @@ e-mail   :  support@circuitsathome.com
 #ifndef _avrpins_h_
 #define _avrpins_h_
 
-#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
+#if defined(__AVR_ATmega2560__)
 /* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
 //#define BOARD_MEGA_ADK
 #endif
@@ -448,7 +448,7 @@ public:
 //typedef Tp_Tc<Pb3, Tc2a> P11;  //Arduino pin 11
 
 /* Arduino pin definitions  */
-#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__)
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 
 //  "Mega" Arduino pin numbers
 
@@ -512,7 +512,7 @@ public:
 #define P53 Pb0
 #define P54 Pe6 // INT on Arduino ADK
 
-#endif  //"Mega" pin numbers
+#endif  // "Mega" pin numbers
 
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 //"Classic" Arduino pin numbers
