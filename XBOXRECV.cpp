@@ -18,7 +18,7 @@
  */
 
 #include "XBOXRECV.h"
-//#define DEBUG // Uncomment to print data for debugging -- NO! see message.h
+// To enable serial debugging uncomment "#define DEBUG" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 

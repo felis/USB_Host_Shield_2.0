@@ -16,7 +16,7 @@
  */
 
 #include "BTD.h"
-// #define DEBUG // Uncomment to print data for debugging -- NO! see message.h
+// To enable serial debugging uncomment "#define DEBUG" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
 const uint8_t BTD::BTD_CONTROL_PIPE = 0;
