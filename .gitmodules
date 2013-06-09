@@ -4,3 +4,6 @@
 [submodule "examples/testusbhostFAT/xmem2"]
 	path = examples/testusbhostFAT/xmem2
 	url = https://github.com/xxxajk/xmem2
+[submodule "examples/testusbhostFAT/Arduino_Makefile_master"]
+	path = examples/testusbhostFAT/Arduino_Makefile_master
+	url = https://github.com/xxxajk/Arduino_Makefile_master

@@ -39,4 +39,4 @@ LIB_DIRS += xmem2
 LIB_DIRS += generic_storage
 
 # And finally, the part that brings everything together for you.
-include ../Arduino_Makefile_master/_Makefile.master
+include Arduino_Makefile_master/_Makefile.master
