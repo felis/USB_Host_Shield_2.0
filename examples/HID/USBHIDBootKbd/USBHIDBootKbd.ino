@@ -20,6 +20,8 @@ class KbdRptParser : public KeyboardReportParser
         void PrintKey(uint8_t mod, uint8_t key);
         
 protected:
+        virtual void OnControlKeysChanged(uint8_t before, uint8_t after);
+        
 	virtual void OnKeyDown	(uint8_t mod, uint8_t key);
 	virtual void OnKeyUp	(uint8_t mod, uint8_t key);
 	virtual void OnKeyPressed(uint8_t key);
@@ -52,6 +54,42 @@ void KbdRptParser::OnKeyDown(uint8_t mod, uint8_t key)
     
     if (c)
         OnKeyPressed(c);
+}
+
+void KbdRptParser::OnControlKeysChanged(uint8_t before, uint8_t after) {
+
+    MODIFIERKEYS beforeMod;
+    *((uint8_t*)&beforeMod) = before;
+
+    MODIFIERKEYS afterMod;
+    *((uint8_t*)&afterMod) = after;
+    
+    if (beforeMod.bmLeftCtrl != afterMod.bmLeftCtrl) {
+        Serial.println("LeftCtrl changed");
+    }
+    if (beforeMod.bmLeftShift != afterMod.bmLeftShift) {
+        Serial.println("LeftShift changed");
+    }
+    if (beforeMod.bmLeftAlt != afterMod.bmLeftAlt) {
+        Serial.println("LeftAlt changed");
+    }
+    if (beforeMod.bmLeftGUI != afterMod.bmLeftGUI) {
+        Serial.println("LeftGUI changed");
+    }
+
+    if (beforeMod.bmRightCtrl != afterMod.bmRightCtrl) {
+        Serial.println("RightCtrl changed");
+    }
+    if (beforeMod.bmRightShift != afterMod.bmRightShift) {
+        Serial.println("RightShift changed");
+    }
+    if (beforeMod.bmRightAlt != afterMod.bmRightAlt) {
+        Serial.println("RightAlt changed");
+    }
+    if (beforeMod.bmRightGUI != afterMod.bmRightGUI) {
+        Serial.println("RightGUI changed");
+    }
+
 }
 
 void KbdRptParser::OnKeyUp(uint8_t mod, uint8_t key)	
