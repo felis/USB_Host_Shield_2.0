@@ -1,0 +1,6 @@
+[submodule "examples/testusbhostFAT/generic_storage"]
+	path = examples/testusbhostFAT/generic_storage
+	url = https://github.com/xxxajk/generic_storage
+[submodule "examples/testusbhostFAT/xmem2"]
+	path = examples/testusbhostFAT/xmem2
+	url = https://github.com/xxxajk/xmem2
