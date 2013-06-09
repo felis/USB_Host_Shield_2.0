@@ -13,7 +13,7 @@ It is recommended to get a external RAM shield or apply the following patch: <ht
 
 The following shield is recommended: <http://ruggedcircuits.com/html/quadram.html>.
 
-You must use the bundled [Makefile](Makefile) to compile the code instead of the Arduino IDE if you do not use external RAM.
+You must use the bundled [Makefile](Makefile) to compile the code instead of the Arduino IDE if you do not use external RAM. The master makefile is bundled as a submodule, but can also be downloaded manually at the following link: <https://github.com/xxxajk/Arduino_Makefile_master>.
 
 To download the USB Host library and all the needed libraries for this test.
 
