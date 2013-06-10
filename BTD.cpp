@@ -272,10 +272,10 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
         bConfNum = conf;
         uint8_t index;
 
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) // Interrupt In endpoint found
+        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) { // Interrupt In endpoint found
                 index = BTD_EVENT_PIPE;
-
-        else {
+                epInfo[index].bmNakPower = USB_NAK_NOWAIT;
+        } else {
                 if ((pep->bmAttributes & 0x02) == 2) // Bulk endpoint found
                         index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
                 else

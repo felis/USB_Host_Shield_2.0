@@ -8,18 +8,13 @@
 #include <PS3BT.h>
 USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
-PS3BT PS3_1(&Btd);
-PS3BT PS3_2(&Btd);
-//PS3BT PS3_3(&Btd); // You can create as many instances as you like, but it will take up a lot of RAM!!
-
-PS3BT* PS3[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like
+PS3BT* PS3[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
 const uint8_t length = sizeof(PS3)/sizeof(PS3[0]); // Get the lenght of the array
 boolean printAngle[length];
 
 void setup() {
-  PS3[0] = &PS3_1; // This will point to the first controller
-  PS3[1] = &PS3_2; // This will point to the second controller
-  //PS3[2] = &PS3_3; // You only need to uncomment this if you wanted to use another controller
+  for(uint8_t i=0;i<length;i++)
+    PS3[i] = new PS3BT(&Btd); // Create the instances
 
   Serial.begin(115200);
   if (Usb.Init() == -1) {
@@ -32,7 +27,6 @@ void loop() {
   Usb.Task();
 
   for(uint8_t i=0;i<length;i++) {
-    if(!PS3[i]) continue; // Skip if it hasn't been defined
     if(PS3[i]->PS3Connected || PS3[i]->PS3NavigationConnected) {
       if(PS3[i]->getAnalogHat(LeftHatX) > 137 || PS3[i]->getAnalogHat(LeftHatX) < 117 || PS3[i]->getAnalogHat(LeftHatY) > 137 || PS3[i]->getAnalogHat(LeftHatY) < 117 || PS3[i]->getAnalogHat(RightHatX) > 137 || PS3[i]->getAnalogHat(RightHatX) < 117 || PS3[i]->getAnalogHat(RightHatY) > 137 || PS3[i]->getAnalogHat(RightHatY) < 117) {
         Serial.print(F("\r\nLeftHatX: "));
