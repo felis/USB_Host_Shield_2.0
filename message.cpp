@@ -28,7 +28,7 @@ void E_Notifyc(char c, int lvl) {
 #else
         USB_HOST_SERIAL.print(c, BYTE);
 #endif
-        USB_HOST_SERIAL.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
 void E_Notify(char const * msg, int lvl) {
@@ -54,13 +54,13 @@ void E_Notify(uint8_t b, int lvl) {
 #else
         USB_HOST_SERIAL.print(b, DEC);
 #endif
-        USB_HOST_SERIAL.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
 void E_Notify(double d, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
         USB_HOST_SERIAL.print(d);
-        USB_HOST_SERIAL.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
 #ifdef DEBUG_USB_HOST
