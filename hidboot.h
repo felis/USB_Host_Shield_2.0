@@ -393,42 +393,42 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         return 0;
 
 FailGetDevDescr:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
 
 FailSetDevTblEntry:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
 #endif
 
 FailGetConfDescr:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
 #endif
 
 FailSetConfDescr:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
 #endif
 
 FailSetProtocol:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         USBTRACE("SetProto:");
         goto Fail;
 #endif
 
 FailSetIdle:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         USBTRACE("SetIdle:");
 #endif
 
 Fail:
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
 #endif
         Release();

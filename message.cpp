@@ -63,7 +63,7 @@ void E_Notify(double d, int lvl) {
         Serial.flush();
 }
 
-#ifdef DEBUG_USB_HOST_USB_HOST
+#ifdef DEBUG_USB_HOST
 void NotifyFailGetDevDescr(void) {
         Notify(PSTR("\r\ngetDevDescr"), 0x80);
 }
