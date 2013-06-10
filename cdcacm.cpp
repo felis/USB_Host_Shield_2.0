@@ -288,7 +288,7 @@ uint8_t ACM::Poll() {
         //	for (uint8_t i=0; i<read; i++)
         //	{
         //		PrintHex<uint8_t>(buf[i]);
-        //		Serial.print(" ");
+        //		USB_HOST_SERIAL.print(" ");
         //	}
         //	USBTRACE("\r\n");
         //}

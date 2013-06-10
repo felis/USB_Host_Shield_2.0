@@ -200,7 +200,7 @@ Fail:
 //
 //	//if (qNextPollTime <= millis())
 //	//{
-//	//	Serial.println(bAddress, HEX);
+//	//	USB_HOST_SERIAL.println(bAddress, HEX);
 //
 //	//	qNextPollTime = millis() + 100;
 //	//}

@@ -20,6 +20,11 @@ e-mail   :  support@circuitsathome.com
 // uncomment to activate
 //#define DEBUG_USB_HOST
 
+
+#ifndef USB_HOST_SERIAL
+#define USB_HOST_SERIAL Serial
+#endif
+
 #include <inttypes.h>
 #include <avr/pgmspace.h>
 

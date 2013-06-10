@@ -273,8 +273,8 @@ template< typename SS, typename INTR >
 uint8_t MAX3421e< SS, INTR >::Task(void) {
         uint8_t rcode = 0;
         uint8_t pinvalue;
-        //Serial.print("Vbus state: ");
-        //Serial.println( vbusState, HEX );
+        //USB_HOST_SERIAL.print("Vbus state: ");
+        //USB_HOST_SERIAL.println( vbusState, HEX );
         pinvalue = INTR::IsSet(); //Read();
         //pinvalue = digitalRead( MAX_INT );
         if(pinvalue == 0) {

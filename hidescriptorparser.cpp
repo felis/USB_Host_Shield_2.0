@@ -981,9 +981,9 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
         totalSize = 0;
 
         while (cntdn) {
-                //Serial.println("");
+                //USB_HOST_SERIAL.println("");
                 //PrintHex<uint16_t>(offset + len - cntdn);
-                //Serial.print(":");
+                //USB_HOST_SERIAL.print(":");
 
                 ParseItem(&p, &cntdn);
 
@@ -1267,7 +1267,7 @@ void ReportDescParserBase::PrintButtonPageUsage(uint16_t usage) {
         Notify(PSTR("Btn"), 0x80);
         PrintHex<uint16_t > (usage, 0x80);
         Notify(PSTR("\r\n"), 0x80);
-        //Serial.print(usage, HEX);
+        //USB_HOST_SERIAL.print(usage, HEX);
 }
 
 void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage) {
@@ -1276,7 +1276,7 @@ void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage) {
         // Sorry, HEX for now...
         PrintHex<uint16_t > (usage, 0x80);
         Notify(PSTR("\r\n"), 0x80);
-        //Serial.print(usage, DEC);
+        //USB_HOST_SERIAL.print(usage, DEC);
 }
 
 void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {

@@ -497,7 +497,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
                 //for (uint8_t i=0; i<read; i++)
                 //	PrintHex<uint8_t>(buf[i]);
                 //if (read)
-                //	Serial.println("");
+                //	USB_HOST_SERIAL.println("");
 
                 if(pRptParser)
                         pRptParser->Parse((HID*)this, 0, (uint8_t) read, buf);

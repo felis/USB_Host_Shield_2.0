@@ -247,8 +247,8 @@ uint8_t USBHub::CheckHubStatus() {
                 //rcode = GetHubStatus(1, 0, 1, 4, buf);
                 //if (rcode)
                 //{
-                //	Serial.print("GetHubStatus Error");
-                //	Serial.println(rcode, HEX);
+                //	USB_HOST_SERIAL.print("GetHubStatus Error");
+                //	USB_HOST_SERIAL.println(rcode, HEX);
                 //	return rcode;
                 //}
         }
@@ -350,46 +350,46 @@ void PrintHubPortStatus(USBHub *hubptr, uint8_t addr, uint8_t port, bool print_c
         rcode = hubptr->GetPortStatus(port, 4, evt.evtBuff);
 
         if (rcode) {
-                Serial.println("ERROR!");
+                USB_HOST_SERIAL.println("ERROR!");
                 return;
         }
-        Serial.print("\r\nPort ");
-        Serial.println(port, DEC);
+        USB_HOST_SERIAL.print("\r\nPort ");
+        USB_HOST_SERIAL.println(port, DEC);
 
-        Serial.println("Status");
-        Serial.print("CONNECTION:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_CONNECTION) > 0, DEC);
-        Serial.print("ENABLE:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_ENABLE) > 0, DEC);
-        Serial.print("SUSPEND:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_SUSPEND) > 0, DEC);
-        Serial.print("OVER_CURRENT:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_OVER_CURRENT) > 0, DEC);
-        Serial.print("RESET:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_RESET) > 0, DEC);
-        Serial.print("POWER:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_POWER) > 0, DEC);
-        Serial.print("LOW_SPEED:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) > 0, DEC);
-        Serial.print("HIGH_SPEED:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_HIGH_SPEED) > 0, DEC);
-        Serial.print("TEST:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_TEST) > 0, DEC);
-        Serial.print("INDICATOR:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_INDICATOR) > 0, DEC);
+        USB_HOST_SERIAL.println("Status");
+        USB_HOST_SERIAL.print("CONNECTION:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_CONNECTION) > 0, DEC);
+        USB_HOST_SERIAL.print("ENABLE:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_ENABLE) > 0, DEC);
+        USB_HOST_SERIAL.print("SUSPEND:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_SUSPEND) > 0, DEC);
+        USB_HOST_SERIAL.print("OVER_CURRENT:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_OVER_CURRENT) > 0, DEC);
+        USB_HOST_SERIAL.print("RESET:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_RESET) > 0, DEC);
+        USB_HOST_SERIAL.print("POWER:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_POWER) > 0, DEC);
+        USB_HOST_SERIAL.print("LOW_SPEED:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) > 0, DEC);
+        USB_HOST_SERIAL.print("HIGH_SPEED:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_HIGH_SPEED) > 0, DEC);
+        USB_HOST_SERIAL.print("TEST:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_TEST) > 0, DEC);
+        USB_HOST_SERIAL.print("INDICATOR:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_INDICATOR) > 0, DEC);
 
         if (!print_changes)
                 return;
 
-        Serial.println("\r\nChange");
-        Serial.print("CONNECTION:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_CONNECTION) > 0, DEC);
-        Serial.print("ENABLE:\t\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_ENABLE) > 0, DEC);
-        Serial.print("SUSPEND:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_SUSPEND) > 0, DEC);
-        Serial.print("OVER_CURRENT:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT) > 0, DEC);
-        Serial.print("RESET:\t\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_RESET) > 0, DEC);
+        USB_HOST_SERIAL.println("\r\nChange");
+        USB_HOST_SERIAL.print("CONNECTION:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_CONNECTION) > 0, DEC);
+        USB_HOST_SERIAL.print("ENABLE:\t\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_ENABLE) > 0, DEC);
+        USB_HOST_SERIAL.print("SUSPEND:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_SUSPEND) > 0, DEC);
+        USB_HOST_SERIAL.print("OVER_CURRENT:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT) > 0, DEC);
+        USB_HOST_SERIAL.print("RESET:\t\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_RESET) > 0, DEC);
 }
