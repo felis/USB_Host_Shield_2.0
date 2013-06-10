@@ -27,7 +27,7 @@ void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -40,7 +40,7 @@ void PrintHex(T val, int lvl) {
 
 template <class T>
 void PrintBin(T val, int lvl) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
                         E_Notifyc('1', lvl);
@@ -51,7 +51,7 @@ void PrintBin(T val, int lvl) {
 
 template <class T>
 void SerialPrintHex(T val) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -64,7 +64,7 @@ void SerialPrintHex(T val) {
 
 template <class T>
 void PrintHex2(Print *prn, T val) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         T mask = (((T) 1) << (((sizeof(T) << 1) - 1) << 2));
 
         while(mask > 1) {

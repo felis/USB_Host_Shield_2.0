@@ -18,7 +18,7 @@
  */
 
 #include "XBOXRECV.h"
-// To enable serial debugging uncomment "#define DEBUG" in message.h
+// To enable serial debugging uncomment "#define DEBUG_USB_HOST_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -52,7 +52,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         // check if address has already been assigned to an instance
         if (bAddress) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -62,14 +62,14 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p = addrPool.GetUsbDevicePtr(0);
 
         if (!p) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
 #endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
         if (!p->epinfo) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("\r\nepinfo is null"), 0x80);
 #endif
                 return USB_ERROR_EPINFO_IS_NULL;
@@ -97,7 +97,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a xbox receiver using the Vendor ID
                 goto FailUnknownDevice;
         else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
                 goto FailUnknownDevice;
@@ -118,7 +118,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
                 PrintHex<uint8_t > (rcode, 0x80);
 #endif
@@ -209,7 +209,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailSetConfDescr;
 
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         Notify(PSTR("\r\nXbox Wireless Receiver Connected\r\n"), 0x80);
 #endif
         XboxReceiverConnected = true;
@@ -218,31 +218,31 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
 
 FailSetDevTblEntry:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
 #endif
 
 FailSetConfDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailSetConfDescr();
 #endif
         goto Fail;
 
 FailUnknownDevice:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailUnknownDevice(VID,PID);
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 Fail:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif
@@ -304,12 +304,12 @@ void XBOXRECV::readReport(uint8_t controller) {
         // This report is send when a controller is connected and disconnected
         if (readBuf[0] == 0x08 && readBuf[1] != Xbox360Connected[controller]) {
                 Xbox360Connected[controller] = readBuf[1];
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 Notify(PSTR("Controller "), 0x80);
                 Notify(controller, 0x80);
 #endif
                 if (Xbox360Connected[controller]) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                         char* str = 0;
                         switch (readBuf[1]) {
                                 case 0x80: str = PSTR(" as controller\r\n");
@@ -335,7 +335,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                         }
                         setLedOn(led, controller);
                 }
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
                 else
                         Notify(PSTR(": disconnected\r\n"), 0x80);
 #endif

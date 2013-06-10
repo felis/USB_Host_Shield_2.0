@@ -155,36 +155,36 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
 
 FailSetDevTblEntry:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
 #endif
 
 FailGetConfDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
 #endif
 
 FailSetConfDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
 #endif
 
 FailOnInit:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         USBTRACE("OnInit:");
 #endif
 
 Fail:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST_USB_HOST
         NotifyFail(rcode);
 #endif
         Release();
