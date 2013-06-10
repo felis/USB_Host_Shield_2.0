@@ -35,8 +35,8 @@ EXTRA_FLAGS += -D DISABLE_SERIAL3
 # The following are the libraries used.
 LIB_DIRS =
 LIB_DIRS += ../../
-LIB_DIRS += xmem2
-LIB_DIRS += generic_storage
+LIB_DIRS += ../testusbhostFAT/xmem2
+LIB_DIRS += ../testusbhostFAT/generic_storage
 
 # And finally, the part that brings everything together for you.
 include Arduino_Makefile_master/_Makefile.master
