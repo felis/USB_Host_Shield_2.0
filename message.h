@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 #define __MESSAGE_H__
 
 // uncomment to activate
-//#define DEBUG_USB_HOST
+//#define DEBUG_USB_HOST_USB_HOST
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
@@ -31,7 +31,7 @@ void E_Notify(uint8_t b, int lvl);
 void E_NotifyStr(char const * msg, int lvl);
 void E_Notifyc(char c, int lvl);
 
-#ifdef DEBUG_USB_HOST
+#ifdef DEBUG_USB_HOST_USB_HOST
 #define Notify E_Notify
 #define NotifyStr E_NotifyStr
 #define Notifyc E_Notifyc
@@ -61,7 +61,7 @@ void NotifyFail(uint8_t rcode);
 
 template <class ERROR_TYPE>
 void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
-#ifdef DEBUG_USB_HOST
+#ifdef DEBUG_USB_HOST_USB_HOST
         Notify(msg, level);
         Notify(PSTR(": "), level);
         PrintHex<ERROR_TYPE > (rcode, level);
@@ -71,7 +71,7 @@ void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
 
 template <class ERROR_TYPE>
 void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
-#ifdef DEBUG_USB_HOST
+#ifdef DEBUG_USB_HOST_USB_HOST
         Notify(msg, 0x80);
         Notify(PSTR(": "), 0x80);
         PrintHex<ERROR_TYPE > (rcode, 0x80);
