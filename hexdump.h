@@ -48,13 +48,13 @@ void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, con
                 for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
                         if(!byteCount) {
                                 PrintHex<OFFSET_TYPE > (byteTotal, 0x80);
-                                Notify(PSTR(": "), 0x80);
+                                E_Notify(PSTR(": "), 0x80);
                         }
                         PrintHex<uint8_t > (pbuf[j], 0x80);
-                        Notify(PSTR(" "), 0x80);
+                        E_Notify(PSTR(" "), 0x80);
 
                         if(byteCount == 15) {
-                                Notify(PSTR("\r\n"), 0x80);
+                                E_Notify(PSTR("\r\n"), 0x80);
                                 byteCount = 0xFF;
                         }
                 }

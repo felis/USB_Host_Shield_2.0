@@ -27,7 +27,7 @@ void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
-#ifdef DEBUG
+//#ifdef DEBUG
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -35,23 +35,23 @@ void PrintHex(T val, int lvl) {
                 if(v > 57) v += 7;
                 E_Notifyc(v, lvl);
         } while(--num_nibbles);
-#endif
+//#endif
 }
 
 template <class T>
 void PrintBin(T val, int lvl) {
-#ifdef DEBUG
+//#ifdef DEBUG
         for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
                         E_Notifyc('1', lvl);
                 else
                         E_Notifyc('0', lvl);
-#endif
+//#endif
 }
 
 template <class T>
 void SerialPrintHex(T val) {
-#ifdef DEBUG
+//#ifdef DEBUG
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -59,12 +59,12 @@ void SerialPrintHex(T val) {
                 if(v > 57) v += 7;
                 Serial.print(v);
         } while(--num_nibbles);
-#endif
+//#endif
 }
 
 template <class T>
 void PrintHex2(Print *prn, T val) {
-#ifdef DEBUG
+//#ifdef DEBUG
         T mask = (((T) 1) << (((sizeof(T) << 1) - 1) << 2));
 
         while(mask > 1) {
@@ -74,7 +74,7 @@ void PrintHex2(Print *prn, T val) {
                 mask >>= 4;
         }
         prn->print((T) val, HEX);
-#endif
+//#endif
 }
 
 #endif // __PRINTHEX_H__
