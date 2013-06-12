@@ -174,7 +174,7 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
 FailGetDevDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr(rcode);
 #endif
         rcode = USB_ERROR_FailGetDevDescr;
@@ -362,42 +362,42 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailSetConfDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
 #endif
 
 FailOnInit:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         USBTRACE("OnInit:");
         goto Fail;
 #endif
 
 FailGetMaxLUN:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         USBTRACE("GetMaxLUN:");
         goto Fail;
 #endif
 
 FailInvalidSectorSize:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         USBTRACE("Sector Size is NOT VALID: ");
         goto Fail;
 #endif
 
 FailSetDevTblEntry:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
 #endif
 
 FailGetConfDescr:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
 #endif
 
 Fail:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
 #endif
         Release();
@@ -498,14 +498,8 @@ uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
 }
 
 uint8_t BulkOnly::Reset() {
-        uint8_t r;
         while (pUsb->ctrlReq(bAddress, 0, bmREQ_MASSOUT, MASS_REQ_BOMSR, 0, 0, bIface, 0, 0, NULL, NULL) == 0x01) delay(6);
-#if 0
-        if (r) {
-                printf("Reset error %2.2X\r\n", r);
-        }
-#endif
-        return r;
+        return 0;
 }
 
 uint8_t BulkOnly::ResetRecovery() {

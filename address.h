@@ -194,7 +194,7 @@ public:
 
         virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) {
                 /* if (parent != 0 && port == 0)
-                        Serial.println("PRT:0"); */
+                        USB_HOST_SERIAL.println("PRT:0"); */
 
                 if(parent > 127 || port > 7)
                         return 0;
@@ -231,12 +231,12 @@ public:
                 }
                 thePool[index].address = *((uint8_t*) & addr);
                 /*
-                                Serial.print("Addr:");
-                                Serial.print(addr.bmHub, HEX);
-                                Serial.print(".");
-                                Serial.print(addr.bmParent, HEX);
-                                Serial.print(".");
-                                Serial.println(addr.bmAddress, HEX);
+                                USB_HOST_SERIAL.print("Addr:");
+                                USB_HOST_SERIAL.print(addr.bmHub, HEX);
+                                USB_HOST_SERIAL.print(".");
+                                USB_HOST_SERIAL.print(addr.bmParent, HEX);
+                                USB_HOST_SERIAL.print(".");
+                                USB_HOST_SERIAL.println(addr.bmAddress, HEX);
                  */
                 return thePool[index].address;
         };

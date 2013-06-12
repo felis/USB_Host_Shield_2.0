@@ -8,19 +8,13 @@
 #include <Wii.h>
 USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
-//WII Wii(&Btd,PAIR); // You will have to pair each controller with the dongle before you can define the instances like below
-WII Wii_1(&Btd);
-WII Wii_2(&Btd);
-//WII Wii_3(&Btd); // You can create as many instances as you like, but it will take up a lot of RAM!!
-
-WII* Wii[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like
+WII* Wii[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
 const uint8_t length = sizeof(Wii)/sizeof(Wii[0]); // Get the lenght of the array
 bool printAngle[length];
 
 void setup() {
-  Wii[0] = &Wii_1;
-  Wii[1] = &Wii_2;
-  //Wii[2] = &Wii_3; // You only need to uncomment this if you wanted to use another controller
+  for(uint8_t i=0;i<length;i++)
+    Wii[i] = new WII(&Btd); // You will have to pair each controller with the dongle before you can define the instances like so, just add PAIR as the second argument
 
   Serial.begin(115200);
   if (Usb.Init() == -1) {
@@ -33,7 +27,6 @@ void loop() {
   Usb.Task();
 
   for(uint8_t i=0;i<length;i++) {
-    if(!Wii[i]) continue; // Skip if it hasn't been defined
     if(Wii[i]->wiimoteConnected) {
       if(Wii[i]->getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
         Serial.print(F("\r\nHOME"));

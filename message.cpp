@@ -24,11 +24,11 @@ int UsbDEBUGlvl = 0x80;
 void E_Notifyc(char c, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
-        Serial.print(c);
+        USB_HOST_SERIAL.print(c);
 #else
-        Serial.print(c, BYTE);
+        USB_HOST_SERIAL.print(c, BYTE);
 #endif
-        Serial.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
 void E_Notify(char const * msg, int lvl) {
@@ -50,20 +50,20 @@ void E_NotifyStr(char const * msg, int lvl) {
 void E_Notify(uint8_t b, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
-        Serial.print(b);
+        USB_HOST_SERIAL.print(b);
 #else
-        Serial.print(b, DEC);
+        USB_HOST_SERIAL.print(b, DEC);
 #endif
-        Serial.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
 void E_Notify(double d, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
-        Serial.print(d);
-        Serial.flush();
+        USB_HOST_SERIAL.print(d);
+        //USB_HOST_SERIAL.flush();
 }
 
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
 void NotifyFailGetDevDescr(void) {
         Notify(PSTR("\r\ngetDevDescr"), 0x80);
 }
