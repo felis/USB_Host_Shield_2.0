@@ -229,6 +229,12 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                 }
 #endif
                         }
+#ifdef EXTRADEBUG
+                        else {
+                                Notify(PSTR("\r\nUnknown PDU: "));
+                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                        }
+#endif
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
                         rfcommChannel = l2capinbuf[8] & 0xF8;
                         rfcommDirection = l2capinbuf[8] & 0x04;
