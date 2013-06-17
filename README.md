@@ -11,4 +11,4 @@ In order to build the documentation you will need the [Doxyfile](Doxyfile) and [
 
 Also since there is a bug in Doxygen you will need to add \ in front of the @-sign in [Circuits@Home](https://github.com/felis/USB_Host_Shield_2.0#developed-by) in the [README.md](https://github.com/felis/USB_Host_Shield_2.0#developed-by) file.
 
-Also please uncomment <code>\#define DEBUG</code> in [message.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/message.h) and <code>\#define WIICAMERA</code> in [Wii.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.h).
+Also please uncomment <code>\#define WIICAMERA</code> in [Wii.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.h).
