@@ -146,17 +146,17 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[17], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[17], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[16], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[16], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
@@ -177,15 +177,15 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nL2CAP Connection Request - PSM: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" SCID: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                 Notify(PSTR(" Identifier: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
 #endif
                                 if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
                                         identifier = l2capinbuf[9];
@@ -249,7 +249,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         else {
                                 identifier = l2capinbuf[9];
                                 Notify(PSTR("\r\nL2CAP Unknown Signaling Command: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
@@ -274,7 +274,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                         ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
 #ifdef PRINTREPORT
                                                 Notify(PSTR("ButtonState: "), 0x80);
-                                                PrintHex<uint32_t > (ButtonState, 0x80);
+                                                D_PrintHex<uint32_t > (ButtonState, 0x80);
                                                 Notify(PSTR("\r\n"), 0x80);
 #endif
                                                 if (ButtonState != OldButtonState) {
@@ -373,11 +373,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                                 else {
                                                                         Notify(PSTR("\r\nUnknown Device: "), 0x80);
-                                                                        PrintHex<uint8_t > (l2capinbuf[13], 0x80);
-                                                                        PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                                                        D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                                                        D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                                                         Notify(PSTR("\r\nData: "), 0x80);
                                                                         for (uint8_t i = 0; i < ((l2capinbuf[12] >> 4) + 1); i++) { // bit 4-7 is the length-1
-                                                                                PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
+                                                                                D_PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
                                                                                 Notify(PSTR(" "), 0x80);
                                                                         }
                                                                 }
@@ -386,8 +386,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef EXTRADEBUG
                                                         else {
                                                                 Notify(PSTR("\r\nReport Error: "), 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                                         }
 #endif
                                                         break;
@@ -395,7 +395,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                         if (l2capinbuf[13] != 0x00) { // Check if there is an error
                                                                 Notify(PSTR("\r\nCommand failed: "), 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                                         }
 #endif
                                                         break;
@@ -567,7 +567,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                 default:
                                                         Notify(PSTR("\r\nUnknown Report type: "), 0x80);
-                                                        PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                                        D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
                                                         break;
 #endif
                                         }
@@ -1104,7 +1104,7 @@ void WII::IRinitialize() { // Turns on and initialises the IR camera
         setWiiModeNumber(mode_num); // Change input for whatever mode you want i.e. 0x01, 0x03, or 0x05
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nSet Wii Mode Number To 0x"), 0x80);
-        PrintHex<uint8_t > (mode_num, 0x80);
+        D_PrintHex<uint8_t > (mode_num, 0x80);
 #endif
         delay(80);
 

@@ -272,30 +272,30 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" Data: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[17], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[17], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[16], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[16], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nL2CAP Connection Request - PSM: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" SCID: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                 Notify(PSTR(" Identifier: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
 #endif
                                 if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
                                         identifier = l2capinbuf[9];
@@ -358,7 +358,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 #ifdef EXTRADEBUG
                         else {
                                 Notify(PSTR("\r\nL2CAP Unknown Signaling Command: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
@@ -381,7 +381,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
                                         for (uint8_t i = 10; i < 58; i++) {
-                                                PrintHex<uint8_t > (l2capinbuf[i], 0x80);
+                                                D_PrintHex<uint8_t > (l2capinbuf[i], 0x80);
                                                 Notify(PSTR(" "), 0x80);
                                         }
                                         Notify(PSTR("\r\n"), 0x80);

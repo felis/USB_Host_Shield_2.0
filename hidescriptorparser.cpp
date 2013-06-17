@@ -996,13 +996,13 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 void ReportDescParserBase::PrintValue(uint8_t *p, uint8_t len) {
         Notify(PSTR("("), 0x80);
         for (; len; p++, len--)
-                PrintHex<uint8_t > (*p, 0x80);
+                D_PrintHex<uint8_t > (*p, 0x80);
         Notify(PSTR(")"), 0x80);
 }
 
 void ReportDescParserBase::PrintByteValue(uint8_t data) {
         Notify(PSTR("("), 0x80);
-        PrintHex<uint8_t > (data, 0x80);
+        D_PrintHex<uint8_t > (data, 0x80);
         Notify(PSTR(")"), 0x80);
 }
 
@@ -1172,7 +1172,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                                         break;
                                                 default:
                                                         Notify(PSTR(" Vendor Defined("), 0x80);
-                                                        PrintHex<uint8_t > (data, 0x80);
+                                                        D_PrintHex<uint8_t > (data, 0x80);
                                                         Notify(PSTR(")"), 0x80);
                                         }
                                         break;
@@ -1183,7 +1183,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                         rptSize = 0;
                                         rptCount = 0;
                                         Notify(PSTR("("), 0x80);
-                                        PrintBin<uint8_t > (data, 0x80);
+                                        D_PrintBin<uint8_t > (data, 0x80);
                                         Notify(PSTR(")"), 0x80);
                                         break;
                         } // switch (**pp & (TYPE_MASK | TAG_MASK))
@@ -1265,7 +1265,7 @@ void ReportDescParserBase::PrintUsagePage(uint16_t page) {
 void ReportDescParserBase::PrintButtonPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
         Notify(PSTR("Btn"), 0x80);
-        PrintHex<uint16_t > (usage, 0x80);
+        D_PrintHex<uint16_t > (usage, 0x80);
         Notify(PSTR("\r\n"), 0x80);
         //USB_HOST_SERIAL.print(usage, HEX);
 }
@@ -1274,7 +1274,7 @@ void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage) {
         Notify(pstrSpace, 0x80);
         Notify(PSTR("Inst"), 0x80);
         // Sorry, HEX for now...
-        PrintHex<uint16_t > (usage, 0x80);
+        D_PrintHex<uint16_t > (usage, 0x80);
         Notify(PSTR("\r\n"), 0x80);
         //USB_HOST_SERIAL.print(usage, DEC);
 }

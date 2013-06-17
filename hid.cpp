@@ -44,39 +44,39 @@ uint8_t HID::GetProtocol(uint8_t iface, uint8_t* dataptr) {
 void HID::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
         Notify(PSTR("Endpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
         Notify(PSTR("\r\nType:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
         Notify(PSTR("\r\nAddress:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
         Notify(PSTR("\r\nAttributes:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
         Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
-        PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
+        D_PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
         Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
 }
 
 void HID::PrintHidDescriptor(const USB_HID_DESCRIPTOR *pDesc) {
         Notify(PSTR("\r\n\r\nHID Descriptor:\r\n"), 0x80);
         Notify(PSTR("bDescLength:\t\t"), 0x80);
-        PrintHex<uint8_t > (pDesc->bLength, 0x80);
+        D_PrintHex<uint8_t > (pDesc->bLength, 0x80);
 
         Notify(PSTR("\r\nbDescriptorType:\t"), 0x80);
-        PrintHex<uint8_t > (pDesc->bDescriptorType, 0x80);
+        D_PrintHex<uint8_t > (pDesc->bDescriptorType, 0x80);
 
         Notify(PSTR("\r\nbcdHID:\t\t\t"), 0x80);
-        PrintHex<uint16_t > (pDesc->bcdHID, 0x80);
+        D_PrintHex<uint16_t > (pDesc->bcdHID, 0x80);
 
         Notify(PSTR("\r\nbCountryCode:\t\t"), 0x80);
-        PrintHex<uint8_t > (pDesc->bCountryCode, 0x80);
+        D_PrintHex<uint8_t > (pDesc->bCountryCode, 0x80);
 
         Notify(PSTR("\r\nbNumDescriptors:\t"), 0x80);
-        PrintHex<uint8_t > (pDesc->bNumDescriptors, 0x80);
+        D_PrintHex<uint8_t > (pDesc->bNumDescriptors, 0x80);
 
         Notify(PSTR("\r\nbDescrType:\t\t"), 0x80);
-        PrintHex<uint8_t > (pDesc->bDescrType, 0x80);
+        D_PrintHex<uint8_t > (pDesc->bDescrType, 0x80);
 
         Notify(PSTR("\r\nwDescriptorLength:\t"), 0x80);
-        PrintHex<uint16_t > (pDesc->wDescriptorLength, 0x80);
+        D_PrintHex<uint16_t > (pDesc->wDescriptorLength, 0x80);
 }

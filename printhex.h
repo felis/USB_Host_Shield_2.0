@@ -31,7 +31,6 @@ void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
-//#ifdef DEBUG_USB_HOST
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -39,23 +38,19 @@ void PrintHex(T val, int lvl) {
                 if(v > 57) v += 7;
                 E_Notifyc(v, lvl);
         } while(--num_nibbles);
-//#endif
 }
 
 template <class T>
 void PrintBin(T val, int lvl) {
-//#ifdef DEBUG_USB_HOST
         for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
                         E_Notifyc('1', lvl);
                 else
                         E_Notifyc('0', lvl);
-//#endif
 }
 
 template <class T>
 void SerialPrintHex(T val) {
-//#ifdef DEBUG_USB_HOST
         int num_nibbles = sizeof(T) * 2;
 
         do {
@@ -63,12 +58,10 @@ void SerialPrintHex(T val) {
                 if(v > 57) v += 7;
                 USB_HOST_SERIAL.print(v);
         } while(--num_nibbles);
-//#endif
 }
 
 template <class T>
 void PrintHex2(Print *prn, T val) {
-//#ifdef DEBUG_USB_HOST
         T mask = (((T) 1) << (((sizeof(T) << 1) - 1) << 2));
 
         while(mask > 1) {
@@ -78,7 +71,21 @@ void PrintHex2(Print *prn, T val) {
                 mask >>= 4;
         }
         prn->print((T) val, HEX);
-//#endif
 }
+
+template <class T> void D_PrintHex(T val, int lvl) {
+#ifdef DEBUG_USB_HOST
+        PrintHex<T>(val, lvl);
+#endif
+}
+
+template <class T>
+void D_PrintBin(T val, int lvl) {
+#ifdef DEBUG_USB_HOST
+        PrintBin<T>(val, lvl);
+#endif
+}
+
+
 
 #endif // __PRINTHEX_H__

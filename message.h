@@ -69,7 +69,7 @@ void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
 #ifdef DEBUG_USB_HOST
         Notify(msg, level);
         Notify(PSTR(": "), level);
-        PrintHex<ERROR_TYPE > (rcode, level);
+        D_PrintHex<ERROR_TYPE > (rcode, level);
         Notify(PSTR("\r\n"), level);
 #endif
 }
@@ -79,7 +79,7 @@ void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
 #ifdef DEBUG_USB_HOST
         Notify(msg, 0x80);
         Notify(PSTR(": "), 0x80);
-        PrintHex<ERROR_TYPE > (rcode, 0x80);
+        D_PrintHex<ERROR_TYPE > (rcode, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 #endif
 }

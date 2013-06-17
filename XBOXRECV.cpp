@@ -120,13 +120,13 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         p->lowspeed = false;
 
@@ -286,7 +286,7 @@ uint8_t XBOXRECV::Poll() {
                 if (bufferSize > 0) { // The number of received bytes
 #ifdef EXTRADEBUG
                         Notify(PSTR("Bytes Received: "), 0x80);
-                        PrintHex<uint16_t > (bufferSize, 0x80);
+                        D_PrintHex<uint16_t > (bufferSize, 0x80);
                         Notify(PSTR("\r\n"), 0x80);
 #endif
                         readReport(i);
@@ -382,7 +382,7 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
         Notify(controller, 0x80);
         Notify(PSTR(": "), 0x80);
         for (uint8_t i = 0; i < nBytes; i++) {
-                PrintHex<uint8_t > (readBuf[i], 0x80);
+                D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
         Notify(PSTR("\r\n"), 0x80);

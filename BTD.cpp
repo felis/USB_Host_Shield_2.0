@@ -116,12 +116,12 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
 #endif
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         p->lowspeed = false;
 
@@ -167,10 +167,10 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
                         for (int8_t i = 5; i > 0; i--) {
-                                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                                D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
                                 Notify(PSTR(":"), 0x80);
                         }
-                        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                        D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
                 }
 
@@ -297,17 +297,17 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nEndpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
         Notify(PSTR("\r\nType:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
         Notify(PSTR("\r\nAddress:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
         Notify(PSTR("\r\nAttributes:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
         Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
-        PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
+        D_PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
         Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
 #endif
 }
 
@@ -362,11 +362,11 @@ void BTD::HCI_event_task() {
                                 if (hcibuf[2]) { // show status on serial if not OK
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nHCI Command Failed: "), 0x80);
-                                        PrintHex<uint8_t > (hcibuf[2], 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[2], 0x80);
                                         Notify(PSTR(" "), 0x80);
-                                        PrintHex<uint8_t > (hcibuf[4], 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[4], 0x80);
                                         Notify(PSTR(" "), 0x80);
-                                        PrintHex<uint8_t > (hcibuf[5], 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[5], 0x80);
 #endif
                                 }
                                 break;
@@ -408,11 +408,11 @@ void BTD::HCI_event_task() {
 #ifdef EXTRADEBUG
                                                 else {
                                                         Notify(PSTR("\r\nClass of device: "), 0x80);
-                                                        PrintHex<uint8_t > (hcibuf[6 + 8 * hcibuf[2] + 3 * i], 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[6 + 8 * hcibuf[2] + 3 * i], 0x80);
                                                         Notify(PSTR(" "), 0x80);
-                                                        PrintHex<uint8_t > (hcibuf[5 + 8 * hcibuf[2] + 3 * i], 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[5 + 8 * hcibuf[2] + 3 * i], 0x80);
                                                         Notify(PSTR(" "), 0x80);
-                                                        PrintHex<uint8_t > (hcibuf[4 + 8 * hcibuf[2] + 3 * i], 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[4 + 8 * hcibuf[2] + 3 * i], 0x80);
                                                 }
 #endif
                                         }
@@ -457,11 +457,11 @@ void BTD::HCI_event_task() {
                                 disc_bdaddr[5] = hcibuf[7];
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nClass of device: "), 0x80);
-                                PrintHex<uint8_t > (hcibuf[10], 0x80);
+                                D_PrintHex<uint8_t > (hcibuf[10], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (hcibuf[9], 0x80);
+                                D_PrintHex<uint8_t > (hcibuf[9], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (hcibuf[8], 0x80);
+                                D_PrintHex<uint8_t > (hcibuf[8], 0x80);
 #endif
                                 hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
                                 break;
@@ -518,7 +518,7 @@ void BTD::HCI_event_task() {
                         default:
                                 if (hcibuf[0] != 0x00) {
                                         Notify(PSTR("\r\nUnmanaged HCI Event: "), 0x80);
-                                        PrintHex<uint8_t > (hcibuf[0], 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[0], 0x80);
                                 }
                                 break;
 #endif
@@ -527,7 +527,7 @@ void BTD::HCI_event_task() {
 #ifdef EXTRADEBUG
         else if (rcode != hrNAK) {
                 Notify(PSTR("\r\nHCI event error: "), 0x80);
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
         }
 #endif
         HCI_task();
@@ -581,10 +581,10 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nLocal Bluetooth Address: "), 0x80);
                                 for (int8_t i = 5; i > 0; i--) {
-                                        PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                                        D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
                                         Notify(PSTR(":"), 0x80);
                                 }
-                                PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                                D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
                                 hci_read_local_version_information();
                                 hci_state = HCI_LOCAL_VERSION_STATE;
@@ -734,10 +734,10 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nConnected to Device: "), 0x80);
                                 for (int8_t i = 5; i > 0; i--) {
-                                        PrintHex<uint8_t > (disc_bdaddr[i], 0x80);
+                                        D_PrintHex<uint8_t > (disc_bdaddr[i], 0x80);
                                         Notify(PSTR(":"), 0x80);
                                 }
-                                PrintHex<uint8_t > (disc_bdaddr[0], 0x80);
+                                D_PrintHex<uint8_t > (disc_bdaddr[0], 0x80);
 #endif
                                 // Clear these flags for a new connection
                                 l2capConnectionClaimed = false;
@@ -789,7 +789,7 @@ void BTD::ACL_event_task() {
 #ifdef EXTRADEBUG
         else if (rcode != hrNAK) {
                 Notify(PSTR("\r\nACL data in error: "), 0x80);
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
         }
 #endif
         for (uint8_t i = 0; i < BTD_NUMSERVICES; i++)
@@ -1085,11 +1085,11 @@ void BTD::L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t 
                 delay(100); // This small delay prevents it from overflowing if it fails
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nError sending L2CAP message: 0x"), 0x80);
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
                 Notify(PSTR(" - Channel ID: "), 0x80);
-                PrintHex<uint8_t > (channelHigh, 0x80);
+                D_PrintHex<uint8_t > (channelHigh, 0x80);
                 Notify(PSTR(" "), 0x80);
-                PrintHex<uint8_t > (channelLow, 0x80);
+                D_PrintHex<uint8_t > (channelLow, 0x80);
 #endif
         }
 }

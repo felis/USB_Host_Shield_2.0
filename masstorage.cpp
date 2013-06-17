@@ -134,14 +134,14 @@ uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf) {
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         Notify(PSTR("\r\nRead LUN:\t"), 0x80);
-        PrintHex<uint8_t > (lun, 0x90);
+        D_PrintHex<uint8_t > (lun, 0x90);
         //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
         Notify(PSTR("\r\nLBA:\t\t"), 0x90);
-        PrintHex<uint32_t > (addr, 0x90);
+        D_PrintHex<uint32_t > (addr, 0x90);
         Notify(PSTR("\r\nblocks:\t\t"), 0x90);
-        PrintHex<uint8_t > (blocks, 0x90);
+        D_PrintHex<uint8_t > (blocks, 0x90);
         Notify(PSTR("\r\nblock size:\t"), 0x90);
-        PrintHex<uint16_t > (bsize, 0x90);
+        D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
         CommandBlockWrapper cbw;
 
@@ -187,14 +187,14 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         if (!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
         Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
-        PrintHex<uint8_t > (lun, 0x90);
+        D_PrintHex<uint8_t > (lun, 0x90);
         //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
         Notify(PSTR("\r\nLBA:\t\t"), 0x90);
-        PrintHex<uint32_t > (addr, 0x90);
+        D_PrintHex<uint32_t > (addr, 0x90);
         Notify(PSTR("\r\nblocks:\t\t"), 0x90);
-        PrintHex<uint8_t > (blocks, 0x90);
+        D_PrintHex<uint8_t > (blocks, 0x90);
         Notify(PSTR("\r\nblock size:\t"), 0x90);
-        PrintHex<uint16_t > (bsize, 0x90);
+        D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
         //MediaCTL(lun, 0x01);
         CommandBlockWrapper cbw;
@@ -557,7 +557,7 @@ boolean BulkOnly::CheckLUN(uint8_t lun) {
         }
         ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY OK ON LUN"), lun);
         for (uint8_t i = 0; i<sizeof (Capacity); i++)
-                PrintHex<uint8_t > (capacity.data[i], 0x80);
+                D_PrintHex<uint8_t > (capacity.data[i], 0x80);
         Notify(PSTR("\r\n\r\n"), 0x80);
         // Only 512/1024/2048/4096 are valid values!
         uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
@@ -835,7 +835,7 @@ uint8_t BulkOnly::Page3F(uint8_t lun) {
                 WriteOk[lun] = ((buf[2] & 0x80) == 0);
                 Notify(PSTR("Mode Sense: "), 0x80);
                 for (int i = 0; i < 4; i++) {
-                        PrintHex<uint8_t > (buf[i], 0x80);
+                        D_PrintHex<uint8_t > (buf[i], 0x80);
                         Notify(PSTR(" "), 0x80);
                 }
                 Notify(PSTR("\r\n"), 0x80);
@@ -1197,7 +1197,7 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
                         if (rsp.bResponseCode & 0x80) {
                                 Notify(PSTR("Information field: "), 0x80);
                                 for (int i = 0; i < 4; i++) {
-                                        PrintHex<uint8_t > (rsp.CmdSpecificInformation[i], 0x80);
+                                        D_PrintHex<uint8_t > (rsp.CmdSpecificInformation[i], 0x80);
                                         Notify(PSTR(" "), 0x80);
                                 }
                                 Notify(PSTR("\r\n"), 0x80);
@@ -1299,17 +1299,17 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
 void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
         Notify(PSTR("Endpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
         Notify(PSTR("\r\nType:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
         Notify(PSTR("\r\nAddress:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
         Notify(PSTR("\r\nAttributes:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
         Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
-        PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
+        D_PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
         Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 }
 

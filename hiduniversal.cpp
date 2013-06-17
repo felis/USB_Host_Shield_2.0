@@ -374,7 +374,7 @@ uint8_t HIDUniversal::Poll() {
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
                         for (uint8_t i = 0; i < read; i++)
-                                PrintHex<uint8_t > (buf[i], 0x80);
+                                D_PrintHex<uint8_t > (buf[i], 0x80);
 
                         Notify(PSTR("\r\n"), 0x80);
 

@@ -124,12 +124,12 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
 #endif
-                PrintHex<uint8_t > (rcode, 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         p->lowspeed = false;
 
@@ -267,7 +267,7 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
         if (readBuf == NULL)
                 return;
         for (uint8_t i = 0; i < XBOX_REPORT_BUFFER_SIZE; i++) {
-                PrintHex<uint8_t > (readBuf[i], 0x80);
+                D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
         Notify(PSTR("\r\n"), 0x80);

@@ -101,30 +101,30 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" Data: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[17], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[17], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[16], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[16], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nL2CAP Connection Request - PSM: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" SCID: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                 Notify(PSTR(" Identifier: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
 #endif
                                 if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM) { // It doesn't matter if it receives another reqeust, since it waits for the channel to disconnect in the L2CAP_SDP_DONE state, and the l2cap_event_flag will be cleared if so
                                         identifier = l2capinbuf[9];
@@ -187,7 +187,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef EXTRADEBUG
                         else {
                                 Notify(PSTR("\r\nL2CAP Unknown Signaling Command: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
                 } else if (l2capinbuf[6] == sdp_dcid[0] && l2capinbuf[7] == sdp_dcid[1]) { // SDP
@@ -217,14 +217,14 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         uuid = (l2capinbuf[18] << 8 | l2capinbuf[19]);
                                 else // Short UUID
                                         uuid = (l2capinbuf[16] << 8 | l2capinbuf[17]);
-                                PrintHex<uint16_t> (uuid, 0x80);
+                                D_PrintHex<uint16_t> (uuid, 0x80);
 
                                 Notify(PSTR("\r\nLength: "), 0x80);
                                 uint16_t length = l2capinbuf[11] << 8 | l2capinbuf[12];
-                                PrintHex<uint16_t> (length, 0x80);
+                                D_PrintHex<uint16_t> (length, 0x80);
                                 Notify(PSTR("\r\nData: "), 0x80);
                                 for (uint8_t i = 0; i < length; i++) {
-                                        PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
+                                        D_PrintHex<uint8_t> (l2capinbuf[13+i], 0x80);
                                         Notify(PSTR(" "), 0x80);
                                 }
 #endif
@@ -232,7 +232,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef EXTRADEBUG
                         else {
                                 Notify(PSTR("\r\nUnknown PDU: "));
-                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
                 } else if (l2capinbuf[6] == rfcomm_dcid[0] && l2capinbuf[7] == rfcomm_dcid[1]) { // RFCOMM
@@ -247,20 +247,20 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 
 #ifdef EXTRADEBUG
                         Notify(PSTR("\r\nRFCOMM Channel: "), 0x80);
-                        PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
+                        D_PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
                         Notify(PSTR(" Direction: "), 0x80);
-                        PrintHex<uint8_t > (rfcommDirection >> 2, 0x80);
+                        D_PrintHex<uint8_t > (rfcommDirection >> 2, 0x80);
                         Notify(PSTR(" CommandResponse: "), 0x80);
-                        PrintHex<uint8_t > (rfcommCommandResponse >> 1, 0x80);
+                        D_PrintHex<uint8_t > (rfcommCommandResponse >> 1, 0x80);
                         Notify(PSTR(" ChannelType: "), 0x80);
-                        PrintHex<uint8_t > (rfcommChannelType, 0x80);
+                        D_PrintHex<uint8_t > (rfcommChannelType, 0x80);
                         Notify(PSTR(" PF_BIT: "), 0x80);
-                        PrintHex<uint8_t > (rfcommPfBit, 0x80);
+                        D_PrintHex<uint8_t > (rfcommPfBit, 0x80);
 #endif
                         if (rfcommChannelType == RFCOMM_DISC) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nReceived Disconnect RFCOMM Command on channel: "), 0x80);
-                                PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
+                                D_PrintHex<uint8_t > (rfcommChannel >> 3, 0x80);
 #endif
                                 connected = false;
                                 sendRfcomm(rfcommChannel, rfcommDirection, rfcommCommandResponse, RFCOMM_UA, rfcommPfBit, rfcommbuf, 0x00); // UA Command
@@ -280,7 +280,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         Notify(rfcommAvailable, 0x80);
                                         if (offset) {
                                                 Notify(PSTR(" - Credit: 0x"), 0x80);
-                                                PrintHex<uint8_t > (l2capinbuf[11], 0x80);
+                                                D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
                                         }
 #endif
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
@@ -393,9 +393,9 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                 else if (rfcommChannelType != RFCOMM_DISC) {
                                         Notify(PSTR("\r\nUnsupported RFCOMM Data - ChannelType: "), 0x80);
-                                        PrintHex<uint8_t > (rfcommChannelType, 0x80);
+                                        D_PrintHex<uint8_t > (rfcommChannelType, 0x80);
                                         Notify(PSTR(" Command: "), 0x80);
-                                        PrintHex<uint8_t > (l2capinbuf[11], 0x80);
+                                        D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
                                 }
 #endif
                         }
@@ -403,9 +403,9 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef EXTRADEBUG
                 else {
                         Notify(PSTR("\r\nUnsupported L2CAP Data - Channel ID: "), 0x80);
-                        PrintHex<uint8_t > (l2capinbuf[7], 0x80);
+                        D_PrintHex<uint8_t > (l2capinbuf[7], 0x80);
                         Notify(PSTR(" "), 0x80);
-                        PrintHex<uint8_t > (l2capinbuf[6], 0x80);
+                        D_PrintHex<uint8_t > (l2capinbuf[6], 0x80);
                 }
 #endif
                 SDP_task();
@@ -698,7 +698,7 @@ void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t cha
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Data: "), 0x80);
         for (i = 0; i < length + 4; i++) {
-                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
+                D_PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -714,7 +714,7 @@ void SPP::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8
 #ifdef EXTRADEBUG
         Notify(PSTR(" - RFCOMM Credit Data: "), 0x80);
         for (uint8_t i = 0; i < 5; i++) {
-                PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
+                D_PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
 #endif
@@ -743,7 +743,7 @@ size_t SPP::write(const uint8_t* data, size_t size) {
         for(uint8_t i = 0; i < size; i++) {
                 if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
                         send(); // Send the current data in the buffer
-                sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function 
+                sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function
         }
         return size;
 }
