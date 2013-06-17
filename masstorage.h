@@ -283,7 +283,7 @@ private:
         uint8_t ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *buf);
         uint8_t GetMaxLUN(uint8_t *max_lun);
         uint8_t SetCurLUN(uint8_t lun);
-        uint8_t Reset();
+        void Reset();
         uint8_t ResetRecovery();
         uint8_t ReadCapacity(uint8_t lun, uint16_t size, uint8_t *buf);
         void ClearAllEP();

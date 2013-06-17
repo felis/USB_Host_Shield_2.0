@@ -4,6 +4,240 @@ const uint8_t BulkOnly::epDataInIndex = 1;
 const uint8_t BulkOnly::epDataOutIndex = 2;
 const uint8_t BulkOnly::epInterruptInIndex = 3;
 
+////////////////////////////////////////////////////////////////////////////////
+
+// Interface code
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get the capacity of the media
+ *
+ * @param lun Logical Unit Number
+ * @return media capacity
+ */
+uint32_t BulkOnly::GetCapacity(uint8_t lun) {
+        if (LUNOk[lun])
+                return CurrentCapacity[lun];
+        return 0LU;
+}
+
+/**
+ * Get the sector (block) size used on the media
+ *
+ * @param lun Logical Unit Number
+ * @return media sector size
+ */
+uint16_t BulkOnly::GetSectorSize(uint8_t lun) {
+        if (LUNOk[lun])
+                return CurrentSectorSize[lun];
+        return 0U;
+}
+
+/**
+ * Test if LUN is ready for use
+ *
+ * @param lun Logical Unit Number
+ * @return true if LUN is ready for use
+ */
+bool BulkOnly::LUNIsGood(uint8_t lun) {
+        return LUNOk[lun];
+}
+
+/**
+ * Test if LUN is write protected
+ *
+ * @param lun Logical Unit Number
+ * @return cached status of write protect switch
+ */
+boolean BulkOnly::WriteProtected(uint8_t lun) {
+        return WriteOk[lun];
+}
+
+
+/**
+ * Lock or Unlock the tray or door on device.
+ * Caution: Some devices with buggy firmware will lock up.
+ *
+ * @param lun Logical Unit Number
+ * @param lock 1 to lock, 0 to unlock
+ * @return
+ */
+uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
+        Notify(PSTR("\r\nLockMedia\r\n"), 0x80);
+        Notify(PSTR("---------\r\n"), 0x80);
+
+        CommandBlockWrapper cbw;
+        SetCurLUN(lun);
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWTag = ++dCBWTag;
+        cbw.dCBWDataTransferLength = 0;
+        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
+        cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = 6;
+
+        for (uint8_t i = 0; i < 16; i++)
+                cbw.CBWCB[i] = 0;
+
+        cbw.CBWCB[0] = SCSI_CMD_PREVENT_REMOVAL;
+        cbw.CBWCB[4] = lock;
+
+        return (HandleSCSIError(Transaction(&cbw, 0, NULL, 0)));
+
+}
+
+/**
+ * Media control, for spindle motor and media tray or door.
+ * This includes CDROM, TAPE and anything with a media loader.
+ *
+ * @param lun Logical Unit Number
+ * @param ctl 0x00 Stop Motor, 0x01 Start Motor, 0x02 Eject Media, 0x03 Load Media
+ * @return 0 on success
+ */
+uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
+        Notify(PSTR("\r\nMediaCTL\r\n"), 0x80);
+        Notify(PSTR("-----------------\r\n"), 0x80);
+        SetCurLUN(lun);
+        uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
+        if (bAddress) {
+                CommandBlockWrapper cbw;
+
+                cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+                cbw.dCBWTag = ++dCBWTag;
+                cbw.dCBWDataTransferLength = 0;
+                cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
+                cbw.bmCBWLUN = lun;
+                cbw.bmCBWCBLength = 6;
+
+                for (uint8_t i = 0; i < 16; i++)
+                        cbw.CBWCB[i] = 0;
+
+                cbw.CBWCB[0] = SCSI_CMD_START_STOP_UNIT;
+                cbw.CBWCB[1] = lun << 5;
+                cbw.CBWCB[4] = ctl & 0x03;
+
+                rcode = HandleSCSIError(Transaction(&cbw, 0, NULL, 0));
+        }
+        return rcode;
+}
+
+/**
+ * Read data from media
+ *
+ * @param lun Logical Unit Number
+ * @param addr LBA address on media to read
+ * @param bsize size of a block (we should probably use the cached size)
+ * @param blocks how many blocks to read
+ * @param buf memory that is able to hold the requested data
+ * @return 0 on success
+ */
+uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
+        Notify(PSTR("\r\nRead LUN:\t"), 0x80);
+        PrintHex<uint8_t > (lun, 0x90);
+        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
+        Notify(PSTR("\r\nLBA:\t\t"), 0x90);
+        PrintHex<uint32_t > (addr, 0x90);
+        Notify(PSTR("\r\nblocks:\t\t"), 0x90);
+        PrintHex<uint8_t > (blocks, 0x90);
+        Notify(PSTR("\r\nblock size:\t"), 0x90);
+        PrintHex<uint16_t > (bsize, 0x90);
+        Notify(PSTR("\r\n---------\r\n"), 0x80);
+        CommandBlockWrapper cbw;
+
+again:
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
+        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
+        cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = 10;
+
+        for (uint8_t i = 0; i < 16; i++)
+                cbw.CBWCB[i] = 0;
+
+        cbw.CBWCB[0] = SCSI_CMD_READ_10;
+        cbw.CBWCB[1] = lun << 5;
+        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
+        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
+        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
+        cbw.CBWCB[5] = (addr & 0xff);
+        cbw.CBWCB[8] = blocks;
+        cbw.dCBWTag = ++dCBWTag;
+        SetCurLUN(lun);
+        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
+        if (er == MASS_ERR_STALL) {
+                MediaCTL(lun, 1);
+                delay(150);
+                if (!TestUnitReady(lun)) goto again;
+        }
+        return er;
+}
+
+/**
+ * Write data to media
+ *
+ * @param lun Logical Unit Number
+ * @param addr LBA address on media to write
+ * @param bsize size of a block (we should probably use the cached size)
+ * @param blocks how many blocks to write
+ * @param buf memory that contains the data to write
+ * @return 0 on success
+ */
+uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t * buf) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
+        if (!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
+        Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
+        PrintHex<uint8_t > (lun, 0x90);
+        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
+        Notify(PSTR("\r\nLBA:\t\t"), 0x90);
+        PrintHex<uint32_t > (addr, 0x90);
+        Notify(PSTR("\r\nblocks:\t\t"), 0x90);
+        PrintHex<uint8_t > (blocks, 0x90);
+        Notify(PSTR("\r\nblock size:\t"), 0x90);
+        PrintHex<uint16_t > (bsize, 0x90);
+        Notify(PSTR("\r\n---------\r\n"), 0x80);
+        //MediaCTL(lun, 0x01);
+        CommandBlockWrapper cbw;
+
+again:
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWTag = ++dCBWTag;
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
+        cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
+        cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = 10;
+
+        for (uint8_t i = 0; i < 16; i++)
+                cbw.CBWCB[i] = 0;
+
+        cbw.CBWCB[0] = SCSI_CMD_WRITE_10;
+        cbw.CBWCB[1] = lun << 5;
+        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
+        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
+        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
+        cbw.CBWCB[5] = (addr & 0xff);
+        cbw.CBWCB[8] = 1;
+
+        SetCurLUN(lun);
+        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, (void*)buf, 0));
+        if (er == MASS_ERR_WRITE_STALL) {
+                MediaCTL(lun, 1);
+                delay(150);
+                if (!TestUnitReady(lun)) goto again;
+        }
+        return er;
+}
+
+// End of user functions, the remaining code below is driver internals.
+// Only developer serviceable parts below!
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Main driver code
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 BulkOnly::BulkOnly(USB *p) :
 pUsb(p),
 bAddress(0),
@@ -19,94 +253,7 @@ bLastUsbError(0) {
                 pUsb->RegisterDeviceClass(this);
 }
 
-void BulkOnly::ClearAllEP() {
-        for (uint8_t i = 0; i < MASS_MAX_ENDPOINTS; i++) {
-                epInfo[i].epAddr = 0;
-                epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
-
-                epInfo[i].bmNakPower = USB_NAK_DEFAULT; //0; //USB_NAK_DEFAULT;
-        }
-        // clear all LUN data as well
-        for (uint8_t i = 0; i < MASS_MAX_SUPPORTED_LUN; i++) LUNOk[i] = false;
-        bIface = 0;
-        bNumEP = 1;
-
-        bAddress = 0;
-        qNextPollTime = 0;
-        bPollEnable = false;
-        bLastUsbError = 0;
-        bMaxLUN = 0;
-        bTheLUN = 0;
-        //dCBWTag = 100;
-        //dCBWTag = 1073741823;
-}
-
-boolean BulkOnly::CheckLUN(uint8_t lun) {
-        uint8_t rcode;
-        Capacity capacity;
-        for (uint8_t i = 0; i<sizeof (Capacity); i++) capacity.data[i] = 0;
-
-        rcode = ReadCapacity(lun, sizeof (Capacity), (uint8_t*) & capacity);
-        if (rcode) {
-                //printf(">>>>>>>>>>>>>>>>ReadCapacity returned %i\r\n", rcode);
-                return false;
-        }
-        ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY OK ON LUN"), lun);
-        for (uint8_t i = 0; i<sizeof (Capacity); i++)
-                PrintHex<uint8_t > (capacity.data[i], 0x80);
-        Notify(PSTR("\r\n\r\n"), 0x80);
-        // Only 512/1024/2048/4096 are valid values!
-        uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
-        if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
-                return false;
-        }
-        // Store capacity information.
-        CurrentSectorSize[lun] = (uint16_t)(c & 0xFFFF);
-        CurrentCapacity[lun] = ((uint32_t)capacity.data[0] << 24) + ((uint32_t)capacity.data[1] << 16) + ((uint32_t)capacity.data[2] << 8) + (uint32_t)capacity.data[3];
-        if (CurrentCapacity[lun] == 0xffffffffLU || CurrentCapacity[lun] == 0x00LU) {
-                // Buggy firmware will report 0xffffffff or 0 for no media
-                if (CurrentCapacity[lun])
-                        ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
-                return false;
-        }
-        //rcode = TestUnitReady(lun);
-        //if (!rcode)
-        delay(20);
-        Page3F(lun);
-        //if (!Page3F(lun))
-        //if (!Page3F(lun))
-        if (!TestUnitReady(lun)) return true;
-        //LockMedia(lun, 1);
-        //MediaCTL(lun, 1);
-        //if (!TestUnitReady(lun)) return true;
-        return false;
-}
-// Scan for media change
-// @Oleg -- should we scan ALL LUN, or just one at a time?
-
-void BulkOnly::CheckMedia() {
-        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
-                if (TestUnitReady(lun)) {
-                        LUNOk[lun] = false;
-                        continue;
-                }
-                if (!LUNOk[lun])
-                        LUNOk[lun] = CheckLUN(lun);
-        }
-#if 0
-        printf("}}}}}}}}}}}}}}}}STATUS ");
-        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
-                if (LUNOk[lun])
-                        printf("#");
-                else printf(".");
-        }
-        printf("\r\n");
-#endif
-        qNextPollTime = millis() + 2000;
-}
-
-/*
+/**
  * USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET == success
  * We need to standardize either the rcode, or change the API to return values
  * so a signal that additional actions are required can be produced.
@@ -114,6 +261,11 @@ void BulkOnly::CheckMedia() {
  *
  * TECHNICAL: We could do most of this code elsewhere, with the exception of checking the class instance.
  * Doing so would save some program memory when using multiple drivers.
+ *
+ * @param parent USB address of parent
+ * @param port address of port on parent
+ * @param lowspeed true if device is low speed
+ * @return
  */
 uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 
@@ -184,41 +336,13 @@ Fail:
         return rcode;
 };
 
-boolean BulkOnly::WriteProtected(uint8_t lun) {
-        return WriteOk[lun];
-}
-
-// Check for write protect.
-
-uint8_t BulkOnly::Page3F(uint8_t lun) {
-        uint8_t buf[192];
-        for (int i = 0; i < 192; i++) {
-                buf[i] = 0x00;
-        }
-        WriteOk[lun] = true;
-        uint8_t rc = ModeSense(lun, 0, 0x3f, 0, 192, buf);
-        //if (rc) rc = ModeSense(lun, 0, 0x00, 0, 4, buf);
-        //if (rc) rc = ModeSense(lun, 0, 0x3f, 0, 192, buf);
-        if (!rc) {
-                WriteOk[lun] = ((buf[2] & 0x80) == 0);
-                Notify(PSTR("Mode Sense: "), 0x80);
-                for (int i = 0; i < 4; i++) {
-                        PrintHex<uint8_t > (buf[i], 0x80);
-                        Notify(PSTR(" "), 0x80);
-                }
-#if 0
-                if (WriteOk[lun]) {
-                        Notify(PSTR(" Writes Allowed"), 0x80);
-                } else {
-                        Notify(PSTR(" Writes Denied"), 0x80);
-                }
-#endif
-                Notify(PSTR("\r\n"), 0x80);
-        }
-        return rc;
-}
-// Bottom half of init. 0 == success.
-
+/**
+ *
+ * @param parent (not used)
+ * @param port (not used)
+ * @param lowspeed true if device is low speed
+ * @return 0 for success
+ */
 uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         uint8_t num_of_conf = epInfo[1].epAddr; // number of configurations
@@ -404,55 +528,89 @@ Fail:
         return rcode;
 }
 
-uint32_t BulkOnly::GetCapacity(uint8_t lun) {
-        if (LUNOk[lun])
-                return CurrentCapacity[lun];
-        return 0LU;
-}
-
-uint16_t BulkOnly::GetSectorSize(uint8_t lun) {
-        if (LUNOk[lun])
-                return CurrentSectorSize[lun];
-        return 0U;
-}
-
-bool BulkOnly::LUNIsGood(uint8_t lun) {
-        return LUNOk[lun];
-}
-
-void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR * pep) {
-        ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
-        ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
-        ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);
-
-        bConfNum = conf;
-
-        uint8_t index;
-
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
-                index = epInterruptInIndex;
-        else
-                if ((pep->bmAttributes & 0x02) == 2)
-                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
-        else
-                return;
-
-        // Fill in the endpoint info structure
-        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-        epInfo[index].epAttribs = 0;
-
-        bNumEP++;
-
-        PrintEndpointDescriptor(pep);
-}
-
+/**
+ * For driver use only.
+ *
+ * @return
+ */
 uint8_t BulkOnly::Release() {
         ClearAllEP();
         pUsb->GetAddressPool().FreeAddress(bAddress);
         return 0;
 }
 
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @return true if LUN is ready for use.
+ */
+boolean BulkOnly::CheckLUN(uint8_t lun) {
+        uint8_t rcode;
+        Capacity capacity;
+        for (uint8_t i = 0; i<sizeof (Capacity); i++) capacity.data[i] = 0;
+
+        rcode = ReadCapacity(lun, sizeof (Capacity), (uint8_t*) & capacity);
+        if (rcode) {
+                //printf(">>>>>>>>>>>>>>>>ReadCapacity returned %i\r\n", rcode);
+                return false;
+        }
+        ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>CAPACITY OK ON LUN"), lun);
+        for (uint8_t i = 0; i<sizeof (Capacity); i++)
+                PrintHex<uint8_t > (capacity.data[i], 0x80);
+        Notify(PSTR("\r\n\r\n"), 0x80);
+        // Only 512/1024/2048/4096 are valid values!
+        uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
+        if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
+                return false;
+        }
+        // Store capacity information.
+        CurrentSectorSize[lun] = (uint16_t)(c & 0xFFFF);
+        CurrentCapacity[lun] = ((uint32_t)capacity.data[0] << 24) + ((uint32_t)capacity.data[1] << 16) + ((uint32_t)capacity.data[2] << 8) + (uint32_t)capacity.data[3];
+        if (CurrentCapacity[lun] == 0xffffffffLU || CurrentCapacity[lun] == 0x00LU) {
+                // Buggy firmware will report 0xffffffff or 0 for no media
+                if (CurrentCapacity[lun])
+                        ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
+                return false;
+        }
+        delay(20);
+        Page3F(lun);
+        if (!TestUnitReady(lun)) return true;
+        return false;
+}
+
+
+/**
+ * For driver use only.
+ *
+ * Scan for media change on all LUNs
+ */
+void BulkOnly::CheckMedia() {
+        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
+                if (TestUnitReady(lun)) {
+                        LUNOk[lun] = false;
+                        continue;
+                }
+                if (!LUNOk[lun])
+                        LUNOk[lun] = CheckLUN(lun);
+        }
+#if 0
+        printf("}}}}}}}}}}}}}}}}STATUS ");
+        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) {
+                if (LUNOk[lun])
+                        printf("#");
+                else printf(".");
+        }
+        printf("\r\n");
+#endif
+        qNextPollTime = millis() + 2000;
+}
+
+/**
+ * For driver use only.
+ *
+ * @return
+ */
 uint8_t BulkOnly::Poll() {
         uint8_t rcode = 0;
 
@@ -467,6 +625,20 @@ uint8_t BulkOnly::Poll() {
         return rcode;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+// SCSI code
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * For driver use only.
+ *
+ * @param plun
+ * @return
+ */
 uint8_t BulkOnly::GetMaxLUN(uint8_t *plun) {
         uint8_t ret = pUsb->ctrlReq(bAddress, 0, bmREQ_MASSIN, MASS_REQ_GET_MAX_LUN, 0, 0, bIface, 1, 1, plun, NULL);
 
@@ -476,94 +648,15 @@ uint8_t BulkOnly::GetMaxLUN(uint8_t *plun) {
         return 0;
 }
 
-uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
-        if (index == 0)
-                return 0;
 
-        uint8_t ret = 0;
-
-        while (ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT,
-                USB_REQUEST_CLEAR_FEATURE, USB_FEATURE_ENDPOINT_HALT, 0, ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr), 0, 0, NULL, NULL))
-                == 0x01) delay(6);
-
-        if (ret) {
-                ErrorMessage<uint8_t > (PSTR("ClearEpHalt"), ret);
-                ErrorMessage<uint8_t > (PSTR("EP"), ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr));
-                return ret;
-        }
-        epInfo[index].bmSndToggle = 0;
-        epInfo[index].bmRcvToggle = 0;
-        // epAttribs = 0;
-        return 0;
-}
-
-uint8_t BulkOnly::Reset() {
-        while (pUsb->ctrlReq(bAddress, 0, bmREQ_MASSOUT, MASS_REQ_BOMSR, 0, 0, bIface, 0, 0, NULL, NULL) == 0x01) delay(6);
-        return 0;
-}
-
-uint8_t BulkOnly::ResetRecovery() {
-        Notify(PSTR("\r\nResetRecovery\r\n"), 0x80);
-        Notify(PSTR("-----------------\r\n"), 0x80);
-
-#if 0
-        bLastUsbError = Reset();
-
-        if (bLastUsbError) {
-                return bLastUsbError;
-        }
-
-
-        delay(6);
-
-        bLastUsbError = ClearEpHalt(epDataInIndex);
-
-        if (bLastUsbError) {
-                return bLastUsbError;
-        }
-        delay(6);
-
-        bLastUsbError = ClearEpHalt(epDataOutIndex);
-
-#else
-        delay(6);
-        Reset();
-        delay(6);
-        ClearEpHalt(epDataInIndex);
-        delay(6);
-        bLastUsbError = ClearEpHalt(epDataOutIndex);
-#endif
-        delay(6);
-        return bLastUsbError;
-}
-
-
-
-#if 0
-// TO-DO: Unify CBW creation as much as possible.
-// Make and submit CBW.
-// if stalled, delay retry
-// exit on 100 retries, or anything except stall.
-
-uint8_t SubmitCBW(uint8_t cmd, uint8_t cmdsz, uint8_t lun, uint16_t bsize, uint8_t *buf, uint8_t flags) {
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = bsize;
-        cbw.bmCBWFlags = flags;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = cmdsz;
-        for (uint8_t i = 0; i < 16; i++) cbw.CBWCB[i] = 0;
-        cbw.CBWCB[0] = cmd;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[4] = bsize;
-}
-#endif
-
-
-// don't test if OK
-
+/**
+ * For driver use only. Used during Driver Init
+ *
+ * @param lun Logical Unit Number
+ * @param bsize
+ * @param buf
+ * @return
+ */
 uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nInquiry\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
@@ -628,32 +721,14 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         return rc;
 }
 
-uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
-        Notify(PSTR("\r\nLockMedia\r\n"), 0x80);
-        Notify(PSTR("---------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = 0;
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_PREVENT_REMOVAL;
-        //cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[4] = lock;
-
-        return (HandleSCSIError(Transaction(&cbw, 0, NULL, 0)));
-
-}
-
-// don't test if OK, only for use internally.
-
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @param size
+ * @param buf
+ * @return
+ */
 uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         Notify(PSTR("\r\nRequestSense\r\n"), 0x80);
         Notify(PSTR("----------------\r\n"), 0x80);
@@ -678,6 +753,14 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         return Transaction(&cbw, size, buf, 0);
 }
 
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @param bsize
+ * @param buf
+ * @return
+ */
 uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nReadCapacity\r\n"), 0x80);
         Notify(PSTR("---------------\r\n"), 0x80);
@@ -700,8 +783,12 @@ uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         return HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
 }
 
-// don't test if OK
-
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @return
+ */
 uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
         SetCurLUN(lun);
         if (!bAddress)
@@ -729,180 +816,133 @@ uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
         return (rc);
 }
 
-/* Media control: 0x00 Stop Motor, 0x01 Start Motor, 0x02 Eject Media, 0x03 Load Media */
-// don't test if OK
+/**
+ * For driver use only.
+ *
+ * Page 3F contains write protect status.
+ *
+ * @param lun Logical Unit Number to test.
+ * @return Write protect switch status.
+ */
+uint8_t BulkOnly::Page3F(uint8_t lun) {
+        uint8_t buf[192];
+        for (int i = 0; i < 192; i++) {
+                buf[i] = 0x00;
+        }
+        WriteOk[lun] = true;
+        uint8_t rc = ModeSense(lun, 0, 0x3f, 0, 192, buf);
+        if (!rc) {
+                WriteOk[lun] = ((buf[2] & 0x80) == 0);
+                Notify(PSTR("Mode Sense: "), 0x80);
+                for (int i = 0; i < 4; i++) {
+                        PrintHex<uint8_t > (buf[i], 0x80);
+                        Notify(PSTR(" "), 0x80);
+                }
+                Notify(PSTR("\r\n"), 0x80);
+        }
+        return rc;
+}
 
-uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
-        Notify(PSTR("\r\nMediaCTL\r\n"), 0x80);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+// USB code
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * For driver use only.
+ *
+ * @param index
+ * @return
+ */
+uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
+        if (index == 0)
+                return 0;
+
+        uint8_t ret = 0;
+
+        while (ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT,
+                USB_REQUEST_CLEAR_FEATURE, USB_FEATURE_ENDPOINT_HALT, 0, ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr), 0, 0, NULL, NULL))
+                == 0x01) delay(6);
+
+        if (ret) {
+                ErrorMessage<uint8_t > (PSTR("ClearEpHalt"), ret);
+                ErrorMessage<uint8_t > (PSTR("EP"), ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr));
+                return ret;
+        }
+        epInfo[index].bmSndToggle = 0;
+        epInfo[index].bmRcvToggle = 0;
+        // epAttribs = 0;
+        return 0;
+}
+
+/**
+ * For driver use only.
+ *
+ */
+void BulkOnly::Reset() {
+        while (pUsb->ctrlReq(bAddress, 0, bmREQ_MASSOUT, MASS_REQ_BOMSR, 0, 0, bIface, 0, 0, NULL, NULL) == 0x01) delay(6);
+}
+
+/**
+ * For driver use only.
+ *
+ * @return 0 if successful
+ */
+uint8_t BulkOnly::ResetRecovery() {
+        Notify(PSTR("\r\nResetRecovery\r\n"), 0x80);
         Notify(PSTR("-----------------\r\n"), 0x80);
-        SetCurLUN(lun);
-        uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
-        if (bAddress) {
-                CommandBlockWrapper cbw;
 
-                cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-                cbw.dCBWTag = ++dCBWTag;
-                cbw.dCBWDataTransferLength = 0;
-                cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
-                cbw.bmCBWLUN = lun;
-                cbw.bmCBWCBLength = 6;
+        delay(6);
+        Reset();
+        delay(6);
+        ClearEpHalt(epDataInIndex);
+        delay(6);
+        bLastUsbError = ClearEpHalt(epDataOutIndex);
+        delay(6);
+        return bLastUsbError;
+}
 
-                for (uint8_t i = 0; i < 16; i++)
-                        cbw.CBWCB[i] = 0;
+/**
+ * For driver use only.
+ *
+ * Clear all EP data and clear all LUN status
+ */
+void BulkOnly::ClearAllEP() {
+        for (uint8_t i = 0; i < MASS_MAX_ENDPOINTS; i++) {
+                epInfo[i].epAddr = 0;
+                epInfo[i].maxPktSize = (i) ? 0 : 8;
+                epInfo[i].epAttribs = 0;
 
-                cbw.CBWCB[0] = SCSI_CMD_START_STOP_UNIT;
-                cbw.CBWCB[1] = lun << 5;
-                cbw.CBWCB[4] = ctl & 0x03;
-
-                rcode = HandleSCSIError(Transaction(&cbw, 0, NULL, 0));
+                epInfo[i].bmNakPower = USB_NAK_DEFAULT;
         }
-        return rcode;
+
+        for (uint8_t i = 0; i < MASS_MAX_SUPPORTED_LUN; i++) LUNOk[i] = false;
+        bIface = 0;
+        bNumEP = 1;
+
+        bAddress = 0;
+        qNextPollTime = 0;
+        bPollEnable = false;
+        bLastUsbError = 0;
+        bMaxLUN = 0;
+        bTheLUN = 0;
 }
 
-uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf) {
-        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-        Notify(PSTR("\r\nRead LUN:\t"), 0x80);
-        PrintHex<uint8_t > (lun, 0x90);
-        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
-        Notify(PSTR("\r\nLBA:\t\t"), 0x90);
-        PrintHex<uint32_t > (addr, 0x90);
-        Notify(PSTR("\r\nblocks:\t\t"), 0x90);
-        PrintHex<uint8_t > (blocks, 0x90);
-        Notify(PSTR("\r\nblock size:\t"), 0x90);
-        PrintHex<uint16_t > (bsize, 0x90);
-        Notify(PSTR("\r\n---------\r\n"), 0x80);
-        CommandBlockWrapper cbw;
 
-again:
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_READ_10;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
-        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
-        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
-        cbw.CBWCB[5] = (addr & 0xff);
-        cbw.CBWCB[8] = blocks;
-        cbw.dCBWTag = ++dCBWTag;
-        SetCurLUN(lun);
-        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
-        if (er == MASS_ERR_STALL) {
-                MediaCTL(lun, 1);
-                delay(150);
-                if (!TestUnitReady(lun)) goto again;
-        }
-        return er;
-}
-
-/* We won't be needing this... */
-uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
-        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-#if 0
-        Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);
-        Notify(PSTR("---------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN,
-                cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_READ_10;
-        cbw.CBWCB[8] = blocks;
-        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
-        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
-        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
-        cbw.CBWCB[5] = (addr & 0xff);
-
-        return HandleSCSIError(Transaction(&cbw, bsize, prs, 1));
-#endif
-}
-
-uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, const uint8_t * buf) {
-        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-        if (!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
-        Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
-        PrintHex<uint8_t > (lun, 0x90);
-        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
-        Notify(PSTR("\r\nLBA:\t\t"), 0x90);
-        PrintHex<uint32_t > (addr, 0x90);
-        Notify(PSTR("\r\nblocks:\t\t"), 0x90);
-        PrintHex<uint8_t > (blocks, 0x90);
-        Notify(PSTR("\r\nblock size:\t"), 0x90);
-        PrintHex<uint16_t > (bsize, 0x90);
-        Notify(PSTR("\r\n---------\r\n"), 0x80);
-        //MediaCTL(lun, 0x01);
-        CommandBlockWrapper cbw;
-
-again:
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
-        cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_WRITE_10;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
-        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
-        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
-        cbw.CBWCB[5] = (addr & 0xff);
-        cbw.CBWCB[8] = 1;
-
-        SetCurLUN(lun);
-        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, (void*)buf, 0));
-        if (er == MASS_ERR_WRITE_STALL) {
-                MediaCTL(lun, 1);
-                delay(150);
-                if (!TestUnitReady(lun)) goto again;
-        }
-        return er;
-}
-
-// don't test if OK
-
-uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t * pbuf) {
-        Notify(PSTR("\r\rModeSense\r\n"), 0x80);
-        Notify(PSTR("------------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t)len);
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_MODE_SENSE_6;
-        cbw.CBWCB[2] = ((pc << 6) | page);
-        cbw.CBWCB[3] = subpage;
-        cbw.CBWCB[4] = len;
-
-        return HandleSCSIError(Transaction(&cbw, 512, pbuf, 0));
-}
-
+/**
+ * For driver use only.
+ *
+ * @param pcsw
+ * @param pcbw
+ * @return
+ */
 bool BulkOnly::IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw) {
         if (pcsw->dCSWSignature != MASS_CSW_SIGNATURE) {
                 Notify(PSTR("CSW:Sig error\r\n"), 0x80);
@@ -917,6 +957,77 @@ bool BulkOnly::IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *p
         return true;
 }
 
+/**
+ * For driver use only.
+ *
+ * @param error
+ * @param index
+ * @return
+ */
+uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
+        uint8_t count = 3;
+
+        bLastUsbError = error;
+        //if (error)
+        //ClearEpHalt(index);
+        while (error && count) {
+                if (error != hrSUCCESS) {
+                        ErrorMessage<uint8_t > (PSTR("USB Error"), error);
+                        ErrorMessage<uint8_t > (PSTR("Index"), index);
+                }
+                switch (error) {
+                                // case hrWRONGPID:
+                        case hrSUCCESS:
+                                return MASS_ERR_SUCCESS;
+                        case hrBUSY:
+                                // SIE is busy, just hang out and try again.
+                                return MASS_ERR_UNIT_BUSY;
+                        case hrTIMEOUT:
+                        case hrJERR: return MASS_ERR_DEVICE_DISCONNECTED;
+                        case hrSTALL:
+                                if (index == 0)
+                                        return MASS_ERR_STALL;
+                                ClearEpHalt(index);
+                                if (index != epDataInIndex)
+                                        return MASS_ERR_WRITE_STALL;
+                                return MASS_ERR_STALL;
+
+                        case hrNAK:
+                                if (index == 0)
+                                        return MASS_ERR_UNIT_BUSY;
+                                return MASS_ERR_UNIT_BUSY;
+                                //ClearEpHalt(index);
+                                //ResetRecovery();
+                                //if (index != epDataInIndex)
+                                //        return MASS_ERR_WRITE_NAKS;
+                                //return MASS_ERR_READ_NAKS;
+                        case hrTOGERR:
+                                if (bAddress && bConfNum) {
+                                        error = pUsb->setConf(bAddress, 0, bConfNum);
+
+                                        if (error)
+                                                break;
+                                }
+                                return MASS_ERR_SUCCESS;
+                        default:
+                                ErrorMessage<uint8_t > (PSTR("\r\nUSB"), error);
+                                return MASS_ERR_GENERAL_USB_ERROR;
+                }
+                count--;
+        } // while
+
+        return ((error && !count) ? MASS_ERR_GENERAL_USB_ERROR : MASS_ERR_SUCCESS);
+}
+
+/**
+ * For driver use only.
+ *
+ * @param pcbw
+ * @param buf_size
+ * @param buf
+ * @param flags
+ * @return
+ */
 uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf, uint8_t flags) {
         uint16_t bytes = (pcbw->dCBWDataTransferLength > buf_size) ? buf_size : pcbw->dCBWDataTransferLength;
         boolean write = (pcbw->bmCBWFlags & MASS_CMD_DIR_IN) != MASS_CMD_DIR_IN;
@@ -999,6 +1110,48 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         return ret;
 }
 
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @param pc
+ * @param page
+ * @param subpage
+ * @param len
+ * @param pbuf
+ * @return
+ */
+uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t * pbuf) {
+        Notify(PSTR("\r\rModeSense\r\n"), 0x80);
+        Notify(PSTR("------------\r\n"), 0x80);
+
+        CommandBlockWrapper cbw;
+        SetCurLUN(lun);
+
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWTag = ++dCBWTag;
+        cbw.dCBWDataTransferLength = ((uint32_t)len);
+        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
+        cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = 6;
+
+        for (uint8_t i = 0; i < 16; i++)
+                cbw.CBWCB[i] = 0;
+
+        cbw.CBWCB[0] = SCSI_CMD_MODE_SENSE_6;
+        cbw.CBWCB[2] = ((pc << 6) | page);
+        cbw.CBWCB[3] = subpage;
+        cbw.CBWCB[4] = len;
+
+        return HandleSCSIError(Transaction(&cbw, 512, pbuf, 0));
+}
+
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @return
+ */
 uint8_t BulkOnly::SetCurLUN(uint8_t lun) {
         if (lun > bMaxLUN)
                 return MASS_ERR_INVALID_LUN;
@@ -1006,61 +1159,12 @@ uint8_t BulkOnly::SetCurLUN(uint8_t lun) {
         return MASS_ERR_SUCCESS;
 };
 
-uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
-        uint8_t count = 3;
-
-        bLastUsbError = error;
-        //if (error)
-        //ClearEpHalt(index);
-        while (error && count) {
-                if (error != hrSUCCESS) {
-                        ErrorMessage<uint8_t > (PSTR("USB Error"), error);
-                        ErrorMessage<uint8_t > (PSTR("Index"), index);
-                }
-                switch (error) {
-                                // case hrWRONGPID:
-                        case hrSUCCESS:
-                                return MASS_ERR_SUCCESS;
-                        case hrBUSY:
-                                // SIE is busy, just hang out and try again.
-                                return MASS_ERR_UNIT_BUSY;
-                        case hrTIMEOUT:
-                        case hrJERR: return MASS_ERR_DEVICE_DISCONNECTED;
-                        case hrSTALL:
-                                if (index == 0)
-                                        return MASS_ERR_STALL;
-                                ClearEpHalt(index);
-                                if (index != epDataInIndex)
-                                        return MASS_ERR_WRITE_STALL;
-                                return MASS_ERR_STALL;
-
-                        case hrNAK:
-                                if (index == 0)
-                                        return MASS_ERR_UNIT_BUSY;
-                                return MASS_ERR_UNIT_BUSY;
-                                //ClearEpHalt(index);
-                                //ResetRecovery();
-                                //if (index != epDataInIndex)
-                                //        return MASS_ERR_WRITE_NAKS;
-                                //return MASS_ERR_READ_NAKS;
-                        case hrTOGERR:
-                                if (bAddress && bConfNum) {
-                                        error = pUsb->setConf(bAddress, 0, bConfNum);
-
-                                        if (error)
-                                                break;
-                                }
-                                return MASS_ERR_SUCCESS;
-                        default:
-                                ErrorMessage<uint8_t > (PSTR("\r\nUSB"), error);
-                                return MASS_ERR_GENERAL_USB_ERROR;
-                }
-                count--;
-        } // while
-
-        return ((error && !count) ? MASS_ERR_GENERAL_USB_ERROR : MASS_ERR_SUCCESS);
-}
-
+/**
+ * For driver use only.
+ *
+ * @param status
+ * @return
+ */
 uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
         uint8_t ret = 0;
 
@@ -1138,6 +1242,56 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
         } // switch
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+// Debugging code
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * For driver use only.
+ *
+ * @param conf
+ * @param iface
+ * @param alt
+ * @param proto
+ * @param pep
+ */
+void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR * pep) {
+        ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
+        ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
+        ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);
+
+        bConfNum = conf;
+
+        uint8_t index;
+
+        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+                index = epInterruptInIndex;
+        else
+                if ((pep->bmAttributes & 0x02) == 2)
+                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
+        else
+                return;
+
+        // Fill in the endpoint info structure
+        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+        epInfo[index].epAttribs = 0;
+
+        bNumEP++;
+
+        PrintEndpointDescriptor(pep);
+}
+
+/**
+ *
+ * @param ep_ptr
+ */
 void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
         Notify(PSTR("Endpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);
@@ -1154,3 +1308,65 @@ void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
         PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+// misc/to kill/to-do
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+/* We won't be needing this... */
+uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
+        if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
+#if 0
+        Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);
+        Notify(PSTR("---------\r\n"), 0x80);
+
+        CommandBlockWrapper cbw;
+
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWTag = ++dCBWTag;
+        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
+        cbw.bmCBWFlags = MASS_CMD_DIR_IN,
+                cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = 10;
+
+        for (uint8_t i = 0; i < 16; i++)
+                cbw.CBWCB[i] = 0;
+
+        cbw.CBWCB[0] = SCSI_CMD_READ_10;
+        cbw.CBWCB[8] = blocks;
+        cbw.CBWCB[2] = ((addr >> 24) & 0xff);
+        cbw.CBWCB[3] = ((addr >> 16) & 0xff);
+        cbw.CBWCB[4] = ((addr >> 8) & 0xff);
+        cbw.CBWCB[5] = (addr & 0xff);
+
+        return HandleSCSIError(Transaction(&cbw, bsize, prs, 1));
+#endif
+}
+
+#if 0
+// TO-DO: Unify CBW creation as much as possible.
+// Make and submit CBW.
+// if stalled, delay retry
+// exit on 100 retries, or anything except stall.
+
+uint8_t SubmitCBW(uint8_t cmd, uint8_t cmdsz, uint8_t lun, uint16_t bsize, uint8_t *buf, uint8_t flags) {
+        CommandBlockWrapper cbw;
+        SetCurLUN(lun);
+        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
+        cbw.dCBWTag = ++dCBWTag;
+        cbw.dCBWDataTransferLength = bsize;
+        cbw.bmCBWFlags = flags;
+        cbw.bmCBWLUN = lun;
+        cbw.bmCBWCBLength = cmdsz;
+        for (uint8_t i = 0; i < 16; i++) cbw.CBWCB[i] = 0;
+        cbw.CBWCB[0] = cmd;
+        cbw.CBWCB[1] = lun << 5;
+        cbw.CBWCB[4] = bsize;
+}
+#endif
