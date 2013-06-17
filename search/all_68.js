@@ -1,8 +1,6 @@
 var searchData=
 [
   ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a486df60a3d29f73e9052d3efb0c38de6',1,'KeyboardReportParser']]],
-  ['handlescsierror',['HandleSCSIError',['../class_bulk_only.html#af6fe2aa6efba8f803254024956e36160',1,'BulkOnly']]],
-  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a95db37657ac766bc84a3767254808737',1,'BulkOnly']]],
   ['hat',['Hat',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7',1,'Wii.h']]],
   ['hatx',['HatX',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7aed1a7a35bf1b9c1003fbe3dd4a61a06d',1,'Wii.h']]],
   ['haty',['HatY',['../_wii_8h.html#a3edd2b2fd262b698309012868fad0be7ae2ac743b5ba1752933e09f1dac48d97b',1,'Wii.h']]],

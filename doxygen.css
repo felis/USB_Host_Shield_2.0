@@ -1,7 +1,7 @@
-/* The standard CSS for doxygen 1.8.3.1 */
+/* The standard CSS for doxygen 1.8.4 */
 
 body, table, div, p, dl {
-	font: 400 14px/19px Roboto,sans-serif;
+	font: 400 14px/22px Roboto,sans-serif;
 }
 
 /* @group Heading Levels */
@@ -11,6 +11,7 @@ h1.groupheader {
 }
 
 .title {
+	font: 400 14px/28px Roboto,sans-serif;
 	font-size: 150%;
 	font-weight: bold;
 	margin: 10px 2px;
@@ -168,8 +169,8 @@ pre.fragment {
 }
 
 div.fragment {
-        padding: 4px;
-        margin: 4px;
+        padding: 0px;
+        margin: 0px;
 	background-color: #FBFCFD;
 	border: 1px solid #C4CFE5;
 }
@@ -687,6 +688,7 @@ div.directory {
 .directory td.entry {
         white-space: nowrap;
         padding-right: 6px;
+	padding-top: 3px;
 }
 
 .directory td.entry a {
@@ -787,7 +789,7 @@ table.fieldtable {
 }
 
 .fieldtable td.fieldname {
-        padding-top: 5px;
+        padding-top: 3px;
 }
 
 .fieldtable td.fielddoc {
@@ -796,7 +798,7 @@ table.fieldtable {
 }
 
 .fieldtable td.fielddoc p:first-child {
-        margin-top: 2px;
+        margin-top: 0px;
 }       
         
 .fieldtable td.fielddoc p:last-child {

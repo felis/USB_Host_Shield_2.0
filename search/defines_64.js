@@ -12,7 +12,6 @@ var searchData=
   ['dcr1_5finit_5fx',['DCR1_INIT_X',['../cdcprolific_8h.html#ae539702b1c81f50770d282c4ab425709',1,'cdcprolific.h']]],
   ['dcr2_5finit_5fh',['DCR2_INIT_H',['../cdcprolific_8h.html#af9f58d0a0dbcd375b60f17beba78cbca',1,'cdcprolific.h']]],
   ['dcr2_5finit_5fx',['DCR2_INIT_X',['../cdcprolific_8h.html#a195b68bbe6b9e565f2dc133c010f617f',1,'cdcprolific.h']]],
-  ['debug',['DEBUG',['../_b_t_d_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;BTD.cpp'],['../masstorage_8h.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;masstorage.h'],['../message_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;message.cpp'],['../_p_s3_b_t_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;PS3BT.cpp'],['../_p_s3_u_s_b_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;PS3USB.cpp'],['../_s_p_p_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;SPP.cpp'],['../_wii_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;Wii.cpp'],['../_x_b_o_x_r_e_c_v_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;XBOXRECV.cpp'],['../_x_b_o_x_u_s_b_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'DEBUG():&#160;XBOXUSB.cpp']]],
   ['default_5fauto',['DEFAULT_AUTO',['../cdcprolific_8h.html#acc570c15816dfccb107fa119c255dc26',1,'cdcprolific.h']]],
   ['default_5fnotify',['DEFAULT_NOTIFY',['../cdcprolific_8h.html#a858860d62527650b80da4ef4aaac1317',1,'cdcprolific.h']]],
   ['default_5fstate',['DEFAULT_STATE',['../cdcprolific_8h.html#af93d7c80faa6ebd086460cde2d5dd27e',1,'cdcprolific.h']]],

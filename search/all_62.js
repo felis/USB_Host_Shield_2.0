@@ -299,7 +299,7 @@ var searchData=
   ['bulkonly',['BulkOnly',['../class_bulk_only.html',1,'BulkOnly'],['../class_bulk_only.html#a530fb250b0a0c92b48bc57e2957ace25',1,'BulkOnly::BulkOnly()']]],
   ['busprobe',['busprobe',['../class_m_a_x3421e.html#a23e4762107dd807520c8a8ed21ed97a2',1,'MAX3421e']]],
   ['button',['Button',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0',1,'controllerEnums.h']]],
-  ['buttonchanged',['buttonChanged',['../class_x_b_o_x_r_e_c_v.html#aa2263642c0d422c6d21fed3933d6044c',1,'XBOXRECV']]],
+  ['buttonchanged',['buttonChanged',['../class_x_b_o_x_r_e_c_v.html#ae78ddfff307d26b0ed35dfb75173adf7',1,'XBOXRECV']]],
   ['buttons',['BUTTONS',['../_p_s3_enums_8h.html#af3392eea150ac9151bef45148f0d7895',1,'BUTTONS():&#160;PS3Enums.h'],['../_wii_8cpp.html#af3392eea150ac9151bef45148f0d7895',1,'BUTTONS():&#160;Wii.cpp']]],
   ['byteskipper',['ByteSkipper',['../class_byte_skipper.html',1,'ByteSkipper'],['../class_byte_skipper.html#abfe4186513af9389e93931f0bee2c606',1,'ByteSkipper::ByteSkipper()']]],
   ['bytesrd',['bytesRd',['../class_m_a_x3421e.html#af1ceb905ac614b98d58579946587b083',1,'MAX3421e']]],

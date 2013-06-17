@@ -20,5 +20,7 @@ var searchData=
   ['constitlesb',['consTitlesB',['../class_report_desc_parser_base.html#a0c406d39f05eaa4f708af495c5d20bbb',1,'ReportDescParserBase']]],
   ['constitlesc',['consTitlesC',['../class_report_desc_parser_base.html#a149498f082b56537f6958f35cdf72485',1,'ReportDescParserBase']]],
   ['constitlesd',['consTitlesD',['../class_report_desc_parser_base.html#a4db83eb7ee2c16ff29da2c09dbf182f3',1,'ReportDescParserBase']]],
-  ['constitlese',['consTitlesE',['../class_report_desc_parser_base.html#a46332dbba5ab524aedb370684510c990',1,'ReportDescParserBase']]]
+  ['constitlese',['consTitlesE',['../class_report_desc_parser_base.html#a46332dbba5ab524aedb370684510c990',1,'ReportDescParserBase']]],
+  ['currentcapacity',['CurrentCapacity',['../class_bulk_only.html#a73c3f6b8f6f79ad60e5ba05e560b277d',1,'BulkOnly']]],
+  ['currentsectorsize',['CurrentSectorSize',['../class_bulk_only.html#aa4e2711c6279d48c63e82a63ad458421',1,'BulkOnly']]]
 ];

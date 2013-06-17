@@ -5,5 +5,6 @@ var searchData=
   ['ledtitles',['ledTitles',['../class_report_desc_parser_base.html#a7425dac090961547ddf7622112b98a9e',1,'ReportDescParserBase']]],
   ['linked',['Linked',['../struct_inquiry_response.html#ac0ee71a9c07b0c1fd9ff09461a81fa0e',1,'InquiryResponse']]],
   ['logpwrswitchmode',['LogPwrSwitchMode',['../struct_hub_descriptor.html#a68084f6fd86bff9598573ac845be6fe3',1,'HubDescriptor']]],
-  ['lowspeed',['lowspeed',['../struct_usb_device.html#a86a815577ad7883437d3ca72b32b8e8a',1,'UsbDevice']]]
+  ['lowspeed',['lowspeed',['../struct_usb_device.html#a86a815577ad7883437d3ca72b32b8e8a',1,'UsbDevice']]],
+  ['lunok',['LUNOk',['../class_bulk_only.html#a9f9d9b0925a2cb6b2fb8b10e4d581d28',1,'BulkOnly']]]
 ];

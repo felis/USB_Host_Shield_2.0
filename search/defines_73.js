@@ -1,11 +1,13 @@
 var searchData=
 [
   ['scsi_5fasc_5flba_5fout_5fof_5frange',['SCSI_ASC_LBA_OUT_OF_RANGE',['../masstorage_8h.html#ac6d64023e2b8137eed90917f362ab262',1,'masstorage.h']]],
+  ['scsi_5fasc_5fmedia_5fchanged',['SCSI_ASC_MEDIA_CHANGED',['../masstorage_8h.html#a9fd5f74b6bac6c95990f5f211c04894b',1,'masstorage.h']]],
   ['scsi_5fasc_5fmedium_5fnot_5fpresent',['SCSI_ASC_MEDIUM_NOT_PRESENT',['../masstorage_8h.html#ac0c79fb555815317d46e9af6192d959d',1,'masstorage.h']]],
   ['scsi_5fcmd_5fformat_5funit',['SCSI_CMD_FORMAT_UNIT',['../masstorage_8h.html#ac436d150389d8a97693e63041f440d82',1,'masstorage.h']]],
   ['scsi_5fcmd_5finquiry',['SCSI_CMD_INQUIRY',['../masstorage_8h.html#ac1f82346efef75cf197abb8e29cc5f44',1,'masstorage.h']]],
   ['scsi_5fcmd_5fmode_5fsense_5f10',['SCSI_CMD_MODE_SENSE_10',['../masstorage_8h.html#a95f71a5e11726543881ca39a47563daa',1,'masstorage.h']]],
   ['scsi_5fcmd_5fmode_5fsense_5f6',['SCSI_CMD_MODE_SENSE_6',['../masstorage_8h.html#ab6164a7d5f81211ce8d98b6a731b4f69',1,'masstorage.h']]],
+  ['scsi_5fcmd_5fprevent_5fremoval',['SCSI_CMD_PREVENT_REMOVAL',['../masstorage_8h.html#ac6435ab2e468a79816db996b0a16c024',1,'masstorage.h']]],
   ['scsi_5fcmd_5fread_5f10',['SCSI_CMD_READ_10',['../masstorage_8h.html#ad3900f141fb70afb8def054384805a2e',1,'masstorage.h']]],
   ['scsi_5fcmd_5fread_5f6',['SCSI_CMD_READ_6',['../masstorage_8h.html#af3f8eee2dcef5f8a49602fbedad6c7cd',1,'masstorage.h']]],
   ['scsi_5fcmd_5fread_5fcapacity_5f10',['SCSI_CMD_READ_CAPACITY_10',['../masstorage_8h.html#a1f08c7a277432486b2f875035df6790b',1,'masstorage.h']]],

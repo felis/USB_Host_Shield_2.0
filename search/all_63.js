@@ -62,7 +62,6 @@ var searchData=
   ['class_5fnotification',['CLASS_NOTIFICATION',['../struct_c_l_a_s_s___n_o_t_i_f_i_c_a_t_i_o_n.html',1,'']]],
   ['clear',['Clear',['../class_t_pin.html#a488aa2d61de08ccd95f954d81adf2d5f',1,'TPin::Clear()'],['../class_t_com.html#a88a87334dd716c62042c4376654ea70d',1,'TCom::Clear()'],['../class_max___l_c_d.html#a6c70568796774cf2ce912de989f2dbf0',1,'Max_LCD::clear()']]],
   ['clearcommfeature',['ClearCommFeature',['../class_a_c_m.html#a74a3484a0f524ddf0e228c17addcebdf',1,'ACM']]],
-  ['clearephalt',['ClearEpHalt',['../class_bulk_only.html#a89fef2c4da56d960c834688cbba8d509',1,'BulkOnly']]],
   ['clearhubfeature',['ClearHubFeature',['../class_u_s_b_hub.html#afc935651055e4ac1e51575218a51de43',1,'USBHub']]],
   ['clearportfeature',['ClearPortFeature',['../class_u_s_b_hub.html#a03c4dce66fbb4b66be9eda8c9b6f5ce4',1,'USBHub']]],
   ['clr_5fe',['CLR_E',['../max___l_c_d_8cpp.html#a2382451f16ea0f18bf54dba5c7cfb471',1,'max_LCD.cpp']]],
@@ -79,6 +78,7 @@ var searchData=
   ['conf_5fdescr_5flen',['CONF_DESCR_LEN',['../usb__ch9_8h.html#a7256578391c91b980eec63daa6e87b6b',1,'usb_ch9.h']]],
   ['confdescparser_2eh',['confdescparser.h',['../confdescparser_8h.html',1,'']]],
   ['configdescparser',['ConfigDescParser',['../class_config_desc_parser.html',1,'ConfigDescParser&lt; CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK &gt;'],['../class_config_desc_parser.html#a58ece11be65d0e5eed1784c31598717a',1,'ConfigDescParser::ConfigDescParser()']]],
+  ['configuredevice',['ConfigureDevice',['../class_bulk_only.html#aa8fe167a7af12dce9964fa5a430c53ea',1,'BulkOnly::ConfigureDevice()'],['../class_u_s_b_device_config.html#aef77a1e62f78c04a1aad53e8795ec89e',1,'USBDeviceConfig::ConfigureDevice()']]],
   ['configuring',['Configuring',['../class_u_s_b.html#af4008dfc1c2d15c23cf8a7815cc17765',1,'USB']]],
   ['connected',['connected',['../class_s_p_p.html#ade5d4f0ab50ddcad14f75fce4450a028',1,'SPP']]],
   ['connection_5fspeed_5fchange',['CONNECTION_SPEED_CHANGE',['../cdcacm_8h.html#a0bf4e444b84f8ab8bb1b3dfe16dc93de',1,'cdcacm.h']]],
@@ -109,5 +109,7 @@ var searchData=
   ['ctrldata',['ctrlData',['../class_u_s_b.html#a994f9488ac6f91040c42d9b816d202c6',1,'USB']]],
   ['ctrlreq',['ctrlReq',['../class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c',1,'USB']]],
   ['ctrlstatus',['ctrlStatus',['../class_u_s_b.html#ab18915ffbd8a70ac5bd6abc3e0f3c66a',1,'USB']]],
+  ['currentcapacity',['CurrentCapacity',['../class_bulk_only.html#a73c3f6b8f6f79ad60e5ba05e560b277d',1,'BulkOnly']]],
+  ['currentsectorsize',['CurrentSectorSize',['../class_bulk_only.html#aa4e2711c6279d48c63e82a63ad458421',1,'BulkOnly']]],
   ['cursor',['cursor',['../class_max___l_c_d.html#a5e8b86cd4c8638149d97574c03ded405',1,'Max_LCD']]]
 ];

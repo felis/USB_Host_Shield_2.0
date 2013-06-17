@@ -1,8 +1,6 @@
 var searchData=
 [
   ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a486df60a3d29f73e9052d3efb0c38de6',1,'KeyboardReportParser']]],
-  ['handlescsierror',['HandleSCSIError',['../class_bulk_only.html#af6fe2aa6efba8f803254024956e36160',1,'BulkOnly']]],
-  ['handleusberror',['HandleUsbError',['../class_bulk_only.html#a95db37657ac766bc84a3767254808737',1,'BulkOnly']]],
   ['hci_5faccept_5fconnection',['hci_accept_connection',['../class_b_t_d.html#a1cb07a155c69bb1fcf45ae030b8947ec',1,'BTD']]],
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],
