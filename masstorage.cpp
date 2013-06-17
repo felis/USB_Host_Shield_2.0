@@ -1002,6 +1002,10 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
                                 //        return MASS_ERR_WRITE_NAKS;
                                 //return MASS_ERR_READ_NAKS;
                         case hrTOGERR:
+                                // Handle a very super rare corner case, where toggles become de-synched.
+                                // I have only ran into one device that has this firmware bug, and this is
+                                // the only clean way to get back into sync with the buggy device firmware.
+                                //   --AJK
                                 if (bAddress && bConfNum) {
                                         error = pUsb->setConf(bAddress, 0, bConfNum);
 
