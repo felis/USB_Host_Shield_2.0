@@ -23,7 +23,9 @@ e-mail   :  support@circuitsathome.com
 #include <WProgram.h>
 #endif
 
+#ifndef USB_HOST_SERIAL
 #define USB_HOST_SERIAL Serial
+#endif
 
 void E_Notifyc(char c, int lvl);
 
