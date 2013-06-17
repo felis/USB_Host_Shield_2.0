@@ -146,6 +146,7 @@ public:
         virtual uint8_t Release() = 0;
         virtual uint8_t Poll() = 0;
         virtual uint8_t GetAddress() = 0;
+        virtual void ResetHubPort(uint8_t port) { return; } // Note used for hubs only!
 };
 
 /* USB Setup Packet Structure   */

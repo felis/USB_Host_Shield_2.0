@@ -616,12 +616,10 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
                                 // Send a bus reset on the root interface.
                                 regWr(rHCTL, bmBUSRST); //issue bus reset
                                 delay(102); // delay 102ms, compensate for clock inaccuracy.
-                        } /* else {
-                           * @Oleg
-                           * TO-DO:
-                           * How do we do an individual bus reset on a child interface?
-                           * Is that even possible with the current code?
-                           */
+                        } else {
+                                // reset parent port
+                                devConfig[parent]->ResetHubPort(port);
+                        }
                 }
                 rcode = devConfig[devConfigIndex]->Init(parent, port, lowspeed);
                 if (!rcode) {
