@@ -10,9 +10,7 @@
  *
  */
 
-// Keep this at zero until enumeration is fixed.
-// Set to 1 if you are fixing enumeration.
-#define WANT_HUB_TEST 0
+#define WANT_HUB_TEST 1
 #ifndef HAVE_XMEM
 // Set this to zero to disable xmem
 #define HAVE_XMEM 1
@@ -68,9 +66,9 @@ PCPartition *PT;
 static USBHub *Hubs[MAX_HUBS];
 #endif
 
-static PFAT *Fats[MAX_PARTS];
-static part_t parts[MAX_PARTS];
-static storage_t sto[MAX_PARTS];
+static PFAT *Fats[_VOLUMES];
+static part_t parts[_VOLUMES];
+static storage_t sto[_VOLUMES];
 
 #define prescale1       ((1 << WGM12) | (1 << CS10))
 #define prescale8       ((1 << WGM12) | (1 << CS11))
@@ -104,7 +102,7 @@ static int my_putc(char c, FILE *t) {
 }
 
 void setup() {
-        for (int i = 0; i < MAX_PARTS; i++) {
+        for (int i = 0; i < _VOLUMES; i++) {
                 Fats[i] = NULL;
         }
         // Set this to higher values to enable more debug information
@@ -400,7 +398,6 @@ void loop() {
                                                 sto[i].private_data = &info[i];
                                                 info[i].lun = i;
                                                 info[i].B = B;
-                                                info[i].volmap = 0; // TO-DO: keep track of > 1
                                                 sto[i].Read = *PRead;
                                                 sto[i].Write = *PWrite;
                                                 sto[i].Reads = *PReads;
