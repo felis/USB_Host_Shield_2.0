@@ -47,10 +47,10 @@ void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, con
         if(UsbDEBUGlvl >= 0x80) {  // Fully bypass this block of code if we do not debug.
                 for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
                         if(!byteCount) {
-                                D_PrintHex<OFFSET_TYPE > (byteTotal, 0x80);
+                                PrintHex<OFFSET_TYPE > (byteTotal, 0x80);
                                 E_Notify(PSTR(": "), 0x80);
                         }
-                        D_PrintHex<uint8_t > (pbuf[j], 0x80);
+                        PrintHex<uint8_t > (pbuf[j], 0x80);
                         E_Notify(PSTR(" "), 0x80);
 
                         if(byteCount == 15) {
