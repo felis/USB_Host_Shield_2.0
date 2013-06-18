@@ -994,79 +994,79 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 }
 
 void ReportDescParserBase::PrintValue(uint8_t *p, uint8_t len) {
-        Notify(PSTR("("), 0x80);
+        E_Notify(PSTR("("), 0x80);
         for (; len; p++, len--)
-                D_PrintHex<uint8_t > (*p, 0x80);
-        Notify(PSTR(")"), 0x80);
+                PrintHex<uint8_t > (*p, 0x80);
+        E_Notify(PSTR(")"), 0x80);
 }
 
 void ReportDescParserBase::PrintByteValue(uint8_t data) {
-        Notify(PSTR("("), 0x80);
-        D_PrintHex<uint8_t > (data, 0x80);
-        Notify(PSTR(")"), 0x80);
+        E_Notify(PSTR("("), 0x80);
+        PrintHex<uint8_t > (data, 0x80);
+        E_Notify(PSTR(")"), 0x80);
 }
 
 void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
         switch (prefix & (TYPE_MASK | TAG_MASK)) {
                 case (TYPE_GLOBAL | TAG_GLOBAL_PUSH):
-                        Notify(PSTR("\r\nPush"), 0x80);
+                        E_Notify(PSTR("\r\nPush"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_POP):
-                        Notify(PSTR("\r\nPop"), 0x80);
+                        E_Notify(PSTR("\r\nPop"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_USAGEPAGE):
-                        Notify(PSTR("\r\nUsage Page"), 0x80);
+                        E_Notify(PSTR("\r\nUsage Page"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMIN):
-                        Notify(PSTR("\r\nLogical Min"), 0x80);
+                        E_Notify(PSTR("\r\nLogical Min"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_LOGICALMAX):
-                        Notify(PSTR("\r\nLogical Max"), 0x80);
+                        E_Notify(PSTR("\r\nLogical Max"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_PHYSMIN):
-                        Notify(PSTR("\r\nPhysical Min"), 0x80);
+                        E_Notify(PSTR("\r\nPhysical Min"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_PHYSMAX):
-                        Notify(PSTR("\r\nPhysical Max"), 0x80);
+                        E_Notify(PSTR("\r\nPhysical Max"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_UNITEXP):
-                        Notify(PSTR("\r\nUnit Exp"), 0x80);
+                        E_Notify(PSTR("\r\nUnit Exp"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_UNIT):
-                        Notify(PSTR("\r\nUnit"), 0x80);
+                        E_Notify(PSTR("\r\nUnit"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_REPORTSIZE):
-                        Notify(PSTR("\r\nReport Size"), 0x80);
+                        E_Notify(PSTR("\r\nReport Size"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_REPORTCOUNT):
-                        Notify(PSTR("\r\nReport Count"), 0x80);
+                        E_Notify(PSTR("\r\nReport Count"), 0x80);
                         break;
                 case (TYPE_GLOBAL | TAG_GLOBAL_REPORTID):
-                        Notify(PSTR("\r\nReport Id"), 0x80);
+                        E_Notify(PSTR("\r\nReport Id"), 0x80);
                         break;
                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
-                        Notify(PSTR("\r\nUsage"), 0x80);
+                        E_Notify(PSTR("\r\nUsage"), 0x80);
                         break;
                 case (TYPE_LOCAL | TAG_LOCAL_USAGEMIN):
-                        Notify(PSTR("\r\nUsage Min"), 0x80);
+                        E_Notify(PSTR("\r\nUsage Min"), 0x80);
                         break;
                 case (TYPE_LOCAL | TAG_LOCAL_USAGEMAX):
-                        Notify(PSTR("\r\nUsage Max"), 0x80);
+                        E_Notify(PSTR("\r\nUsage Max"), 0x80);
                         break;
                 case (TYPE_MAIN | TAG_MAIN_COLLECTION):
-                        Notify(PSTR("\r\nCollection"), 0x80);
+                        E_Notify(PSTR("\r\nCollection"), 0x80);
                         break;
                 case (TYPE_MAIN | TAG_MAIN_ENDCOLLECTION):
-                        Notify(PSTR("\r\nEnd Collection"), 0x80);
+                        E_Notify(PSTR("\r\nEnd Collection"), 0x80);
                         break;
                 case (TYPE_MAIN | TAG_MAIN_INPUT):
-                        Notify(PSTR("\r\nInput"), 0x80);
+                        E_Notify(PSTR("\r\nInput"), 0x80);
                         break;
                 case (TYPE_MAIN | TAG_MAIN_OUTPUT):
-                        Notify(PSTR("\r\nOutput"), 0x80);
+                        E_Notify(PSTR("\r\nOutput"), 0x80);
                         break;
                 case (TYPE_MAIN | TAG_MAIN_FEATURE):
-                        Notify(PSTR("\r\nFeature"), 0x80);
+                        E_Notify(PSTR("\r\nFeature"), 0x80);
                         break;
         } // switch (**pp & (TYPE_MASK | TAG_MASK))
 }
@@ -1150,30 +1150,30 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                 case (TYPE_MAIN | TAG_MAIN_ENDCOLLECTION):
                                         switch (data) {
                                                 case 0x00:
-                                                        Notify(PSTR(" Physical"), 0x80);
+                                                        E_Notify(PSTR(" Physical"), 0x80);
                                                         break;
                                                 case 0x01:
-                                                        Notify(PSTR(" Application"), 0x80);
+                                                        E_Notify(PSTR(" Application"), 0x80);
                                                         break;
                                                 case 0x02:
-                                                        Notify(PSTR(" Logical"), 0x80);
+                                                        E_Notify(PSTR(" Logical"), 0x80);
                                                         break;
                                                 case 0x03:
-                                                        Notify(PSTR(" Report"), 0x80);
+                                                        E_Notify(PSTR(" Report"), 0x80);
                                                         break;
                                                 case 0x04:
-                                                        Notify(PSTR(" Named Array"), 0x80);
+                                                        E_Notify(PSTR(" Named Array"), 0x80);
                                                         break;
                                                 case 0x05:
-                                                        Notify(PSTR(" Usage Switch"), 0x80);
+                                                        E_Notify(PSTR(" Usage Switch"), 0x80);
                                                         break;
                                                 case 0x06:
-                                                        Notify(PSTR(" Usage Modifier"), 0x80);
+                                                        E_Notify(PSTR(" Usage Modifier"), 0x80);
                                                         break;
                                                 default:
-                                                        Notify(PSTR(" Vendor Defined("), 0x80);
-                                                        D_PrintHex<uint8_t > (data, 0x80);
-                                                        Notify(PSTR(")"), 0x80);
+                                                        E_Notify(PSTR(" Vendor Defined("), 0x80);
+                                                        PrintHex<uint8_t > (data, 0x80);
+                                                        E_Notify(PSTR(")"), 0x80);
                                         }
                                         break;
                                 case (TYPE_MAIN | TAG_MAIN_INPUT):
@@ -1182,9 +1182,9 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                         totalSize += (uint16_t)rptSize * (uint16_t)rptCount;
                                         rptSize = 0;
                                         rptCount = 0;
-                                        Notify(PSTR("("), 0x80);
-                                        D_PrintBin<uint8_t > (data, 0x80);
-                                        Notify(PSTR(")"), 0x80);
+                                        E_Notify(PSTR("("), 0x80);
+                                        PrintBin<uint8_t > (data, 0x80);
+                                        E_Notify(PSTR(")"), 0x80);
                                         break;
                         } // switch (**pp & (TYPE_MASK | TAG_MASK))
                 }
@@ -1218,13 +1218,13 @@ void ReportDescParserBase::SetUsagePage(uint16_t page) {
         if (page > 0x00 && page < 0x11)
                 pfUsage = /*(UsagePageFunc)pgm_read_word*/(usagePageFunctions[page - 1]);
                 //else if (page > 0x7f && page < 0x84)
-                //	Notify(pstrUsagePageMonitor);
+                //	E_Notify(pstrUsagePageMonitor);
                 //else if (page > 0x83 && page < 0x8c)
-                //	Notify(pstrUsagePagePower);
+                //	E_Notify(pstrUsagePagePower);
                 //else if (page > 0x8b && page < 0x92)
-                //	Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]));
+                //	E_Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]));
                 //else if (page > 0xfeff && page <= 0xffff)
-                //	Notify(pstrUsagePageVendorDefined);
+                //	E_Notify(pstrUsagePageVendorDefined);
         else
                 switch (page) {
                         case 0x14:
@@ -1237,232 +1237,232 @@ void ReportDescParserBase::SetUsagePage(uint16_t page) {
 }
 
 void ReportDescParserBase::PrintUsagePage(uint16_t page) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (page > 0x00 && page < 0x11)
-                Notify((char*)pgm_read_word(&usagePageTitles0[page - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&usagePageTitles0[page - 1]), 0x80);
         else if (page > 0x7f && page < 0x84)
-                Notify(pstrUsagePageMonitor, 0x80);
+                E_Notify(pstrUsagePageMonitor, 0x80);
         else if (page > 0x83 && page < 0x8c)
-                Notify(pstrUsagePagePower, 0x80);
+                E_Notify(pstrUsagePagePower, 0x80);
         else if (page > 0x8b && page < 0x92)
-                Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]), 0x80);
+                E_Notify((char*)pgm_read_word(&usagePageTitles1[page - 0x8c]), 0x80);
         else if (page > 0xfeff && page <= 0xffff)
-                Notify(pstrUsagePageVendorDefined, 0x80);
+                E_Notify(pstrUsagePageVendorDefined, 0x80);
         else
                 switch (page) {
                         case 0x14:
-                                Notify(pstrUsagePageAlphaNumericDisplay, 0x80);
+                                E_Notify(pstrUsagePageAlphaNumericDisplay, 0x80);
                                 break;
                         case 0x40:
-                                Notify(pstrUsagePageMedicalInstruments, 0x80);
+                                E_Notify(pstrUsagePageMedicalInstruments, 0x80);
                                 break;
                         default:
-                                Notify(pstrUsagePageUndefined, 0x80);
+                                E_Notify(pstrUsagePageUndefined, 0x80);
                 }
 }
 
 void ReportDescParserBase::PrintButtonPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
-        Notify(PSTR("Btn"), 0x80);
-        D_PrintHex<uint16_t > (usage, 0x80);
-        Notify(PSTR("\r\n"), 0x80);
+        E_Notify(pstrSpace, 0x80);
+        E_Notify(PSTR("Btn"), 0x80);
+        PrintHex<uint16_t > (usage, 0x80);
+        E_Notify(PSTR("\r\n"), 0x80);
         //USB_HOST_SERIAL.print(usage, HEX);
 }
 
 void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
-        Notify(PSTR("Inst"), 0x80);
+        E_Notify(pstrSpace, 0x80);
+        E_Notify(PSTR("Inst"), 0x80);
         // Sorry, HEX for now...
-        D_PrintHex<uint16_t > (usage, 0x80);
-        Notify(PSTR("\r\n"), 0x80);
+        PrintHex<uint16_t > (usage, 0x80);
+        E_Notify(PSTR("\r\n"), 0x80);
         //USB_HOST_SERIAL.print(usage, DEC);
 }
 
 void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0a)
-                Notify((char*)pgm_read_word(&genDesktopTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDesktopTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x49)
-                Notify((char*)pgm_read_word(&genDesktopTitles1[usage - 0x30]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDesktopTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x7f && usage < 0x94)
-                Notify((char*)pgm_read_word(&genDesktopTitles2[usage - 0x80]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDesktopTitles2[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa9)
-                Notify((char*)pgm_read_word(&genDesktopTitles3[usage - 0xa0]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDesktopTitles3[usage - 0xa0]), 0x80);
         else if (usage > 0xaf && usage < 0xb8)
-                Notify((char*)pgm_read_word(&genDesktopTitles4[usage - 0xb0]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDesktopTitles4[usage - 0xb0]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintSimulationControlsPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0d)
-                Notify((char*)pgm_read_word(&simuTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&simuTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x26)
-                Notify((char*)pgm_read_word(&simuTitles1[usage - 0x20]), 0x80);
+                E_Notify((char*)pgm_read_word(&simuTitles1[usage - 0x20]), 0x80);
         else if (usage > 0xaf && usage < 0xd1)
-                Notify((char*)pgm_read_word(&simuTitles2[usage - 0xb0]), 0x80);
+                E_Notify((char*)pgm_read_word(&simuTitles2[usage - 0xb0]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintVRControlsPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0b)
-                Notify((char*)pgm_read_word(&vrTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&vrTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x22)
-                Notify((char*)pgm_read_word(&vrTitles1[usage - 0x20]), 0x80);
+                E_Notify((char*)pgm_read_word(&vrTitles1[usage - 0x20]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintSportsControlsPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x05)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&sportsCtrlTitles0[usage - 1]), 0x80);
         else if (usage > 0x2f && usage < 0x3a)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles1[usage - 0x30]), 0x80);
+                E_Notify((char*)pgm_read_word(&sportsCtrlTitles1[usage - 0x30]), 0x80);
         else if (usage > 0x4f && usage < 0x64)
-                Notify((char*)pgm_read_word(&sportsCtrlTitles2[usage - 0x50]), 0x80);
+                E_Notify((char*)pgm_read_word(&sportsCtrlTitles2[usage - 0x50]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintGameControlsPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x04)
-                Notify((char*)pgm_read_word(&gameTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&gameTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x3a)
-                Notify((char*)pgm_read_word(&gameTitles1[usage - 0x20]), 0x80);
+                E_Notify((char*)pgm_read_word(&gameTitles1[usage - 0x20]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintGenericDeviceControlsPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x1f && usage < 0x27)
-                Notify((char*)pgm_read_word(&genDevCtrlTitles[usage - 0x20]), 0x80);
+                E_Notify((char*)pgm_read_word(&genDevCtrlTitles[usage - 0x20]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintLEDPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x4e)
-                Notify((char*)pgm_read_word(&ledTitles[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&ledTitles[usage - 1]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintTelephonyPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x08)
-                Notify((char*)pgm_read_word(&telTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x32)
-                Notify((char*)pgm_read_word(&telTitles1[usage - 0x1f]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x4f && usage < 0x54)
-                Notify((char*)pgm_read_word(&telTitles2[usage - 0x4f]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles2[usage - 0x4f]), 0x80);
         else if (usage > 0x6f && usage < 0x75)
-                Notify((char*)pgm_read_word(&telTitles3[usage - 0x6f]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles3[usage - 0x6f]), 0x80);
         else if (usage > 0x8f && usage < 0x9f)
-                Notify((char*)pgm_read_word(&telTitles4[usage - 0x8f]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles4[usage - 0x8f]), 0x80);
         else if (usage > 0xaf && usage < 0xc0)
-                Notify((char*)pgm_read_word(&telTitles5[usage - 0xaf]), 0x80);
+                E_Notify((char*)pgm_read_word(&telTitles5[usage - 0xaf]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintConsumerPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x07)
-                Notify((char*)pgm_read_word(&consTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*)pgm_read_word(&consTitles1[usage - 0x1f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x37)
-                Notify((char*)pgm_read_word(&consTitles2[usage - 0x2f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles2[usage - 0x2f]), 0x80);
         else if (usage > 0x3f && usage < 0x49)
-                Notify((char*)pgm_read_word(&consTitles3[usage - 0x3f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles3[usage - 0x3f]), 0x80);
         else if (usage > 0x5f && usage < 0x67)
-                Notify((char*)pgm_read_word(&consTitles4[usage - 0x5f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles4[usage - 0x5f]), 0x80);
         else if (usage > 0x7f && usage < 0xa5)
-                Notify((char*)pgm_read_word(&consTitles5[usage - 0x7f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles5[usage - 0x7f]), 0x80);
         else if (usage > 0xaf && usage < 0xcf)
-                Notify((char*)pgm_read_word(&consTitles6[usage - 0xaf]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles6[usage - 0xaf]), 0x80);
         else if (usage > 0xdf && usage < 0xeb)
-                Notify((char*)pgm_read_word(&consTitles7[usage - 0xdf]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles7[usage - 0xdf]), 0x80);
         else if (usage > 0xef && usage < 0xf6)
-                Notify((char*)pgm_read_word(&consTitles8[usage - 0xef]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles8[usage - 0xef]), 0x80);
         else if (usage > 0xff && usage < 0x10e)
-                Notify((char*)pgm_read_word(&consTitles9[usage - 0xff]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitles9[usage - 0xff]), 0x80);
         else if (usage > 0x14f && usage < 0x156)
-                Notify((char*)pgm_read_word(&consTitlesA[usage - 0x14f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitlesA[usage - 0x14f]), 0x80);
         else if (usage > 0x15f && usage < 0x16b)
-                Notify((char*)pgm_read_word(&consTitlesB[usage - 0x15f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitlesB[usage - 0x15f]), 0x80);
         else if (usage > 0x16f && usage < 0x175)
-                Notify((char*)pgm_read_word(&consTitlesC[usage - 0x16f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitlesC[usage - 0x16f]), 0x80);
         else if (usage > 0x17f && usage < 0x1c8)
-                Notify((char*)pgm_read_word(&consTitlesD[usage - 0x17f]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitlesD[usage - 0x17f]), 0x80);
         else if (usage > 0x1ff && usage < 0x29d)
-                Notify((char*)pgm_read_word(&consTitlesE[usage - 0x1ff]), 0x80);
+                E_Notify((char*)pgm_read_word(&consTitlesE[usage - 0x1ff]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintDigitizerPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x0e)
-                Notify((char*)pgm_read_word(&digitTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&digitTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x23)
-                Notify((char*)pgm_read_word(&digitTitles1[usage - 0x1f]), 0x80);
+                E_Notify((char*)pgm_read_word(&digitTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x2f && usage < 0x47)
-                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x2f]), 0x80);
+                E_Notify((char*)pgm_read_word(&digitTitles2[usage - 0x2f]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintAlphanumDisplayPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage > 0x00 && usage < 0x03)
-                Notify((char*)pgm_read_word(&aplphanumTitles0[usage - 1]), 0x80);
+                E_Notify((char*)pgm_read_word(&aplphanumTitles0[usage - 1]), 0x80);
         else if (usage > 0x1f && usage < 0x4e)
-                Notify((char*)pgm_read_word(&aplphanumTitles1[usage - 0x1f]), 0x80);
+                E_Notify((char*)pgm_read_word(&aplphanumTitles1[usage - 0x1f]), 0x80);
         else if (usage > 0x7f && usage < 0x96)
-                Notify((char*)pgm_read_word(&digitTitles2[usage - 0x80]), 0x80);
+                E_Notify((char*)pgm_read_word(&digitTitles2[usage - 0x80]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
-        Notify(pstrSpace, 0x80);
+        E_Notify(pstrSpace, 0x80);
 
         if (usage == 1)
-                Notify(pstrUsageMedicalUltrasound, 0x80);
+                E_Notify(pstrUsageMedicalUltrasound, 0x80);
         else if (usage > 0x1f && usage < 0x28)
-                Notify((char*)pgm_read_word(&medInstrTitles0[usage - 0x1f]), 0x80);
+                E_Notify((char*)pgm_read_word(&medInstrTitles0[usage - 0x1f]), 0x80);
         else if (usage > 0x3f && usage < 0x45)
-                Notify((char*)pgm_read_word(&medInstrTitles1[usage - 0x40]), 0x80);
+                E_Notify((char*)pgm_read_word(&medInstrTitles1[usage - 0x40]), 0x80);
         else if (usage > 0x5f && usage < 0x62)
-                Notify((char*)pgm_read_word(&medInstrTitles2[usage - 0x60]), 0x80);
+                E_Notify((char*)pgm_read_word(&medInstrTitles2[usage - 0x60]), 0x80);
         else if (usage == 0x70)
-                Notify(pstrUsageDepthGainCompensation, 0x80);
+                E_Notify(pstrUsageDepthGainCompensation, 0x80);
         else if (usage > 0x7f && usage < 0x8a)
-                Notify((char*)pgm_read_word(&medInstrTitles3[usage - 0x80]), 0x80);
+                E_Notify((char*)pgm_read_word(&medInstrTitles3[usage - 0x80]), 0x80);
         else if (usage > 0x9f && usage < 0xa2)
-                Notify((char*)pgm_read_word(&medInstrTitles4[usage - 0xa0]), 0x80);
+                E_Notify((char*)pgm_read_word(&medInstrTitles4[usage - 0xa0]), 0x80);
         else
-                Notify(pstrUsagePageUndefined, 0x80);
+                E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
@@ -1613,7 +1613,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 }
                 PrintByteValue(result.dwResult);
         }
-        Notify(PSTR("\r\n"), 0x80);
+        E_Notify(PSTR("\r\n"), 0x80);
 }
 
 void UniversalReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
