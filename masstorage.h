@@ -275,6 +275,8 @@ public:
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == USB_CLASS_MASS_STORAGE); }
+
 
 private:
         uint8_t Inquiry(uint8_t lun, uint16_t size, uint8_t *buf);

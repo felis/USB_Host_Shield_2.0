@@ -141,12 +141,14 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 
 class USBDeviceConfig {
 public:
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) = 0;
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) { return 0; }
         virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {return 0; }
-        virtual uint8_t Release() = 0;
-        virtual uint8_t Poll() = 0;
-        virtual uint8_t GetAddress() = 0;
+        virtual uint8_t Release() { return 0; }
+        virtual uint8_t Poll() { return 0; }
+        virtual uint8_t GetAddress() { return 0; }
         virtual void ResetHubPort(uint8_t port) { return; } // Note used for hubs only!
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) { return false; }
+        virtual boolean DEVCLASSOK(uint8_t klass) { return false; }
 };
 
 /* USB Setup Packet Structure   */
@@ -256,6 +258,7 @@ private:
         uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_limit);
         uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
         uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data);
+        uint8_t AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed);
 };
 
 #if 0 //defined(USB_METHODS_INLINE)

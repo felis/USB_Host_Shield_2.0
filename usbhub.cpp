@@ -22,7 +22,7 @@ USBHub::USBHub(USB *p) :
 pUsb(p),
 bAddress(0),
 bNbrPorts(0),
-bInitState(0),
+//bInitState(0),
 qNextPollTime(0),
 bPollEnable(false) {
         epInfo[0].epAddr = 0;
@@ -47,12 +47,13 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t len = 0;
         uint16_t cd_len = 0;
 
-        //USBTRACE("\r\nHub Init Start");
+        //USBTRACE("\r\nHub Init Start ");
+        //D_PrintHex<uint8_t > (bInitState, 0x80);
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
-        switch (bInitState) {
-                case 0:
+        //switch (bInitState) {
+        //        case 0:
                         if (bAddress)
                                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
@@ -129,9 +130,9 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         if (rcode)
                                 goto FailSetDevTblEntry;
 
-                        bInitState = 1;
+        //                bInitState = 1;
 
-                case 1:
+        //        case 1:
                         // Get hub descriptor
                         rcode = GetHubDescriptor(0, 8, buf);
 
@@ -141,9 +142,9 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         // Save number of ports for future use
                         bNbrPorts = ((HubDescriptor*)buf)->bNbrPorts;
 
-                        bInitState = 2;
+        //                bInitState = 2;
 
-                case 2:
+        //        case 2:
                         // Read configuration Descriptor in Order To Obtain Proper Configuration Value
                         rcode = pUsb->getConfDescr(bAddress, 0, 8, 0, buf);
 
@@ -171,18 +172,19 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         if (rcode)
                                 goto FailSetConfDescr;
 
-                        bInitState = 3;
+        //                bInitState = 3;
 
-                case 3:
+        //        case 3:
                         // Power on all ports
                         for (uint8_t j = 1; j <= bNbrPorts; j++)
                                 SetPortFeature(HUB_FEATURE_PORT_POWER, j, 0); //HubPortPowerOn(j);
 
                         pUsb->SetHubPreMask();
                         bPollEnable = true;
-                        bInitState = 0;
-        }
-        bInitState = 0;
+        //                bInitState = 0;
+        //}
+        //bInitState = 0;
+        //USBTRACE("...OK\r\n");
         return 0;
 
         // Oleg, No debugging?? -- xxxajk
@@ -202,6 +204,7 @@ FailSetConfDescr:
         goto Fail;
 
 Fail:
+        USBTRACE("...FAIL\r\n");
         return rcode;
 }
 
@@ -241,17 +244,17 @@ uint8_t USBHub::CheckHubStatus() {
         if (rcode)
                 return rcode;
 
-        if (buf[0] & 0x01) // Hub Status Change
-        {
-                //pUsb->PrintHubStatus(addr);
-                //rcode = GetHubStatus(1, 0, 1, 4, buf);
-                //if (rcode)
-                //{
-                //	USB_HOST_SERIAL.print("GetHubStatus Error");
-                //	USB_HOST_SERIAL.println(rcode, HEX);
-                //	return rcode;
-                //}
-        }
+        //if (buf[0] & 0x01) // Hub Status Change
+        //{
+        //        pUsb->PrintHubStatus(addr);
+        //        rcode = GetHubStatus(1, 0, 1, 4, buf);
+        //        if (rcode)
+        //        {
+        //        	USB_HOST_SERIAL.print("GetHubStatus Error");
+        //        	USB_HOST_SERIAL.println(rcode, HEX);
+        //        	return rcode;
+        //        }
+        //}
         for (uint8_t port = 1, mask = 0x02; port < 8; mask <<= 1, port++) {
                 if (buf[0] & mask) {
                         HubEvent evt;
@@ -308,18 +311,17 @@ void USBHub::ResetHubPort(uint8_t port) {
         SetPortFeature(HUB_FEATURE_PORT_RESET, port, 0);
 
 
-        for(;;) {
-            rcode = GetPortStatus(port, 4, evt.evtBuff);
-            if(rcode) return; // Some kind of error, bail.
-            rcode = evt.bmEvent;
-            if (rcode == bmHUB_PORT_EVENT_RESET_COMPLETE || rcode == bmHUB_PORT_EVENT_LS_RESET_COMPLETE) {
-                        ClearPortFeature(HUB_FEATURE_C_PORT_RESET, port, 0);
-                        ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
-                        delay(20);
-                        return;
-            }
-            delay(100); // simulate polling.
+        for (int i = 0; i < 3; i++) {
+                rcode = GetPortStatus(port, 4, evt.evtBuff);
+                if (rcode) break; // Some kind of error, bail.
+                if (evt.bmEvent == bmHUB_PORT_EVENT_RESET_COMPLETE || evt.bmEvent == bmHUB_PORT_EVENT_LS_RESET_COMPLETE) {
+                        break;
+                }
+                delay(100); // simulate polling.
         }
+        ClearPortFeature(HUB_FEATURE_C_PORT_RESET, port, 0);
+        ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
+        delay(20);
 }
 
 uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt) {

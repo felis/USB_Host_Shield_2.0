@@ -277,7 +277,7 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         EpInfo *oldep_ptr = NULL;
         USBTRACE("MS ConfigureDevice\r\n");
         ClearAllEP();
-        delay(2000);
+        //delay(2000);
         AddressPool &addrPool = pUsb->GetAddressPool();
 
 
@@ -409,7 +409,6 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-        USBTRACE("MS ConfigureDevice\r\n");
         USBTRACE2("Conf:", bConfNum);
 
         // Set Configuration Value
@@ -526,6 +525,42 @@ Fail:
 #endif
         Release();
         return rcode;
+}
+
+/**
+ * For driver use only.
+ *
+ * @param conf
+ * @param iface
+ * @param alt
+ * @param proto
+ * @param pep
+ */
+void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR * pep) {
+        ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
+        ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
+        ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);
+
+        bConfNum = conf;
+
+        uint8_t index;
+
+        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+                index = epInterruptInIndex;
+        else
+                if ((pep->bmAttributes & 0x02) == 2)
+                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
+        else
+                return;
+
+        // Fill in the endpoint info structure
+        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+        epInfo[index].epAttribs = 0;
+
+        bNumEP++;
+
+        PrintEndpointDescriptor(pep);
 }
 
 /**
@@ -1255,42 +1290,6 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
-/**
- * For driver use only.
- *
- * @param conf
- * @param iface
- * @param alt
- * @param proto
- * @param pep
- */
-void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR * pep) {
-        ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
-        ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
-        ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);
-
-        bConfNum = conf;
-
-        uint8_t index;
-
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
-                index = epInterruptInIndex;
-        else
-                if ((pep->bmAttributes & 0x02) == 2)
-                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
-        else
-                return;
-
-        // Fill in the endpoint info structure
-        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-        epInfo[index].epAttribs = 0;
-
-        bNumEP++;
-
-        PrintEndpointDescriptor(pep);
-}
 
 /**
  *

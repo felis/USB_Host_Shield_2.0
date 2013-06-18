@@ -563,6 +563,25 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 };
 
+uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
+        uint8_t rcode = 0;
+        //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
+
+        rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
+        if (rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
+                if (parent == 0) {
+                        // Send a bus reset on the root interface.
+                        regWr(rHCTL, bmBUSRST); //issue bus reset
+                        delay(102); // delay 102ms, compensate for clock inaccuracy.
+                } else {
+                        // reset parent port
+                        devConfig[parent]->ResetHubPort(port);
+                }
+        }
+        rcode = devConfig[driver]->Init(parent, port, lowspeed);
+        return rcode;
+}
+
 /*
  * This is broken. We need to enumerate differently.
  * It causes major problems with several devices if detected in an unexpected order.
@@ -604,40 +623,96 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
  *
  */
 uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
+        //uint8_t bAddress = 0;
+        //printf("Configuring: parent = %i, port = %i\r\n", parent, port);
         uint8_t rcode = 0;
+        uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        UsbDevice *p = NULL;
+        EpInfo *oldep_ptr = NULL;
+        EpInfo epInfo;
 
-        for (; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
-                if (!devConfig[devConfigIndex])
-                        continue;
+        epInfo.epAddr = 0;
+        epInfo.maxPktSize = 8;
+        epInfo.epAttribs = 0;
+        epInfo.bmNakPower = USB_NAK_MAX_POWER;
 
-                rcode = devConfig[devConfigIndex]->ConfigureDevice(parent, port, lowspeed);
-                if (rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
-                        if (parent == 0) {
-                                // Send a bus reset on the root interface.
-                                regWr(rHCTL, bmBUSRST); //issue bus reset
-                                delay(102); // delay 102ms, compensate for clock inaccuracy.
-                        } else {
-                                // reset parent port
-                                devConfig[parent]->ResetHubPort(port);
-                        }
+        delay(2000);
+        AddressPool &addrPool = GetAddressPool();
+        // Get pointer to pseudo device with address 0 assigned
+        p = addrPool.GetUsbDevicePtr(0);
+        if (!p) {
+                //printf("Configuring error: USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL\r\n");
+                return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        }
+
+        // Save old pointer to EP_RECORD of address 0
+        oldep_ptr = p->epinfo;
+
+        // Temporary assign new pointer to epInfo to p->epinfo in order to
+        // avoid toggle inconsistence
+
+        p->epinfo = &epInfo;
+
+        p->lowspeed = lowspeed;
+        // Get device descriptor
+        rcode = getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);
+
+        // Restore p->epinfo
+        p->epinfo = oldep_ptr;
+
+        if (rcode) {
+                //printf("Configuring error: Can't get USB_DEVICE_DESCRIPTOR\r\n");
+                return rcode;
+        }
+
+        // to-do?
+        // Allocate new address according to device class
+        //bAddress = addrPool.AllocAddress(parent, false, port);
+
+        //if (!bAddress)
+        //        return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
+
+        uint16_t vid = (uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+        uint16_t pid = (uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+        uint8_t klass = ((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass;
+
+
+        // Attempt to configure if VID/PID or device class matches with a driver
+        for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
+                if (!devConfig[devConfigIndex]) continue; // no driver
+                if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
+                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
+                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
+                        break;
                 }
-                rcode = devConfig[devConfigIndex]->Init(parent, port, lowspeed);
-                if (!rcode) {
+        }
+
+        if (devConfigIndex < USB_NUMDEVICES) {
+                if (rcode) {
+                        //printf("Configuring error: %i\r\n", rcode);
                         devConfigIndex = 0;
-                        return 0;
                 }
+                return rcode;
+        }
+
+
+        // blindly attempt to configure
+        for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
+                if (!devConfig[devConfigIndex]) continue;
+                if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
+                rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
+
                 //printf("ERROR ENUMERATING %2.2x\r\n", rcode);
                 if (!(rcode == USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED || rcode == USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE)) {
                         // in case of an error dev_index should be reset to 0
                         //		in order to start from the very beginning the
                         //		next time the program gets here
-                        if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)
-                                devConfigIndex = 0;
+                        //if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)
+                        //        devConfigIndex = 0;
                         return rcode;
                 }
         }
         // if we get here that means that the device class is not supported by any of registered classes
-        devConfigIndex = 0;
 
         rcode = DefaultAddressing(parent, port, lowspeed);
 
