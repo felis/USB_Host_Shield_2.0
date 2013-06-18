@@ -38,7 +38,7 @@ USB::USB() : bmHubPre(0) {
 
 /* Initialize data structures */
 void USB::init() {
-        devConfigIndex = 0;
+        //devConfigIndex = 0;
         bmHubPre = 0;
 }
 
@@ -625,6 +625,7 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
 uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         //uint8_t bAddress = 0;
         //printf("Configuring: parent = %i, port = %i\r\n", parent, port);
+        uint8_t devConfigIndex;
         uint8_t rcode = 0;
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         UsbDevice *p = NULL;
@@ -676,22 +677,20 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         uint16_t pid = (uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
         uint8_t klass = ((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass;
 
-
         // Attempt to configure if VID/PID or device class matches with a driver
         for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if (!devConfig[devConfigIndex]) continue; // no driver
                 if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
+                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid)) {
                         rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
                         break;
+                } else if (devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
+                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
+                        if (!rcode) break;
                 }
         }
 
         if (devConfigIndex < USB_NUMDEVICES) {
-                if (rcode) {
-                        //printf("Configuring error: %i\r\n", rcode);
-                        devConfigIndex = 0;
-                }
                 return rcode;
         }
 
@@ -713,7 +712,6 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
                 }
         }
         // if we get here that means that the device class is not supported by any of registered classes
-
         rcode = DefaultAddressing(parent, port, lowspeed);
 
         return rcode;
@@ -723,10 +721,11 @@ uint8_t USB::ReleaseDevice(uint8_t addr) {
         if (!addr)
                 return 0;
 
-        for (uint8_t i = 0; i < USB_NUMDEVICES; i++)
+        for (uint8_t i = 0; i < USB_NUMDEVICES; i++) {
+                if(!devConfig[i]) continue;
                 if (devConfig[i]->GetAddress() == addr)
                         return devConfig[i]->Release();
-
+        }
         return 0;
 }
 

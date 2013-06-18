@@ -189,7 +189,7 @@ public:
 class USB : public MAX3421E {
         AddressPoolImpl<USB_NUMDEVICES> addrPool;
         USBDeviceConfig* devConfig[USB_NUMDEVICES];
-        uint8_t devConfigIndex;
+        //uint8_t devConfigIndex;
         uint8_t bmHubPre;
 
 public:
