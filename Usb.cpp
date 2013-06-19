@@ -110,8 +110,15 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
           USBTRACE("\r\n");
          */
         regWr(rPERADDR, addr); //set peripheral address
-
+        
         uint8_t mode = regRd(rMODE);
+        
+        //Serial.print("\r\nMode: ");
+        //Serial.println( mode, HEX);
+        //Serial.print("\r\nLS: ");
+        //Serial.println(p->lowspeed, HEX);
+        	
+
 
         // Set bmLOWSPEED and bmHUBPRE in case of low-speed device, reset them otherwise
         regWr(rMODE, (p->lowspeed) ? mode | bmLOWSPEED | bmHubPre : mode & ~(bmHUBPRE | bmLOWSPEED));
@@ -445,9 +452,9 @@ void USB::Task(void) //USB state machine
                         lowspeed = false;
                         break;
                 case LSHOST:
-                        if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
+                //        if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
                                 lowspeed = true;
-                        }
+                //        }
                 case FSHOST: //attached
                         if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
                                 delay = millis() + USB_SETTLE_DELAY;
@@ -505,6 +512,10 @@ void USB::Task(void) //USB state machine
                         if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
                         break;
                 case USB_STATE_CONFIGURING:
+                	
+                				//Serial.print("\r\nConf.LS: ");
+                				//Serial.println(lowspeed, HEX);
+                				
                         rcode = Configuring(0, 0, lowspeed);
 
                         if (rcode) {
