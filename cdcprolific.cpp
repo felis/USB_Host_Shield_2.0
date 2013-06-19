@@ -151,7 +151,8 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("PL configured\r\n");
 
-        bPollEnable = true;
+        //bPollEnable = true;
+        ready = true;
         return 0;
 
 FailGetDevDescr:
