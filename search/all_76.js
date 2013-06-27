@@ -9,6 +9,7 @@ var searchData=
   ['vendor_5fwrite_5frequest_5ftype',['VENDOR_WRITE_REQUEST_TYPE',['../cdcprolific_8h.html#a242bbbe616270b5c01d3614dbe57fe45',1,'cdcprolific.h']]],
   ['vendorid',['VendorID',['../struct_inquiry_response.html#acc610ff84bef225f8826585725ad9802',1,'InquiryResponse']]],
   ['version',['Version',['../struct_inquiry_response.html#a86832a5def98c1e21447497177a8cc3a',1,'InquiryResponse']]],
+  ['vidpidok',['VIDPIDOK',['../class_u_s_b_device_config.html#a1cf695242e2e22893eea9c892282221b',1,'USBDeviceConfig']]],
   ['vrtitles0',['vrTitles0',['../class_report_desc_parser_base.html#a42d34a0a49f987c9dcfdd4fb8d42bf0d',1,'ReportDescParserBase']]],
   ['vrtitles1',['vrTitles1',['../class_report_desc_parser_base.html#a41af57cb0fb0bbed7277bcd04a9e9fe9',1,'ReportDescParserBase']]]
 ];

@@ -137,12 +137,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">// get memory address of USB device address pool</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="class_address_pool.html">AddressPool</a> &amp;addrPool = <a class="code" href="class_x_b_o_x_u_s_b.html#a9c701658d4f63b5407cbcd5b78d8eb18">pUsb</a>-&gt;<a class="code" href="class_u_s_b.html#a66ab8f5eda239e761d5a48741ea1f9d4">GetAddressPool</a>();</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#ifdef EXTRADEBUG</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXBOXUSB Init&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXBOXUSB Init&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span>        <span class="comment">// check if address has already been assigned to an instance</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65">bAddress</a>) {</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress in use&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress in use&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">return</span> <a class="code" href="_usb_8h.html#a44416ff64fc0e3691f98addac13d4595">USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE</a>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
@@ -152,14 +152,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (!p) {</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress not found&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress not found&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">return</span> <a class="code" href="_usb_8h.html#afe2fedb4b0ccc89a688c0b4b59691ce0">USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL</a>;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span> (!p-&gt;<a class="code" href="struct_usb_device.html#a410d39fb7758157f57794335e990ed02">epinfo</a>) {</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nepinfo is null&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nepinfo is null&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">return</span> <a class="code" href="_usb_8h.html#af192c59cafe2192ad802b22e6dbc077d">USB_ERROR_EPINFO_IS_NULL</a>;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
@@ -187,12 +187,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">goto</span> FailUnknownDevice;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span> (PID == <a class="code" href="_x_b_o_x_u_s_b_8h.html#a10c2a7a8da78e76d7020c2c347f0a687">XBOX_WIRELESS_PID</a>) {</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nYou have plugged in a wireless Xbox 360 controller - it doesn&#39;t support USB communication&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nYou have plugged in a wireless Xbox 360 controller - it doesn&#39;t support USB communication&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">goto</span> FailUnknownDevice;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (PID == <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a1a97ce2829a30b96ea6640d387d245a9">XBOX_WIRELESS_RECEIVER_PID</a> || PID == <a class="code" href="_x_b_o_x_r_e_c_v_8h.html#a6842663964e470b86786f046e4bc30d9">XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID</a>) {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nThis library only supports Xbox 360 controllers via USB&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nThis library only supports Xbox 360 controllers via USB&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">goto</span> FailUnknownDevice;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
@@ -213,14 +213,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                addrPool.<a class="code" href="class_address_pool.html#a15fde13223dcb1da89305ad229763562">FreeAddress</a>(<a class="code" href="class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65">bAddress</a>);</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <a class="code" href="class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65">bAddress</a> = 0;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nsetAddr: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor"></span>                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nsetAddr: &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor"></span>                PrintHex&lt;uint8_t &gt; (rcode, 0x80);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor"></span>                D_PrintHex&lt;uint8_t &gt; (rcode, 0x80);</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <span class="keywordflow">return</span> rcode;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#ifdef EXTRADEBUG</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddr: &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        PrintHex&lt;uint8_t &gt; (<a class="code" href="class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65">bAddress</a>, 0x80);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddr: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        D_PrintHex&lt;uint8_t &gt; (<a class="code" href="class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65">bAddress</a>, 0x80);</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor"></span>        p-&gt;<a class="code" href="struct_usb_device.html#a86a815577ad7883437d3ca72b32b8e8a">lowspeed</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
@@ -265,7 +265,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <span class="keywordflow">goto</span> FailSetConfDescr;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXbox 360 Controller Connected\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXbox 360 Controller Connected\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"></span>        <a class="code" href="class_x_b_o_x_u_s_b.html#a2348a35d4302f0a76bbeb319e84349a1">setLedOn</a>(<a class="code" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6adac6477842247cab1a8c02c65f431b44">LED1</a>);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <a class="code" href="class_x_b_o_x_u_s_b.html#a1c779ae5483a2f73426650242a37d868">Xbox360Connected</a> = <span class="keyword">true</span>;</div>
@@ -275,31 +275,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="comment">/* diagnostic messages */</span></div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;FailGetDevDescr:</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#ae65e02f44cfdc490efd1b33f9882fbbd">NotifyFailGetDevDescr</a>();</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#ace40a5d826a882de0c5a25aece111d3f">NotifyFailGetDevDescr</a>();</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;FailSetDevTblEntry:</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a69619d86b1636f141c830ca82c7f45e7">NotifyFailSetDevTblEntry</a>();</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#aa65008f9251787149e391f89e68b32be">NotifyFailSetDevTblEntry</a>();</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;FailSetConfDescr:</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a03e4088aafca36fd7a4be69e3a22b601">NotifyFailSetConfDescr</a>();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a08b840c377ca6f8154d6924d51338d89">NotifyFailSetConfDescr</a>();</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor"></span>FailUnknownDevice:</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a0ce3a725ee65614d7f95cda10e4d2e91">NotifyFailUnknownDevice</a>(VID, PID);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a7103129ed2b7b7896461c0a3cd924eb4">NotifyFailUnknownDevice</a>(VID, PID);</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor"></span>        rcode = <a class="code" href="_usb_8h.html#ae9e139d0fd29bb0b3e7afad2f76cd589">USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED</a>;</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;Fail:</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXbox 360 Init Failed, error code: &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <a class="code" href="message_8h.html#a22695bdc18ebde4a87dbe8633cb39593">NotifyFail</a>(rcode);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nXbox 360 Init Failed, error code: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <a class="code" href="message_8cpp.html#a5ae2cb9bf877595104f2425f50e2057f">NotifyFail</a>(rcode);</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="preprocessor"></span>        <a class="code" href="class_x_b_o_x_u_s_b.html#a9a296b98b40f5a36d46297d98ef0f9b5">Release</a>();</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
@@ -358,10 +358,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">if</span> (readBuf == NULL)</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; <a class="code" href="_x_b_o_x_u_s_b_8h.html#aaa3e91675875fbf14a37369f9513874a">XBOX_REPORT_BUFFER_SIZE</a>; i++) {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                PrintHex&lt;uint8_t &gt; (readBuf[i], 0x80);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot; &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                D_PrintHex&lt;uint8_t &gt; (readBuf[i], 0x80);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot; &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        }</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>

@@ -109,7 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="class_multi_byte_value_parser.html#a9d380bf3ab3fee2c8797883504bcd827">   19</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_multi_byte_value_parser.html#a9d380bf3ab3fee2c8797883504bcd827">MultiByteValueParser::Parse</a>(uint8_t **pp, uint16_t *pcntdn) {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">if</span> (!pBuf) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;Buffer pointer is NULL!\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;Buffer pointer is NULL!\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">for</span> (; countDown &amp;&amp; (*pcntdn); countDown--, (*pcntdn)--, (*pp)++)</div>

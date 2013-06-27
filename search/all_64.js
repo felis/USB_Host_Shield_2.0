@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['d_5fprintbin',['D_PrintBin',['../printhex_8h.html#a1cfed3721d1a9d723e13613db4ebe82d',1,'printhex.h']]],
+  ['d_5fprinthex',['D_PrintHex',['../printhex_8h.html#a87dd4758587ab680b721b0bffde8c3b8',1,'printhex.h']]],
   ['data',['data',['../struct_capacity.html#ae6dd521cd2ece3d6fa6fe58180fb9e8a',1,'Capacity']]],
   ['data_5fsize_5f0',['DATA_SIZE_0',['../hid_8h.html#ac4c40e44b6ef0e020230df304a75f8c7',1,'hid.h']]],
   ['data_5fsize_5f1',['DATA_SIZE_1',['../hid_8h.html#a81e8f549407197122ec10d84b8c42794',1,'hid.h']]],
@@ -19,12 +21,14 @@ var searchData=
   ['dcswdataresidue',['dCSWDataResidue',['../struct_command_status_wrapper.html#adf944665d28bb394a3d9756e8418d09e',1,'CommandStatusWrapper']]],
   ['dcswsignature',['dCSWSignature',['../struct_command_status_wrapper.html#a498a87759e737395829b6ff4b6420ad1',1,'CommandStatusWrapper']]],
   ['dcswtag',['dCSWTag',['../struct_command_status_wrapper.html#af872c29cfee3fb74e7ad9471ee4461fb',1,'CommandStatusWrapper']]],
+  ['debug_5fusb_5fhost',['DEBUG_USB_HOST',['../message_8h.html#aded3b733d68d3c49e69a3b87db37028c',1,'message.h']]],
   ['default_5fauto',['DEFAULT_AUTO',['../cdcprolific_8h.html#acc570c15816dfccb107fa119c255dc26',1,'cdcprolific.h']]],
   ['default_5fnotify',['DEFAULT_NOTIFY',['../cdcprolific_8h.html#a858860d62527650b80da4ef4aaac1317',1,'cdcprolific.h']]],
   ['default_5fstate',['DEFAULT_STATE',['../cdcprolific_8h.html#af93d7c80faa6ebd086460cde2d5dd27e',1,'cdcprolific.h']]],
   ['defaultaddressing',['DefaultAddressing',['../class_u_s_b.html#a5eb0d31372d26f0015a0d7be0b9ff4e1',1,'USB']]],
   ['dev_5fdescr_5flen',['DEV_DESCR_LEN',['../usb__ch9_8h.html#ab7e334b0d473aca9604a2522c0702e78',1,'usb_ch9.h']]],
   ['devaddress',['devAddress',['../struct_usb_device_address.html#a79ed442d6a357907ddb4d1697bd6af5f',1,'UsbDeviceAddress']]],
+  ['devclassok',['DEVCLASSOK',['../class_bulk_only.html#a509fdebcff72a9c0c8db706416f5bf23',1,'BulkOnly::DEVCLASSOK()'],['../class_u_s_b_device_config.html#a7f13c42ed2c8e72e1f63562576ca82d2',1,'USBDeviceConfig::DEVCLASSOK()'],['../class_u_s_b_hub.html#adb0cf72e220cc16a87da685899dfb820',1,'USBHub::DEVCLASSOK()']]],
   ['devicetype',['DeviceType',['../struct_inquiry_response.html#abc2af027a176dc85d4e83f14eec7972e',1,'InquiryResponse']]],
   ['digittitles0',['digitTitles0',['../class_report_desc_parser_base.html#a298396c59609fab20c2a5eedb3ca0b87',1,'ReportDescParserBase']]],
   ['digittitles1',['digitTitles1',['../class_report_desc_parser_base.html#abc5202f47578494d3f6008413f632873',1,'ReportDescParserBase']]],

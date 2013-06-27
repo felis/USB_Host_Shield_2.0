@@ -319,25 +319,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="comment">/* diagnostic messages */</span></div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;FailGetDevDescr:</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#ae65e02f44cfdc490efd1b33f9882fbbd">NotifyFailGetDevDescr</a>();</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#ace40a5d826a882de0c5a25aece111d3f">NotifyFailGetDevDescr</a>();</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;FailSetDevTblEntry:</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a69619d86b1636f141c830ca82c7f45e7">NotifyFailSetDevTblEntry</a>();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#aa65008f9251787149e391f89e68b32be">NotifyFailSetDevTblEntry</a>();</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;FailGetConfDescr:</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a38aabfb47a8bf743b0532e356c39faaf">NotifyFailGetConfDescr</a>();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a8990b7c46c3f20489c3f205fa173f110">NotifyFailGetConfDescr</a>();</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;FailSetConfDescr:</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a03e4088aafca36fd7a4be69e3a22b601">NotifyFailSetConfDescr</a>();</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a08b840c377ca6f8154d6924d51338d89">NotifyFailSetConfDescr</a>();</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="preprocessor"></span></div>
@@ -418,20 +418,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;}</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
 <div class="line"><a name="l00329"></a><span class="lineno"><a class="code" href="class_a_d_k.html#ac4bd3303b99921289c3f59e2df219e50">  329</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_a_d_k.html#ac4bd3303b99921289c3f59e2df219e50">ADK::PrintEndpointDescriptor</a>(<span class="keyword">const</span> <a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a>* ep_ptr) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;Endpoint descriptor:&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nLength:\t\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a55263a9cc9dc17abc37226ac8a471ad0">bLength</a>, 0x80);</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nType:\t\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#af39d036ab903a96b9d4d56b879555d6c">bDescriptorType</a>, 0x80);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress:\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a23fbb539d72d10a6cb12efedf7d3457c">bEndpointAddress</a>, 0x80);</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAttributes:\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a8ee7f1bafac335258c6e742969387f57">bmAttributes</a>, 0x80);</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nMaxPktSize:\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        PrintHex&lt;uint16_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#af34105fa6bd0029d9c6b73d85f7853c6">wMaxPacketSize</a>, 0x80);</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nPoll Intrv:\t&quot;</span>), 0x80);</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a95cd9669dee9cab375a7c5e62284a01b">bInterval</a>, 0x80);</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;Endpoint descriptor:&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nLength:\t\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        D_PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a55263a9cc9dc17abc37226ac8a471ad0">bLength</a>, 0x80);</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nType:\t\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        D_PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#af39d036ab903a96b9d4d56b879555d6c">bDescriptorType</a>, 0x80);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAddress:\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        D_PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a23fbb539d72d10a6cb12efedf7d3457c">bEndpointAddress</a>, 0x80);</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nAttributes:\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        D_PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a8ee7f1bafac335258c6e742969387f57">bmAttributes</a>, 0x80);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nMaxPktSize:\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        D_PrintHex&lt;uint16_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#af34105fa6bd0029d9c6b73d85f7853c6">wMaxPacketSize</a>, 0x80);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nPoll Intrv:\t&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        D_PrintHex&lt;uint8_t &gt; (ep_ptr-&gt;<a class="code" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a95cd9669dee9cab375a7c5e62284a01b">bInterval</a>, 0x80);</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

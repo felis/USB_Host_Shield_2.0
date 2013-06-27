@@ -132,9 +132,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#afc6fe7f947af35317a49a4dcfc8189fd">USBTRACE</a>(s)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(s), 0x80))</td></tr>
+<tr class="memitem:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#afc6fe7f947af35317a49a4dcfc8189fd">USBTRACE</a>(s)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(s), 0x80))</td></tr>
 <tr class="separator:afc6fe7f947af35317a49a4dcfc8189fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe3f00986df48a9254f8bf0992041d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#adbe3f00986df48a9254f8bf0992041d3">USBTRACE2</a>(s, r)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(s), 0x80), PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td></tr>
+<tr class="memitem:adbe3f00986df48a9254f8bf0992041d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#adbe3f00986df48a9254f8bf0992041d3">USBTRACE2</a>(s, r)&#160;&#160;&#160;(<a class="el" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td></tr>
 <tr class="separator:adbe3f00986df48a9254f8bf0992041d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060f3a6423f1e3640aa7b14d5ce72285"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>&#160;&#160;&#160;<a class="el" href="usb__ch9_8h.html#a35c2a529dc87a274b2eb6f9e33682449">USB_SETUP_DEVICE_TO_HOST</a>|<a class="el" href="usb__ch9_8h.html#a3b51a35acaa76cafbb987c07186a7868">USB_SETUP_TYPE_STANDARD</a>|<a class="el" href="usb__ch9_8h.html#ad48131dc5ca47b4b2def65e7bbc8442f">USB_SETUP_RECIPIENT_DEVICE</a></td></tr>
 <tr class="separator:a060f3a6423f1e3640aa7b14d5ce72285"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,7 +270,7 @@ Typedefs</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">s)</td><td></td>
-          <td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(s), 0x80))</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(s), 0x80))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -298,7 +298,7 @@ Typedefs</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(s), 0x80), PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR(&quot;\r\n&quot;), 0x80))</td>
         </tr>
       </table>
 </div><div class="memdoc">
