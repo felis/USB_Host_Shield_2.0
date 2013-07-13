@@ -183,10 +183,9 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
                         PS3NavigationConnected = true;
                 }
-                /* Set internal bluetooth address and request for data */
+                /* Set internal Bluetooth address and request for data */
                 setBdaddr(my_bdaddr);
                 enable_sixaxis();
-                setLedOn(LED1);
 
                 // Needed for PS3 Dualshock and Navigation commands to work
                 for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
@@ -199,12 +198,12 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
                 PS3MoveConnected = true;
-                setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
-                moveSetBulb(Red);
-
+                setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+                
                 writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
-
+        onInit();
+        
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
         for (int8_t i = 5; i > 0; i--) {
@@ -537,4 +536,15 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
 
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
+}
+
+void PS3USB::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                if (PS3MoveConnected)
+                        moveSetBulb(Red);
+                else // Dualshock 3 or Navigation controller
+                        setLedOn(LED1);
+        }
 }

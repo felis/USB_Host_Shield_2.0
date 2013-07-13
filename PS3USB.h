@@ -224,6 +224,14 @@ public:
          * @param rumble The desired value in the range from 64-255.
          */
         void moveSetRumble(uint8_t rumble);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /** Variable used to indicate if the normal playstation controller is successfully connected. */
@@ -242,6 +250,14 @@ protected:
         EpInfo epInfo[PS3_MAX_ENDPOINTS];
 
 private:
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        void onInit();
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+        
         bool bPollEnable;
 
         uint32_t timer; // used to continuously set PS3 Move controller Bulb and rumble values

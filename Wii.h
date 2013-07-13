@@ -233,6 +233,14 @@ public:
         uint8_t getWiiState() {
                 return wiiState;
         };
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /**@{*/
@@ -418,8 +426,15 @@ public:
 #endif
 
 private:
-        /* Mandatory members */
-        BTD *pBtd;
+        BTD *pBtd; // Pointer to BTD instance
+
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        void onInit();
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         void L2CAP_task(); // L2CAP state machine
 
@@ -427,9 +442,9 @@ private:
         uint16_t hci_handle;
         bool activeConnection; // Used to indicate if it's already has established a connection
 
-        /* variables used by high level L2CAP task */
+        /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received bluetooth events
+        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 
         uint32_t ButtonState;
         uint32_t OldButtonState;

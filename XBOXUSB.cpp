@@ -167,7 +167,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailSetDevTblEntry;
 
-        delay(200); //Give time for address change
+        delay(200); // Give time for address change
 
         rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
         if (rcode)
@@ -176,12 +176,12 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox 360 Controller Connected\r\n"), 0x80);
 #endif
-        setLedOn(LED1);
+        onInit();
         Xbox360Connected = true;
         bPollEnable = true;
-        return 0; // successful configuration
+        return 0; // Successful configuration
 
-        /* diagnostic messages */
+        /* Diagnostic messages */
 FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
@@ -344,4 +344,11 @@ void XBOXUSB::setRumbleOn(uint8_t lValue, uint8_t rValue) {
         writeBuf[7] = 0x00;
 
         XboxCommand(writeBuf, 8);
+}
+
+void XBOXUSB::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else
+                setLedOn(LED1);
 }

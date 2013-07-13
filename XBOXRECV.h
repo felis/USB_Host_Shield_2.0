@@ -200,6 +200,14 @@ public:
          * @return            True if a button has changed.
          */
         bool buttonChanged(uint8_t controller = 0);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /** True if a wireless receiver is connected. */
@@ -216,6 +224,15 @@ protected:
         EpInfo epInfo[XBOX_MAX_ENDPOINTS];
 
 private:
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         * @param controller The initialized controller.
+         */
+        void onInit(uint8_t controller);
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+
         bool bPollEnable;
 
         /* Variables to store the buttons */

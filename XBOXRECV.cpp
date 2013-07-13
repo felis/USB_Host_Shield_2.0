@@ -310,7 +310,7 @@ void XBOXRECV::readReport(uint8_t controller) {
 #endif
                 if (Xbox360Connected[controller]) {
 #ifdef DEBUG_USB_HOST
-                        char* str = 0;
+                        const char* str = 0;
                         switch (readBuf[1]) {
                                 case 0x80: str = PSTR(" as controller\r\n");
                                         break;
@@ -322,18 +322,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                         Notify(PSTR(": connected"), 0x80);
                         Notify(str, 0x80);
 #endif
-                        LED led;
-                        switch (controller) {
-                                case 0: led = LED1;
-                                        break;
-                                case 1: led = LED2;
-                                        break;
-                                case 2: led = LED3;
-                                        break;
-                                case 3: led = LED4;
-                                        break;
-                        }
-                        setLedOn(led, controller);
+                        onInit(controller);
                 }
 #ifdef DEBUG_USB_HOST
                 else
@@ -528,4 +517,21 @@ void XBOXRECV::setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller) {
         writeBuf[6] = rValue; // small weight
 
         XboxCommand(controller, writeBuf, 7);
+}
+
+void XBOXRECV::onInit(uint8_t controller) {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                LED led;
+                if (controller == 0)
+                    led = LED1;
+                else if (controller == 1)
+                    led = LED2;
+                if (controller == 2)
+                    led = LED3;
+                else
+                    led = LED4;
+                setLedOn(led, controller);
+        }
 }
