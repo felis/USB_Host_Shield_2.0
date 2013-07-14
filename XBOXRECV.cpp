@@ -528,7 +528,7 @@ void XBOXRECV::onInit(uint8_t controller) {
                     led = LED1;
                 else if (controller == 1)
                     led = LED2;
-                if (controller == 2)
+                else if (controller == 2)
                     led = LED3;
                 else
                     led = LED4;
