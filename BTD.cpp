@@ -115,14 +115,16 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
-#endif
                 D_PrintHex<uint8_t > (rcode, 0x80);
+#endif
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -157,7 +159,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
                 if (my_bdaddr[0] == 0x00 && my_bdaddr[1] == 0x00 && my_bdaddr[2] == 0x00 && my_bdaddr[3] == 0x00 && my_bdaddr[4] == 0x00 && my_bdaddr[5] == 0x00) {
 #ifdef DEBUG_USB_HOST
-                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\n\rOr set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
+                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\n\ror set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
 #endif
                 } else {
                         if (PID == PS3_PID || PID == PS3NAVIGATION_PID)
