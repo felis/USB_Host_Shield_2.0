@@ -110,6 +110,7 @@ public:
 
 
         // USBDeviceConfig implementation
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
 
