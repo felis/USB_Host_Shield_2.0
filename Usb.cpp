@@ -692,12 +692,10 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if (!devConfig[devConfigIndex]) continue; // no driver
                 if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid)) {
+                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
                         rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
-                        break;
-                } else if (devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
-                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
-                        if (!rcode) break;
+                        if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED)
+                                break;
                 }
         }
 
