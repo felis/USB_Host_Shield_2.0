@@ -183,8 +183,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
                         PS3NavigationConnected = true;
                 }
-                /* Set internal bluetooth address and request for data */
-                setBdaddr(my_bdaddr);
+                /* Set internal Bluetooth address and request for data */
                 enable_sixaxis();
                 setLedOn(LED1);
 
@@ -199,20 +198,25 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
                 PS3MoveConnected = true;
-                setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
                 moveSetBulb(Red);
 
                 writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
+        if (my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) {
+                if (PS3MoveConnected)
+                        setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+                else
+                        setBdaddr(my_bdaddr); // Set internal Bluetooth address
 
 #ifdef DEBUG_USB_HOST
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Notify(PSTR(":"), 0x80);
-        }
-        D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                for (int8_t i = 5; i > 0; i--) {
+                        D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                        Notify(PSTR(":"), 0x80);
+                }
+                D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
+        }
 
         bPollEnable = true;
         Notify(PSTR("\r\n"), 0x80);
