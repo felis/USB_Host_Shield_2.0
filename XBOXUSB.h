@@ -99,6 +99,16 @@ public:
         virtual bool isReady() {
                 return bPollEnable;
         };
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && pid != XBOX_WIRELESS_RECEIVER_PID && pid != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID);
+        };
         /**@}*/
 
         /** @name Xbox Controller functions */

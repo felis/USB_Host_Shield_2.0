@@ -126,6 +126,10 @@ public:
                 return ready;
         };
 
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == ADK_VID && (pid == ADK_PID || pid == ADB_PID));
+        };
+
         //UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 }; //class ADK : public USBDeviceConfig ...
