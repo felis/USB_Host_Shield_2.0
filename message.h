@@ -43,6 +43,7 @@ void E_Notifyc(char c, int lvl);
 void NotifyFailGetDevDescr(uint8_t reason);
 void NotifyFailSetDevTblEntry(uint8_t reason);
 void NotifyFailGetConfDescr(uint8_t reason);
+void NotifyFailSetConfDescr(uint8_t reason);
 void NotifyFailGetDevDescr(void);
 void NotifyFailSetDevTblEntry(void);
 void NotifyFailGetConfDescr(void);

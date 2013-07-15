@@ -234,25 +234,25 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         /* diagnostic messages */
 FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
-        NotifyFailGetDevDescr();
+        NotifyFailGetDevDescr(rcode);
         goto Fail;
 #endif
 
 FailSetDevTblEntry:
 #ifdef DEBUG_USB_HOST
-        NotifyFailSetDevTblEntry();
+        NotifyFailSetDevTblEntry(rcode);
         goto Fail;
 #endif
 
 FailGetConfDescr:
 #ifdef DEBUG_USB_HOST
-        NotifyFailGetConfDescr();
+        NotifyFailGetConfDescr(rcode);
         goto Fail;
 #endif
 
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
-        NotifyFailSetConfDescr();
+        NotifyFailSetConfDescr(rcode);
         goto Fail;
 #endif
 
