@@ -185,8 +185,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
                         PS3NavigationConnected = true;
                 }
-                /* Set internal Bluetooth address and request for data */
-                enable_sixaxis();
+                enable_sixaxis(); // The PS3 controller needs a special command before it starts sending data
                 setLedOn(LED1);
 
                 // Needed for PS3 Dualshock and Navigation commands to work
