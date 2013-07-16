@@ -326,7 +326,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                                                                         nunchuckConnected = false; // It must be the Nunchuck controller then
                                                                         l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
-                                                                        setLedStatus();
+                                                                        onInit();
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
                                                                 } else {
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
@@ -779,7 +779,7 @@ void WII::Run() {
                 case L2CAP_LED_STATE:
                         if (nunchuck_connected_flag)
                                 nunchuckConnected = true;
-                        setLedStatus();
+                        onInit();
                         l2cap_state = L2CAP_DONE;
                         break;
 
@@ -824,7 +824,7 @@ void WII::Run() {
                                 else if (stateCounter == 400)
                                         readExtensionType(); // Check if it has been activated
                                 else if (stateCounter == 450) {
-                                        //setLedStatus();
+                                        onInit();
                                         stateCounter = 0;
                                         unknownExtensionConnected = false;
                                 }
@@ -1062,6 +1062,14 @@ uint16_t WII::getAnalogHat(AnalogHat a) {
                         return output;
         }
 }
+
+void WII::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else
+                setLedStatus();
+}
+
 /************************************************************/
 /*       The following functions are for the IR camera      */
 /************************************************************/

@@ -516,25 +516,23 @@ void PS3BT::Run() {
                 case L2CAP_HID_PS3_LED:
                         if (millis() - timer > 1000) { // loop 1 second before sending the command
                                 if (remote_name[0] == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
-                                        setLedOn(LED1);
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"), 0x80);
 #endif
                                         PS3Connected = true;
                                 } else if (remote_name[0] == 'N') { // First letter in Navigation Controller ('N')
-                                        setLedOn(LED1); // This just turns LED constantly on, on the Navigation controller
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nNavigation Controller Enabled\r\n"), 0x80);
 #endif
                                         PS3NavigationConnected = true;
                                 } else if (remote_name[0] == 'M') { // First letter in Motion Controller ('M')
-                                        moveSetBulb(Red);
                                         timerBulbRumble = millis();
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nMotion Controller Enabled\r\n"), 0x80);
 #endif
                                         PS3MoveConnected = true;
                                 }
+                                onInit(); // Turn on the LED on the controller
                                 l2cap_state = L2CAP_DONE;
                         }
                         break;
@@ -658,4 +656,15 @@ void PS3BT::moveSetRumble(uint8_t rumble) {
         HIDMoveBuffer[7] = rumble;
 
         HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);
+}
+
+void PS3BT::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                if (PS3MoveConnected)
+                        moveSetBulb(Red);
+                else // Dualshock 3 or Navigation controller
+                        setLedOn(LED1);
+        }
 }

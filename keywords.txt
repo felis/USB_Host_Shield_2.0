@@ -56,10 +56,13 @@ setLedToggle	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 
+attachOnInit	KEYWORD2
+
 PS3Connected	KEYWORD2
 PS3MoveConnected	KEYWORD2
 PS3NavigationConnected	KEYWORD2
 
+isReady	KEYWORD2
 watingForConnection	KEYWORD2
 
 ####################################################
