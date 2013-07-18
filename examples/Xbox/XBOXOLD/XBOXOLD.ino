@@ -5,7 +5,10 @@
  */
 
 #include <XBOXOLD.h>
+#include <usbhub.h>
+
 USB Usb;
+USBHub  Hub1(&Usb); // The controller has a built in hub, so this instance is needed
 XBOXOLD Xbox(&Usb);
 
 void setup() {
