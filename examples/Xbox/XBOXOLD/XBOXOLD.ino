@@ -4,9 +4,9 @@
  send me an e-mail:  kristianl@tkjelectronics.com
  */
 
-#include <XBOXUSBOLD.h>
+#include <XBOXOLD.h>
 USB Usb;
-XBOXUSBOLD Xbox(&Usb);
+XBOXOLD Xbox(&Usb);
 
 void setup() {
   Serial.begin(115200);

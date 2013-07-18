@@ -15,8 +15,8 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#ifndef _xboxusbold_h_
-#define _xboxusbold_h_
+#ifndef _xboxold_h_
+#define _xboxold_h_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -28,7 +28,7 @@
  #include "controllerEnums.h"
 
 /* Data Xbox taken from descriptors */
-#define EP_MAXPKTSIZE       32 // max size for data via USB
+#define EP_MAXPKTSIZE       32 // Max size for data via USB
 
 /* Endpoint types */
 #define EP_INTERRUPT        0x03
@@ -54,14 +54,14 @@
 
 #define XBOX_MAX_ENDPOINTS   3
 
-/** This class implements support for a Xbox wired controller via USB. */
-class XBOXUSBOLD : public USBDeviceConfig {
+/** This class implements support for a the original Xbox controller via USB. */
+class XBOXOLD : public USBDeviceConfig {
 public:
         /**
-         * Constructor for the XBOXUSB class.
+         * Constructor for the XBOXOLD class.
          * @param  pUsb   Pointer to USB class instance.
          */
-        XBOXUSBOLD(USB *pUsb);
+        XBOXOLD(USB *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**

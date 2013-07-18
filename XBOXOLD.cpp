@@ -15,10 +15,10 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#include "XBOXUSBOLD.h"
+#include "XBOXOLD.h"
 // To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
-#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
+//#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
 /** Buttons on the controllers */
 const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
@@ -44,7 +44,7 @@ const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
         3, // Y
 }; 
 
-XBOXUSBOLD::XBOXUSBOLD(USB *p) :
+XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
@@ -59,7 +59,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
-uint8_t XBOXUSBOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         uint8_t rcode;
         UsbDevice *p = NULL;
@@ -231,7 +231,7 @@ Fail:
 }
 
 /* Performs a cleanup after failed Init() attempt */
-uint8_t XBOXUSBOLD::Release() {
+uint8_t XBOXOLD::Release() {
         XboxConnected = false;
         pUsb->GetAddressPool().FreeAddress(bAddress);
         bAddress = 0;
@@ -239,7 +239,7 @@ uint8_t XBOXUSBOLD::Release() {
         return 0;
 }
 
-uint8_t XBOXUSBOLD::Poll() {
+uint8_t XBOXOLD::Poll() {
         if (!bPollEnable)
                 return 0;
         uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
@@ -251,7 +251,7 @@ uint8_t XBOXUSBOLD::Poll() {
         return 0;
 }
 
-void XBOXUSBOLD::readReport() {
+void XBOXOLD::readReport() {
         ButtonState = readBuf[2];
 
         for (uint8_t i = 0; i < sizeof(buttonValues); i++)
@@ -277,7 +277,7 @@ void XBOXUSBOLD::readReport() {
         }
 }
 
-void XBOXUSBOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
+void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #ifdef PRINTREPORT
         if (readBuf == NULL)
                 return;
@@ -289,13 +289,13 @@ void XBOXUSBOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT
 #endif
 }
 
-uint8_t XBOXUSBOLD::getButtonPress(Button b) {
+uint8_t XBOXOLD::getButtonPress(Button b) {
         if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
             return buttonValues[pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])]; // Analog buttons
         return (ButtonState & pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])); // Digital buttons
 }
 
-bool XBOXUSBOLD::getButtonClick(Button b) {
+bool XBOXOLD::getButtonClick(Button b) {
         uint8_t button;
         if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
             button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
@@ -310,17 +310,17 @@ bool XBOXUSBOLD::getButtonClick(Button b) {
         return click;
 }
 
-int16_t XBOXUSBOLD::getAnalogHat(AnalogHat a) {
+int16_t XBOXOLD::getAnalogHat(AnalogHat a) {
         return hatValue[a];
 }
 
 /* Xbox Controller commands */
-void XBOXUSBOLD::XboxCommand(uint8_t* data, uint16_t nbytes) {
+void XBOXOLD::XboxCommand(uint8_t* data, uint16_t nbytes) {
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x00), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[XBOX_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
 
-void XBOXUSBOLD::setRumbleOn(uint8_t lValue, uint8_t rValue) {
+void XBOXOLD::setRumbleOn(uint8_t lValue, uint8_t rValue) {
         writeBuf[0] = 0x00;
         writeBuf[1] = 0x06;
         writeBuf[2] = 0x00;

@@ -164,7 +164,7 @@ RumbleLow	LITERAL1
 ####################################################
 
 XBOXUSB	KEYWORD1
-XBOXUSBOLD	KEYWORD1
+XBOXOLD	KEYWORD1
 XBOXRECV	KEYWORD1
 
 ####################################################
