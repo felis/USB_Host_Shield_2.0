@@ -124,8 +124,8 @@ The [XBOXOLD](XBOXOLD.cpp) class implements support for the original Xbox contro
 
 All the information are from the following sites:
 
-* <https://github.com/torvalds/linux/blob/8a72f3820c4d14b27ad5336aed00063a7a7f1bef/Documentation/input/xpad.txt>
-* <https://github.com/torvalds/linux/blob/acdb37c361dc87e165889a504e291c1e82ae133c/drivers/input/joystick/xpad.c>
+* <https://github.com/torvalds/linux/blob/master/Documentation/input/xpad.txt>
+* <https://github.com/torvalds/linux/blob/master/drivers/input/joystick/xpad.c>
 * <http://euc.jp/periphs/xbox-controller.ja.html>
 * <https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL#L15>
 
