@@ -116,7 +116,7 @@ uint8_t XBOXUSBOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if ((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || PID != XBOX_OLD_PID) // We just check if it's a xbox controller using the Vendor ID
+        if ((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_OLD_PID1 && PID != XBOX_OLD_PID2 && PID != XBOX_OLD_PID3 && PID != XBOX_OLD_PID4)) // Check if VID and PID match
                 goto FailUnknownDevice;
         
         // Allocate new address according to device class
