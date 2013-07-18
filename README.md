@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the BTD, SPP, PS3, Wii, and Xbox libraries
+	* Developer of the [BTD](#Bluetooth), [SPP](#SPP), [PS3](#PS3), [Wii](#Wii), and [Xbox](#Xbox) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -53,23 +53,27 @@ For more information visit the following site: <http://arduino.cc/en/Guide/Libra
 
 Documentation for the library can be found at the following link: <http://felis.github.com/USB_Host_Shield_2.0/>.
 
+### Enable debugging
+
+By default serial debugging is disabled. To turn it on uncomment ```DEBUG_USB_HOST``` in [message.h](message.h).
+
 ### Arduino ADK
-To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](https://github.com/felis/USB_Host_Shield_2.0/blob/master/avrpins.h):
+To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](avrpins.h):
 
-<code>
-\#define BOARD\_MEGA_ADK
-</code>
+```
+#define BOARD_MEGA_ADK
+```
 
-### [Bluetooth libraries](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp)
+### [Bluetooth libraries](BTD.cpp)<a id="Bluetooth"></a>
 
-The [BTD library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/BTD.cpp) is a general purpose library for an ordinary Bluetooth dongle.
+The [BTD library](BTD.cpp) is a general purpose library for an ordinary Bluetooth dongle.
 This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or SPP which is a virtual serial port via Bluetooth.
-Some different examples can be found in the [example directory](https://github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Bluetooth).
+Some different examples can be found in the [example directory](examples/Bluetooth).
 
 The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:
 <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>
 
-### [SPP library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/SPP.cpp)
+### [SPP library](SPP.cpp)<a id="SPP"></a>
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
 It has been tested successfully on Windows, Mac OS X, Linux, and Android.
@@ -82,9 +86,9 @@ More information can be found at these blog posts:
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple. 
 It enables me to see the Bluetooth communication between my Mac and any device.
 
-### PS3 Library
+### PS3 Library<a id="PS3"></a>
 
-These libraries consist of the [PS3BT](https://github.com/felis/USB_Host_Shield_2.0/blob/master/PS3BT.cpp) and [PS3USB](https://github.com/felis/USB_Host_Shield_2.0/blob/master/PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.
+These libraries consist of the [PS3BT](PS3BT.cpp) and [PS3USB](PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.
 
 In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via USB and letting the library set it automatically.
 
@@ -110,15 +114,30 @@ Also a big thanks all the people behind these sites about the Motion controller:
 * <https://github.com/thp/psmoveapi>
 * <http://code.google.com/p/moveonpc/>
 
-### Xbox 360 Library
+### Xbox Libraries<a id="Xbox"></a>
+
+The library supports both the original Xbox controller via USB and the Xbox 360 controller both via USB and wirelessly.
+
+#### Xbox library
+
+The [XBOXOLD](XBOXOLD.cpp) class implements support for the original Xbox controller via USB.
+
+All the information are from the following sites:
+
+* <https://github.com/torvalds/linux/blob/8a72f3820c4d14b27ad5336aed00063a7a7f1bef/Documentation/input/xpad.txt>
+* <https://github.com/torvalds/linux/blob/acdb37c361dc87e165889a504e291c1e82ae133c/drivers/input/joystick/xpad.c>
+* <http://euc.jp/periphs/xbox-controller.ja.html>
+* <https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL#L15>
+
+#### Xbox 360 Library
 
 The library support one Xbox 360 via USB or up to four Xbox 360 controllers wirelessly by using a [Xbox 360 wireless receiver](http://blog.tkjelectronics.dk/wp-content/uploads/xbox360-wireless-receiver.jpg).
 
-To use it via USB use the [XBOXUSB](https://github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXUSB.cpp) library or to use it wirelessly use the [XBOXRECV](https://github.com/felis/USB_Host_Shield_2.0/blob/master/XBOXRECV.cpp) library.
+To use it via USB use the [XBOXUSB](XBOXUSB.cpp) library or to use it wirelessly use the [XBOXRECV](XBOXRECV.cpp) library.
 
 __Note that a Wireless controller can NOT be used via USB!__
 
-Examples code can be found in the [examples directory](https://github.com/felis/USB_Host_Shield_2.0/tree/master/examples/Xbox).
+Examples code can be found in the [examples directory](examples/Xbox).
 
 Also see the following blog posts:
 
@@ -132,23 +151,23 @@ All the information regarding the Xbox 360 controller protocol are form these si
 * <http://tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/WirelessUsbInfo>
 * <https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL>
 
-### [Wii library](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp)
+### [Wii library](Wii.cpp)<a id="Wii"></a>
 
-The [Wii](https://github.com/felis/USB_Host_Shield_2.0/blob/master/Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.
+The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
-<code>
+```
 WII Wii(&Btd,PAIR);
-</code>
+```
 
 And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
 
 After that you can simply create the instance like so:
 
-<code>
+```
 WII Wii(&Btd);
-</code>
+```
 
 Then just press any button any button on the Wiimote and it will connect to the dongle.
 
