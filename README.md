@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#Bluetooth), [SPP](#SPP), [PS3](#PS3), [Wii](#Wii), and [Xbox](#Xbox) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -64,7 +64,7 @@ To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/Ar
 #define BOARD_MEGA_ADK
 ```
 
-### [Bluetooth libraries](BTD.cpp)<a id="Bluetooth"></a>
+### [Bluetooth libraries](BTD.cpp)
 
 The [BTD library](BTD.cpp) is a general purpose library for an ordinary Bluetooth dongle.
 This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or SPP which is a virtual serial port via Bluetooth.
@@ -73,7 +73,7 @@ Some different examples can be found in the [example directory](examples/Bluetoo
 The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:
 <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>
 
-### [SPP library](SPP.cpp)<a id="SPP"></a>
+### [SPP library](SPP.cpp)
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
 It has been tested successfully on Windows, Mac OS X, Linux, and Android.
@@ -86,7 +86,7 @@ More information can be found at these blog posts:
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple. 
 It enables me to see the Bluetooth communication between my Mac and any device.
 
-### PS3 Library<a id="PS3"></a>
+### PS3 Library
 
 These libraries consist of the [PS3BT](PS3BT.cpp) and [PS3USB](PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.
 
@@ -114,7 +114,7 @@ Also a big thanks all the people behind these sites about the Motion controller:
 * <https://github.com/thp/psmoveapi>
 * <http://code.google.com/p/moveonpc/>
 
-### Xbox Libraries<a id="Xbox"></a>
+### Xbox Libraries
 
 The library supports both the original Xbox controller via USB and the Xbox 360 controller both via USB and wirelessly.
 
@@ -151,7 +151,7 @@ All the information regarding the Xbox 360 controller protocol are form these si
 * <http://tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/WirelessUsbInfo>
 * <https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL>
 
-### [Wii library](Wii.cpp)<a id="Wii"></a>
+### [Wii library](Wii.cpp)
 
 The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.
 
