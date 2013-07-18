@@ -14,9 +14,7 @@
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
 
- IR camera support added by:
- Allan Glover
- adglover9.81@gmail.com
+ IR camera support added by Allan Glover (adglover9.81@gmail.com) and Kristian Lauszus
  */
 
 #ifndef _wii_h_
@@ -216,16 +214,10 @@ public:
         void setLedStatus();
 
         /**
-         * Call this to update battery level and Wiimote state
-         */
-        void statusRequest();
-        /**
          * Return the battery level of the Wiimote.
          * @return The battery level in the range 0-255.
          */
-        uint8_t getBatteryLevel() {
-                return batteryLevel;
-        };
+        uint8_t getBatteryLevel();
         /**
          * Return the Wiimote state.
          * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
@@ -456,6 +448,8 @@ private:
         uint16_t stateCounter;
         bool unknownExtensionConnected;
         bool extensionConnected;
+        bool checkExtension; // Set to false when getBatteryLevel() is called otherwise if should be true
+        bool motionPlusInside; // True if it's a new Wiimote with the Motion Plus extension build into it
 
         /* L2CAP Channels */
         uint8_t control_scid[2]; // L2CAP source CID for HID_Control
@@ -471,6 +465,8 @@ private:
         void writeData(uint32_t offset, uint8_t size, uint8_t* data);
         void initExtension1();
         void initExtension2();
+
+        void statusRequest(); // Used to update the Wiimote state and battery level
 
         void readData(uint32_t offset, uint16_t size, bool EEPROM);
         void readExtensionType();
@@ -491,7 +487,7 @@ private:
         uint8_t batteryLevel;
 
 #ifdef WIICAMERA
-        /* Private function and variables for the readings from teh IR Camera */
+        /* Private function and variables for the readings from the IR Camera */
         void enableIRCamera1(); // Sets bit 2 of output report 13
         void enableIRCamera2(); // Sets bit 2 of output report 1A
         void writeSensitivityBlock1();

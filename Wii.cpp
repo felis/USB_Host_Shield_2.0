@@ -14,9 +14,7 @@
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
 
- IR camera support added by:
- Allan Glover
- adglover9.81@gmail.com
+ IR camera support added by Allan Glover (adglover9.81@gmail.com) and Kristian Lauszus
  */
 
 #include "Wii.h"
@@ -109,7 +107,7 @@ void WII::Reset() {
         activateNunchuck = false;
         motionValuesReset = false;
         activeConnection = false;
-        pBtd->motionPlusInside = false;
+        motionPlusInside = false;
         pBtd->wiiUProController = false;
         wiiUProControllerConnected = false;
         l2cap_event_flag = 0; // Reset flags
@@ -117,13 +115,17 @@ void WII::Reset() {
 }
 
 void WII::disconnect() { // Use this void to disconnect any of the controllers
-        if (motionPlusConnected && !pBtd->motionPlusInside) { // Disable the Motion Plus extension
+        if (!motionPlusInside) { // The old Wiimote needs a delay after the first command or it will automatically reconnect
+                if (motionPlusConnected) {
 #ifdef DEBUG_USB_HOST
-                Notify(PSTR("\r\nDeactivating Motion Plus"), 0x80);
+                        Notify(PSTR("\r\nDeactivating Motion Plus"), 0x80);
 #endif
-                initExtension1(); // This will disable the Motion Plus extension
-        }
-        //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
+                        initExtension1(); // This will disable the Motion Plus extension
+                }
+                timer = millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
+        } else
+                timer = millis(); // Don't wait
+        // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
         pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
@@ -133,6 +135,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
         if (!pBtd->l2capConnectionClaimed && pBtd->incomingWii && !wiimoteConnected && !activeConnection) {
                 if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
+                                motionPlusInside = pBtd->motionPlusInside;
                                 pBtd->incomingWii = false;
                                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                                 activeConnection = true;
@@ -254,7 +257,6 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
                         //Notify(PSTR("\r\nL2CAP Interrupt"), 0x80);
-                        if (wiimoteConnected) {
                                 if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
                                         if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
                                                 if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33) // These reports have no extensions bytes
@@ -291,47 +293,51 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         }
                                         switch (l2capinbuf[9]) {
                                                 case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
+#ifdef EXTRADEBUG
+                                                        Notify(PSTR("\r\nStatus report was received"), 0x80);
+#endif
                                                         wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
                                                         batteryLevel = l2capinbuf[15]; // Update battery level
-                                                        if (l2capinbuf[12] & 0x01) {
 #ifdef DEBUG_USB_HOST
+                                                        if (l2capinbuf[12] & 0x01)
                                                                 Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
 #endif
-                                                        }
-                                                        if (l2capinbuf[12] & 0x02) { // Check if a extension is connected
+                                                        if (checkExtension) { // If this is false it means that the user must have called getBatteryLevel()
+                                                                if (l2capinbuf[12] & 0x02) { // Check if a extension is connected
 #ifdef DEBUG_USB_HOST
-                                                                if (!unknownExtensionConnected)
-                                                                        Notify(PSTR("\r\nExtension connected"), 0x80);
+                                                                        if (!unknownExtensionConnected)
+                                                                                Notify(PSTR("\r\nExtension connected"), 0x80);
 #endif
-                                                                unknownExtensionConnected = true;
+                                                                        unknownExtensionConnected = true;
 #ifdef WIICAMERA
                                                                 if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
 #endif
                                                                         setReportMode(false, 0x35); // Also read the extension
-                                                        } else {
-#ifdef DEBUG_USB_HOST
-                                                                Notify(PSTR("\r\nExtension disconnected"), 0x80);
-#endif
-                                                                if (motionPlusConnected) {
-#ifdef DEBUG_USB_HOST
-                                                                        Notify(PSTR(" - from Motion Plus"), 0x80);
-#endif
-                                                                        l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
-                                                                        if (!activateNunchuck) // If it's already trying to initialize the Nunchuck don't set it to false
-                                                                                nunchuckConnected = false;
-                                                                        //else if(classicControllerConnected)
-                                                                } else if (nunchuckConnected) {
-#ifdef DEBUG_USB_HOST
-                                                                        Notify(PSTR(" - Nunchuck"), 0x80);
-#endif
-                                                                        nunchuckConnected = false; // It must be the Nunchuck controller then
-                                                                        l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
-                                                                        onInit();
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
                                                                 } else {
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
+#ifdef DEBUG_USB_HOST
+                                                                        Notify(PSTR("\r\nExtension disconnected"), 0x80);
+#endif
+                                                                        if (motionPlusConnected) {
+#ifdef DEBUG_USB_HOST
+                                                                                Notify(PSTR(" - from Motion Plus"), 0x80);
+#endif
+                                                                                l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
+                                                                                if (!activateNunchuck) // If it's already trying to initialize the Nunchuck don't set it to false
+                                                                                        nunchuckConnected = false;
+                                                                                //else if(classicControllerConnected)
+                                                                        } else if (nunchuckConnected) {
+#ifdef DEBUG_USB_HOST
+                                                                                Notify(PSTR(" - Nunchuck"), 0x80);
+#endif
+                                                                                nunchuckConnected = false; // It must be the Nunchuck controller then
+                                                                                l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
+                                                                                onInit();
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                        } else
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
                                                                 }
-                                                        }
+                                                        } else
+                                                                checkExtension = true; // Check for extensions by default
                                                         break;
                                                 case 0x21: // Read Memory Data
                                                         if ((l2capinbuf[12] & 0x0F) == 0) { // No error
@@ -351,6 +357,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         Notify(PSTR("\r\nMotion Plus activated in normal mode"), 0x80);
 #endif
                                                                         motionPlusConnected = true;
+                                                                        setReportMode(false, 0x35); // Also read the extension
                                                                 } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR("\r\nMotion Plus activated in Nunchuck pass-through mode"), 0x80);
@@ -358,6 +365,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         activateNunchuck = false;
                                                                         motionPlusConnected = true;
                                                                         nunchuckConnected = true;
+                                                                        setReportMode(false, 0x35); // Also read the extension
                                                                 } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR("\r\nInactive Wii Motion Plus"), 0x80);
@@ -572,7 +580,6 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                                         }
                                 }
-                        }
                 }
                 L2CAP_task();
         }
@@ -647,7 +654,6 @@ void WII::L2CAP_task() {
 #endif
                                 pBtd->connectToWii = false;
                                 pBtd->pairWithWii = false;
-                                wiimoteConnected = true;
                                 stateCounter = 0;
                                 l2cap_state = L2CAP_CHECK_MOTION_PLUS_STATE;
                         }
@@ -656,7 +662,7 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if (l2cap_disconnect_response_interrupt_flag) {
+                        if (l2cap_disconnect_response_interrupt_flag && millis() > timer) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -681,11 +687,15 @@ void WII::L2CAP_task() {
 }
 
 void WII::Run() {
+        if (l2cap_state == L2CAP_INTERRUPT_DISCONNECT && millis() > timer)
+                L2CAP_task(); // Call the rest of the disconnection routine after we have waited long enough
+
         switch (l2cap_state) {
                 case L2CAP_WAIT:
                         if (pBtd->connectToWii && !pBtd->l2capConnectionClaimed && !wiimoteConnected && !activeConnection) {
                                 pBtd->l2capConnectionClaimed = true;
                                 activeConnection = true;
+                                motionPlusInside = pBtd->motionPlusInside;
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Control Connection Request"), 0x80);
 #endif
@@ -779,6 +789,7 @@ void WII::Run() {
                 case L2CAP_LED_STATE:
                         if (nunchuck_connected_flag)
                                 nunchuckConnected = true;
+                        wiimoteConnected = true;
                         onInit();
                         l2cap_state = L2CAP_DONE;
                         break;
@@ -839,7 +850,7 @@ void WII::Run() {
 
 /************************************************************/
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
-        if (pBtd->motionPlusInside)
+        if (motionPlusInside)
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new wiimote with the Motion Plus Inside
         else
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
@@ -904,6 +915,12 @@ void WII::setLedStatus() {
 
         HID_Command(HIDBuffer, 3);
 }
+
+uint8_t WII::getBatteryLevel() {
+        checkExtension = false; // This is needed so the library knows that the status response is a response to this function
+        statusRequest(); // This will update the battery level
+        return batteryLevel;
+};
 
 void WII::setReportMode(bool continuous, uint8_t mode) {
         uint8_t cmd_buf[4];
