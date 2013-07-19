@@ -222,7 +222,7 @@ private:
         bool R2Clicked;
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
+        uint8_t writeBuf[8]; // General purpose buffer for output data
 
         void readReport(); // read incoming data
         void printReport(); // print incoming date - Uncomment for debugging

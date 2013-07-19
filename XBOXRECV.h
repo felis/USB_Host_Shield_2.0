@@ -260,7 +260,7 @@ private:
         unsigned long timer; // Timing for checkStatus() signals
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
+        uint8_t writeBuf[7]; // General purpose buffer for output data
 
         void readReport(uint8_t controller); // read incoming data
         void printReport(uint8_t controller, uint8_t nBytes); // print incoming date - Uncomment for debugging

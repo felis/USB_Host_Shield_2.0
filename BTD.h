@@ -467,7 +467,7 @@ private:
 
         uint8_t hcibuf[BULK_MAXPKTSIZE]; //General purpose buffer for hci data
         uint8_t l2capinbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap in data
-        uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap out data
+        uint8_t l2capoutbuf[14]; //General purpose buffer for l2cap out data
 
         /* State machines */
         void HCI_event_task(); // Poll the HCI event pipe

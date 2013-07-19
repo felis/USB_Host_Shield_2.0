@@ -321,6 +321,8 @@ void XBOXOLD::XboxCommand(uint8_t* data, uint16_t nbytes) {
 }
 
 void XBOXOLD::setRumbleOn(uint8_t lValue, uint8_t rValue) {
+        uint8_t writeBuf[6];
+
         writeBuf[0] = 0x00;
         writeBuf[1] = 0x06;
         writeBuf[2] = 0x00;
