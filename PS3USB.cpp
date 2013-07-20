@@ -120,8 +120,8 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
-#endif
                 D_PrintHex<uint8_t > (rcode, 0x80);
+#endif
                 return rcode;
         }
 #ifdef EXTRADEBUG
