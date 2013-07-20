@@ -459,9 +459,6 @@ void PS3BT::L2CAP_task() {
                                 if (remote_name[0] == 'M') { // First letter in Motion Controller ('M')
                                         for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                                 l2capinbuf[i] = 0;
-                                        ButtonState = 0;
-                                        OldButtonState = 0;
-
                                         l2cap_state = L2CAP_HID_PS3_LED;
                                 } else
                                         l2cap_state = L2CAP_HID_ENABLE_SIXAXIS;
@@ -502,12 +499,9 @@ void PS3BT::Run() {
                         if (millis() - timer > 1000) { // loop 1 second before sending the command
                                 for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                         l2capinbuf[i] = 0;
-                                ButtonState = 0;
-                                OldButtonState = 0;
-
-                                enable_sixaxis();
                                 for (uint8_t i = 15; i < 19; i++)
                                         l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position
+                                enable_sixaxis();
                                 l2cap_state = L2CAP_HID_PS3_LED;
                                 timer = millis();
                         }
@@ -532,6 +526,10 @@ void PS3BT::Run() {
 #endif
                                         PS3MoveConnected = true;
                                 }
+                                ButtonState = 0; // Clear all values
+                                OldButtonState = 0;
+                                ButtonClickState = 0;
+                                
                                 onInit(); // Turn on the LED on the controller
                                 l2cap_state = L2CAP_DONE;
                         }
