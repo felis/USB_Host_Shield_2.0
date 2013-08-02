@@ -342,7 +342,7 @@ void BTD::HCI_event_task() {
         /* check the event pipe*/
         uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
-        if (!rcode) // Check for errors
+        if (!rcode || rcode == hrNAK) // Check for errors
         {
                 switch (hcibuf[0]) //switch on event type
                 {
@@ -527,7 +527,7 @@ void BTD::HCI_event_task() {
                 } // switch
         }
 #ifdef EXTRADEBUG
-        else if (rcode != hrNAK) {
+        else {
                 Notify(PSTR("\r\nHCI event error: "), 0x80);
                 D_PrintHex<uint8_t > (rcode, 0x80);
         }
