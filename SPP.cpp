@@ -269,19 +269,31 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                 /* Read the incoming message */
                                 if (rfcommChannelType == RFCOMM_UIH && rfcommChannel == rfcommChannelConnection) {
                                         uint8_t length = l2capinbuf[10] >> 1; // Get length
-                                        uint8_t offset = l2capinbuf[4] - length - 4; // See if there is credit
-                                        if (rfcommAvailable + length <= sizeof (rfcommDataBuffer)) { // Don't add data to buffer if it would be full
-                                                for (uint8_t i = 0; i < length; i++)
+                                        uint8_t offset = l2capinbuf[4] - length - 4; // Check if there is credit
+                                        if (checkFcs(&l2capinbuf[8], l2capinbuf[11 + length + offset])) {
+                                                uint8_t i = 0;
+                                                for (; i < length; i++) {
+                                                        if (rfcommAvailable + i >= sizeof (rfcommDataBuffer)) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWarning: Buffer is full!"), 0x80);
+#endif
+                                                                break;
+                                                        }
                                                         rfcommDataBuffer[rfcommAvailable + i] = l2capinbuf[11 + i + offset];
-                                                rfcommAvailable += length;
-                                        }
+                                                }
+                                                rfcommAvailable += i;
 #ifdef EXTRADEBUG
-                                        Notify(PSTR("\r\nRFCOMM Data Available: "), 0x80);
-                                        Notify(rfcommAvailable, 0x80);
-                                        if (offset) {
-                                                Notify(PSTR(" - Credit: 0x"), 0x80);
-                                                D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
+                                                Notify(PSTR("\r\nRFCOMM Data Available: "), 0x80);
+                                                Notify(rfcommAvailable, 0x80);
+                                                if (offset) {
+                                                        Notify(PSTR(" - Credit: 0x"), 0x80);
+                                                        D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
+                                                }
+#endif
                                         }
+#ifdef DEBUG_USB_HOST
+                                        else
+                                                Notify(PSTR("\r\nError in FCS checksum!"), 0x80);
 #endif
 #ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send to the Arduino via Bluetooth
                                         for (uint8_t i = 0; i < length; i++)
@@ -722,16 +734,24 @@ void SPP::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8
 }
 
 /* CRC on 2 bytes */
-uint8_t SPP::__crc(uint8_t* data) {
-        return (pgm_read_byte(&rfcomm_crc_table[pgm_read_byte(&rfcomm_crc_table[0xff ^ data[0]]) ^ data[1]]));
+uint8_t SPP::crc(uint8_t *data) {
+        return (pgm_read_byte(&rfcomm_crc_table[pgm_read_byte(&rfcomm_crc_table[0xFF ^ data[0]]) ^ data[1]]));
 }
 
-/* Calculate FCS - we never actually check if the host sends correct FCS to the Arduino */
+/* Calculate FCS */
 uint8_t SPP::calcFcs(uint8_t *data) {
         if ((data[1] & 0xEF) == RFCOMM_UIH)
-                return (0xff - __crc(data)); // FCS on 2 bytes
+                return (0xFF - crc(data)); // FCS on 2 bytes
         else
-                return (0xff - pgm_read_byte(&rfcomm_crc_table[__crc(data) ^ data[2]])); // FCS on 3 bytes
+                return (0xFF - pgm_read_byte(&rfcomm_crc_table[crc(data) ^ data[2]])); // FCS on 3 bytes
+}
+
+/* Check FCS */
+bool SPP::checkFcs(uint8_t *data, uint8_t fcs) {
+        uint8_t temp = crc(data);
+        if ((data[1] & 0xEF) != RFCOMM_UIH)
+                temp = pgm_read_byte(&rfcomm_crc_table[temp ^ data[2]]); // FCS on 3 bytes
+        return (pgm_read_byte(&rfcomm_crc_table[temp ^ fcs]) == 0xCF);
 }
 
 /* Serial commands */
@@ -739,7 +759,7 @@ size_t SPP::write(uint8_t data) {
         return write(&data,1);
 }
 
-size_t SPP::write(const uint8_t* data, size_t size) {
+size_t SPP::write(const uint8_t *data, size_t size) {
         for(uint8_t i = 0; i < size; i++) {
                 if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
                         send(); // Send the current data in the buffer
