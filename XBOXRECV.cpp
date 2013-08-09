@@ -94,9 +94,9 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a xbox receiver using the Vendor ID
+        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a Xbox receiver using the Vendor ID
                 goto FailUnknownDevice;
-        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
+        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) { // Check the PID as well
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
@@ -128,6 +128,8 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -310,7 +312,7 @@ void XBOXRECV::readReport(uint8_t controller) {
 #endif
                 if (Xbox360Connected[controller]) {
 #ifdef DEBUG_USB_HOST
-                        char* str = 0;
+                        const char* str = 0;
                         switch (readBuf[1]) {
                                 case 0x80: str = PSTR(" as controller\r\n");
                                         break;
@@ -322,18 +324,7 @@ void XBOXRECV::readReport(uint8_t controller) {
                         Notify(PSTR(": connected"), 0x80);
                         Notify(str, 0x80);
 #endif
-                        LED led;
-                        switch (controller) {
-                                case 0: led = LED1;
-                                        break;
-                                case 1: led = LED2;
-                                        break;
-                                case 2: led = LED3;
-                                        break;
-                                case 3: led = LED4;
-                                        break;
-                        }
-                        setLedOn(led, controller);
+                        onInit(controller);
                 }
 #ifdef DEBUG_USB_HOST
                 else
@@ -528,4 +519,21 @@ void XBOXRECV::setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller) {
         writeBuf[6] = rValue; // small weight
 
         XboxCommand(controller, writeBuf, 7);
+}
+
+void XBOXRECV::onInit(uint8_t controller) {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                LED led;
+                if (controller == 0)
+                    led = LED1;
+                else if (controller == 1)
+                    led = LED2;
+                else if (controller == 2)
+                    led = LED3;
+                else
+                    led = LED4;
+                setLedOn(led, controller);
+        }
 }

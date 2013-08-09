@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Kristian Lauszus, TKJ Electronics. All rights reserved.
+/* Copyright (C) 2013 Kristian Lauszus, TKJ Electronics. All rights reserved.
 
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
@@ -15,12 +15,36 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#include "XBOXUSB.h"
+#include "XBOXOLD.h"
 // To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
-//#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
+//#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
-XBOXUSB::XBOXUSB(USB *p) :
+/** Buttons on the controllers */
+const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
+        0x01, // UP
+        0x08, // RIGHT
+        0x02, // DOWN
+        0x04, // LEFT
+
+        0x20, // BACK
+        0x10, // START
+        0x40, // L3
+        0x80, // R3
+
+        // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+        4, // BLACK
+        5, // WHTIE
+        6, // L1
+        7, // R1
+
+        1, // B
+        0, // A
+        2, // X
+        3, // Y
+}; 
+
+XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
@@ -35,7 +59,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
-uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         uint8_t rcode;
         UsbDevice *p = NULL;
@@ -92,21 +116,9 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) // Check VID
+        if ((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_OLD_PID1 && PID != XBOX_OLD_PID2 && PID != XBOX_OLD_PID3 && PID != XBOX_OLD_PID4)) // Check if VID and PID match
                 goto FailUnknownDevice;
-        if (PID == XBOX_WIRELESS_PID) {
-#ifdef DEBUG_USB_HOST
-                Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"), 0x80);
-#endif
-                goto FailUnknownDevice;
-        } else if (PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
-#ifdef DEBUG_USB_HOST
-                Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"), 0x80);
-#endif
-                goto FailUnknownDevice;
-        } else if (PID != XBOX_WIRED_PID) // Check PID
-                goto FailUnknownDevice;
-
+        
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
@@ -150,16 +162,16 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* The application will work in reduced host mode, so we can save program and data
            memory space. After verifying the VID we will use known values for the
-           configuration values for device, interface, endpoints and HID for the XBOX360 Controllers */
+           configuration values for device, interface, endpoints and HID for the XBOX controllers */
 
         /* Initialize data structures for endpoints of device */
-        epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01; // XBOX 360 report endpoint
+        epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01; // XBOX report endpoint
         epInfo[ XBOX_INPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
         epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX 360 output endpoint
+        epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX output endpoint
         epInfo[ XBOX_OUTPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
@@ -177,10 +189,11 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailSetConfDescr;
 
 #ifdef DEBUG_USB_HOST
-        Notify(PSTR("\r\nXbox 360 Controller Connected\r\n"), 0x80);
+        Notify(PSTR("\r\nXbox Controller Connected\r\n"), 0x80);
 #endif
-        onInit();
-        Xbox360Connected = true;
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        XboxConnected = true;
         bPollEnable = true;
         return 0; // Successful configuration
 
@@ -210,7 +223,7 @@ FailUnknownDevice:
 
 Fail:
 #ifdef DEBUG_USB_HOST
-        Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
+        Notify(PSTR("\r\nXbox Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif
         Release();
@@ -218,58 +231,57 @@ Fail:
 }
 
 /* Performs a cleanup after failed Init() attempt */
-uint8_t XBOXUSB::Release() {
-        Xbox360Connected = false;
+uint8_t XBOXOLD::Release() {
+        XboxConnected = false;
         pUsb->GetAddressPool().FreeAddress(bAddress);
         bAddress = 0;
         bPollEnable = false;
         return 0;
 }
 
-uint8_t XBOXUSB::Poll() {
+uint8_t XBOXOLD::Poll() {
         if (!bPollEnable)
                 return 0;
         uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
         pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
         readReport();
 #ifdef PRINTREPORT
-        printReport(); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+        printReport(BUFFER_SIZE); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #endif
         return 0;
 }
 
-void XBOXUSB::readReport() {
-        if (readBuf == NULL)
-                return;
-        if (readBuf[0] != 0x00 || readBuf[1] != 0x14) { // Check if it's the correct report - the controller also sends different status reports
-                return;
-        }
+void XBOXOLD::readReport() {
+        ButtonState = readBuf[2];
 
-        ButtonState = (uint32_t)(readBuf[5] | ((uint16_t)readBuf[4] << 8) | ((uint32_t)readBuf[3] << 16) | ((uint32_t)readBuf[2] << 24));
+        for (uint8_t i = 0; i < sizeof(buttonValues); i++)
+            buttonValues[i] = readBuf[i + 4]; // A, B, X, Y, BLACK, WHITE, L1, and R1
 
-        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[7] << 8) | readBuf[6]);
-        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[9] << 8) | readBuf[8]);
-        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[11] << 8) | readBuf[10]);
-        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
+        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[12] << 8) | readBuf[13]);
+        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[14] << 8) | readBuf[15]);
+        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[16] << 8) | readBuf[17]);
+        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[18] << 8) | readBuf[19]);
 
         //Notify(PSTR("\r\nButtonState"), 0x80);
-        //PrintHex<uint32_t>(ButtonState, 0x80);
+        //PrintHex<uint8_t>(ButtonState, 0x80);
 
-        if (ButtonState != OldButtonState) {
-                ButtonClickState = (ButtonState >> 16) & ((~OldButtonState) >> 16); // Update click state variable, but don't include the two trigger buttons L2 and R2
-                if (((uint8_t)OldButtonState) == 0 && ((uint8_t)ButtonState) != 0) // The L2 and R2 buttons are special as they are analog buttons
-                        R2Clicked = true;
-                if ((uint8_t)(OldButtonState >> 8) == 0 && (uint8_t)(ButtonState >> 8) != 0)
-                        L2Clicked = true;
+        if (ButtonState != OldButtonState || memcmp(buttonValues, oldButtonValues, sizeof(buttonValues)) != 0) {
+                ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                 OldButtonState = ButtonState;
+
+                for (uint8_t i = 0; i < sizeof(buttonValues); i++) {
+                    if (oldButtonValues[i] == 0 && buttonValues[i] != 0)
+                        buttonClicked[i] = true; // Update A, B, X, Y, BLACK, WHITE, L1, and R1 click state
+                    oldButtonValues[i] = buttonValues[i];
+                }
         }
 }
 
-void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #ifdef PRINTREPORT
         if (readBuf == NULL)
                 return;
-        for (uint8_t i = 0; i < XBOX_REPORT_BUFFER_SIZE; i++) {
+        for (uint8_t i = 0; i < length; i++) {
                 D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
@@ -277,81 +289,46 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
 #endif
 }
 
-uint8_t XBOXUSB::getButtonPress(Button b) {
-        if (b == L2) // These are analog buttons
-                return (uint8_t)(ButtonState >> 8);
-        else if (b == R2)
-                return (uint8_t)ButtonState;
-        return (ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+uint8_t XBOXOLD::getButtonPress(Button b) {
+        if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+            return buttonValues[pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])]; // Analog buttons
+        return (ButtonState & pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])); // Digital buttons
 }
 
-bool XBOXUSB::getButtonClick(Button b) {
-        if (b == L2) {
-                if (L2Clicked) {
-                        L2Clicked = false;
-                        return true;
-                }
-                return false;
-        } else if (b == R2) {
-                if (R2Clicked) {
-                        R2Clicked = false;
-                        return true;
-                }
-                return false;
+bool XBOXOLD::getButtonClick(Button b) {
+        uint8_t button;
+        if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+            button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
+            if (buttonClicked[button])
+                buttonClicked[button] = false;
+            return buttonClicked[button];
         }
-        uint16_t button = pgm_read_word(&XBOXBUTTONS[(uint8_t)b]);
+
+        button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]); // Digital buttons
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
         return click;
 }
 
-int16_t XBOXUSB::getAnalogHat(AnalogHat a) {
+int16_t XBOXOLD::getAnalogHat(AnalogHat a) {
         return hatValue[a];
 }
 
 /* Xbox Controller commands */
-void XBOXUSB::XboxCommand(uint8_t* data, uint16_t nbytes) {
+void XBOXOLD::XboxCommand(uint8_t* data, uint16_t nbytes) {
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x00), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[XBOX_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
 
-void XBOXUSB::setLedRaw(uint8_t value) {
-        writeBuf[0] = 0x01;
-        writeBuf[1] = 0x03;
-        writeBuf[2] = value;
+void XBOXOLD::setRumbleOn(uint8_t lValue, uint8_t rValue) {
+        uint8_t writeBuf[6];
 
-        XboxCommand(writeBuf, 3);
-}
-
-void XBOXUSB::setLedOn(LED led) {
-        if (led != ALL) // All LEDs can't be on a the same time
-                setLedRaw((pgm_read_byte(&XBOXLEDS[(uint8_t)led])) + 4);
-}
-
-void XBOXUSB::setLedBlink(LED led) {
-        setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
-}
-
-void XBOXUSB::setLedMode(LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
-        setLedRaw((uint8_t)ledMode);
-}
-
-void XBOXUSB::setRumbleOn(uint8_t lValue, uint8_t rValue) {
         writeBuf[0] = 0x00;
-        writeBuf[1] = 0x08;
+        writeBuf[1] = 0x06;
         writeBuf[2] = 0x00;
-        writeBuf[3] = lValue; // big weight
-        writeBuf[4] = rValue; // small weight
-        writeBuf[5] = 0x00;
-        writeBuf[6] = 0x00;
-        writeBuf[7] = 0x00;
+        writeBuf[3] = rValue; // small weight
+        writeBuf[4] = 0x00;
+        writeBuf[5] = lValue; // big weight
 
-        XboxCommand(writeBuf, 8);
-}
-
-void XBOXUSB::onInit() {
-        if (pFuncOnInit)
-                pFuncOnInit(); // Call the user function
-        else
-                setLedOn(LED1);
+        XboxCommand(writeBuf, 6);
 }

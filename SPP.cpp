@@ -231,7 +231,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         }
 #ifdef EXTRADEBUG
                         else {
-                                Notify(PSTR("\r\nUnknown PDU: "));
+                                Notify(PSTR("\r\nUnknown PDU: "), 0x80);
                                 D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif

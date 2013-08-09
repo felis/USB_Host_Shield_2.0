@@ -194,6 +194,23 @@ public:
         virtual bool isReady() {
                 return bPollEnable;
         };
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  klass The device's USB class.
+         * @return       Returns true if the device's USB class matches this driver.
+         */
+        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == USB_CLASS_WIRELESS_CTRL); }
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * Used to set the Bluetooth address into the PS3 controllers.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID));
+        };
         /**@}*/
 
         /** @name UsbConfigXtracter implementation */
@@ -450,7 +467,7 @@ private:
 
         uint8_t hcibuf[BULK_MAXPKTSIZE]; //General purpose buffer for hci data
         uint8_t l2capinbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap in data
-        uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap out data
+        uint8_t l2capoutbuf[14]; //General purpose buffer for l2cap out data
 
         /* State machines */
         void HCI_event_task(); // Poll the HCI event pipe

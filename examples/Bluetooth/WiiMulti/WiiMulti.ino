@@ -8,14 +8,17 @@
 #include <Wii.h>
 USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
-WII* Wii[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
+WII *Wii[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
 const uint8_t length = sizeof(Wii)/sizeof(Wii[0]); // Get the lenght of the array
-bool printAngle[length];
+boolean printAngle[length];
+boolean oldControllerState[length];
 
 void setup() {
-  for(uint8_t i=0;i<length;i++)
+  for (uint8_t i=0;i<length;i++) {
     Wii[i] = new WII(&Btd); // You will have to pair each controller with the dongle before you can define the instances like so, just add PAIR as the second argument
-
+    Wii[i]->attachOnInit(onInit); // onInit() is called upon a new connection - you can call the function whatever you like
+  }
+  
   Serial.begin(115200);
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
@@ -31,7 +34,7 @@ void loop() {
       if(Wii[i]->getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
         Serial.print(F("\r\nHOME"));
         Wii[i]->disconnect();
-        delay(1000); // This delay is needed for some Wiimotes, so it doesn't try to reconnect right away
+        oldControllerState[i] = false; // Reset value
       } 
       else {
         if(Wii[i]->getButtonClick(LEFT)) {
@@ -102,6 +105,15 @@ void loop() {
         Serial.print(F("\tHatY: "));
         Serial.print(Wii[i]->getAnalogHat(HatY));
       }
+    }
+  }
+}
+
+void onInit() {
+  for (uint8_t i=0;i<length;i++) {
+    if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
+      oldControllerState[i] = true; // Used to check which is the new controller
+      Wii[i]->setLedOn((LED)i); // Cast directly to LED enum - see: "controllerEnums.h"
     }
   }
 }

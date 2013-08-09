@@ -65,18 +65,18 @@ void E_Notify(double d, int lvl) {
 
 #ifdef DEBUG_USB_HOST
 void NotifyFailGetDevDescr(void) {
-        Notify(PSTR("\r\ngetDevDescr"), 0x80);
+        Notify(PSTR("\r\ngetDevDescr "), 0x80);
 }
 
 void NotifyFailSetDevTblEntry(void) {
-        Notify(PSTR("\r\nsetDevTblEn"), 0x80);
+        Notify(PSTR("\r\nsetDevTblEn "), 0x80);
 }
 void NotifyFailGetConfDescr(void) {
-        Notify(PSTR("\r\ngetConf"), 0x80);
+        Notify(PSTR("\r\ngetConf "), 0x80);
 }
 
 void NotifyFailSetConfDescr(void) {
-        Notify(PSTR("\r\nsetConf"), 0x80);
+        Notify(PSTR("\r\nsetConf "), 0x80);
 }
 
 void NotifyFailGetDevDescr(uint8_t reason) {
@@ -95,12 +95,11 @@ void NotifyFailGetConfDescr(uint8_t reason) {
         NotifyFail(reason);
 }
 
-/* Will we need this in the future?
 void NotifyFailSetConfDescr(uint8_t reason) {
         NotifyFailSetConfDescr();
         NotifyFail(reason);
 }
-*/
+
 void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID) {
         Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
         D_PrintHex<uint16_t > (VID, 0x80);

@@ -2,13 +2,13 @@
 Example sketch for the Wii libary showing the IR camera functionality. This example
 is for the Bluetooth Wii library developed for the USB shield from Circuits@Home
  
-Created by Allan Glover and includes much from what Kristian Lauszus wrote in the existing 
-Wii example. Contact Kristian:  http://blog.tkjelectronics.dk/ or send email at kristianl@tkjelectronics.com.
+Created by Allan Glover and Kristian Lauszus.
+Contact Kristian:  http://blog.tkjelectronics.dk/ or send an email at kristianl@tkjelectronics.com.
 Contact Allan at adglover9.81@gmail.com
  
 To test the Wiimote IR camera, you will need access to an IR source. Sunlight will work but is not ideal. 
-The simpleist solution is to use the Wii sensor bar, i.e. emitter bar, supplied by the Wii system. Otherwise,
-wire up a IR LED yourself.
+The simpleist solution is to use the Wii sensor bar, i.e. emitter bar, supplied by the Wii system.
+Otherwise, wire up a IR LED yourself.
 */
 
 #include <Wii.h>
@@ -19,7 +19,7 @@ USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 WII Wii(&Btd,PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
-//WII Wii(&Btd); // After the wiimote pairs once with the line of code above, you can simply create the instance like so and re upload and then press any button on the Wiimote
+//WII Wii(&Btd); // After the Wiimote pairs once with the line of code above, you can simply create the instance like so and re upload and then press any button on the Wiimote
 
 bool printAngle;
 uint8_t printObjects;
@@ -109,7 +109,7 @@ void loop() {
         }
       }
     } 
-    if(printAngle) { // There is no extension bytes avaliable, so the Motionplus or Nunchuck can't be read
+    if(printAngle) { // There is no extension bytes available, so the MotionPlus or Nunchuck can't be read
       Serial.print(F("\r\nPitch: "));
       Serial.print(Wii.getPitch());
       Serial.print(F("\tRoll: "));

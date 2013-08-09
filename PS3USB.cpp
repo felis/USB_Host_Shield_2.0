@@ -120,14 +120,16 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
-#endif
                 D_PrintHex<uint8_t > (rcode, 0x80);
+#endif
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -183,10 +185,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
                         PS3NavigationConnected = true;
                 }
-                /* Set internal bluetooth address and request for data */
-                setBdaddr(my_bdaddr);
-                enable_sixaxis();
-                setLedOn(LED1);
+                enable_sixaxis(); // The PS3 controller needs a special command before it starts sending data
 
                 // Needed for PS3 Dualshock and Navigation commands to work
                 for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
@@ -199,20 +198,24 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
                 PS3MoveConnected = true;
-                setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
-                moveSetBulb(Red);
-
                 writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
+        if (my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) {
+                if (PS3MoveConnected)
+                        setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+                else
+                        setBdaddr(my_bdaddr); // Set internal Bluetooth address
 
 #ifdef DEBUG_USB_HOST
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Notify(PSTR(":"), 0x80);
-        }
-        D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                for (int8_t i = 5; i > 0; i--) {
+                        D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                        Notify(PSTR(":"), 0x80);
+                }
+                D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
+        }
+        onInit();
 
         bPollEnable = true;
         Notify(PSTR("\r\n"), 0x80);
@@ -537,4 +540,15 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
 
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
+}
+
+void PS3USB::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                if (PS3MoveConnected)
+                        moveSetBulb(Red);
+                else // Dualshock 3 or Navigation controller
+                        setLedOn(LED1);
+        }
 }
