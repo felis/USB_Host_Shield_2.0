@@ -196,7 +196,7 @@ void setup() {
                 printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
         }
 #endif
-        while (Usb.Init() == -1) {
+        while (Usb.Init(1000) == -1) {
                 printf_P(PSTR("No\r\n"));
                 Notify(PSTR("OSC did not start."), 0x40);
         }
