@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Kristian Lauszus, TKJ Electronics. All rights reserved.
+/* Copyright (C) 2013 Kristian Lauszus, TKJ Electronics. All rights reserved.
 
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
@@ -15,8 +15,8 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#ifndef _xboxusb_h_
-#define _xboxusb_h_
+#ifndef _xboxold_h_
+#define _xboxold_h_
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -25,30 +25,28 @@
 #endif
 
 #include "Usb.h"
-#include "xboxEnums.h"
+ #include "controllerEnums.h"
 
-/* Data Xbox 360 taken from descriptors */
-#define EP_MAXPKTSIZE       32 // max size for data via USB
+/* Data Xbox taken from descriptors */
+#define EP_MAXPKTSIZE       32 // Max size for data via USB
 
 /* Endpoint types */
 #define EP_INTERRUPT        0x03
 
-/* Names we give to the 3 Xbox360 pipes */
+/* Names we give to the 3 Xbox pipes */
 #define XBOX_CONTROL_PIPE    0
 #define XBOX_INPUT_PIPE      1
 #define XBOX_OUTPUT_PIPE     2
 
 // PID and VID of the different devices
-#define XBOX_VID                                0x045E  // Microsoft Corporation
-#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
-#define JOYTECH_VID                             0x162E  // For unofficial Joytech controllers
+#define XBOX_VID                                0x045E // Microsoft Corporation
+#define MADCATZ_VID                             0x1BAD // For unofficial Mad Catz controllers
+#define JOYTECH_VID                             0x162E // For unofficial Joytech controllers
 
-#define XBOX_WIRED_PID                          0x028E  // Microsoft 360 Wired controller
-#define XBOX_WIRELESS_PID                       0x028F  // Wireless controller only support charging
-#define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
-#define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
-
-#define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
+#define XBOX_OLD_PID1                           0x0202 // Original Microsoft Xbox controller (US)
+#define XBOX_OLD_PID2                           0x0285 // Original Microsoft Xbox controller (Japan)
+#define XBOX_OLD_PID3                           0x0287 // Microsoft Microsoft Xbox Controller S
+#define XBOX_OLD_PID4                           0x0289 // Smaller Microsoft Xbox controller (US)
 
 // Used in control endpoint header for HID Commands
 #define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
@@ -56,14 +54,14 @@
 
 #define XBOX_MAX_ENDPOINTS   3
 
-/** This class implements support for a Xbox wired controller via USB. */
-class XBOXUSB : public USBDeviceConfig {
+/** This class implements support for a the original Xbox controller via USB. */
+class XBOXOLD : public USBDeviceConfig {
 public:
         /**
-         * Constructor for the XBOXUSB class.
+         * Constructor for the XBOXOLD class.
          * @param  pUsb   Pointer to USB class instance.
          */
-        XBOXUSB(USB *pUsb);
+        XBOXOLD(USB *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -108,7 +106,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && pid == XBOX_WIRED_PID);
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && (pid == XBOX_OLD_PID1 || pid == XBOX_OLD_PID2 || pid == XBOX_OLD_PID3 || pid == XBOX_OLD_PID4));
         };
         /**@}*/
 
@@ -136,12 +134,6 @@ public:
          */
         int16_t getAnalogHat(AnalogHat a);
 
-        /** Turn rumble off and all the LEDs on the controller. */
-        void setAllOff() {
-                setRumbleOn(0, 0);
-                setLedRaw(0);
-        };
-
         /** Turn rumble off the controller. */
         void setRumbleOff() {
                 setRumbleOn(0, 0);
@@ -152,33 +144,6 @@ public:
          * @param rValue     Right motor (small weight) inside the controller.
          */
         void setRumbleOn(uint8_t lValue, uint8_t rValue);
-        /**
-         * Set LED value. Without using the ::LED or ::LEDMode enum.
-         * @param value      See:
-         * setLedOff(), setLedOn(LED l),
-         * setLedBlink(LED l), and setLedMode(LEDMode lm).
-         */
-        void setLedRaw(uint8_t value);
-
-        /** Turn all LEDs off the controller. */
-        void setLedOff() {
-                setLedRaw(0);
-        };
-        /**
-         * Turn on a LED by using the ::LED enum.
-         * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
-         */
-        void setLedOn(LED l);
-        /**
-         * Turn on a LED by using the ::LED enum.
-         * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
-         */
-        void setLedBlink(LED l);
-        /**
-         * Used to set special LED modes supported by the Xbox controller.
-         * @param lm         See ::LEDMode.
-         */
-        void setLedMode(LEDMode lm);
 
         /**
          * Used to call your own function when the controller is successfully initialized.
@@ -189,8 +154,8 @@ public:
         };
         /**@}*/
 
-        /** True if a Xbox 360 controller is connected. */
-        bool Xbox360Connected;
+        /** True if a Xbox controller is connected. */
+        bool XboxConnected;
 
 protected:
         /** Pointer to USB class instance. */
@@ -206,26 +171,26 @@ private:
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        void onInit();
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         bool bPollEnable;
 
-        /* Variables to store the buttons */
-        uint32_t ButtonState;
-        uint32_t OldButtonState;
-        uint16_t ButtonClickState;
-        int16_t hatValue[4];
-        uint16_t controllerStatus;
+        /* Variables to store the digital buttons */
+        uint8_t ButtonState;
+        uint8_t OldButtonState;
+        uint8_t ButtonClickState;
 
-        bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
-        bool R2Clicked;
+        /* Variables to store the analog buttons */
+        uint8_t buttonValues[8]; // A, B, X, Y, BLACK, WHITE, L1, and R1
+        uint8_t oldButtonValues[8];
+        bool buttonClicked[8];
+
+        int16_t hatValue[4]; // Joystick values
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[8]; // General purpose buffer for output data
 
-        void readReport(); // read incoming data
-        void printReport(); // print incoming date - Uncomment for debugging
+        void readReport(); // Read incoming data
+        void printReport(uint16_t length); // Print incoming date
 
         /* Private commands */
         void XboxCommand(uint8_t* data, uint16_t nbytes);

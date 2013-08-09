@@ -110,14 +110,14 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
           USBTRACE("\r\n");
          */
         regWr(rPERADDR, addr); //set peripheral address
-        
+
         uint8_t mode = regRd(rMODE);
-        
+
         //Serial.print("\r\nMode: ");
         //Serial.println( mode, HEX);
         //Serial.print("\r\nLS: ");
         //Serial.println(p->lowspeed, HEX);
-        	
+
 
 
         // Set bmLOWSPEED and bmHUBPRE in case of low-speed device, reset them otherwise
@@ -512,10 +512,10 @@ void USB::Task(void) //USB state machine
                         if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
                         break;
                 case USB_STATE_CONFIGURING:
-                	
+
                 				//Serial.print("\r\nConf.LS: ");
                 				//Serial.println(lowspeed, HEX);
-                				
+
                         rcode = Configuring(0, 0, lowspeed);
 
                         if (rcode) {
@@ -692,12 +692,10 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if (!devConfig[devConfigIndex]) continue; // no driver
                 if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid)) {
+                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
                         rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
-                        break;
-                } else if (devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
-                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
-                        if (!rcode) break;
+                        if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED)
+                                break;
                 }
         }
 
@@ -710,6 +708,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if (!devConfig[devConfigIndex]) continue;
                 if (devConfig[devConfigIndex]->GetAddress()) continue; // consumed
+                if (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) continue; // If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above
                 rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
 
                 //printf("ERROR ENUMERATING %2.2x\r\n", rcode);

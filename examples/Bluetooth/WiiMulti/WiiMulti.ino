@@ -35,7 +35,6 @@ void loop() {
         Serial.print(F("\r\nHOME"));
         Wii[i]->disconnect();
         oldControllerState[i] = false; // Reset value
-        delay(1000); // This delay is needed for some Wiimotes, so it doesn't try to reconnect right away
       } 
       else {
         if(Wii[i]->getButtonClick(LEFT)) {

@@ -94,9 +94,9 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a xbox receiver using the Vendor ID
+        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a Xbox receiver using the Vendor ID
                 goto FailUnknownDevice;
-        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
+        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) { // Check the PID as well
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
@@ -128,6 +128,8 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
