@@ -18,6 +18,13 @@ e-mail   :  support@circuitsathome.com
 #ifndef _USBHOST_H_
 #define _USBHOST_H_
 
+// So we can use delay() -- xxxajk
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
+
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"
@@ -94,7 +101,7 @@ MAX3421e< SS, INTR >::MAX3421e() {
 #endif
 
         /* MAX3421E - full-duplex SPI, level interrupt */
-        regWr(rPINCTL, (bmFDUPSPI + bmINTLEVEL));
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
 };
 
 /* write single byte into MAX3421 register */
@@ -218,6 +225,10 @@ int8_t MAX3421e< SS, INTR >::Init() {
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
                 return( -1);
         }
+
+        // Delay 1 second to ensure any capacitors are drained.
+        delay(1000);
+
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
 
         regWr(rHIEN, bmCONDETIE | bmFRAMEIE); //connection detection
@@ -230,6 +241,10 @@ int8_t MAX3421e< SS, INTR >::Init() {
 
         regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
         regWr(rCPUCTL, 0x01); //enable interrupt pin
+
+        // GPX pin on. This is done here so that busprobe will fail if we have a switch connected.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         return( 0);
 }
 
