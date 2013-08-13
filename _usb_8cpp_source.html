@@ -201,14 +201,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">          USBTRACE(&quot;\r\n&quot;);</span></div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">         */</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <a class="code" href="class_m_a_x3421e.html#a74e387200f57bc03152247d630c166aa">regWr</a>(<a class="code" href="max3421e_8h.html#ac6d86063950bdbf438d358c907aefbfa">rPERADDR</a>, addr); <span class="comment">//set peripheral address</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        uint8_t mode = <a class="code" href="class_m_a_x3421e.html#ae7faae82a8d68c38b43833b8fddcb8e8">regRd</a>(<a class="code" href="max3421e_8h.html#a330db4fc764b8ccae5214645c1ee5423">rMODE</a>);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">//Serial.print(&quot;\r\nMode: &quot;);</span></div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">//Serial.println( mode, HEX);</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">//Serial.print(&quot;\r\nLS: &quot;);</span></div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment">//Serial.println(p-&gt;lowspeed, HEX);</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="comment">// Set bmLOWSPEED and bmHUBPRE in case of low-speed device, reset them otherwise</span></div>
@@ -543,9 +543,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                        lowspeed = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                        <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="max3421e_8h.html#aa05ee2be883f4b96948e18b0d55ab5c2">LSHOST</a>:</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                <span class="comment">//        if ((usb_task_state &amp; USB_STATE_MASK) == USB_STATE_DETACHED) {</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                                lowspeed = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                <span class="comment">//        }</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                </div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                        lowspeed = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                                <span class="comment">//intentional fallthrough</span></div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="max3421e_8h.html#a8ec45bdb8c5273e99c3ab89349cb43f9">FSHOST</a>: <span class="comment">//attached</span></div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                        <span class="keywordflow">if</span> ((usb_task_state &amp; USB_STATE_MASK) == <a class="code" href="_usb_8h.html#ae7fd7c5bb6dc87f44724dde2ad57df87">USB_STATE_DETACHED</a>) {</div>
 <div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                                delay = millis() + <a class="code" href="_usb_8h.html#a1b082667723b29243b021a1829bdd8d6">USB_SETTLE_DELAY</a>;</div>
@@ -603,10 +603,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                        <span class="keywordflow">if</span> (delay &lt; millis()) usb_task_state = <a class="code" href="_usb_8h.html#aac8c844e6a20f42298d70e4438a029e5">USB_STATE_CONFIGURING</a>;</div>
 <div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                        <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="_usb_8h.html#aac8c844e6a20f42298d70e4438a029e5">USB_STATE_CONFIGURING</a>:</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                    </div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                                <span class="comment">//Serial.print(&quot;\r\nConf.LS: &quot;);</span></div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                                <span class="comment">//Serial.println(lowspeed, HEX);</span></div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                                </div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;</div>
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;                        rcode = <a class="code" href="class_u_s_b.html#af4008dfc1c2d15c23cf8a7815cc17765">Configuring</a>(0, 0, lowspeed);</div>
 <div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;</div>
 <div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                        <span class="keywordflow">if</span> (rcode) {</div>
@@ -783,100 +783,99 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;        <span class="keywordflow">for</span> (devConfigIndex = 0; devConfigIndex &lt; <a class="code" href="_usb_8h.html#a0282f9f7a0313f957e02449d7313b7b5">USB_NUMDEVICES</a>; devConfigIndex++) {</div>
 <div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;                <span class="keywordflow">if</span> (!devConfig[devConfigIndex]) <span class="keywordflow">continue</span>; <span class="comment">// no driver</span></div>
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;GetAddress()) <span class="keywordflow">continue</span>; <span class="comment">// consumed</span></div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;VIDPIDOK(vid, pid)) {</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;VIDPIDOK(vid, pid) || devConfig[devConfigIndex]-&gt;<a class="code" href="class_u_s_b_device_config.html#a7f13c42ed2c8e72e1f63562576ca82d2">DEVCLASSOK</a>(klass)) {</div>
 <div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;DEVCLASSOK(klass)) {</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                        rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;                        <span class="keywordflow">if</span> (!rcode) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                }</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;        }</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;</div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;        <span class="keywordflow">if</span> (devConfigIndex &lt; USB_NUMDEVICES) {</div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;                <span class="keywordflow">return</span> rcode;</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;        }</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;        <span class="comment">// blindly attempt to configure</span></div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;        <span class="keywordflow">for</span> (devConfigIndex = 0; devConfigIndex &lt; <a class="code" href="_usb_8h.html#a0282f9f7a0313f957e02449d7313b7b5">USB_NUMDEVICES</a>; devConfigIndex++) {</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                <span class="keywordflow">if</span> (!devConfig[devConfigIndex]) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;GetAddress()) <span class="keywordflow">continue</span>; <span class="comment">// consumed</span></div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;</div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                <span class="comment">//printf(&quot;ERROR ENUMERATING %2.2x\r\n&quot;, rcode);</span></div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                <span class="keywordflow">if</span> (!(rcode == <a class="code" href="_usb_8h.html#ae9e139d0fd29bb0b3e7afad2f76cd589">USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED</a> || rcode == <a class="code" href="_usb_8h.html#a44416ff64fc0e3691f98addac13d4595">USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE</a>)) {</div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                        <span class="comment">// in case of an error dev_index should be reset to 0</span></div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;                        <span class="comment">//      in order to start from the very beginning the</span></div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                        <span class="comment">//      next time the program gets here</span></div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                        <span class="comment">//if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)</span></div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                        <span class="comment">//        devConfigIndex = 0;</span></div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                        <span class="keywordflow">return</span> rcode;</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;                }</div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;        }</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        <span class="comment">// if we get here that means that the device class is not supported by any of registered classes</span></div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;        rcode = <a class="code" href="class_u_s_b.html#a5eb0d31372d26f0015a0d7be0b9ff4e1">DefaultAddressing</a>(parent, port, lowspeed);</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;</div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;}</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;</div>
-<div class="line"><a name="l00731"></a><span class="lineno"><a class="code" href="class_u_s_b.html#ac681c6c98e1641f705bc14d670a2663a">  731</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#ac681c6c98e1641f705bc14d670a2663a">USB::ReleaseDevice</a>(uint8_t addr) {</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        <span class="keywordflow">if</span> (!addr)</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; <a class="code" href="_usb_8h.html#a0282f9f7a0313f957e02449d7313b7b5">USB_NUMDEVICES</a>; i++) {</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                <span class="keywordflow">if</span>(!devConfig[i]) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                <span class="keywordflow">if</span> (devConfig[i]-&gt;GetAddress() == addr)</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                        <span class="keywordflow">return</span> devConfig[i]-&gt;<a class="code" href="class_u_s_b_device_config.html#a61e301efedae55c6ac12c6cce154e432">Release</a>();</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        }</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;}</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;<span class="preprocessor">#if 1 </span></div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="preprocessor">//get device descriptor</span></div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00746"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a193e63c149fad46adabd77ceb09b2b24">  746</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a193e63c149fad46adabd77ceb09b2b24" title="defined(USB_METHODS_INLINE) ">USB::getDevDescr</a>(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, 0x00, <a class="code" href="usb__ch9_8h.html#ac6d0566773ed4549fe1a7a932e6c46de">USB_DESCRIPTOR_DEVICE</a>, 0x0000, nbytes, nbytes, dataptr, NULL));</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;}</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;<span class="comment">//get configuration descriptor</span></div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;</div>
-<div class="line"><a name="l00751"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">  751</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">USB::getConfDescr</a>(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, conf, <a class="code" href="usb__ch9_8h.html#aa17b365c4eb8bd2f6a4d4e4fb5f881c7">USB_DESCRIPTOR_CONFIGURATION</a>, 0x0000, nbytes, nbytes, dataptr, NULL));</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;}</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;</div>
-<div class="line"><a name="l00755"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a9ebd4acdc37b12bbab2ca893cb899eba">  755</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">USB::getConfDescr</a>(uint8_t addr, uint8_t ep, uint8_t conf, <a class="code" href="class_u_s_b_read_parser.html">USBReadParser</a> *p) {</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        <span class="keyword">const</span> uint8_t bufSize = 64;</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;        uint8_t buf[bufSize];</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;        uint8_t ret = <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">getConfDescr</a>(addr, ep, 8, conf, buf);</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        <span class="keywordflow">if</span> (ret)</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                <span class="keywordflow">return</span> ret;</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        uint16_t total = ((<a class="code" href="struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html">USB_CONFIGURATION_DESCRIPTOR</a>*)buf)-&gt;wTotalLength;</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;        <span class="comment">//USBTRACE2(&quot;\r\ntotal conf.size:&quot;, total);</span></div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, conf, <a class="code" href="usb__ch9_8h.html#aa17b365c4eb8bd2f6a4d4e4fb5f881c7">USB_DESCRIPTOR_CONFIGURATION</a>, 0x0000, total, bufSize, buf, p));</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;}</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;<span class="comment">//get string descriptor</span></div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;</div>
-<div class="line"><a name="l00773"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a372ecbe1d23955e8b04b5e95e0e4a833">  773</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a372ecbe1d23955e8b04b5e95e0e4a833">USB::getStrDescr</a>(uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, uint16_t langid, uint8_t* dataptr) {</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, index, <a class="code" href="usb__ch9_8h.html#abbad38caa1ca9c52f47adccd3a850aed">USB_DESCRIPTOR_STRING</a>, langid, ns, ns, dataptr, NULL));</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;}</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;<span class="comment">//set address</span></div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;</div>
-<div class="line"><a name="l00778"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a3aea534daed66b5606fa798df7ad3c47">  778</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a3aea534daed66b5606fa798df7ad3c47">USB::setAddr</a>(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {</div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(oldaddr, ep, <a class="code" href="_usb_8h.html#af4965e768593007eacde7644979f56da">bmREQ_SET</a>, <a class="code" href="usb__ch9_8h.html#ac87659819bfd6491120c819fae2d46bc">USB_REQUEST_SET_ADDRESS</a>, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;}</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;<span class="comment">//set configuration</span></div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;</div>
-<div class="line"><a name="l00783"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a31e2c132ec32ffdde94dff72be87c378">  783</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a31e2c132ec32ffdde94dff72be87c378">USB::setConf</a>(uint8_t addr, uint8_t ep, uint8_t conf_value) {</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#af4965e768593007eacde7644979f56da">bmREQ_SET</a>, <a class="code" href="usb__ch9_8h.html#aadef005acc40340955d34d9767ef297c">USB_REQUEST_SET_CONFIGURATION</a>, conf_value, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;}</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;<span class="preprocessor">#endif // defined(USB_METHODS_INLINE)</span></div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;                        <span class="keywordflow">if</span> (rcode != <a class="code" href="_usb_8h.html#ae9e139d0fd29bb0b3e7afad2f76cd589">USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED</a>)</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;                                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                }</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;        }</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;        <span class="keywordflow">if</span> (devConfigIndex &lt; USB_NUMDEVICES) {</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;                <span class="keywordflow">return</span> rcode;</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;        }</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;        <span class="comment">// blindly attempt to configure</span></div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;        <span class="keywordflow">for</span> (devConfigIndex = 0; devConfigIndex &lt; <a class="code" href="_usb_8h.html#a0282f9f7a0313f957e02449d7313b7b5">USB_NUMDEVICES</a>; devConfigIndex++) {</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;                <span class="keywordflow">if</span> (!devConfig[devConfigIndex]) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;GetAddress()) <span class="keywordflow">continue</span>; <span class="comment">// consumed</span></div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                <span class="keywordflow">if</span> (devConfig[devConfigIndex]-&gt;VIDPIDOK(vid, pid) || devConfig[devConfigIndex]-&gt;DEVCLASSOK(klass)) <span class="keywordflow">continue</span>; <span class="comment">// If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above</span></div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                <span class="comment">//printf(&quot;ERROR ENUMERATING %2.2x\r\n&quot;, rcode);</span></div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                <span class="keywordflow">if</span> (!(rcode == <a class="code" href="_usb_8h.html#ae9e139d0fd29bb0b3e7afad2f76cd589">USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED</a> || rcode == <a class="code" href="_usb_8h.html#a44416ff64fc0e3691f98addac13d4595">USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE</a>)) {</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                        <span class="comment">// in case of an error dev_index should be reset to 0</span></div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                        <span class="comment">//      in order to start from the very beginning the</span></div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;                        <span class="comment">//      next time the program gets here</span></div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                        <span class="comment">//if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)</span></div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                        <span class="comment">//        devConfigIndex = 0;</span></div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                        <span class="keywordflow">return</span> rcode;</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                }</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        }</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;        <span class="comment">// if we get here that means that the device class is not supported by any of registered classes</span></div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        rcode = <a class="code" href="class_u_s_b.html#a5eb0d31372d26f0015a0d7be0b9ff4e1">DefaultAddressing</a>(parent, port, lowspeed);</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;}</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;</div>
+<div class="line"><a name="l00730"></a><span class="lineno"><a class="code" href="class_u_s_b.html#ac681c6c98e1641f705bc14d670a2663a">  730</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#ac681c6c98e1641f705bc14d670a2663a">USB::ReleaseDevice</a>(uint8_t addr) {</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        <span class="keywordflow">if</span> (!addr)</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; <a class="code" href="_usb_8h.html#a0282f9f7a0313f957e02449d7313b7b5">USB_NUMDEVICES</a>; i++) {</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                <span class="keywordflow">if</span>(!devConfig[i]) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                <span class="keywordflow">if</span> (devConfig[i]-&gt;GetAddress() == addr)</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                        <span class="keywordflow">return</span> devConfig[i]-&gt;<a class="code" href="class_u_s_b_device_config.html#a61e301efedae55c6ac12c6cce154e432">Release</a>();</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        }</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;}</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;<span class="preprocessor">#if 1 </span></div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;<span class="preprocessor">//get device descriptor</span></div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00745"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a193e63c149fad46adabd77ceb09b2b24">  745</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a193e63c149fad46adabd77ceb09b2b24" title="defined(USB_METHODS_INLINE) ">USB::getDevDescr</a>(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, 0x00, <a class="code" href="usb__ch9_8h.html#ac6d0566773ed4549fe1a7a932e6c46de">USB_DESCRIPTOR_DEVICE</a>, 0x0000, nbytes, nbytes, dataptr, NULL));</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;}</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;<span class="comment">//get configuration descriptor</span></div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;</div>
+<div class="line"><a name="l00750"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">  750</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">USB::getConfDescr</a>(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, conf, <a class="code" href="usb__ch9_8h.html#aa17b365c4eb8bd2f6a4d4e4fb5f881c7">USB_DESCRIPTOR_CONFIGURATION</a>, 0x0000, nbytes, nbytes, dataptr, NULL));</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;}</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;</div>
+<div class="line"><a name="l00754"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a9ebd4acdc37b12bbab2ca893cb899eba">  754</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">USB::getConfDescr</a>(uint8_t addr, uint8_t ep, uint8_t conf, <a class="code" href="class_u_s_b_read_parser.html">USBReadParser</a> *p) {</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;        <span class="keyword">const</span> uint8_t bufSize = 64;</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        uint8_t buf[bufSize];</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        uint8_t ret = <a class="code" href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">getConfDescr</a>(addr, ep, 8, conf, buf);</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;        <span class="keywordflow">if</span> (ret)</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;        uint16_t total = ((<a class="code" href="struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html">USB_CONFIGURATION_DESCRIPTOR</a>*)buf)-&gt;wTotalLength;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        <span class="comment">//USBTRACE2(&quot;\r\ntotal conf.size:&quot;, total);</span></div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, conf, <a class="code" href="usb__ch9_8h.html#aa17b365c4eb8bd2f6a4d4e4fb5f881c7">USB_DESCRIPTOR_CONFIGURATION</a>, 0x0000, total, bufSize, buf, p));</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;}</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="comment">//get string descriptor</span></div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;</div>
+<div class="line"><a name="l00772"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a372ecbe1d23955e8b04b5e95e0e4a833">  772</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a372ecbe1d23955e8b04b5e95e0e4a833">USB::getStrDescr</a>(uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, uint16_t langid, uint8_t* dataptr) {</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#a060f3a6423f1e3640aa7b14d5ce72285">bmREQ_GET_DESCR</a>, <a class="code" href="usb__ch9_8h.html#a3572226ee2137c7fbf7487a02b0f560f">USB_REQUEST_GET_DESCRIPTOR</a>, index, <a class="code" href="usb__ch9_8h.html#abbad38caa1ca9c52f47adccd3a850aed">USB_DESCRIPTOR_STRING</a>, langid, ns, ns, dataptr, NULL));</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;}</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;<span class="comment">//set address</span></div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;</div>
+<div class="line"><a name="l00777"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a3aea534daed66b5606fa798df7ad3c47">  777</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a3aea534daed66b5606fa798df7ad3c47">USB::setAddr</a>(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(oldaddr, ep, <a class="code" href="_usb_8h.html#af4965e768593007eacde7644979f56da">bmREQ_SET</a>, <a class="code" href="usb__ch9_8h.html#ac87659819bfd6491120c819fae2d46bc">USB_REQUEST_SET_ADDRESS</a>, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;}</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;<span class="comment">//set configuration</span></div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;</div>
+<div class="line"><a name="l00782"></a><span class="lineno"><a class="code" href="class_u_s_b.html#a31e2c132ec32ffdde94dff72be87c378">  782</a></span>&#160;uint8_t <a class="code" href="class_u_s_b.html#a31e2c132ec32ffdde94dff72be87c378">USB::setConf</a>(uint8_t addr, uint8_t ep, uint8_t conf_value) {</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;        <span class="keywordflow">return</span> ( <a class="code" href="class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c">ctrlReq</a>(addr, ep, <a class="code" href="_usb_8h.html#af4965e768593007eacde7644979f56da">bmREQ_SET</a>, <a class="code" href="usb__ch9_8h.html#aadef005acc40340955d34d9767ef297c">USB_REQUEST_SET_CONFIGURATION</a>, conf_value, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;}</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;<span class="preprocessor">#endif // defined(USB_METHODS_INLINE)</span></div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;<span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

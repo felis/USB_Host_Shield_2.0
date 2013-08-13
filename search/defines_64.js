@@ -12,7 +12,6 @@ var searchData=
   ['dcr1_5finit_5fx',['DCR1_INIT_X',['../cdcprolific_8h.html#ae539702b1c81f50770d282c4ab425709',1,'cdcprolific.h']]],
   ['dcr2_5finit_5fh',['DCR2_INIT_H',['../cdcprolific_8h.html#af9f58d0a0dbcd375b60f17beba78cbca',1,'cdcprolific.h']]],
   ['dcr2_5finit_5fx',['DCR2_INIT_X',['../cdcprolific_8h.html#a195b68bbe6b9e565f2dc133c010f617f',1,'cdcprolific.h']]],
-  ['debug_5fusb_5fhost',['DEBUG_USB_HOST',['../message_8h.html#aded3b733d68d3c49e69a3b87db37028c',1,'message.h']]],
   ['default_5fauto',['DEFAULT_AUTO',['../cdcprolific_8h.html#acc570c15816dfccb107fa119c255dc26',1,'cdcprolific.h']]],
   ['default_5fnotify',['DEFAULT_NOTIFY',['../cdcprolific_8h.html#a858860d62527650b80da4ef4aaac1317',1,'cdcprolific.h']]],
   ['default_5fstate',['DEFAULT_STATE',['../cdcprolific_8h.html#af93d7c80faa6ebd086460cde2d5dd27e',1,'cdcprolific.h']]],

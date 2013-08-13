@@ -42,6 +42,7 @@ var searchData=
   ['aplphanumtitles0',['aplphanumTitles0',['../class_report_desc_parser_base.html#a5cd50b03ac2d022ca55e6a5bbd448ac8',1,'ReportDescParserBase']]],
   ['aplphanumtitles1',['aplphanumTitles1',['../class_report_desc_parser_base.html#afac5fab915e65babde2645e09b66e74f',1,'ReportDescParserBase']]],
   ['aplphanumtitles2',['aplphanumTitles2',['../class_report_desc_parser_base.html#ae0090afb0e090b539fcaa4b71f099b08',1,'ReportDescParserBase']]],
+  ['attachoninit',['attachOnInit',['../class_p_s3_b_t.html#a11a7a031b249e09c39aa0872fa1e4a6c',1,'PS3BT::attachOnInit()'],['../class_p_s3_u_s_b.html#ad06a172d85adf4ffc54dd8117b0be42e',1,'PS3USB::attachOnInit()'],['../class_w_i_i.html#af384f13c59fee08a4be0c541e6a9b387',1,'WII::attachOnInit()'],['../class_x_b_o_x_o_l_d.html#a7a7d0f28e51ef4650ac5e2b6c883b159',1,'XBOXOLD::attachOnInit()'],['../class_x_b_o_x_r_e_c_v.html#ababaa2f28de8bf6749fe649b4e93c583',1,'XBOXRECV::attachOnInit()'],['../class_x_b_o_x_u_s_b.html#a887b65866f96b5b1e1413ba1e4f19941',1,'XBOXUSB::attachOnInit()']]],
   ['autoscroll',['autoscroll',['../class_max___l_c_d.html#a5800c4121d13e36f272c5e1e30da2a3b',1,'Max_LCD']]],
   ['aux_5fjack_5fhook_5fstate',['AUX_JACK_HOOK_STATE',['../cdcacm_8h.html#ac79c185e34b15634c1ba5d15eb8c831c',1,'cdcacm.h']]],
   ['available',['available',['../class_s_p_p.html#a731eb43856854b6a406e9cfa3f9e57a4',1,'SPP']]],

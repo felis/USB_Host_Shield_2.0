@@ -1,8 +1,8 @@
 var searchData=
 [
   ['oemtoascii',['OemToAscii',['../class_keyboard_report_parser.html#aa21e9230ae4c2f068c404a9c2909a1f3',1,'KeyboardReportParser']]],
-  ['off',['OFF',['../max3421e_8h.html#a29e413f6725b2ba32d165ffaa35b01e5',1,'OFF():&#160;max3421e.h'],['../_p_s3_enums_8h.html#a55ecd4f2ec2ebfe8d5b0163e4ac2a967ad8a892b94d3a94ea861543c085ae782b',1,'Off():&#160;PS3Enums.h']]],
-  ['on',['ON',['../max3421e_8h.html#ad76d1750a6cdeebd506bfcd6752554d2',1,'max3421e.h']]],
+  ['off',['OFF',['../max3421e_8h.html#a29e413f6725b2ba32d165ffaa35b01e5',1,'OFF():&#160;max3421e.h'],['../_p_s3_enums_8h.html#a55ecd4f2ec2ebfe8d5b0163e4ac2a967ad8a892b94d3a94ea861543c085ae782b',1,'Off():&#160;PS3Enums.h'],['../usbhost_8h.html#ab1424f62efde609157774a4e80e016efa53ace14c115e45153a1c9105accceb4c',1,'off():&#160;usbhost.h']]],
+  ['on',['ON',['../max3421e_8h.html#ad76d1750a6cdeebd506bfcd6752554d2',1,'ON():&#160;max3421e.h'],['../usbhost_8h.html#ab1424f62efde609157774a4e80e016efaf3be4933da71233c5904ec919ac1fdb0',1,'on():&#160;usbhost.h']]],
   ['oncontrolkeyschanged',['OnControlKeysChanged',['../class_keyboard_report_parser.html#ae8ce494271e8536f4bdc089db51bc67e',1,'KeyboardReportParser']]],
   ['one',['ONE',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a7a725f13af144bdef532d0389ba75e0d',1,'controllerEnums.h']]],
   ['oninit',['OnInit',['../class_c_d_c_async_oper.html#a899353c3cbf83d7f874d11e5d9db4722',1,'CDCAsyncOper::OnInit()'],['../class_f_t_d_i_async_oper.html#ae9178132b564edd5f75b65d6943aa400',1,'FTDIAsyncOper::OnInit()'],['../class_bulk_only.html#a3d253a0bc8f1ac5b7fe1c9e7078691e3',1,'BulkOnly::OnInit()']]],

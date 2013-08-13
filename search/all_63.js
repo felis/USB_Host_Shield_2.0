@@ -78,7 +78,7 @@ var searchData=
   ['conf_5fdescr_5flen',['CONF_DESCR_LEN',['../usb__ch9_8h.html#a7256578391c91b980eec63daa6e87b6b',1,'usb_ch9.h']]],
   ['confdescparser_2eh',['confdescparser.h',['../confdescparser_8h.html',1,'']]],
   ['configdescparser',['ConfigDescParser',['../class_config_desc_parser.html',1,'ConfigDescParser&lt; CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK &gt;'],['../class_config_desc_parser.html#a58ece11be65d0e5eed1784c31598717a',1,'ConfigDescParser::ConfigDescParser()']]],
-  ['configuredevice',['ConfigureDevice',['../class_bulk_only.html#aa8fe167a7af12dce9964fa5a430c53ea',1,'BulkOnly::ConfigureDevice()'],['../class_u_s_b_device_config.html#aef77a1e62f78c04a1aad53e8795ec89e',1,'USBDeviceConfig::ConfigureDevice()']]],
+  ['configuredevice',['ConfigureDevice',['../class_a_d_k.html#a14f24ca8246c5b6126a5aa72cf6ee120',1,'ADK::ConfigureDevice()'],['../class_bulk_only.html#aa8fe167a7af12dce9964fa5a430c53ea',1,'BulkOnly::ConfigureDevice()'],['../class_u_s_b_device_config.html#aef77a1e62f78c04a1aad53e8795ec89e',1,'USBDeviceConfig::ConfigureDevice()']]],
   ['configuring',['Configuring',['../class_u_s_b.html#af4008dfc1c2d15c23cf8a7815cc17765',1,'USB']]],
   ['connected',['connected',['../class_s_p_p.html#ade5d4f0ab50ddcad14f75fce4450a028',1,'SPP']]],
   ['connection_5fspeed_5fchange',['CONNECTION_SPEED_CHANGE',['../cdcacm_8h.html#a0bf4e444b84f8ab8bb1b3dfe16dc93de',1,'cdcacm.h']]],

@@ -7,8 +7,9 @@
 <area shape="rect" id="node8" href="$class_h_i_d.html" title="HID" alt="" coords="343,75,381,96"/>
 <area shape="rect" id="node11" href="$class_p_s3_u_s_b.html" title="PS3USB" alt="" coords="407,75,460,96"/>
 <area shape="rect" id="node12" href="$class_u_s_b_hub.html" title="USBHub" alt="" coords="484,75,537,96"/>
-<area shape="rect" id="node13" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="561,75,628,96"/>
-<area shape="rect" id="node14" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="652,75,713,96"/>
+<area shape="rect" id="node13" href="$class_x_b_o_x_o_l_d.html" title="XBOXOLD" alt="" coords="561,75,623,96"/>
+<area shape="rect" id="node14" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="647,75,713,96"/>
+<area shape="rect" id="node15" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="737,75,799,96"/>
 <area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="5,144,53,165"/>
 <area shape="rect" id="node9" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="229,144,368,165"/>
 <area shape="rect" id="node10" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="392,144,461,165"/>

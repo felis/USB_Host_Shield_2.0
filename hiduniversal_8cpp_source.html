@@ -313,25 +313,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;FailGetDevDescr:</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#ace40a5d826a882de0c5a25aece111d3f">NotifyFailGetDevDescr</a>();</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#ae65e02f44cfdc490efd1b33f9882fbbd">NotifyFailGetDevDescr</a>();</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;FailSetDevTblEntry:</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#aa65008f9251787149e391f89e68b32be">NotifyFailSetDevTblEntry</a>();</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a69619d86b1636f141c830ca82c7f45e7">NotifyFailSetDevTblEntry</a>();</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;FailGetConfDescr:</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a8990b7c46c3f20489c3f205fa173f110">NotifyFailGetConfDescr</a>();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a38aabfb47a8bf743b0532e356c39faaf">NotifyFailGetConfDescr</a>();</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;FailSetConfDescr:</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a08b840c377ca6f8154d6924d51338d89">NotifyFailSetConfDescr</a>();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a03e4088aafca36fd7a4be69e3a22b601">NotifyFailSetConfDescr</a>();</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">goto</span> Fail;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor"></span></div>
@@ -343,7 +343,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;Fail:</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8cpp.html#a5ae2cb9bf877595104f2425f50e2057f">NotifyFail</a>(rcode);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor"></span>        <a class="code" href="message_8h.html#a22695bdc18ebde4a87dbe8633cb39593">NotifyFail</a>(rcode);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor"></span>        <a class="code" href="class_h_i_d_universal.html#af999fc50ef4b5dec0391bda79ec83bda">Release</a>();</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
@@ -462,12 +462,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                        <span class="keywordflow">if</span> (identical)</div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                                <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nBuf: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\nBuf: &quot;</span>), 0x80);</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; read; i++)</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                                D_PrintHex&lt;uint8_t &gt; (buf[i], 0x80);</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                        <a class="code" href="message_8h.html#a747819b0aa34f5c3ba0332c2db28c846">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(PSTR(<span class="stringliteral">&quot;\r\n&quot;</span>), 0x80);</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                        <a class="code" href="class_h_i_d_report_parser.html">HIDReportParser</a> *prs = <a class="code" href="class_h_i_d_universal.html#aff53de37b98aa1e4a6e45be701ddcc65">GetReportParser</a>(((<a class="code" href="class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1">bHasReportId</a>) ? *buf : 0));</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>

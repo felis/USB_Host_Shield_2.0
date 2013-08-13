@@ -1,14 +1,14 @@
 <map id="cdcprolific.h" name="cdcprolific.h">
-<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="541,283,595,304"/>
-<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="217,283,284,304"/>
-<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="606,213,663,235"/>
-<area shape="rect" id="node8" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="824,283,883,304"/>
-<area shape="rect" id="node10" href="$_usb_8h.html" title="Usb.h" alt="" coords="488,144,531,165"/>
-<area shape="rect" id="node16" href="$printhex_8h.html" title="printhex.h" alt="" coords="970,421,1027,443"/>
-<area shape="rect" id="node17" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="1043,352,1104,373"/>
-<area shape="rect" id="node15" href="$message_8h.html" title="message.h" alt="" coords="1101,283,1163,304"/>
-<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="1297,144,1380,165"/>
-<area shape="rect" id="node20" href="$cdcacm_8h.html" title="cdcacm.h" alt="" coords="908,75,964,96"/>
-<area shape="rect" id="node12" href="$address_8h.html" title="address.h" alt="" coords="297,213,353,235"/>
-<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="1398,213,1463,235"/>
+<area shape="rect" id="node4" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="1510,283,1564,304"/>
+<area shape="rect" id="node6" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="1273,283,1340,304"/>
+<area shape="rect" id="node7" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="1406,213,1463,235"/>
+<area shape="rect" id="node9" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="944,283,1003,304"/>
+<area shape="rect" id="node11" href="$_usb_8h.html" title="Usb.h" alt="" coords="1049,144,1092,165"/>
+<area shape="rect" id="node16" href="$printhex_8h.html" title="printhex.h" alt="" coords="473,421,529,443"/>
+<area shape="rect" id="node17" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="403,352,464,373"/>
+<area shape="rect" id="node15" href="$message_8h.html" title="message.h" alt="" coords="343,283,404,304"/>
+<area shape="rect" id="node18" href="$confdescparser_8h.html" title="confdescparser.h" alt="" coords="297,144,380,165"/>
+<area shape="rect" id="node20" href="$cdcacm_8h.html" title="cdcacm.h" alt="" coords="727,75,783,96"/>
+<area shape="rect" id="node13" href="$address_8h.html" title="address.h" alt="" coords="1121,213,1177,235"/>
+<area shape="rect" id="node19" href="$parsetools_8h.html" title="parsetools.h" alt="" coords="145,213,209,235"/>
 </map>
