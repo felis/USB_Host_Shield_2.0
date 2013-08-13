@@ -761,7 +761,7 @@ EXAMPLE_PATH           =
 # and *.h) to filter out the source-files in the directories. If left 
 # blank all files are included.
 
-EXAMPLE_PATTERNS       = *
+EXAMPLE_PATTERNS       = 
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be 
 # searched for input files to be used with the \include or \dontinclude 
@@ -1767,7 +1767,7 @@ DOT_FONTNAME           = Helvetica
 # The DOT_FONTSIZE tag can be used to set the size of the font of dot graphs. 
 # The default size is 10pt.
 
-DOT_FONTSIZE           = 6
+DOT_FONTSIZE           = 10
 
 # By default doxygen will tell dot to use the Helvetica font. 
 # If you specify a different font using DOT_FONTNAME you can use DOT_FONTPATH to 
