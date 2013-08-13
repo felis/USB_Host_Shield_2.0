@@ -28,7 +28,7 @@
 #define PS3MOVE_PID             0x03D5  // Motion controller
 
 #define IOGEAR_GBU521_VID       0x0A5C // The IOGEAR GBU521 dongle does not presents itself correctly, so we have to check for it manually
-#define IOGEAR_GBU521_PID       0x4500
+#define IOGEAR_GBU521_PID       0x21E8
 
 /* Bluetooth dongle data taken from descriptors */
 #define BULK_MAXPKTSIZE         64 // max size for ACL data
