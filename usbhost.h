@@ -18,6 +18,13 @@ e-mail   :  support@circuitsathome.com
 #ifndef _USBHOST_H_
 #define _USBHOST_H_
 
+// So we can use delay() -- xxxajk
+#if defined(ARDUINO) && ARDUINO >=100
+#include "Arduino.h"
+#else
+#include <WProgram.h>
+#endif
+
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"
@@ -52,6 +59,11 @@ typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
 
+typedef enum VBUS_t {
+        on = 0,
+        off = GPX_VBDET
+};
+
 template< typename SS, typename INTR > class MAX3421e /* : public spi */ {
         static uint8_t vbusState;
 
@@ -65,6 +77,11 @@ public:
         uint8_t gpioRd();
         uint16_t reset();
         int8_t Init();
+        int8_t Init(int mseconds);
+
+        void vbusPower(VBUS_t state) {
+                regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | state));
+        }
 
         uint8_t getVbusState(void) {
                 return vbusState;
@@ -94,7 +111,7 @@ MAX3421e< SS, INTR >::MAX3421e() {
 #endif
 
         /* MAX3421E - full-duplex SPI, level interrupt */
-        regWr(rPINCTL, (bmFDUPSPI + bmINTLEVEL));
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
 };
 
 /* write single byte into MAX3421 register */
@@ -200,17 +217,6 @@ uint16_t MAX3421e< SS, INTR >::reset() {
         }
         return( i);
 }
-///* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
-//template< typename SS, typename INTR >
-//int8_t MAX3421e< SS, INTR >::Init()
-//{
-//  if( reset() == 0 ) { //OSCOKIRQ hasn't asserted in time
-//    return ( -1 );
-//  }
-//  regWr( rMODE, bmDPPULLDN|bmDMPULLDN|bmHOST );      // set pull-downs, Host
-//
-//  return( 0 );
-//}
 
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
@@ -218,6 +224,10 @@ int8_t MAX3421e< SS, INTR >::Init() {
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
                 return( -1);
         }
+
+        // GPX pin on.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
 
         regWr(rHIEN, bmCONDETIE | bmFRAMEIE); //connection detection
@@ -230,6 +240,38 @@ int8_t MAX3421e< SS, INTR >::Init() {
 
         regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
         regWr(rCPUCTL, 0x01); //enable interrupt pin
+
+        return( 0);
+}
+
+/* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
+template< typename SS, typename INTR >
+int8_t MAX3421e< SS, INTR >::Init(int mseconds) {
+        if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
+                return( -1);
+        }
+
+        // Delay a minimum of 1 second to ensure any capacitors are drained.
+        // 1 second is required to make sure we do not smoke a Microdrive!
+        if(mseconds < 1000) mseconds = 1000;
+        delay(mseconds);
+
+        regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
+
+        regWr(rHIEN, bmCONDETIE | bmFRAMEIE); //connection detection
+
+        /* check if device is connected */
+        regWr(rHCTL, bmSAMPLEBUS); // sample USB bus
+        while(!(regRd(rHCTL) & bmSAMPLEBUS)); //wait for sample operation to finish
+
+        busprobe(); //check if anything is connected
+
+        regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
+        regWr(rCPUCTL, 0x01); //enable interrupt pin
+
+        // GPX pin on. This is done here so that busprobe will fail if we have a switch connected.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         return( 0);
 }
 

@@ -5,7 +5,10 @@
  */
 
 #include <SPP.h>
+#include <usbhub.h>
+
 USB Usb;
+USBHub Hub1(&Usb); // Some dongles have a hub inside
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 SPP* SerialBT[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
 const uint8_t length = sizeof(SerialBT)/sizeof(SerialBT[0]); // Get the lenght of the array
