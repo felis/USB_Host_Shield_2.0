@@ -195,8 +195,18 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                 break;
                 }
 
-                if (bNumEP < BTD_MAX_ENDPOINTS)
-                        goto FailUnknownDevice;
+                if (bNumEP < BTD_MAX_ENDPOINTS) {
+                        for (uint8_t i = 0; i < num_of_conf; i++) {
+                                ConfigDescParser<USB_CLASS_VENDOR_SPECIFIC, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this); // Needed for the IOGEAR GBU521
+                                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                                if (rcode)
+                                        goto FailGetConfDescr;
+                                if (bNumEP >= BTD_MAX_ENDPOINTS) // All endpoints extracted
+                                        break;
+                        }
+                        if (bNumEP < BTD_MAX_ENDPOINTS)
+                                goto FailUnknownDevice;
+                }
 
                 // Assign epInfo to epinfo pointer - this time all 3 endpoins
                 rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
