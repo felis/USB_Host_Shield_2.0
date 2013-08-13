@@ -22,13 +22,16 @@
 #include "confdescparser.h"
 
 //PID and VID of the Sony PS3 devices
-#define PS3_VID             0x054C  // Sony Corporation
-#define PS3_PID             0x0268  // PS3 Controller DualShock 3
-#define PS3NAVIGATION_PID   0x042F  // Navigation controller
-#define PS3MOVE_PID         0x03D5  // Motion controller
+#define PS3_VID                 0x054C  // Sony Corporation
+#define PS3_PID                 0x0268  // PS3 Controller DualShock 3
+#define PS3NAVIGATION_PID       0x042F  // Navigation controller
+#define PS3MOVE_PID             0x03D5  // Motion controller
+
+#define IOGEAR_GBU521_VID       0x0A5C // The IOGEAR GBU521 dongle does not presents itself correctly, so we have to check for it manually
+#define IOGEAR_GBU521_PID       0x4500
 
 /* Bluetooth dongle data taken from descriptors */
-#define BULK_MAXPKTSIZE     64 // max size for ACL data
+#define BULK_MAXPKTSIZE         64 // max size for ACL data
 
 // Used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
@@ -209,7 +212,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID));
+                return ((vid == PS3_VID || vid == IOGEAR_GBU521_VID) && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID || pid == IOGEAR_GBU521_PID));
         };
         /**@}*/
 
