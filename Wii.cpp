@@ -357,7 +357,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nMotion Plus activated in normal mode"), 0x80);
 #endif
                                                                 motionPlusConnected = true;
-                                                                setReportMode(false, 0x35); // Also read the extension
+#ifdef WIICAMERA
+                                                                if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+#endif
+                                                                        setReportMode(false, 0x35); // Also read the extension
                                                         } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nMotion Plus activated in Nunchuck pass-through mode"), 0x80);
@@ -365,7 +368,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 activateNunchuck = false;
                                                                 motionPlusConnected = true;
                                                                 nunchuckConnected = true;
-                                                                setReportMode(false, 0x35); // Also read the extension
+#ifdef WIICAMERA
+                                                                if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+#endif
+                                                                        setReportMode(false, 0x35); // Also read the extension
                                                         } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nInactive Wii Motion Plus"), 0x80);
