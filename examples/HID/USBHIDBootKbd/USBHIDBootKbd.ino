@@ -37,7 +37,7 @@ void KbdRptParser::PrintKey(uint8_t m, uint8_t key)
     Serial.print((mod.bmLeftGUI    == 1) ? "G" : " ");
 
     Serial.print(" >");
-    D_PrintHex<uint8_t>(key, 0x80);
+    PrintHex<uint8_t>(key, 0x80);
     Serial.print("< ");
 
     Serial.print((mod.bmRightCtrl   == 1) ? "C" : " ");
