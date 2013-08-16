@@ -55,7 +55,7 @@ Documentation for the library can be found at the following link: <http://felis.
 
 ### Enable debugging
 
-By default serial debugging is disabled. To turn it on uncomment ```DEBUG_USB_HOST``` in [message.h](message.h).
+By default serial debugging is disabled. To turn it on uncomment ```#define DEBUG_USB_HOST``` in [message.h](message.h).
 
 ### Arduino ADK
 To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](avrpins.h):
