@@ -220,7 +220,7 @@ protected:
         EpInfo epInfo[MASS_MAX_ENDPOINTS];
 
         uint32_t dCBWTag; // Tag
-        uint32_t dCBWDataTransferLength; // Data Transfer Length
+        //uint32_t dCBWDataTransferLength; // Data Transfer Length
         uint8_t bLastUsbError; // Last USB error
         uint8_t bMaxLUN; // Max LUN
         uint8_t bTheLUN; // Active LUN

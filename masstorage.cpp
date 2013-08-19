@@ -54,7 +54,6 @@ boolean BulkOnly::WriteProtected(uint8_t lun) {
         return WriteOk[lun];
 }
 
-
 /**
  * Lock or Unlock the tray or door on device.
  * Caution: Some devices with buggy firmware will lock up.
@@ -236,7 +235,6 @@ again:
 // Main driver code
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 BulkOnly::BulkOnly(USB *p) :
 pUsb(p),
@@ -614,7 +612,6 @@ boolean BulkOnly::CheckLUN(uint8_t lun) {
         return false;
 }
 
-
 /**
  * For driver use only.
  *
@@ -647,7 +644,7 @@ void BulkOnly::CheckMedia() {
  * @return
  */
 uint8_t BulkOnly::Poll() {
-        uint8_t rcode = 0;
+        //uint8_t rcode = 0;
 
         if (!bPollEnable)
                 return 0;
@@ -655,9 +652,9 @@ uint8_t BulkOnly::Poll() {
         if (qNextPollTime <= millis()) {
                 CheckMedia();
         }
-        rcode = 0;
+        //rcode = 0;
 
-        return rcode;
+        return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -682,7 +679,6 @@ uint8_t BulkOnly::GetMaxLUN(uint8_t *plun) {
 
         return 0;
 }
-
 
 /**
  * For driver use only. Used during Driver Init
@@ -888,8 +884,6 @@ uint8_t BulkOnly::Page3F(uint8_t lun) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 /**
  * For driver use only.
  *
@@ -958,7 +952,12 @@ void BulkOnly::ClearAllEP() {
                 epInfo[i].bmNakPower = USB_NAK_DEFAULT;
         }
 
-        for (uint8_t i = 0; i < MASS_MAX_SUPPORTED_LUN; i++) LUNOk[i] = false;
+        for (uint8_t i = 0; i < MASS_MAX_SUPPORTED_LUN; i++) {
+                LUNOk[i] = false;
+                WriteOk[i] = false;
+                CurrentCapacity[i] = 0lu;
+                CurrentSectorSize[i] = 0;
+        }
         bIface = 0;
         bNumEP = 1;
 
@@ -969,7 +968,6 @@ void BulkOnly::ClearAllEP() {
         bMaxLUN = 0;
         bTheLUN = 0;
 }
-
 
 /**
  * For driver use only.
@@ -1290,7 +1288,6 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
 /**
  *
  * @param ep_ptr
@@ -1320,7 +1317,6 @@ void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 /* We won't be needing this... */
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
