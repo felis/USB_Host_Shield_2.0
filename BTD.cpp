@@ -187,9 +187,14 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 // First interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
                 // And 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT, not necessarily in this order
                 for (uint8_t i = 0; i < num_of_conf; i++) {
-                        ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
-                        rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
-                        if (rcode)
+                        if (VID == IOGEAR_GBU521_VID && PID == IOGEAR_GBU521_PID) {
+                                ConfigDescParser<USB_CLASS_VENDOR_SPECIFIC, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this); // Needed for the IOGEAR GBU521
+                                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                        } else {
+                                ConfigDescParser<USB_CLASS_WIRELESS_CTRL, WI_SUBCLASS_RF, WI_PROTOCOL_BT, CP_MASK_COMPARE_ALL> confDescrParser(this);
+                                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                        }
+                        if (rcode) // Check error code
                                 goto FailGetConfDescr;
                         if (bNumEP >= BTD_MAX_ENDPOINTS) // All endpoints extracted
                                 break;
@@ -342,7 +347,7 @@ void BTD::HCI_event_task() {
         /* check the event pipe*/
         uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
-        if (!rcode) // Check for errors
+        if (!rcode || rcode == hrNAK) // Check for errors
         {
                 switch (hcibuf[0]) //switch on event type
                 {
@@ -527,7 +532,7 @@ void BTD::HCI_event_task() {
                 } // switch
         }
 #ifdef EXTRADEBUG
-        else if (rcode != hrNAK) {
+        else {
                 Notify(PSTR("\r\nHCI event error: "), 0x80);
                 D_PrintHex<uint8_t > (rcode, 0x80);
         }

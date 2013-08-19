@@ -452,9 +452,9 @@ void USB::Task(void) //USB state machine
                         lowspeed = false;
                         break;
                 case LSHOST:
-                //        if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
-                                lowspeed = true;
-                //        }
+                
+                        lowspeed = true;
+                				//intentional fallthrough
                 case FSHOST: //attached
                         if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
                                 delay = millis() + USB_SETTLE_DELAY;
