@@ -1136,13 +1136,17 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                                 Notify(PSTR("CSW:\t\tOK\r\n\r\n"), 0x80);
                                 return csw.bCSWStatus;
                         } else {
+                                // NOTE! Sometimes this is caused by the reported residue being wrong.
+                                // Get a different device. It isn't compliant, and should have never passed Q&A.
+                                // I own one... 05e3:0701 Genesys Logic, Inc. USB 2.0 IDE Adapter.
+                                // Other devices that exhibit this behavior exist in the wild too.
+                                // Be sure to check for quirks on Linux before reporting a bug. --xxxajk
                                 Notify(PSTR("Invalid CSW\r\n"), 0x80);
                                 ResetRecovery();
                                 //return MASS_ERR_SUCCESS;
                                 return MASS_ERR_INVALID_CSW;
                         }
                 }
-
         }
         return ret;
 }
