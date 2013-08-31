@@ -55,7 +55,7 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #endif
-#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
 

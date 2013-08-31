@@ -663,7 +663,7 @@ public:
 #define P45 Pf7
 #endif // Teensy++ 2.0
 
-#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__))
 #define BOARD_BALANDUINO
 // Balanduino pin numbers
 // http://balanduino.net/
@@ -701,7 +701,7 @@ public:
 #define P31 Pa7 /* 31 - PA7 */
 #endif // Balanduino  
 
-#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__))
+#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__))
 // Sanguino pin numbers
 // http://sanguino.cc/hardware
 #define P0  Pb0
