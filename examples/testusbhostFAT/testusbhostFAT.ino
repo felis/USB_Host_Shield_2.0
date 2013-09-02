@@ -1,47 +1,73 @@
-
-
 /*
- * Mega + USB storage + optional expansion RAM + funky status LED,
- * Includes interactive debug level setting, and supports emulated hot-plug.
+ * Mega + USB storage + optional DS1307 + optional expansion RAM + funky status LED,
+ * Includes interactive debug level setting, and supports hot-plug.
  *
  * IMPORTANT! PLEASE USE Arduino 1.0.5 or better!
  * Older versions HAVE MAJOR BUGS AND WILL NOT WORK AT ALL!
  * Use of gcc-avr and lib-c that is newer than the Arduino version is even better.
+ * If you experience random crashes, use make.
+ * The options that the IDE use can generate bad code and cause the AVR to crash.
+ *
+ * This sketch requires the following libraries:
+ * https://github.com/felis/USB_Host_Shield_2.0 Install as 'USB_Host_Shield_2_0'
+ * https://github.com/xxxajk/xmem2 Install as 'xmem', provides memory services.
+ * https://github.com/xxxajk/generic_storage provides access to FAT file system.
+ * https://github.com/xxxajk/RTClib provides access to DS1307, or fake clock.
+ *
+ * Optional, to use the Makefile (Recommended! See above!):
+ * https://github.com/xxxajk/Arduino_Makefile_master
  *
  */
 
-#define WANT_HUB_TEST 1
-#ifndef HAVE_XMEM
-// Set this to zero to disable xmem
-#define HAVE_XMEM 1
+// You can set this to 0 if you are not using a USB hub.
+// It will save a little bit of flash and RAM.
+// Set to 1 if you want to use a hub.
+#define WANT_HUB_TEST 0
+
+
+/////////////////////////////////////////////////////////////
+// Please Note: This section is for Arduino IDE ONLY.      //
+// Use of Make creates a flash image that is 3.3KB smaller //
+/////////////////////////////////////////////////////////////
+#ifndef USING_MAKEFILE
+// Uncomment to enable debugging
+//#define DEBUG_USB_HOST
+// This is where stderr/USB debugging goes to
+#define USB_HOST_SERIAL Serial3
+// If you have external memory, setting this to 0 enables FAT table caches.
+// The 0 setting is recommended only if you have external memory.
+#define _FS_TINY 1
+
+// These you can safely leave alone.
+#define _USE_LFN 3
+#define EXT_RAM_STACK 1
+#define EXT_RAM_HEAP 1
+#define _MAX_SS 512
 #endif
+/////////////////////////////////////////////////////////////
+// End of Arduino IDE specific hacks                       //
+/////////////////////////////////////////////////////////////
 
-
-#include <avr/pgmspace.h>
-#if HAVE_XMEM
 #include <xmem.h>
-#endif
-#include <avrpins.h>
 #include <max3421e.h>
 #include <usbhost.h>
 #include <usb_ch9.h>
-#include <address.h>
 #include <Usb.h>
 #if WANT_HUB_TEST
 #include <usbhub.h>
 #endif
-#include <RTClib.h>
+#include <avrpins.h>
+#include <avr/pgmspace.h>
+#include <address.h>
 #include <masstorage.h>
+#include <Storage.h>
+#include <PCpartition/PCPartition.h>
 #include <message.h>
 #include <avr/interrupt.h>
-#include <PCpartition/PCPartition.h>
-#include <Storage.h>
 #include <FAT/FAT.h>
+#include <Wire.h>
+#include <RTClib.h>
 
-// Warning! Do not use this unless you are aware of what it does!
-#if HAVE_XMEM
-#define GOD_MODE 0
-#endif
 static FILE tty_stdio;
 static FILE tty_stderr;
 USB Usb;
@@ -66,7 +92,7 @@ int cpart = 0;
 PCPartition *PT;
 
 #if WANT_HUB_TEST
-#define MAX_HUBS 2
+#define MAX_HUBS 1
 USBHub *Hubs[MAX_HUBS];
 #endif
 
@@ -89,10 +115,12 @@ extern "C" unsigned int freeHeap();
 
 static int tty_stderr_putc(char c, FILE *t) {
         USB_HOST_SERIAL.write(c);
+        return 0;
 }
 
 static int tty_std_putc(char c, FILE *t) {
         Serial.write(c);
+        return 0;
 }
 
 static int tty_std_getc(FILE *t) {
@@ -196,33 +224,28 @@ void setup() {
                 printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
         }
 #endif
+        // Initialize generic storage. This must be done before USB starts.
+        InitStorage();
+
         while (Usb.Init(1000) == -1) {
-                printf_P(PSTR("No\r\n"));
+                printf_P(PSTR("No USB HOST Shield?\r\n"));
                 Notify(PSTR("OSC did not start."), 0x40);
         }
         // usb VBUS _OFF_
-        Usb.gpioWr(0x00);
-        digitalWrite(2, 0);
-        usbon_time = millis() + 2000;
+        //Usb.gpioWr(0x00);
+        //digitalWrite(2, 0);
+        //usbon_time = millis() + 2000;
         cli();
         TCCR3A = 0;
         TCCR3B = 0;
         // (0.01/(1/((16 *(10^6)) / 8))) - 1 = 19999
-#if GOD_MODE
-        OCR3A = 10;
-#else
         OCR3A = 19999;
-#endif
         TCCR3B |= prescale8;
         TIMSK3 |= (1 << OCIE1A);
         sei();
 
         HEAPnext_time = millis() + 10000;
 }
-
-#if GOD_MODE
-volatile uint16_t *foof = reinterpret_cast<uint16_t *>(0x2200);
-#endif
 
 void serialEvent() {
         // Adjust UsbDEBUGlvl level on-the-fly.
@@ -259,30 +282,11 @@ void serialEvent() {
                                 change = true;
                                 usbon = false;
                                 break;
-#if GOD_MODE
-                        case 'z':
-                                cli();
-                                *foof = 0xffff;
-                                *(foof + 2) = 0x0000;
-                                sei();
-                                break;
-#endif
                 }
         }
 }
 
 ISR(TIMER3_COMPA_vect) {
-#if GOD_MODE
-#if !EXT_RAM_HEAP && !EXT_RAM_STACK
-        // Super cool debug feature to detect stack and heap collisions.
-        // We can use this in conjuction with the AVR dragon
-        // to check max depth of the stack and height of heap.
-        if (*foof >= (uint16_t)(SP)) {
-                *foof = (uint16_t)(SP);
-                *(foof + 2) = (uint16_t)__brkval;
-        }
-#endif
-#endif
         if (millis() >= LEDnext_time) {
                 LEDnext_time = millis() + 30;
 
@@ -320,12 +324,6 @@ void loop() {
         if (millis() >= HEAPnext_time) {
                 if (UsbDEBUGlvl > 0x50) {
                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
-#if GOD_MODE
-                        cli();
-                        uint16_t p = *foof;
-                        sei();
-                        printf_P(PSTR("MAXSP %4.4x, current %4.4x\r\n"), p, SP);
-#endif
                 }
                 HEAPnext_time = millis() + 10000;
         }
@@ -340,13 +338,10 @@ void loop() {
         if (change) {
                 change = false;
                 if (usbon) {
+                        Usb.vbusPower(VBUS_t(on));
                         printf_P(PSTR("VBUS on\r\n"));
-                        Usb.gpioWr(0xFF);
-                        digitalWrite(2, 1);
                 } else {
-                        Usb.gpioWr(0x00);
-                        digitalWrite(2, 0);
-                        usbon = false;
+                        Usb.vbusPower(VBUS_t(off));
                         usbon_time = millis() + 2000;
                 }
         }
