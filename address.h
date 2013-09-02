@@ -219,6 +219,7 @@ public:
                 }
 
                 UsbDeviceAddress addr;
+                addr.devAddress = 0; // Ensure all bits are zero
 
                 addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
 
