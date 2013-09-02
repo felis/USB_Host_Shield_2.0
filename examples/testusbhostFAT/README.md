@@ -8,12 +8,11 @@ To compile this example you will need the following libraries as well:
 
 * [xmem2](https://github.com/xxxajk/xmem2)
 * [generic_storage FATfs](https://github.com/xxxajk/generic_storage)
+* [RTClib](https://github.com/xxxajk/RTClib)
 
-It is recommended to get a external RAM shield or apply the following patch: <https://github.com/arduino/Arduino/issues/1425>.
+The following shield is recommended for larger projects: <http://ruggedcircuits.com/html/quadram.html>.
 
-The following shield is recommended: <http://ruggedcircuits.com/html/quadram.html>.
-
-You must use the bundled [Makefile](Makefile) to compile the code instead of the Arduino IDE if you do not use external RAM. The master makefile is bundled as a submodule, but can also be downloaded manually at the following link: <https://github.com/xxxajk/Arduino_Makefile_master>.
+You may use the bundled [Makefile](Makefile) to compile the code instead of the Arduino IDE if you have problems or want a smaller binary. The master makefile is bundled as a submodule, but can also be downloaded manually at the following link: <https://github.com/xxxajk/Arduino_Makefile_master>.
 
 To download the USB Host library and all the needed libraries for this test.
 
