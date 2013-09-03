@@ -163,7 +163,7 @@ protected:
 
 		virtual void OnControlKeysChanged(uint8_t before, uint8_t after) {
 		};
-	
+
 		virtual void OnKeyDown(uint8_t mod, uint8_t key) {
         };
 
@@ -357,9 +357,10 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                         break;
         } // for
 
-        if(bNumEP < 2)
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-
+        if(bNumEP < 2) {
+                rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+                goto Fail;
+        }
         //USBTRACE2("\r\nbAddr:", bAddress);
         //USBTRACE2("\r\nbNumEP:", bNumEP);
 
