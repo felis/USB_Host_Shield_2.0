@@ -345,6 +345,7 @@ uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt) {
                         bResetInitiated = false;
 
                         UsbDeviceAddress a;
+                        a.devAddress = 0;
                         a.bmHub = 0;
                         a.bmParent = bAddress;
                         a.bmAddress = port;
