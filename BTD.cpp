@@ -110,14 +110,15 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
         if (rcode) {
-                p->lowspeed = false;
-                addrPool.FreeAddress(bAddress);
-                bAddress = 0;
+                //p->lowspeed = false;
+                //addrPool.FreeAddress(bAddress);
+                //bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
                 D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-                return rcode;
+                goto Fail;
+                //return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
@@ -176,10 +177,12 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
                 }
 
-                rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
-                pUsb->setAddr(bAddress, 0, 0); // Reset address
-                Release(); // Release device
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // Return
+                //rcode =
+                pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 0); // Reset configuration value
+                goto FailUnknownDevice;
+                //pUsb->setAddr(bAddress, 0, 0); // Reset address
+                //Release(); // Release device
+                //return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // Return
         } else {
                 num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
