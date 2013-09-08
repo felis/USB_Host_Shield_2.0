@@ -27,9 +27,6 @@ e-mail   :  support@circuitsathome.com
 
 //#define MAX_GPX   8
 
-#define ON  true
-#define OFF false
-
 #define SE0     0
 #define SE1     1
 #define FSHOST  2
