@@ -147,6 +147,8 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return rcode;
         }
 
+				delay( 2 ); //per USB 2.0 sect.9.2.6.3 
+
         USBTRACE2("Addr:", bAddress);
 
         p->lowspeed = false;

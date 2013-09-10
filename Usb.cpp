@@ -751,11 +751,13 @@ uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t con
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 
+/* Requests Configuration Descriptor. Sends two Get Conf Descr requests. The first one gets the total length of all descriptors, then the second one requests this
+ total length. The length of the first request can be shorter ( 4 bytes ), however, there are devices which won't work unless this length is set to 9 */
 uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p) {
         const uint8_t bufSize = 64;
         uint8_t buf[bufSize];
 
-        uint8_t ret = getConfDescr(addr, ep, 8, conf, buf);
+        uint8_t ret = getConfDescr(addr, ep, 9, conf, buf);
 
         if (ret)
                 return ret;
