@@ -156,7 +156,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
                 if (my_bdaddr[0] == 0x00 && my_bdaddr[1] == 0x00 && my_bdaddr[2] == 0x00 && my_bdaddr[3] == 0x00 && my_bdaddr[4] == 0x00 && my_bdaddr[5] == 0x00) {
 #ifdef DEBUG_USB_HOST
-                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\n\ror set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
+                        Notify(PSTR("\r\nPlease plug in the dongle before trying to pair with the PS3 Controller\r\nor set the Bluetooth address in the constructor of the PS3BT class"), 0x80);
 #endif
                 } else {
                         if (PID == PS3_PID || PID == PS3NAVIGATION_PID)
