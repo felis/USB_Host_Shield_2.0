@@ -55,6 +55,22 @@ boolean BulkOnly::WriteProtected(uint8_t lun) {
 }
 
 /**
+ * Wrap and execute a SCSI CDB with length of 6
+ *
+ * @param cdb CDB to execute
+ * @param buf_size Size of expected transaction
+ * @param buf Buffer
+ * @param dir MASS_CMD_DIR_IN | MASS_CMD_DIR_OUT
+ * @return
+ */
+uint8_t BulkOnly::SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
+        // promote to 32bits.
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
+        SetCurLUN(cdb->LUN);
+        return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
+}
+
+/**
  * Lock or Unlock the tray or door on device.
  * Caution: Some devices with buggy firmware will lock up.
  *
@@ -65,24 +81,8 @@ boolean BulkOnly::WriteProtected(uint8_t lun) {
 uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
         Notify(PSTR("\r\nLockMedia\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = 0;
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_PREVENT_REMOVAL;
-        cbw.CBWCB[4] = lock;
-
-        return (HandleSCSIError(Transaction(&cbw, 0, NULL, 0)));
-
+        CDB6_t cdb = CDB6_t(SCSI_CMD_PREVENT_REMOVAL, lun, (uint8_t)0, lock);
+        return SCSITransaction6(&cdb, (uint16_t)0, NULL, (uint8_t)MASS_CMD_DIR_IN);
 }
 
 /**
@@ -96,26 +96,17 @@ uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
 uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
         Notify(PSTR("\r\nMediaCTL\r\n"), 0x80);
         Notify(PSTR("-----------------\r\n"), 0x80);
-        SetCurLUN(lun);
+        //SetCurLUN(lun);
         uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
         if (bAddress) {
-                CommandBlockWrapper cbw;
-
-                cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-                cbw.dCBWTag = ++dCBWTag;
-                cbw.dCBWDataTransferLength = 0;
-                cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
-                cbw.bmCBWLUN = lun;
-                cbw.bmCBWCBLength = 6;
-
-                for (uint8_t i = 0; i < 16; i++)
-                        cbw.CBWCB[i] = 0;
-
-                cbw.CBWCB[0] = SCSI_CMD_START_STOP_UNIT;
-                cbw.CBWCB[1] = lun << 5;
-                cbw.CBWCB[4] = ctl & 0x03;
-
-                rcode = HandleSCSIError(Transaction(&cbw, 0, NULL, 0));
+                //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, 0, MASS_CMD_DIR_OUT, lun, 6, SCSI_CMD_START_STOP_UNIT);
+                //cbw.CBWCB[1] = lun << 5;
+                //cbw.CBWCB[4] = ctl & 0x03;
+                //rcode = HandleSCSIError(Transaction(&cbw, 0, NULL));
+                CDB6_t cdb = CDB6_t(SCSI_CMD_START_STOP_UNIT, lun, ctl & 0x03, 0);
+                rcode = SCSITransaction6(&cdb, (uint16_t)0, NULL, (uint8_t)MASS_CMD_DIR_OUT);
+        } else {
+                SetCurLUN(lun);
         }
         return rcode;
 }
@@ -142,28 +133,18 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         Notify(PSTR("\r\nblock size:\t"), 0x90);
         D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
-        CommandBlockWrapper cbw;
-
-again:
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_READ_10;
+        CommandBlockWrapper cbw = CommandBlockWrapper(0, ((uint32_t)bsize * blocks), MASS_CMD_DIR_IN, lun, 10, SCSI_CMD_READ_10);
         cbw.CBWCB[1] = lun << 5;
         cbw.CBWCB[2] = ((addr >> 24) & 0xff);
         cbw.CBWCB[3] = ((addr >> 16) & 0xff);
         cbw.CBWCB[4] = ((addr >> 8) & 0xff);
         cbw.CBWCB[5] = (addr & 0xff);
         cbw.CBWCB[8] = blocks;
+
+again:
         cbw.dCBWTag = ++dCBWTag;
         SetCurLUN(lun);
-        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
+        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, buf));
         if (er == MASS_ERR_STALL) {
                 MediaCTL(lun, 1);
                 delay(150);
@@ -196,20 +177,7 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
         //MediaCTL(lun, 0x01);
-        CommandBlockWrapper cbw;
-
-again:
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t)bsize * blocks);
-        cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_WRITE_10;
+        CommandBlockWrapper cbw = CommandBlockWrapper(0, ((uint32_t)bsize * blocks), MASS_CMD_DIR_OUT, lun, 10, SCSI_CMD_WRITE_10);
         cbw.CBWCB[1] = lun << 5;
         cbw.CBWCB[2] = ((addr >> 24) & 0xff);
         cbw.CBWCB[3] = ((addr >> 16) & 0xff);
@@ -217,8 +185,10 @@ again:
         cbw.CBWCB[5] = (addr & 0xff);
         cbw.CBWCB[8] = 1;
 
+again:
+        cbw.dCBWTag = ++dCBWTag;
         SetCurLUN(lun);
-        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, (void*)buf, 0));
+        uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, (void*)buf));
         if (er == MASS_ERR_WRITE_STALL) {
                 MediaCTL(lun, 1);
                 delay(150);
@@ -243,7 +213,7 @@ bIface(0),
 bNumEP(1),
 qNextPollTime(0),
 bPollEnable(false),
-dCBWTag(0),
+//dCBWTag(0),
 bLastUsbError(0) {
         ClearAllEP();
         dCBWTag = 0;
@@ -692,23 +662,15 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nInquiry\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = bsize;
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
+        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, bsize, MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_INQUIRY);
+        //SetCurLUN(lun);
+        //cbw.CBWCB[1] = lun << 5;
+        //cbw.CBWCB[4] = bsize;
 
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
+        //uint8_t rc = HandleSCSIError(Transaction(&cbw, bsize, buf));
+        CDB6_t cdb = CDB6_t(SCSI_CMD_INQUIRY, lun, 0LU, (uint8_t)bsize, 0);
+        uint8_t rc = SCSITransaction6(&cdb, bsize, buf, (uint8_t)MASS_CMD_DIR_IN);
 
-        cbw.CBWCB[0] = SCSI_CMD_INQUIRY;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[4] = bsize;
-
-        uint8_t rc = HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
 #if 0
         if (!rc) {
                 printf("LUN %i `", lun);
@@ -756,6 +718,54 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
  * For driver use only.
  *
  * @param lun Logical Unit Number
+ * @return
+ */
+uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
+        //SetCurLUN(lun);
+        if (!bAddress)
+                return MASS_ERR_UNIT_NOT_READY;
+
+        Notify(PSTR("\r\nTestUnitReady\r\n"), 0x80);
+        Notify(PSTR("-----------------\r\n"), 0x80);
+
+        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, 0, MASS_CMD_DIR_OUT, lun, 6, SCSI_CMD_TEST_UNIT_READY);
+        //cbw.CBWCB[1] = lun;
+        //uint8_t rc = HandleSCSIError(Transaction(&cbw, 0, NULL));
+        //return (rc);
+        CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint8_t)0, 0);
+        return SCSITransaction6(&cdb, 0, NULL, (uint8_t)MASS_CMD_DIR_IN);
+
+}
+
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @param pc
+ * @param page
+ * @param subpage
+ * @param len
+ * @param pbuf
+ * @return
+ */
+uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t * pbuf) {
+        Notify(PSTR("\r\rModeSense\r\n"), 0x80);
+        Notify(PSTR("------------\r\n"), 0x80);
+
+        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, ((uint32_t)len), MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_MODE_SENSE_6);
+        //SetCurLUN(lun);
+        //cbw.CBWCB[2] = ((pc << 6) | page);
+        //cbw.CBWCB[3] = subpage;
+        //cbw.CBWCB[4] = len;
+        //return HandleSCSIError(Transaction(&cbw, 512, pbuf));
+        CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage) , len, 0);
+        return SCSITransaction6(&cdb, 512, pbuf, (uint8_t)MASS_CMD_DIR_IN);
+}
+
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
  * @param size
  * @param buf
  * @return
@@ -764,87 +774,16 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         Notify(PSTR("\r\nRequestSense\r\n"), 0x80);
         Notify(PSTR("----------------\r\n"), 0x80);
 
-        CommandBlockWrapper cbw;
+
+        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, size, MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_REQUEST_SENSE);
+        //SetCurLUN(lun);
+        //cbw.CBWCB[1] = lun << 5;
+        //cbw.CBWCB[4] = size;
+
+        CDB6_t cdb = CDB6_t(SCSI_CMD_REQUEST_SENSE, lun, 0LU, (uint8_t)size, 0);
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)size, &cdb, (uint8_t)MASS_CMD_DIR_IN);
         SetCurLUN(lun);
-
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = size;
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_REQUEST_SENSE;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[4] = size;
-
-        return Transaction(&cbw, size, buf, 0);
-}
-
-/**
- * For driver use only.
- *
- * @param lun Logical Unit Number
- * @param bsize
- * @param buf
- * @return
- */
-uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
-        Notify(PSTR("\r\nReadCapacity\r\n"), 0x80);
-        Notify(PSTR("---------------\r\n"), 0x80);
-        CommandBlockWrapper cbw;
-
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = bsize;
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 10;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_READ_CAPACITY_10;
-        cbw.CBWCB[1] = lun << 5;
-
-        return HandleSCSIError(Transaction(&cbw, bsize, buf, 0));
-}
-
-/**
- * For driver use only.
- *
- * @param lun Logical Unit Number
- * @return
- */
-uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
-        SetCurLUN(lun);
-        if (!bAddress)
-                return MASS_ERR_UNIT_NOT_READY;
-
-        Notify(PSTR("\r\nTestUnitReady\r\n"), 0x80);
-        Notify(PSTR("-----------------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-        uint8_t rc;
-
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = 0;
-        cbw.bmCBWFlags = MASS_CMD_DIR_OUT;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_TEST_UNIT_READY;
-        cbw.CBWCB[1] = lun;
-        rc = HandleSCSIError(Transaction(&cbw, 0, NULL, 0));
-        return (rc);
+        return Transaction(&cbw, size, buf);
 }
 
 /**
@@ -872,6 +811,25 @@ uint8_t BulkOnly::Page3F(uint8_t lun) {
                 Notify(PSTR("\r\n"), 0x80);
         }
         return rc;
+}
+
+/**
+ * For driver use only.
+ *
+ * @param lun Logical Unit Number
+ * @param bsize
+ * @param buf
+ * @return
+ */
+uint8_t BulkOnly::ReadCapacity(uint8_t lun, uint16_t bsize, uint8_t *buf) {
+        Notify(PSTR("\r\nReadCapacity\r\n"), 0x80);
+        Notify(PSTR("---------------\r\n"), 0x80);
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, bsize, MASS_CMD_DIR_IN, lun, 10, SCSI_CMD_READ_CAPACITY_10);
+
+        SetCurLUN(lun);
+        cbw.CBWCB[1] = lun << 5;
+
+        return HandleSCSIError(Transaction(&cbw, bsize, buf));
 }
 
 
@@ -1056,6 +1014,13 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
         return ((error && !count) ? MASS_ERR_GENERAL_USB_ERROR : MASS_ERR_SUCCESS);
 }
 
+#if WANT_PARSER
+
+uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf) {
+        return Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf, 0);
+}
+#endif
+
 /**
  * For driver use only.
  *
@@ -1065,16 +1030,24 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
  * @param flags
  * @return
  */
-uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf, uint8_t flags) {
+uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf
+#if WANT_PARSER
+        , uint8_t flags
+#endif
+        ) {
         uint16_t bytes = (pcbw->dCBWDataTransferLength > buf_size) ? buf_size : pcbw->dCBWDataTransferLength;
         boolean write = (pcbw->bmCBWFlags & MASS_CMD_DIR_IN) != MASS_CMD_DIR_IN;
+#if WANT_PARSER
+
         boolean callback = (flags & MASS_TRANS_FLG_CALLBACK) == MASS_TRANS_FLG_CALLBACK;
+#endif
         uint8_t ret = 0;
         uint8_t usberr;
         CommandStatusWrapper csw; // up here, we allocate ahead to save cpu cycles.
+        // Not needed any longer, the constructor ensures this now
         // Fix reserved bits.
-        pcbw->bmReserved1 = 0;
-        pcbw->bmReserved2 = 0;
+        //pcbw->bmReserved1 = 0;
+        //pcbw->bmReserved2 = 0;
         ErrorMessage<uint32_t > (PSTR("CBW.dCBWTag"), pcbw->dCBWTag);
 
         while ((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw)) == hrBUSY) delay(1);
@@ -1086,13 +1059,18 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         } else {
                 if (bytes) {
                         if (!write) {
+#if WANT_PARSER
                                 if (callback) {
                                         uint8_t rbuf[bytes];
                                         while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, rbuf)) == hrBUSY) delay(1);
                                         if (usberr == hrSUCCESS) ((USBReadParser*)buf)->Parse(bytes, rbuf, 0);
                                 } else {
+#endif
                                         while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
+#if WANT_PARSER
+
                                 }
+#endif
                                 ret = HandleUsbError(usberr, epDataInIndex);
                         } else {
                                 while ((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
@@ -1104,7 +1082,6 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                 }
         }
 
-        //if (!ret || ret == MASS_ERR_WRITE_STALL || ret == MASS_ERR_STALL) {
         {
                 bytes = sizeof (CommandStatusWrapper);
                 int tries = 2;
@@ -1112,7 +1089,6 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                         while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*) & csw)) == hrBUSY) delay(1);
                         if (!usberr) break;
                         ClearEpHalt(epDataInIndex);
-                        //HandleUsbError(usberr, epDataInIndex);
                         if (tries) ResetRecovery();
                 }
                 if (!ret) {
@@ -1120,7 +1096,6 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                         Notify(PSTR("Data Stage:\tOK\r\n"), 0x80);
                 } else {
                         // Throw away csw, IT IS NOT OF ANY USE.
-                        //HandleUsbError(usberr, epDataInIndex);
                         ResetRecovery();
                         return ret;
                 }
@@ -1149,42 +1124,6 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                 }
         }
         return ret;
-}
-
-/**
- * For driver use only.
- *
- * @param lun Logical Unit Number
- * @param pc
- * @param page
- * @param subpage
- * @param len
- * @param pbuf
- * @return
- */
-uint8_t BulkOnly::ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t * pbuf) {
-        Notify(PSTR("\r\rModeSense\r\n"), 0x80);
-        Notify(PSTR("------------\r\n"), 0x80);
-
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = ((uint32_t)len);
-        cbw.bmCBWFlags = MASS_CMD_DIR_IN;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = 6;
-
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
-
-        cbw.CBWCB[0] = SCSI_CMD_MODE_SENSE_6;
-        cbw.CBWCB[2] = ((pc << 6) | page);
-        cbw.CBWCB[3] = subpage;
-        cbw.CBWCB[4] = len;
-
-        return HandleSCSIError(Transaction(&cbw, 512, pbuf, 0));
 }
 
 /**
@@ -1325,11 +1264,11 @@ void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
 /* We won't be needing this... */
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-#if 0
+#if WANT_PARSER
         Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
-        CommandBlockWrapper cbw;
+        CommandBlockWrapper cbw = CommandBlockWrapper();
 
         cbw.dCBWSignature = MASS_CBW_SIGNATURE;
         cbw.dCBWTag = ++dCBWTag;
@@ -1338,8 +1277,8 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
                 cbw.bmCBWLUN = lun;
         cbw.bmCBWCBLength = 10;
 
-        for (uint8_t i = 0; i < 16; i++)
-                cbw.CBWCB[i] = 0;
+        //for (uint8_t i = 0; i < 16; i++)
+        //        cbw.CBWCB[i] = 0;
 
         cbw.CBWCB[0] = SCSI_CMD_READ_10;
         cbw.CBWCB[8] = blocks;
@@ -1351,25 +1290,3 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         return HandleSCSIError(Transaction(&cbw, bsize, prs, 1));
 #endif
 }
-
-#if 0
-// TO-DO: Unify CBW creation as much as possible.
-// Make and submit CBW.
-// if stalled, delay retry
-// exit on 100 retries, or anything except stall.
-
-uint8_t SubmitCBW(uint8_t cmd, uint8_t cmdsz, uint8_t lun, uint16_t bsize, uint8_t *buf, uint8_t flags) {
-        CommandBlockWrapper cbw;
-        SetCurLUN(lun);
-        cbw.dCBWSignature = MASS_CBW_SIGNATURE;
-        cbw.dCBWTag = ++dCBWTag;
-        cbw.dCBWDataTransferLength = bsize;
-        cbw.bmCBWFlags = flags;
-        cbw.bmCBWLUN = lun;
-        cbw.bmCBWCBLength = cmdsz;
-        for (uint8_t i = 0; i < 16; i++) cbw.CBWCB[i] = 0;
-        cbw.CBWCB[0] = cmd;
-        cbw.CBWCB[1] = lun << 5;
-        cbw.CBWCB[4] = bsize;
-}
-#endif

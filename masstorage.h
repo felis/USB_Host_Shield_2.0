@@ -9,7 +9,14 @@
 // <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
 // Set this to 1 to support single LUN devices, and save RAM. -- I.E. thumb drives.
 // Each LUN needs ~13 bytes to be able to track the state of each unit.
+#ifndef MASS_MAX_SUPPORTED_LUN
 #define MASS_MAX_SUPPORTED_LUN 8
+#endif
+
+// Cruft removal, makes driver smaller, faster.
+#ifndef WANT_PARSER
+#define WANT_PARSER 0
+#endif
 
 #include <inttypes.h>
 #include "avrpins.h"
@@ -64,32 +71,98 @@
 #define MASS_CBW_SIGNATURE		0x43425355
 #define MASS_CSW_SIGNATURE		0x53425355
 
-#define MASS_CMD_DIR_OUT                (0 << 7)
-#define MASS_CMD_DIR_IN			(1 << 7)
+#define MASS_CMD_DIR_OUT                0 // (0 << 7)
+#define MASS_CMD_DIR_IN			0x80 //(1 << 7)
 
-#define SCSI_CMD_INQUIRY		0x12
-#define SCSI_CMD_REPORT_LUNS		0xA0
+/*
+ * Reference documents from T10 (http://www.t10.org)
+ * SCSI Primary Commands - 3 (SPC-3)
+ * SCSI Block Commands - 2 (SBC-2)
+ * Multi-Media Commands - 5 (MMC-5)
+ */
+
+/* Group 1 commands (CDB's here are should all be 6-bytes) */
+#define SCSI_CMD_TEST_UNIT_READY	0x00
 #define SCSI_CMD_REQUEST_SENSE		0x03
 #define SCSI_CMD_FORMAT_UNIT		0x04
 #define SCSI_CMD_READ_6			0x08
-#define SCSI_CMD_READ_10		0x28
-#define SCSI_CMD_READ_CAPACITY_10	0x25
-#define SCSI_CMD_TEST_UNIT_READY	0x00
 #define SCSI_CMD_WRITE_6		0x0A
-#define SCSI_CMD_WRITE_10		0x2A
+#define SCSI_CMD_INQUIRY		0x12
+#define SCSI_CMD_MODE_SELECT_6          0x15
 #define SCSI_CMD_MODE_SENSE_6		0x1A
-#define SCSI_CMD_MODE_SENSE_10		0x5A
 #define SCSI_CMD_START_STOP_UNIT	0x1B
 #define SCSI_CMD_PREVENT_REMOVAL        0x1E
+/* Group 2 Commands (CDB's here are 10-bytes) */
+#define SCSI_CMD_READ_FORMAT_CAPACITIES 0x23
+#define SCSI_CMD_READ_CAPACITY_10	0x25
+#define SCSI_CMD_READ_10		0x28
+#define SCSI_CMD_WRITE_10		0x2A
+#define SCSI_CMD_SEEK_10                0x2B
+#define SCSI_CMD_ERASE_10               0x2C
+#define SCSI_CMD_WRITE_AND_VERIFY_10    0x2E
+#define SCSI_CMD_VERIFY_10              0x2F
+#define SCSI_CMD_SYNCHRONIZE_CACHE      0x35
+#define SCSI_CMD_WRITE_BUFFER           0x3B
+#define SCSI_CMD_READ_BUFFER            0x3C
+#define SCSI_CMD_READ_SUBCHANNEL        0x42
+#define SCSI_CMD_READ_TOC               0x43
+#define SCSI_CMD_READ_HEADER            0x44
+#define SCSI_CMD_PLAY_AUDIO_10          0x45
+#define SCSI_CMD_GET_CONFIGURATION      0x46
+#define SCSI_CMD_PLAY_AUDIO_MSF         0x47
+#define SCSI_CMD_PLAY_AUDIO_TI          0x48
+#define SCSI_CMD_PLAY_TRACK_REL_10      0x49
+#define SCSI_CMD_GET_EVENT_STATUS       0x4A
+#define SCSI_CMD_PAUSE_RESUME           0x4B
+#define SCSI_CMD_READ_DISC_INFORMATION  0x51
+#define SCSI_CMD_READ_TRACK_INFORMATION 0x52
+#define SCSI_CMD_RESERVE_TRACK          0x53
+#define SCSI_CMD_SEND_OPC_INFORMATION   0x54
+#define SCSI_CMD_MODE_SELECT_10         0x55
+#define SCSI_CMD_REPAIR_TRACK           0x58
+#define SCSI_CMD_MODE_SENSE_10          0x5A
+#define SCSI_CMD_CLOSE_TRACK_SESSION    0x5B
+#define SCSI_CMD_READ_BUFFER_CAPACITY   0x5C
+#define SCSI_CMD_SEND_CUE_SHEET         0x5D
+/* Group 5 Commands (CDB's here are 12-bytes) */
+#define SCSI_CMD_REPORT_LUNS            0xA0
+#define SCSI_CMD_BLANK                  0xA1
+#define SCSI_CMD_SECURITY_PROTOCOL_IN   0xA2
+#define SCSI_CMD_SEND_KEY               0xA3
+#define SCSI_CMD_REPORT_KEY             0xA4
+#define SCSI_CMD_PLAY_AUDIO_12          0xA5
+#define SCSI_CMD_LOAD_UNLOAD            0xA6
+#define SCSI_CMD_SET_READ_AHEAD         0xA7
+#define SCSI_CMD_READ_12                0xA8
+#define SCSI_CMD_PLAY_TRACK_REL_12      0xA9
+#define SCSI_CMD_WRITE_12               0xAA
+#define SCSI_CMD_READ_MEDIA_SERIAL_12   0xAB
+#define SCSI_CMD_GET_PERFORMANCE        0xAC
+#define SCSI_CMD_READ_DVD_STRUCTURE     0xAD
+#define SCSI_CMD_SECURITY_PROTOCOL_OUT  0xB5
+#define SCSI_CMD_SET_STREAMING          0xB6
+#define SCSI_CMD_READ_MSF               0xB9
+#define SCSI_CMD_SET_SPEED              0xBB
+#define SCSI_CMD_MECHANISM_STATUS       0xBD
+#define SCSI_CMD_READ_CD                0xBE
+#define SCSI_CMD_SEND_DISC_STRUCTURE    0xBF
+/* Vendor-unique Commands, included for completeness */
+#define SCSI_CMD_CD_PLAYBACK_STATUS     0xC4 /* SONY unique */
+#define SCSI_CMD_PLAYBACK_CONTROL       0xC9 /* SONY unique */
+#define SCSI_CMD_READ_CDDA              0xD8 /* Vendor unique */
+#define SCSI_CMD_READ_CDXA              0xDB /* Vendor unique */
+#define SCSI_CMD_READ_ALL_SUBCODES      0xDF /* Vendor unique */
+
+/* SCSI error codes */
 #define SCSI_S_NOT_READY		0x02
 #define SCSI_S_MEDIUM_ERROR		0x03
 #define SCSI_S_ILLEGAL_REQUEST		0x05
 #define SCSI_S_UNIT_ATTENTION		0x06
-
-#define SCSI_ASC_MEDIUM_NOT_PRESENT     0x3A
 #define SCSI_ASC_LBA_OUT_OF_RANGE       0x21
 #define SCSI_ASC_MEDIA_CHANGED          0x28
+#define SCSI_ASC_MEDIUM_NOT_PRESENT     0x3A
 
+/* USB error codes */
 #define MASS_ERR_SUCCESS		0x00
 #define MASS_ERR_PHASE_ERROR		0x02
 #define MASS_ERR_UNIT_NOT_READY		0x03
@@ -123,6 +196,116 @@ struct Capacity {
         //uint32_t dwBlockLength;
 } __attribute__((packed));
 
+struct CDB6 {
+        uint8_t Opcode;
+
+        unsigned LBAMSB : 5;
+        unsigned LUN : 3;
+
+        uint8_t LBAHB;
+        uint8_t LBALB;
+        uint8_t AllocationLength;
+        uint8_t Control;
+
+public:
+        CDB6(uint8_t _Opcode, uint8_t _LUN, uint32_t LBA, uint8_t _AllocationLength, uint8_t _Control) :
+        Opcode(_Opcode), LUN(_LUN), LBAMSB((LBA >>16) & 0x1f), LBAHB((LBA >> 8) & 0xff), LBALB(LBA & 0xff),
+        AllocationLength(_AllocationLength), Control(_Control) {}
+        CDB6(uint8_t _Opcode, uint8_t _LUN, uint8_t _AllocationLength, uint8_t _Control) :
+        Opcode(_Opcode), LUN(_LUN), LBAMSB(0), LBAHB(0), LBALB(0),
+        AllocationLength(_AllocationLength), Control(_Control) {}
+} __attribute__((packed));
+
+typedef CDB6 CDB6_t;
+
+struct CDB10 {
+        uint8_t Opcode;
+
+        unsigned Service_Action : 5;
+        unsigned Misc : 3;
+
+        uint8_t LBA_L_M_MB;
+        uint8_t LBA_L_M_LB;
+        uint8_t LBA_L_L_MB;
+        uint8_t LBA_L_L_LB;
+
+        uint8_t Misc2;
+
+        uint8_t ALC_MB;
+        uint8_t ALC_LB;
+
+        uint8_t Control;
+
+};
+
+typedef CDB10 CDB10_t;
+
+struct CDB12 {
+        uint8_t Opcode;
+
+        unsigned Service_Action : 5;
+        unsigned Misc : 3;
+
+        uint8_t LBA_L_M_LB;
+        uint8_t LBA_L_L_MB;
+        uint8_t LBA_L_L_LB;
+
+        uint8_t ALC_M_LB;
+        uint8_t ALC_L_MB;
+        uint8_t ALC_L_LB;
+        uint8_t Control;
+};
+
+typedef CDB12 CDB12_t;
+
+struct CDB_LBA32_16 {
+        uint8_t Opcode;
+
+        unsigned Service_Action : 5;
+        unsigned Misc : 3;
+
+        uint8_t LBA_L_M_MB;
+        uint8_t LBA_L_M_LB;
+        uint8_t LBA_L_L_MB;
+        uint8_t LBA_L_L_LB;
+
+        uint8_t A_M_M_MB;
+        uint8_t A_M_M_LB;
+        uint8_t A_M_L_MB;
+        uint8_t A_M_L_LB;
+
+        uint8_t ALC_M_MB;
+        uint8_t ALC_M_LB;
+        uint8_t ALC_L_MB;
+        uint8_t ALC_L_LB;
+
+        uint8_t Misc2;
+        uint8_t Control;
+};
+
+struct CDB_LBA64_16 {
+        uint8_t Opcode;
+        uint8_t Misc;
+
+        uint8_t LBA_M_M_MB;
+        uint8_t LBA_M_M_LB;
+        uint8_t LBA_M_L_MB;
+        uint8_t LBA_M_L_LB;
+
+        uint8_t LBA_L_M_MB;
+        uint8_t LBA_L_M_LB;
+        uint8_t LBA_L_L_MB;
+        uint8_t LBA_L_L_LB;
+
+        uint8_t ALC_M_MB;
+        uint8_t ALC_M_LB;
+        uint8_t ALC_L_MB;
+        uint8_t ALC_L_LB;
+
+        uint8_t Misc2;
+        uint8_t Control;
+};
+
 struct InquiryResponse {
         uint8_t DeviceType : 5;
         uint8_t PeripheralQualifier : 3;
@@ -133,13 +316,29 @@ struct InquiryResponse {
         uint8_t Version;
 
         unsigned ResponseDataFormat : 4;
-        unsigned Reserved2 : 1;
+        unsigned HISUP : 1;
         unsigned NormACA : 1;
         unsigned TrmTsk : 1;
         unsigned AERC : 1;
 
         uint8_t AdditionalLength;
-        uint8_t Reserved3[2];
+        //uint8_t Reserved3[2];
+
+        unsigned PROTECT : 1;
+        unsigned Res : 2;
+        unsigned ThreePC : 1;
+        unsigned TPGS : 2;
+        unsigned ACC : 1;
+        unsigned SCCS : 1;
+
+        unsigned ADDR16 : 1;
+        unsigned R1 : 1;
+        unsigned R2 : 1;
+        unsigned MCHNGR : 1;
+        unsigned MULTIP : 1;
+        unsigned VS : 1;
+        unsigned ENCSERV : 1;
+        unsigned BQUE : 1;
 
         unsigned SoftReset : 1;
         unsigned CmdQue : 1;
@@ -160,6 +359,14 @@ struct CommandBlockWrapperBase {
         uint32_t dCBWTag;
         uint32_t dCBWDataTransferLength;
         uint8_t bmCBWFlags;
+public:
+
+        CommandBlockWrapperBase() {
+        }
+
+        CommandBlockWrapperBase(uint32_t tag, uint32_t xflen, uint8_t flgs) :
+        dCBWSignature(MASS_CBW_SIGNATURE), dCBWTag(tag), dCBWDataTransferLength(xflen), bmCBWFlags(flgs) {
+        }
 } __attribute__((packed));
 
 struct CommandBlockWrapper : public CommandBlockWrapperBase {
@@ -175,6 +382,26 @@ struct CommandBlockWrapper : public CommandBlockWrapperBase {
         };
 
         uint8_t CBWCB[16];
+
+        CommandBlockWrapper() : bmReserved1(0), bmReserved2(0) {
+                for(uint8_t i = 0; i < 16; i++) CBWCB[i] = 0;
+        }
+public:
+
+        // Generic Wrap
+        CommandBlockWrapper(uint32_t tag, uint32_t xflen, uint8_t flgs, uint8_t lu, uint8_t cmdlen, uint8_t cmd) :
+        CommandBlockWrapperBase(tag, xflen, flgs),
+        bmReserved1(0), bmReserved2(0), bmCBWLUN(lu), bmCBWCBLength(cmdlen) {
+                for(uint8_t i = 1; i < cmdlen; i++) CBWCB[i] = 0;
+                CBWCB[0] = cmd;
+        }
+
+        // Wrap for CDB of 6
+        CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB6_t *cdb, uint8_t dir) :
+        CommandBlockWrapperBase(tag, xflen, dir),
+        bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(6) {
+                memcpy(CBWCB, cdb, 6);
+        }
 } __attribute__((packed));
 
 struct CommandStatusWrapper {
@@ -275,8 +502,12 @@ public:
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
-        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == USB_CLASS_MASS_STORAGE); }
 
+        virtual boolean DEVCLASSOK(uint8_t klass) {
+                return(klass == USB_CLASS_MASS_STORAGE);
+        }
+
+        uint8_t SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);
 
 private:
         uint8_t Inquiry(uint8_t lun, uint16_t size, uint8_t *buf);
@@ -298,7 +529,10 @@ private:
         bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
 
         uint8_t ClearEpHalt(uint8_t index);
+#if WANT_PARSER
         uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
+#endif
+        uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf);
         uint8_t HandleUsbError(uint8_t error, uint8_t index);
         uint8_t HandleSCSIError(uint8_t status);
 
