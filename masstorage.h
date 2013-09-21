@@ -196,6 +196,17 @@ struct Capacity {
         //uint32_t dwBlockLength;
 } __attribute__((packed));
 
+struct BASICCDB {
+        uint8_t Opcode;
+
+        unsigned unused :5;
+        unsigned LUN : 3;
+
+        uint8_t info[12];
+} __attribute__((packed));
+
+typedef BASICCDB BASICCDB_t;
+
 struct CDB6 {
         uint8_t Opcode;
 
@@ -208,12 +219,16 @@ struct CDB6 {
         uint8_t Control;
 
 public:
+
         CDB6(uint8_t _Opcode, uint8_t _LUN, uint32_t LBA, uint8_t _AllocationLength, uint8_t _Control) :
-        Opcode(_Opcode), LUN(_LUN), LBAMSB((LBA >>16) & 0x1f), LBAHB((LBA >> 8) & 0xff), LBALB(LBA & 0xff),
-        AllocationLength(_AllocationLength), Control(_Control) {}
+        Opcode(_Opcode), LUN(_LUN), LBAMSB((LBA >> 16) & 0x1f), LBAHB((LBA >> 8) & 0xff), LBALB(LBA & 0xff),
+        AllocationLength(_AllocationLength), Control(_Control) {
+        }
+
         CDB6(uint8_t _Opcode, uint8_t _LUN, uint8_t _AllocationLength, uint8_t _Control) :
         Opcode(_Opcode), LUN(_LUN), LBAMSB(0), LBAHB(0), LBALB(0),
-        AllocationLength(_AllocationLength), Control(_Control) {}
+        AllocationLength(_AllocationLength), Control(_Control) {
+        }
 } __attribute__((packed));
 
 typedef CDB6 CDB6_t;
@@ -222,7 +237,7 @@ struct CDB10 {
         uint8_t Opcode;
 
         unsigned Service_Action : 5;
-        unsigned Misc : 3;
+        unsigned LUN : 3;
 
         uint8_t LBA_L_M_MB;
         uint8_t LBA_L_M_LB;
@@ -235,8 +250,24 @@ struct CDB10 {
         uint8_t ALC_LB;
 
         uint8_t Control;
+public:
 
-};
+        CDB10(uint8_t _Opcode, uint8_t _LUN) :
+        Opcode(_Opcode), Service_Action(0), LUN(_LUN),
+        LBA_L_M_MB(0), LBA_L_M_LB(0), LBA_L_L_MB(0), LBA_L_L_LB(0),
+        Misc2(0), ALC_MB(0), ALC_LB(0), Control(0) {
+        }
+//        CDB10(uint8_t _Opcode, uint8_t _LUN, uint16_t xflen) :
+//        Opcode(_Opcode), Service_Action(0), LUN(_LUN),
+//        LBA_L_M_MB(0), LBA_L_M_LB(0), LBA_L_L_MB(0), LBA_L_L_LB(0),
+//        Misc2(0), ALC_MB((xflen >> 8) & 0xff), ALC_LB(xflen & 0xff), Control(0) {
+//        }
+        CDB10(uint8_t _Opcode, uint8_t _LUN, uint16_t xflen, uint32_t _LBA) :
+        Opcode(_Opcode), Service_Action(0), LUN(_LUN),
+        LBA_L_M_MB((_LBA >> 24) & 0xff), LBA_L_M_LB((_LBA >> 16) & 0xff), LBA_L_L_MB((_LBA >> 8) & 0xff), LBA_L_L_LB(_LBA & 0xff),
+        Misc2(0), ALC_MB((xflen >> 8) & 0xff), ALC_LB(xflen & 0xff), Control(0) {
+        }
+} __attribute__((packed));
 
 typedef CDB10 CDB10_t;
 
@@ -254,7 +285,7 @@ struct CDB12 {
         uint8_t ALC_L_MB;
         uint8_t ALC_L_LB;
         uint8_t Control;
-};
+} __attribute__((packed));
 
 typedef CDB12 CDB12_t;
 
@@ -281,7 +312,7 @@ struct CDB_LBA32_16 {
 
         uint8_t Misc2;
         uint8_t Control;
-};
+} __attribute__((packed));
 
 struct CDB_LBA64_16 {
         uint8_t Opcode;
@@ -304,7 +335,7 @@ struct CDB_LBA64_16 {
 
         uint8_t Misc2;
         uint8_t Control;
-};
+} __attribute__((packed));
 
 struct InquiryResponse {
         uint8_t DeviceType : 5;
@@ -383,24 +414,33 @@ struct CommandBlockWrapper : public CommandBlockWrapperBase {
 
         uint8_t CBWCB[16];
 
-        CommandBlockWrapper() : bmReserved1(0), bmReserved2(0) {
-                for(uint8_t i = 0; i < 16; i++) CBWCB[i] = 0;
-        }
 public:
+        // All zeroed.
+        CommandBlockWrapper() :
+        CommandBlockWrapperBase(0,0,0), bmReserved1(0), bmReserved2(0)
+        {
+                for (int i=0; i<16; i++) CBWCB[i]=0;
+        }
 
-        // Generic Wrap
+        // Generic Wrap, CDB zeroed.
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, uint8_t flgs, uint8_t lu, uint8_t cmdlen, uint8_t cmd) :
         CommandBlockWrapperBase(tag, xflen, flgs),
         bmReserved1(0), bmReserved2(0), bmCBWLUN(lu), bmCBWCBLength(cmdlen) {
-                for(uint8_t i = 1; i < cmdlen; i++) CBWCB[i] = 0;
-                CBWCB[0] = cmd;
+                for (int i=0; i<16; i++) CBWCB[i]=0;
+                ((BASICCDB_t *)CBWCB)->LUN = cmd;
         }
 
         // Wrap for CDB of 6
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB6_t *cdb, uint8_t dir) :
         CommandBlockWrapperBase(tag, xflen, dir),
         bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(6) {
-                memcpy(CBWCB, cdb, 6);
+                memcpy(&CBWCB, cdb, 6);
+        }
+        // Wrap for CDB of 10
+        CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB10_t *cdb, uint8_t dir) :
+        CommandBlockWrapperBase(tag, xflen, dir),
+        bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(10) {
+                memcpy(&CBWCB, cdb, 10);
         }
 } __attribute__((packed));
 
@@ -508,17 +548,18 @@ public:
         }
 
         uint8_t SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);
+        uint8_t SCSITransaction10(CDB10_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);
 
 private:
         uint8_t Inquiry(uint8_t lun, uint16_t size, uint8_t *buf);
         uint8_t TestUnitReady(uint8_t lun);
         uint8_t RequestSense(uint8_t lun, uint16_t size, uint8_t *buf);
-        uint8_t ModeSense(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *buf);
+        uint8_t ModeSense6(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subpage, uint8_t len, uint8_t *buf);
         uint8_t GetMaxLUN(uint8_t *max_lun);
         uint8_t SetCurLUN(uint8_t lun);
         void Reset();
         uint8_t ResetRecovery();
-        uint8_t ReadCapacity(uint8_t lun, uint16_t size, uint8_t *buf);
+        uint8_t ReadCapacity10(uint8_t lun, uint8_t *buf);
         void ClearAllEP();
         void CheckMedia();
         boolean CheckLUN(uint8_t lun);
