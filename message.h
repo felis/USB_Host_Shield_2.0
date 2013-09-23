@@ -17,14 +17,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__MESSAGE_H__)
 #define __MESSAGE_H__
 
-// uncomment to activate
-//#define DEBUG_USB_HOST
-
-
-#ifndef USB_HOST_SERIAL
-#define USB_HOST_SERIAL Serial
-#endif
-
+#include "settings.h"
 #include <inttypes.h>
 #include <avr/pgmspace.h>
 

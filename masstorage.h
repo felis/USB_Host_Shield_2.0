@@ -1,44 +1,14 @@
 #if !defined(__MASSTORAGE_H__)
 #define __MASSTORAGE_H__
 
-
-//<RANT>
-// @Oleg -- Perhaps we need a central 'config.h', many of these includes and
-// defines could be handled there, allowing for easier config.
-
-// <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
-// Set this to 1 to support single LUN devices, and save RAM. -- I.E. thumb drives.
-// Each LUN needs ~13 bytes to be able to track the state of each unit.
-#ifndef MASS_MAX_SUPPORTED_LUN
-#define MASS_MAX_SUPPORTED_LUN 8
-#endif
-
 // Cruft removal, makes driver smaller, faster.
-#ifndef WANT_PARSER
-#define WANT_PARSER 0
+#ifndef MS_WANT_PARSER
+#define MS_WANT_PARSER 0
 #endif
 
-#include <inttypes.h>
-#include "avrpins.h"
-#include <avr/pgmspace.h>
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
 #include "Usb.h"
-#include <message.h>
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
+#include <avr/pgmspace.h>
 #include <confdescparser.h>
-
-// </RANT>
-
-
-#define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 #define bmREQ_MASSOUT       USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define bmREQ_MASSIN        USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
@@ -180,6 +150,7 @@
 #define MASS_ERR_READ_NAKS              0x15
 #define MASS_ERR_WRITE_NAKS             0x16
 #define MASS_ERR_WRITE_PROTECTED        0x17
+#define MASS_ERR_NOT_IMPLEMENTED        0xFD
 #define MASS_ERR_GENERAL_SCSI_ERROR	0xFE
 #define MASS_ERR_GENERAL_USB_ERROR	0xFF
 #define MASS_ERR_USER			0xA0	// For subclasses to define their own error codes
@@ -199,7 +170,7 @@ struct Capacity {
 struct BASICCDB {
         uint8_t Opcode;
 
-        unsigned unused :5;
+        unsigned unused : 5;
         unsigned LUN : 3;
 
         uint8_t info[12];
@@ -221,7 +192,7 @@ struct CDB6 {
 public:
 
         CDB6(uint8_t _Opcode, uint8_t _LUN, uint32_t LBA, uint8_t _AllocationLength, uint8_t _Control) :
-        Opcode(_Opcode), LUN(_LUN), LBAMSB((LBA >> 16) & 0x1f), LBAHB((LBA >> 8) & 0xff), LBALB(LBA & 0xff),
+        Opcode(_Opcode), LUN(_LUN), LBAMSB(BGRAB2(LBA) & 0x1f), LBAHB(BGRAB1(LBA)), LBALB(BGRAB0(LBA)),
         AllocationLength(_AllocationLength), Control(_Control) {
         }
 
@@ -257,15 +228,11 @@ public:
         LBA_L_M_MB(0), LBA_L_M_LB(0), LBA_L_L_MB(0), LBA_L_L_LB(0),
         Misc2(0), ALC_MB(0), ALC_LB(0), Control(0) {
         }
-//        CDB10(uint8_t _Opcode, uint8_t _LUN, uint16_t xflen) :
-//        Opcode(_Opcode), Service_Action(0), LUN(_LUN),
-//        LBA_L_M_MB(0), LBA_L_M_LB(0), LBA_L_L_MB(0), LBA_L_L_LB(0),
-//        Misc2(0), ALC_MB((xflen >> 8) & 0xff), ALC_LB(xflen & 0xff), Control(0) {
-//        }
+
         CDB10(uint8_t _Opcode, uint8_t _LUN, uint16_t xflen, uint32_t _LBA) :
         Opcode(_Opcode), Service_Action(0), LUN(_LUN),
-        LBA_L_M_MB((_LBA >> 24) & 0xff), LBA_L_M_LB((_LBA >> 16) & 0xff), LBA_L_L_MB((_LBA >> 8) & 0xff), LBA_L_L_LB(_LBA & 0xff),
-        Misc2(0), ALC_MB((xflen >> 8) & 0xff), ALC_LB(xflen & 0xff), Control(0) {
+        LBA_L_M_MB(BGRAB3(_LBA)), LBA_L_M_LB(BGRAB2(_LBA)), LBA_L_L_MB(BGRAB1(_LBA)), LBA_L_L_LB(BGRAB0(_LBA)),
+        Misc2(0), ALC_MB(BGRAB1(xflen)), ALC_LB(BGRAB0(xflen)), Control(0) {
         }
 } __attribute__((packed));
 
@@ -416,27 +383,30 @@ struct CommandBlockWrapper : public CommandBlockWrapperBase {
 
 public:
         // All zeroed.
+
         CommandBlockWrapper() :
-        CommandBlockWrapperBase(0,0,0), bmReserved1(0), bmReserved2(0)
-        {
-                for (int i=0; i<16; i++) CBWCB[i]=0;
+        CommandBlockWrapperBase(0, 0, 0), bmReserved1(0), bmReserved2(0) {
+                for(int i = 0; i < 16; i++) CBWCB[i] = 0;
         }
 
         // Generic Wrap, CDB zeroed.
+
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, uint8_t flgs, uint8_t lu, uint8_t cmdlen, uint8_t cmd) :
         CommandBlockWrapperBase(tag, xflen, flgs),
         bmReserved1(0), bmReserved2(0), bmCBWLUN(lu), bmCBWCBLength(cmdlen) {
-                for (int i=0; i<16; i++) CBWCB[i]=0;
-                ((BASICCDB_t *)CBWCB)->LUN = cmd;
+                for(int i = 0; i < 16; i++) CBWCB[i] = 0;
+                ((BASICCDB_t *) CBWCB)->LUN = cmd;
         }
 
         // Wrap for CDB of 6
+
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB6_t *cdb, uint8_t dir) :
         CommandBlockWrapperBase(tag, xflen, dir),
         bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(6) {
                 memcpy(&CBWCB, cdb, 6);
         }
         // Wrap for CDB of 10
+
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB10_t *cdb, uint8_t dir) :
         CommandBlockWrapperBase(tag, xflen, dir),
         bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(10) {
@@ -570,7 +540,7 @@ private:
         bool IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw);
 
         uint8_t ClearEpHalt(uint8_t index);
-#if WANT_PARSER
+#if MS_WANT_PARSER
         uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf, uint8_t flags);
 #endif
         uint8_t Transaction(CommandBlockWrapper *cbw, uint16_t bsize, void *buf);

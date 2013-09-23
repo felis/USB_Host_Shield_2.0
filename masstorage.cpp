@@ -64,9 +64,9 @@ boolean BulkOnly::WriteProtected(uint8_t lun) {
  * @return
  */
 uint8_t BulkOnly::SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
-        // promote to 32bits.
+        // promote buf_size to 32bits.
         CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
-        SetCurLUN(cdb->LUN);
+        //SetCurLUN(cdb->LUN);
         return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
 }
 
@@ -80,9 +80,9 @@ uint8_t BulkOnly::SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, ui
  * @return
  */
 uint8_t BulkOnly::SCSITransaction10(CDB10_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
-        // promote to 32bits.
+        // promote buf_size to 32bits.
         CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
-        SetCurLUN(cdb->LUN);
+        //SetCurLUN(cdb->LUN);
         return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
 }
 
@@ -97,6 +97,7 @@ uint8_t BulkOnly::SCSITransaction10(CDB10_t *cdb, uint16_t buf_size, void *buf, 
 uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
         Notify(PSTR("\r\nLockMedia\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
+
         CDB6_t cdb = CDB6_t(SCSI_CMD_PREVENT_REMOVAL, lun, (uint8_t)0, lock);
         return SCSITransaction6(&cdb, (uint16_t)0, NULL, (uint8_t)MASS_CMD_DIR_IN);
 }
@@ -112,13 +113,9 @@ uint8_t BulkOnly::LockMedia(uint8_t lun, uint8_t lock) {
 uint8_t BulkOnly::MediaCTL(uint8_t lun, uint8_t ctl) {
         Notify(PSTR("\r\nMediaCTL\r\n"), 0x80);
         Notify(PSTR("-----------------\r\n"), 0x80);
-        //SetCurLUN(lun);
+
         uint8_t rcode = MASS_ERR_UNIT_NOT_READY;
         if (bAddress) {
-                //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, 0, MASS_CMD_DIR_OUT, lun, 6, SCSI_CMD_START_STOP_UNIT);
-                //cbw.CBWCB[1] = lun << 5;
-                //cbw.CBWCB[4] = ctl & 0x03;
-                //rcode = HandleSCSIError(Transaction(&cbw, 0, NULL));
                 CDB6_t cdb = CDB6_t(SCSI_CMD_START_STOP_UNIT, lun, ctl & 0x03, 0);
                 rcode = SCSITransaction6(&cdb, (uint16_t)0, NULL, (uint8_t)MASS_CMD_DIR_OUT);
         } else {
@@ -141,7 +138,6 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         Notify(PSTR("\r\nRead LUN:\t"), 0x80);
         D_PrintHex<uint8_t > (lun, 0x90);
-        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
         Notify(PSTR("\r\nLBA:\t\t"), 0x90);
         D_PrintHex<uint32_t > (addr, 0x90);
         Notify(PSTR("\r\nblocks:\t\t"), 0x90);
@@ -149,22 +145,9 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         Notify(PSTR("\r\nblock size:\t"), 0x90);
         D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
-
-        //CommandBlockWrapper cbw = CommandBlockWrapper(0, ((uint32_t)bsize * blocks), MASS_CMD_DIR_IN, lun, 10, SCSI_CMD_READ_10);
-        //cbw.CBWCB[1] = lun << 5;
-        //cbw.CBWCB[2] = ((addr >> 24) & 0xff);
-        //cbw.CBWCB[3] = ((addr >> 16) & 0xff);
-        //cbw.CBWCB[4] = ((addr >> 8) & 0xff);
-        //cbw.CBWCB[5] = (addr & 0xff);
-        //cbw.CBWCB[8] = blocks;
-
         CDB10_t cdb = CDB10_t(SCSI_CMD_READ_10, lun, blocks, addr);
 
 again:
-        //cbw.dCBWTag = ++dCBWTag;
-        //SetCurLUN(lun);
-        //uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, buf));
-
         uint8_t er = SCSITransaction10(&cdb, ((uint16_t)bsize * blocks), buf, (uint8_t)MASS_CMD_DIR_IN);
 
         if (er == MASS_ERR_STALL) {
@@ -190,7 +173,6 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         if (!WriteOk[lun]) return MASS_ERR_WRITE_PROTECTED;
         Notify(PSTR("\r\nWrite LUN:\t"), 0x80);
         D_PrintHex<uint8_t > (lun, 0x90);
-        //printf("LUN=%i LBA=%8.8X BLOCKS=%i SIZE=%i\r\n", lun, addr, blocks, bsize);
         Notify(PSTR("\r\nLBA:\t\t"), 0x90);
         D_PrintHex<uint32_t > (addr, 0x90);
         Notify(PSTR("\r\nblocks:\t\t"), 0x90);
@@ -198,22 +180,9 @@ uint8_t BulkOnly::Write(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t bloc
         Notify(PSTR("\r\nblock size:\t"), 0x90);
         D_PrintHex<uint16_t > (bsize, 0x90);
         Notify(PSTR("\r\n---------\r\n"), 0x80);
-        //MediaCTL(lun, 0x01);
-
-        //CommandBlockWrapper cbw = CommandBlockWrapper(0, ((uint32_t)bsize * blocks), MASS_CMD_DIR_OUT, lun, 10, SCSI_CMD_WRITE_10);
-        //cbw.CBWCB[1] = lun << 5;
-        //cbw.CBWCB[2] = ((addr >> 24) & 0xff);
-        //cbw.CBWCB[3] = ((addr >> 16) & 0xff);
-        //cbw.CBWCB[4] = ((addr >> 8) & 0xff);
-        //cbw.CBWCB[5] = (addr & 0xff);
-        //cbw.CBWCB[8] = blocks;
-
         CDB10_t cdb = CDB10_t(SCSI_CMD_WRITE_10, lun, blocks, addr);
 
 again:
-        //cbw.dCBWTag = ++dCBWTag;
-        //SetCurLUN(lun);
-        //uint8_t er = HandleSCSIError(Transaction(&cbw, bsize, (void*)buf));
         uint8_t er = SCSITransaction10(&cdb, ((uint16_t)bsize * blocks), (void*)buf, (uint8_t)MASS_CMD_DIR_OUT);
 
         if (er == MASS_ERR_WRITE_STALL) {
@@ -272,7 +241,6 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         EpInfo *oldep_ptr = NULL;
         USBTRACE("MS ConfigureDevice\r\n");
         ClearAllEP();
-        //delay(2000);
         AddressPool &addrPool = pUsb->GetAddressPool();
 
 
@@ -396,7 +364,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
                 if (bNumEP > 1)
                         break;
-        } // for
+        }
 
         if (bNumEP < 3)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
@@ -444,13 +412,11 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                                 case 0:
                                         printf("No specific");
                                         break;
-                                        /*
-                                        case 1:
-                                                printf("");
-                                                break;
-                                         */
+                                case 1:
+                                        printf("ANSI X3.131-1986 (ANSI 1)");
+                                        break;
                                 case 2:
-                                        printf("ANSI 2");
+                                        printf("ANSI X3.131-1994 (ANSI 2)");
                                         break;
                                 case 3:
                                         printf("ANSI INCITS 301-1997 (SPC)");
@@ -489,26 +455,16 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         }
 
 
-#if 0
-        {
-                bool good;
-                for (uint8_t i = 1; i == 0; i++) {
-                        good = false;
-                        CheckMedia();
-                        for (uint8_t lun = 0; lun <= bMaxLUN; lun++) good |= LUNOk[lun];
-                        if (good) break;
-                        delay(118); // 255 loops =~ 30 seconds to allow for spin up, as per SCSI spec.
-                }
-        }
-#else
         CheckMedia();
-#endif
 
         rcode = OnInit();
 
         if (rcode)
                 goto FailOnInit;
+
+#ifdef DEBUG_USB_HOST
         USBTRACE("MS configured\r\n\r\n");
+#endif
 
         bPollEnable = true;
 
@@ -626,14 +582,15 @@ boolean BulkOnly::CheckLUN(uint8_t lun) {
                 D_PrintHex<uint8_t > (capacity.data[i], 0x80);
         Notify(PSTR("\r\n\r\n"), 0x80);
         // Only 512/1024/2048/4096 are valid values!
-        uint32_t c = ((uint32_t)capacity.data[4] << 24) + ((uint32_t)capacity.data[5] << 16) + ((uint32_t)capacity.data[6] << 8) + (uint32_t)capacity.data[7];
+        uint32_t c = BMAKE32(capacity.data[4], capacity.data[5], capacity.data[6], capacity.data[7]);
         if (c != 0x0200LU && c != 0x0400LU && c != 0x0800LU && c != 0x1000LU) {
                 return false;
         }
         // Store capacity information.
-        CurrentSectorSize[lun] = (uint16_t)(c & 0xFFFF);
-        CurrentCapacity[lun] = ((uint32_t)capacity.data[0] << 24) + ((uint32_t)capacity.data[1] << 16) + ((uint32_t)capacity.data[2] << 8) + (uint32_t)capacity.data[3];
-        if (CurrentCapacity[lun] == 0xffffffffLU || CurrentCapacity[lun] == 0x00LU) {
+        CurrentSectorSize[lun] = (uint16_t)(c); // & 0xFFFF);
+
+        CurrentCapacity[lun] = BMAKE32(capacity.data[0], capacity.data[1], capacity.data[2], capacity.data[3]) + 1;
+        if (CurrentCapacity[lun] == /*0xffffffffLU */ 0x01LU || CurrentCapacity[lun] == 0x00LU) {
                 // Buggy firmware will report 0xffffffff or 0 for no media
                 if (CurrentCapacity[lun])
                         ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
@@ -725,12 +682,6 @@ uint8_t BulkOnly::Inquiry(uint8_t lun, uint16_t bsize, uint8_t *buf) {
         Notify(PSTR("\r\nInquiry\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
-        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, bsize, MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_INQUIRY);
-        //SetCurLUN(lun);
-        //cbw.CBWCB[1] = lun << 5;
-        //cbw.CBWCB[4] = bsize;
-
-        //uint8_t rc = HandleSCSIError(Transaction(&cbw, bsize, buf));
         CDB6_t cdb = CDB6_t(SCSI_CMD_INQUIRY, lun, 0LU, (uint8_t)bsize, 0);
         uint8_t rc = SCSITransaction6(&cdb, bsize, buf, (uint8_t)MASS_CMD_DIR_IN);
 
@@ -751,10 +702,6 @@ uint8_t BulkOnly::TestUnitReady(uint8_t lun) {
         Notify(PSTR("\r\nTestUnitReady\r\n"), 0x80);
         Notify(PSTR("-----------------\r\n"), 0x80);
 
-        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, 0, MASS_CMD_DIR_OUT, lun, 6, SCSI_CMD_TEST_UNIT_READY);
-        //cbw.CBWCB[1] = lun;
-        //uint8_t rc = HandleSCSIError(Transaction(&cbw, 0, NULL));
-        //return (rc);
         CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint8_t)0, 0);
         return SCSITransaction6(&cdb, 0, NULL, (uint8_t)MASS_CMD_DIR_IN);
 
@@ -775,12 +722,6 @@ uint8_t BulkOnly::ModeSense6(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subp
         Notify(PSTR("\r\rModeSense\r\n"), 0x80);
         Notify(PSTR("------------\r\n"), 0x80);
 
-        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, ((uint32_t)len), MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_MODE_SENSE_6);
-        //SetCurLUN(lun);
-        //cbw.CBWCB[2] = ((pc << 6) | page);
-        //cbw.CBWCB[3] = subpage;
-        //cbw.CBWCB[4] = len;
-        //return HandleSCSIError(Transaction(&cbw, 512, pbuf));
         CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage), len, 0);
         return SCSITransaction6(&cdb, len, pbuf, (uint8_t)MASS_CMD_DIR_IN);
 }
@@ -796,15 +737,9 @@ uint8_t BulkOnly::ModeSense6(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subp
 uint8_t BulkOnly::ReadCapacity10(uint8_t lun, uint8_t *buf) {
         Notify(PSTR("\r\nReadCapacity\r\n"), 0x80);
         Notify(PSTR("---------------\r\n"), 0x80);
-#if 0
-        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, 8, MASS_CMD_DIR_IN, lun, 10, SCSI_CMD_READ_CAPACITY_10);
-        SetCurLUN(lun);
-        cbw.CBWCB[1] = lun << 5;
-        return HandleSCSIError(Transaction(&cbw, 8, buf));
-#else
+
         CDB10_t cdb = CDB10_t(SCSI_CMD_READ_CAPACITY_10, lun);
         return SCSITransaction10(&cdb, 8, buf, (uint8_t)MASS_CMD_DIR_IN);
-#endif
 }
 
 /**
@@ -846,15 +781,9 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
         Notify(PSTR("\r\nRequestSense\r\n"), 0x80);
         Notify(PSTR("----------------\r\n"), 0x80);
 
-
-        //CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, size, MASS_CMD_DIR_IN, lun, 6, SCSI_CMD_REQUEST_SENSE);
-        //SetCurLUN(lun);
-        //cbw.CBWCB[1] = lun << 5;
-        //cbw.CBWCB[4] = size;
-
         CDB6_t cdb = CDB6_t(SCSI_CMD_REQUEST_SENSE, lun, 0LU, (uint8_t)size, 0);
         CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)size, &cdb, (uint8_t)MASS_CMD_DIR_IN);
-        SetCurLUN(lun);
+        //SetCurLUN(lun);
         return Transaction(&cbw, size, buf);
 }
 
@@ -941,9 +870,9 @@ void BulkOnly::ClearAllEP() {
                 CurrentCapacity[i] = 0lu;
                 CurrentSectorSize[i] = 0;
         }
+
         bIface = 0;
         bNumEP = 1;
-
         bAddress = 0;
         qNextPollTime = 0;
         bPollEnable = false;
@@ -962,12 +891,10 @@ void BulkOnly::ClearAllEP() {
 bool BulkOnly::IsValidCSW(CommandStatusWrapper *pcsw, CommandBlockWrapperBase *pcbw) {
         if (pcsw->dCSWSignature != MASS_CSW_SIGNATURE) {
                 Notify(PSTR("CSW:Sig error\r\n"), 0x80);
-                //printf("%lx != %lx\r\n", MASS_CSW_SIGNATURE, pcsw->dCSWSignature);
                 return false;
         }
         if (pcsw->dCSWTag != pcbw->dCBWTag) {
                 Notify(PSTR("CSW:Wrong tag\r\n"), 0x80);
-                //printf("%lx != %lx\r\n", pcsw->dCSWTag, pcbw->dCBWTag);
                 return false;
         }
         return true;
@@ -1012,11 +939,7 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
                                 if (index == 0)
                                         return MASS_ERR_UNIT_BUSY;
                                 return MASS_ERR_UNIT_BUSY;
-                                //ClearEpHalt(index);
-                                //ResetRecovery();
-                                //if (index != epDataInIndex)
-                                //        return MASS_ERR_WRITE_NAKS;
-                                //return MASS_ERR_READ_NAKS;
+
                         case hrTOGERR:
                                 // Handle a very super rare corner case, where toggles become de-synched.
                                 // I have only ran into one device that has this firmware bug, and this is
@@ -1039,7 +962,7 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
         return ((error && !count) ? MASS_ERR_GENERAL_USB_ERROR : MASS_ERR_SUCCESS);
 }
 
-#if WANT_PARSER
+#if MS_WANT_PARSER
 
 uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf) {
         return Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf, 0);
@@ -1056,14 +979,15 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
  * @return
  */
 uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void *buf
-#if WANT_PARSER
+#if MS_WANT_PARSER
         , uint8_t flags
 #endif
         ) {
 
-#if WANT_PARSER
+#if MS_WANT_PARSER
         uint16_t bytes = (pcbw->dCBWDataTransferLength > buf_size) ? buf_size : pcbw->dCBWDataTransferLength;
-        printf("Transfersize %i\r\n", bytes); delay(1000);
+        printf("Transfersize %i\r\n", bytes);
+        delay(1000);
 
         boolean callback = (flags & MASS_TRANS_FLG_CALLBACK) == MASS_TRANS_FLG_CALLBACK;
 #else
@@ -1073,6 +997,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         uint8_t ret = 0;
         uint8_t usberr;
         CommandStatusWrapper csw; // up here, we allocate ahead to save cpu cycles.
+        SetCurLUN(pcbw->bmCBWLUN);
         ErrorMessage<uint32_t > (PSTR("CBW.dCBWTag"), pcbw->dCBWTag);
 
         while ((usberr = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, sizeof (CommandBlockWrapper), (uint8_t*)pcbw)) == hrBUSY) delay(1);
@@ -1084,7 +1009,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         } else {
                 if (bytes) {
                         if (!write) {
-#if WANT_PARSER
+#if MS_WANT_PARSER
                                 if (callback) {
                                         uint8_t rbuf[bytes];
                                         while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, rbuf)) == hrBUSY) delay(1);
@@ -1092,7 +1017,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                                 } else {
 #endif
                                         while ((usberr = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, &bytes, (uint8_t*)buf)) == hrBUSY) delay(1);
-#if WANT_PARSER
+#if MS_WANT_PARSER
 
                                 }
 #endif
@@ -1175,14 +1100,13 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
 
         switch (status) {
                 case 0: return MASS_ERR_SUCCESS;
-                        //case 4: return MASS_ERR_UNIT_BUSY; // Busy means retry later.
-                        // case 0x05/0x14: we stalled out
-                        // case 0x15/0x16: we naked out.
+
                 case 2:
                         ErrorMessage<uint8_t > (PSTR("Phase Error"), status);
                         ErrorMessage<uint8_t > (PSTR("LUN"), bTheLUN);
                         ResetRecovery();
                         return MASS_ERR_GENERAL_SCSI_ERROR;
+
                 case 1:
                         ErrorMessage<uint8_t > (PSTR("SCSI Error"), status);
                         ErrorMessage<uint8_t > (PSTR("LUN"), bTheLUN);
@@ -1191,7 +1115,6 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
                         ret = RequestSense(bTheLUN, sizeof (RequestSenseResponce), (uint8_t*) & rsp);
 
                         if (ret) {
-                                //ResetRecovery();
                                 return MASS_ERR_GENERAL_SCSI_ERROR;
                         }
                         ErrorMessage<uint8_t > (PSTR("Response Code"), rsp.bResponseCode);
@@ -1208,10 +1131,6 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
                         ErrorMessage<uint8_t > (PSTR("Add Sense Qual"), rsp.bAdditionalSenseQualifier);
                         // warning, this is not testing ASQ, only SK and ASC.
                         switch (rsp.bmSenseKey) {
-                                        /* bug...
-                                        case 0:
-                                                return MASS_ERR_SUCCESS;
-                                         */
                                 case SCSI_S_UNIT_ATTENTION:
                                         switch (rsp.bAdditionalSenseCode) {
                                                 case SCSI_ASC_MEDIA_CHANGED:
@@ -1223,7 +1142,6 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
                                         switch (rsp.bAdditionalSenseCode) {
                                                 case SCSI_ASC_MEDIUM_NOT_PRESENT:
                                                         return MASS_ERR_NO_MEDIA;
-                                                        //return MASS_ERR_SUCCESS;
                                                 default:
                                                         return MASS_ERR_UNIT_NOT_READY;
                                         }
@@ -1238,12 +1156,13 @@ uint8_t BulkOnly::HandleSCSIError(uint8_t status) {
                                         return MASS_ERR_GENERAL_SCSI_ERROR;
                         }
 
+                        // case 4: return MASS_ERR_UNIT_BUSY; // Busy means retry later.
+                        //    case 0x05/0x14: we stalled out
+                        //    case 0x15/0x16: we naked out.
                 default:
-                        // Should have been handled already in HandleUsbError.
-                        // ResetRecovery();
                         ErrorMessage<uint8_t > (PSTR("Gen SCSI Err"), status);
                         ErrorMessage<uint8_t > (PSTR("LUN"), bTheLUN);
-                        return status; //MASS_ERR_GENERAL_SCSI_ERROR;
+                        return status;
         } // switch
 }
 
@@ -1288,8 +1207,8 @@ void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
 
 /* We won't be needing this... */
 uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
+#if MS_WANT_PARSER
         if (!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
-#if WANT_PARSER
         Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);
         Notify(PSTR("---------\r\n"), 0x80);
 
@@ -1302,9 +1221,6 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
                 cbw.bmCBWLUN = lun;
         cbw.bmCBWCBLength = 10;
 
-        //for (uint8_t i = 0; i < 16; i++)
-        //        cbw.CBWCB[i] = 0;
-
         cbw.CBWCB[0] = SCSI_CMD_READ_10;
         cbw.CBWCB[8] = blocks;
         cbw.CBWCB[2] = ((addr >> 24) & 0xff);
@@ -1313,5 +1229,7 @@ uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t block
         cbw.CBWCB[5] = (addr & 0xff);
 
         return HandleSCSIError(Transaction(&cbw, bsize, prs, 1));
+#else
+        return MASS_ERR_NOT_IMPLEMENTED;
 #endif
 }

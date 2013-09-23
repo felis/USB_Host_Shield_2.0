@@ -18,34 +18,17 @@ e-mail   :  support@circuitsathome.com
 #ifndef _usb_h_
 #define _usb_h_
 
-//#define BOARD_BLACK_WIDDOW
 
 // Not used anymore?
 //#define USB_METHODS_INLINE
-
-#include <inttypes.h>
-
-#include <assert.h>
-
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
+#include "settings.h"
 #include "address.h"
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
+#include <assert.h>
+#include "usbhost.h"
 #include "message.h"
 
 /* shield pins. First parameter - SS pin, second parameter - INT pin */
-
-#if defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
-#define BOARD_TEENSY_PLUS_PLUS
-#endif
-
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3> MAX3421E; // Black Widow
 #elif defined(BOARD_TEENSY_PLUS_PLUS)
@@ -61,8 +44,6 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 //Debug macros. In 1.0 it is possible to move strings to PROGMEM by defining USBTRACE (USB_HOST_SERIAL.print(F(s)))
 #define USBTRACE(s) (Notify(PSTR(s), 0x80))
 #define USBTRACE2(s,r) (Notify(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR("\r\n"), 0x80))
-
-
 
 /* Common setup data constant combinations  */
 #define bmREQ_GET_DESCR     USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_DEVICE     //get descriptor request type
@@ -189,7 +170,6 @@ public:
 class USB : public MAX3421E {
         AddressPoolImpl<USB_NUMDEVICES> addrPool;
         USBDeviceConfig* devConfig[USB_NUMDEVICES];
-        //uint8_t devConfigIndex;
         uint8_t bmHubPre;
 
 public:
@@ -225,8 +205,6 @@ public:
 
         EpInfo* getEpInfoEntry(uint8_t addr, uint8_t ep);
         uint8_t setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr);
-
-        //uint8_t ctrlReq( uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi, uint16_t wInd, uint16_t nbytes, uint8_t* dataptr);
 
         /* Control requests */
         uint8_t getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr);

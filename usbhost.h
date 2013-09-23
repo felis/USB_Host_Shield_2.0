@@ -18,13 +18,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef _USBHOST_H_
 #define _USBHOST_H_
 
-// So we can use delay() -- xxxajk
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
 #include "avrpins.h"
 #include "max3421e.h"
 #include "usb_ch9.h"
