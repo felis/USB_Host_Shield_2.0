@@ -18,13 +18,6 @@ e-mail   :  support@circuitsathome.com
 #define __CDCFTDI_H__
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
-#include "usbhost.h"
-
-#include "printhex.h"
-#include "hexdump.h"
-
-#include "confdescparser.h"
 
 #define bmREQ_FTDI_OUT  0x40
 #define bmREQ_FTDI_IN   0xc0

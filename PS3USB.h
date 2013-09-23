@@ -18,12 +18,6 @@
 #ifndef _ps3usb_h_
 #define _ps3usb_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "PS3Enums.h"
 
@@ -267,7 +261,7 @@ private:
          */
         void onInit();
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
-        
+
         bool bPollEnable;
 
         uint32_t timer; // used to continuously set PS3 Move controller Bulb and rumble values

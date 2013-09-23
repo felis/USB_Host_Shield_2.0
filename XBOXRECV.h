@@ -20,12 +20,6 @@
 #ifndef _xboxrecv_h_
 #define _xboxrecv_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "xboxEnums.h"
 
@@ -135,7 +129,7 @@ public:
 
         /** @name Xbox Controller functions */
         /**
-         * Return the analog value from the joysticks on the controller.         
+         * Return the analog value from the joysticks on the controller.
          * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @param  controller The controller to read from. Default to 0.
          * @return            Returns a signed 16-bit integer.
@@ -159,7 +153,7 @@ public:
                 setRumbleOn(0, 0, controller);
         };
         /**
-         * Turn rumble on.         
+         * Turn rumble on.
          * @param lValue     Left motor (big weight) inside the controller.
          * @param rValue     Right motor (small weight) inside the controller.
          * @param controller The controller to write to. Default to 0.
@@ -182,19 +176,19 @@ public:
                 setLedRaw(0, controller);
         };
         /**
-         * Turn on a LED by using the ::LED enum.         
+         * Turn on a LED by using the ::LED enum.
          * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
         void setLedOn(LED l, uint8_t controller = 0);
         /**
-         * Turn on a LED by using the ::LED enum.         
+         * Turn on a LED by using the ::LED enum.
          * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
         void setLedBlink(LED l, uint8_t controller = 0);
         /**
-         * Used to set special LED modes supported by the Xbox controller.         
+         * Used to set special LED modes supported by the Xbox controller.
          * @param lm         See ::LEDMode.
          * @param controller The controller to write to. Default to 0.
          */

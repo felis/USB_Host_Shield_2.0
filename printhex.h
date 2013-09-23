@@ -14,10 +14,11 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__PRINTHEX_H__)
-#define __PRINTHEX_H__
 
-#include "settings.h"
+#if !defined(_usb_h_) || defined(__PRINTHEX_H__)
+#error "Never include printhex.h directly; include Usb.h instead"
+#else
+#define __PRINTHEX_H__
 
 void E_Notifyc(char c, int lvl);
 

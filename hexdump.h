@@ -14,13 +14,10 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__HEXDUMP_H__)
+#if !defined(_usb_h_) || defined(__HEXDUMP_H__)
+#error "Never include hexdump.h directly; include Usb.h instead"
+#else
 #define __HEXDUMP_H__
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "printhex.h"
-#include "message.h"
 
 extern int UsbDEBUGlvl;
 

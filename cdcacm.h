@@ -18,12 +18,6 @@ e-mail   :  support@circuitsathome.com
 #define __CDCACM_H__
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
-
-#include "printhex.h"
-#include "hexdump.h"
-
-#include "confdescparser.h"
 
 #define bmREQ_CDCOUT        USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define bmREQ_CDCIN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE

@@ -7,8 +7,6 @@
 #endif
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
-#include <confdescparser.h>
 
 #define bmREQ_MASSOUT       USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define bmREQ_MASSIN        USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE

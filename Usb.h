@@ -22,11 +22,19 @@ e-mail   :  support@circuitsathome.com
 // Not used anymore?
 //#define USB_METHODS_INLINE
 //#include <assert.h>
+#include <inttypes.h>
+#include <stddef.h>
+#include <stdio.h>
 
 #include "settings.h"
-#include "address.h"
-#include "usbhost.h"
+#include "printhex.h"
 #include "message.h"
+#include "hexdump.h"
+#include "max3421e.h"
+#include "address.h"
+#include "avrpins.h"
+#include "usb_ch9.h"
+#include "usbhost.h"
 
 /* shield pins. First parameter - SS pin, second parameter - INT pin */
 #ifdef BOARD_BLACK_WIDDOW
@@ -267,5 +275,9 @@ inline uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
 }
 
 #endif // defined(USB_METHODS_INLINE)
+
+
+#include "parsetools.h"
+#include "confdescparser.h"
 
 #endif //_usb_h_

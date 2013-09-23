@@ -14,12 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__ADDRESS_H__)
+
+#if !defined(_usb_h_) || defined(__ADDRESS_H__)
+#error "Never include address.h directly; include Usb.h instead"
+#else
 #define __ADDRESS_H__
 
-#include <inttypes.h>
-#include <stddef.h>
-#include "max3421e.h"
 
 
 /* NAK powers. To save space in endpoint data structure, amount of retries before giving up and returning 0x4 is stored in */

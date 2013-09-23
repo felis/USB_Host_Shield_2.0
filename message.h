@@ -14,16 +14,13 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__MESSAGE_H__)
+#if !defined(_usb_h_) || defined(__MESSAGE_H__)
+#error "Never include message.h directly; include Usb.h instead"
+#else
 #define __MESSAGE_H__
-
-#include "settings.h"
-#include <inttypes.h>
-#include <avr/pgmspace.h>
 
 extern int UsbDEBUGlvl;
 
-#include "printhex.h"
 void E_Notify(char const * msg, int lvl);
 void E_Notify(uint8_t b, int lvl);
 void E_NotifyStr(char const * msg, int lvl);
@@ -78,6 +75,6 @@ void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
 #endif
 }
 
-#include "hexdump.h"
+//#include "hexdump.h"
 
 #endif // __MESSAGE_H__

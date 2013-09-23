@@ -18,7 +18,6 @@ e-mail   :  support@circuitsathome.com
 #define __USBHUB_H__
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
 
 #define USB_DESCRIPTOR_HUB			0x09 // Hub descriptor type
 

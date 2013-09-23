@@ -19,7 +19,6 @@
 #define _btd_h_
 
 #include "Usb.h"
-#include "confdescparser.h"
 
 //PID and VID of the Sony PS3 devices
 #define PS3_VID                 0x054C  // Sony Corporation

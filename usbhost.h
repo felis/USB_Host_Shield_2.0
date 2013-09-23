@@ -15,13 +15,13 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 /* MAX3421E-based USB Host Library header file */
-#ifndef _USBHOST_H_
+
+
+#if !defined(_usb_h_) || defined(_USBHOST_H_)
+#error "Never include usbhost.h directly; include Usb.h instead"
+#else
 #define _USBHOST_H_
 
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usb_ch9.h"
-#include <stdio.h>
 /* SPI initialization */
 template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SPi {
 public:

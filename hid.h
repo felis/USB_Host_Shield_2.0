@@ -18,12 +18,6 @@ e-mail   :  support@circuitsathome.com
 #define __HID_H__
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
-
-#include "printhex.h"
-#include "hexdump.h"
-
-#include "confdescparser.h"
 #include "hidusagestr.h"
 
 #define DATA_SIZE_MASK           0x03

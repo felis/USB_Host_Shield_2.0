@@ -18,12 +18,6 @@
 #ifndef _xboxusb_h_
 #define _xboxusb_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "xboxEnums.h"
 

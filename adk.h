@@ -21,12 +21,6 @@ e-mail   :  support@circuitsathome.com
 #define _ADK_H_
 
 #include "Usb.h"
-#include <avr/pgmspace.h>
-
-#include "printhex.h"
-#include "hexdump.h"
-
-#include "confdescparser.h"
 
 #define ADK_VID   0x18D1
 #define ADK_PID   0x2D00

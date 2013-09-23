@@ -14,10 +14,13 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-/* MAX3421E register/bit names and bitmasks */
+#if !defined(_usb_h_) || defined(_max3421e_h_)
+#error "Never include max3421e.h directly; include Usb.h instead"
+#else
 
-#ifndef _max3421e_h_
 #define _max3421e_h_
+
+/* MAX3421E register/bit names and bitmasks */
 
 /* Arduino pin definitions */
 /* pin numbers to port numbers */

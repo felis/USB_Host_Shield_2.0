@@ -18,14 +18,8 @@
 #ifndef _xboxold_h_
 #define _xboxold_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
- #include "controllerEnums.h"
+#include "controllerEnums.h"
 
 /* Data Xbox taken from descriptors */
 #define EP_MAXPKTSIZE       32 // Max size for data via USB

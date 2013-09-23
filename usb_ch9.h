@@ -18,8 +18,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef _ch9_h_
 #define _ch9_h_
 
-#include <inttypes.h>
-
 /* Misc.USB constants */
 #define DEV_DESCR_LEN   18      //device descriptor length
 #define CONF_DESCR_LEN  9       //configuration descriptor length

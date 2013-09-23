@@ -14,16 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__CONFDESCPARSER_H__)
+#if !defined(_usb_h_) || defined(__CONFDESCPARSER_H__)
+#error "Never include confdescparser.h directly; include Usb.h instead"
+#else
+
 #define __CONFDESCPARSER_H__
 
-#include <inttypes.h>
-
-#include <avr/pgmspace.h>
-#include "message.h"
-#include "parsetools.h"
-
-//#include "hid.h"
 
 class UsbConfigXtracter {
 public:
