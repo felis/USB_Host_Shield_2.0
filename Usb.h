@@ -22,6 +22,7 @@ e-mail   :  support@circuitsathome.com
 // Not used anymore?
 //#define USB_METHODS_INLINE
 #include "settings.h"
+#include <inttypes.h>
 #include "address.h"
 
 #include <assert.h>

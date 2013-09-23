@@ -17,20 +17,8 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__USBHUB_H__)
 #define __USBHUB_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
 #include "Usb.h"
-
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
+#include <avr/pgmspace.h>
 
 #define USB_DESCRIPTOR_HUB			0x09 // Hub descriptor type
 
