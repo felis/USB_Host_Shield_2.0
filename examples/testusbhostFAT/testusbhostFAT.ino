@@ -49,20 +49,14 @@
 /////////////////////////////////////////////////////////////
 
 #include <xmem.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
 #if WANT_HUB_TEST
 #include <usbhub.h>
+#else
+#include <Usb.h>
 #endif
-#include <avrpins.h>
-#include <avr/pgmspace.h>
-#include <address.h>
 #include <masstorage.h>
 #include <Storage.h>
 #include <PCpartition/PCPartition.h>
-#include <message.h>
 #include <avr/interrupt.h>
 #include <FAT/FAT.h>
 #include <Wire.h>
@@ -338,10 +332,10 @@ void loop() {
         if (change) {
                 change = false;
                 if (usbon) {
-                        Usb.vbusPower(VBUS_t(on));
+                        Usb.vbusPower(vbus_on);
                         printf_P(PSTR("VBUS on\r\n"));
                 } else {
-                        Usb.vbusPower(VBUS_t(off));
+                        Usb.vbusPower(vbus_off);
                         usbon_time = millis() + 2000;
                 }
         }
@@ -408,9 +402,9 @@ void loop() {
                                                                         printf_P(PSTR("Partition %u type %#02x\r\n"), j, parts[cpart].type);
                                                                         // for now
                                                                         if (isfat(parts[cpart].type)) {
-                                                                                Fats[cpart] = new PFAT;
-                                                                                int r = Fats[cpart]->Init(&sto[i], cpart, parts[cpart].firstSector);
-                                                                                if (r) {
+                                                                                Fats[cpart] = new PFAT(&sto[i], cpart, parts[cpart].firstSector);
+                                                                                //int r = Fats[cpart]->Good();
+                                                                                if (Fats[cpart]->Good()) {
                                                                                         delete Fats[cpart];
                                                                                         Fats[cpart] = NULL;
                                                                                 } else cpart++;
@@ -419,10 +413,10 @@ void loop() {
                                                         }
                                                 } else {
                                                         // try superblock
-                                                        Fats[cpart] = new PFAT;
-                                                        int r = Fats[cpart]->Init(&sto[i], cpart, 0);
-                                                        if (r) {
-                                                                printf_P(PSTR("Superblock error %x\r\n"), r);
+                                                        Fats[cpart] = new PFAT(&sto[i], cpart, 0);
+                                                        //int r = Fats[cpart]->Good();
+                                                        if (Fats[cpart]->Good()) {
+                                                                //printf_P(PSTR("Superblock error %x\r\n"), r);
                                                                 delete Fats[cpart];
                                                                 Fats[cpart] = NULL;
                                                         } else cpart++;
