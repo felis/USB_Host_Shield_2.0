@@ -51,8 +51,6 @@
 #include <xmem.h>
 #if WANT_HUB_TEST
 #include <usbhub.h>
-#else
-#include <Usb.h>
 #endif
 #include <masstorage.h>
 #include <Storage.h>
