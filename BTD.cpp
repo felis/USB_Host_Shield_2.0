@@ -34,17 +34,15 @@ qNextPollTime(0), // Reset NextPollTime
 pollInterval(0),
 bPollEnable(false) // Don't start polling before dongle is connected
 {
-		uint8_t i;
-
+        uint8_t i;
         for (i = 0; i < BTD_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
-
-    	for(i = 0; i < BTD_NUMSERVICES; i++)
-    		btService[i] = NULL;
+        for (i = 0; i < BTD_NUMSERVICES; i++)
+                btService[i] = NULL;
 
         if (pUsb) // register in USB subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
