@@ -5,8 +5,8 @@
  * Created on September 23, 2013, 12:00 AM
  */
 
-#ifndef SETTINGS_H
-#define	SETTINGS_H
+#ifndef USB_HOST_SHIELD_SETTINGS_H
+#define	USB_HOST_SHIELD_SETTINGS_H
 #include "macros.h"
 
 
@@ -36,6 +36,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AUTOMATIC Settings
 ////////////////////////////////////////////////////////////////////////////////
+
+// When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
 #else
