@@ -5,7 +5,9 @@
  * Created on September 23, 2013, 12:31 AM
  */
 
-#ifndef MACROS_H
+#if !defined(_usb_h_) || defined(MACROS_H)
+#error "Never include macros.h directly; include Usb.h instead"
+#else
 #define	MACROS_H
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +53,12 @@
 #define BMAKE32(__usc3__,__usc2__,__usc1__,__usc0__) ((uint32_t)((uint32_t)(__usc0__) | (uint32_t)BOVER1(__usc1__) | (uint32_t)BOVER2(__usc2__) | (uint32_t)BOVER3(__usc3__)))
 #define BMAKE64(__usc7__,__usc6__,__usc5__,__usc4__,__usc3__,__usc2__,__usc1__,__usc0__) ((uint64_t)((uint64_t)__usc0__ | (uint64_t)BOVER1(__usc1__) | (uint64_t)BOVER2(__usc2__) | (uint64_t)BOVER3(__usc3__) | (uint64_t)BOVER4(__usc4__) | (uint64_t)BOVER5(__usc5__) | (uint64_t)BOVER6(__usc6__) | (uint64_t)BOVER1(__usc7__)))
 #endif
+
+/*
+ * Debug macros: Strings are stored in progmem (flash) instead of RAM.
+ */
+#define USBTRACE(s) (Notify(PSTR(s), 0x80))
+#define USBTRACE2(s,r) (Notify(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR("\r\n"), 0x80))
 
 
 #endif	/* MACROS_H */

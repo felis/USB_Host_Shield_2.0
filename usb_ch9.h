@@ -14,8 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
+
+#if !defined(_usb_h_) || defined(_ch9_h_)
+#error "Never include usb_ch9.h directly; include Usb.h instead"
+#else
+
 /* USB chapter 9 structures */
-#ifndef _ch9_h_
 #define _ch9_h_
 
 /* Misc.USB constants */

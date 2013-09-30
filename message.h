@@ -75,6 +75,4 @@ void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
 #endif
 }
 
-//#include "hexdump.h"
-
 #endif // __MESSAGE_H__

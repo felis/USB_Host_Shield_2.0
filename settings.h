@@ -16,13 +16,16 @@
 /* Set this to 1 to activate serial debugging */
 #define ENABLE_UHS_DEBUGGING 0
 
-/* This can be used to select which serial port to use if multiple are available */
+/* This can be used to select which serial port to use for debugging if
+ * multiple serial ports are available.
+ * For example Serial3.
+ */
 #ifndef USB_HOST_SERIAL
 #define USB_HOST_SERIAL Serial
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Manual boards activation
+// Manual board activation
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Set this to 1 if you are using an Arduino Mega ADK board with MAX3421e built-in */
@@ -51,6 +54,9 @@
 // AUTOMATIC Settings
 ////////////////////////////////////////////////////////////////////////////////
 
+// No user serviceable parts below this line.
+// DO NOT change anything below here unless you are a developer!
+
 #if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
 #define DEBUG_USB_HOST
 #endif
@@ -59,13 +65,14 @@
 #define BOARD_TEENSY_PLUS_PLUS
 #endif
 
-// No user serviceable parts below this line, DO NOT change anything below here
 // When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
 #include "Arduino.h"
 #else
 #include <WProgram.h>
-#endif
+// I am not sure what WProgram.h does not include, so these are here. --xxxajk
 #include <avr/pgmspace.h>
+#include <avr/io.h>
+#endif
 
 #endif	/* SETTINGS_H */

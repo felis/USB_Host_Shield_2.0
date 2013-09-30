@@ -52,10 +52,10 @@ typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
 
-typedef enum VBUS_t {
+typedef enum {
         vbus_on = 0,
         vbus_off = GPX_VBDET
-};
+} VBUS_t;
 
 template< typename SS, typename INTR > class MAX3421e /* : public spi */ {
         static uint8_t vbusState;

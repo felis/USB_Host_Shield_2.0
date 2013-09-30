@@ -17,7 +17,9 @@ e-mail   :  support@circuitsathome.com
 
 /* derived from Konstantin Chizhov's AVR port templates */
 
-#ifndef _avrpins_h_
+#if !defined(_usb_h_) || defined(_avrpins_h_)
+#error "Never include avrpins.h directly; include Usb.h instead"
+#else
 #define _avrpins_h_
 
 // Support for these boards needs to be manually activated in settings.h or in a makefile
@@ -31,7 +33,7 @@ e-mail   :  support@circuitsathome.com
 #define BOARD_BLACK_WIDDOW
 #endif
 
-#include <avr/io.h>
+//#include <avr/io.h>
 
 #ifdef PORTA
 #define USE_PORTA
