@@ -20,16 +20,16 @@ e-mail   :  support@circuitsathome.com
 #ifndef _avrpins_h_
 #define _avrpins_h_
 
-#if defined(__AVR_ATmega2560__)
-/* Uncomment the following if you have Arduino Mega ADK board with MAX3421e built-in */
-//#define BOARD_MEGA_ADK
+// Support for these boards needs to be manually activated in settings.h or in a makefile
+#if !defined(BOARD_MEGA_ADK) && defined(__AVR_ATmega2560__) && USE_UHS_MEGA_ADK
+#define BOARD_MEGA_ADK
+#elif !defined(BOARD_TEENSY) && USE_UHS_TEENSY
+#define BOARD_TEENSY
+#elif !defined(BOARD_SANGUINO) && (USE_UHS_SANGUINO || defined(ARDUINO_AVR_SANGUINO))
+#define BOARD_SANGUINO
+#elif !defined(BOARD_BLACK_WIDDOW) && USE_UHS_BLACK_WIDDOW
+#define BOARD_BLACK_WIDDOW
 #endif
-
-/* Uncomment the following if you are using a Teensy 2.0 */
-//#define BOARD_TEENSY
-
-/* Uncomment the following if you are using a Sanguino */
-//#define BOARD_SANGUINO
 
 #include <avr/io.h>
 
@@ -512,9 +512,9 @@ public:
 #define P53 Pb0
 #define P54 Pe6 // INT on Arduino ADK
 
-#endif  // "Mega" pin numbers
+// "Mega" pin numbers
 
-#if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
+#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 //"Classic" Arduino pin numbers
 
 #define P0  Pd0
@@ -540,9 +540,39 @@ public:
 #define P18  Pc4
 #define P19  Pc5
 
-#endif // "Classic" Arduino pin numbers
+// "Classic" Arduino pin numbers
 
-#if !defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
+#elif defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__)
+// Teensy 2.0 pin numbers
+// http://www.pjrc.com/teensy/pinout.html
+#define P0  Pb0
+#define P1  Pb1
+#define P2  Pb2
+#define P3  Pb3
+#define P4  Pb7
+#define P5  Pd0
+#define P6  Pd1
+#define P7  Pd2
+#define P8  Pd3
+#define P9  Pc6
+#define P10 Pc7
+#define P11 Pd6
+#define P12 Pd7
+#define P13 Pb4
+#define P14 Pb5
+#define P15 Pb6
+#define P16 Pf7
+#define P17 Pf6
+#define P18 Pf5
+#define P19 Pf4
+#define P20 Pf1
+#define P21 Pf0
+#define P22 Pd4
+#define P23 Pd5
+#define P24 Pe6
+// Teensy 2.0
+
+#elif defined(__AVR_ATmega32U4__)
 // Arduino Leonardo pin numbers
 
 #define P0  Pd2 // D0 - PD2
@@ -580,39 +610,9 @@ public:
 #define P28 Pb6 // D28 / D10 - A10 - PB6
 #define P29 Pd6 // D29 / D12 - A11 - PD6
 
-#endif // Arduino Leonardo pin numbers
+// Arduino Leonardo pin numbers
 
-#if defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__) 
-// Teensy 2.0 pin numbers
-// http://www.pjrc.com/teensy/pinout.html
-#define P0  Pb0
-#define P1  Pb1
-#define P2  Pb2
-#define P3  Pb3
-#define P4  Pb7
-#define P5  Pd0
-#define P6  Pd1
-#define P7  Pd2
-#define P8  Pd3
-#define P9  Pc6
-#define P10 Pc7
-#define P11 Pd6
-#define P12 Pd7
-#define P13 Pb4
-#define P14 Pb5
-#define P15 Pb6
-#define P16 Pf7
-#define P17 Pf6
-#define P18 Pf5
-#define P19 Pf4
-#define P20 Pf1
-#define P21 Pf0
-#define P22 Pd4
-#define P23 Pd5
-#define P24 Pe6
-#endif // Teensy 2.0
-
-#if defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#elif defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
 // Teensy++ 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pd0
@@ -661,49 +661,12 @@ public:
 #define P43 Pf5
 #define P44 Pf6
 #define P45 Pf7
-#endif // Teensy++ 2.0
+// Teensy++ 2.0
 
-#if !defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__))
-#define BOARD_BALANDUINO
-// Balanduino pin numbers
-// http://balanduino.net/
-#define P0  Pd0 /* 0  - PD0 */
-#define P1  Pd1 /* 1  - PD1 */
-#define P2  Pb2 /* 2  - PB2 */
-#define P3  Pd6 /* 3  - PD6 */
-#define P4  Pd7 /* 4  - PD7 */
-#define P5  Pb3 /* 5  - PB3 */
-#define P6  Pb4 /* 6  - PB4 */
-#define P7  Pa0 /* 7  - PA0 */
-#define P8  Pa1 /* 8  - PA1 */
-#define P9  Pa2 /* 9  - PA2 */
-#define P10 Pa3 /* 10 - PA3 */
-#define P11 Pa4 /* 11 - PA4 */
-#define P12 Pa5 /* 12 - PA5 */
-#define P13 Pc0 /* 13 - PC0 */
-#define P14 Pc1 /* 14 - PC1 */
-#define P15 Pd2 /* 15 - PD2 */
-#define P16 Pd3 /* 16 - PD3 */
-#define P17 Pd4 /* 17 - PD4 */
-#define P18 Pd5 /* 18 - PD5 */
-#define P19 Pc2 /* 19 - PC2 */
-#define P20 Pc3 /* 20 - PC3 */
-#define P21 Pc4 /* 21 - PC4 */
-#define P22 Pc5 /* 22 - PC5 */
-#define P23 Pc6 /* 23 - PC6 */
-#define P24 Pc7 /* 24 - PC7 */
-#define P25 Pb0 /* 25 - PB0 */
-#define P26 Pb1 /* 26 - PB1 */
-#define P27 Pb5 /* 27 - PB5 */
-#define P28 Pb6 /* 28 - PB6 */
-#define P29 Pb7 /* 29 - PB7 */
-#define P30 Pa6 /* 30 - PA6 */
-#define P31 Pa7 /* 31 - PA7 */
-#endif // Balanduino  
-
-#if defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__))
+#elif defined(BOARD_SANGUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__))
 // Sanguino pin numbers
-// http://sanguino.cc/hardware
+// Homepage: http://sanguino.cc/hardware
+// Hardware add-on: https://github.com/Lauszus/Sanguino
 #define P0  Pb0
 #define P1  Pb1
 #define P2  Pb2
@@ -736,6 +699,46 @@ public:
 #define P29 Pa5
 #define P30 Pa6
 #define P31 Pa7
-#endif // Sanguino
+// Sanguino
+
+#elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284P__)
+#define BOARD_BALANDUINO
+// Balanduino pin numbers
+// http://balanduino.net/
+#define P0  Pd0 /* 0  - PD0 */
+#define P1  Pd1 /* 1  - PD1 */
+#define P2  Pb2 /* 2  - PB2 */
+#define P3  Pd6 /* 3  - PD6 */
+#define P4  Pd7 /* 4  - PD7 */
+#define P5  Pb3 /* 5  - PB3 */
+#define P6  Pb4 /* 6  - PB4 */
+#define P7  Pa0 /* 7  - PA0 */
+#define P8  Pa1 /* 8  - PA1 */
+#define P9  Pa2 /* 9  - PA2 */
+#define P10 Pa3 /* 10 - PA3 */
+#define P11 Pa4 /* 11 - PA4 */
+#define P12 Pa5 /* 12 - PA5 */
+#define P13 Pc1 /* 13 - PC1 */
+#define P14 Pc0 /* 14 - PC0 */
+#define P15 Pd2 /* 15 - PD2 */
+#define P16 Pd3 /* 16 - PD3 */
+#define P17 Pd4 /* 17 - PD4 */
+#define P18 Pd5 /* 18 - PD5 */
+#define P19 Pc2 /* 19 - PC2 */
+#define P20 Pc3 /* 20 - PC3 */
+#define P21 Pc4 /* 21 - PC4 */
+#define P22 Pc5 /* 22 - PC5 */
+#define P23 Pc6 /* 23 - PC6 */
+#define P24 Pc7 /* 24 - PC7 */
+#define P25 Pb0 /* 25 - PB0 */
+#define P26 Pb1 /* 26 - PB1 */
+#define P27 Pb5 /* 27 - PB5 */
+#define P28 Pb6 /* 28 - PB6 */
+#define P29 Pb7 /* 29 - PB7 */
+#define P30 Pa6 /* 30 - PA6 */
+#define P31 Pa7 /* 31 - PA7 */
+// Balanduino
+
+#endif // Arduino pin definitions
 
 #endif //_avrpins_h_

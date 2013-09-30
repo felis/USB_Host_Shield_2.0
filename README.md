@@ -55,14 +55,17 @@ Documentation for the library can be found at the following link: <http://felis.
 
 ### Enable debugging
 
-By default serial debugging is disabled. To turn it on uncomment ```#define DEBUG_USB_HOST``` in [message.h](message.h).
-
-### Arduino ADK
-To use this library with the official [Arduino ADK](http://arduino.cc/en/Main/ArduinoBoardADK) uncomment the following line in [avrpins.h](avrpins.h):
+By default serial debugging is disabled. To turn it on simply change ```ENABLE_UHS_DEBUGGING``` to 1 in [settings.h](settings.h) like so:
 
 ```
-#define BOARD_MEGA_ADK
+#define ENABLE_UHS_DEBUGGING 1
 ```
+
+### Boards
+
+Currently the following boards are supported by the library: All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.), Teensy (Teensy 1.0, Teensy 2.0 and Teensy++ 2.0), Balanduino, Sanguino and Black Widdow.
+
+The following boards need to be activated manually in [settings.h](settings.h): Arduino ADK, Sanguino, Teeny 2.0, and Black Widdow. Simply set the corresponding value to 1 instead of 0.
 
 ### [Bluetooth libraries](BTD.cpp)
 
