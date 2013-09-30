@@ -1,6 +1,6 @@
 /*
  * File:   settings.h
- * Author: AJK
+ * Author: xxxajk
  *
  * Created on September 23, 2013, 12:00 AM
  */
@@ -67,7 +67,7 @@
 
 // When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
+#include <Arduino.h>
 #else
 #include <WProgram.h>
 // I am not sure what WProgram.h does not include, so these are here. --xxxajk
