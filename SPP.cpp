@@ -64,6 +64,7 @@ void SPP::Reset() {
         connected = false;
         RFCOMMConnected = false;
         SDPConnected = false;
+        waitForLastCommand = false;
         l2cap_sdp_state = L2CAP_SDP_WAIT;
         l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
         l2cap_event_flag = 0;

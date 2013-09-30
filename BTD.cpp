@@ -25,18 +25,24 @@ const uint8_t BTD::BTD_DATAIN_PIPE = 2;
 const uint8_t BTD::BTD_DATAOUT_PIPE = 3;
 
 BTD::BTD(USB *p) :
+connectToWii(false),
+pairWithWii(false),
 pUsb(p), // Pointer to USB class instance - mandatory
 bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
 qNextPollTime(0), // Reset NextPollTime
+pollInterval(0),
 bPollEnable(false) // Don't start polling before dongle is connected
 {
-        for (uint8_t i = 0; i < BTD_MAX_ENDPOINTS; i++) {
+        uint8_t i;
+        for (i = 0; i < BTD_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
+        for (i = 0; i < BTD_NUMSERVICES; i++)
+                btService[i] = NULL;
 
         if (pUsb) // register in USB subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
