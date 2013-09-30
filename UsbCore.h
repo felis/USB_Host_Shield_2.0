@@ -1,6 +1,6 @@
 /*
  * File:   UsbCore.h
- * Author: root
+ * Author: xxxajk
  *
  * Created on September 29, 2013, 9:25 PM
  */
