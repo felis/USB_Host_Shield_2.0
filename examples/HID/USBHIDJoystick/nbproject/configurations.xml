@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="80">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="USBHIDJoystick" root=".">
+      <df name="build">
+        <in>CDC.lst</in>
+        <in>HID.lst</in>
+        <in>HardwareSerial.lst</in>
+        <in>IPAddress.lst</in>
+        <in>Print.lst</in>
+        <in>Stream.lst</in>
+        <in>Tone.lst</in>
+        <in>USBCore.lst</in>
+        <in>WInterrupts.lst</in>
+        <in>WMath.lst</in>
+        <in>WString.lst</in>
+        <in>wiring.lst</in>
+        <in>wiring_analog.lst</in>
+        <in>wiring_digital.lst</in>
+        <in>wiring_pulse.lst</in>
+        <in>wiring_shift.lst</in>
+      </df>
+      <in>USBHIDJoystick.ino</in>
+      <in>hidjoystickrptparser.cpp</in>
+      <in>hidjoystickrptparser.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
