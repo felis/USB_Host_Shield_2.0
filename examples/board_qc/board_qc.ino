@@ -3,19 +3,7 @@
 /* for GPIO test to pass you need to connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, etc. */
 /* otherwise press any key after getting GPIO error to complete the test */
 /**/
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
 #include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
-
-#include <printhex.h>
-#include <message.h>
-#include <hexdump.h>
-#include <parsetools.h>
 
 /* variables */
 uint8_t rcode;

@@ -5,6 +5,7 @@
  */
 
 #include <XBOXUSB.h>
+
 USB Usb;
 XBOXUSB Xbox(&Usb);
 

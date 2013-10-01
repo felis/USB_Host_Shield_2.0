@@ -1,22 +1,10 @@
 /* Arduino terminal for PL2303 USB to serial converter and XBee radio. */
 /* Inserts linefeed after carriage return in data sent to and received from Xbee */
 /* USB support */
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
 #include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
 /* CDC support */
 #include <cdcacm.h>
 #include <cdcprolific.h>
-/* Debug support */
-#include <printhex.h>
-#include <message.h>
-#include <hexdump.h>
-#include <parsetools.h>
 
 class PLAsyncOper : public CDCAsyncOper
 {

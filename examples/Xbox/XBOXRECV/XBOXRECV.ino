@@ -6,6 +6,7 @@
  */
 
 #include <XBOXRECV.h>
+
 USB Usb;
 XBOXRECV Xbox(&Usb);
 
