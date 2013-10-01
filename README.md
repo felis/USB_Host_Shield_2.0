@@ -63,9 +63,19 @@ By default serial debugging is disabled. To turn it on simply change ```ENABLE_U
 
 ### Boards
 
-Currently the following boards are supported by the library: All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.), Teensy (Teensy 1.0, Teensy 2.0 and Teensy++ 2.0), Balanduino, Sanguino and Black Widdow.
+Currently the following boards are supported by the library:
 
-The following boards need to be activated manually in [settings.h](settings.h): Arduino ADK, Sanguino, Teeny 2.0, and Black Widdow. Simply set the corresponding value to 1 instead of 0.
+* All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
+* Teensy (Teensy 1.0, Teensy 2.0 and Teensy++ 2.0)
+* Balanduino
+* Sanguino
+* Black Widdow.
+
+The following boards need to be activated manually in [settings.h](settings.h):
+
+* Arduino ADK, Sanguino, Teensy 2.0, and Black Widdow.
+
+Simply set the corresponding value to 1 instead of 0.
 
 ### [Bluetooth libraries](BTD.cpp)
 
