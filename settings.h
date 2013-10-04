@@ -31,9 +31,6 @@
 /* Set this to 1 if you are using an Arduino Mega ADK board with MAX3421e built-in */
 #define USE_UHS_MEGA_ADK 0
 
-/* Set this to 1 if you are using a Teensy 1.0 or 2.0 */
-#define USE_UHS_TEENSY 0
-
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0
 
@@ -56,10 +53,6 @@
 
 #if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
 #define DEBUG_USB_HOST
-#endif
-
-#if !defined(BOARD_TEENSY_PLUS_PLUS) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
-#define BOARD_TEENSY_PLUS_PLUS
 #endif
 
 // When will we drop support for the older bug-ridden stuff?

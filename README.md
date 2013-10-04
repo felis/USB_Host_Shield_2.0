@@ -73,7 +73,8 @@ Currently the following boards are supported by the library:
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
-* Arduino Mega ADK, Teensy 2.0 and Black Widdow.
+* Arduino Mega ADK
+* Black Widdow
 
 Simply set the corresponding value to 1 instead of 0.
 

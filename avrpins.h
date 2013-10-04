@@ -25,13 +25,9 @@ e-mail   :  support@circuitsathome.com
 // Support for these boards needs to be manually activated in settings.h or in a makefile
 #if !defined(BOARD_MEGA_ADK) && defined(__AVR_ATmega2560__) && USE_UHS_MEGA_ADK
 #define BOARD_MEGA_ADK
-#elif !defined(BOARD_TEENSY) && USE_UHS_TEENSY
-#define BOARD_TEENSY
 #elif !defined(BOARD_BLACK_WIDDOW) && USE_UHS_BLACK_WIDDOW
 #define BOARD_BLACK_WIDDOW
 #endif
-
-//#include <avr/io.h>
 
 #ifdef PORTA
 #define USE_PORTA
@@ -541,7 +537,7 @@ public:
 
 // "Classic" Arduino pin numbers
 
-#elif defined(BOARD_TEENSY) && defined(__AVR_ATmega32U4__)
+#elif defined(CORE_TEENSY) && defined(__AVR_ATmega32U4__)
 // Teensy 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pb0
@@ -611,7 +607,7 @@ public:
 
 // Arduino Leonardo pin numbers
 
-#elif defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
 // Teensy++ 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pd0
