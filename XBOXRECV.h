@@ -20,12 +20,6 @@
 #ifndef _xboxrecv_h_
 #define _xboxrecv_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "xboxEnums.h"
 
@@ -48,10 +42,11 @@
 
 // PID and VID of the different devices
 #define XBOX_VID                                0x045E  // Microsoft Corporation
+#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz receivers
+#define JOYTECH_VID                             0x162E  // For unofficial Joytech controllers
+
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
-
-#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz receivers
 
 #define XBOX_MAX_ENDPOINTS   9
 
@@ -103,6 +98,16 @@ public:
         virtual bool isReady() {
                 return bPollEnable;
         };
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && (pid == XBOX_WIRELESS_RECEIVER_PID || pid == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID));
+        };
         /**@}*/
 
         /** @name Xbox Controller functions */
@@ -124,7 +129,7 @@ public:
 
         /** @name Xbox Controller functions */
         /**
-         * Return the analog value from the joysticks on the controller.         
+         * Return the analog value from the joysticks on the controller.
          * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @param  controller The controller to read from. Default to 0.
          * @return            Returns a signed 16-bit integer.
@@ -148,7 +153,7 @@ public:
                 setRumbleOn(0, 0, controller);
         };
         /**
-         * Turn rumble on.         
+         * Turn rumble on.
          * @param lValue     Left motor (big weight) inside the controller.
          * @param rValue     Right motor (small weight) inside the controller.
          * @param controller The controller to write to. Default to 0.
@@ -171,19 +176,19 @@ public:
                 setLedRaw(0, controller);
         };
         /**
-         * Turn on a LED by using the ::LED enum.         
+         * Turn on a LED by using the ::LED enum.
          * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
         void setLedOn(LED l, uint8_t controller = 0);
         /**
-         * Turn on a LED by using the ::LED enum.         
+         * Turn on a LED by using the ::LED enum.
          * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
         void setLedBlink(LED l, uint8_t controller = 0);
         /**
-         * Used to set special LED modes supported by the Xbox controller.         
+         * Used to set special LED modes supported by the Xbox controller.
          * @param lm         See ::LEDMode.
          * @param controller The controller to write to. Default to 0.
          */
@@ -200,6 +205,14 @@ public:
          * @return            True if a button has changed.
          */
         bool buttonChanged(uint8_t controller = 0);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /** True if a wireless receiver is connected. */
@@ -216,6 +229,15 @@ protected:
         EpInfo epInfo[XBOX_MAX_ENDPOINTS];
 
 private:
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         * @param controller The initialized controller.
+         */
+        void onInit(uint8_t controller);
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+
         bool bPollEnable;
 
         /* Variables to store the buttons */
@@ -232,7 +254,7 @@ private:
         unsigned long timer; // Timing for checkStatus() signals
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
+        uint8_t writeBuf[7]; // General purpose buffer for output data
 
         void readReport(uint8_t controller); // read incoming data
         void printReport(uint8_t controller, uint8_t nBytes); // print incoming date - Uncomment for debugging

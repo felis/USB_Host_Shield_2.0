@@ -14,15 +14,13 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__PRINTHEX_H__)
+
+#if !defined(_usb_h_) || defined(__PRINTHEX_H__)
+#error "Never include printhex.h directly; include Usb.h instead"
+#else
 #define __PRINTHEX_H__
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-void Notifyc(char c, int lvl);
+void E_Notifyc(char c, int lvl);
 
 template <class T>
 void PrintHex(T val, int lvl) {
@@ -31,7 +29,7 @@ void PrintHex(T val, int lvl) {
         do {
                 char v = 48 + (((val >> (num_nibbles - 1) * 4)) & 0x0f);
                 if(v > 57) v += 7;
-                Notifyc(v, lvl);
+                E_Notifyc(v, lvl);
         } while(--num_nibbles);
 }
 
@@ -39,9 +37,9 @@ template <class T>
 void PrintBin(T val, int lvl) {
         for(T mask = (((T) 1) << ((sizeof(T) << 3) - 1)); mask; mask >>= 1)
                 if(val & mask)
-                        Notifyc('1', lvl);
+                        E_Notifyc('1', lvl);
                 else
-                        Notifyc('0', lvl);
+                        E_Notifyc('0', lvl);
 }
 
 template <class T>
@@ -51,7 +49,7 @@ void SerialPrintHex(T val) {
         do {
                 char v = 48 + (((val >> (num_nibbles - 1) * 4)) & 0x0f);
                 if(v > 57) v += 7;
-                Serial.print(v);
+                USB_HOST_SERIAL.print(v);
         } while(--num_nibbles);
 }
 
@@ -67,5 +65,20 @@ void PrintHex2(Print *prn, T val) {
         }
         prn->print((T) val, HEX);
 }
+
+template <class T> void D_PrintHex(T val, int lvl) {
+#ifdef DEBUG_USB_HOST
+        PrintHex<T>(val, lvl);
+#endif
+}
+
+template <class T>
+void D_PrintBin(T val, int lvl) {
+#ifdef DEBUG_USB_HOST
+        PrintBin<T>(val, lvl);
+#endif
+}
+
+
 
 #endif // __PRINTHEX_H__

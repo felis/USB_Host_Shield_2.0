@@ -18,7 +18,7 @@
  */
 
 #include "XBOXRECV.h"
-#define DEBUG // Uncomment to print data for debugging
+// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -52,7 +52,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         // check if address has already been assigned to an instance
         if (bAddress) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -62,14 +62,14 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p = addrPool.GetUsbDevicePtr(0);
 
         if (!p) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
 #endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
         if (!p->epinfo) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nepinfo is null"), 0x80);
 #endif
                 return USB_ERROR_EPINFO_IS_NULL;
@@ -94,10 +94,10 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a xbox receiver using the Vendor ID
+        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a Xbox receiver using the Vendor ID
                 goto FailUnknownDevice;
-        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
-#ifdef DEBUG
+        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) { // Check the PID as well
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
                 goto FailUnknownDevice;
@@ -118,16 +118,18 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-                PrintHex<uint8_t > (rcode, 0x80);
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -209,7 +211,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailSetConfDescr;
 
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox Wireless Receiver Connected\r\n"), 0x80);
 #endif
         XboxReceiverConnected = true;
@@ -218,26 +220,34 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
+#endif
         goto Fail;
 
 FailUnknownDevice:
+#ifdef DEBUG_USB_HOST
         NotifyFailUnknownDevice(VID,PID);
+#endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 Fail:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
-#endif
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -278,7 +288,7 @@ uint8_t XBOXRECV::Poll() {
                 if (bufferSize > 0) { // The number of received bytes
 #ifdef EXTRADEBUG
                         Notify(PSTR("Bytes Received: "), 0x80);
-                        PrintHex<uint16_t > (bufferSize, 0x80);
+                        D_PrintHex<uint16_t > (bufferSize, 0x80);
                         Notify(PSTR("\r\n"), 0x80);
 #endif
                         readReport(i);
@@ -296,12 +306,12 @@ void XBOXRECV::readReport(uint8_t controller) {
         // This report is send when a controller is connected and disconnected
         if (readBuf[0] == 0x08 && readBuf[1] != Xbox360Connected[controller]) {
                 Xbox360Connected[controller] = readBuf[1];
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("Controller "), 0x80);
                 Notify(controller, 0x80);
 #endif
                 if (Xbox360Connected[controller]) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                         const char* str = 0;
                         switch (readBuf[1]) {
                                 case 0x80: str = PSTR(" as controller\r\n");
@@ -314,20 +324,9 @@ void XBOXRECV::readReport(uint8_t controller) {
                         Notify(PSTR(": connected"), 0x80);
                         Notify(str, 0x80);
 #endif
-                        LED led;
-                        switch (controller) {
-                                case 0: led = LED1;
-                                        break;
-                                case 1: led = LED2;
-                                        break;
-                                case 2: led = LED3;
-                                        break;
-                                case 3: led = LED4;
-                                        break;
-                        }
-                        setLedOn(led, controller);
+                        onInit(controller);
                 }
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 else
                         Notify(PSTR(": disconnected\r\n"), 0x80);
 #endif
@@ -374,7 +373,7 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
         Notify(controller, 0x80);
         Notify(PSTR(": "), 0x80);
         for (uint8_t i = 0; i < nBytes; i++) {
-                PrintHex<uint8_t > (readBuf[i], 0x80);
+                D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
         Notify(PSTR("\r\n"), 0x80);
@@ -520,4 +519,21 @@ void XBOXRECV::setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller) {
         writeBuf[6] = rValue; // small weight
 
         XboxCommand(controller, writeBuf, 7);
+}
+
+void XBOXRECV::onInit(uint8_t controller) {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                LED led;
+                if (controller == 0)
+                    led = LED1;
+                else if (controller == 1)
+                    led = LED2;
+                else if (controller == 2)
+                    led = LED3;
+                else
+                    led = LED4;
+                setLedOn(led, controller);
+        }
 }

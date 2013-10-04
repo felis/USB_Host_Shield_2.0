@@ -11,7 +11,10 @@
 
 #include <PS3BT.h>
 #include <SPP.h>
+#include <usbhub.h>
+
 USB Usb;
+USBHub Hub1(&Usb); // Some dongles have a hub inside
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instances of the bluetooth services in two ways */

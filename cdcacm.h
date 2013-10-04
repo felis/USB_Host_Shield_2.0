@@ -17,25 +17,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__CDCACM_H__)
 #define __CDCACM_H__
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
 #include "Usb.h"
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-
-#include "confdescparser.h"
 
 #define bmREQ_CDCOUT        USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 #define bmREQ_CDCIN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
@@ -140,7 +122,7 @@ typedef struct
   uint16_t  wIndex;
   uint16_t  wLength;
   uint16_t  bmState;        //UART state bitmap for SERIAL_STATE, other notifications variable length
-} CLASS_NOTIFICATION;  
+} CLASS_NOTIFICATION;
 
 class ACM;
 
@@ -169,7 +151,7 @@ protected:
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
-       	bool  ready;      //device ready indicator        
+       	bool  ready;      //device ready indicator
 
         EpInfo epInfo[ACM_MAX_ENDPOINTS];
 

@@ -5,6 +5,7 @@
  */
 
 #include <PS3USB.h>
+
 USB Usb;
 /* You can create the instance of the class in two ways */
 PS3USB PS3(&Usb); // This will just create the instance

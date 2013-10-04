@@ -14,16 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__CONFDESCPARSER_H__)
+#if !defined(_usb_h_) || defined(__CONFDESCPARSER_H__)
+#error "Never include confdescparser.h directly; include Usb.h instead"
+#else
+
 #define __CONFDESCPARSER_H__
 
-#include <inttypes.h>
-
-#include <avr/pgmspace.h>
-#include "message.h"
-#include "parsetools.h"
-
-//#include "hid.h"
 
 class UsbConfigXtracter {
 public:
@@ -35,7 +31,7 @@ public:
 #define CP_MASK_COMPARE_CLASS			1
 #define CP_MASK_COMPARE_SUBCLASS		2
 #define CP_MASK_COMPARE_PROTOCOL		4
-#define CP_MASK_COMPARE_ALL				7
+#define CP_MASK_COMPARE_ALL			7
 
 // Configuration Descriptor Parser Class Template
 
@@ -104,10 +100,10 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         dscrType = *((uint8_t*) theBuffer.pValue + 1);
                         stateParseDescr = 2;
                 case 2:
-                        // This is a sort of hack. Assuming that two bytes are allready in the buffer
+                        // This is a sort of hack. Assuming that two bytes are all ready in the buffer
                         //	the pointer is positioned two bytes ahead in order for the rest of descriptor
                         //	to be read right after the size and the type fields.
-                        // This should be used carefuly. varBuffer should be used directly to handle data
+                        // This should be used carefully. varBuffer should be used directly to handle data
                         //	in the buffer.
                         theBuffer.pValue = varBuffer + 2;
                         stateParseDescr = 3;

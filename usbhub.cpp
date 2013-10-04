@@ -22,7 +22,7 @@ USBHub::USBHub(USB *p) :
 pUsb(p),
 bAddress(0),
 bNbrPorts(0),
-bInitState(0),
+//bInitState(0),
 qNextPollTime(0),
 bPollEnable(false) {
         epInfo[0].epAddr = 0;
@@ -47,12 +47,13 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t len = 0;
         uint16_t cd_len = 0;
 
-        //USBTRACE("\r\nHub Init Start");
+        //USBTRACE("\r\nHub Init Start ");
+        //D_PrintHex<uint8_t > (bInitState, 0x80);
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
-        switch (bInitState) {
-                case 0:
+        //switch (bInitState) {
+        //        case 0:
                         if (bAddress)
                                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
@@ -129,9 +130,9 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         if (rcode)
                                 goto FailSetDevTblEntry;
 
-                        bInitState = 1;
+        //                bInitState = 1;
 
-                case 1:
+        //        case 1:
                         // Get hub descriptor
                         rcode = GetHubDescriptor(0, 8, buf);
 
@@ -141,9 +142,9 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         // Save number of ports for future use
                         bNbrPorts = ((HubDescriptor*)buf)->bNbrPorts;
 
-                        bInitState = 2;
+        //                bInitState = 2;
 
-                case 2:
+        //        case 2:
                         // Read configuration Descriptor in Order To Obtain Proper Configuration Value
                         rcode = pUsb->getConfDescr(bAddress, 0, 8, 0, buf);
 
@@ -171,21 +172,22 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         if (rcode)
                                 goto FailSetConfDescr;
 
-                        bInitState = 3;
+        //                bInitState = 3;
 
-                case 3:
+        //        case 3:
                         // Power on all ports
                         for (uint8_t j = 1; j <= bNbrPorts; j++)
                                 SetPortFeature(HUB_FEATURE_PORT_POWER, j, 0); //HubPortPowerOn(j);
 
                         pUsb->SetHubPreMask();
                         bPollEnable = true;
-                        bInitState = 0;
-        }
-        bInitState = 0;
+        //                bInitState = 0;
+        //}
+        //bInitState = 0;
+        //USBTRACE("...OK\r\n");
         return 0;
 
-// Oleg, No debugging?? -- xxxajk
+        // Oleg, No debugging?? -- xxxajk
 FailGetDevDescr:
         goto Fail;
 
@@ -202,6 +204,7 @@ FailSetConfDescr:
         goto Fail;
 
 Fail:
+        USBTRACE("...FAIL\r\n");
         return rcode;
 }
 
@@ -241,17 +244,17 @@ uint8_t USBHub::CheckHubStatus() {
         if (rcode)
                 return rcode;
 
-        if (buf[0] & 0x01) // Hub Status Change
-        {
-                //pUsb->PrintHubStatus(addr);
-                //rcode = GetHubStatus(1, 0, 1, 4, buf);
-                //if (rcode)
-                //{
-                //	Serial.print("GetHubStatus Error");
-                //	Serial.println(rcode, HEX);
-                //	return rcode;
-                //}
-        }
+        //if (buf[0] & 0x01) // Hub Status Change
+        //{
+        //        pUsb->PrintHubStatus(addr);
+        //        rcode = GetHubStatus(1, 0, 1, 4, buf);
+        //        if (rcode)
+        //        {
+        //        	USB_HOST_SERIAL.print("GetHubStatus Error");
+        //        	USB_HOST_SERIAL.println(rcode, HEX);
+        //        	return rcode;
+        //        }
+        //}
         for (uint8_t port = 1, mask = 0x02; port < 8; mask <<= 1, port++) {
                 if (buf[0] & mask) {
                         HubEvent evt;
@@ -298,6 +301,29 @@ uint8_t USBHub::CheckHubStatus() {
         return 0;
 }
 
+void USBHub::ResetHubPort(uint8_t port) {
+        HubEvent evt;
+        evt.bmEvent = 0;
+        uint8_t rcode;
+
+        ClearPortFeature(HUB_FEATURE_C_PORT_ENABLE, port, 0);
+        ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
+        SetPortFeature(HUB_FEATURE_PORT_RESET, port, 0);
+
+
+        for (int i = 0; i < 3; i++) {
+                rcode = GetPortStatus(port, 4, evt.evtBuff);
+                if (rcode) break; // Some kind of error, bail.
+                if (evt.bmEvent == bmHUB_PORT_EVENT_RESET_COMPLETE || evt.bmEvent == bmHUB_PORT_EVENT_LS_RESET_COMPLETE) {
+                        break;
+                }
+                delay(100); // simulate polling.
+        }
+        ClearPortFeature(HUB_FEATURE_C_PORT_RESET, port, 0);
+        ClearPortFeature(HUB_FEATURE_C_PORT_CONNECTION, port, 0);
+        delay(20);
+}
+
 uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt) {
         switch (evt.bmEvent) {
                         // Device connected event
@@ -319,6 +345,7 @@ uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt) {
                         bResetInitiated = false;
 
                         UsbDeviceAddress a;
+                        a.devAddress = 0;
                         a.bmHub = 0;
                         a.bmParent = bAddress;
                         a.bmAddress = port;
@@ -350,46 +377,46 @@ void PrintHubPortStatus(USBHub *hubptr, uint8_t addr, uint8_t port, bool print_c
         rcode = hubptr->GetPortStatus(port, 4, evt.evtBuff);
 
         if (rcode) {
-                Serial.println("ERROR!");
+                USB_HOST_SERIAL.println("ERROR!");
                 return;
         }
-        Serial.print("\r\nPort ");
-        Serial.println(port, DEC);
+        USB_HOST_SERIAL.print("\r\nPort ");
+        USB_HOST_SERIAL.println(port, DEC);
 
-        Serial.println("Status");
-        Serial.print("CONNECTION:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_CONNECTION) > 0, DEC);
-        Serial.print("ENABLE:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_ENABLE) > 0, DEC);
-        Serial.print("SUSPEND:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_SUSPEND) > 0, DEC);
-        Serial.print("OVER_CURRENT:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_OVER_CURRENT) > 0, DEC);
-        Serial.print("RESET:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_RESET) > 0, DEC);
-        Serial.print("POWER:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_POWER) > 0, DEC);
-        Serial.print("LOW_SPEED:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) > 0, DEC);
-        Serial.print("HIGH_SPEED:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_HIGH_SPEED) > 0, DEC);
-        Serial.print("TEST:\t\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_TEST) > 0, DEC);
-        Serial.print("INDICATOR:\t");
-        Serial.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_INDICATOR) > 0, DEC);
+        USB_HOST_SERIAL.println("Status");
+        USB_HOST_SERIAL.print("CONNECTION:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_CONNECTION) > 0, DEC);
+        USB_HOST_SERIAL.print("ENABLE:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_ENABLE) > 0, DEC);
+        USB_HOST_SERIAL.print("SUSPEND:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_SUSPEND) > 0, DEC);
+        USB_HOST_SERIAL.print("OVER_CURRENT:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_OVER_CURRENT) > 0, DEC);
+        USB_HOST_SERIAL.print("RESET:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_RESET) > 0, DEC);
+        USB_HOST_SERIAL.print("POWER:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_POWER) > 0, DEC);
+        USB_HOST_SERIAL.print("LOW_SPEED:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_LOW_SPEED) > 0, DEC);
+        USB_HOST_SERIAL.print("HIGH_SPEED:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_HIGH_SPEED) > 0, DEC);
+        USB_HOST_SERIAL.print("TEST:\t\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_TEST) > 0, DEC);
+        USB_HOST_SERIAL.print("INDICATOR:\t");
+        USB_HOST_SERIAL.println((evt.bmStatus & bmHUB_PORT_STATUS_PORT_INDICATOR) > 0, DEC);
 
         if (!print_changes)
                 return;
 
-        Serial.println("\r\nChange");
-        Serial.print("CONNECTION:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_CONNECTION) > 0, DEC);
-        Serial.print("ENABLE:\t\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_ENABLE) > 0, DEC);
-        Serial.print("SUSPEND:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_SUSPEND) > 0, DEC);
-        Serial.print("OVER_CURRENT:\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT) > 0, DEC);
-        Serial.print("RESET:\t\t");
-        Serial.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_RESET) > 0, DEC);
+        USB_HOST_SERIAL.println("\r\nChange");
+        USB_HOST_SERIAL.print("CONNECTION:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_CONNECTION) > 0, DEC);
+        USB_HOST_SERIAL.print("ENABLE:\t\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_ENABLE) > 0, DEC);
+        USB_HOST_SERIAL.print("SUSPEND:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_SUSPEND) > 0, DEC);
+        USB_HOST_SERIAL.print("OVER_CURRENT:\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_OVER_CURRENT) > 0, DEC);
+        USB_HOST_SERIAL.print("RESET:\t\t");
+        USB_HOST_SERIAL.println((evt.bmChange & bmHUB_PORT_STATUS_C_PORT_RESET) > 0, DEC);
 }

@@ -1,6 +1,6 @@
 #include "le3dp_rptparser.h"
 
-JoystickReportParser::JoystickReportParser(JoystickEvents *evt) : 
+JoystickReportParser::JoystickReportParser(JoystickEvents *evt) :
 	joyEvents(evt)
 {}
 

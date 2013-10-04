@@ -174,7 +174,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailOnInit;
 
         USBTRACE("ACM configured\r\n");
-        
+
         ready = true;
 
         //bPollEnable = true;
@@ -183,26 +183,38 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 
 FailOnInit:
+#ifdef DEBUG_USB_HOST
         USBTRACE("OnInit:");
+#endif
 
 Fail:
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -276,7 +288,7 @@ uint8_t ACM::Poll() {
         //	for (uint8_t i=0; i<read; i++)
         //	{
         //		PrintHex<uint8_t>(buf[i]);
-        //		Serial.print(" ");
+        //		USB_HOST_SERIAL.print(" ");
         //	}
         //	USBTRACE("\r\n");
         //}

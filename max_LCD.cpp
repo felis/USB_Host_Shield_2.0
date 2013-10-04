@@ -15,17 +15,7 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 #include "max_LCD.h"
-#include "max3421e.h"
-
-#include <stdio.h>
 #include <string.h>
-#include <inttypes.h>
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
 
 // pin definition and set/clear
 

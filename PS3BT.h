@@ -207,18 +207,34 @@ public:
          * @param rumble The desired value in the range from 64-255.
          */
         void moveSetRumble(uint8_t rumble);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
-        /** Variable used to indicate if the normal playstation controller is successfully connected. */
+        /** Variable used to indicate if the normal Playstation controller is successfully connected. */
         bool PS3Connected;
-        /** Variable used to indicate if the move controller is successfully connected. */
+        /** Variable used to indicate if the Move controller is successfully connected. */
         bool PS3MoveConnected;
-        /** Variable used to indicate if the navigation controller is successfully connected. */
+        /** Variable used to indicate if the Navigation controller is successfully connected. */
         bool PS3NavigationConnected;
 
 private:
-        /* mandatory members */
+        /* Mandatory members */
         BTD *pBtd;
+
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        void onInit();
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         void L2CAP_task(); // L2CAP state machine
 
@@ -229,7 +245,7 @@ private:
 
         /* variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // L2CAP flags of received bluetooth events
+        uint16_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
 
         unsigned long timer;
 

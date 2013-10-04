@@ -14,12 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__ADDRESS_H__)
+
+#if !defined(_usb_h_) || defined(__ADDRESS_H__)
+#error "Never include address.h directly; include Usb.h instead"
+#else
 #define __ADDRESS_H__
 
-#include <inttypes.h>
-#include <stddef.h>
-#include "max3421e.h"
 
 
 /* NAK powers. To save space in endpoint data structure, amount of retries before giving up and returning 0x4 is stored in */
@@ -70,7 +70,7 @@ struct UsbDeviceAddress {
 
 #define bmUSB_DEV_ADDR_ADDRESS		0x07
 #define bmUSB_DEV_ADDR_PARENT		0x38
-#define bmUSB_DEV_ADDR_HUB			0x40
+#define bmUSB_DEV_ADDR_HUB		0x40
 
 struct UsbDevice {
         EpInfo *epinfo; // endpoint info pointer
@@ -194,7 +194,7 @@ public:
 
         virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) {
                 /* if (parent != 0 && port == 0)
-                        Serial.println("PRT:0"); */
+                        USB_HOST_SERIAL.println("PRT:0"); */
 
                 if(parent > 127 || port > 7)
                         return 0;
@@ -219,6 +219,7 @@ public:
                 }
 
                 UsbDeviceAddress addr;
+                addr.devAddress = 0; // Ensure all bits are zero
 
                 addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
 
@@ -231,12 +232,12 @@ public:
                 }
                 thePool[index].address = *((uint8_t*) & addr);
                 /*
-                                Serial.print("Addr:");
-                                Serial.print(addr.bmHub, HEX);
-                                Serial.print(".");
-                                Serial.print(addr.bmParent, HEX);
-                                Serial.print(".");
-                                Serial.println(addr.bmAddress, HEX);
+                                USB_HOST_SERIAL.print("Addr:");
+                                USB_HOST_SERIAL.print(addr.bmHub, HEX);
+                                USB_HOST_SERIAL.print(".");
+                                USB_HOST_SERIAL.print(addr.bmParent, HEX);
+                                USB_HOST_SERIAL.print(".");
+                                USB_HOST_SERIAL.println(addr.bmAddress, HEX);
                  */
                 return thePool[index].address;
         };

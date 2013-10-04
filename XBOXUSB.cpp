@@ -16,7 +16,7 @@
  */
 
 #include "XBOXUSB.h"
-#define DEBUG // Uncomment to print data for debugging
+// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -50,7 +50,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         // check if address has already been assigned to an instance
         if (bAddress) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -60,14 +60,14 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p = addrPool.GetUsbDevicePtr(0);
 
         if (!p) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
 #endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
         if (!p->epinfo) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nepinfo is null"), 0x80);
 #endif
                 return USB_ERROR_EPINFO_IS_NULL;
@@ -92,19 +92,20 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) // We just check if it's a xbox controller using the Vendor ID
+        if (VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID && VID != GAMESTOP_VID) // Check VID
                 goto FailUnknownDevice;
         if (PID == XBOX_WIRELESS_PID) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"), 0x80);
 #endif
                 goto FailUnknownDevice;
         } else if (PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"), 0x80);
 #endif
                 goto FailUnknownDevice;
-        }
+        } else if (PID != XBOX_WIRED_PID && PID != GAMESTOP_WIRED_PID) // Check PID
+                goto FailUnknownDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
@@ -121,16 +122,18 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-                PrintHex<uint8_t > (rcode, 0x80);
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -167,41 +170,49 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailSetDevTblEntry;
 
-        delay(200); //Give time for address change
+        delay(200); // Give time for address change
 
         rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
         if (rcode)
                 goto FailSetConfDescr;
 
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox 360 Controller Connected\r\n"), 0x80);
 #endif
-        setLedOn(LED1);
+        onInit();
         Xbox360Connected = true;
         bPollEnable = true;
-        return 0; // successful configuration
+        return 0; // Successful configuration
 
-        /* diagnostic messages */
+        /* Diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 FailUnknownDevice:
-        NotifyFailUnknownDevice(VID,PID);
+#ifdef DEBUG_USB_HOST
+        NotifyFailUnknownDevice(VID, PID);
+#endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 Fail:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
-#endif
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -259,7 +270,7 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
         if (readBuf == NULL)
                 return;
         for (uint8_t i = 0; i < XBOX_REPORT_BUFFER_SIZE; i++) {
-                PrintHex<uint8_t > (readBuf[i], 0x80);
+                D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
         Notify(PSTR("\r\n"), 0x80);
@@ -336,4 +347,11 @@ void XBOXUSB::setRumbleOn(uint8_t lValue, uint8_t rValue) {
         writeBuf[7] = 0x00;
 
         XboxCommand(writeBuf, 8);
+}
+
+void XBOXUSB::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else
+                setLedOn(LED1);
 }

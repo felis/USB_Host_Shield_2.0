@@ -15,84 +15,100 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#define DEBUG
-#include "message.h"
+#include "Usb.h"
 // 0x80 is the default (i.e. trace) to turn off set this global to something lower.
 // this allows for 126 other debugging levels.
 // TO-DO: Allow assignment to a different serial port
 int UsbDEBUGlvl = 0x80;
 
-void Notifyc(char c, int lvl) {
+void E_Notifyc(char c, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
-        Serial.print(c);
+        USB_HOST_SERIAL.print(c);
 #else
-        Serial.print(c, BYTE);
+        USB_HOST_SERIAL.print(c, BYTE);
 #endif
-        Serial.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
-void Notify(char const * msg, int lvl) {
+void E_Notify(char const * msg, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
         if (!msg) return;
         char c;
 
-        while ((c = pgm_read_byte(msg++))) Notifyc(c, lvl);
+        while ((c = pgm_read_byte(msg++))) E_Notifyc(c, lvl);
 }
 
-void NotifyStr(char const * msg, int lvl) {
+void E_NotifyStr(char const * msg, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
         if (!msg) return;
         char c;
 
-        while (c = *msg++) Notifyc(c, lvl);
+        while (c = *msg++) E_Notifyc(c, lvl);
 }
 
-void Notify(uint8_t b, int lvl) {
+void E_Notify(uint8_t b, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
-        Serial.print(b);
+        USB_HOST_SERIAL.print(b);
 #else
-        Serial.print(b, DEC);
+        USB_HOST_SERIAL.print(b, DEC);
 #endif
-        Serial.flush();
+        //USB_HOST_SERIAL.flush();
 }
 
-void Notify(double d, int lvl) {
+void E_Notify(double d, int lvl) {
         if (UsbDEBUGlvl < lvl) return;
-        Serial.print(d);
-        Serial.flush();
+        USB_HOST_SERIAL.print(d);
+        //USB_HOST_SERIAL.flush();
 }
 
+#ifdef DEBUG_USB_HOST
 void NotifyFailGetDevDescr(void) {
-        Notify(PSTR("\r\ngetDevDescr"), 0x80);
+        Notify(PSTR("\r\ngetDevDescr "), 0x80);
 }
 
 void NotifyFailSetDevTblEntry(void) {
-        Notify(PSTR("\r\nsetDevTblEn"), 0x80);
+        Notify(PSTR("\r\nsetDevTblEn "), 0x80);
 }
 void NotifyFailGetConfDescr(void) {
-        Notify(PSTR("\r\ngetConf"), 0x80);
+        Notify(PSTR("\r\ngetConf "), 0x80);
 }
 
 void NotifyFailSetConfDescr(void) {
-        Notify(PSTR("\r\nsetConf"), 0x80);
+        Notify(PSTR("\r\nsetConf "), 0x80);
+}
+
+void NotifyFailGetDevDescr(uint8_t reason) {
+        NotifyFailGetDevDescr();
+        NotifyFail(reason);
+}
+
+void NotifyFailSetDevTblEntry(uint8_t reason) {
+        NotifyFailSetDevTblEntry();
+        NotifyFail(reason);
+
+}
+
+void NotifyFailGetConfDescr(uint8_t reason) {
+        NotifyFailGetConfDescr();
+        NotifyFail(reason);
+}
+
+void NotifyFailSetConfDescr(uint8_t reason) {
+        NotifyFailSetConfDescr();
+        NotifyFail(reason);
 }
 
 void NotifyFailUnknownDevice(uint16_t VID, uint16_t PID) {
         Notify(PSTR("\r\nUnknown Device Connected - VID: "), 0x80);
-        PrintHex<uint16_t > (VID, 0x80);
+        D_PrintHex<uint16_t > (VID, 0x80);
         Notify(PSTR(" PID: "), 0x80);
-        PrintHex<uint16_t > (PID, 0x80);
+        D_PrintHex<uint16_t > (PID, 0x80);
 }
 
 void NotifyFail(uint8_t rcode) {
-        PrintHex<uint8_t > (rcode, 0x80);
+        D_PrintHex<uint8_t > (rcode, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 }
+#endif

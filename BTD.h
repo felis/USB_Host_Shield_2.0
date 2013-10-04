@@ -19,16 +19,18 @@
 #define _btd_h_
 
 #include "Usb.h"
-#include "confdescparser.h"
 
 //PID and VID of the Sony PS3 devices
-#define PS3_VID             0x054C  // Sony Corporation
-#define PS3_PID             0x0268  // PS3 Controller DualShock 3
-#define PS3NAVIGATION_PID   0x042F  // Navigation controller
-#define PS3MOVE_PID         0x03D5  // Motion controller
+#define PS3_VID                 0x054C  // Sony Corporation
+#define PS3_PID                 0x0268  // PS3 Controller DualShock 3
+#define PS3NAVIGATION_PID       0x042F  // Navigation controller
+#define PS3MOVE_PID             0x03D5  // Motion controller
+
+#define IOGEAR_GBU521_VID       0x0A5C // The IOGEAR GBU521 dongle does not presents itself correctly, so we have to check for it manually
+#define IOGEAR_GBU521_PID       0x21E8
 
 /* Bluetooth dongle data taken from descriptors */
-#define BULK_MAXPKTSIZE     64 // max size for ACL data
+#define BULK_MAXPKTSIZE         64 // max size for ACL data
 
 // Used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
@@ -129,7 +131,7 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMSERVICES     4 // Max number of Bluetooth services
+#define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than four simply increase this number
 
 /** All Bluetooth services should include this class. */
 class BluetoothService {
@@ -193,6 +195,23 @@ public:
          */
         virtual bool isReady() {
                 return bPollEnable;
+        };
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  klass The device's USB class.
+         * @return       Returns true if the device's USB class matches this driver.
+         */
+        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == USB_CLASS_WIRELESS_CTRL); }
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * Used to set the Bluetooth address into the PS3 controllers.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return ((vid == PS3_VID || vid == IOGEAR_GBU521_VID) && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID || pid == IOGEAR_GBU521_PID));
         };
         /**@}*/
 
@@ -450,7 +469,7 @@ private:
 
         uint8_t hcibuf[BULK_MAXPKTSIZE]; //General purpose buffer for hci data
         uint8_t l2capinbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap in data
-        uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap out data
+        uint8_t l2capoutbuf[14]; //General purpose buffer for l2cap out data
 
         /* State machines */
         void HCI_event_task(); // Poll the HCI event pipe

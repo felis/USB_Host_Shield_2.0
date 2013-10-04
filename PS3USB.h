@@ -18,12 +18,6 @@
 #ifndef _ps3usb_h_
 #define _ps3usb_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "PS3Enums.h"
 
@@ -103,6 +97,16 @@ public:
          */
         virtual bool isReady() {
                 return bPollEnable;
+        };
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID));
         };
         /**@}*/
 
@@ -224,6 +228,14 @@ public:
          * @param rumble The desired value in the range from 64-255.
          */
         void moveSetRumble(uint8_t rumble);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /** Variable used to indicate if the normal playstation controller is successfully connected. */
@@ -242,6 +254,14 @@ protected:
         EpInfo epInfo[PS3_MAX_ENDPOINTS];
 
 private:
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        void onInit();
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+
         bool bPollEnable;
 
         uint32_t timer; // used to continuously set PS3 Move controller Bulb and rumble values

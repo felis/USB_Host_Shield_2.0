@@ -16,7 +16,7 @@
  */
 
 #include "PS3USB.h"
-#define DEBUG // Uncomment to print data for debugging
+// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
@@ -58,7 +58,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         // check if address has already been assigned to an instance
         if (bAddress) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -68,14 +68,14 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p = addrPool.GetUsbDevicePtr(0);
 
         if (!p) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
 #endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
         if (!p->epinfo) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nepinfo is null"), 0x80);
 #endif
                 return USB_ERROR_EPINFO_IS_NULL;
@@ -118,16 +118,18 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-                PrintHex<uint8_t > (rcode, 0x80);
                 return rcode;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
-        PrintHex<uint8_t > (bAddress, 0x80);
+        D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
+        delay(300); // Spec says you should wait at least 200ms
+        
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -173,20 +175,17 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         if (PID == PS3_PID || PID == PS3NAVIGATION_PID) {
                 if (PID == PS3_PID) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nDualshock 3 Controller Connected"), 0x80);
 #endif
                         PS3Connected = true;
                 } else { // must be a navigation controller
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nNavigation Controller Connected"), 0x80);
 #endif
                         PS3NavigationConnected = true;
                 }
-                /* Set internal bluetooth address and request for data */
-                setBdaddr(my_bdaddr);
-                enable_sixaxis();
-                setLedOn(LED1);
+                enable_sixaxis(); // The PS3 controller needs a special command before it starts sending data
 
                 // Needed for PS3 Dualshock and Navigation commands to work
                 for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
@@ -195,24 +194,28 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 for (uint8_t i = 6; i < 10; i++)
                         readBuf[i] = 0x7F; // Set the analog joystick values to center position
         } else { // must be a Motion controller
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nMotion Controller Connected"), 0x80);
 #endif
                 PS3MoveConnected = true;
-                setMoveBdaddr(my_bdaddr); // Set internal bluetooth address
-                moveSetBulb(Red);
-
                 writeBuf[0] = 0x02; // Set report ID, this is needed for Move commands to work
         }
+        if (my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) {
+                if (PS3MoveConnected)
+                        setMoveBdaddr(my_bdaddr); // Set internal Bluetooth address
+                else
+                        setBdaddr(my_bdaddr); // Set internal Bluetooth address
 
-#ifdef DEBUG
-        Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
-        for (int8_t i = 5; i > 0; i--) {
-                PrintHex<uint8_t > (my_bdaddr[i], 0x80);
-                Notify(PSTR(":"), 0x80);
-        }
-        PrintHex<uint8_t > (my_bdaddr[0], 0x80);
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nBluetooth Address was set to: "), 0x80);
+                for (int8_t i = 5; i > 0; i--) {
+                        D_PrintHex<uint8_t > (my_bdaddr[i], 0x80);
+                        Notify(PSTR(":"), 0x80);
+                }
+                D_PrintHex<uint8_t > (my_bdaddr[0], 0x80);
 #endif
+        }
+        onInit();
 
         bPollEnable = true;
         Notify(PSTR("\r\n"), 0x80);
@@ -221,25 +224,32 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* diagnostic messages */
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
-
+#endif
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
+#endif
         goto Fail;
 FailUnknownDevice:
-        NotifyFailUnknownDevice(VID,PID);
-        rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-        Fail:
-
-#ifdef DEBUG
-        Notify(PSTR("\r\nPS3 Init Failed, error code: "), 0x80);
+#ifdef DEBUG_USB_HOST
+        NotifyFailUnknownDevice(VID, PID);
 #endif
+        rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+Fail:
+
+#ifdef DEBUG_USB_HOST
+        Notify(PSTR("\r\nPS3 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -298,7 +308,7 @@ void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the repo
         if (readBuf == NULL)
                 return;
         for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++) {
-                PrintHex<uint8_t > (readBuf[i], 0x80);
+                D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
         Notify(PSTR("\r\n"), 0x80);
@@ -427,7 +437,7 @@ void PS3USB::setRumbleOff() {
 
 void PS3USB::setRumbleOn(Rumble mode) {
         if ((mode & 0x30) > 0x00) {
-                uint8_t power[2] = { 0xff, 0x00 }; // Defaults to RumbleLow
+                uint8_t power[2] = {0xff, 0x00}; // Defaults to RumbleLow
                 if (mode == RumbleHigh) {
                         power[0] = 0x00;
                         power[1] = 0xff;
@@ -448,14 +458,17 @@ void PS3USB::setLedRaw(uint8_t value) {
         writeBuf[9] = value << 1;
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedOff(LED a) {
         writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedOn(LED a) {
         writeBuf[9] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
+
 void PS3USB::setLedToggle(LED a) {
         writeBuf[9] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
@@ -503,7 +516,7 @@ void PS3USB::moveSetBulb(Colors color) { //Use this to set the Color using the p
 }
 
 void PS3USB::moveSetRumble(uint8_t rumble) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         if (rumble < 64 && rumble != 0) // The rumble value has to at least 64, or approximately 25% (64/255*100)
                 Notify(PSTR("\r\nThe rumble value has to at least 64, or approximately 25%"), 0x80);
 #endif
@@ -527,4 +540,15 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
 
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
+}
+
+void PS3USB::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else {
+                if (PS3MoveConnected)
+                        moveSetBulb(Red);
+                else // Dualshock 3 or Navigation controller
+                        setLedOn(LED1);
+        }
 }

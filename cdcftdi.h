@@ -17,25 +17,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__CDCFTDI_H__)
 #define __CDCFTDI_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
 #include "Usb.h"
-
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-
-#include "confdescparser.h"
 
 #define bmREQ_FTDI_OUT  0x40
 #define bmREQ_FTDI_IN   0xc0

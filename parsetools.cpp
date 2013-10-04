@@ -14,7 +14,7 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#include "parsetools.h"
+#include "Usb.h"
 
 bool MultiByteValueParser::Parse(uint8_t **pp, uint16_t *pcntdn) {
         if (!pBuf) {

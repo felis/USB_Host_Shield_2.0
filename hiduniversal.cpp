@@ -147,6 +147,8 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return rcode;
         }
 
+				delay( 2 ); //per USB 2.0 sect.9.2.6.3 
+
         USBTRACE2("Addr:", bAddress);
 
         p->lowspeed = false;
@@ -221,27 +223,39 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 
 
 FailSetIdle:
+#ifdef DEBUG_USB_HOST
         USBTRACE("SetIdle:");
+#endif
 
 Fail:
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -362,7 +376,7 @@ uint8_t HIDUniversal::Poll() {
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
                         for (uint8_t i = 0; i < read; i++)
-                                PrintHex<uint8_t > (buf[i], 0x80);
+                                D_PrintHex<uint8_t > (buf[i], 0x80);
 
                         Notify(PSTR("\r\n"), 0x80);
 

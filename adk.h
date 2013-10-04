@@ -20,25 +20,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(_ADK_H_)
 #define _ADK_H_
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
 #include "Usb.h"
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-
-#include "confdescparser.h"
 
 #define ADK_VID   0x18D1
 #define ADK_PID   0x2D00
@@ -110,6 +92,7 @@ public:
 
 
         // USBDeviceConfig implementation
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
 
@@ -123,6 +106,10 @@ public:
 
         virtual bool isReady() {
                 return ready;
+        };
+
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == ADK_VID && (pid == ADK_PID || pid == ADB_PID));
         };
 
         //UsbConfigXtracter implementation

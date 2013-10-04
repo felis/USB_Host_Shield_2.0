@@ -14,13 +14,11 @@
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
 
- IR camera support added by:
- Allan Glover
- adglover9.81@gmail.com
+ IR camera support added by Allan Glover (adglover9.81@gmail.com) and Kristian Lauszus
  */
 
 #include "Wii.h"
-#define DEBUG // Uncomment to print data for debugging
+// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
 
@@ -109,7 +107,7 @@ void WII::Reset() {
         activateNunchuck = false;
         motionValuesReset = false;
         activeConnection = false;
-        pBtd->motionPlusInside = false;
+        motionPlusInside = false;
         pBtd->wiiUProController = false;
         wiiUProControllerConnected = false;
         l2cap_event_flag = 0; // Reset flags
@@ -117,13 +115,17 @@ void WII::Reset() {
 }
 
 void WII::disconnect() { // Use this void to disconnect any of the controllers
-        if (motionPlusConnected && !pBtd->motionPlusInside) { // Disable the Motion Plus extension
-#ifdef DEBUG
-                Notify(PSTR("\r\nDeactivating Motion Plus"), 0x80);
+        if (!motionPlusInside) { // The old Wiimote needs a delay after the first command or it will automatically reconnect
+                if (motionPlusConnected) {
+#ifdef DEBUG_USB_HOST
+                        Notify(PSTR("\r\nDeactivating Motion Plus"), 0x80);
 #endif
-                initExtension1(); // This will disable the Motion Plus extension
-        }
-        //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
+                        initExtension1(); // This will disable the Motion Plus extension
+                }
+                timer = millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
+        } else
+                timer = millis(); // Don't wait
+        // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
         pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
@@ -133,6 +135,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
         if (!pBtd->l2capConnectionClaimed && pBtd->incomingWii && !wiimoteConnected && !activeConnection) {
                 if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
+                                motionPlusInside = pBtd->motionPlusInside;
                                 pBtd->incomingWii = false;
                                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                                 activeConnection = true;
@@ -144,19 +147,19 @@ void WII::ACLData(uint8_t* l2capinbuf) {
         if ((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) { // acl_handle_ok or it's a new connection
                 if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[17], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[17], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[16], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[16], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
@@ -177,15 +180,15 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nL2CAP Connection Request - PSM: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
                                 Notify(PSTR(" SCID: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[15], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[15], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                 Notify(PSTR(" Identifier: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
 #endif
                                 if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
                                         identifier = l2capinbuf[9];
@@ -220,14 +223,14 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
                                 if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDisconnect Request: Control Channel"), 0x80);
 #endif
                                         identifier = l2capinbuf[9];
                                         pBtd->l2cap_disconnection_response(hci_handle, identifier, control_dcid, control_scid);
                                         Reset();
                                 } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDisconnect Request: Interrupt Channel"), 0x80);
 #endif
                                         identifier = l2capinbuf[9];
@@ -249,71 +252,73 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         else {
                                 identifier = l2capinbuf[9];
                                 Notify(PSTR("\r\nL2CAP Unknown Signaling Command: "), 0x80);
-                                PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
                         //Notify(PSTR("\r\nL2CAP Interrupt"), 0x80);
-                        if (wiimoteConnected) {
-                                if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
-                                        if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
-                                                if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33) // These reports have no extensions bytes
-                                                        ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
-                                                else if (wiiUProControllerConnected)
-                                                        ButtonState = (uint32_t)(((~l2capinbuf[23]) & 0xFE) | ((uint16_t)(~l2capinbuf[24]) << 8) | ((uint32_t)((~l2capinbuf[25]) & 0x03) << 16));
-                                                else if (motionPlusConnected) {
-                                                        if (l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
-                                                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
-                                                        else if (nunchuckConnected) // Update if it's a report from the Nunchuck
-                                                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
-                                                        //else if(classicControllerConnected) // Update if it's a report from the Classic Controller
-                                                } else if (nunchuckConnected) // The Nunchuck is directly connected
-                                                        ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x03) << 16));
-                                                        //else if(classicControllerConnected) // The Classic Controller is directly connected
-                                                else if (!unknownExtensionConnected)
-                                                        ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
+                        if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
+                                if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || (l2capinbuf[9] >= 0x30 && l2capinbuf[9] <= 0x37) || l2capinbuf[9] == 0x3e || l2capinbuf[9] == 0x3f) { // These reports include the buttons
+                                        if ((l2capinbuf[9] >= 0x20 && l2capinbuf[9] <= 0x22) || l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33) // These reports have no extensions bytes
+                                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
+                                        else if (wiiUProControllerConnected)
+                                                ButtonState = (uint32_t)(((~l2capinbuf[23]) & 0xFE) | ((uint16_t)(~l2capinbuf[24]) << 8) | ((uint32_t)((~l2capinbuf[25]) & 0x03) << 16));
+                                        else if (motionPlusConnected) {
+                                                if (l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
+                                                        ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
+                                                else if (nunchuckConnected) // Update if it's a report from the Nunchuck
+                                                        ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
+                                                //else if(classicControllerConnected) // Update if it's a report from the Classic Controller
+                                        } else if (nunchuckConnected) // The Nunchuck is directly connected
+                                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x03) << 16));
+                                                //else if(classicControllerConnected) // The Classic Controller is directly connected
+                                        else if (!unknownExtensionConnected)
+                                                ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8));
 #ifdef PRINTREPORT
-                                                Notify(PSTR("ButtonState: "), 0x80);
-                                                PrintHex<uint32_t > (ButtonState, 0x80);
-                                                Notify(PSTR("\r\n"), 0x80);
+                                        Notify(PSTR("ButtonState: "), 0x80);
+                                        D_PrintHex<uint32_t > (ButtonState, 0x80);
+                                        Notify(PSTR("\r\n"), 0x80);
 #endif
-                                                if (ButtonState != OldButtonState) {
-                                                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
-                                                        OldButtonState = ButtonState;
-                                                }
+                                        if (ButtonState != OldButtonState) {
+                                                ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+                                                OldButtonState = ButtonState;
                                         }
-                                        if (l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33 || l2capinbuf[9] == 0x35 || l2capinbuf[9] == 0x37) { // Read the accelerometer
-                                                accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5)) - 500;
-                                                accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4)) - 500;
-                                                accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5)) - 500;
-                                                wiimotePitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                                wiimoteRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
-                                        }
-                                        switch (l2capinbuf[9]) {
-                                                case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
-                                                        wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
-                                                        batteryLevel = l2capinbuf[15]; // Update battery level
-                                                        if (l2capinbuf[12] & 0x01) {
-#ifdef DEBUG
-                                                                Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
+                                }
+                                if (l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33 || l2capinbuf[9] == 0x35 || l2capinbuf[9] == 0x37) { // Read the accelerometer
+                                        accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5)) - 500;
+                                        accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4)) - 500;
+                                        accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5)) - 500;
+                                        wiimotePitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
+                                        wiimoteRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
+                                }
+                                switch (l2capinbuf[9]) {
+                                        case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
+#ifdef EXTRADEBUG
+                                                Notify(PSTR("\r\nStatus report was received"), 0x80);
 #endif
-                                                        }
+                                                wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
+                                                batteryLevel = l2capinbuf[15]; // Update battery level
+#ifdef DEBUG_USB_HOST
+                                                if (l2capinbuf[12] & 0x01)
+                                                        Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
+#endif
+                                                if (checkExtension) { // If this is false it means that the user must have called getBatteryLevel()
                                                         if (l2capinbuf[12] & 0x02) { // Check if a extension is connected
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                                 if (!unknownExtensionConnected)
                                                                         Notify(PSTR("\r\nExtension connected"), 0x80);
 #endif
                                                                 unknownExtensionConnected = true;
 #ifdef WIICAMERA
-                                                                if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+                                                        if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
 #endif
-                                                                        setReportMode(false, 0x35); // Also read the extension
+                                                                setReportMode(false, 0x35); // Also read the extension
                                                         } else {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nExtension disconnected"), 0x80);
 #endif
                                                                 if (motionPlusConnected) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR(" - from Motion Plus"), 0x80);
 #endif
                                                                         l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
@@ -321,256 +326,264 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                                 nunchuckConnected = false;
                                                                         //else if(classicControllerConnected)
                                                                 } else if (nunchuckConnected) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR(" - Nunchuck"), 0x80);
 #endif
                                                                         nunchuckConnected = false; // It must be the Nunchuck controller then
                                                                         l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
-                                                                        setLedStatus();
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
-                                                                } else {
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the button and accelerometer
+                                                                        onInit();
+                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                } else
+                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                        }
+                                                } else
+                                                        checkExtension = true; // Check for extensions by default
+                                                break;
+                                        case 0x21: // Read Memory Data
+                                                if ((l2capinbuf[12] & 0x0F) == 0) { // No error
+                                                        // See: http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+                                                        if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nNunchuck connected"), 0x80);
+#endif
+                                                                l2cap_event_flag |= WII_FLAG_NUNCHUCK_CONNECTED;
+                                                        } else if (l2capinbuf[16] == 0x00 && (l2capinbuf[17] == 0xA6 || l2capinbuf[17] == 0xA4) && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x05) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nMotion Plus connected"), 0x80);
+#endif
+                                                                l2cap_event_flag |= WII_FLAG_MOTION_PLUS_CONNECTED;
+                                                        } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x05) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nMotion Plus activated in normal mode"), 0x80);
+#endif
+                                                                motionPlusConnected = true;
+#ifdef WIICAMERA
+                                                                if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+#endif
+                                                                        setReportMode(false, 0x35); // Also read the extension
+                                                        } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nMotion Plus activated in Nunchuck pass-through mode"), 0x80);
+#endif
+                                                                activateNunchuck = false;
+                                                                motionPlusConnected = true;
+                                                                nunchuckConnected = true;
+#ifdef WIICAMERA
+                                                                if (!isIRCameraEnabled()) // Don't activate the Motion Plus if we are trying to initialize the IR camera
+#endif
+                                                                        setReportMode(false, 0x35); // Also read the extension
+                                                        } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nInactive Wii Motion Plus"), 0x80);
+                                                                Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"), 0x80);
+#endif
+                                                                stateCounter = 300; // Skip the rest in "L2CAP_CHECK_MOTION_PLUS_STATE"
+                                                        } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x01 && l2capinbuf[20] == 0x20) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWii U Pro Controller connected"), 0x80);
+#endif
+                                                                wiiUProControllerConnected = true;
+                                                        }
+#ifdef DEBUG_USB_HOST
+                                                        else {
+                                                                Notify(PSTR("\r\nUnknown Device: "), 0x80);
+                                                                D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                                                D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                                                Notify(PSTR("\r\nData: "), 0x80);
+                                                                for (uint8_t i = 0; i < ((l2capinbuf[12] >> 4) + 1); i++) { // bit 4-7 is the length-1
+                                                                        D_PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
+                                                                        Notify(PSTR(" "), 0x80);
                                                                 }
                                                         }
-                                                        break;
-                                                case 0x21: // Read Memory Data
-                                                        if ((l2capinbuf[12] & 0x0F) == 0) { // No error
-                                                                // See: http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-                                                                if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nNunchuck connected"), 0x80);
 #endif
-                                                                        l2cap_event_flag |= WII_FLAG_NUNCHUCK_CONNECTED;
-                                                                } else if (l2capinbuf[16] == 0x00 && (l2capinbuf[17] == 0xA6 || l2capinbuf[17] == 0xA4) && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x05) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nMotion Plus connected"), 0x80);
+                                                }
+#ifdef EXTRADEBUG
+                                                else {
+                                                        Notify(PSTR("\r\nReport Error: "), 0x80);
+                                                        D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
+                                                        D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
+                                                }
 #endif
-                                                                        l2cap_event_flag |= WII_FLAG_MOTION_PLUS_CONNECTED;
-                                                                } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x05) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nMotion Plus activated in normal mode"), 0x80);
+                                                break;
+                                        case 0x22: // Acknowledge output report, return function result
+#ifdef DEBUG_USB_HOST
+                                                if (l2capinbuf[13] != 0x00) { // Check if there is an error
+                                                        Notify(PSTR("\r\nCommand failed: "), 0x80);
+                                                        D_PrintHex<uint8_t > (l2capinbuf[12], 0x80);
+                                                }
 #endif
-                                                                        motionPlusConnected = true;
-                                                                } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x05 && l2capinbuf[20] == 0x05) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nMotion Plus activated in Nunchuck pass-through mode"), 0x80);
+                                                break;
+                                        case 0x30: // Core buttons - (a1) 30 BB BB
+                                                break;
+                                        case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
+                                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
+                                                roll = wiimoteRoll;
+                                                break;
+                                        case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+                                                break;
+                                        case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
+                                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
+                                                roll = wiimoteRoll;
+#ifdef WIICAMERA
+                                                // Read the IR data
+                                                IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
+                                                IR_object_y1 = (l2capinbuf[16] | ((uint16_t)(l2capinbuf[17] & 0xC0) << 2)); // y position
+                                                IR_object_s1 = (l2capinbuf[17] & 0x0F); // size value, 0-15
+
+                                                IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
+                                                IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
+                                                IR_object_s2 = (l2capinbuf[20] & 0x0F);
+
+                                                IR_object_x3 = (l2capinbuf[21] | ((uint16_t)(l2capinbuf[23] & 0x30) << 4));
+                                                IR_object_y3 = (l2capinbuf[22] | ((uint16_t)(l2capinbuf[23] & 0xC0) << 2));
+                                                IR_object_s3 = (l2capinbuf[23] & 0x0F);
+
+                                                IR_object_x4 = (l2capinbuf[24] | ((uint16_t)(l2capinbuf[26] & 0x30) << 4));
+                                                IR_object_y4 = (l2capinbuf[25] | ((uint16_t)(l2capinbuf[26] & 0xC0) << 2));
+                                                IR_object_s4 = (l2capinbuf[26] & 0x0F);
 #endif
-                                                                        activateNunchuck = false;
-                                                                        motionPlusConnected = true;
-                                                                        nunchuckConnected = true;
-                                                                } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA6 && l2capinbuf[18] == 0x20 && (l2capinbuf[19] == 0x00 || l2capinbuf[19] == 0x04 || l2capinbuf[19] == 0x05 || l2capinbuf[19] == 0x07) && l2capinbuf[20] == 0x05) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nInactive Wii Motion Plus"), 0x80);
-                                                                        Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"), 0x80);
+                                                break;
+                                        case 0x34: // Core Buttons with 19 Extension bytes - (a1) 34 BB BB EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                                                break;
+                                                /* 0x3e and 0x3f both give unknown report types when report mode is 0x3e or 0x3f with mode number 0x05 */
+                                        case 0x3E: // Core Buttons with Accelerometer and 32 IR bytes
+                                                // (a1) 31 BB BB AA AA AA II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II
+                                                // corresponds to output report mode 0x3e
+
+                                                /**** for reading in full mode: DOES NOT WORK YET ****/
+                                                /* When it works it will also have intensity and bounding box data */
+                                                /*
+                                                IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
+                                                IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
+                                                IR_object_s1 = (l2capinbuf[15] & 0x0F);
+                                                 */
+                                                break;
+                                        case 0x3F:
+                                                /*
+                                                IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
+                                                IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
+                                                IR_object_s1 = (l2capinbuf[15] & 0x0F);
+                                                 */
+                                                break;
+                                        case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
+                                                // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+                                                if (motionPlusConnected) {
+                                                        if (l2capinbuf[20] & 0x02) { // Check if it's a report from the Motion controller or the extension
+                                                                if (motionValuesReset) { // We will only use the values when the gyro value has been set
+                                                                        gyroYawRaw = ((l2capinbuf[15] | ((l2capinbuf[18] & 0xFC) << 6)) - gyroYawZero);
+                                                                        gyroRollRaw = ((l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6)) - gyroRollZero);
+                                                                        gyroPitchRaw = ((l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6)) - gyroPitchZero);
+
+                                                                        yawGyroSpeed = (double)gyroYawRaw / ((double)gyroYawZero / yawGyroScale);
+                                                                        rollGyroSpeed = -(double)gyroRollRaw / ((double)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
+                                                                        pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
+
+                                                                        /* The onboard gyro has two ranges for slow and fast mode */
+                                                                        if (!(l2capinbuf[18] & 0x02)) // Check if fast more is used
+                                                                                yawGyroSpeed *= 4.545;
+                                                                        if (!(l2capinbuf[18] & 0x01)) // Check if fast more is used
+                                                                                pitchGyroSpeed *= 4.545;
+                                                                        if (!(l2capinbuf[19] & 0x02)) // Check if fast more is used
+                                                                                rollGyroSpeed *= 4.545;
+
+                                                                        pitch = (0.93 * (pitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimotePitch); // Use a complimentary filter to calculate the angle
+                                                                        roll = (0.93 * (roll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimoteRoll);
+
+                                                                        gyroYaw += (yawGyroSpeed * ((double)(micros() - timer) / 1000000));
+                                                                        gyroRoll += (rollGyroSpeed * ((double)(micros() - timer) / 1000000));
+                                                                        gyroPitch += (pitchGyroSpeed * ((double)(micros() - timer) / 1000000));
+                                                                        timer = micros();
+                                                                        /*
+                                                                        // Uncomment these lines to tune the gyro scale variabels
+                                                                        Notify(PSTR("\r\ngyroYaw: "), 0x80);
+                                                                        Notify(gyroYaw, 0x80);
+                                                                        Notify(PSTR("\tgyroRoll: "), 0x80);
+                                                                        Notify(gyroRoll, 0x80);
+                                                                        Notify(PSTR("\tgyroPitch: "), 0x80);
+                                                                        Notify(gyroPitch, 0x80);
+                                                                        */
+                                                                        /*
+                                                                        Notify(PSTR("\twiimoteRoll: "), 0x80);
+                                                                        Notify(wiimoteRoll, 0x80);
+                                                                        Notify(PSTR("\twiimotePitch: "), 0x80);
+                                                                        Notify(wiimotePitch, 0x80);
+                                                                        */
+                                                                } else {
+                                                                        if ((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
+#ifdef DEBUG_USB_HOST
+                                                                                Notify(PSTR("\r\nThe gyro values has been reset"), 0x80);
 #endif
-                                                                        stateCounter = 300; // Skip the rest in "L2CAP_CHECK_MOTION_PLUS_STATE"
-                                                                } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x01 && l2capinbuf[20] == 0x20) {
-#ifdef DEBUG
-                                                                        Notify(PSTR("\r\nWii U Pro Controller connected"), 0x80);
-#endif
-                                                                        wiiUProControllerConnected = true;
-                                                                }
-#ifdef DEBUG
-                                                                else {
-                                                                        Notify(PSTR("\r\nUnknown Device: "), 0x80);
-                                                                        PrintHex<uint8_t > (l2capinbuf[13], 0x80);
-                                                                        PrintHex<uint8_t > (l2capinbuf[14], 0x80);
-                                                                        Notify(PSTR("\r\nData: "), 0x80);
-                                                                        for (uint8_t i = 0; i < ((l2capinbuf[12] >> 4) + 1); i++) { // bit 4-7 is the length-1
-                                                                                PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
-                                                                                Notify(PSTR(" "), 0x80);
+                                                                                gyroYawZero = (l2capinbuf[15] | ((l2capinbuf[18] & 0xFC) << 6));
+                                                                                gyroRollZero = (l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6));
+                                                                                gyroPitchZero = (l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6));
+
+                                                                                rollGyroScale = 500; // You might need to adjust these
+                                                                                pitchGyroScale = 400;
+                                                                                yawGyroScale = 415;
+
+                                                                                gyroYaw = 0;
+                                                                                gyroRoll = 0;
+                                                                                gyroPitch = 0;
+
+                                                                                motionValuesReset = true;
+                                                                                timer = micros();
                                                                         }
                                                                 }
-#endif
+                                                        } else {
+                                                                if (nunchuckConnected) {
+                                                                        hatValues[HatX] = l2capinbuf[15];
+                                                                        hatValues[HatY] = l2capinbuf[16];
+                                                                        accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x10 >> 3)) - 416;
+                                                                        accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x20 >> 4)) - 416;
+                                                                        accZ = (((l2capinbuf[19] & 0xFE) << 2) | (l2capinbuf[20] & 0xC0 >> 5)) - 416;
+                                                                        nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
+                                                                        nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
+                                                                }
+                                                                //else if(classicControllerConnected) { }
                                                         }
-#ifdef EXTRADEBUG
-                                                        else {
-                                                                Notify(PSTR("\r\nReport Error: "), 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[13], 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[14], 0x80);
-                                                        }
+                                                        if (l2capinbuf[19] & 0x01) {
+                                                                if (!extensionConnected) {
+                                                                        extensionConnected = true;
+                                                                        unknownExtensionConnected = true;
+#ifdef DEBUG_USB_HOST
+                                                                        Notify(PSTR("\r\nExtension connected to Motion Plus"), 0x80);
 #endif
-                                                        break;
-                                                case 0x22: // Acknowledge output report, return function result
-#ifdef DEBUG
-                                                        if (l2capinbuf[13] != 0x00) { // Check if there is an error
-                                                                Notify(PSTR("\r\nCommand failed: "), 0x80);
-                                                                PrintHex<uint8_t > (l2capinbuf[12], 0x80);
-                                                        }
+                                                                }
+                                                        } else {
+                                                                if (extensionConnected && !unknownExtensionConnected) {
+                                                                        extensionConnected = false;
+                                                                        unknownExtensionConnected = true;
+#ifdef DEBUG_USB_HOST
+                                                                        Notify(PSTR("\r\nExtension disconnected from Motion Plus"), 0x80);
 #endif
-                                                        break;
-                                                case 0x30: // Core buttons - (a1) 30 BB BB
-                                                        break;
-                                                case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
+                                                                        nunchuckConnected = false; // There is no extension connected to the Motion Plus if this report is sent
+                                                                }
+                                                        }
+
+                                                } else if (nunchuckConnected) {
+                                                        hatValues[HatX] = l2capinbuf[15];
+                                                        hatValues[HatY] = l2capinbuf[16];
+                                                        accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x0C >> 2)) - 416;
+                                                        accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x30 >> 4)) - 416;
+                                                        accZ = ((l2capinbuf[19] << 2) | (l2capinbuf[20] & 0xC0 >> 6)) - 416;
+                                                        nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
+                                                        nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
+
                                                         pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
                                                         roll = wiimoteRoll;
-                                                        break;
-                                                case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
-                                                        break;
-                                                case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
-                                                        pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
-                                                        roll = wiimoteRoll;
-#ifdef WIICAMERA
-                                                        // Read the IR data
-                                                        IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
-                                                        IR_object_y1 = (l2capinbuf[16] | ((uint16_t)(l2capinbuf[17] & 0xC0) << 2)); // y position
-                                                        IR_object_s1 = (l2capinbuf[17] & 0x0F); // size value, 0-15
-
-                                                        IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
-                                                        IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
-                                                        IR_object_s2 = (l2capinbuf[20] & 0x0F);
-
-                                                        IR_object_x3 = (l2capinbuf[21] | ((uint16_t)(l2capinbuf[23] & 0x30) << 4));
-                                                        IR_object_y3 = (l2capinbuf[22] | ((uint16_t)(l2capinbuf[23] & 0xC0) << 2));
-                                                        IR_object_s3 = (l2capinbuf[23] & 0x0F);
-
-                                                        IR_object_x4 = (l2capinbuf[24] | ((uint16_t)(l2capinbuf[26] & 0x30) << 4));
-                                                        IR_object_y4 = (l2capinbuf[25] | ((uint16_t)(l2capinbuf[26] & 0xC0) << 2));
-                                                        IR_object_s4 = (l2capinbuf[26] & 0x0F);
+                                                } else if (wiiUProControllerConnected) {
+                                                        hatValues[LeftHatX] = (l2capinbuf[15] | l2capinbuf[16] << 8);
+                                                        hatValues[RightHatX] = (l2capinbuf[17] | l2capinbuf[18] << 8);
+                                                        hatValues[LeftHatY] = (l2capinbuf[19] | l2capinbuf[20] << 8);
+                                                        hatValues[RightHatY] = (l2capinbuf[21] | l2capinbuf[22] << 8);
+                                                }
+                                                break;
+#ifdef DEBUG_USB_HOST
+                                        default:
+                                                Notify(PSTR("\r\nUnknown Report type: "), 0x80);
+                                                D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
+                                                break;
 #endif
-                                                        break;
-                                                case 0x34: // Core Buttons with 19 Extension bytes - (a1) 34 BB BB EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
-                                                        break;
-                                                        /* 0x3e and 0x3f both give unknown report types when report mode is 0x3e or 0x3f with mode number 0x05 */
-                                                case 0x3E: // Core Buttons with Accelerometer and 32 IR bytes
-                                                        // (a1) 31 BB BB AA AA AA II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II II
-                                                        // corresponds to output report mode 0x3e
-
-                                                        /**** for reading in full mode: DOES NOT WORK YET ****/
-                                                        /* When it works it will also have intensity and bounding box data */
-                                                        /*
-                                                        IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
-                                                        IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
-                                                        IR_object_s1 = (l2capinbuf[15] & 0x0F);
-                                                         */
-                                                        break;
-                                                case 0x3F:
-                                                        /*
-                                                        IR_object_x1 = (l2capinbuf[13] | ((uint16_t)(l2capinbuf[15] & 0x30) << 4));
-                                                        IR_object_y1 = (l2capinbuf[14] | ((uint16_t)(l2capinbuf[15] & 0xC0) << 2));
-                                                        IR_object_s1 = (l2capinbuf[15] & 0x0F);
-                                                         */
-                                                        break;
-                                                case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
-                                                        // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
-                                                        if (motionPlusConnected) {
-                                                                if (l2capinbuf[20] & 0x02) { // Check if it's a report from the Motion controller or the extension
-                                                                        if (motionValuesReset) { // We will only use the values when the gyro value has been set
-                                                                                gyroYawRaw = ((l2capinbuf[15] | ((l2capinbuf[18] & 0xFC) << 6)) - gyroYawZero);
-                                                                                gyroRollRaw = ((l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6)) - gyroRollZero);
-                                                                                gyroPitchRaw = ((l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6)) - gyroPitchZero);
-
-                                                                                yawGyroSpeed = (double)gyroYawRaw / ((double)gyroYawZero / yawGyroScale);
-                                                                                rollGyroSpeed = -(double)gyroRollRaw / ((double)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
-                                                                                pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
-
-                                                                                /* The onboard gyro has two ranges for slow and fast mode */
-                                                                                if (!(l2capinbuf[18] & 0x02)) // Check if fast more is used
-                                                                                        yawGyroSpeed *= 4.545;
-                                                                                if (!(l2capinbuf[18] & 0x01)) // Check if fast more is used
-                                                                                        pitchGyroSpeed *= 4.545;
-                                                                                if (!(l2capinbuf[19] & 0x02)) // Check if fast more is used
-                                                                                        rollGyroSpeed *= 4.545;
-
-                                                                                pitch = (0.93 * (pitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimotePitch); // Use a complimentary filter to calculate the angle
-                                                                                roll = (0.93 * (roll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimoteRoll);
-
-                                                                                gyroYaw += (yawGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                                gyroRoll += (rollGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                                gyroPitch += (pitchGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                                timer = micros();
-                                                                                /*
-                                                                                // Uncomment these lines to tune the gyro scale variabels
-                                                                                Notify(PSTR("\r\ngyroYaw: "), 0x80);
-                                                                                Notify(gyroYaw, 0x80);
-                                                                                Notify(PSTR("\tgyroRoll: "), 0x80);
-                                                                                Notify(gyroRoll, 0x80);
-                                                                                Notify(PSTR("\tgyroPitch: "), 0x80);
-                                                                                Notify(gyroPitch, 0x80);
-                                                                                */
-                                                                                /*
-                                                                                Notify(PSTR("\twiimoteRoll: "), 0x80);
-                                                                                Notify(wiimoteRoll, 0x80);
-                                                                                Notify(PSTR("\twiimotePitch: "), 0x80);
-                                                                                Notify(wiimotePitch, 0x80);
-                                                                                */
-                                                                        } else {
-                                                                                if ((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
-#ifdef DEBUG
-                                                                                        Notify(PSTR("\r\nThe gyro values has been reset"), 0x80);
-#endif
-                                                                                        gyroYawZero = (l2capinbuf[15] | ((l2capinbuf[18] & 0xFC) << 6));
-                                                                                        gyroRollZero = (l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6));
-                                                                                        gyroPitchZero = (l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6));
-
-                                                                                        rollGyroScale = 500; // You might need to adjust these
-                                                                                        pitchGyroScale = 400;
-                                                                                        yawGyroScale = 415;
-
-                                                                                        gyroYaw = 0;
-                                                                                        gyroRoll = 0;
-                                                                                        gyroPitch = 0;
-
-                                                                                        motionValuesReset = true;
-                                                                                        timer = micros();
-                                                                                }
-                                                                        }
-                                                                } else {
-                                                                        if (nunchuckConnected) {
-                                                                                hatValues[HatX] = l2capinbuf[15];
-                                                                                hatValues[HatY] = l2capinbuf[16];
-                                                                                accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x10 >> 3)) - 416;
-                                                                                accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x20 >> 4)) - 416;
-                                                                                accZ = (((l2capinbuf[19] & 0xFE) << 2) | (l2capinbuf[20] & 0xC0 >> 5)) - 416;
-                                                                                nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                                                                nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
-                                                                        }
-                                                                        //else if(classicControllerConnected) { }
-                                                                }
-                                                                if (l2capinbuf[19] & 0x01) {
-                                                                        if (!extensionConnected) {
-                                                                                extensionConnected = true;
-                                                                                unknownExtensionConnected = true;
-#ifdef DEBUG
-                                                                                Notify(PSTR("\r\nExtension connected to Motion Plus"), 0x80);
-#endif
-                                                                        }
-                                                                } else {
-                                                                        if (extensionConnected && !unknownExtensionConnected) {
-                                                                                extensionConnected = false;
-                                                                                unknownExtensionConnected = true;
-#ifdef DEBUG
-                                                                                Notify(PSTR("\r\nExtension disconnected from Motion Plus"), 0x80);
-#endif
-                                                                                nunchuckConnected = false; // There is no extension connected to the Motion Plus if this report is sent
-                                                                        }
-                                                                }
-
-                                                        } else if (nunchuckConnected) {
-                                                                hatValues[HatX] = l2capinbuf[15];
-                                                                hatValues[HatY] = l2capinbuf[16];
-                                                                accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x0C >> 2)) - 416;
-                                                                accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x30 >> 4)) - 416;
-                                                                accZ = ((l2capinbuf[19] << 2) | (l2capinbuf[20] & 0xC0 >> 6)) - 416;
-                                                                nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                                                nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
-
-                                                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
-                                                                roll = wiimoteRoll;
-                                                        } else if (wiiUProControllerConnected) {
-                                                                hatValues[LeftHatX] = (l2capinbuf[15] | l2capinbuf[16] << 8);
-                                                                hatValues[RightHatX] = (l2capinbuf[17] | l2capinbuf[18] << 8);
-                                                                hatValues[LeftHatY] = (l2capinbuf[19] | l2capinbuf[20] << 8);
-                                                                hatValues[RightHatY] = (l2capinbuf[21] | l2capinbuf[22] << 8);
-                                                        }
-                                                        break;
-#ifdef DEBUG
-                                                default:
-                                                        Notify(PSTR("\r\nUnknown Report type: "), 0x80);
-                                                        PrintHex<uint8_t > (l2capinbuf[9], 0x80);
-                                                        break;
-#endif
-                                        }
                                 }
                         }
                 }
@@ -583,7 +596,7 @@ void WII::L2CAP_task() {
                         /* These states are used if the Wiimote is the host */
                 case L2CAP_CONTROL_SUCCESS:
                         if (l2cap_config_success_control_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Successfully Configured"), 0x80);
 #endif
                                 l2cap_state = L2CAP_INTERRUPT_SETUP;
@@ -592,7 +605,7 @@ void WII::L2CAP_task() {
 
                 case L2CAP_INTERRUPT_SETUP:
                         if (l2cap_connection_request_interrupt_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Incoming Connection Request"), 0x80);
 #endif
                                 pBtd->l2cap_connection_response(hci_handle, identifier, interrupt_dcid, interrupt_scid, PENDING);
@@ -609,7 +622,7 @@ void WII::L2CAP_task() {
                         /* These states are used if the Arduino is the host */
                 case L2CAP_CONTROL_CONNECT_REQUEST:
                         if (l2cap_connected_control_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Control Config Request"), 0x80);
 #endif
                                 identifier++;
@@ -620,7 +633,7 @@ void WII::L2CAP_task() {
 
                 case L2CAP_CONTROL_CONFIG_REQUEST:
                         if (l2cap_config_success_control_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Interrupt Connection Request"), 0x80);
 #endif
                                 identifier++;
@@ -631,7 +644,7 @@ void WII::L2CAP_task() {
 
                 case L2CAP_INTERRUPT_CONNECT_REQUEST:
                         if (l2cap_connected_interrupt_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Interrupt Config Request"), 0x80);
 #endif
                                 identifier++;
@@ -642,12 +655,11 @@ void WII::L2CAP_task() {
 
                 case L2CAP_INTERRUPT_CONFIG_REQUEST:
                         if (l2cap_config_success_interrupt_flag) { // Now the HID channels is established
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Channels Established"), 0x80);
 #endif
                                 pBtd->connectToWii = false;
                                 pBtd->pairWithWii = false;
-                                wiimoteConnected = true;
                                 stateCounter = 0;
                                 l2cap_state = L2CAP_CHECK_MOTION_PLUS_STATE;
                         }
@@ -656,8 +668,8 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if (l2cap_disconnect_response_interrupt_flag) {
-#ifdef DEBUG
+                        if (l2cap_disconnect_response_interrupt_flag && millis() > timer) {
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
                                 identifier++;
@@ -668,7 +680,7 @@ void WII::L2CAP_task() {
 
                 case L2CAP_CONTROL_DISCONNECT:
                         if (l2cap_disconnect_response_control_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Control Channel"), 0x80);
 #endif
                                 pBtd->hci_disconnect(hci_handle);
@@ -681,12 +693,16 @@ void WII::L2CAP_task() {
 }
 
 void WII::Run() {
+        if (l2cap_state == L2CAP_INTERRUPT_DISCONNECT && millis() > timer)
+                L2CAP_task(); // Call the rest of the disconnection routine after we have waited long enough
+
         switch (l2cap_state) {
                 case L2CAP_WAIT:
                         if (pBtd->connectToWii && !pBtd->l2capConnectionClaimed && !wiimoteConnected && !activeConnection) {
                                 pBtd->l2capConnectionClaimed = true;
                                 activeConnection = true;
-#ifdef DEBUG
+                                motionPlusInside = pBtd->motionPlusInside;
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Control Connection Request"), 0x80);
 #endif
                                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
@@ -695,7 +711,7 @@ void WII::Run() {
                                 pBtd->l2cap_connection_request(hci_handle, identifier, control_dcid, HID_CTRL_PSM);
                                 l2cap_state = L2CAP_CONTROL_CONNECT_REQUEST;
                         } else if (l2cap_connection_request_control_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Incoming Connection Request"), 0x80);
 #endif
                                 pBtd->l2cap_connection_response(hci_handle, identifier, control_dcid, control_scid, PENDING);
@@ -709,7 +725,7 @@ void WII::Run() {
                         break;
 
                 case L2CAP_CHECK_MOTION_PLUS_STATE:
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                         if (stateCounter == 0) // Only print onnce
                                 Notify(PSTR("\r\nChecking if a Motion Plus is connected"), 0x80);
 #endif
@@ -722,14 +738,14 @@ void WII::Run() {
                                 timer = micros();
 
                                 if (unknownExtensionConnected) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nA extension is also connected"), 0x80);
 #endif
                                         activateNunchuck = true; // For we will just set this to true as this the only extension supported so far
                                 }
 
                         } else if (stateCounter == 601) { // We will try three times to check for the motion plus
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nNo Motion Plus was detected"), 0x80);
 #endif
                                 stateCounter = 0;
@@ -738,7 +754,7 @@ void WII::Run() {
                         break;
 
                 case L2CAP_CHECK_EXTENSION_STATE: // This is used to check if there is anything plugged in to the extension port
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                         if (stateCounter == 0) // Only print onnce
                                 Notify(PSTR("\r\nChecking if there is any extension connected"), 0x80);
 #endif
@@ -779,13 +795,14 @@ void WII::Run() {
                 case L2CAP_LED_STATE:
                         if (nunchuck_connected_flag)
                                 nunchuckConnected = true;
-                        setLedStatus();
+                        wiimoteConnected = true;
+                        onInit();
                         l2cap_state = L2CAP_DONE;
                         break;
 
                 case L2CAP_DONE:
                         if (unknownExtensionConnected) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                 if (stateCounter == 0) // Only print once
                                         Notify(PSTR("\r\nChecking extension port"), 0x80);
 #endif
@@ -803,7 +820,7 @@ void WII::Run() {
                                         readExtensionType();
                                 else if (stateCounter == 250) {
                                         if (nunchuck_connected_flag) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nNunchuck was reconnected"), 0x80);
 #endif
                                                 activateNunchuck = true;
@@ -813,7 +830,7 @@ void WII::Run() {
                                                 stateCounter = 449;
                                 } else if (stateCounter == 300) {
                                         if (motionPlusConnected) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nReactivating the Motion Plus"), 0x80);
 #endif
                                                 initMotionPlus();
@@ -824,7 +841,7 @@ void WII::Run() {
                                 else if (stateCounter == 400)
                                         readExtensionType(); // Check if it has been activated
                                 else if (stateCounter == 450) {
-                                        //setLedStatus();
+                                        onInit();
                                         stateCounter = 0;
                                         unknownExtensionConnected = false;
                                 }
@@ -839,7 +856,7 @@ void WII::Run() {
 
 /************************************************************/
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
-        if (pBtd->motionPlusInside)
+        if (motionPlusInside)
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new wiimote with the Motion Plus Inside
         else
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
@@ -905,6 +922,12 @@ void WII::setLedStatus() {
         HID_Command(HIDBuffer, 3);
 }
 
+uint8_t WII::getBatteryLevel() {
+        checkExtension = false; // This is needed so the library knows that the status response is a response to this function
+        statusRequest(); // This will update the battery level
+        return batteryLevel;
+};
+
 void WII::setReportMode(bool continuous, uint8_t mode) {
         uint8_t cmd_buf[4];
         cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
@@ -967,19 +990,19 @@ void WII::initMotionPlus() {
 void WII::activateMotionPlus() {
         uint8_t buf[1];
         if (pBtd->wiiUProController) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nActivating Wii U Pro Controller"), 0x80);
 #endif
                 buf[0] = 0x00; // It seems like you can send anything but 0x04, 0x05, and 0x07
         } else if (activateNunchuck) {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nActivating Motion Plus in pass-through mode"), 0x80);
 #endif
                 buf[0] = 0x05; // Activate nunchuck pass-through mode
         }                //else if(classicControllerConnected && extensionConnected)
                 //buf[0] = 0x07;
         else {
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nActivating Motion Plus in normal mode"), 0x80);
 #endif
                 buf[0] = 0x04; // Don't use any extension
@@ -1062,6 +1085,14 @@ uint16_t WII::getAnalogHat(AnalogHat a) {
                         return output;
         }
 }
+
+void WII::onInit() {
+        if (pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+        else
+                setLedStatus();
+}
+
 /************************************************************/
 /*       The following functions are for the IR camera      */
 /************************************************************/
@@ -1071,58 +1102,58 @@ uint16_t WII::getAnalogHat(AnalogHat a) {
 void WII::IRinitialize() { // Turns on and initialises the IR camera
 
         enableIRCamera1();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nEnable IR Camera1 Complete"), 0x80);
 #endif
         delay(80);
 
         enableIRCamera2();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nEnable IR Camera2 Complete"), 0x80);
 #endif
         delay(80);
 
         write0x08Value();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nWrote hex number 0x08"), 0x80);
 #endif
         delay(80);
 
         writeSensitivityBlock1();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nWrote Sensitivity Block 1"), 0x80);
 #endif
         delay(80);
 
         writeSensitivityBlock2();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nWrote Sensitivity Block 2"), 0x80);
 #endif
         delay(80);
 
         uint8_t mode_num = 0x03;
         setWiiModeNumber(mode_num); // Change input for whatever mode you want i.e. 0x01, 0x03, or 0x05
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nSet Wii Mode Number To 0x"), 0x80);
-        PrintHex<uint8_t > (mode_num, 0x80);
+        D_PrintHex<uint8_t > (mode_num, 0x80);
 #endif
         delay(80);
 
         write0x08Value();
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nWrote Hex Number 0x08"), 0x80);
 #endif
         delay(80);
 
         setReportMode(false, 0x33);
         //setReportMode(false, 0x3f); // For full reporting mode, doesn't work yet
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nSet Report Mode to 0x33"), 0x80);
 #endif
         delay(80);
 
         statusRequest(); // Used to update wiiState - call isIRCameraEnabled() afterwards to check if it actually worked
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nIR Initialized"), 0x80);
 #endif
 }

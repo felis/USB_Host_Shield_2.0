@@ -178,26 +178,38 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
+#endif
 
 FailOnInit:
+#ifdef DEBUG_USB_HOST
         USBTRACE("OnInit:");
+#endif
 
 Fail:
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
@@ -247,7 +259,7 @@ uint8_t FTDI::Poll() {
 
         //if (qNextPollTime <= millis())
         //{
-        //	Serial.println(bAddress, HEX);
+        //	USB_HOST_SERIAL.println(bAddress, HEX);
 
         //	qNextPollTime = millis() + 100;
         //}

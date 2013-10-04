@@ -15,12 +15,12 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 /* MAX3421E-based USB Host Library header file */
-#ifndef _USBHOST_H_
-#define _USBHOST_H_
 
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usb_ch9.h"
+
+#if !defined(_usb_h_) || defined(_USBHOST_H_)
+#error "Never include usbhost.h directly; include Usb.h instead"
+#else
+#define _USBHOST_H_
 
 /* SPI initialization */
 template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SPi {
@@ -34,7 +34,7 @@ public:
                 SPI_SS::SetDirWrite();
                 /* mode 00 (CPOL=0, CPHA=0) master, fclk/2. Mode 11 (CPOL=11, CPHA=11) is also supported by MAX3421E */
                 SPCR = 0x50;
-                SPSR = 0x01;
+                SPSR = 0x01; // 0x01
                 /**/
                 //tmp = SPSR;
                 //tmp = SPDR;
@@ -48,12 +48,17 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 #if  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #endif
-#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__)
+#if defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #endif
 #if defined(__MK20DX128__)
 typedef SPi< P13, P11, P12, P10 > spi;
 #endif
+
+typedef enum {
+        vbus_on = 0,
+        vbus_off = GPX_VBDET
+} VBUS_t;
 
 template< typename SS, typename INTR > class MAX3421e /* : public spi */ {
         static uint8_t vbusState;
@@ -68,6 +73,11 @@ public:
         uint8_t gpioRd();
         uint16_t reset();
         int8_t Init();
+        int8_t Init(int mseconds);
+
+        void vbusPower(VBUS_t state) {
+                regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | state));
+        }
 
         uint8_t getVbusState(void) {
                 return vbusState;
@@ -97,7 +107,7 @@ MAX3421e< SS, INTR >::MAX3421e() {
 #endif
 
         /* MAX3421E - full-duplex SPI, level interrupt */
-        regWr(rPINCTL, (bmFDUPSPI + bmINTLEVEL));
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
 };
 
 /* write single byte into MAX3421 register */
@@ -162,9 +172,18 @@ uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* dat
                 SPDR = 0; //send empty byte
                 nbytes--;
                 while(!(SPSR & (1 << SPIF)));
-                *data_p = SPDR;
+#if 0
+                {
+                        *data_p = SPDR;
+                        printf("%2.2x ", *data_p);
+                }
                 data_p++;
         }
+        printf("\r\n");
+#else
+                *data_p++ = SPDR;
+        }
+#endif
         SS::Set();
         return( data_p);
 }
@@ -194,17 +213,6 @@ uint16_t MAX3421e< SS, INTR >::reset() {
         }
         return( i);
 }
-///* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
-//template< typename SS, typename INTR >
-//int8_t MAX3421e< SS, INTR >::Init()
-//{
-//  if( reset() == 0 ) { //OSCOKIRQ hasn't asserted in time
-//    return ( -1 );
-//  }
-//  regWr( rMODE, bmDPPULLDN|bmDMPULLDN|bmHOST );      // set pull-downs, Host
-//
-//  return( 0 );
-//}
 
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
@@ -212,6 +220,10 @@ int8_t MAX3421e< SS, INTR >::Init() {
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
                 return( -1);
         }
+
+        // GPX pin on.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
 
         regWr(rHIEN, bmCONDETIE | bmFRAMEIE); //connection detection
@@ -224,6 +236,38 @@ int8_t MAX3421e< SS, INTR >::Init() {
 
         regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
         regWr(rCPUCTL, 0x01); //enable interrupt pin
+
+        return( 0);
+}
+
+/* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
+template< typename SS, typename INTR >
+int8_t MAX3421e< SS, INTR >::Init(int mseconds) {
+        if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
+                return( -1);
+        }
+
+        // Delay a minimum of 1 second to ensure any capacitors are drained.
+        // 1 second is required to make sure we do not smoke a Microdrive!
+        if(mseconds < 1000) mseconds = 1000;
+        delay(mseconds);
+
+        regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
+
+        regWr(rHIEN, bmCONDETIE | bmFRAMEIE); //connection detection
+
+        /* check if device is connected */
+        regWr(rHCTL, bmSAMPLEBUS); // sample USB bus
+        while(!(regRd(rHCTL) & bmSAMPLEBUS)); //wait for sample operation to finish
+
+        busprobe(); //check if anything is connected
+
+        regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
+        regWr(rCPUCTL, 0x01); //enable interrupt pin
+
+        // GPX pin on. This is done here so that busprobe will fail if we have a switch connected.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         return( 0);
 }
 
@@ -267,8 +311,8 @@ template< typename SS, typename INTR >
 uint8_t MAX3421e< SS, INTR >::Task(void) {
         uint8_t rcode = 0;
         uint8_t pinvalue;
-        //Serial.print("Vbus state: ");
-        //Serial.println( vbusState, HEX );
+        //USB_HOST_SERIAL.print("Vbus state: ");
+        //USB_HOST_SERIAL.println( vbusState, HEX );
         pinvalue = INTR::IsSet(); //Read();
         //pinvalue = digitalRead( MAX_INT );
         if(pinvalue == 0) {

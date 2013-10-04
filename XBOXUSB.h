@@ -18,12 +18,6 @@
 #ifndef _xboxusb_h_
 #define _xboxusb_h_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #include "Usb.h"
 #include "xboxEnums.h"
 
@@ -40,12 +34,15 @@
 
 // PID and VID of the different devices
 #define XBOX_VID                                0x045E  // Microsoft Corporation
+#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
+#define JOYTECH_VID                             0x162E  // For unofficial Joytech controllers
+#define GAMESTOP_VID                            0x0E6F  // Gamestop controller
+
+#define XBOX_WIRED_PID                          0x028E  // Microsoft 360 Wired controller
 #define XBOX_WIRELESS_PID                       0x028F  // Wireless controller only support charging
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
-
-#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
-#define JOYTECH_VID                             0x162E  // For unofficial Joytech controllers
+#define GAMESTOP_WIRED_PID                      0x0401  // Gamestop wired controller
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
 
@@ -98,6 +95,16 @@ public:
          */
         virtual bool isReady() {
                 return bPollEnable;
+        };
+
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == GAMESTOP_WIRED_PID));
         };
         /**@}*/
 
@@ -168,6 +175,14 @@ public:
          * @param lm         See ::LEDMode.
          */
         void setLedMode(LEDMode lm);
+
+        /**
+         * Used to call your own function when the controller is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
         /**@}*/
 
         /** True if a Xbox 360 controller is connected. */
@@ -182,6 +197,14 @@ protected:
         EpInfo epInfo[XBOX_MAX_ENDPOINTS];
 
 private:
+        /**
+         * Called when the controller is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        void onInit();
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+
         bool bPollEnable;
 
         /* Variables to store the buttons */
@@ -195,7 +218,7 @@ private:
         bool R2Clicked;
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
+        uint8_t writeBuf[8]; // General purpose buffer for output data
 
         void readReport(); // read incoming data
         void printReport(); // print incoming date - Uncomment for debugging

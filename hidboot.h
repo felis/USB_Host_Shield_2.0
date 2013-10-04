@@ -17,26 +17,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__HIDBOOT_H__)
 #define __HIDBOOT_H__
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
-#else
-#include <WProgram.h>
-#endif
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "avrpins.h"
-#include "max3421e.h"
-#include "usbhost.h"
-#include "usb_ch9.h"
-#include "Usb.h"
 #include "hid.h"
-
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
-
-#include "confdescparser.h"
 
 #define KEY_SPACE							0x2c
 #define KEY_ZERO							0x27
@@ -126,9 +107,9 @@ struct KBDLEDS {
         uint8_t bmReserved : 3;
 };
 
-#define KEY_NUM_LOCK				0x53
-#define KEY_CAPS_LOCK				0x39
-#define KEY_SCROLL_LOCK				0x47
+#define KEY_NUM_LOCK    0x53
+#define KEY_CAPS_LOCK	0x39
+#define KEY_SCROLL_LOCK	0x47
 
 class KeyboardReportParser : public HIDReportParser {
         static const uint8_t numKeys[];
@@ -161,26 +142,25 @@ public:
 protected:
         virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key);
 
-		virtual void OnControlKeysChanged(uint8_t before, uint8_t after) {
-		};
-	
-		virtual void OnKeyDown(uint8_t mod, uint8_t key) {
+        virtual void OnControlKeysChanged(uint8_t before, uint8_t after) {
+        };
+
+        virtual void OnKeyDown(uint8_t mod, uint8_t key) {
         };
 
         virtual void OnKeyUp(uint8_t mod, uint8_t key) {
         };
 };
 
-#define totalEndpoints						2
-
-#define HID_MAX_HID_CLASS_DESCRIPTORS		5
+#define totalEndpoints (((BOOT_PROTOCOL & HID_PROTOCOL_KEYBOARD)? 2 : 0)+((BOOT_PROTOCOL & HID_PROTOCOL_MOUSE)? 1 : 0))
+#define epMUL (((BOOT_PROTOCOL & HID_PROTOCOL_KEYBOARD)? 1 : 0)+((BOOT_PROTOCOL & HID_PROTOCOL_MOUSE)? 1 : 0))
+#define HID_MAX_HID_CLASS_DESCRIPTORS 5
 
 template <const uint8_t BOOT_PROTOCOL>
 class HIDBoot : public HID //public USBDeviceConfig, public UsbConfigXtracter
 {
         EpInfo epInfo[totalEndpoints];
-
-        HIDReportParser *pRptParser;
+        HIDReportParser *pRptParser[epMUL];
 
         uint8_t bConfNum; // configuration number
         uint8_t bIfaceNum; // Interface Number
@@ -192,14 +172,14 @@ class HIDBoot : public HID //public USBDeviceConfig, public UsbConfigXtracter
         void Initialize();
 
         virtual HIDReportParser* GetReportParser(uint8_t id) {
-                return pRptParser;
+                return pRptParser[id];
         };
 
 public:
         HIDBoot(USB *p);
 
         virtual bool SetReportParser(uint8_t id, HIDReportParser *prs) {
-                pRptParser = prs;
+                pRptParser[id] = prs;
                 return true;
         };
 
@@ -220,10 +200,12 @@ template <const uint8_t BOOT_PROTOCOL>
 HIDBoot<BOOT_PROTOCOL>::HIDBoot(USB *p) :
 HID(p),
 qNextPollTime(0),
-bPollEnable(false),
-pRptParser(NULL) {
+bPollEnable(false) {
         Initialize();
 
+        for(uint8_t i = 0; i < epMUL; i++) {
+                pRptParser[i] = NULL;
+        }
         if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
@@ -250,10 +232,10 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t len = 0;
-        uint16_t cd_len = 0;
+        //uint16_t cd_len = 0;
 
         uint8_t num_of_conf; // number of configurations
-        uint8_t num_of_intf; // number of interfaces
+        //uint8_t num_of_intf; // number of interfaces
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
@@ -344,29 +326,48 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
         //USBTRACE2("NC:", num_of_conf);
 
-        for(uint8_t i = 0; i < num_of_conf; i++) {
-                ConfigDescParser<
-                        USB_CLASS_HID,
-                        HID_BOOT_INTF_SUBCLASS,
-                        BOOT_PROTOCOL,
-                        CP_MASK_COMPARE_ALL> confDescrParser(this);
+        // GCC will optimize unused stuff away.
+        if(BOOT_PROTOCOL & HID_PROTOCOL_KEYBOARD) {
+                for(uint8_t i = 0; i < num_of_conf; i++) {
+                        ConfigDescParser<
+                                USB_CLASS_HID,
+                                HID_BOOT_INTF_SUBCLASS,
+                                HID_PROTOCOL_KEYBOARD,
+                                CP_MASK_COMPARE_ALL> confDescrParserA(this);
 
-                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                        if(bNumEP == totalEndpoints)
+                                break;
+                        pUsb->getConfDescr(bAddress, 0, i, &confDescrParserA);
+                }
+        }
 
-                if(bNumEP > 1)
-                        break;
-        } // for
+        // GCC will optimize unused stuff away.
+        if(BOOT_PROTOCOL & HID_PROTOCOL_MOUSE) {
+                for(uint8_t i = 0; i < num_of_conf; i++) {
+                        ConfigDescParser<
+                                USB_CLASS_HID,
+                                HID_BOOT_INTF_SUBCLASS,
+                                HID_PROTOCOL_MOUSE,
+                                CP_MASK_COMPARE_ALL> confDescrParserB(this);
+                        if(bNumEP == totalEndpoints)
+                                break;
 
-        if(bNumEP < 2)
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+                        pUsb->getConfDescr(bAddress, 0, i, &confDescrParserB);
+                }
+        }
 
-        //USBTRACE2("\r\nbAddr:", bAddress);
-        //USBTRACE2("\r\nbNumEP:", bNumEP);
+        USBTRACE2("\r\nbAddr:", bAddress);
+        USBTRACE2("\r\nbNumEP:", bNumEP);
+        USBTRACE2("\r\ntotalEndpoints:", totalEndpoints);
+        if(bNumEP != totalEndpoints) {
+                rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+                goto Fail;
+        }
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-        //USBTRACE2("\r\nCnf:", bConfNum);
+        USBTRACE2("\r\nCnf:", bConfNum);
 
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -374,15 +375,16 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         if(rcode)
                 goto FailSetConfDescr;
 
-        //USBTRACE2("\r\nIf:", bIfaceNum);
+        USBTRACE2("\r\nIf:", bIfaceNum);
 
         rcode = SetProtocol(bIfaceNum, HID_BOOT_PROTOCOL);
 
         if(rcode)
                 goto FailSetProtocol;
 
-        if(BOOT_PROTOCOL == 1) {
-                rcode = SetIdle(bIfaceNum, 0, 0);
+        // GCC will optimize unused stuff away.
+        if(BOOT_PROTOCOL & HID_PROTOCOL_KEYBOARD) {
+                rcode = SetIdle(0/* bIfaceNum*/, 0, 0);
 
                 if(rcode)
                         goto FailSetIdle;
@@ -393,57 +395,67 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         return 0;
 
 FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
         goto Fail;
+#endif
 
 FailGetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailGetConfDescr();
         goto Fail;
+#endif
 
 FailSetConfDescr:
+#ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
         goto Fail;
-
+#endif
 
 FailSetProtocol:
+#ifdef DEBUG_USB_HOST
         USBTRACE("SetProto:");
         goto Fail;
+#endif
 
 FailSetIdle:
+#ifdef DEBUG_USB_HOST
         USBTRACE("SetIdle:");
-        goto Fail;
+#endif
 
 Fail:
+#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
+#endif
         Release();
         return rcode;
 }
 
 template <const uint8_t BOOT_PROTOCOL>
 void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
-        // If the first configuration satisfies, the others are not concidered.
+        // If the first configuration satisfies, the others are not considered.
         if(bNumEP > 1 && conf != bConfNum)
                 return;
 
         bConfNum = conf;
         bIfaceNum = iface;
 
-        uint8_t index;
-
         if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) {
-                index = epInterruptInIndex;
+                uint8_t index = bNumEP;//epInterruptInIndex; //+ bNumEP;
 
                 // Fill in the endpoint info structure
                 epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[index].maxPktSize = (uint8_t) pep->wMaxPacketSize;
                 epInfo[index].epAttribs = 0;
                 epInfo[index].bmNakPower = USB_NAK_NOWAIT;
-
                 bNumEP++;
+
         }
 }
 
@@ -470,28 +482,32 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
         if(qNextPollTime <= millis()) {
                 qNextPollTime = millis() + 10;
 
-                const uint8_t const_buff_len = 16;
-                uint8_t buf[const_buff_len];
+                // To-do: optimize manually, getting rid of the loop
+                for(uint8_t i = 0; i < epMUL; i++) {
+                        const uint8_t const_buff_len = 16;
+                        uint8_t buf[const_buff_len];
 
-                uint16_t read = (uint16_t) epInfo[epInterruptInIndex].maxPktSize;
 
-                uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex].epAddr, &read, buf);
+                        uint16_t read = (uint16_t) epInfo[epInterruptInIndex + i].maxPktSize;
 
-                if(rcode) {
-                        if(rcode != hrNAK)
-                                USBTRACE2("Poll:", rcode);
-                        return rcode;
+                        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &read, buf);
+                        if(!rcode) {
+                                if(pRptParser[i])
+                                        pRptParser[i]->Parse((HID*)this, 0, (uint8_t) read, buf);
+
+                                //for (uint8_t i=0; i<read; i++)
+                                //	PrintHex<uint8_t>(buf[i]);
+                                //if (read)
+                                //	USB_HOST_SERIAL.println("");
+                        } else {
+                                if(rcode != hrNAK) {
+                                        USBTRACE2("Poll:", rcode);
+                                        break;
+                                }
+                        }
                 }
-                //for (uint8_t i=0; i<read; i++)
-                //	PrintHex<uint8_t>(buf[i]);
-                //if (read)
-                //	Serial.println("");
-
-                if(pRptParser)
-                        pRptParser->Parse((HID*)this, 0, (uint8_t) read, buf);
         }
         return rcode;
 }
-
 
 #endif // __HIDBOOTMOUSE_H__

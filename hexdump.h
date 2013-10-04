@@ -14,11 +14,12 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__HEXDUMP_H__)
+#if !defined(_usb_h_) || defined(__HEXDUMP_H__)
+#error "Never include hexdump.h directly; include Usb.h instead"
+#else
 #define __HEXDUMP_H__
 
-#include <inttypes.h>
-#include <avr/pgmspace.h>
+extern int UsbDEBUGlvl;
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 class HexDumper : public BASE_CLASS {
@@ -40,23 +41,21 @@ public:
 
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 void HexDumper<BASE_CLASS, LEN_TYPE, OFFSET_TYPE>::Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
-#ifdef DEBUG
         if(UsbDEBUGlvl >= 0x80) {  // Fully bypass this block of code if we do not debug.
                 for(LEN_TYPE j = 0; j < len; j++, byteCount++, byteTotal++) {
                         if(!byteCount) {
                                 PrintHex<OFFSET_TYPE > (byteTotal, 0x80);
-                                Notify(PSTR(": "), 0x80);
+                                E_Notify(PSTR(": "), 0x80);
                         }
                         PrintHex<uint8_t > (pbuf[j], 0x80);
-                        Notify(PSTR(" "), 0x80);
+                        E_Notify(PSTR(" "), 0x80);
 
                         if(byteCount == 15) {
-                                Notify(PSTR("\r\n"), 0x80);
+                                E_Notify(PSTR("\r\n"), 0x80);
                                 byteCount = 0xFF;
                         }
                 }
         }
-#endif
 }
 
 #endif // __HEXDUMP_H__

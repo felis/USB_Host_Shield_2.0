@@ -14,20 +14,11 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__PARSETOOLS_H__)
-#define __PARSETOOLS_H__
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include "Arduino.h"
+#if !defined(_usb_h_) || defined(__PARSETOOLS_H__)
+#error "Never include parsetools.h directly; include Usb.h instead"
 #else
-#include <WProgram.h>
-#endif
-
-#include <inttypes.h>
-#include <avr/pgmspace.h>
-#include "printhex.h"
-#include "hexdump.h"
-#include "message.h"
+#define __PARSETOOLS_H__
 
 struct MultiValueBuffer {
         uint8_t valueSize;

@@ -58,14 +58,18 @@ ready(false) {
         }
 }
 
+uint8_t ADK::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
+        return Init(parent, port, lowspeed); // Just call Init. Yes, really!
+}
+
 /* Connection initialization of an Android phone */
 uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         uint8_t rcode;
+        uint8_t num_of_conf; // number of configurations
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        uint8_t num_of_conf; // number of configurations
 
         // get memory address of USB device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
@@ -114,7 +118,6 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         // Extract Max Packet Size from device descriptor
         epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
-
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
         if (rcode) {
@@ -126,6 +129,8 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         }//if (rcode...
 
         //USBTRACE2("\r\nAddr:", bAddress);
+        // Spec says you should wait at least 200ms.
+        delay(300);
 
         p->lowspeed = false;
 
@@ -222,39 +227,52 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode) {
                 goto FailSwAcc; //init fails
         }
-        rcode = -1;
+        rcode = USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
+        delay(1000); // Give Android a chance to do its reset. This is a guess, and possibly could be lower.
         goto SwAttempt; //switch to accessory mode attempted
 
         /* diagnostic messages */
 FailGetDevDescr:
-        NotifyFailGetDevDescr();
+#ifdef DEBUG_USB_HOST
+        NotifyFailGetDevDescr(rcode);
         goto Fail;
+#endif
 
 FailSetDevTblEntry:
-        NotifyFailSetDevTblEntry();
+#ifdef DEBUG_USB_HOST
+        NotifyFailSetDevTblEntry(rcode);
         goto Fail;
+#endif
 
 FailGetConfDescr:
-        NotifyFailGetConfDescr();
+#ifdef DEBUG_USB_HOST
+        NotifyFailGetConfDescr(rcode);
         goto Fail;
+#endif
 
 FailSetConfDescr:
-        NotifyFailSetConfDescr();
+#ifdef DEBUG_USB_HOST
+        NotifyFailSetConfDescr(rcode);
         goto Fail;
+#endif
 
 FailGetProto:
+#ifdef DEBUG_USB_HOST
         USBTRACE("\r\ngetProto:");
         goto Fail;
+#endif
 
 FailSwAcc:
+#ifdef DEBUG_USB_HOST
         USBTRACE("\r\nswAcc:");
         goto Fail;
+#endif
 
 SwAttempt:
+#ifdef DEBUG_USB_HOST
         USBTRACE("\r\nAccessory mode switch attempt");
-        // goto Fail;
-
-//FailOnInit:
+#endif
+        //FailOnInit:
         //	USBTRACE("OnInit:");
         //	goto Fail;
         //
