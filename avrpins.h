@@ -742,7 +742,7 @@ public:
 
 #endif // __AVR__
 
-#if defined(__arm__)
+#if defined(__arm__) && defined(CORE_TEENSY)
 
 // pointers are 32 bits on ARM
 #define pgm_read_pointer(p) pgm_read_dword(p)
@@ -773,7 +773,7 @@ public: \
   static uint8_t IsSet() { \
     return *(GPIO_BITBAND_PTR(baseReg, pinNum) + 512); \
   } \
-}
+};
 
 MAKE_PIN(P0, CORE_PIN0_PORTREG, CORE_PIN0_BIT, CORE_PIN0_CONFIG);
 MAKE_PIN(P1, CORE_PIN1_PORTREG, CORE_PIN1_BIT, CORE_PIN1_CONFIG);
