@@ -34,9 +34,6 @@
 /* Set this to 1 if you are using a Teensy 1.0 or 2.0 */
 #define USE_UHS_TEENSY 0
 
-/* Set this to 1 if you are using a Sanguino */
-#define USE_UHS_SANGUINO 0
-
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0
 
