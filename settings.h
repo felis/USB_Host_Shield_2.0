@@ -61,6 +61,7 @@
 #else
 #include <WProgram.h>
 // I am not sure what WProgram.h does not include, so these are here. --xxxajk
+#include <pins_arduino.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
 #endif
