@@ -163,6 +163,14 @@ public:
 
         /** @name USBDeviceConfig implementation */
         /**
+         * Address assignment and basic initilization is done here.
+         * @param  parent   Hub number.
+         * @param  port     Port number on the hub.
+         * @param  lowspeed Speed of the device.
+         * @return          0 on success.
+         */
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        /**
          * Initialize the Bluetooth dongle.
          * @param  parent   Hub number.
          * @param  port     Port number on the hub.
@@ -455,6 +463,7 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 private:
+        void clearAllVariables(); // Set all variables, endpoint structs etc. to default values
         BluetoothService* btService[BTD_NUMSERVICES];
 
         bool bPollEnable;
