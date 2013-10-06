@@ -101,6 +101,9 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
         epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
+        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
 FailGetDevDescr:
@@ -113,12 +116,9 @@ FailGetDevDescr:
 };
 
 uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-        uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         uint8_t rcode;
         uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
         epInfo[1].epAddr = 0;
-        uint16_t PID;
-        uint16_t VID;
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
@@ -164,9 +164,6 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo); // Assign epInfo to epinfo pointer - only EP0 is known
         if (rcode)
                 goto FailSetDevTblEntry;
-
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
         if (VID == PS3_VID && (PID == PS3_PID || PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID)) {
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1); // We only need the Control endpoint, so we don't have to initialize the other endpoints of device

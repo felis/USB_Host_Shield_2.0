@@ -466,6 +466,8 @@ private:
         void clearAllVariables(); // Set all variables, endpoint structs etc. to default values
         BluetoothService* btService[BTD_NUMSERVICES];
 
+        uint16_t PID, VID; // PID and VID of device connected
+
         bool bPollEnable;
         uint8_t pollInterval;
 
