@@ -581,7 +581,12 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                 }
         }
         rcode = devConfig[driver]->Init(parent, port, lowspeed);
-        if(rcode) {
+        if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                delay(100);
+                devConfig[driver]->ConfigureDevice(parent, port, lowspeed); // Just ignore the returned value
+                rcode = devConfig[driver]->Init(parent, port, lowspeed);
+        }
+        if (rcode) {
                 // Issue a bus reset, because the device may be in a limbo state
                 if (parent == 0) {
                         // Send a bus reset on the root interface.
