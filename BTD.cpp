@@ -467,7 +467,7 @@ void BTD::HCI_event_task() {
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                                         hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                                 }
-#ifdef EXTRADEBUG
+#ifdef DEBUG_USB_HOST
                                 else {
                                         Notify(PSTR("\r\nConnection Failed"), 0x80);
                                         hci_state = HCI_CHECK_WII_SERVICE;
