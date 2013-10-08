@@ -475,7 +475,7 @@ void USB::Task(void) //USB state machine
                 case USB_ATTACHED_SUBSTATE_SETTLE: //settle time for just attached device
                         if (delay < millis())
                                 usb_task_state = USB_ATTACHED_SUBSTATE_RESET_DEVICE;
-                        break;
+                        else break; // don't fall through
                 case USB_ATTACHED_SUBSTATE_RESET_DEVICE:
                         regWr(rHCTL, bmBUSRST); //issue bus reset
                         usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_RESET_COMPLETE;
@@ -501,7 +501,7 @@ void USB::Task(void) //USB state machine
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_RESET:
                         if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
-                        break;
+                        else break;  // don't fall through
                 case USB_STATE_CONFIGURING:
 
                 				//Serial.print("\r\nConf.LS: ");
@@ -656,7 +656,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo.epAttribs = 0;
         epInfo.bmNakPower = USB_NAK_MAX_POWER;
 
-        delay(2000);
+        //delay(2000);
         AddressPool &addrPool = GetAddressPool();
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
