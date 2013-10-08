@@ -580,23 +580,24 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                         devConfig[parent]->ResetHubPort(port);
                 }
         }
-        rcode = devConfig[driver]->Init(parent, port, lowspeed);
-        if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
-                delay(100);
-                devConfig[driver]->ConfigureDevice(parent, port, lowspeed); // Just ignore the returned value
+        if (!rcode || rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
                 rcode = devConfig[driver]->Init(parent, port, lowspeed);
-        }
-        if (rcode) {
-                // Issue a bus reset, because the device may be in a limbo state
-                if (parent == 0) {
-                        // Send a bus reset on the root interface.
-                        regWr(rHCTL, bmBUSRST); //issue bus reset
-                        delay(102); // delay 102ms, compensate for clock inaccuracy.
-                } else {
-                        // reset parent port
-                        devConfig[parent]->ResetHubPort(port);
+                if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                        delay(100);
+                        devConfig[driver]->ConfigureDevice(parent, port, lowspeed); // Just ignore the returned value
+                        rcode = devConfig[driver]->Init(parent, port, lowspeed);
                 }
-
+                if (rcode) {
+                        // Issue a bus reset, because the device may be in a limbo state
+                        if (parent == 0) {
+                                // Send a bus reset on the root interface.
+                                regWr(rHCTL, bmBUSRST); //issue bus reset
+                                delay(102); // delay 102ms, compensate for clock inaccuracy.
+                        } else {
+                                // reset parent port
+                                devConfig[parent]->ResetHubPort(port);
+                        }
+                }
         }
         return rcode;
 }
