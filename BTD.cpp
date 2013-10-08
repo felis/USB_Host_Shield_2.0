@@ -300,7 +300,7 @@ void BTD::clearAllVariables() {
         }
 
         connectToWii = false;
-        pairWithWii = false;
+        incomingWii = false;
         bAddress = 0; // Clear device address
         bNumEP = 1; // Must have to be reset to 1
         qNextPollTime = 0; // Reset next poll time
@@ -413,7 +413,7 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_INQUIRY_COMPLETE:
-                                if (inquiry_counter >= 5) {
+                                if (inquiry_counter >= 5 && pairWithWii) {
                                         inquiry_counter = 0;
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nCouldn't find Wiimote"), 0x80);
