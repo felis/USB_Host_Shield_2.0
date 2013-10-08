@@ -579,6 +579,9 @@ again:
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
+        } else if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                delay(100);
+                goto again;
         } else if (rcode)
                 return rcode;
 
