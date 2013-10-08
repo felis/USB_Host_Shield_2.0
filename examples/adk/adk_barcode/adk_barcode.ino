@@ -1,18 +1,9 @@
 /**/
 /* A sketch demonstrating data exchange between two USB devices - a HID barcode scanner and ADK-compatible Android phone */
 /**/
-#include <avrpins.h>
-#include <max3421e.h>
-#include <usbhost.h>
-#include <usb_ch9.h>
-#include <Usb.h>
-#include <usbhub.h>
-#include <avr/pgmspace.h>
-#include <address.h>
-
 #include <adk.h>
-
 #include <hidboot.h>
+#include <usbhub.h>
 
 USB Usb;
 USBHub Hub1(&Usb);

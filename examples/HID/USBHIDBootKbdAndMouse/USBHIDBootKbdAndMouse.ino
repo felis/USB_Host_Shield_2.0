@@ -1,5 +1,5 @@
-#include <usbhub.h>
 #include <hidboot.h>
+#include <usbhub.h>
 
 class MouseRptParser : public MouseReportParser
 {

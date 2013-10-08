@@ -1,7 +1,6 @@
 #if !defined(__HIDJOYSTICKRPTPARSER_H__)
 #define __HIDJOYSTICKRPTPARSER_H__
 
-#include <Usb.h>
 #include <hid.h>
 
 struct GamePadEventData {

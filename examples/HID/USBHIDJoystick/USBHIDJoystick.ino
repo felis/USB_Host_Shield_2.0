@@ -1,10 +1,8 @@
-
-#include <usbhub.h>
 #include <hid.h>
 #include <hiduniversal.h>
+#include <usbhub.h>
 
 #include "hidjoystickrptparser.h"
-
 
 USB Usb;
 USBHub Hub(&Usb);
