@@ -566,10 +566,10 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
 };
 
 uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
-        uint8_t rcode = 0;
         //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
 
-        rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
+again:
+        uint8_t rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
         if (rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
                 if (parent == 0) {
                         // Send a bus reset on the root interface.
@@ -579,12 +579,16 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
-        }
+        } else if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                delay(100);
+                goto again;
+        } else if (rcode)
+                return rcode;
+
         rcode = devConfig[driver]->Init(parent, port, lowspeed);
         if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
                 delay(100);
-                devConfig[driver]->ConfigureDevice(parent, port, lowspeed); // Just ignore the returned value
-                rcode = devConfig[driver]->Init(parent, port, lowspeed);
+                goto again;
         }
         if (rcode) {
                 // Issue a bus reset, because the device may be in a limbo state
@@ -596,7 +600,6 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
-
         }
         return rcode;
 }

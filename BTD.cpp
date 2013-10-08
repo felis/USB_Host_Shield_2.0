@@ -110,7 +110,8 @@ FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr(rcode);
 #endif
-        rcode = USB_ERROR_FailGetDevDescr;
+        if (rcode != hrJERR)
+                rcode = USB_ERROR_FailGetDevDescr;
         Release();
         return rcode;
 };
@@ -300,7 +301,7 @@ void BTD::clearAllVariables() {
         }
 
         connectToWii = false;
-        pairWithWii = false;
+        incomingWii = false;
         bAddress = 0; // Clear device address
         bNumEP = 1; // Must have to be reset to 1
         qNextPollTime = 0; // Reset next poll time
@@ -413,7 +414,7 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_INQUIRY_COMPLETE:
-                                if (inquiry_counter >= 5) {
+                                if (inquiry_counter >= 5 && pairWithWii) {
                                         inquiry_counter = 0;
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nCouldn't find Wiimote"), 0x80);
@@ -466,7 +467,7 @@ void BTD::HCI_event_task() {
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                                         hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                                 }
-#ifdef EXTRADEBUG
+#ifdef DEBUG_USB_HOST
                                 else {
                                         Notify(PSTR("\r\nConnection Failed"), 0x80);
                                         hci_state = HCI_CHECK_WII_SERVICE;
