@@ -40,6 +40,9 @@
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0
 
+/* Set this to 1 if you are using xmem2 and expanded memory and multitasking */
+#define USE_XMEM_SPI_LOCK 0
+
 ////////////////////////////////////////////////////////////////////////////////
 // MASS STORAGE
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +76,13 @@
 // I am not sure what WProgram.h does not include, so these are here. --xxxajk
 #include <avr/pgmspace.h>
 #include <avr/io.h>
+#endif
+
+#if USE_XMEM_SPI_LOCK
+#include <xmem.h>
+#else
+#define XMEM_ACQUIRE_SPI() (void(0))
+#define XMEM_RELEASE_SPI() (void(0))
 #endif
 
 #endif	/* SETTINGS_H */
