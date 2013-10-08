@@ -110,7 +110,8 @@ FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr(rcode);
 #endif
-        rcode = USB_ERROR_FailGetDevDescr;
+        if (rcode != hrJERR)
+                rcode = USB_ERROR_FailGetDevDescr;
         Release();
         return rcode;
 };
