@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Set this to 1 if you are using an Arduino Mega ADK board with MAX3421e built-in */
-#define USE_UHS_MEGA_ADK 0
+#define USE_UHS_MEGA_ADK 0 // If you are using Arduino 1.5.5 or newer there is no need to do this manually
 
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0

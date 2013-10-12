@@ -74,6 +74,7 @@ Currently the following boards are supported by the library:
 The following boards need to be activated manually in [settings.h](settings.h):
 
 * Arduino Mega ADK
+	* If you are using Arduino 1.5.5 or newer there is no need to activate the Arduino Mega ADK manually
 * Black Widdow
 
 Simply set the corresponding value to 1 instead of 0.
