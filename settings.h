@@ -34,7 +34,7 @@
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0
 
-/* Set this to 1 if you are using xmem2 and expanded memory and multitasking */
+/* Set this to a one to use the xmem2 lock. This is needed for multitasking and threading */
 #define USE_XMEM_SPI_LOCK 0
 
 ////////////////////////////////////////////////////////////////////////////////
