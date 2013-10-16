@@ -69,7 +69,7 @@
 #include <avr/io.h>
 #endif
 
-#if USE_XMEM_SPI_LOCK
+#if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)
 #include <xmem.h>
 #else
 #define XMEM_ACQUIRE_SPI() (void(0))
