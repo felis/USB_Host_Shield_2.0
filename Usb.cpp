@@ -475,7 +475,7 @@ void USB::Task(void) //USB state machine
                 case USB_ATTACHED_SUBSTATE_SETTLE: //settle time for just attached device
                         if (delay < millis())
                                 usb_task_state = USB_ATTACHED_SUBSTATE_RESET_DEVICE;
-                        break;
+                        else break; // don't fall through
                 case USB_ATTACHED_SUBSTATE_RESET_DEVICE:
                         regWr(rHCTL, bmBUSRST); //issue bus reset
                         usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_RESET_COMPLETE;
@@ -501,7 +501,7 @@ void USB::Task(void) //USB state machine
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_RESET:
                         if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
-                        break;
+                        else break;  // don't fall through
                 case USB_STATE_CONFIGURING:
 
                 				//Serial.print("\r\nConf.LS: ");
@@ -566,10 +566,10 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
 };
 
 uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
-        uint8_t rcode = 0;
         //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
 
-        rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
+again:
+        uint8_t rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
         if (rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
                 if (parent == 0) {
                         // Send a bus reset on the root interface.
@@ -579,9 +579,18 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
-        }
+        } else if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                delay(100);
+                goto again;
+        } else if (rcode)
+                return rcode;
+
         rcode = devConfig[driver]->Init(parent, port, lowspeed);
-        if(rcode) {
+        if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+                delay(100);
+                goto again;
+        }
+        if (rcode) {
                 // Issue a bus reset, because the device may be in a limbo state
                 if (parent == 0) {
                         // Send a bus reset on the root interface.
@@ -591,7 +600,6 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
-
         }
         return rcode;
 }
@@ -651,7 +659,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo.epAttribs = 0;
         epInfo.bmNakPower = USB_NAK_MAX_POWER;
 
-        delay(2000);
+        //delay(2000);
         AddressPool &addrPool = GetAddressPool();
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);

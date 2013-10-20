@@ -94,31 +94,26 @@ template< typename SS, typename INTR >
 /* constructor */
 template< typename SS, typename INTR >
 MAX3421e< SS, INTR >::MAX3421e() {
-        /* pin and peripheral setup */
-        SS::SetDirWrite();
-        SS::Set();
-        spi::init();
-        INTR::SetDirRead();
+// Leaving ADK hardware setup in here, for now. This really belongs with the other parts.
 #ifdef BOARD_MEGA_ADK
         /* For Mega ADK, which has Max3421e on-board, set MAX_RESET to Output mode, and pull Reset to HIGH */
         DDRJ |= _BV(PJ2);
         PORTJ &= ~_BV(PJ2);
         PORTJ |= _BV(PJ2);
 #endif
-
-        /* MAX3421E - full-duplex SPI, level interrupt */
-        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
 };
 
 /* write single byte into MAX3421 register */
 template< typename SS, typename INTR >
 void MAX3421e< SS, INTR >::regWr(uint8_t reg, uint8_t data) {
+        XMEM_ACQUIRE_SPI();
         SS::Clear();
         SPDR = (reg | 0x02);
         while(!(SPSR & (1 << SPIF)));
         SPDR = data;
         while(!(SPSR & (1 << SPIF)));
         SS::Set();
+        XMEM_RELEASE_SPI();
         return;
 };
 /* multiple-byte write                            */
@@ -126,6 +121,7 @@ void MAX3421e< SS, INTR >::regWr(uint8_t reg, uint8_t data) {
 /* returns a pointer to memory position after last written */
 template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
+        XMEM_ACQUIRE_SPI();
         SS::Clear();
         SPDR = (reg | 0x02); //set WR bit and send register number
         while(nbytes--) {
@@ -135,6 +131,7 @@ uint8_t* MAX3421e< SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* dat
         }
         while(!(SPSR & (1 << SPIF)));
         SS::Set();
+        XMEM_RELEASE_SPI();
         return( data_p);
 }
 /* GPIO write                                           */
@@ -152,19 +149,23 @@ void MAX3421e< SS, INTR >::gpioWr(uint8_t data) {
 /* single host register read    */
 template< typename SS, typename INTR >
 uint8_t MAX3421e< SS, INTR >::regRd(uint8_t reg) {
+        XMEM_ACQUIRE_SPI();
         SS::Clear();
         SPDR = reg;
         while(!(SPSR & (1 << SPIF)));
         SPDR = 0; //send empty byte
         while(!(SPSR & (1 << SPIF)));
         SS::Set();
-        return( SPDR);
+        uint8_t rv = SPDR;
+        XMEM_RELEASE_SPI();
+        return(rv);
 }
 /* multiple-byte register read  */
 
 /* returns a pointer to a memory position after last read   */
 template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
+        XMEM_ACQUIRE_SPI();
         SS::Clear();
         SPDR = reg;
         while(!(SPSR & (1 << SPIF))); //wait
@@ -185,6 +186,7 @@ uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* dat
         }
 #endif
         SS::Set();
+        XMEM_RELEASE_SPI();
         return( data_p);
 }
 /* GPIO read. See gpioWr for explanation */
@@ -217,12 +219,23 @@ uint16_t MAX3421e< SS, INTR >::reset() {
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
 int8_t MAX3421e< SS, INTR >::Init() {
+        XMEM_ACQUIRE_SPI();
+        // Moved here.
+        // you really should not init hardware in the constructor when it involves locks.
+        // Also avoids the vbus flicker issue confusing some devices.
+        /* pin and peripheral setup */
+        SS::SetDirWrite();
+        SS::Set();
+        spi::init();
+        INTR::SetDirRead();
+        XMEM_RELEASE_SPI();
+        /* MAX3421E - full-duplex SPI, level interrupt */
+        // GPX pin on. Moved here, otherwise we flicker the vbus.
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
+
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
                 return( -1);
         }
-
-        // GPX pin on.
-        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
 
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
 
@@ -243,6 +256,19 @@ int8_t MAX3421e< SS, INTR >::Init() {
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
 template< typename SS, typename INTR >
 int8_t MAX3421e< SS, INTR >::Init(int mseconds) {
+        XMEM_ACQUIRE_SPI();
+        // Moved here.
+        // you really should not init hardware in the constructor when it involves locks.
+        // Also avoids the vbus flicker issue confusing some devices.
+        /* pin and peripheral setup */
+        SS::SetDirWrite();
+        SS::Set();
+        spi::init();
+        INTR::SetDirRead();
+        XMEM_RELEASE_SPI();
+        /* MAX3421E - full-duplex SPI, level interrupt, vbus off */
+        regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
+
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
                 return( -1);
         }

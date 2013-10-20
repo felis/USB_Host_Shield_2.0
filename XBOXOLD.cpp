@@ -299,9 +299,11 @@ bool XBOXOLD::getButtonClick(Button b) {
         uint8_t button;
         if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
             button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
-            if (buttonClicked[button])
+            if (buttonClicked[button]) {
                 buttonClicked[button] = false;
-            return buttonClicked[button];
+                return true;
+            }
+            return false;
         }
 
         button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]); // Digital buttons

@@ -29,10 +29,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Set this to 1 if you are using an Arduino Mega ADK board with MAX3421e built-in */
-#define USE_UHS_MEGA_ADK 0
+#define USE_UHS_MEGA_ADK 0 // If you are using Arduino 1.5.5 or newer there is no need to do this manually
 
 /* Set this to 1 if you are using a Black Widdow */
 #define USE_UHS_BLACK_WIDDOW 0
+
+/* Set this to a one to use the xmem2 lock. This is needed for multitasking and threading */
+#define USE_XMEM_SPI_LOCK 0
 
 ////////////////////////////////////////////////////////////////////////////////
 // MASS STORAGE
@@ -61,8 +64,16 @@
 #else
 #include <WProgram.h>
 // I am not sure what WProgram.h does not include, so these are here. --xxxajk
+#include <pins_arduino.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
+#endif
+
+#if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)
+#include <xmem.h>
+#else
+#define XMEM_ACQUIRE_SPI() (void(0))
+#define XMEM_RELEASE_SPI() (void(0))
 #endif
 
 #endif	/* SETTINGS_H */

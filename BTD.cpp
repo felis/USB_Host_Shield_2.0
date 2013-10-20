@@ -34,45 +34,37 @@ qNextPollTime(0), // Reset NextPollTime
 pollInterval(0),
 bPollEnable(false) // Don't start polling before dongle is connected
 {
-        uint8_t i;
-        for (i = 0; i < BTD_MAX_ENDPOINTS; i++) {
-                epInfo[i].epAddr = 0;
-                epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
-                epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
-        }
-        for (i = 0; i < BTD_NUMSERVICES; i++)
+        for (uint8_t i = 0; i < BTD_NUMSERVICES; i++)
                 btService[i] = NULL;
 
-        if (pUsb) // register in USB subsystem
-                pUsb->RegisterDeviceClass(this); //set devConfig[] entry
+        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+
+        if (pUsb) // Register in USB subsystem
+                pUsb->RegisterDeviceClass(this); // Set devConfig[] entry
 }
 
-uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-        uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
+        const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
+        uint8_t buf[constBufSize];
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        uint8_t num_of_conf; // number of configurations
-        uint16_t PID;
-        uint16_t VID;
 
-        // get memory address of USB device address pool
-        AddressPool &addrPool = pUsb->GetAddressPool();
+        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+
+        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USB device address pool
 #ifdef EXTRADEBUG
-        Notify(PSTR("\r\nBTD Init"), 0x80);
+        Notify(PSTR("\r\nBTD ConfigureDevice"), 0x80);
 #endif
-        // check if address has already been assigned to an instance
-        if (bAddress) {
+
+        if (bAddress) { // Check if address has already been assigned to an instance
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
         }
 
-        // Get pointer to pseudo device with address 0 assigned
-        p = addrPool.GetUsbDevicePtr(0);
-
+        p = addrPool.GetUsbDevicePtr(0); // Get pointer to pseudo device with address 0 assigned
         if (!p) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
@@ -87,66 +79,95 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_EPINFO_IS_NULL;
         }
 
-        // Save old pointer to EP_RECORD of address 0
-        oldep_ptr = p->epinfo;
-
-        // Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
-        p->epinfo = epInfo;
-
+        oldep_ptr = p->epinfo; // Save old pointer to EP_RECORD of address 0
+        p->epinfo = epInfo; // Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
         p->lowspeed = lowspeed;
+        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf); // Get device descriptor - addr, ep, nbytes, data
 
-        // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf); // Get device descriptor - addr, ep, nbytes, data
-
-        // Restore p->epinfo
-        p->epinfo = oldep_ptr;
+        p->epinfo = oldep_ptr; // Restore p->epinfo
 
         if (rcode)
                 goto FailGetDevDescr;
 
-        // Allocate new address according to device class
-        bAddress = addrPool.AllocAddress(parent, false, port);
+        bAddress = addrPool.AllocAddress(parent, false, port); // Allocate new address according to device class
 
-        if (!bAddress)
+        if (!bAddress) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nOut of address space"), 0x80);
+#endif
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
+        }
 
-        // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
+        epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
-        // Assign new address to the device
-        rcode = pUsb->setAddr(0, 0, bAddress);
+        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
+        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+
+        return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
+
+FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
+        NotifyFailGetDevDescr(rcode);
+#endif
+        if (rcode != hrJERR)
+                rcode = USB_ERROR_FailGetDevDescr;
+        Release();
+        return rcode;
+};
+
+uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+        uint8_t rcode;
+        uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
+        epInfo[1].epAddr = 0;
+
+        AddressPool &addrPool = pUsb->GetAddressPool();
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nBTD Init"), 0x80);
+#endif
+        UsbDevice *p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
+
+        if (!p) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nAddress not found"), 0x80);
+#endif
+                return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        }
+
+        delay(300); // Assign new address to the device
+
+        rcode = pUsb->setAddr(0, 0, bAddress); // Assign new address to the device
         if (rcode) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
                 D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
+                p->lowspeed = false;
                 goto Fail;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
-        delay(300); // Spec says you should wait at least 200ms
 
         p->lowspeed = false;
 
-        //get pointer to assigned address record
-        p = addrPool.GetUsbDevicePtr(bAddress);
-        if (!p)
+        p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
+        if (!p) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nAddress not found"), 0x80);
+#endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        }
 
         p->lowspeed = lowspeed;
 
-        // Assign epInfo to epinfo pointer - only EP0 is known
-        rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
+        rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo); // Assign epInfo to epinfo pointer - only EP0 is known
         if (rcode)
                 goto FailSetDevTblEntry;
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
         if (VID == PS3_VID && (PID == PS3_PID || PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID)) {
-                /* We only need the Control endpoint, so we don't have to initialize the other endpoints of device */
-                rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1);
+                rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1); // We only need the Control endpoint, so we don't have to initialize the other endpoints of device
                 if (rcode)
                         goto FailSetConfDescr;
 
@@ -184,8 +205,6 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 Release(); // Release device
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED; // Return
         } else {
-                num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
-
                 // Check if attached device is a Bluetooth dongle and fill endpoint data structure
                 // First interface in the configuration must have Bluetooth assigned Class/Subclass/Protocol
                 // And 3 endpoints - interrupt-IN, bulk-IN, bulk-OUT, not necessarily in this order
@@ -210,8 +229,6 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
                 if (rcode)
                         goto FailSetDevTblEntry;
-
-                delay(200); // Give time for address change
 
                 // Set Configuration Value
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bConfNum);
@@ -270,6 +287,28 @@ Fail:
         return rcode;
 }
 
+void BTD::clearAllVariables() {
+        uint8_t i;
+        for (i = 0; i < BTD_MAX_ENDPOINTS; i++) {
+                epInfo[i].epAddr = 0;
+                epInfo[i].maxPktSize = (i) ? 0 : 8;
+                epInfo[i].epAttribs = 0;
+                epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
+        }
+        for (i = 0; i < BTD_NUMSERVICES; i++) {
+                if (btService[i])
+                        btService[i]->Reset(); // Reset all Bluetooth services
+        }
+
+        connectToWii = false;
+        incomingWii = false;
+        bAddress = 0; // Clear device address
+        bNumEP = 1; // Must have to be reset to 1
+        qNextPollTime = 0; // Reset next poll time
+        pollInterval = 0;
+        bPollEnable = false; // Don't start polling before dongle is connected
+}
+
 /* Extracts interrupt-IN, bulk-IN, bulk-OUT endpoint information from config descriptor */
 void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
         //ErrorMessage<uint8_t>(PSTR("Conf.Val"),conf);
@@ -323,15 +362,8 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t BTD::Release() {
-        for (uint8_t i = 0; i < BTD_NUMSERVICES; i++) {
-                if (btService[i])
-                        btService[i]->Reset(); // Reset all Bluetooth services
-        }
-
+        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
         pUsb->GetAddressPool().FreeAddress(bAddress);
-        bAddress = 0;
-        bPollEnable = false;
-        bNumEP = 1; // must have to be reset to 1
         return 0;
 }
 
@@ -382,7 +414,7 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_INQUIRY_COMPLETE:
-                                if (inquiry_counter >= 5) {
+                                if (inquiry_counter >= 5 && pairWithWii) {
                                         inquiry_counter = 0;
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nCouldn't find Wiimote"), 0x80);
@@ -435,7 +467,7 @@ void BTD::HCI_event_task() {
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                                         hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                                 }
-#ifdef EXTRADEBUG
+#ifdef DEBUG_USB_HOST
                                 else {
                                         Notify(PSTR("\r\nConnection Failed"), 0x80);
                                         hci_state = HCI_CHECK_WII_SERVICE;
@@ -779,6 +811,10 @@ void BTD::HCI_task() {
                                         hcibuf[i] = 0;
                                 for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
                                         l2capinbuf[i] = 0;
+
+                                connectToWii = false;
+                                incomingWii = false;
+                                pairWithWii = false;
 
                                 hci_state = HCI_SCANNING_STATE;
                         }
