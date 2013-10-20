@@ -613,7 +613,7 @@ public:
 // Arduino Leonardo pin numbers
 
 #elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
-// Teensy++ 2.0 pin numbers
+// Teensy++ 1.0 and 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pd0
 #define P1  Pd1
@@ -661,7 +661,7 @@ public:
 #define P43 Pf5
 #define P44 Pf6
 #define P45 Pf7
-// Teensy++ 2.0
+// Teensy++ 1.0 and 2.0
 
 #elif defined(ARDUINO_AVR_BALANDUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284P__))
 // Balanduino pin numbers
@@ -737,6 +737,9 @@ public:
 #define P30 Pa6
 #define P31 Pa7
 // Sanguino
+
+#else
+#error "Please define board in avrpins.h"
 
 #endif // Arduino pin definitions
 
