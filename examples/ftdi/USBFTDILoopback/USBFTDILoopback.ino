@@ -38,6 +38,7 @@ uint32_t next_time;
 void setup()
 {
   Serial.begin( 115200 );
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   Serial.println("Start");
 
   if (Usb.Init() == -1)

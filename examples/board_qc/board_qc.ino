@@ -19,6 +19,7 @@ USB Usb;
 void setup()
 {
   Serial.begin( 115200 );
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   E_Notify(PSTR("\r\nCircuits At Home 2011"),0x80);
   E_Notify(PSTR("\r\nUSB Host Shield Quality Control Routine"),0x80);  
   /* SPI quick test - check revision register */

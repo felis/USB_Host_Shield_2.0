@@ -15,12 +15,13 @@ ADK adk(&Usb,"TKJElectronics", // Manufacturer Name
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\r\nADK demo start");
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print("\r\nOSCOKIRQ failed to assert");
     while(1); //halt
   }
   pinMode(LED, OUTPUT);
+  Serial.print("\r\nArduino Blink LED Started");
 }
 
 void loop()
