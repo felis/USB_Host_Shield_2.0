@@ -285,11 +285,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         }
                                 }
                                 if (l2capinbuf[9] == 0x31 || l2capinbuf[9] == 0x33 || l2capinbuf[9] == 0x35 || l2capinbuf[9] == 0x37) { // Read the accelerometer
-                                        accX = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5)) - 500;
-                                        accY = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4)) - 500;
-                                        accZ = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5)) - 500;
-                                        wiimotePitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                        wiimoteRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
+                                        accXwiimote = ((l2capinbuf[12] << 2) | (l2capinbuf[10] & 0x60 >> 5)) - 500;
+                                        accYwiimote = ((l2capinbuf[13] << 2) | (l2capinbuf[11] & 0x20 >> 4)) - 500;
+                                        accZwiimote = ((l2capinbuf[14] << 2) | (l2capinbuf[11] & 0x40 >> 5)) - 500;
                                 }
                                 switch (l2capinbuf[9]) {
                                         case 0x20: // Status Information - (a1) 20 BB BB LF 00 00 VV
@@ -416,14 +414,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         case 0x30: // Core buttons - (a1) 30 BB BB
                                                 break;
                                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
-                                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
-                                                roll = wiimoteRoll;
                                                 break;
                                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
                                                 break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
-                                                pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus data available
-                                                roll = wiimoteRoll;
 #ifdef WIICAMERA
                                                 // Read the IR data
                                                 IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
@@ -486,8 +480,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         if (!(l2capinbuf[19] & 0x02)) // Check if fast more is used
                                                                                 rollGyroSpeed *= 4.545;
 
-                                                                        pitch = (0.93 * (pitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimotePitch); // Use a complimentary filter to calculate the angle
-                                                                        roll = (0.93 * (roll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * wiimoteRoll);
+                                                                        compPitch = (0.93 * (compPitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimotePitch()); // Use a complimentary filter to calculate the angle
+                                                                        compRoll = (0.93 * (compRoll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimoteRoll());
 
                                                                         gyroYaw += (yawGyroSpeed * ((double)(micros() - timer) / 1000000));
                                                                         gyroRoll += (rollGyroSpeed * ((double)(micros() - timer) / 1000000));
@@ -533,11 +527,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 if (nunchuckConnected) {
                                                                         hatValues[HatX] = l2capinbuf[15];
                                                                         hatValues[HatY] = l2capinbuf[16];
-                                                                        accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x10 >> 3)) - 416;
-                                                                        accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x20 >> 4)) - 416;
-                                                                        accZ = (((l2capinbuf[19] & 0xFE) << 2) | (l2capinbuf[20] & 0xC0 >> 5)) - 416;
-                                                                        nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                                                        nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
+                                                                        accXnunchuck = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x10 >> 3)) - 416;
+                                                                        accYnunchuck = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x20 >> 4)) - 416;
+                                                                        accZnunchuck = (((l2capinbuf[19] & 0xFE) << 2) | (l2capinbuf[20] & 0xC0 >> 5)) - 416;
                                                                 }
                                                                 //else if(classicControllerConnected) { }
                                                         }
@@ -563,14 +555,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 } else if (nunchuckConnected) {
                                                         hatValues[HatX] = l2capinbuf[15];
                                                         hatValues[HatY] = l2capinbuf[16];
-                                                        accX = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x0C >> 2)) - 416;
-                                                        accY = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x30 >> 4)) - 416;
-                                                        accZ = ((l2capinbuf[19] << 2) | (l2capinbuf[20] & 0xC0 >> 6)) - 416;
-                                                        nunchuckPitch = (atan2(accY, accZ) + PI) * RAD_TO_DEG;
-                                                        nunchuckRoll = (atan2(accX, accZ) + PI) * RAD_TO_DEG;
-
-                                                        pitch = wiimotePitch; // The pitch is just equal to the angle calculated from the wiimote as there is no Motion Plus connected
-                                                        roll = wiimoteRoll;
+                                                        accXnunchuck = ((l2capinbuf[17] << 2) | (l2capinbuf[20] & 0x0C >> 2)) - 416;
+                                                        accYnunchuck = ((l2capinbuf[18] << 2) | (l2capinbuf[20] & 0x30 >> 4)) - 416;
+                                                        accZnunchuck = ((l2capinbuf[19] << 2) | (l2capinbuf[20] & 0xC0 >> 6)) - 416;
                                                 } else if (wiiUProControllerConnected) {
                                                         hatValues[LeftHatX] = (l2capinbuf[15] | l2capinbuf[16] << 8);
                                                         hatValues[RightHatX] = (l2capinbuf[17] | l2capinbuf[18] << 8);

@@ -18,7 +18,6 @@ e-mail   :  support@circuitsathome.com
 #ifndef _usb_h_
 #define _usb_h_
 
-
 // WARNING: Do not change the order of includes, or stuff will break!
 #include <inttypes.h>
 #include <stddef.h>

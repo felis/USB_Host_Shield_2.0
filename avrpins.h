@@ -22,6 +22,11 @@ e-mail   :  support@circuitsathome.com
 #else
 #define _avrpins_h_
 
+#if defined(__AVR__)
+
+// pointers are 16 bits on AVR
+#define pgm_read_pointer(p) pgm_read_word(p)
+
 // Support for these boards needs to be manually activated in settings.h or in a makefile
 #if !defined(BOARD_MEGA_ADK) && defined(__AVR_ATmega2560__) && (USE_UHS_MEGA_ADK || defined(ARDUINO_AVR_ADK))
 #define BOARD_MEGA_ADK
@@ -505,7 +510,11 @@ public:
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
+
+#ifdef BOARD_MEGA_ADK // These pins are not broken out on the Arduino ADK
 #define P54 Pe6 // INT on Arduino ADK
+#define P55 Pj2 // MAX_RESET on Arduino ADK
+#endif
 
 // "Mega" pin numbers
 
@@ -608,7 +617,7 @@ public:
 // Arduino Leonardo pin numbers
 
 #elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
-// Teensy++ 2.0 pin numbers
+// Teensy++ 1.0 and 2.0 pin numbers
 // http://www.pjrc.com/teensy/pinout.html
 #define P0  Pd0
 #define P1  Pd1
@@ -656,7 +665,7 @@ public:
 #define P43 Pf5
 #define P44 Pf6
 #define P45 Pf7
-// Teensy++ 2.0
+// Teensy++ 1.0 and 2.0
 
 #elif defined(ARDUINO_AVR_BALANDUINO) && (defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284P__))
 // Balanduino pin numbers
@@ -733,6 +742,83 @@ public:
 #define P31 Pa7
 // Sanguino
 
+#else
+#error "Please define board in avrpins.h"
+
 #endif // Arduino pin definitions
+
+#endif // __AVR__
+
+#if defined(__arm__) && defined(CORE_TEENSY)
+
+// pointers are 32 bits on ARM
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#include "core_pins.h"
+#include "avr_emulation.h"
+
+#define GPIO_BITBAND_ADDR(reg, bit) (((uint32_t)&(reg) - 0x40000000) * 32 + (bit) * 4 + 0x42000000)
+#define GPIO_BITBAND_PTR(reg, bit) ((uint8_t *)GPIO_BITBAND_ADDR((reg), (bit)))
+
+#define MAKE_PIN(className, baseReg, pinNum, configReg) \
+class className { \
+public: \
+  static void Set() { \
+    *GPIO_BITBAND_PTR(baseReg, pinNum) = 1; \
+  } \
+  static void Clear() { \
+    *GPIO_BITBAND_PTR(baseReg, pinNum) = 0; \
+  } \
+  static void SetDirRead() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *(GPIO_BITBAND_PTR(baseReg, pinNum) + 640) = 0; \
+  } \
+  static void SetDirWrite() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *(GPIO_BITBAND_PTR(baseReg, pinNum) + 640) = 1; \
+  } \
+  static uint8_t IsSet() { \
+    return *(GPIO_BITBAND_PTR(baseReg, pinNum) + 512); \
+  } \
+};
+
+MAKE_PIN(P0, CORE_PIN0_PORTREG, CORE_PIN0_BIT, CORE_PIN0_CONFIG);
+MAKE_PIN(P1, CORE_PIN1_PORTREG, CORE_PIN1_BIT, CORE_PIN1_CONFIG);
+MAKE_PIN(P2, CORE_PIN2_PORTREG, CORE_PIN2_BIT, CORE_PIN2_CONFIG);
+MAKE_PIN(P3, CORE_PIN3_PORTREG, CORE_PIN3_BIT, CORE_PIN3_CONFIG);
+MAKE_PIN(P4, CORE_PIN4_PORTREG, CORE_PIN4_BIT, CORE_PIN4_CONFIG);
+MAKE_PIN(P5, CORE_PIN5_PORTREG, CORE_PIN5_BIT, CORE_PIN5_CONFIG);
+MAKE_PIN(P6, CORE_PIN6_PORTREG, CORE_PIN6_BIT, CORE_PIN6_CONFIG);
+MAKE_PIN(P7, CORE_PIN7_PORTREG, CORE_PIN7_BIT, CORE_PIN7_CONFIG);
+MAKE_PIN(P8, CORE_PIN8_PORTREG, CORE_PIN8_BIT, CORE_PIN8_CONFIG);
+MAKE_PIN(P9, CORE_PIN9_PORTREG, CORE_PIN9_BIT, CORE_PIN9_CONFIG);
+MAKE_PIN(P10, CORE_PIN10_PORTREG, CORE_PIN10_BIT, CORE_PIN10_CONFIG);
+MAKE_PIN(P11, CORE_PIN11_PORTREG, CORE_PIN11_BIT, CORE_PIN11_CONFIG);
+MAKE_PIN(P12, CORE_PIN12_PORTREG, CORE_PIN12_BIT, CORE_PIN12_CONFIG);
+MAKE_PIN(P13, CORE_PIN13_PORTREG, CORE_PIN13_BIT, CORE_PIN13_CONFIG);
+MAKE_PIN(P14, CORE_PIN14_PORTREG, CORE_PIN14_BIT, CORE_PIN14_CONFIG);
+MAKE_PIN(P15, CORE_PIN15_PORTREG, CORE_PIN15_BIT, CORE_PIN15_CONFIG);
+MAKE_PIN(P16, CORE_PIN16_PORTREG, CORE_PIN16_BIT, CORE_PIN16_CONFIG);
+MAKE_PIN(P17, CORE_PIN17_PORTREG, CORE_PIN17_BIT, CORE_PIN17_CONFIG);
+MAKE_PIN(P18, CORE_PIN18_PORTREG, CORE_PIN18_BIT, CORE_PIN18_CONFIG);
+MAKE_PIN(P19, CORE_PIN19_PORTREG, CORE_PIN19_BIT, CORE_PIN19_CONFIG);
+MAKE_PIN(P20, CORE_PIN20_PORTREG, CORE_PIN20_BIT, CORE_PIN20_CONFIG);
+MAKE_PIN(P21, CORE_PIN21_PORTREG, CORE_PIN21_BIT, CORE_PIN21_CONFIG);
+MAKE_PIN(P22, CORE_PIN22_PORTREG, CORE_PIN22_BIT, CORE_PIN22_CONFIG);
+MAKE_PIN(P23, CORE_PIN23_PORTREG, CORE_PIN23_BIT, CORE_PIN23_CONFIG);
+MAKE_PIN(P24, CORE_PIN24_PORTREG, CORE_PIN24_BIT, CORE_PIN24_CONFIG);
+MAKE_PIN(P25, CORE_PIN25_PORTREG, CORE_PIN25_BIT, CORE_PIN25_CONFIG);
+MAKE_PIN(P26, CORE_PIN26_PORTREG, CORE_PIN26_BIT, CORE_PIN26_CONFIG);
+MAKE_PIN(P27, CORE_PIN27_PORTREG, CORE_PIN27_BIT, CORE_PIN27_CONFIG);
+MAKE_PIN(P28, CORE_PIN28_PORTREG, CORE_PIN28_BIT, CORE_PIN28_CONFIG);
+MAKE_PIN(P29, CORE_PIN29_PORTREG, CORE_PIN29_BIT, CORE_PIN29_CONFIG);
+MAKE_PIN(P30, CORE_PIN30_PORTREG, CORE_PIN30_BIT, CORE_PIN30_CONFIG);
+MAKE_PIN(P31, CORE_PIN31_PORTREG, CORE_PIN31_BIT, CORE_PIN31_CONFIG);
+MAKE_PIN(P32, CORE_PIN32_PORTREG, CORE_PIN32_BIT, CORE_PIN32_CONFIG);
+MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
+
+#undef MAKE_PIN
+
+#endif // __arm__
 
 #endif //_avrpins_h_

@@ -18,13 +18,13 @@
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3> MAX3421E; // Black Widow
 #elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
-typedef MAX3421e<P9, P8> MAX3421E; // Teensy++ 2.0 & 1.0
+typedef MAX3421e<P9, P8> MAX3421E; // Teensy++ 1.0 and 2.0
 #elif defined(BOARD_MEGA_ADK)
 typedef MAX3421e<P53, P54> MAX3421E; // Arduino Mega ADK
 #elif defined(ARDUINO_AVR_BALANDUINO)
 typedef MAX3421e<P20, P19> MAX3421E; // Balanduino
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo etc.)
+typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo etc.) or Teensy 2.0 and 3.0
 #endif
 
 /* Common setup data constant combinations  */
