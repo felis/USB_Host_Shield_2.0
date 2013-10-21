@@ -510,7 +510,11 @@ public:
 #define P51 Pb2
 #define P52 Pb1
 #define P53 Pb0
+
+#ifdef BOARD_MEGA_ADK // These pins are not broken out on the Arduino ADK
 #define P54 Pe6 // INT on Arduino ADK
+#define P55 Pj2 // MAX_RESET on Arduino ADK
+#endif
 
 // "Mega" pin numbers
 

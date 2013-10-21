@@ -95,10 +95,9 @@ template< typename SS, typename INTR >
 MAX3421e< SS, INTR >::MAX3421e() {
 // Leaving ADK hardware setup in here, for now. This really belongs with the other parts.
 #ifdef BOARD_MEGA_ADK
-        /* For Mega ADK, which has Max3421e on-board, set MAX_RESET to Output mode, and pull Reset to HIGH */
-        DDRJ |= _BV(PJ2);
-        PORTJ &= ~_BV(PJ2);
-        PORTJ |= _BV(PJ2);
+        // For Mega ADK, which has a Max3421e on-board, set MAX_RESET to output mode, and then set it to HIGH
+        P55::SetDirWrite();
+        P55::Set();
 #endif
 };
 
