@@ -8,6 +8,7 @@
 /* variables */
 uint8_t rcode;
 uint8_t usbstate;
+uint8_t laststate;
 //uint8_t buf[sizeof(USB_DEVICE_DESCRIPTOR)];
 USB_DEVICE_DESCRIPTOR buf;
 
@@ -18,11 +19,13 @@ USB Usb;
             
 void setup()
 {
+  laststate=0;
   Serial.begin( 115200 );
   E_Notify(PSTR("\r\nCircuits At Home 2011"),0x80);
   E_Notify(PSTR("\r\nUSB Host Shield Quality Control Routine"),0x80);  
   /* SPI quick test - check revision register */
   E_Notify(PSTR("\r\nReading REVISION register... Die revision "),0x80);
+  Usb.Init();
   {
     uint8_t tmpbyte = Usb.regRd( rREVISION );
     switch( tmpbyte ) {
@@ -99,8 +102,8 @@ void setup()
     press_any_key();
   }  
   /* Restart oscillator */
-  E_Notify(PSTR("\r\nResetting oscillator"),0x80);
-  for( uint16_t i = 0; i < 101; i++ ) {
+  E_Notify(PSTR("\r\nResetting oscillator\r\n"),0x80);
+  for( uint16_t i = 0; i < 100; i++ ) {
     E_Notify(PSTR("\rReset number "),0x80);
     Serial.print( i, DEC );
     Usb.regWr( rUSBCTL, bmCHIPRES );  //reset    
@@ -114,7 +117,7 @@ void setup()
       if( Usb.regRd( rUSBIRQ ) & bmOSCOKIRQ ) {
         E_Notify(PSTR(" Time to stabilize - "),0x80);
         Serial.print( j, DEC );
-        E_Notify(PSTR(" cycles"),0x80);
+        E_Notify(PSTR(" cycles\r\n"),0x80);
         break;
       }
     }//for( uint16_t j = 0; j < 65535; j++    
@@ -133,34 +136,37 @@ void setup()
   E_Notify(PSTR("\r\nChecking USB device communication.\r\n"),0x80);
 }
 
+
 void loop()
 {
   delay( 200 );
   Usb.Task();
   usbstate = Usb.getUsbTaskState();
+  if(usbstate != laststate) {
+          laststate=usbstate;
   /**/  
   switch( usbstate ) {
     case( USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE ):
-      E_Notify(PSTR("\rWaiting for device ..."),0x80);
+      E_Notify(PSTR("\r\nWaiting for device..."),0x80);
       break;  
     case( USB_ATTACHED_SUBSTATE_RESET_DEVICE ):
-      E_Notify(PSTR("\r\nDevice connected. Resetting"),0x80);
+      E_Notify(PSTR("\r\nDevice connected. Resetting..."),0x80);
       break;
     case( USB_ATTACHED_SUBSTATE_WAIT_SOF ):
-      E_Notify(PSTR("\rReset complete. Waiting for the first SOF..."),0x80);
+      E_Notify(PSTR("\r\nReset complete. Waiting for the first SOF..."),0x80);
       break;
     case( USB_ATTACHED_SUBSTATE_GET_DEVICE_DESCRIPTOR_SIZE ):
-      E_Notify(PSTR("\r\nSOF generation started. Enumerating device."),0x80);
+      E_Notify(PSTR("\r\nSOF generation started. Enumerating device..."),0x80);
       break;
     case( USB_STATE_ADDRESSING ):
-      E_Notify(PSTR("\r\nSetting device address"),0x80);      
+      E_Notify(PSTR("\r\nSetting device address..."),0x80);      
       break;
     case( USB_STATE_RUNNING ):
       E_Notify(PSTR("\r\nGetting device descriptor"),0x80);
       rcode = Usb.getDevDescr( 1, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)&buf );
       
         if( rcode ) {
-          E_Notify(PSTR("\rError reading device descriptor. Error code "),0x80);
+          E_Notify(PSTR("\r\nError reading device descriptor. Error code "),0x80);
           print_hex( rcode, 8 );
         }
         else {
@@ -199,13 +205,13 @@ void loop()
         }
         break;
     case( USB_STATE_ERROR ):
-      E_Notify(PSTR("\rUSB state machine reached error state"),0x80);
+      E_Notify(PSTR("\r\nUSB state machine reached error state"),0x80);
       break;
       
     default:
       break;
     }//switch( usbstate...
-  
+  }  
 }//loop()...
 
 /* constantly transmits 0x55 via SPI to aid probing */
@@ -247,3 +253,4 @@ void press_any_key()
   Serial.read();                    //empty input buffer    
   return;
 }
+
