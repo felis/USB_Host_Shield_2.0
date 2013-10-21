@@ -245,6 +245,10 @@ setRumbleToggle	KEYWORD2
 getPitch	KEYWORD2
 getRoll	KEYWORD2
 getYaw	KEYWORD2
+getWiimotePitch	KEYWORD2
+getWiimoteRoll	KEYWORD2
+getNunchuckPitch	KEYWORD2
+getNunchuckRoll	KEYWORD2
 PAIR	KEYWORD2
 statusRequest	KEYWORD2
 getBatteryLevel	KEYWORD2
@@ -267,8 +271,6 @@ ZL	LITERAL1
 ZR	LITERAL1
 HatX	LITERAL1
 HatY	LITERAL1
-nunchuckPitch	LITERAL1
-nunchuckRoll	LITERAL1
 
 ####################################################
 # Methods and Functions for the IR Camera

@@ -91,9 +91,9 @@ void loop() {
         }      
         if(Wii[i]->nunchuckConnected) {
           Serial.print(F("\tNunchuck Pitch: "));
-          Serial.print(Wii[i]->nunchuckPitch);
+          Serial.print(Wii[i]->getNunchuckPitch());
           Serial.print(F("\tNunchuck Roll: "));
-          Serial.print(Wii[i]->nunchuckRoll);
+          Serial.print(Wii[i]->getNunchuckRoll());
         }
       }
     }

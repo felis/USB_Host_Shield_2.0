@@ -152,7 +152,9 @@ public:
          * @return Pitch in the range from 0-360.
          */
         double getPitch() {
-                return pitch;
+                if (motionPlusConnected)
+                        return compPitch;
+                return getWiimotePitch();
         };
 
         /**
@@ -160,7 +162,9 @@ public:
          * @return Roll in the range from 0-360.
          */
         double getRoll() {
-                return roll;
+                if (motionPlusConnected)
+                        return compRoll;
+                return getWiimoteRoll();
         };
 
         /**
@@ -250,21 +254,28 @@ public:
 
         /**@{*/
         /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
-        double wiimotePitch;
-        double wiimoteRoll;
+        double getWiimotePitch() {
+                return (atan2(accYwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        };
+        double getWiimoteRoll() {
+                return (atan2(accXwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        };
         /**@}*/
 
         /**@{*/
         /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
-        double nunchuckPitch;
-        double nunchuckRoll;
+        double getNunchuckPitch() {
+                return (atan2(accYnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        };
+        double getNunchuckRoll() {
+                return (atan2(accXnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        };
         /**@}*/
 
         /**@{*/
         /** Accelerometer values used to calculate pitch and roll. */
-        int16_t accX;
-        int16_t accY;
-        int16_t accZ;
+        int16_t accXwiimote, accYwiimote, accZwiimote;
+        int16_t accXnunchuck, accYnunchuck, accZnunchuck;
         /**@}*/
 
         /* Variables for the gyro inside the Motion Plus */
@@ -476,8 +487,8 @@ private:
         void initMotionPlus();
         void activateMotionPlus();
 
-        double pitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
-        double roll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
 
         bool activateNunchuck;
         bool motionValuesReset; // This bool is true when the gyro values has been reset
