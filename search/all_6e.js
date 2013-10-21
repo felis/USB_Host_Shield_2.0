@@ -16,9 +16,6 @@ var searchData=
   ['notifyfailsetdevtblentry',['NotifyFailSetDevTblEntry',['../message_8h.html#a69619d86b1636f141c830ca82c7f45e7',1,'NotifyFailSetDevTblEntry():&#160;message.h'],['../message_8h.html#a69619d86b1636f141c830ca82c7f45e7',1,'NotifyFailSetDevTblEntry():&#160;message.h']]],
   ['notifyfailunknowndevice',['NotifyFailUnknownDevice',['../message_8h.html#a0ce3a725ee65614d7f95cda10e4d2e91',1,'message.h']]],
   ['notifystr',['NotifyStr',['../message_8h.html#aa41f0e761e43cb026f1c7f04f75fa24e',1,'message.h']]],
-  ['number',['Number',['../class_t_pin.html#a65a50f1383fc714442726481039c5fc6ab6c67ae50b9d371577e7fa78775b6fdb',1,'TPin']]],
   ['nunchuck_5fconnected_5fflag',['nunchuck_connected_flag',['../_wii_8h.html#a7ae9154397104e4df34302ed0884bbfb',1,'Wii.h']]],
-  ['nunchuckconnected',['nunchuckConnected',['../class_w_i_i.html#a7cb4cec343c65fd350e6b05043d7f1a8',1,'WII']]],
-  ['nunchuckpitch',['nunchuckPitch',['../class_w_i_i.html#a2b5a934a1be4d7c5e788d3742dd09cbf',1,'WII']]],
-  ['nunchuckroll',['nunchuckRoll',['../class_w_i_i.html#ad6c01ce2e1f7bac2c8982ecfb3f53f71',1,'WII']]]
+  ['nunchuckconnected',['nunchuckConnected',['../class_w_i_i.html#a7cb4cec343c65fd350e6b05043d7f1a8',1,'WII']]]
 ];

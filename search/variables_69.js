@@ -6,6 +6,7 @@ var searchData=
   ['iinterface',['iInterface',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a391ad3184a29ddbe1e02ff1feca8f64a',1,'USB_INTERFACE_DESCRIPTOR']]],
   ['imanufacturer',['iManufacturer',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#ad16528e2a4018962f8d7d97036386eac',1,'USB_DEVICE_DESCRIPTOR']]],
   ['incomingwii',['incomingWii',['../class_b_t_d.html#a4dc8f94fe85028f3d54f13dde1e5b4ee',1,'BTD']]],
+  ['info',['info',['../struct_b_a_s_i_c_c_d_b.html#ae796279e9083692e308e7819349a79fc',1,'BASICCDB']]],
   ['information',['Information',['../struct_request_sense_responce.html#a4342aa28405753a185d867060fec931e',1,'RequestSenseResponce']]],
   ['iproduct',['iProduct',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a63e19361f9fe25a6a2553f7d10569174',1,'USB_DEVICE_DESCRIPTOR']]],
   ['iserialnumber',['iSerialNumber',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#ac9d321b21797ac7a6190ae9a2ffa1e3e',1,'USB_DEVICE_DESCRIPTOR']]],

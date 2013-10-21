@@ -1,7 +1,7 @@
 <map id="ADK" name="ADK">
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,77,91,99"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="116,77,204,99"/>
-<area shape="rect" id="node4" href="$class_u_s_b.html" title="USB" alt="" coords="229,77,267,99"/>
-<area shape="rect" id="node5" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="217,5,279,27"/>
-<area shape="rect" id="node6" href="$struct_ep_info.html" title="EpInfo" alt="" coords="292,77,337,99"/>
+<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,86,133,114"/>
+<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,86,287,114"/>
+<area shape="rect" id="node4" href="$class_u_s_b.html" title="USB" alt="" coords="312,86,360,114"/>
+<area shape="rect" id="node5" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="292,6,380,34"/>
+<area shape="rect" id="node6" href="$struct_ep_info.html" title="EpInfo" alt="" coords="385,86,444,114"/>
 </map>

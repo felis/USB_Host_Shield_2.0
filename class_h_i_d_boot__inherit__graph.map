@@ -1,5 +1,5 @@
 <map id="HIDBoot&lt; BOOT_PROTOCOL &gt;" name="HIDBoot&lt; BOOT_PROTOCOL &gt;">
-<area shape="rect" id="node2" href="$class_h_i_d.html" title="HID" alt="" coords="85,75,123,96"/>
-<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,5,91,27"/>
-<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="116,5,204,27"/>
+<area shape="rect" id="node2" href="$class_h_i_d.html" title="HID" alt="" coords="123,83,167,111"/>
+<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,6,133,34"/>
+<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,6,287,34"/>
 </map>

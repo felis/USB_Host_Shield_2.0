@@ -1,9 +1,9 @@
 <map id="BTD.h" name="BTD.h">
-<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title="BTD.cpp" alt="" coords="5,75,59,96"/>
-<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="83,75,137,96"/>
-<area shape="rect" id="node5" href="$_s_p_p_8h.html" title="SPP.h" alt="" coords="163,75,208,96"/>
-<area shape="rect" id="node7" href="$_wii_8h.html" title="Wii.h" alt="" coords="236,75,276,96"/>
-<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="71,144,133,165"/>
-<area shape="rect" id="node6" href="$_s_p_p_8cpp.html" title="SPP.cpp" alt="" coords="159,144,212,165"/>
-<area shape="rect" id="node8" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="236,144,284,165"/>
+<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title="BTD.cpp" alt="" coords="5,83,77,111"/>
+<area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="102,83,175,111"/>
+<area shape="rect" id="node5" href="$_s_p_p_8h.html" title="SPP.h" alt="" coords="199,83,256,111"/>
+<area shape="rect" id="node7" href="$_wii_8h.html" title="Wii.h" alt="" coords="288,83,339,111"/>
+<area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="80,161,167,189"/>
+<area shape="rect" id="node6" href="$_s_p_p_8cpp.html" title="SPP.cpp" alt="" coords="192,161,263,189"/>
+<area shape="rect" id="node8" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="287,161,352,189"/>
 </map>

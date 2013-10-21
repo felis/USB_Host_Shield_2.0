@@ -1,8 +1,6 @@
 var searchData=
 [
   ['wiicamerareadme',['WiiCameraReadme',['../md___users__lauszus__git_hub__u_s_b__host__shield_2_80__wii_camera_readme.html',1,'']]],
-  ['waiteforclear',['WaiteForClear',['../class_t_pin.html#a11d829986be3d56f5bfd71b96b0b7885',1,'TPin']]],
-  ['waiteforset',['WaiteForSet',['../class_t_pin.html#a6f8c73e49de917bb5753ae41309a6198',1,'TPin']]],
   ['watingforconnection',['watingForConnection',['../class_b_t_d.html#aa7735da01865bab01b569ee836173737',1,'BTD']]],
   ['wdescriptorlength',['wDescriptorLength',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a0b160c43f6a6132c0debabd6ef171950',1,'USB_HID_DESCRIPTOR::wDescriptorLength()'],['../struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html#a98251c1867caf1651f6e926952189201',1,'HID_CLASS_DESCRIPTOR_LEN_AND_TYPE::wDescriptorLength()']]],
   ['white',['WHITE',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0a283fc479650da98250635b9c3c0e7e50',1,'WHITE():&#160;controllerEnums.h'],['../_p_s3_enums_8h.html#a55ecd4f2ec2ebfe8d5b0163e4ac2a967ab548046646b36c12aa6ba841de500094',1,'White():&#160;PS3Enums.h']]],
@@ -18,8 +16,6 @@ var searchData=
   ['wiicamera',['WIICAMERA',['../_wii_8h.html#a8a70a2d3fd20f9005aa8dc5849beb147',1,'Wii.h']]],
   ['wiicamerareadme_2emd',['WiiCameraReadme.md',['../_wii_camera_readme_8md.html',1,'']]],
   ['wiimoteconnected',['wiimoteConnected',['../class_w_i_i.html#ae25a8ea1b0713801e0209e795b4596fa',1,'WII']]],
-  ['wiimotepitch',['wiimotePitch',['../class_w_i_i.html#a1421306c25a76c0fa24f7ee4b10b757b',1,'WII']]],
-  ['wiimoteroll',['wiimoteRoll',['../class_w_i_i.html#ab22594da86218dccf86806b13d6a7a70',1,'WII']]],
   ['wiiuprocontroller',['wiiUProController',['../class_b_t_d.html#a962a5714c225dcb633434f02e3657583',1,'BTD']]],
   ['wiiuprocontrollerconnected',['wiiUProControllerConnected',['../class_w_i_i.html#a461f5b7a5f2bc874e107fc776c284b16',1,'WII']]],
   ['windex',['wIndex',['../struct_c_l_a_s_s___n_o_t_i_f_i_c_a_t_i_o_n.html#aae0d299b4d6e5ee396ace3f1b4cc7352',1,'CLASS_NOTIFICATION::wIndex()'],['../struct_s_e_t_u_p___p_k_t.html#a299d9f88d294369ea88b48b5026f4c7e',1,'SETUP_PKT::wIndex()']]],
@@ -29,7 +25,7 @@ var searchData=
   ['writeok',['WriteOk',['../class_bulk_only.html#af763ffffdd131949322d583fb4cd2737',1,'BulkOnly']]],
   ['writeprotected',['WriteProtected',['../class_bulk_only.html#ab0976e6d4f5fdeff800f3769e7b287c9',1,'BulkOnly']]],
   ['wtotallength',['wTotalLength',['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#a39499f3dd4e3f1ef1d8a2c9b430bc11b',1,'USB_CONFIGURATION_DESCRIPTOR']]],
-  ['wval_5fu',['wVal_u',['../struct_s_e_t_u_p___p_k_t.html#ab67c32e030b5a78807ff16506d524aa4',1,'SETUP_PKT']]],
+  ['wval_5fu',['wVal_u',['../struct_s_e_t_u_p___p_k_t.html#a620cfa5492e0b38a38b3580bfbfa5c6b',1,'SETUP_PKT']]],
   ['wvalue',['wValue',['../struct_c_l_a_s_s___n_o_t_i_f_i_c_a_t_i_o_n.html#ab55dc65ad3f5b47da89beeaf7c03b4bc',1,'CLASS_NOTIFICATION::wValue()'],['../struct_s_e_t_u_p___p_k_t.html#a1382f4a10a9b0774f803d1125dd9bb52',1,'SETUP_PKT::wValue()']]],
   ['wvaluehi',['wValueHi',['../struct_s_e_t_u_p___p_k_t.html#a04ea2d151f9edb6575fc159a58f1e443',1,'SETUP_PKT']]],
   ['wvaluelo',['wValueLo',['../struct_s_e_t_u_p___p_k_t.html#a68c9436c00560f96e044052c3fb681e9',1,'SETUP_PKT']]]

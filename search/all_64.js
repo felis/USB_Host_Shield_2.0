@@ -8,7 +8,7 @@ var searchData=
   ['data_5fsize_5f2',['DATA_SIZE_2',['../hid_8h.html#afe89ca0c78d174017905ca74606e7917',1,'hid.h']]],
   ['data_5fsize_5f4',['DATA_SIZE_4',['../hid_8h.html#a6fa5c717ec22c6281adf163d0dc4a1fb',1,'hid.h']]],
   ['data_5fsize_5fmask',['DATA_SIZE_MASK',['../hid_8h.html#a80a14b35dd7216f368201bbdc1cb101c',1,'hid.h']]],
-  ['dcbwdatatransferlength',['dCBWDataTransferLength',['../struct_command_block_wrapper_base.html#a62c537797107ada830b86e1f2d629164',1,'CommandBlockWrapperBase::dCBWDataTransferLength()'],['../class_bulk_only.html#a7b90227b0707d19385b9fa2fae85e184',1,'BulkOnly::dCBWDataTransferLength()']]],
+  ['dcbwdatatransferlength',['dCBWDataTransferLength',['../struct_command_block_wrapper_base.html#a62c537797107ada830b86e1f2d629164',1,'CommandBlockWrapperBase']]],
   ['dcbwsignature',['dCBWSignature',['../struct_command_block_wrapper_base.html#a133ffc8ac9be6ce284f10efece567748',1,'CommandBlockWrapperBase']]],
   ['dcbwtag',['dCBWTag',['../struct_command_block_wrapper_base.html#a0898a332eec2d598b80a896ff66d5549',1,'CommandBlockWrapperBase::dCBWTag()'],['../class_bulk_only.html#a7ae682d50badd1386a06f30f35a32d1d',1,'BulkOnly::dCBWTag()']]],
   ['dcr0_5finit',['DCR0_INIT',['../cdcprolific_8h.html#ad74aa175219ba20da29bd49595fb424a',1,'cdcprolific.h']]],

@@ -1,11 +1,3 @@
 <map id="max_LCD.h" name="max_LCD.h">
-<area shape="rect" id="node4" href="$_usb_8h.html" title="Usb.h" alt="" coords="485,75,528,96"/>
-<area shape="rect" id="node6" href="$avrpins_8h.html" title="avrpins.h" alt="" coords="766,213,820,235"/>
-<area shape="rect" id="node8" href="$max3421e_8h.html" title="max3421e.h" alt="" coords="472,213,539,235"/>
-<area shape="rect" id="node9" href="$usbhost_8h.html" title="usbhost.h" alt="" coords="639,144,696,165"/>
-<area shape="rect" id="node11" href="$usb__ch9_8h.html" title="usb_ch9.h" alt="" coords="563,213,621,235"/>
-<area shape="rect" id="node13" href="$address_8h.html" title="address.h" alt="" coords="381,144,437,165"/>
-<area shape="rect" id="node15" href="$message_8h.html" title="message.h" alt="" coords="93,144,155,165"/>
-<area shape="rect" id="node17" href="$printhex_8h.html" title="printhex.h" alt="" coords="129,283,185,304"/>
-<area shape="rect" id="node18" href="$hexdump_8h.html" title="hexdump.h" alt="" coords="59,213,120,235"/>
+<area shape="rect" id="node2" href="$_usb_8h.html" title="Usb.h" alt="" coords="5,83,61,111"/>
 </map>

@@ -1,14 +1,15 @@
 var searchData=
 [
+  ['r1',['R1',['../struct_inquiry_response.html#a72abbdbd399647227ea05cb1cec32b2d',1,'InquiryResponse']]],
+  ['r2',['R2',['../struct_inquiry_response.html#aa635575deb7f984d27142ee2071af5b3',1,'InquiryResponse']]],
   ['ready',['ready',['../class_a_d_k.html#a135db75b9e8cdd59b89f46c44dd83dd4',1,'ADK::ready()'],['../class_a_c_m.html#a8ebf4b872b0ed66e93b4ed39f46290fd',1,'ACM::ready()']]],
   ['recipient',['recipient',['../struct_s_e_t_u_p___p_k_t.html#a690a55f65b2ce4e69c426b92004a1cc6',1,'SETUP_PKT']]],
   ['reladdr',['RelAddr',['../struct_inquiry_response.html#a64121510090cb38926bbb321e98b1a13',1,'InquiryResponse']]],
   ['remote_5fname',['remote_name',['../class_b_t_d.html#aede42d995c384c238fd49d728df01e4e',1,'BTD']]],
   ['removable',['Removable',['../struct_inquiry_response.html#ab6572ef8e5cd457e0699095f6a0c7a3d',1,'InquiryResponse']]],
-  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#a87ac5c76f3d75b79618679c285ede68b',1,'SETUP_PKT']]],
+  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#a593d2ea5c01ccd4e4f7935afb3f44904',1,'SETUP_PKT']]],
+  ['res',['Res',['../struct_inquiry_response.html#a9f642c5fccc1c87cf6b444a138b6aa4b',1,'InquiryResponse']]],
   ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
-  ['reserved2',['Reserved2',['../struct_inquiry_response.html#abe5677b01f709411d446dfa6246ca110',1,'InquiryResponse']]],
-  ['reserved3',['Reserved3',['../struct_inquiry_response.html#a3ee7e8654e1216110896e27c97125923',1,'InquiryResponse']]],
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
   ['responsedataformat',['ResponseDataFormat',['../struct_inquiry_response.html#a801e10546dedbd134568bef84f1b287a',1,'InquiryResponse']]],
   ['revisionid',['RevisionID',['../struct_inquiry_response.html#a23775c8cb582ae07c78449dc1a08c23e',1,'InquiryResponse']]],

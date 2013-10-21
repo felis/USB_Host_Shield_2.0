@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data',['data',['../struct_capacity.html#ae6dd521cd2ece3d6fa6fe58180fb9e8a',1,'Capacity']]],
-  ['dcbwdatatransferlength',['dCBWDataTransferLength',['../struct_command_block_wrapper_base.html#a62c537797107ada830b86e1f2d629164',1,'CommandBlockWrapperBase::dCBWDataTransferLength()'],['../class_bulk_only.html#a7b90227b0707d19385b9fa2fae85e184',1,'BulkOnly::dCBWDataTransferLength()']]],
+  ['dcbwdatatransferlength',['dCBWDataTransferLength',['../struct_command_block_wrapper_base.html#a62c537797107ada830b86e1f2d629164',1,'CommandBlockWrapperBase']]],
   ['dcbwsignature',['dCBWSignature',['../struct_command_block_wrapper_base.html#a133ffc8ac9be6ce284f10efece567748',1,'CommandBlockWrapperBase']]],
   ['dcbwtag',['dCBWTag',['../struct_command_block_wrapper_base.html#a0898a332eec2d598b80a896ff66d5549',1,'CommandBlockWrapperBase::dCBWTag()'],['../class_bulk_only.html#a7ae682d50badd1386a06f30f35a32d1d',1,'BulkOnly::dCBWTag()']]],
   ['dcswdataresidue',['dCSWDataResidue',['../struct_command_status_wrapper.html#adf944665d28bb394a3d9756e8418d09e',1,'CommandStatusWrapper']]],

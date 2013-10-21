@@ -101,6 +101,7 @@ var searchData=
   ['bparitytype',['bParityType',['../struct_l_i_n_e___c_o_d_i_n_g.html#ad14985344c9e31a210999dfa0b4ccc42',1,'LINE_CODING']]],
   ['bpollenable',['bPollEnable',['../class_a_c_m.html#acd6716c4fc871942fca55e1501dc5b09',1,'ACM::bPollEnable()'],['../class_bulk_only.html#a21961ad1130480f534ef3e91f24c56a0',1,'BulkOnly::bPollEnable()']]],
   ['bpwron2pwrgood',['bPwrOn2PwrGood',['../struct_hub_descriptor.html#a670882df710639db15249ee9a956b664',1,'HubDescriptor']]],
+  ['bque',['BQUE',['../struct_inquiry_response.html#af735c28637c0ebc8f3e8a04f7b3023cc',1,'InquiryResponse']]],
   ['brequest',['bRequest',['../struct_s_e_t_u_p___p_k_t.html#a321b931277d6ce278416dc5d74059016',1,'SETUP_PKT']]],
   ['breserved',['bReserved',['../struct_k_b_d_i_n_f_o.html#a91061aae6b2f52c94b1ed734def585a0',1,'KBDINFO']]],
   ['bresponsecode',['bResponseCode',['../struct_request_sense_responce.html#a7db2938d24b431077a52edd1b8c48557',1,'RequestSenseResponce']]],

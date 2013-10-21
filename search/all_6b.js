@@ -2,7 +2,7 @@ var searchData=
 [
   ['kbdinfo',['KBDINFO',['../struct_k_b_d_i_n_f_o.html',1,'KBDINFO'],['../class_keyboard_report_parser.html#ab62ffa0e72677379d1e68538625f2f28',1,'KeyboardReportParser::kbdInfo()']]],
   ['kbdleds',['KBDLEDS',['../struct_k_b_d_l_e_d_s.html',1,'KBDLEDS'],['../class_keyboard_report_parser.html#aa867ab4b6898efa9b768bd05f275809c',1,'KeyboardReportParser::kbdLeds()']]],
-  ['kbdlockingkeys',['kbdLockingKeys',['../class_keyboard_report_parser.html#a61b14d08418be2e8f2a30b6cfbecef4e',1,'KeyboardReportParser']]],
+  ['kbdlockingkeys',['kbdLockingKeys',['../class_keyboard_report_parser.html#a8a8bd1a171e6b17d1c6db04cedeeff44',1,'KeyboardReportParser']]],
   ['kbreakerror',['kBreakError',['../cdcprolific_8h.html#a7f802be6da599613666caca90940a118',1,'cdcprolific.h']]],
   ['kcontrol_5fdtr',['kCONTROL_DTR',['../cdcprolific_8h.html#afd88d628823395976fc1f615226f9c94',1,'cdcprolific.h']]],
   ['kcontrol_5frts',['kCONTROL_RTS',['../cdcprolific_8h.html#a329541dad3c626b963b0ece5a478247f',1,'cdcprolific.h']]],

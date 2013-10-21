@@ -104,7 +104,7 @@ var searchData=
   ['hub_5fport_5findicator_5fauto',['HUB_PORT_INDICATOR_AUTO',['../usbhub_8h.html#ad46c4b423456bcabf9397cc07834d4cc',1,'usbhub.h']]],
   ['hub_5fport_5findicator_5fgreen',['HUB_PORT_INDICATOR_GREEN',['../usbhub_8h.html#a0a7c759f4d892c4aa70b623298f6c2f9',1,'usbhub.h']]],
   ['hub_5fport_5findicator_5foff',['HUB_PORT_INDICATOR_OFF',['../usbhub_8h.html#aee99581417e17b9351d232a3bc104b09',1,'usbhub.h']]],
-  ['hub_5fport_5freset_5fdelay',['HUB_PORT_RESET_DELAY',['../_usb_8h.html#ae843af5aa0de74b17c3d8c8f8fab4c00',1,'Usb.h']]],
+  ['hub_5fport_5freset_5fdelay',['HUB_PORT_RESET_DELAY',['../_usb_core_8h.html#ae843af5aa0de74b17c3d8c8f8fab4c00',1,'UsbCore.h']]],
   ['hub_5fport_5ftest_5fmode_5fforce_5fenable',['HUB_PORT_TEST_MODE_FORCE_ENABLE',['../usbhub_8h.html#a8df9586afabef769b864a1b3d029f22e',1,'usbhub.h']]],
   ['hub_5fport_5ftest_5fmode_5fj',['HUB_PORT_TEST_MODE_J',['../usbhub_8h.html#ae92a75fe461c0a438517d4f048d4b09e',1,'usbhub.h']]],
   ['hub_5fport_5ftest_5fmode_5fk',['HUB_PORT_TEST_MODE_K',['../usbhub_8h.html#a8bef060f3d36ec0fc4e584e845cda659',1,'usbhub.h']]],

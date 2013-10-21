@@ -8,8 +8,10 @@ var searchData=
   ['teltitles5',['telTitles5',['../class_report_desc_parser_base.html#a3882e20433145daa93bd23d4cff779e9',1,'ReportDescParserBase']]],
   ['thebuffer',['theBuffer',['../class_report_desc_parser_base.html#a5ac0dd6f06df15a4cd2bad3fa175e7b9',1,'ReportDescParserBase']]],
   ['theskipper',['theSkipper',['../class_report_desc_parser_base.html#a23b769d890d9f578fd6b8f47cb1f7e23',1,'ReportDescParserBase']]],
+  ['threepc',['ThreePC',['../struct_inquiry_response.html#a48b774030b80f98823e9b38aba8a625d',1,'InquiryResponse']]],
   ['totalendpoints',['totalEndpoints',['../class_h_i_d.html#a884aa67312324e7d23a052a6dc80337e',1,'HID']]],
   ['totalsize',['totalSize',['../class_report_desc_parser_base.html#aa5223ad6eb8be8c7fb53a98d4ddde594',1,'ReportDescParserBase']]],
+  ['tpgs',['TPGS',['../struct_inquiry_response.html#ada0ff6b78ecefa9b00bbe4e518ca4870',1,'InquiryResponse']]],
   ['trmtsk',['TrmTsk',['../struct_inquiry_response.html#add4ccc2e5f626d29a24e5f38149a2e76',1,'InquiryResponse']]],
   ['ttthinktime',['TTThinkTime',['../struct_hub_descriptor.html#a00002f5db3d923aa11645bfde3cd650e',1,'HubDescriptor']]],
   ['type',['type',['../struct_s_e_t_u_p___p_k_t.html#ad9346ba7b7a4da6829142e23e3ba8a2f',1,'SETUP_PKT']]]

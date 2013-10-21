@@ -1,5 +1,5 @@
 <map id="BluetoothService" name="BluetoothService">
-<area shape="rect" id="node2" href="$class_p_s3_b_t.html" title="PS3BT" alt="" coords="5,75,53,96"/>
-<area shape="rect" id="node3" href="$class_s_p_p.html" title="SPP" alt="" coords="78,75,116,96"/>
-<area shape="rect" id="node4" href="$class_w_i_i.html" title="WII" alt="" coords="141,75,179,96"/>
+<area shape="rect" id="node2" href="$class_p_s3_b_t.html" title="PS3BT" alt="" coords="4,83,67,111"/>
+<area shape="rect" id="node3" href="$class_s_p_p.html" title="SPP" alt="" coords="92,83,140,111"/>
+<area shape="rect" id="node4" href="$class_w_i_i.html" title="WII" alt="" coords="165,83,205,111"/>
 </map>

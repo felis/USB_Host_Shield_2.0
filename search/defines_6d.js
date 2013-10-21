@@ -1,8 +1,6 @@
 var searchData=
 [
   ['madcatz_5fvid',['MADCATZ_VID',['../_x_b_o_x_o_l_d_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'MADCATZ_VID():&#160;XBOXOLD.h'],['../_x_b_o_x_r_e_c_v_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'MADCATZ_VID():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#a2f5523a1aaa6718e1d11c6bc5b29a575',1,'MADCATZ_VID():&#160;XBOXUSB.h']]],
-  ['make_5fport',['MAKE_PORT',['../avrpins_8h.html#a007409bc8f4dbfad293d3e4c59bd2921',1,'avrpins.h']]],
-  ['make_5ftccr',['MAKE_TCCR',['../avrpins_8h.html#ade418bf397968e1b184b4342e16e950f',1,'avrpins.h']]],
   ['mass_5fcbw_5fsignature',['MASS_CBW_SIGNATURE',['../masstorage_8h.html#a439c9558fff25c40219c0f20244e666d',1,'masstorage.h']]],
   ['mass_5fcmd_5fdir_5fin',['MASS_CMD_DIR_IN',['../masstorage_8h.html#a012ee34e4ce8d644c2f75099867b26c0',1,'masstorage.h']]],
   ['mass_5fcmd_5fdir_5fout',['MASS_CMD_DIR_OUT',['../masstorage_8h.html#ad74d783991b5eea6ad8ef2feb2ce03ea',1,'masstorage.h']]],
@@ -16,6 +14,7 @@ var searchData=
   ['mass_5ferr_5finvalid_5flun',['MASS_ERR_INVALID_LUN',['../masstorage_8h.html#a5341c969f1daf8a9e8d345c0ba36fa54',1,'masstorage.h']]],
   ['mass_5ferr_5fmedia_5fchanged',['MASS_ERR_MEDIA_CHANGED',['../masstorage_8h.html#a6ddc06e45101114eb7842a7ee57f7d43',1,'masstorage.h']]],
   ['mass_5ferr_5fno_5fmedia',['MASS_ERR_NO_MEDIA',['../masstorage_8h.html#aec47def0928045fdca474d78db866c39',1,'masstorage.h']]],
+  ['mass_5ferr_5fnot_5fimplemented',['MASS_ERR_NOT_IMPLEMENTED',['../masstorage_8h.html#a4c80ae6c61331a0dd2a1950a25829a85',1,'masstorage.h']]],
   ['mass_5ferr_5fphase_5ferror',['MASS_ERR_PHASE_ERROR',['../masstorage_8h.html#afe7b492eca9349e54443c5c08f77b238',1,'masstorage.h']]],
   ['mass_5ferr_5fread_5fnaks',['MASS_ERR_READ_NAKS',['../masstorage_8h.html#a4da4bdba7c86bcd6d0a97883de976b74',1,'masstorage.h']]],
   ['mass_5ferr_5fstall',['MASS_ERR_STALL',['../masstorage_8h.html#a13aee9eab965d570a4a00463cd20ca29',1,'masstorage.h']]],
@@ -28,7 +27,7 @@ var searchData=
   ['mass_5ferr_5fwrite_5fprotected',['MASS_ERR_WRITE_PROTECTED',['../masstorage_8h.html#ac8c588cb96077b615de2bd53f77d4c15',1,'masstorage.h']]],
   ['mass_5ferr_5fwrite_5fstall',['MASS_ERR_WRITE_STALL',['../masstorage_8h.html#a1b4efb4cfc2b0d4a912abe587a145b84',1,'masstorage.h']]],
   ['mass_5fmax_5fendpoints',['MASS_MAX_ENDPOINTS',['../masstorage_8h.html#ab4baa1ea500923e1fc59e5991f05fe99',1,'masstorage.h']]],
-  ['mass_5fmax_5fsupported_5flun',['MASS_MAX_SUPPORTED_LUN',['../masstorage_8h.html#a68a8c3241954d2159ff8df696dd5cff6',1,'masstorage.h']]],
+  ['mass_5fmax_5fsupported_5flun',['MASS_MAX_SUPPORTED_LUN',['../settings_8h.html#a68a8c3241954d2159ff8df696dd5cff6',1,'settings.h']]],
   ['mass_5fproto_5fbbb',['MASS_PROTO_BBB',['../masstorage_8h.html#a17a026f7d64e8daf27b45c295755fdf0',1,'masstorage.h']]],
   ['mass_5fproto_5fcbi',['MASS_PROTO_CBI',['../masstorage_8h.html#a64c21e402034e68542f25358c7978a67',1,'masstorage.h']]],
   ['mass_5fproto_5fcbi_5fno_5fint',['MASS_PROTO_CBI_NO_INT',['../masstorage_8h.html#a5930934a4ce762f4cb9666d8f95ddee9',1,'masstorage.h']]],
@@ -55,5 +54,6 @@ var searchData=
   ['mode_5ffs_5fhost',['MODE_FS_HOST',['../max3421e_8h.html#a456c3175b4836ed1d2b276faeba55121',1,'max3421e.h']]],
   ['mode_5fls_5fhost',['MODE_LS_HOST',['../max3421e_8h.html#ab3da1b5bd1f43ba9f9da604841ba8802',1,'max3421e.h']]],
   ['motion_5fplus_5fconnected_5fflag',['motion_plus_connected_flag',['../_wii_8h.html#a3d4b4f06162f96e91d97650f5c2e60f7',1,'Wii.h']]],
-  ['move_5freport_5fbuffer_5fsize',['MOVE_REPORT_BUFFER_SIZE',['../_p_s3_enums_8h.html#a2c6c24a4b63d9a34926fb35d6b49cd17',1,'PS3Enums.h']]]
+  ['move_5freport_5fbuffer_5fsize',['MOVE_REPORT_BUFFER_SIZE',['../_p_s3_enums_8h.html#a2c6c24a4b63d9a34926fb35d6b49cd17',1,'PS3Enums.h']]],
+  ['ms_5fwant_5fparser',['MS_WANT_PARSER',['../masstorage_8h.html#a5038292165e25bd0f87793941a280494',1,'masstorage.h']]]
 ];

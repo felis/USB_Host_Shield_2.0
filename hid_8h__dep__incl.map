@@ -1,9 +1,9 @@
 <map id="hid.h" name="hid.h">
-<area shape="rect" id="node2" href="$hid_8cpp.html" title="hid.cpp" alt="" coords="5,75,53,96"/>
-<area shape="rect" id="node3" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="78,75,132,96"/>
-<area shape="rect" id="node5" href="$hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="157,75,251,96"/>
-<area shape="rect" id="node7" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="279,75,351,96"/>
-<area shape="rect" id="node4" href="$hidboot_8cpp.html" title="hidboot.cpp" alt="" coords="65,144,129,165"/>
-<area shape="rect" id="node6" href="$hidescriptorparser_8cpp.html" title="hidescriptorparser.cpp" alt="" coords="153,144,255,165"/>
-<area shape="rect" id="node8" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="279,144,359,165"/>
+<area shape="rect" id="node2" href="$hid_8cpp.html" title="hid.cpp" alt="" coords="5,83,69,111"/>
+<area shape="rect" id="node3" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="94,83,169,111"/>
+<area shape="rect" id="node5" href="$hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="193,83,331,111"/>
+<area shape="rect" id="node7" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="363,83,465,111"/>
+<area shape="rect" id="node4" href="$hidboot_8cpp.html" title="hidboot.cpp" alt="" coords="72,161,161,189"/>
+<area shape="rect" id="node6" href="$hidescriptorparser_8cpp.html" title="hidescriptorparser.cpp" alt="" coords="186,161,339,189"/>
+<area shape="rect" id="node8" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="362,161,480,189"/>
 </map>
