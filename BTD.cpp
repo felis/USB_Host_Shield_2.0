@@ -167,6 +167,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailSetDevTblEntry;
 
         if (VID == PS3_VID && (PID == PS3_PID || PID == PS3NAVIGATION_PID || PID == PS3MOVE_PID)) {
+                delay(100);
                 rcode = pUsb->setConf(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, 1); // We only need the Control endpoint, so we don't have to initialize the other endpoints of device
                 if (rcode)
                         goto FailSetConfDescr;
