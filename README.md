@@ -184,7 +184,7 @@ After that you can simply create the instance like so:
 WII Wii(&Btd);
 ```
 
-Then just press any button any button on the Wiimote and it will connect to the dongle.
+Then just press any button on the Wiimote and it will then connect to the dongle.
 
 Take a look at the example for more information: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino>.
 
