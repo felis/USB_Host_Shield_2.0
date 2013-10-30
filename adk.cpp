@@ -298,9 +298,9 @@ Fail:
 
 /* Extracts bulk-IN and bulk-OUT endpoint information from config descriptor */
 void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
-        //ErrorMessage<uint8_t>(PSTR("Conf.Val"),	conf);
-        //ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
-        //ErrorMessage<uint8_t>(PSTR("Alt.Set"),	alt);
+        //ErrorMessage<uint8_t>(PSTR("Conf.Val"), conf);
+        //ErrorMessage<uint8_t>(PSTR("Iface Num"), iface);
+        //ErrorMessage<uint8_t>(PSTR("Alt.Set"), alt);
 
         //added by Yuuichi Akagawa
         if (bNumEP == 3) {
@@ -309,19 +309,16 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
         bConfNum = conf;
 
-        uint8_t index;
+        if ((pep->bmAttributes & 0x02) == 2) {
+                uint8_t index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
+                // Fill in the endpoint info structure
+                epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
+                epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
 
-        //	if ((pep->bmAttributes & 0x02) == 2) {
-        index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
-        //  }
+                bNumEP++;
 
-        // Fill in the endpoint info structure
-        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-
-        bNumEP++;
-
-        //PrintEndpointDescriptor(pep);
+                //PrintEndpointDescriptor(pep);
+        }
 }
 
 /* Performs a cleanup after failed Init() attempt */
