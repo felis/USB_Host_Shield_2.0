@@ -282,7 +282,7 @@ uint8_t XBOXUSB::getButtonPress(Button b) {
                 return (uint8_t)(ButtonState >> 8);
         else if (b == R2)
                 return (uint8_t)ButtonState;
-        return (ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 
 bool XBOXUSB::getButtonClick(Button b) {
