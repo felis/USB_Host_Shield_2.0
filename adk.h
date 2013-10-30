@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
- */
+*/
 
 /* Google ADK interface support header */
 
@@ -25,6 +25,10 @@ e-mail   :  support@circuitsathome.com
 #define ADK_VID   0x18D1
 #define ADK_PID   0x2D00
 #define ADB_PID   0x2D01
+
+#define XOOM  //enables repeating getProto() and getConf() attempts
+              //necessary for slow devices such as Motorola XOOM
+              //defined by default, can be commented out to save memory
 
 /* requests */
 

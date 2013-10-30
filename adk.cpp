@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
- */
+*/
 
 /* Google ADK interface */
 
@@ -30,7 +30,6 @@ ADK::ADK(USB *p, const char* manufacturer,
         const char* serial) :
 
 /* ADK ID Strings */
-
 manufacturer(manufacturer),
 model(model),
 description(description),
@@ -46,11 +45,9 @@ ready(false) {
         for (uint8_t i = 0; i < ADK_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = (0xfc & (USB_NAK_MAX_POWER << 2));
+                epInfo[i].epAttribs = 0;
+                epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
-
-        //set bulk-IN EP naklimit to 1
-        epInfo[epDataInIndex].epAttribs = (0xfc & (USB_NAK_NOWAIT << 2));
 
         // register in USB subsystem
         if (pUsb) {
@@ -64,7 +61,6 @@ uint8_t ADK::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 
 /* Connection initialization of an Android phone */
 uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         uint8_t rcode;
         uint8_t num_of_conf; // number of configurations
@@ -118,6 +114,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         // Extract Max Packet Size from device descriptor
         epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
         if (rcode) {
@@ -156,10 +153,18 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
                 //USBTRACE2("\r\nNC:",num_of_conf);
-
                 for (uint8_t i = 0; i < num_of_conf; i++) {
                         ConfigDescParser < 0, 0, 0, 0 > confDescrParser(this);
+                        delay(1);
                         rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+#if defined(XOOM)
+                        //added by Jaylen Scott Vanorden
+                        if (rcode) {
+                                USBTRACE2("\r\nGot 1st bad code for config: ", rcode);
+                                // Try once more
+                                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                        }
+#endif
                         if (rcode) {
                                 goto FailGetConfDescr;
                         }
@@ -176,27 +181,27 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         }
                 }
 
-
-
                 // Set Configuration Value
                 rcode = pUsb->setConf(bAddress, 0, bConfNum);
                 if (rcode) {
                         goto FailSetConfDescr;
                 }
                 /* print endpoint structure */
-                //		          USBTRACE("\r\nEndpoint Structure:");
-                //		          USBTRACE("\r\nEP0:");
-                //		          USBTRACE2("\r\nAddr: ", epInfo[0].epAddr );
-                //	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[0].maxPktSize );
-                //	            USBTRACE2("\r\nAttr: ", epInfo[0].epAttribs );
-                //	            USBTRACE("\r\nEpout:");
-                //		          USBTRACE2("\r\nAddr: ", epInfo[epDataOutIndex].epAddr );
-                //	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataOutIndex].maxPktSize );
-                //	            USBTRACE2("\r\nAttr: ", epInfo[epDataOutIndex].epAttribs );
-                //	            USBTRACE("\r\nEpin:");
-                //		          USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr );
-                //	            USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize );
-                //	            USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs );
+                /*
+                USBTRACE("\r\nEndpoint Structure:");
+                USBTRACE("\r\nEP0:");
+                USBTRACE2("\r\nAddr: ", epInfo[0].epAddr);
+                USBTRACE2("\r\nMax.pkt.size: ", epInfo[0].maxPktSize);
+                USBTRACE2("\r\nAttr: ", epInfo[0].epAttribs);
+                USBTRACE("\r\nEpout:");
+                USBTRACE2("\r\nAddr: ", epInfo[epDataOutIndex].epAddr);
+                USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataOutIndex].maxPktSize);
+                USBTRACE2("\r\nAttr: ", epInfo[epDataOutIndex].epAttribs);
+                USBTRACE("\r\nEpin:");
+                USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr);
+                USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize);
+                USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs);
+                */
 
                 USBTRACE("\r\nConfiguration successful");
                 ready = true;
@@ -206,7 +211,16 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         //probe device - get accessory protocol revision
         {
                 uint16_t adkproto = -1;
+                delay(1);
                 rcode = getProto((uint8_t*) & adkproto);
+#if defined(XOOM)
+                //added by Jaylen Scott Vanorden
+                if (rcode) {
+                        USBTRACE2("\r\nGot 1st bad code for proto: ", rcode);
+                        // Try once more
+                        rcode = getProto((uint8_t*) & adkproto);
+                }
+#endif
                 if (rcode) {
                         goto FailGetProto; //init fails
                 }
@@ -272,10 +286,9 @@ SwAttempt:
 #ifdef DEBUG_USB_HOST
         USBTRACE("\r\nAccessory mode switch attempt");
 #endif
-        //FailOnInit:
-        //	USBTRACE("OnInit:");
-        //	goto Fail;
-        //
+//FailOnInit:
+//        USBTRACE("OnInit:");
+//        goto Fail;
 Fail:
         //USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
         //NotifyFail(rcode);
