@@ -94,8 +94,10 @@ void loop() {
           Serial.print(Xbox.getBatteryLevel(i)); // The battery level in the range 0-3
           Serial.println(F(")"));
         }
-        if(Xbox.getButtonClick(SYNC,i))
+        if (Xbox.getButtonClick(SYNC, i)) {
           Serial.println(F("Sync"));
+          Xbox.disconnect(i);
+        }
 
         if (Xbox.getButtonClick(A, i))
           Serial.println(F("A"));

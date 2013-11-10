@@ -494,6 +494,15 @@ void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
 #endif
 }
 
+void XBOXRECV::disconnect(uint8_t controller) {
+        writeBuf[0] = 0x00;
+        writeBuf[1] = 0x00;
+        writeBuf[2] = 0x08;
+        writeBuf[3] = 0xC0;
+
+        XboxCommand(controller, writeBuf, 4);
+}
+
 void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {
         writeBuf[0] = 0x00;
         writeBuf[1] = 0x00;

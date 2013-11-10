@@ -145,6 +145,12 @@ public:
         int16_t getAnalogHat(AnalogHat a, uint8_t controller = 0);
 
         /**
+         * Used to disconnect any of the controllers.
+         * @param controller The controller to disconnect. Default to 0.
+         */
+        void disconnect(uint8_t controller = 0);
+
+        /**
          * Turn rumble off and all the LEDs on the specific controller.
          * @param  controller The controller to write to. Default to 0.
          */
