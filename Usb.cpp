@@ -567,6 +567,7 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
 
 uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
         //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
+        uint8_t retries = 0;
 
 again:
         uint8_t rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
@@ -579,15 +580,17 @@ again:
                         // reset parent port
                         devConfig[parent]->ResetHubPort(port);
                 }
-        } else if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+        } else if (rcode == hrJERR && retries < 3) { // Some devices returns this when plugged in - trying to initialize the device again usually works
                 delay(100);
+                retries++;
                 goto again;
         } else if (rcode)
                 return rcode;
 
         rcode = devConfig[driver]->Init(parent, port, lowspeed);
-        if (rcode == hrJERR) { // Some devices returns this when plugged in - trying to initialize the device again usually works
+        if (rcode == hrJERR && retries < 3) { // Some devices returns this when plugged in - trying to initialize the device again usually works
                 delay(100);
+                retries++;
                 goto again;
         }
         if (rcode) {
