@@ -18,7 +18,7 @@
  */
 
 #include "XBOXRECV.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -105,6 +105,8 @@ uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 
         epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
         epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
+
+        delay(20); // Wait a little before resetting device
 
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
@@ -254,6 +256,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         XboxReceiverConnected = true;
         bPollEnable = true;
+        checkStatusTimer = 0; // Reset timer
         return 0; // Successful configuration
 
         /* Diagnostic messages */
@@ -298,10 +301,11 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {
         if (!bPollEnable)
                 return 0;
-        if (!timer || ((millis() - timer) > 3000)) { // Run checkStatus every 3 seconds
-                timer = millis();
+        if (!checkStatusTimer || ((millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
+                checkStatusTimer = millis();
                 checkStatus();
         }
+
         uint8_t inputPipe;
         uint16_t bufferSize;
         for (uint8_t i = 0; i < 4; i++) {

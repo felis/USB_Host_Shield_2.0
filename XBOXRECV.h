@@ -259,7 +259,7 @@ private:
         bool L2Clicked[4]; // These buttons are analog, so we use we use these bools to check if they where clicked or not
         bool R2Clicked[4];
 
-        unsigned long timer; // Timing for checkStatus() signals
+        uint32_t checkStatusTimer; // Timing for checkStatus() signals
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
         uint8_t writeBuf[7]; // General purpose buffer for output data
