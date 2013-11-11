@@ -6,7 +6,7 @@
  */
 
 #ifndef USB_HOST_SHIELD_SETTINGS_H
-#define	USB_HOST_SHIELD_SETTINGS_H
+#define USB_HOST_SHIELD_SETTINGS_H
 #include "macros.h"
 
 ////////////////////////////////////////////////////////////////////////////////
