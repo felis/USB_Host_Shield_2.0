@@ -611,7 +611,7 @@ void PS3BT::setLedToggle(LED a) {
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+void PS3BT::enable_sixaxis() { // Command used to enable the Dualshock 3 and Navigation controller to send data via Bluetooth
         uint8_t cmd_buf[6];
         cmd_buf[0] = 0x53; // HID BT Set_report (0x50) | Report Type (Feature 0x03)
         cmd_buf[1] = 0xF4; // Report ID
@@ -623,7 +623,7 @@ void PS3BT::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navi
         HID_Command(cmd_buf, 6);
 }
 
-//Playstation Move Controller commands
+// Playstation Move Controller commands
 
 void PS3BT::HIDMove_Command(uint8_t* data, uint8_t nbytes) {
         if (millis() - timerHID <= 250)// Check if is has been less than 200ms since last command
