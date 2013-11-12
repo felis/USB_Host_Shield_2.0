@@ -129,7 +129,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         delay(300); // Spec says you should wait at least 200ms
-        
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -279,8 +279,7 @@ uint8_t PS3USB::Poll() {
 #endif
                 }
         } else if (PS3MoveConnected) { // One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB
-                if (millis() - timer > 4000) // Send at least every 4th second
-                {
+                if (millis() - timer > 4000) { // Send at least every 4th second
                         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
                         timer = millis();
                 }
@@ -289,9 +288,6 @@ uint8_t PS3USB::Poll() {
 }
 
 void PS3USB::readReport() {
-        if (readBuf == NULL)
-                return;
-
         ButtonState = (uint32_t)(readBuf[2] | ((uint16_t)readBuf[3] << 8) | ((uint32_t)readBuf[4] << 16));
 
         //Notify(PSTR("\r\nButtonState", 0x80);
@@ -303,10 +299,8 @@ void PS3USB::readReport() {
         }
 }
 
-void PS3USB::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
+void PS3USB::printReport() { // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
 #ifdef PRINTREPORT
-        if (readBuf == NULL)
-                return;
         for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++) {
                 D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
@@ -322,25 +316,19 @@ bool PS3USB::getButtonPress(Button b) {
 bool PS3USB::getButtonClick(Button b) {
         uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
-        ButtonClickState &= ~button; // clear "click" event
+        ButtonClickState &= ~button; // Clear "click" event
         return click;
 }
 
 uint8_t PS3USB::getAnalogButton(Button a) {
-        if (readBuf == NULL)
-                return 0;
         return (uint8_t)(readBuf[(pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a])) - 9]);
 }
 
 uint8_t PS3USB::getAnalogHat(AnalogHat a) {
-        if (readBuf == NULL)
-                return 0;
         return (uint8_t)(readBuf[((uint8_t)a + 6)]);
 }
 
 uint16_t PS3USB::getSensor(Sensor a) {
-        if (readBuf == NULL)
-                return 0;
         return ((readBuf[((uint16_t)a) - 9] << 8) | readBuf[((uint16_t)a + 1) - 9]);
 }
 
@@ -359,23 +347,16 @@ double PS3USB::getAngle(Angle a) {
                 // Convert to 360 degrees resolution
                 // atan2 outputs the value of -π to π (radians)
                 // We are then converting it to 0 to 2π and then to degrees
-                if (a == Pitch) {
-                        double angle = (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
-                        return angle;
-                } else {
-                        double angle = (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
-                        return angle;
-                }
+                if (a == Pitch)
+                        return (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
+                else
+                        return (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
         } else
                 return 0;
 }
 
 bool PS3USB::getStatus(Status c) {
-        if (readBuf == NULL)
-                return false;
-        if (readBuf[((uint16_t)c >> 8) - 9] == ((uint8_t)c & 0xff))
-                return true;
-        return false;
+        return (readBuf[((uint16_t)c >> 8) - 9] == ((uint8_t)c & 0xff));
 }
 
 String PS3USB::getStatusString() {
@@ -414,8 +395,8 @@ String PS3USB::getStatusString() {
 }
 
 /* Playstation Sixaxis Dualshock and Navigation Controller commands */
-void PS3USB::PS3_Command(uint8_t* data, uint16_t nbytes) {
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x01), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
+void PS3USB::PS3_Command(uint8_t *data, uint16_t nbytes) {
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x01), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x01, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
 
@@ -428,9 +409,9 @@ void PS3USB::setAllOff() {
 
 void PS3USB::setRumbleOff() {
         writeBuf[1] = 0x00;
-        writeBuf[2] = 0x00; //low mode off
+        writeBuf[2] = 0x00; // Low mode off
         writeBuf[3] = 0x00;
-        writeBuf[4] = 0x00; //high mode off
+        writeBuf[4] = 0x00; // High mode off
 
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
@@ -474,36 +455,47 @@ void PS3USB::setLedToggle(LED a) {
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::setBdaddr(uint8_t* BDADDR) {
-        /* Set the internal bluetooth address */
+void PS3USB::setBdaddr(uint8_t *bdaddr) {
+        /* Set the internal Bluetooth address */
         uint8_t buf[8];
         buf[0] = 0x01;
         buf[1] = 0x00;
-        for (uint8_t i = 0; i < 6; i++)
-                buf[i + 2] = BDADDR[5 - i]; //Copy into buffer, has to be written reversed
 
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        for (uint8_t i = 0; i < 6; i++)
+                buf[i + 2] = bdaddr[5 - i]; // Copy into buffer, has to be written reversed, so it is MSB first
+
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
 }
 
-void PS3USB::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+void PS3USB::getBdaddr(uint8_t *bdaddr) {
+        uint8_t buf[8];
+
+        // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
+
+        for (uint8_t i = 0; i < 6; i++)
+                bdaddr[5 - i] = buf[i + 2]; // Copy into buffer reversed, so it is LSB first
+}
+
+void PS3USB::enable_sixaxis() { // Command used to enable the Dualshock 3 and Navigation controller to send data via USB
         uint8_t cmd_buf[4];
         cmd_buf[0] = 0x42; // Special PS3 Controller enable commands
         cmd_buf[1] = 0x0c;
         cmd_buf[2] = 0x00;
         cmd_buf[3] = 0x00;
 
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF4), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF4), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF4, 0x03, 0x00, 4, 4, cmd_buf, NULL);
 }
 
 /* Playstation Move Controller commands */
-void PS3USB::Move_Command(uint8_t* data, uint16_t nbytes) {
+void PS3USB::Move_Command(uint8_t *data, uint16_t nbytes) {
         pUsb->outTransfer(bAddress, epInfo[ PS3_OUTPUT_PIPE ].epAddr, nbytes, data);
 }
 
-void PS3USB::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set the Color using RGB values
-        // set the Bulb's values into the write buffer
+void PS3USB::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { // Use this to set the Color using RGB values
+        // Set the Bulb's values into the write buffer
         writeBuf[2] = r;
         writeBuf[3] = g;
         writeBuf[4] = b;
@@ -511,7 +503,7 @@ void PS3USB::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set th
         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::moveSetBulb(Colors color) { //Use this to set the Color using the predefined colors in "enums.h"
+void PS3USB::moveSetBulb(Colors color) { // Use this to set the Color using the predefined colors in "enums.h"
         moveSetBulb((uint8_t)(color >> 16), (uint8_t)(color >> 8), (uint8_t)(color));
 }
 
@@ -520,14 +512,13 @@ void PS3USB::moveSetRumble(uint8_t rumble) {
         if (rumble < 64 && rumble != 0) // The rumble value has to at least 64, or approximately 25% (64/255*100)
                 Notify(PSTR("\r\nThe rumble value has to at least 64, or approximately 25%"), 0x80);
 #endif
-        //set the rumble value into the write buffer
-        writeBuf[6] = rumble;
+        writeBuf[6] = rumble; // Set the rumble value into the write buffer
 
         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
-        /* Set the internal bluetooth address */
+void PS3USB::setMoveBdaddr(uint8_t *bdaddr) {
+        /* Set the internal Bluetooth address */
         uint8_t buf[11];
         buf[0] = 0x05;
         buf[7] = 0x10;
@@ -536,10 +527,32 @@ void PS3USB::setMoveBdaddr(uint8_t* BDADDR) {
         buf[10] = 0x12;
 
         for (uint8_t i = 0; i < 6; i++)
-                buf[i + 1] = BDADDR[i];
+                buf[i + 1] = bdaddr[i];
 
-        //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
         pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
+}
+
+void PS3USB::getMoveBdaddr(uint8_t *bdaddr) {
+        uint8_t buf[16];
+
+        // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0x04), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0x04, 0x03, 0x00, 16, 16, buf, NULL);
+
+        for (uint8_t i = 0; i < 6; i++)
+                bdaddr[i] = buf[10 + i];
+}
+
+void PS3USB::getMoveCalibration(uint8_t *data) {
+        uint8_t buf[49];
+
+        for (uint8_t i = 0; i < 3; i++) {
+                // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0x10), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
+                pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0x10, 0x03, 0x00, 49, 49, buf, NULL);
+
+                for (byte j = 0; j < 49; j++)
+                        data[49 * i + j] = buf[j];
+        }
 }
 
 void PS3USB::onInit() {
