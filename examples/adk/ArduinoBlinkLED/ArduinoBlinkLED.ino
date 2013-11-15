@@ -10,7 +10,7 @@ ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
               "http://www.tkjelectronics.dk/uploads/ArduinoBlinkLED.apk", // URL (web page to visit if no installed apps support the accessory)
               "123456789"); // Serial Number (optional)
 
-#define LED LED_BUILTIN // Pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
+#define LED LED_BUILTIN // Use built in LED  - note that pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
 
 void setup() {
   Serial.begin(115200);
