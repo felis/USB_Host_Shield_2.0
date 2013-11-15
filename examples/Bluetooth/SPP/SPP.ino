@@ -1,6 +1,6 @@
 /*
  Example sketch for the RFCOMM/SPP Bluetooth library - developed by Kristian Lauszus
- For more information visit my blog: http://blog.tkjelectronics.dk/ or 
+ For more information visit my blog: http://blog.tkjelectronics.dk/ or
  send me an e-mail:  kristianl@tkjelectronics.com
  */
 
@@ -21,23 +21,23 @@ void setup() {
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
-    while(1); //halt
+    while (1); //halt
   }
   Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
 void loop() {
   Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
-  
-  if(SerialBT.connected) {
-    if(firstMessage) {
+
+  if (SerialBT.connected) {
+    if (firstMessage) {
       firstMessage = false;
       SerialBT.println(F("Hello from Arduino")); // Send welcome message
     }
-    if(Serial.available())
+    if (Serial.available())
       SerialBT.write(Serial.read());
-    if(SerialBT.available())
+    if (SerialBT.available())
       Serial.write(SerialBT.read());
-  } 
-  else 
+  }
+  else
     firstMessage = true;
 }
