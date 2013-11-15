@@ -34,22 +34,22 @@ void loop() {
     }
     else {
       if (Wii.getButtonClick(LEFT)) {
-        Wii.setAllOff();
+        Wii.setLedOff();
         Wii.setLedOn(LED1);
         Serial.print(F("\r\nLeft"));
       }
       if (Wii.getButtonClick(RIGHT)) {
-        Wii.setAllOff();
+        Wii.setLedOff();
         Wii.setLedOn(LED3);
         Serial.print(F("\r\nRight"));
       }
       if (Wii.getButtonClick(DOWN)) {
-        Wii.setAllOff();
+        Wii.setLedOff();
         Wii.setLedOn(LED4);
         Serial.print(F("\r\nDown"));
       }
       if (Wii.getButtonClick(UP)) {
-        Wii.setAllOff();
+        Wii.setLedOff();
         Wii.setLedOn(LED2);
         Serial.print(F("\r\nUp"));
       }

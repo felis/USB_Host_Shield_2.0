@@ -100,28 +100,28 @@ void loop() {
       if (PS3.getButtonClick(UP)) {
         output += " - Up";
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED4);
         }
       }
       if (PS3.getButtonClick(RIGHT)) {
         output += " - Right";
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED1);
         }
       }
       if (PS3.getButtonClick(DOWN)) {
         output += " - Down";
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED2);
         }
       }
       if (PS3.getButtonClick(LEFT)) {
         output += " - Left";
         if (PS3.PS3Connected) {
-          PS3.setAllOff();         
+          PS3.setLedOff();
           PS3.setLedOn(LED3);
         }
       }

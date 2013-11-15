@@ -191,6 +191,10 @@ public:
          * @param value See: ::LED enum.
          */
         void setLedRaw(uint8_t value);
+        /** Turn all LEDs off. */
+        void setLedOff() {
+                setLedRaw(0);
+        }
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.
@@ -210,9 +214,7 @@ public:
          * This will set the LEDs, so the user can see which connections are active.
          *
          * The first ::LED indicate that the Wiimote is connected,
-         *
          * the second ::LED indicate indicate that a Motion Plus is also connected
-         *
          * the third ::LED will indicate that a Nunchuck controller is also connected.
          */
         void setLedStatus();

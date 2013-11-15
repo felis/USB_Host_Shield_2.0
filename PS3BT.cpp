@@ -36,7 +36,7 @@ pBtd(p) // pointer to USB class instance - mandatory
         HIDBuffer[0] = 0x52; // HID BT Set_report (0x50) | Report Type (Output 0x02)
         HIDBuffer[1] = 0x01; // Report ID
 
-        //Needed for PS3 Move Controller commands to work via bluetooth
+        // Needed for PS3 Move Controller commands to work via bluetooth
         HIDMoveBuffer[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
         HIDMoveBuffer[1] = 0x02; // Report ID
 
@@ -529,16 +529,16 @@ void PS3BT::Run() {
                                 ButtonState = 0; // Clear all values
                                 OldButtonState = 0;
                                 ButtonClickState = 0;
-                                
+
                                 onInit(); // Turn on the LED on the controller
                                 l2cap_state = L2CAP_DONE;
                         }
                         break;
 
                 case L2CAP_DONE:
-                        if (PS3MoveConnected) { //The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
-                                if (millis() - timerBulbRumble > 4000) { //Send at least every 4th second
-                                        HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE); //The Bulb and rumble values, has to be written again and again, for it to stay turned on
+                        if (PS3MoveConnected) { // The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
+                                if (millis() - timerBulbRumble > 4000) { // Send at least every 4th second
+                                        HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
                                         timerBulbRumble = millis();
                                 }
                         }
@@ -560,8 +560,12 @@ void PS3BT::HID_Command(uint8_t* data, uint8_t nbytes) {
 }
 
 void PS3BT::setAllOff() {
-        for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
-                HIDBuffer[i + 2] = pgm_read_byte(&PS3_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
+        HIDBuffer[3] = 0x00; // Rumble bytes
+        HIDBuffer[4] = 0x00;
+        HIDBuffer[5] = 0x00;
+        HIDBuffer[6] = 0x00;
+
+        HIDBuffer[11] = 0x00; // LED byte
 
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
@@ -596,6 +600,7 @@ void PS3BT::setLedRaw(uint8_t value) {
         HIDBuffer[11] = value << 1;
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
+
 void PS3BT::setLedOff(LED a) {
         HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
@@ -633,7 +638,7 @@ void PS3BT::HIDMove_Command(uint8_t* data, uint8_t nbytes) {
 }
 
 void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set the Color using RGB values
-        //set the Bulb's values into the write buffer
+        // Set the Bulb's values into the write buffer
         HIDMoveBuffer[3] = r;
         HIDMoveBuffer[4] = g;
         HIDMoveBuffer[5] = b;
@@ -650,7 +655,7 @@ void PS3BT::moveSetRumble(uint8_t rumble) {
         if (rumble < 64 && rumble != 0) // The rumble value has to at least 64, or approximately 25% (64/255*100)
                 Notify(PSTR("\r\nThe rumble value has to at least 64, or approximately 25%"), 0x80);
 #endif
-        //set the rumble value into the write buffer
+        // Set the rumble value into the write buffer
         HIDMoveBuffer[7] = rumble;
 
         HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);

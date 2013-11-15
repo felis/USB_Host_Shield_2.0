@@ -69,28 +69,28 @@ void loop() {
       if (PS3.getButtonClick(UP)) {
         Serial.print(F("\r\nUp"));
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED4);
         }
       }
       if (PS3.getButtonClick(RIGHT)) {
         Serial.print(F("\r\nRight"));
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED1);
         }
       }
       if (PS3.getButtonClick(DOWN)) {
         Serial.print(F("\r\nDown"));
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED2);
         }
       }
       if (PS3.getButtonClick(LEFT)) {
         Serial.print(F("\r\nLeft"));
         if (PS3.PS3Connected) {
-          PS3.setAllOff();
+          PS3.setLedOff();
           PS3.setLedOn(LED3);
         }
       }
