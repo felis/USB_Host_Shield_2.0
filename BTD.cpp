@@ -461,6 +461,9 @@ void BTD::HCI_event_task() {
                         case EV_CONNECT_COMPLETE:
                                 hci_event_flag |= HCI_FLAG_CONNECT_EVENT;
                                 if (!hcibuf[2]) { // check if connected OK
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nConnection established"), 0x80);
+#endif
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                                         hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
                                 } else {
