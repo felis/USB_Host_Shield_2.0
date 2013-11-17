@@ -215,7 +215,7 @@ private:
         void RFCOMM_task(); // RFCOMM state machine
 
         /* SDP Commands */
-        void SDP_Command(uint8_t* data, uint8_t nbytes);
+        void SDP_Command(uint8_t *data, uint8_t nbytes);
         void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
         void serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow);
         void serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
@@ -223,10 +223,11 @@ private:
         void l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
 
         /* RFCOMM Commands */
-        void RFCOMM_Command(uint8_t* data, uint8_t nbytes);
-        void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length);
+        void RFCOMM_Command(uint8_t *data, uint8_t nbytes);
+        void sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t *data, uint8_t length);
         void sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t credit);
         uint8_t calcFcs(uint8_t *data);
-        uint8_t __crc(uint8_t* data);
+        bool checkFcs(uint8_t *data, uint8_t fcs);
+        uint8_t crc(uint8_t *data);
 };
 #endif
