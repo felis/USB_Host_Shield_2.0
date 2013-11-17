@@ -12,6 +12,8 @@ ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
 
 #define LED LED_BUILTIN // Use built in LED  - note that pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
 
+uint32_t timer;
+
 void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
@@ -29,12 +31,25 @@ void loop() {
     uint8_t msg[1];
     uint16_t len = sizeof(msg);
     uint8_t rcode = adk.RcvData(&len, msg);
-    if (rcode && rcode != hrNAK)
-      USBTRACE2("Data rcv. :", rcode);
-    else if (len > 0) {
+    if (rcode && rcode != hrNAK) {
+      Serial.print(F("\r\nData rcv: "));
+      Serial.print(rcode, HEX);
+    } else if (len > 0) {
       Serial.print(F("\r\nData Packet: "));
       Serial.print(msg[0]);
       digitalWrite(LED, msg[0] ? HIGH : LOW);
+    }
+
+    if (millis() - timer >= 1000) { // Send data every 1s
+      timer = millis();
+      rcode = adk.SndData(sizeof(timer), (uint8_t*)&timer);
+      if (rcode && rcode != hrNAK) {
+        Serial.print(F("\r\nData send: "));
+        Serial.print(rcode, HEX);
+      } else if (rcode != hrNAK) {
+        Serial.print(F("\r\nTimer: "));
+        Serial.print(timer);
+      }
     }
   }
   else
