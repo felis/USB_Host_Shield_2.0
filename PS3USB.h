@@ -22,27 +22,30 @@
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
-#define EP_MAXPKTSIZE       64 // max size for data via USB
+#define EP_MAXPKTSIZE           64 // max size for data via USB
 
 /* Endpoint types */
-#define EP_INTERRUPT        0x03
+#define EP_INTERRUPT            0x03
 
 /* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
-#define PS3_CONTROL_PIPE    0
-#define PS3_OUTPUT_PIPE     1
-#define PS3_INPUT_PIPE      2
+#define PS3_CONTROL_PIPE        0
+#define PS3_OUTPUT_PIPE         1
+#define PS3_INPUT_PIPE          2
 
 //PID and VID of the different devices
-#define PS3_VID             0x054C  // Sony Corporation
-#define PS3_PID             0x0268  // PS3 Controller DualShock 3
-#define PS3NAVIGATION_PID   0x042F  // Navigation controller
-#define PS3MOVE_PID         0x03D5  // Motion controller
+#define PS3_VID                 0x054C  // Sony Corporation
+#define PS3_PID                 0x0268  // PS3 Controller DualShock 3
+#define PS3NAVIGATION_PID       0x042F  // Navigation controller
+#define PS3MOVE_PID             0x03D5  // Motion controller
 
-// used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT      0x09
+// Used in control endpoint header for HID Commands
+#define bmREQ_HID_OUT           USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+#define bmREQ_HID_IN            USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 
-#define PS3_MAX_ENDPOINTS   3
+#define HID_REQUEST_GET_REPORT  0x01
+#define HID_REQUEST_SET_REPORT  0x09
+
+#define PS3_MAX_ENDPOINTS       3
 
 /**
  * This class implements support for all the official PS3 Controllers:
@@ -112,14 +115,34 @@ public:
 
         /**
          * Used to set the Bluetooth address inside the Dualshock 3 and Navigation controller.
-         * @param BDADDR Your dongles Bluetooth address.
+         * Set using LSB first.
+         * @param bdaddr Your dongles Bluetooth address.
          */
-        void setBdaddr(uint8_t* BDADDR);
+        void setBdaddr(uint8_t *bdaddr);
+        /**
+         * Used to get the Bluetooth address inside the Dualshock 3 and Navigation controller.
+         * Will return LSB first.
+         * @param bdaddr Your dongles Bluetooth address.
+         */
+        void getBdaddr(uint8_t *bdaddr);
+
         /**
          * Used to set the Bluetooth address inside the Move controller.
-         * @param BDADDR Your dongles Bluetooth address.
+         * Set using LSB first.
+         * @param bdaddr Your dongles Bluetooth address.
          */
-        void setMoveBdaddr(uint8_t* BDADDR);
+        void setMoveBdaddr(uint8_t *bdaddr);
+        /**
+         * Used to get the Bluetooth address inside the Move controller.
+         * Will return LSB first.
+         * @param bdaddr Your dongles Bluetooth address.
+         */
+        void getMoveBdaddr(uint8_t *bdaddr);
+        /**
+         * Used to get the calibration data inside the Move controller.
+         * @param bdaddr Buffer to store data in. Must be at least 147 bytes
+         */
+        void getMoveCalibration(uint8_t *data);
 
         /** @name PS3 Controller functions */
         /**
@@ -197,6 +220,10 @@ public:
          * @param value See: ::LED enum.
          */
         void setLedRaw(uint8_t value);
+        /** Turn all LEDs off. */
+        void setLedOff() {
+                setLedRaw(0);
+        }
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.
@@ -278,8 +305,8 @@ private:
         void printReport(); // print incoming date - Uncomment for debugging
 
         /* Private commands */
-        void PS3_Command(uint8_t* data, uint16_t nbytes);
+        void PS3_Command(uint8_t *data, uint16_t nbytes);
         void enable_sixaxis(); // Command used to enable the Dualshock 3 and Navigation controller to send data via USB
-        void Move_Command(uint8_t* data, uint16_t nbytes);
+        void Move_Command(uint8_t *data, uint16_t nbytes);
 };
 #endif

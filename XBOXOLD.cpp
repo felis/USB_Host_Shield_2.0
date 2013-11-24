@@ -16,7 +16,7 @@
  */
 
 #include "XBOXOLD.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
@@ -290,15 +290,15 @@ void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" t
 }
 
 uint8_t XBOXOLD::getButtonPress(Button b) {
+        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
         if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
-            return buttonValues[pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])]; // Analog buttons
-        return (ButtonState & pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b])); // Digital buttons
+            return buttonValues[button]; // Analog buttons
+        return (ButtonState & button); // Digital buttons
 }
 
 bool XBOXOLD::getButtonClick(Button b) {
-        uint8_t button;
+        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
         if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
-            button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
             if (buttonClicked[button]) {
                 buttonClicked[button] = false;
                 return true;
@@ -306,7 +306,6 @@ bool XBOXOLD::getButtonClick(Button b) {
             return false;
         }
 
-        button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]); // Digital buttons
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
         return click;

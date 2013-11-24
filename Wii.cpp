@@ -18,7 +18,7 @@
  */
 
 #include "Wii.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
 
@@ -473,11 +473,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
 
                                                                         /* The onboard gyro has two ranges for slow and fast mode */
-                                                                        if (!(l2capinbuf[18] & 0x02)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[18] & 0x02)) // Check if fast mode is used
                                                                                 yawGyroSpeed *= 4.545;
-                                                                        if (!(l2capinbuf[18] & 0x01)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[18] & 0x01)) // Check if fast mode is used
                                                                                 pitchGyroSpeed *= 4.545;
-                                                                        if (!(l2capinbuf[19] & 0x02)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[19] & 0x02)) // Check if fast mode is used
                                                                                 rollGyroSpeed *= 4.545;
 
                                                                         compPitch = (0.93 * (compPitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimotePitch()); // Use a complimentary filter to calculate the angle

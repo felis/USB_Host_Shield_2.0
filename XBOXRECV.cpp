@@ -18,7 +18,7 @@
  */
 
 #include "XBOXRECV.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -37,29 +37,27 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
-uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-        uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
+        const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
+        uint8_t buf[constBufSize];
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        uint16_t PID;
-        uint16_t VID;
+        uint16_t PID, VID;
 
-        // get memory address of USB device address pool
-        AddressPool &addrPool = pUsb->GetAddressPool();
+        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USB device address pool
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nXBOXRECV Init"), 0x80);
 #endif
-        // check if address has already been assigned to an instance
-        if (bAddress) {
+
+        if (bAddress) { // Check if address has already been assigned to an instance
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
         }
 
-        // Get pointer to pseudo device with address 0 assigned
-        p = addrPool.GetUsbDevicePtr(0);
+        p = addrPool.GetUsbDevicePtr(0); // Get pointer to pseudo device with address 0 assigned
 
         if (!p) {
 #ifdef DEBUG_USB_HOST
@@ -75,18 +73,13 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_EPINFO_IS_NULL;
         }
 
-        // Save old pointer to EP_RECORD of address 0
-        oldep_ptr = p->epinfo;
-
-        // Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
-        p->epinfo = epInfo;
-
+        oldep_ptr = p->epinfo; // Save old pointer to EP_RECORD of address 0
+        p->epinfo = epInfo; // Temporary assign new pointer to epInfo to p->epinfo in order to avoid toggle inconsistence
         p->lowspeed = lowspeed;
 
-        // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf); // Get device descriptor - addr, ep, nbytes, data
-        // Restore p->epinfo
-        p->epinfo = oldep_ptr;
+        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf); // Get device descriptor - addr, ep, nbytes, data
+
+        p->epinfo = oldep_ptr; // Restore p->epinfo
 
         if (rcode)
                 goto FailGetDevDescr;
@@ -94,53 +87,100 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
         PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
 
-        if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a Xbox receiver using the Vendor ID
-                goto FailUnknownDevice;
-        else if (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) { // Check the PID as well
+        if ((VID != XBOX_VID && VID != MADCATZ_VID) || (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID)) { // Check if it's a Xbox receiver using the Vendor ID and Product ID
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
                 goto FailUnknownDevice;
         }
 
-        // Allocate new address according to device class
-        bAddress = addrPool.AllocAddress(parent, false, port);
+        bAddress = addrPool.AllocAddress(parent, false, port); // Allocate new address according to device class
 
-        if (!bAddress)
+        if (!bAddress) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nOut of address space"), 0x80);
+#endif
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
+        }
 
-        // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
+        epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
-        // Assign new address to the device
-        rcode = pUsb->setAddr(0, 0, bAddress);
+        delay(20); // Wait a little before resetting device
+
+        return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
+
+        /* Diagnostic messages */
+FailGetDevDescr:
+#ifdef DEBUG_USB_HOST
+        NotifyFailGetDevDescr(rcode);
+#endif
+        if (rcode != hrJERR)
+                rcode = USB_ERROR_FailGetDevDescr;
+        goto Fail;
+
+FailUnknownDevice:
+#ifdef DEBUG_USB_HOST
+        NotifyFailUnknownDevice(VID,PID);
+#endif
+        rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+
+Fail:
+#ifdef DEBUG_USB_HOST
+        Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
+        NotifyFail(rcode);
+#endif
+        Release();
+        return rcode;
+};
+
+uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+        uint8_t rcode;
+        uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
+        epInfo[1].epAddr = 0;
+
+        AddressPool &addrPool = pUsb->GetAddressPool();
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nBTD Init"), 0x80);
+#endif
+        UsbDevice *p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
+
+        if (!p) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nAddress not found"), 0x80);
+#endif
+                return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        }
+
+        delay(300); // Assign new address to the device
+
+        rcode = pUsb->setAddr(0, 0, bAddress); // Assign new address to the device
         if (rcode) {
-                p->lowspeed = false;
-                addrPool.FreeAddress(bAddress);
-                bAddress = 0;
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nsetAddr: "), 0x80);
                 D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-                return rcode;
+                p->lowspeed = false;
+                goto Fail;
         }
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
-        delay(300); // Spec says you should wait at least 200ms
-        
+
         p->lowspeed = false;
 
-        //get pointer to assigned address record
-        p = addrPool.GetUsbDevicePtr(bAddress);
-        if (!p)
+        p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
+        if (!p) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nAddress not found"), 0x80);
+#endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
+        }
 
         p->lowspeed = lowspeed;
 
-        // Assign epInfo to epinfo pointer - only EP0 is known
-        rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
+        rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo); // Assign epInfo to epinfo pointer - only EP0 is known
         if (rcode)
                 goto FailSetDevTblEntry;
 
@@ -216,9 +256,10 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #endif
         XboxReceiverConnected = true;
         bPollEnable = true;
-        return 0; // successful configuration
+        checkStatusTimer = 0; // Reset timer
+        return 0; // Successful configuration
 
-        /* diagnostic messages */
+        /* Diagnostic messages */
 FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
@@ -236,12 +277,6 @@ FailSetConfDescr:
         NotifyFailSetConfDescr();
 #endif
         goto Fail;
-
-FailUnknownDevice:
-#ifdef DEBUG_USB_HOST
-        NotifyFailUnknownDevice(VID,PID);
-#endif
-        rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
 Fail:
 #ifdef DEBUG_USB_HOST
@@ -266,23 +301,23 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {
         if (!bPollEnable)
                 return 0;
-        if (!timer || ((millis() - timer) > 3000)) { // Run checkStatus every 3 seconds
-                timer = millis();
+        if (!checkStatusTimer || ((millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
+                checkStatusTimer = millis();
                 checkStatus();
         }
+
         uint8_t inputPipe;
         uint16_t bufferSize;
         for (uint8_t i = 0; i < 4; i++) {
-                switch (i) {
-                        case 0: inputPipe = XBOX_INPUT_PIPE_1;
-                                break;
-                        case 1: inputPipe = XBOX_INPUT_PIPE_2;
-                                break;
-                        case 2: inputPipe = XBOX_INPUT_PIPE_3;
-                                break;
-                        case 3: inputPipe = XBOX_INPUT_PIPE_4;
-                                break;
-                }
+                if (i == 0)
+                        inputPipe = XBOX_INPUT_PIPE_1;
+                else if (i == 1)
+                        inputPipe = XBOX_INPUT_PIPE_2;
+                else if (i == 2)
+                        inputPipe = XBOX_INPUT_PIPE_3;
+                else
+                        inputPipe = XBOX_INPUT_PIPE_4;
+
                 bufferSize = EP_MAXPKTSIZE; // This is the maximum number of bytes we want to receive
                 pUsb->inTransfer(bAddress, epInfo[ inputPipe ].epAddr, &bufferSize, readBuf);
                 if (bufferSize > 0) { // The number of received bytes
@@ -420,45 +455,52 @@ bool XBOXRECV::buttonChanged(uint8_t controller) {
 
 /*
 ControllerStatus Breakdown
-    ControllerStatus[controller] & 0x0001   // 0
-    ControllerStatus[controller] & 0x0002   // normal batteries, no rechargeable battery pack
-    ControllerStatus[controller] & 0x0004   // controller starting up / settling
-    ControllerStatus[controller] & 0x0008   // headset adapter plugged in, but no headphones connected (mute?)
-    ControllerStatus[controller] & 0x0010   // 0
-    ControllerStatus[controller] & 0x0020   // 1
-    ControllerStatus[controller] & 0x0040   // battery level (high bit)
-    ControllerStatus[controller] & 0x0080   // battery level (low bit)
-    ControllerStatus[controller] & 0x0100   // 1
-    ControllerStatus[controller] & 0x0200   // 1
-    ControllerStatus[controller] & 0x0400   // headset adapter plugged in
-    ControllerStatus[controller] & 0x0800   // 0
-    ControllerStatus[controller] & 0x1000   // 1
-    ControllerStatus[controller] & 0x2000   // 0
-    ControllerStatus[controller] & 0x4000   // 0
-    ControllerStatus[controller] & 0x8000   // 0
+ControllerStatus[controller] & 0x0001   // 0
+ControllerStatus[controller] & 0x0002   // normal batteries, no rechargeable battery pack
+ControllerStatus[controller] & 0x0004   // controller starting up / settling
+ControllerStatus[controller] & 0x0008   // headset adapter plugged in, but no headphones connected (mute?)
+ControllerStatus[controller] & 0x0010   // 0
+ControllerStatus[controller] & 0x0020   // 1
+ControllerStatus[controller] & 0x0040   // battery level (high bit)
+ControllerStatus[controller] & 0x0080   // battery level (low bit)
+ControllerStatus[controller] & 0x0100   // 1
+ControllerStatus[controller] & 0x0200   // 1
+ControllerStatus[controller] & 0x0400   // headset adapter plugged in
+ControllerStatus[controller] & 0x0800   // 0
+ControllerStatus[controller] & 0x1000   // 1
+ControllerStatus[controller] & 0x2000   // 0
+ControllerStatus[controller] & 0x4000   // 0
+ControllerStatus[controller] & 0x8000   // 0
  */
 uint8_t XBOXRECV::getBatteryLevel(uint8_t controller) {
         return ((controllerStatus[controller] & 0x00C0) >> 6);
 }
 
 void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
-        uint8_t rcode;
         uint8_t outputPipe;
-        switch (controller) {
-                case 0: outputPipe = XBOX_OUTPUT_PIPE_1;
-                        break;
-                case 1: outputPipe = XBOX_OUTPUT_PIPE_2;
-                        break;
-                case 2: outputPipe = XBOX_OUTPUT_PIPE_3;
-                        break;
-                case 3: outputPipe = XBOX_OUTPUT_PIPE_4;
-                        break;
-        }
-        rcode = pUsb->outTransfer(bAddress, epInfo[ outputPipe ].epAddr, nbytes, data);
+        if (controller == 0)
+                outputPipe = XBOX_OUTPUT_PIPE_1;
+        else if (controller == 1)
+                outputPipe = XBOX_OUTPUT_PIPE_2;
+        else if (controller == 2)
+                outputPipe = XBOX_OUTPUT_PIPE_3;
+        else
+                outputPipe = XBOX_OUTPUT_PIPE_4;
+
+        uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ outputPipe ].epAddr, nbytes, data);
 #ifdef EXTRADEBUG
         if (rcode)
                 Notify(PSTR("Error sending Xbox message\r\n"), 0x80);
 #endif
+}
+
+void XBOXRECV::disconnect(uint8_t controller) {
+        writeBuf[0] = 0x00;
+        writeBuf[1] = 0x00;
+        writeBuf[2] = 0x08;
+        writeBuf[3] = 0xC0;
+
+        XboxCommand(controller, writeBuf, 4);
 }
 
 void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {

@@ -65,6 +65,14 @@ public:
 
         /** @name USBDeviceConfig implementation */
         /**
+         * Address assignment and basic initilization is done here.
+         * @param  parent   Hub number.
+         * @param  port     Port number on the hub.
+         * @param  lowspeed Speed of the device.
+         * @return          0 on success.
+         */
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        /**
          * Initialize the Xbox wireless receiver.
          * @param  parent   Hub number.
          * @param  port     Port number on the hub.
@@ -135,6 +143,12 @@ public:
          * @return            Returns a signed 16-bit integer.
          */
         int16_t getAnalogHat(AnalogHat a, uint8_t controller = 0);
+
+        /**
+         * Used to disconnect any of the controllers.
+         * @param controller The controller to disconnect. Default to 0.
+         */
+        void disconnect(uint8_t controller = 0);
 
         /**
          * Turn rumble off and all the LEDs on the specific controller.
@@ -251,7 +265,7 @@ private:
         bool L2Clicked[4]; // These buttons are analog, so we use we use these bools to check if they where clicked or not
         bool R2Clicked[4];
 
-        unsigned long timer; // Timing for checkStatus() signals
+        uint32_t checkStatusTimer; // Timing for checkStatus() signals
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
         uint8_t writeBuf[7]; // General purpose buffer for output data

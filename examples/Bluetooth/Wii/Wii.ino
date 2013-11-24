@@ -1,6 +1,6 @@
 /*
  Example sketch for the Wiimote Bluetooth library - developed by Kristian Lauszus
- For more information visit my blog: http://blog.tkjelectronics.dk/ or 
+ For more information visit my blog: http://blog.tkjelectronics.dk/ or
  send me an e-mail:  kristianl@tkjelectronics.com
  */
 
@@ -8,10 +8,11 @@
 #include <usbhub.h>
 
 USB Usb;
-USBHub Hub1(&Usb); // Some dongles have a hub inside
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
-WII Wii(&Btd,PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
+WII Wii(&Btd, PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
 //WII Wii(&Btd); // After that you can simply create the instance like so and then press any button on the Wiimote
 
 bool printAngle;
@@ -21,68 +22,68 @@ void setup() {
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
-    while(1); //halt
+    while (1); //halt
   }
   Serial.print(F("\r\nWiimote Bluetooth Library Started"));
 }
 void loop() {
   Usb.Task();
-  if(Wii.wiimoteConnected) {
-    if(Wii.getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
+  if (Wii.wiimoteConnected) {
+    if (Wii.getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
       Serial.print(F("\r\nHOME"));
       Wii.disconnect();
-    } 
+    }
     else {
-      if(Wii.getButtonClick(LEFT)) {
-        Wii.setAllOff();
+      if (Wii.getButtonClick(LEFT)) {
+        Wii.setLedOff();
         Wii.setLedOn(LED1);
         Serial.print(F("\r\nLeft"));
       }
-      if(Wii.getButtonClick(RIGHT)) {
-        Wii.setAllOff();
+      if (Wii.getButtonClick(RIGHT)) {
+        Wii.setLedOff();
         Wii.setLedOn(LED3);
         Serial.print(F("\r\nRight"));
       }
-      if(Wii.getButtonClick(DOWN)) {
-        Wii.setAllOff();
+      if (Wii.getButtonClick(DOWN)) {
+        Wii.setLedOff();
         Wii.setLedOn(LED4);
         Serial.print(F("\r\nDown"));
-      }      
-      if(Wii.getButtonClick(UP)) {
-        Wii.setAllOff();
-        Wii.setLedOn(LED2);          
+      }
+      if (Wii.getButtonClick(UP)) {
+        Wii.setLedOff();
+        Wii.setLedOn(LED2);
         Serial.print(F("\r\nUp"));
       }
 
-      if(Wii.getButtonClick(PLUS))
+      if (Wii.getButtonClick(PLUS))
         Serial.print(F("\r\nPlus"));
-      if(Wii.getButtonClick(MINUS))
+      if (Wii.getButtonClick(MINUS))
         Serial.print(F("\r\nMinus"));
 
-      if(Wii.getButtonClick(ONE))
+      if (Wii.getButtonClick(ONE))
         Serial.print(F("\r\nOne"));
-      if(Wii.getButtonClick(TWO))
+      if (Wii.getButtonClick(TWO))
         Serial.print(F("\r\nTwo"));
 
-      if(Wii.getButtonClick(A)) {
+      if (Wii.getButtonClick(A)) {
         printAngle = !printAngle;
         Serial.print(F("\r\nA"));
-      }      
-      if(Wii.getButtonClick(B)) {
+      }
+      if (Wii.getButtonClick(B)) {
         Wii.setRumbleToggle();
         Serial.print(F("\r\nB"));
       }
     }
-    if(printAngle) {
+    if (printAngle) {
       Serial.print(F("\r\nPitch: "));
       Serial.print(Wii.getPitch());
       Serial.print(F("\tRoll: "));
       Serial.print(Wii.getRoll());
-      if(Wii.motionPlusConnected) {
+      if (Wii.motionPlusConnected) {
         Serial.print(F("\tYaw: "));
         Serial.print(Wii.getYaw());
-      }      
-      if(Wii.nunchuckConnected) {
+      }
+      if (Wii.nunchuckConnected) {
         Serial.print(F("\tNunchuck Pitch: "));
         Serial.print(Wii.getNunchuckPitch());
         Serial.print(F("\tNunchuck Roll: "));
@@ -90,12 +91,12 @@ void loop() {
       }
     }
   }
-  if(Wii.nunchuckConnected) {
-    if(Wii.getButtonClick(Z))
+  if (Wii.nunchuckConnected) {
+    if (Wii.getButtonClick(Z))
       Serial.print(F("\r\nZ"));
-    if(Wii.getButtonClick(C))
+    if (Wii.getButtonClick(C))
       Serial.print(F("\r\nC"));
-    if(Wii.getAnalogHat(HatX) > 137 ||  Wii.getAnalogHat(HatX) < 117 || Wii.getAnalogHat(HatY) > 137 || Wii.getAnalogHat(HatY) < 117) {
+    if (Wii.getAnalogHat(HatX) > 137 ||  Wii.getAnalogHat(HatX) < 117 || Wii.getAnalogHat(HatY) > 137 || Wii.getAnalogHat(HatY) < 117) {
       Serial.print(F("\r\nHatX: "));
       Serial.print(Wii.getAnalogHat(HatX));
       Serial.print(F("\tHatY: "));
