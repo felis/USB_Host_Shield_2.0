@@ -535,8 +535,8 @@ void PS3BT::Run() {
 // Playstation Sixaxis Dualshock and Navigation Controller commands
 
 void PS3BT::HID_Command(uint8_t* data, uint8_t nbytes) {
-        if (millis() - timerHID <= 250) // Check if is has been more than 250ms since last command
-                delay((uint32_t)(250 - (millis() - timerHID))); // There have to be a delay between commands
+        if (millis() - timerHID <= 150) // Check if is has been more than 150ms since last command
+                delay((uint32_t)(150 - (millis() - timerHID))); // There have to be a delay between commands
         pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]); // Both the Navigation and Dualshock controller sends data via the control channel
         timerHID = millis();
 }
@@ -613,8 +613,8 @@ void PS3BT::enable_sixaxis() { // Command used to enable the Dualshock 3 and Nav
 // Playstation Move Controller commands
 
 void PS3BT::HIDMove_Command(uint8_t* data, uint8_t nbytes) {
-        if (millis() - timerHID <= 250)// Check if is has been less than 200ms since last command
-                delay((uint32_t)(250 - (millis() - timerHID))); //There have to be a delay between commands
+        if (millis() - timerHID <= 150)// Check if is has been less than 150ms since last command
+                delay((uint32_t)(150 - (millis() - timerHID))); // There have to be a delay between commands
         pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // The Move controller sends it's data via the intterrupt channel
         timerHID = millis();
 }
