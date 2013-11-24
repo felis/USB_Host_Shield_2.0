@@ -18,18 +18,14 @@
 #include "BTHID.h"
 // To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
-//#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
-
-const uint8_t BUTTONS[] PROGMEM = { // Mouse buttons
-        0x04, // MIDDLE
-        0x02, // RIGHT
-        0, // Skip
-        0x01, // LEFT
-};
+//#define PRINTREPORT // Uncomment to print the report send by the HID device
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
 pBtd(p) // pointer to USB class instance - mandatory
 {
+        for(uint8_t i = 0; i < epMUL; i++)
+                pRptParser[i] = NULL;
+
         if (pBtd)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
 
@@ -196,22 +192,21 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
                                 switch (l2capinbuf[9]) {
                                         case 0x01: // Keyboard events
+                                                if (pRptParser[KEYBOARD_PARSER_ID]) {
+                                                        uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse((HID*)this, 0, (uint8_t) length, &l2capinbuf[10]);
+                                                }
                                                 break;
 
                                         case 0x02: // Mouse events
                                         case 0x1A:
-                                                ButtonState = l2capinbuf[10];
-                                                /*xAxis = l2capinbuf[11] | ((int16_t)l2capinbuf[12] << 8);
-                                                yAxis = l2capinbuf[13] | ((int16_t)l2capinbuf[14] << 8);
-                                                scroll = l2capinbuf[15] | ((int16_t)l2capinbuf[16] << 8);*/
-
-                                                if (ButtonState != OldButtonState) {
-                                                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
-                                                        OldButtonState = ButtonState;
+                                                if (pRptParser[MOUSE_PARSER_ID]) {
+                                                        uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                                        pRptParser[MOUSE_PARSER_ID]->Parse((HID*)this, 0, (uint8_t) length, &l2capinbuf[10]);
                                                 }
                                                 break;
                                         case 0x03:
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nChange mode event: "), 0x80);
                                                 D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
 #endif
@@ -246,7 +241,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 
 void BTHID::L2CAP_task() {
         switch (l2cap_state) {
-                        /* These states are used if the Wiimote is the host */
+                        /* These states are used if the HID device is the host */
                 case L2CAP_CONTROL_SUCCESS:
                         if (l2cap_config_success_control_flag) {
 #ifdef DEBUG_USB_HOST
@@ -382,29 +377,6 @@ void BTHID::Run() {
 /*                    HID Commands                          */
 /************************************************************/
 void BTHID::setProtocol() {
-        uint8_t command = 0x71; // Set Protocol to "Report Protocol Mode", see HID specs page 33
+        uint8_t command = 0x70 | protocolMode; // Set Protocol, see HID specs page 33
         pBtd->L2CAP_Command(hci_handle, &command, 1, control_scid[0], control_scid[1]);
-}
-
-/************************************************************/
-/*                    BT HID Commands                       */
-/************************************************************/
-
-bool BTHID::getButtonPress(Button b) { // Return true when a button is pressed
-        return (bool)((ButtonState & pgm_read_byte(&BUTTONS[(uint8_t)b])));
-}
-
-bool BTHID::getButtonClick(Button b) { // Only return true when a button is clicked
-        uint8_t button = pgm_read_byte(&BUTTONS[(uint8_t)b]);
-        bool click = (ButtonClickState & button);
-        ButtonClickState &= ~button; // Clear "click" event
-        return click;
-}
-
-void BTHID::onInit() {
-        if (pFuncOnInit)
-                pFuncOnInit(); // Call the user function
-        else {
-                // Do nothing
-        }
 }

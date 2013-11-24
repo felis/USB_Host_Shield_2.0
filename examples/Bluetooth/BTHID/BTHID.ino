@@ -6,32 +6,42 @@
 
 #include <BTHID.h>
 #include <usbhub.h>
+#include "KeyboardParser.h"
+#include "MouseParser.h"
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
-
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+
 /* You can create the instance of the class in two ways */
-BTHID hid(&Btd, PAIR, "0000"); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
-//BTHID hid(&Btd); // After that you can simply create the instance like so and then press any button on the Wiimote
+// This will start an inquiry and then pair with your device - you only have to do this once
+// If you are using a Bluetooth keyboard, then you should type in the password on the keypad and then press enter
+BTHID hid(&Btd, PAIR, "0000");
+
+// After that you can simply create the instance like so and then press any button on the device
+//BTHID hid(&Btd);
+
+KbdRptParser keyboardPrs;
+MouseRptParser mousePrs;
 
 void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
-    while (1); //halt
+    while (1); // Halt
   }
+
+  hid.SetReportParser(KEYBOARD_PARSER_ID, (HIDReportParser*)&keyboardPrs);
+  hid.SetReportParser(MOUSE_PARSER_ID, (HIDReportParser*)&mousePrs);
+
+  // If "Boot Protocol Mode" does not work, then try "Report Protocol Mode"
+  // If that does not work either, then uncomment PRINTREPORT in BTHID.cpp to see the raw report
+  hid.setProtocolMode(HID_BOOT_PROTOCOL); // Boot Protocol Mode
+  //hid.setProtocolMode(HID_RPT_PROTOCOL); // Report Protocol Mode
+
   Serial.print(F("\r\nHID Bluetooth Library Started"));
 }
 void loop() {
   Usb.Task();
-  if (hid.connected) {
-    if (hid.getButtonClick(LEFT)) // Print mouse buttons
-      Serial.println(F("Left"));
-    if (hid.getButtonClick(RIGHT))
-      Serial.println(F("Right"));
-    if (hid.getButtonClick(MIDDLE))
-      Serial.println(F("Middle"));
-  }
 }

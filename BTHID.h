@@ -20,6 +20,7 @@
 
 #include "BTD.h"
 #include "controllerEnums.h"
+#include "hidboot.h"
 
 /* Bluetooth L2CAP states for L2CAP_task() */
 #define L2CAP_WAIT                      0
@@ -59,6 +60,10 @@
 #define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
 #define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
 
+#define KEYBOARD_PARSER_ID      0
+#define MOUSE_PARSER_ID         1
+#define epMUL                   2
+
 /** This BluetoothService class implements support for the HID keyboard and mice. */
 class BTHID : public BluetoothService {
 public:
@@ -84,38 +89,27 @@ public:
         virtual void disconnect();
         /**@}*/
 
+        HIDReportParser *GetReportParser(uint8_t id) {
+                return pRptParser[id];
+        };
+
+        bool SetReportParser(uint8_t id, HIDReportParser *prs) {
+                pRptParser[id] = prs;
+                return true;
+        };
+
+        void setProtocolMode(uint8_t mode) {
+                protocolMode = mode;
+        };
+
         /** True if a device is connected */
         bool connected;
-
-        /** @name HID mouse functions */
-        /**
-         * getButtonPress(Button b) will return true as long as the button is held down.
-         *
-         * While getButtonClick(Button b) will only return it once.
-         *
-         * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
-         * but if you need to drive a robot forward you would use getButtonPress(Button b).
-         */
-        bool getButtonPress(Button b);
-        bool getButtonClick(Button b);
-        /**@}*/
-        /** @name HID mouse functions */
-        /*int16_t getXaxis() {
-                return xAxis;
-        }
-        int16_t getYaxis() {
-                return yAxis;
-        }
-        int16_t getScroll() {
-                return scroll;
-        }*/
-        /**@}*/
 
         /** Call this to start the paring sequence with a controller */
         void pair(void) {
                 if (pBtd)
                         pBtd->pairWithHID();
-        }
+        };
 
         /**
          * Used to call your own function when the controller is successfully initialized.
@@ -128,15 +122,21 @@ public:
 private:
         BTD *pBtd; // Pointer to BTD instance
 
+        HIDReportParser *pRptParser[epMUL];
+
         /** Set report protocol. */
         void setProtocol();
+        uint8_t protocolMode;
 
         /**
          * Called when the controller is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        void onInit();
+        void onInit() {
+                if (pFuncOnInit)
+                        pFuncOnInit(); // Call the user function
+        }
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         void L2CAP_task(); // L2CAP state machine
