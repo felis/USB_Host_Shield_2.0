@@ -94,7 +94,7 @@ The [Bluetooth HID library](BTHID.cpp) allows you to connect HID devices via Blu
 
 Currently HID mice and keyboards are supported.
 
-It uses the standard BOOT protocol, but it is very easy to modify it for your device, you simply have do edit the parser. See the example: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino> for more information.
+It uses the standard Boot protocol by default, but it able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino> for more information.
 
 ### [SPP library](SPP.cpp)
 
