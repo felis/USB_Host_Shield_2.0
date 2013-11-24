@@ -8,7 +8,8 @@
 #include <usbhub.h>
 
 USB Usb;
-USBHub Hub1(&Usb); // Some dongles have a hub inside
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "1234"

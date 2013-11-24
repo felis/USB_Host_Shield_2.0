@@ -19,7 +19,8 @@ Otherwise, wire up a IR LED yourself.
 #endif
 
 USB Usb;
-USBHub Hub1(&Usb); // Some dongles have a hub inside
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 WII Wii(&Btd, PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
