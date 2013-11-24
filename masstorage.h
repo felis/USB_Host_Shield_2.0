@@ -190,12 +190,12 @@ struct CDB6 {
 public:
 
         CDB6(uint8_t _Opcode, uint8_t _LUN, uint32_t LBA, uint8_t _AllocationLength, uint8_t _Control) :
-        Opcode(_Opcode), LUN(_LUN), LBAMSB(BGRAB2(LBA) & 0x1f), LBAHB(BGRAB1(LBA)), LBALB(BGRAB0(LBA)),
+        Opcode(_Opcode), LBAMSB(BGRAB2(LBA) & 0x1f), LUN(_LUN), LBAHB(BGRAB1(LBA)), LBALB(BGRAB0(LBA)),
         AllocationLength(_AllocationLength), Control(_Control) {
         }
 
         CDB6(uint8_t _Opcode, uint8_t _LUN, uint8_t _AllocationLength, uint8_t _Control) :
-        Opcode(_Opcode), LUN(_LUN), LBAMSB(0), LBAHB(0), LBALB(0),
+        Opcode(_Opcode), LBAMSB(0), LUN(_LUN), LBAHB(0), LBALB(0),
         AllocationLength(_AllocationLength), Control(_Control) {
         }
 } __attribute__((packed));
@@ -391,23 +391,27 @@ public:
 
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, uint8_t flgs, uint8_t lu, uint8_t cmdlen, uint8_t cmd) :
         CommandBlockWrapperBase(tag, xflen, flgs),
-        bmReserved1(0), bmReserved2(0), bmCBWLUN(lu), bmCBWCBLength(cmdlen) {
+        bmCBWLUN(lu), bmReserved1(0), bmCBWCBLength(cmdlen), bmReserved2(0) {
                 for(int i = 0; i < 16; i++) CBWCB[i] = 0;
-                ((BASICCDB_t *) CBWCB)->LUN = cmd;
+                // Type punning can cause optimization problems and bugs.
+                // Using reinterpret_cast to a different object is the proper way to do this.
+                //(((BASICCDB_t *) CBWCB)->LUN) = cmd;
+                BASICCDB_t *x = reinterpret_cast<BASICCDB_t *> (CBWCB);
+                x->LUN = cmd;
         }
 
         // Wrap for CDB of 6
 
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB6_t *cdb, uint8_t dir) :
         CommandBlockWrapperBase(tag, xflen, dir),
-        bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(6) {
+        bmCBWLUN(cdb->LUN), bmReserved1(0), bmCBWCBLength(6), bmReserved2(0) {
                 memcpy(&CBWCB, cdb, 6);
         }
         // Wrap for CDB of 10
 
         CommandBlockWrapper(uint32_t tag, uint32_t xflen, CDB10_t *cdb, uint8_t dir) :
         CommandBlockWrapperBase(tag, xflen, dir),
-        bmReserved1(0), bmReserved2(0), bmCBWLUN(cdb->LUN), bmCBWCBLength(10) {
+        bmCBWLUN(cdb->LUN), bmReserved1(0), bmCBWCBLength(10), bmReserved2(0) {
                 memcpy(&CBWCB, cdb, 10);
         }
 } __attribute__((packed));

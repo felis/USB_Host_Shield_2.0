@@ -138,7 +138,7 @@ typedef struct {
         } wVal_u;
         uint16_t wIndex; //   4      Depends on bRequest
         uint16_t wLength; //   6      Depends on bRequest
-} SETUP_PKT, *PSETUP_PKT __attribute__((packed));
+}__attribute__((packed)) SETUP_PKT, *PSETUP_PKT;
 
 
 
