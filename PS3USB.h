@@ -140,7 +140,7 @@ public:
         void getMoveBdaddr(uint8_t *bdaddr);
         /**
          * Used to get the calibration data inside the Move controller.
-         * @param bdaddr Buffer to store data in. Must be at least 147 bytes
+         * @param data Buffer to store data in. Must be at least 147 bytes
          */
         void getMoveCalibration(uint8_t *data);
 
