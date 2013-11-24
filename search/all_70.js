@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['pair',['pair',['../class_w_i_i.html#a39c3101b26cc549d5258018b3d05c608',1,'WII::pair()'],['../_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425',1,'PAIR():&#160;Wii.h']]],
+  ['pair',['pair',['../class_b_t_h_i_d.html#afb19720b65cda69d910416c7a689dd45',1,'BTHID::pair()'],['../class_w_i_i.html#a39c3101b26cc549d5258018b3d05c608',1,'WII::pair()'],['../_b_t_d_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425',1,'PAIR():&#160;BTD.h']]],
+  ['pairwithhid',['pairWithHID',['../class_b_t_d.html#a0b59db80825ffd5974e0d2c4a046b328',1,'BTD']]],
+  ['pairwithhiddevice',['pairWithHIDDevice',['../class_b_t_d.html#a2aa418d820fb6b877ea079e0436a518e',1,'BTD']]],
   ['pairwithwii',['pairWithWii',['../class_b_t_d.html#a0c8cc2a2dd2cda3e760b8b4c1a2d169c',1,'BTD']]],
   ['pairwithwiimote',['pairWithWiimote',['../class_b_t_d.html#a6b66a27c0fd359e3129f53451352b55c',1,'BTD']]],
   ['parse',['Parse',['../class_config_desc_parser.html#a3722ad1dbbfcd4ecf5cbf9caf08cd517',1,'ConfigDescParser::Parse()'],['../class_hex_dumper.html#acaff9c9e5b97bbfe3596c7b7a2e2a78d',1,'HexDumper::Parse()'],['../class_h_i_d_report_parser.html#ad2837f3d78c7ac3f1c2b3a4815420d97',1,'HIDReportParser::Parse()'],['../class_mouse_report_parser.html#a2dd4e0add7c902300de5e7250c6d6110',1,'MouseReportParser::Parse()'],['../class_keyboard_report_parser.html#a60d8d4d4d187ce5c0e0d69aee7cc772f',1,'KeyboardReportParser::Parse()'],['../class_report_desc_parser_base.html#a7ecd266cbbbc18460ab8823651225e6b',1,'ReportDescParserBase::Parse()'],['../class_universal_report_parser.html#a7b88d36949e3823cd80b3c7cece3d67e',1,'UniversalReportParser::Parse()'],['../class_multi_byte_value_parser.html#a9d380bf3ab3fee2c8797883504bcd827',1,'MultiByteValueParser::Parse()'],['../class_p_t_p_list_parser.html#a15ebdbc2ca861bc6e6d051273cf3b66e',1,'PTPListParser::Parse()'],['../class_u_s_b_read_parser.html#afdb9cea2a2fe18d26f4ec595b86a7f7c',1,'USBReadParser::Parse()']]],

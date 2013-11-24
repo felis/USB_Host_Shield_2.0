@@ -41,5 +41,6 @@ var searchData=
   ['xboxusb_2ecpp',['XBOXUSB.cpp',['../_x_b_o_x_u_s_b_8cpp.html',1,'']]],
   ['xboxusb_2eh',['XBOXUSB.h',['../_x_b_o_x_u_s_b_8h.html',1,'']]],
   ['xmem_5facquire_5fspi',['XMEM_ACQUIRE_SPI',['../settings_8h.html#a1289c5bfe1747cedd6acea1a4c95b4c6',1,'settings.h']]],
-  ['xmem_5frelease_5fspi',['XMEM_RELEASE_SPI',['../settings_8h.html#a909a9e2c3a84ded69a51e29986df52db',1,'settings.h']]]
+  ['xmem_5frelease_5fspi',['XMEM_RELEASE_SPI',['../settings_8h.html#a909a9e2c3a84ded69a51e29986df52db',1,'settings.h']]],
+  ['xoom',['XOOM',['../adk_8h.html#aeb9a797aace2bcf4a9d1f786a632ca4b',1,'adk.h']]]
 ];

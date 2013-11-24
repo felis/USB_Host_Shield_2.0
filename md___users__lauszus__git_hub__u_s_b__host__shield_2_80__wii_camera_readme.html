@@ -80,8 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Please see <a href="http://wiibrew.org/wiki/Wiimote#IR_Camera">http://wiibrew.org/wiki/Wiimote#IR_Camera</a> for the complete capabilities of the Wii camera. The IR camera code was written based on the above website and with support from Kristian Lauszus.</p>
-<p>Must omit the "." in the name of the USB_Host_Shiled_2.0 library folder when inserting into the Arudino library folder.</p>
-<p>This library is large, if you run into memory problems when uploading to the Arduino, comment out the #define DEBUG in the <a class="el" href="_b_t_d_8cpp.html">BTD.cpp</a> and <a class="el" href="_wii_8cpp.html">Wii.cpp</a> files.</p>
+<p>This library is large, if you run into memory problems when uploading to the Arduino, disable serial debugging.</p>
 <p>To enable the IR camera code, uncomment #define WIICAMERA in <a class="el" href="_wii_8h.html">Wii.h</a>.</p>
 <p>This library implements the following settings:</p>
 <ul>

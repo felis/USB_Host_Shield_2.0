@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li><b>Kristian Lauszus, TKJ Electronics</b> - <a href="#" onclick="location.href='mai'+'lto:'+'kri'+'st'+'ian'+'l@'+'tkj'+'el'+'ect'+'ro'+'nic'+'s.'+'com'; return false;">krist<span style="display: none;">.nosp@m.</span>ianl<span style="display: none;">.nosp@m.</span>@tkje<span style="display: none;">.nosp@m.</span>lect<span style="display: none;">.nosp@m.</span>ronic<span style="display: none;">.nosp@m.</span>s.co<span style="display: none;">.nosp@m.</span>m</a><ul>
-<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#spp-library">SPP</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, and <a href="#xbox-library">Xbox</a> libraries</li>
+<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, and <a href="#xbox-library">Xbox</a> libraries</li>
 </ul>
 </li>
 <li><b>Andrew Kroll</b> - <a href="#" onclick="location.href='mai'+'lto:'+'xxx'+'aj'+'k@g'+'ma'+'il.'+'co'+'m'; return false;">xxxaj<span style="display: none;">.nosp@m.</span>k@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a><ul>
@@ -149,7 +149,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Simply set the corresponding value to 1 instead of 0.</p>
 <h3><a href="BTD.cpp">Bluetooth libraries</a></h3>
 <p>The <a href="BTD.cpp">BTD library</a> is a general purpose library for an ordinary Bluetooth dongle. This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or <a class="el" href="class_s_p_p.html">SPP</a> which is a virtual serial port via Bluetooth. Some different examples can be found in the <a href="examples/Bluetooth">example directory</a>.</p>
-<p>The <a class="el" href="class_b_t_d.html">BTD</a> library will also make it possible to use multiple services at once, the following example sketch is an example of this: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino</a></p>
+<p>The <a class="el" href="class_b_t_d.html">BTD</a> library will also make it possible to use multiple services at once, the following example sketch is an example of this: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino</a>.</p>
+<h3><a href="BTHID.cpp">BTHID library</a></h3>
+<p>The <a href="BTHID.cpp">Bluetooth HID library</a> allows you to connect <a class="el" href="class_h_i_d.html">HID</a> devices via Bluetooth to the <a class="el" href="class_u_s_b.html">USB</a> Host Shield.</p>
+<p>Currently <a class="el" href="class_h_i_d.html">HID</a> mice and keyboards are supported.</p>
+<p>It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call <code>setProtocolMode()</code> and then parse <code>HID_RPT_PROTOCOL</code> as an argument. You will then have to modify the parser for your device. See the example: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino</a> for more information.</p>
 <h3><a href="SPP.cpp">SPP library</a></h3>
 <p><a class="el" href="class_s_p_p.html">SPP</a> stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth. It has been tested successfully on Windows, Mac OS X, Linux, and Android.</p>
 <p>More information can be found at these blog posts:</p>
@@ -161,7 +165,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3>PS3 Library</h3>
 <p>These libraries consist of the <a href="PS3BT.cpp">PS3BT</a> and <a href="PS3USB.cpp">PS3USB</a>. These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the <a class="el" href="class_u_s_b.html">USB</a> Host Shield both via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
 <p>In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via <a class="el" href="class_u_s_b.html">USB</a> and letting the library set it automatically.</p>
-<p><b>Note:</b> To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L12">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L12</a>.</p>
+<p><b>Note:</b> To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L15">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L15</a>.</p>
 <p>For more information about the PS3 protocol see the official wiki: <a href="https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information">https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information</a>.</p>
 <p>Also take a look at the blog posts:</p>
 <ul>
@@ -216,7 +220,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>And then press 1 &amp; 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.</p>
 <p>After that you can simply create the instance like so:</p>
 <p>``` <a class="el" href="class_w_i_i.html">WII</a> Wii(&amp;Btd); ```</p>
-<p>Then just press any button any button on the Wiimote and it will connect to the dongle.</p>
+<p>Then just press any button on the Wiimote and it will then connect to the dongle.</p>
 <p>Take a look at the example for more information: <a href="https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino">https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino</a>.</p>
 <p>Also take a look at the blog post:</p>
 <ul>

@@ -106,7 +106,9 @@ var searchData=
   ['usb_5fxfer_5ftimeout',['USB_XFER_TIMEOUT',['../_usb_core_8h.html#ad8686abbfa0d98547d450fe2a105a588',1,'UsbCore.h']]],
   ['usbtrace',['USBTRACE',['../macros_8h.html#afc6fe7f947af35317a49a4dcfc8189fd',1,'macros.h']]],
   ['usbtrace2',['USBTRACE2',['../macros_8h.html#adbe3f00986df48a9254f8bf0992041d3',1,'macros.h']]],
+  ['use_5fspi4teensy3',['USE_SPI4TEENSY3',['../settings_8h.html#a3c58fb4ae67051cf2269192e02571b1b',1,'settings.h']]],
   ['use_5fuhs_5fblack_5fwiddow',['USE_UHS_BLACK_WIDDOW',['../settings_8h.html#a83f41f46d054786d13082c675b986146',1,'settings.h']]],
   ['use_5fuhs_5fmega_5fadk',['USE_UHS_MEGA_ADK',['../settings_8h.html#a4fda527b33121e12836ef6be1046be0f',1,'settings.h']]],
-  ['use_5fxmem_5fspi_5flock',['USE_XMEM_SPI_LOCK',['../settings_8h.html#aee231b7d14cfe47c83ad452386e69cde',1,'settings.h']]]
+  ['use_5fxmem_5fspi_5flock',['USE_XMEM_SPI_LOCK',['../settings_8h.html#aee231b7d14cfe47c83ad452386e69cde',1,'settings.h']]],
+  ['using_5fspi4teensy3',['USING_SPI4TEENSY3',['../settings_8h.html#a9450874c2f6ee4af4e0f0b7923828d90',1,'settings.h']]]
 ];

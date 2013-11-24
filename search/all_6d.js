@@ -83,6 +83,7 @@ var searchData=
   ['motion_5fplus_5fconnected_5fflag',['motion_plus_connected_flag',['../_wii_8h.html#a3d4b4f06162f96e91d97650f5c2e60f7',1,'Wii.h']]],
   ['motionplusconnected',['motionPlusConnected',['../class_w_i_i.html#a72bd4fad2e524276712a154b8cc2a16c',1,'WII']]],
   ['motionplusinside',['motionPlusInside',['../class_b_t_d.html#a3aea445b2349e99ef057db1a4ffdd9dc',1,'BTD']]],
+  ['mouse_5fparser_5fid',['MOUSE_PARSER_ID',['../_b_t_h_i_d_8h.html#a0b48c93189cf128c1ef13ce86b4fa6be',1,'BTHID.h']]],
   ['mouseinfo',['MOUSEINFO',['../struct_m_o_u_s_e_i_n_f_o.html',1,'MOUSEINFO'],['../class_mouse_report_parser.html#a9daf20ab8deb57500426e40827b0a79c',1,'MouseReportParser::mouseInfo()']]],
   ['mousereportparser',['MouseReportParser',['../class_mouse_report_parser.html',1,'']]],
   ['move',['MOVE',['../controller_enums_8h.html#a03bfec859eac87be20f8952c1eb89de0aed3ef32890b6da0919b57254c5206c62',1,'controllerEnums.h']]],

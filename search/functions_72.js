@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rcvdata',['RcvData',['../class_a_d_k.html#a66b9943dfa89f783a8cdeb655e6fe9b1',1,'ADK::RcvData()'],['../class_a_c_m.html#a7f455b7a649522c29f2e63d668b0ccca',1,'ACM::RcvData()'],['../class_f_t_d_i.html#aa367ae72fbfda931cae8ec751e9dc434',1,'FTDI::RcvData()']]],
-  ['read',['read',['../class_s_p_p.html#aae8dc037e845480f582afea57b858b95',1,'SPP::read()'],['../class_bulk_only.html#a470a8f0ffd6694d9dfc834da5efa627a',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf)'],['../class_bulk_only.html#a52f54376dcd7f5baf17718105e8f085d',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs)']]],
+  ['read',['Read',['../class_bulk_only.html#a470a8f0ffd6694d9dfc834da5efa627a',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf)'],['../class_bulk_only.html#a52f54376dcd7f5baf17718105e8f085d',1,'BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs)'],['../class_s_p_p.html#aae8dc037e845480f582afea57b858b95',1,'SPP::read()']]],
   ['readpollinterval',['readPollInterval',['../class_b_t_d.html#a2a9ecb996243e070e70972370e45e4fd',1,'BTD']]],
   ['registerdeviceclass',['RegisterDeviceClass',['../class_u_s_b.html#a3f66bf622590413ef2e1864f93a3e0d2',1,'USB']]],
   ['registerserviceclass',['registerServiceClass',['../class_b_t_d.html#a4adfc7e51ad3b3c03e7c37d1af159e73',1,'BTD']]],
@@ -11,9 +11,9 @@ var searchData=
   ['releasedevice',['ReleaseDevice',['../class_u_s_b.html#ac681c6c98e1641f705bc14d670a2663a',1,'USB']]],
   ['reportdescparser2',['ReportDescParser2',['../class_report_desc_parser2.html#a6ee7a47ffbc5c2905506c10039fcfaff',1,'ReportDescParser2']]],
   ['reportdescparserbase',['ReportDescParserBase',['../class_report_desc_parser_base.html#a607a81ff9d8f282298533a1dbf10f8e1',1,'ReportDescParserBase']]],
-  ['reset',['Reset',['../class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48',1,'BluetoothService::Reset()'],['../class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f',1,'PS3BT::Reset()'],['../class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0',1,'SPP::Reset()'],['../class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c',1,'WII::Reset()'],['../class_m_a_x3421e.html#ad2b85831a551d8e30496882ce7e57fd2',1,'MAX3421e::reset()']]],
+  ['reset',['Reset',['../class_bluetooth_service.html#a1dff7caf251f1d8a5f358b368445cb48',1,'BluetoothService::Reset()'],['../class_b_t_h_i_d.html#af4c58b81414a037910dd6fb78f97b96e',1,'BTHID::Reset()'],['../class_p_s3_b_t.html#a576d72cdf12af58ae59c8f2a02f99c0f',1,'PS3BT::Reset()'],['../class_s_p_p.html#ae2c661bd46cd2d74bd29c4c771cd2ef0',1,'SPP::Reset()'],['../class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c',1,'WII::Reset()'],['../class_m_a_x3421e.html#ad2b85831a551d8e30496882ce7e57fd2',1,'MAX3421e::reset()']]],
   ['resethubport',['ResetHubPort',['../class_u_s_b_device_config.html#a12bb63558ded5bb6661bb173b07ff391',1,'USBDeviceConfig::ResetHubPort()'],['../class_u_s_b_hub.html#ae7e4c1e231ce7cb56bae1688c0e95e58',1,'USBHub::ResetHubPort()']]],
   ['resethubpremask',['ResetHubPreMask',['../class_u_s_b.html#a5b4de045ea7fefe0fab967ddf44c39b1',1,'USB']]],
   ['righttoleft',['rightToLeft',['../class_max___l_c_d.html#ae650324be4a0e07fd63b90c686e14f03',1,'Max_LCD']]],
-  ['run',['Run',['../class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383',1,'BluetoothService::Run()'],['../class_p_s3_b_t.html#ab41f25f45573239990f68611dc825086',1,'PS3BT::Run()'],['../class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90',1,'SPP::Run()'],['../class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72',1,'WII::Run()']]]
+  ['run',['Run',['../class_bluetooth_service.html#a680692ff13cb37eb81ddbb74bc9e0383',1,'BluetoothService::Run()'],['../class_b_t_h_i_d.html#a938eab04e406a29cc9324dad3ccb52cc',1,'BTHID::Run()'],['../class_p_s3_b_t.html#ab41f25f45573239990f68611dc825086',1,'PS3BT::Run()'],['../class_s_p_p.html#a2de67ee7ad1be9d2f3daf7dc08dc5f90',1,'SPP::Run()'],['../class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72',1,'WII::Run()']]]
 ];

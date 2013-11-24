@@ -4,7 +4,7 @@ var searchData=
   ['hci_5faccept_5fconnection',['hci_accept_connection',['../class_b_t_d.html#a1cb07a155c69bb1fcf45ae030b8947ec',1,'BTD']]],
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],
-  ['hci_5fconnect',['hci_connect',['../class_b_t_d.html#ae7066ea743f8907708db945ebef3ad76',1,'BTD']]],
+  ['hci_5fconnect',['hci_connect',['../class_b_t_d.html#ae7066ea743f8907708db945ebef3ad76',1,'BTD::hci_connect()'],['../class_b_t_d.html#ac6c4a65645421fc4be3743d41ef3a924',1,'BTD::hci_connect(uint8_t *bdaddr)']]],
   ['hci_5fdisconnect',['hci_disconnect',['../class_b_t_d.html#a1bea5dd793a2f47006b4a7642efc9e56',1,'BTD']]],
   ['hci_5finquiry',['hci_inquiry',['../class_b_t_d.html#a678f2c995553ce6a9f48f9b59f2f1555',1,'BTD']]],
   ['hci_5finquiry_5fcancel',['hci_inquiry_cancel',['../class_b_t_d.html#a45ffbc7a40bbb763b0ece907c3dfc9ff',1,'BTD']]],

@@ -148,6 +148,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a841396b533cccccb05db37d35f6fef9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7e07f929fba8f0ff061a1405baa2b58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#ae7e07f929fba8f0ff061a1405baa2b58">setLedRaw</a> (uint8_t value)</td></tr>
 <tr class="separator:ae7e07f929fba8f0ff061a1405baa2b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3eb7942181a9c9e681e18bd5c8eaef4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#ae3eb7942181a9c9e681e18bd5c8eaef4">setLedOff</a> ()</td></tr>
+<tr class="separator:ae3eb7942181a9c9e681e18bd5c8eaef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7efe7577ba30c218f6fbd3804a53d242"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a7efe7577ba30c218f6fbd3804a53d242">setLedOff</a> (<a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> a)</td></tr>
 <tr class="separator:a7efe7577ba30c218f6fbd3804a53d242"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a7b9dd571c5a8597bfb194000bd517c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_w_i_i.html#a3a7b9dd571c5a8597bfb194000bd517c">setLedOn</a> (<a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> a)</td></tr>
@@ -267,7 +269,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>This <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class implements support for the Wiimote including the Nunchuck and Motion Plus extension.</p>
 <p>It also support the Wii U Pro Controller. </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00094">94</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00092">92</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6597cb0e240a8ccb4ebdb236daef712e"></a>
 <div class="memitem">
@@ -296,7 +298,7 @@ Public Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>Pointer to <a class="el" href="class_b_t_d.html">BTD</a> class instance. </td></tr>
-    <tr><td class="paramname">pair</td><td>Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it. One can use <a class="el" href="_wii_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a> to set it to true. </td></tr>
+    <tr><td class="paramname">pair</td><td>Set this to true in order to pair with the Wiimote. If the argument is omitted then it won't pair with it. One can use <a class="el" href="_b_t_d_8h.html#a8f0b5b0dedaf5c25c4887f03ebfdd425">PAIR</a> to set it to true. </td></tr>
   </table>
   </dd>
 </dl>
@@ -490,7 +492,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Call this to start the paring sequence with a controller </p>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00133">133</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00131">131</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -569,7 +571,7 @@ Public Attributes</h2></td></tr>
 <p>Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pitch in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00154">154</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00152">152</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -596,7 +598,7 @@ Public Attributes</h2></td></tr>
 <p>Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>Roll in the range from 0-360. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00164">164</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00162">162</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -624,7 +626,7 @@ Public Attributes</h2></td></tr>
 <p><b>NOTE:</b> This angle will drift a lot and is only available if the Motion Plus extension is connected. </p>
 <dl class="section return"><dt>Returns</dt><dd>The angle calculated using the gyro. </dd></dl>
 
-<p>Definition at line <a class="el" href="_wii_8h_source.html#l00176">176</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00174">174</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
 
 </div>
 </div>
@@ -725,6 +727,32 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae3eb7942181a9c9e681e18bd5c8eaef4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void WII::setLedOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Turn all LEDs off. </p>
+
+<p>Definition at line <a class="el" href="_wii_8h_source.html#l00193">193</a> of file <a class="el" href="_wii_8h_source.html">Wii.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a7efe7577ba30c218f6fbd3804a53d242"></a>
 <div class="memitem">
 <div class="memproto">
@@ -813,9 +841,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>This will set the LEDs, so the user can see which connections are active.</p>
-<p>The first <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate that the Wiimote is connected,</p>
-<p>the second <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate indicate that a Motion Plus is also connected</p>
-<p>the third <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> will indicate that a Nunchuck controller is also connected. </p>
+<p>The first <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate that the Wiimote is connected, the second <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> indicate indicate that a Motion Plus is also connected the third <a class="el" href="controller_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> will indicate that a Nunchuck controller is also connected. </p>
 
 <p>Definition at line <a class="el" href="_wii_8cpp_source.html#l00899">899</a> of file <a class="el" href="_wii_8cpp_source.html">Wii.cpp</a>.</p>
 
