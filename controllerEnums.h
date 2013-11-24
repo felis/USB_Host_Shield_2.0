@@ -103,8 +103,6 @@ enum Button {
         BLACK = 8, // Available on the original Xbox controller
         WHITE = 9, // Available on the original Xbox controller
         /**@}*/
-
-        MIDDLE = 0, // Middle mouse button
 };
 
 /** Joysticks on the PS3 and Xbox controllers. */
