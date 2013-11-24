@@ -969,16 +969,20 @@ void BTD::hci_inquiry_cancel() {
 }
 
 void BTD::hci_connect() {
+        hci_connect(disc_bdaddr); // Use last discovered device
+}
+
+void BTD::hci_connect(uint8_t *bdaddr) {
         hci_event_flag &= ~(HCI_FLAG_CONN_COMPLETE | HCI_FLAG_CONNECT_EVENT);
         hcibuf[0] = 0x05;
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x0D; // parameter Total Length = 13
-        hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
-        hcibuf[4] = disc_bdaddr[1];
-        hcibuf[5] = disc_bdaddr[2];
-        hcibuf[6] = disc_bdaddr[3];
-        hcibuf[7] = disc_bdaddr[4];
-        hcibuf[8] = disc_bdaddr[5];
+        hcibuf[3] = bdaddr[0]; // 6 octet bdaddr (LSB)
+        hcibuf[4] = bdaddr[1];
+        hcibuf[5] = bdaddr[2];
+        hcibuf[6] = bdaddr[3];
+        hcibuf[7] = bdaddr[4];
+        hcibuf[8] = bdaddr[5];
         hcibuf[9] = 0x18; // DM1 or DH1 may be used
         hcibuf[10] = 0xCC; // DM3, DH3, DM5, DH5 may be used
         hcibuf[11] = 0x01; // Page repetition mode R1

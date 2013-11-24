@@ -313,8 +313,13 @@ public:
         void hci_inquiry();
         /** Cancel a HCI inquiry. */
         void hci_inquiry_cancel();
-        /** Connect to a device. */
+        /** Connect to last device communicated with. */
         void hci_connect();
+        /**
+         * Connect to device.
+         * @param bdaddr Bluetooth address of the device.
+         */
+        void hci_connect(uint8_t *bdaddr);
         /** Used to a set the class of the device. */
         void hci_write_class_of_device();
         /**@}*/
