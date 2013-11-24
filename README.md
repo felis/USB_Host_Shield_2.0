@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -86,7 +86,15 @@ This library make it easy to add support for different Bluetooth services like a
 Some different examples can be found in the [example directory](examples/Bluetooth).
 
 The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:
-<https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>
+<https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>.
+
+### [BTHID library](BTHID.cpp)
+
+The [Bluetooth HID library](BTHID.cpp) allows you to connect HID devices via Bluetooth to the USB Host Shield.
+
+Currently HID mice and keyboards are supported.
+
+It uses the standard BOOT protocol, but it is very easy to modify it for your device, you simply have do edit the parser. See the example: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino> for more information.
 
 ### [SPP library](SPP.cpp)
 
