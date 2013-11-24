@@ -42,7 +42,7 @@ const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
         0, // A
         2, // X
         3, // Y
-}; 
+};
 
 XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
@@ -118,7 +118,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         if ((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_OLD_PID1 && PID != XBOX_OLD_PID2 && PID != XBOX_OLD_PID3 && PID != XBOX_OLD_PID4)) // Check if VID and PID match
                 goto FailUnknownDevice;
-        
+
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
@@ -145,7 +145,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         delay(300); // Spec says you should wait at least 200ms
-        
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
