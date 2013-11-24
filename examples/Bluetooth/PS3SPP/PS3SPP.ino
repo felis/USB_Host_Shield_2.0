@@ -59,7 +59,7 @@ void loop() {
       output += PS3.getAnalogHat(LeftHatX);
       output += "\tLeftHatY: ";
       output += PS3.getAnalogHat(LeftHatY);
-      if (!PS3.PS3NavigationConnected) {
+      if (PS3.PS3Connected) { // The Navigation controller only have one joystick
         output += "\tRightHatX: ";
         output += PS3.getAnalogHat(RightHatX);
         output += "\tRightHatY: ";

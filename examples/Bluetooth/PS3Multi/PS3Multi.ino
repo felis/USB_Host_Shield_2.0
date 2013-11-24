@@ -40,7 +40,7 @@ void loop() {
         Serial.print(PS3[i]->getAnalogHat(LeftHatX));
         Serial.print(F("\tLeftHatY: "));
         Serial.print(PS3[i]->getAnalogHat(LeftHatY));
-        if (!PS3[i]->PS3NavigationConnected) { // The Navigation controller only have one joystick
+        if (PS3[i]->PS3Connected) { // The Navigation controller only have one joystick
           Serial.print(F("\tRightHatX: "));
           Serial.print(PS3[i]->getAnalogHat(RightHatX));
           Serial.print(F("\tRightHatY: "));
