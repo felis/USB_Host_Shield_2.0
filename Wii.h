@@ -76,8 +76,6 @@
 #define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
 #define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
 
-#define PAIR    1
-
 /** Enum used to read the joystick on the Nunchuck. */
 enum Hat {
         /** Read the x-axis on the Nunchuck joystick. */
