@@ -163,7 +163,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
-                                        if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) { // Success
+                                        if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
