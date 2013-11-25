@@ -89,7 +89,10 @@
 #define BT_RFCOMM_NSC_RSP    0x11
  */
 
-/** This BluetoothService class implements the Serial Port Protocol (SPP). */
+/**
+ * This BluetoothService class implements the Serial Port Protocol (SPP).
+ * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print functions.
+ */
 class SPP : public BluetoothService, public Stream {
 public:
         /**
