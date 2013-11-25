@@ -248,6 +248,7 @@ void BTHID::L2CAP_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Successfully Configured"), 0x80);
 #endif
+                                setProtocol();
                                 l2cap_state = L2CAP_INTERRUPT_SETUP;
                         }
                         break;
@@ -276,19 +277,24 @@ void BTHID::L2CAP_task() {
 #endif
                                 identifier++;
                                 pBtd->l2cap_config_request(hci_handle, identifier, control_scid);
+                                l2cap_state = L2CAP_SET_PROTOCOL;
+                        }
+                        break;
+
+                case L2CAP_SET_PROTOCOL:
+                        if (l2cap_config_success_control_flag) {
+                                setProtocol();
                                 l2cap_state = L2CAP_CONTROL_CONFIG_REQUEST;
                         }
                         break;
 
                 case L2CAP_CONTROL_CONFIG_REQUEST:
-                        if (l2cap_config_success_control_flag) {
 #ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nSend HID Interrupt Connection Request"), 0x80);
+                        Notify(PSTR("\r\nSend HID Interrupt Connection Request"), 0x80);
 #endif
-                                identifier++;
-                                pBtd->l2cap_connection_request(hci_handle, identifier, interrupt_dcid, HID_INTR_PSM);
-                                l2cap_state = L2CAP_INTERRUPT_CONNECT_REQUEST;
-                        }
+                        identifier++;
+                        pBtd->l2cap_connection_request(hci_handle, identifier, interrupt_dcid, HID_INTR_PSM);
+                        l2cap_state = L2CAP_INTERRUPT_CONNECT_REQUEST;
                         break;
 
                 case L2CAP_INTERRUPT_CONNECT_REQUEST:
@@ -310,7 +316,6 @@ void BTHID::L2CAP_task() {
                                 pBtd->connectToHIDDevice = false;
                                 pBtd->pairWithHIDDevice = false;
                                 connected = true;
-                                setProtocol();
                                 onInit();
                                 l2cap_state = L2CAP_DONE;
                         }
@@ -378,6 +383,10 @@ void BTHID::Run() {
 /*                    HID Commands                          */
 /************************************************************/
 void BTHID::setProtocol() {
+#ifdef DEBUG_USB_HOST
+        Notify(PSTR("\r\nSet protocol mode: "), 0x80);
+        D_PrintHex<uint8_t > (protocolMode, 0x80);
+#endif
         uint8_t command = 0x70 | protocolMode; // Set Protocol, see HID specs page 33
         pBtd->L2CAP_Command(hci_handle, &command, 1, control_scid[0], control_scid[1]);
 }

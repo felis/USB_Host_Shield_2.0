@@ -31,14 +31,15 @@
 
 // These states are used if the Arduino is the host
 #define L2CAP_CONTROL_CONNECT_REQUEST   3
-#define L2CAP_CONTROL_CONFIG_REQUEST    4
-#define L2CAP_INTERRUPT_CONNECT_REQUEST 5
+#define L2CAP_SET_PROTOCOL              4
+#define L2CAP_CONTROL_CONFIG_REQUEST    5
+#define L2CAP_INTERRUPT_CONNECT_REQUEST 6
 
-#define L2CAP_INTERRUPT_CONFIG_REQUEST  6
-#define L2CAP_DONE                      7
+#define L2CAP_INTERRUPT_CONFIG_REQUEST  7
+#define L2CAP_DONE                      8
 
-#define L2CAP_INTERRUPT_DISCONNECT      8
-#define L2CAP_CONTROL_DISCONNECT        9
+#define L2CAP_INTERRUPT_DISCONNECT      9
+#define L2CAP_CONTROL_DISCONNECT        10
 
 /* L2CAP event flags */
 #define L2CAP_FLAG_CONTROL_CONNECTED                0x01
