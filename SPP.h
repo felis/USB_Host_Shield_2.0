@@ -96,9 +96,9 @@ public:
          * Constructor for the SPP class.
          * @param  p   Pointer to BTD class instance.
          * @param  name   Set the name to BTD#btdName. If argument is omitted, then "Arduino" will be used.
-         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "1234" will be used.
+         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          */
-        SPP(BTD *p, const char* name = "Arduino", const char* pin = "1234");
+        SPP(BTD *p, const char *name = "Arduino", const char *pin = "0000");
 
         /**
          * Used to provide Boolean tests for the class.
