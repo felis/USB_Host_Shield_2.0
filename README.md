@@ -67,6 +67,7 @@ Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.0)
+	* Note if you are using the Teensy 3.0 you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include spi4teensy3.h``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
