@@ -24,7 +24,7 @@ BTHID::BTHID(BTD *p, bool pair, const char *pin) :
 pBtd(p), // pointer to USB class instance - mandatory
 protocolMode(HID_BOOT_PROTOCOL)
 {
-        for(uint8_t i = 0; i < epMUL; i++)
+        for (uint8_t i = 0; i < epMUL; i++)
                 pRptParser[i] = NULL;
 
         if (pBtd)
@@ -194,14 +194,14 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                         case 0x01: // Keyboard events
                                                 if (pRptParser[KEYBOARD_PARSER_ID]) {
                                                         uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse((HID*)this, 0, (uint8_t) length, &l2capinbuf[10]);
+                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 }
                                                 break;
 
                                         case 0x02: // Mouse events
                                                 if (pRptParser[MOUSE_PARSER_ID]) {
                                                         uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[MOUSE_PARSER_ID]->Parse((HID*)this, 0, (uint8_t) length, &l2capinbuf[10]);
+                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 }
                                                 break;
                                         case 0x03:

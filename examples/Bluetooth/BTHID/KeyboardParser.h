@@ -2,11 +2,8 @@
 #define __kbdrptparser_h_
 
 class KbdRptParser : public KeyboardReportParser {
-  public:
-    KbdRptParser(BTHID *p) : pBTHID(p) {};
-
   protected:
-    virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key);
+    virtual uint8_t HandleLockingKeys(HID *hid, uint8_t key);
     virtual void OnControlKeysChanged(uint8_t before, uint8_t after);
     virtual void OnKeyDown(uint8_t mod, uint8_t key);
     virtual void OnKeyUp(uint8_t mod, uint8_t key);
@@ -14,10 +11,9 @@ class KbdRptParser : public KeyboardReportParser {
 
   private:
     void PrintKey(uint8_t mod, uint8_t key);
-    BTHID *pBTHID;
 };
 
-uint8_t KbdRptParser::HandleLockingKeys(HID* hid, uint8_t key) {
+uint8_t KbdRptParser::HandleLockingKeys(HID *hid, uint8_t key) {
   uint8_t old_keys = kbdLockingKeys.bLeds;
 
   switch (key) {
@@ -35,8 +31,10 @@ uint8_t KbdRptParser::HandleLockingKeys(HID* hid, uint8_t key) {
       break;
   }
 
-  if (old_keys != kbdLockingKeys.bLeds && pBTHID)
-    pBTHID->setLeds(kbdLockingKeys.bLeds);
+  if (old_keys != kbdLockingKeys.bLeds && hid) {
+    BTHID *pBTHID = reinterpret_cast<BTHID *> (hid); // A cast the other way around is done in BTHID.cpp
+    pBTHID->setLeds(kbdLockingKeys.bLeds); // Update the LEDs on the keyboard
+  }
 
   return 0;
 }
