@@ -21,7 +21,7 @@ BTHID hid(&Btd, PAIR, "0000");
 // After that you can simply create the instance like so and then press any button on the device
 //BTHID hid(&Btd);
 
-KbdRptParser keyboardPrs;
+KbdRptParser keyboardPrs(&hid);
 MouseRptParser mousePrs;
 
 void setup() {

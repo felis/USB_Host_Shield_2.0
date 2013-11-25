@@ -381,3 +381,11 @@ void BTHID::setProtocol() {
         uint8_t command = 0x70 | protocolMode; // Set Protocol, see HID specs page 33
         pBtd->L2CAP_Command(hci_handle, &command, 1, control_scid[0], control_scid[1]);
 }
+
+void BTHID::setLeds(uint8_t data) {
+        uint8_t buf[3];
+        buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
+        buf[1] = 0x01; // Report ID
+        buf[2] = data;
+        pBtd->L2CAP_Command(hci_handle, buf, 3, interrupt_scid[0], interrupt_scid[1]);
+}

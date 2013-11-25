@@ -102,6 +102,9 @@ public:
                 protocolMode = mode;
         };
 
+        /** Used to set the leds on a keyboard */
+        void setLeds(uint8_t data);
+
         /** True if a device is connected */
         bool connected;
 

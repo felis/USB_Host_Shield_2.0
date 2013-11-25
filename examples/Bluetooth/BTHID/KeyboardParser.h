@@ -2,15 +2,44 @@
 #define __kbdrptparser_h_
 
 class KbdRptParser : public KeyboardReportParser {
-  private:
-    void PrintKey(uint8_t mod, uint8_t key);
+  public:
+    KbdRptParser(BTHID *p) : pBTHID(p) {};
 
   protected:
+    virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key);
     virtual void OnControlKeysChanged(uint8_t before, uint8_t after);
     virtual void OnKeyDown(uint8_t mod, uint8_t key);
     virtual void OnKeyUp(uint8_t mod, uint8_t key);
     virtual void OnKeyPressed(uint8_t key);
+
+  private:
+    void PrintKey(uint8_t mod, uint8_t key);
+    BTHID *pBTHID;
 };
+
+uint8_t KbdRptParser::HandleLockingKeys(HID* hid, uint8_t key) {
+  uint8_t old_keys = kbdLockingKeys.bLeds;
+
+  switch (key) {
+    case KEY_NUM_LOCK:
+      Serial.println(F("Num lock"));
+      kbdLockingKeys.kbdLeds.bmNumLock = ~kbdLockingKeys.kbdLeds.bmNumLock;
+      break;
+    case KEY_CAPS_LOCK:
+      Serial.println(F("Caps lock"));
+      kbdLockingKeys.kbdLeds.bmCapsLock = ~kbdLockingKeys.kbdLeds.bmCapsLock;
+      break;
+    case KEY_SCROLL_LOCK:
+      Serial.println(F("Scroll lock"));
+      kbdLockingKeys.kbdLeds.bmScrollLock = ~kbdLockingKeys.kbdLeds.bmScrollLock;
+      break;
+  }
+
+  if (old_keys != kbdLockingKeys.bLeds && pBTHID)
+    pBTHID->setLeds(kbdLockingKeys.bLeds);
+
+  return 0;
+}
 
 void KbdRptParser::PrintKey(uint8_t m, uint8_t key) {
   MODIFIERKEYS mod;
