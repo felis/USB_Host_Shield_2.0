@@ -130,8 +130,10 @@ public:
          * @return Return the number of bytes ready to be read.
          */
         virtual int available(void);
-        /** Discard all the bytes in the buffer. */
-        virtual void flush(void);
+        /** Send out all bytes in the buffer. */
+        virtual void flush(void) {
+                send();
+        };
         /**
          * Used to read the next value in the buffer without advancing to the next one.
          * @return Return the byte. Will return -1 if no bytes are available.
@@ -157,6 +159,8 @@ public:
         virtual size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
         using Print::write;
+        /** Discard all the bytes in the buffer. */
+        void discard(void);
         /**
          * This will send all the bytes in the buffer.
          * This is called whenever Usb.Task() is called,

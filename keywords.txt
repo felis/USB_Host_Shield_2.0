@@ -228,8 +228,7 @@ SPP	KEYWORD1
 ####################################################
 
 connected	KEYWORD2
-printNumber	KEYWORD2
-printNumberln	KEYWORD2
+discard	KEYWORD2
 
 ####################################################
 # Syntax Coloring Map For Wiimote Library
