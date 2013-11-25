@@ -182,9 +182,8 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         }
 #endif
                 } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
-                        //Notify(PSTR("\r\n\r\nL2CAP Interrupt: "), 0x80);
 #ifdef PRINTREPORT
-                        Notify(PSTR("\r\n"), 0x80);
+                        Notify(PSTR("\r\nL2CAP Interrupt: "), 0x80);
                         for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
                                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
                                 Notifyc(' ', 0x80);
@@ -200,14 +199,13 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                                 break;
 
                                         case 0x02: // Mouse events
-                                        case 0x1A:
                                                 if (pRptParser[MOUSE_PARSER_ID]) {
                                                         uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
                                                         pRptParser[MOUSE_PARSER_ID]->Parse((HID*)this, 0, (uint8_t) length, &l2capinbuf[10]);
                                                 }
                                                 break;
                                         case 0x03:
-#ifdef EXTRADEBUG
+#ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nChange mode event: "), 0x80);
                                                 D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
 #endif
@@ -220,6 +218,14 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 #endif
                                 }
                         }
+                } else if (l2capinbuf[6] == control_dcid[0] && l2capinbuf[7] == control_dcid[1]) { // l2cap_control
+#ifdef PRINTREPORT
+                        Notify(PSTR("\r\nL2CAP Control: "), 0x80);
+                        for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
+                                D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
+                                Notifyc(' ', 0x80);
+                        }
+#endif
                 }
 #ifdef EXTRADEBUG
                 else {
