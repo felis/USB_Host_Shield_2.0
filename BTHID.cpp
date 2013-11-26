@@ -204,6 +204,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                                         pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 }
                                                 break;
+
                                         case 0x03:
 #ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nChange mode event: "), 0x80);
@@ -238,7 +239,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         Notify(PSTR("\r\n"), 0x80);
                         for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
                                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
-                                Notifyc(' ', 0x80);
+                                Notify(PSTR(" "), 0x80);
                         }
                 }
 #endif

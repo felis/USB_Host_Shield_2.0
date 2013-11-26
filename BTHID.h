@@ -19,7 +19,6 @@
 #define _bthid_h_
 
 #include "BTD.h"
-#include "controllerEnums.h"
 #include "hidboot.h"
 
 /* Bluetooth L2CAP states for L2CAP_task() */
@@ -151,9 +150,6 @@ private:
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
         uint8_t l2cap_event_flag; // l2cap flags of received Bluetooth events
-
-        uint8_t ButtonState, OldButtonState, ButtonClickState;
-        int16_t xAxis, yAxis, scroll;
 
         /* L2CAP Channels */
         uint8_t control_scid[2]; // L2CAP source CID for HID_Control
