@@ -39,7 +39,7 @@ bPollEnable(false) // Don't start polling before dongle is connected
         for (uint8_t i = 0; i < BTD_NUMSERVICES; i++)
                 btService[i] = NULL;
 
-        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+        Initialize(); // Set all variables, endpoint structs etc. to default values
 
         if (pUsb) // Register in USB subsystem
                 pUsb->RegisterDeviceClass(this); // Set devConfig[] entry
@@ -52,7 +52,7 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
 
-        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+        Initialize(); // Set all variables, endpoint structs etc. to default values
 
         AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USB device address pool
 #ifdef EXTRADEBUG
@@ -290,7 +290,7 @@ Fail:
         return rcode;
 }
 
-void BTD::clearAllVariables() {
+void BTD::Initialize() {
         uint8_t i;
         for (i = 0; i < BTD_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
@@ -367,7 +367,7 @@ void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
 
 /* Performs a cleanup after failed Init() attempt */
 uint8_t BTD::Release() {
-        clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+        Initialize(); // Set all variables, endpoint structs etc. to default values
         pUsb->GetAddressPool().FreeAddress(bAddress);
         return 0;
 }

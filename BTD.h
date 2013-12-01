@@ -488,7 +488,7 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 private:
-        void clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+        void Initialize(); // Set all variables, endpoint structs etc. to default values
         BluetoothService* btService[BTD_NUMSERVICES];
 
         uint16_t PID, VID; // PID and VID of device connected
