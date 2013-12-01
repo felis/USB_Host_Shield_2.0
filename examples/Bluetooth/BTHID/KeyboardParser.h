@@ -37,7 +37,7 @@ uint8_t KbdRptParser::HandleLockingKeys(HID *hid, uint8_t key) {
   }
 
   return 0;
-}
+};
 
 void KbdRptParser::PrintKey(uint8_t m, uint8_t key) {
   MODIFIERKEYS mod;
@@ -64,7 +64,7 @@ void KbdRptParser::OnKeyDown(uint8_t mod, uint8_t key) {
 
   if (c)
     OnKeyPressed(c);
-}
+};
 
 void KbdRptParser::OnControlKeysChanged(uint8_t before, uint8_t after) {
   MODIFIERKEYS beforeMod;
@@ -90,12 +90,12 @@ void KbdRptParser::OnControlKeysChanged(uint8_t before, uint8_t after) {
     Serial.println(F("RightAlt changed"));
   if (beforeMod.bmRightGUI != afterMod.bmRightGUI)
     Serial.println(F("RightGUI changed"));
-}
+};
 
 void KbdRptParser::OnKeyUp(uint8_t mod, uint8_t key) {
   Serial.print(F("UP "));
   PrintKey(mod, key);
-}
+};
 
 void KbdRptParser::OnKeyPressed(uint8_t key) {
   Serial.print(F("ASCII: "));
