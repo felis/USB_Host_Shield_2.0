@@ -34,7 +34,10 @@ PS3USB	KEYWORD1
 # Methods and Functions (KEYWORD2)
 ####################################################
 setBdaddr	KEYWORD2
+getBdaddr	KEYWORD2
 setMoveBdaddr	KEYWORD2
+getMoveBdaddr	KEYWORD2
+getMoveCalibration	KEYWORD2
 
 getButtonPress	KEYWORD2
 getButtonClick	KEYWORD2

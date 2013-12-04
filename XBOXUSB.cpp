@@ -16,7 +16,7 @@
  */
 
 #include "XBOXUSB.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
@@ -283,7 +283,7 @@ uint8_t XBOXUSB::getButtonPress(Button b) {
                 return (uint8_t)(ButtonState >> 8);
         else if (b == R2)
                 return (uint8_t)ButtonState;
-        return (ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
 }
 
 bool XBOXUSB::getButtonClick(Button b) {

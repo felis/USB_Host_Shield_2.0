@@ -1,6 +1,6 @@
 /*
  Example sketch for the Bluetooth library - developed by Kristian Lauszus
- For more information visit my blog: http://blog.tkjelectronics.dk/ or 
+ For more information visit my blog: http://blog.tkjelectronics.dk/ or
  send me an e-mail:  kristianl@tkjelectronics.com
 
  This example show how one can combine all the difference Bluetooth services in one single code.
@@ -14,7 +14,8 @@
 #include <usbhub.h>
 
 USB Usb;
-USBHub Hub1(&Usb); // Some dongles have a hub inside
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instances of the bluetooth services in two ways */
@@ -31,7 +32,7 @@ void setup() {
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
-    while(1); //halt
+    while (1); //halt
   }
   Serial.print(F("\r\nBluetooth Library Started"));
   output.reserve(200); // Reserve 200 bytes for the output string
@@ -39,27 +40,27 @@ void setup() {
 void loop() {
   Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
 
-  if(SerialBT.connected) {
-    if(firstMessage) {
+  if (SerialBT.connected) {
+    if (firstMessage) {
       firstMessage = false;
       SerialBT.println(F("Hello from Arduino")); // Send welcome message
     }
-    if(Serial.available())
+    if (Serial.available())
       SerialBT.write(Serial.read());
-    if(SerialBT.available())
+    if (SerialBT.available())
       Serial.write(SerialBT.read());
-  } 
-  else 
+  }
+  else
     firstMessage = true;
 
-  if(PS3.PS3Connected || PS3.PS3NavigationConnected) {
+  if (PS3.PS3Connected || PS3.PS3NavigationConnected) {
     output = ""; // Reset output string
-    if(PS3.getAnalogHat(LeftHatX) > 137 || PS3.getAnalogHat(LeftHatX) < 117 || PS3.getAnalogHat(LeftHatY) > 137 || PS3.getAnalogHat(LeftHatY) < 117 || PS3.getAnalogHat(RightHatX) > 137 || PS3.getAnalogHat(RightHatX) < 117 || PS3.getAnalogHat(RightHatY) > 137 || PS3.getAnalogHat(RightHatY) < 117) {
+    if (PS3.getAnalogHat(LeftHatX) > 137 || PS3.getAnalogHat(LeftHatX) < 117 || PS3.getAnalogHat(LeftHatY) > 137 || PS3.getAnalogHat(LeftHatY) < 117 || PS3.getAnalogHat(RightHatX) > 137 || PS3.getAnalogHat(RightHatX) < 117 || PS3.getAnalogHat(RightHatY) > 137 || PS3.getAnalogHat(RightHatY) < 117) {
       output += "LeftHatX: ";
       output += PS3.getAnalogHat(LeftHatX);
       output += "\tLeftHatY: ";
       output += PS3.getAnalogHat(LeftHatY);
-      if(!PS3.PS3NavigationConnected) {
+      if (PS3.PS3Connected) { // The Navigation controller only have one joystick
         output += "\tRightHatX: ";
         output += PS3.getAnalogHat(RightHatX);
         output += "\tRightHatY: ";
@@ -67,85 +68,85 @@ void loop() {
       }
     }
     //Analog button values can be read from almost all buttons
-    if(PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
-      if(output != "")
+    if (PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
+      if (output != "")
         output += "\r\n";
       output += "L2: ";
       output += PS3.getAnalogButton(L2);
-      if(!PS3.PS3NavigationConnected) {
+      if (!PS3.PS3NavigationConnected) {
         output += "\tR2: ";
         output += PS3.getAnalogButton(R2);
-      }      
+      }
     }
-    if(output != "") {      
+    if (output != "") {
       Serial.println(output);
-      if(SerialBT.connected)
+      if (SerialBT.connected)
         SerialBT.println(output);
       output = ""; // Reset output string
     }
-    if(PS3.getButtonClick(PS)) {
+    if (PS3.getButtonClick(PS)) {
       output += " - PS";
       PS3.disconnect();
-    } 
+    }
     else {
-      if(PS3.getButtonClick(TRIANGLE))
+      if (PS3.getButtonClick(TRIANGLE))
         output += " - Traingle";
-      if(PS3.getButtonClick(CIRCLE))
+      if (PS3.getButtonClick(CIRCLE))
         output += " - Circle";
-      if(PS3.getButtonClick(CROSS))
+      if (PS3.getButtonClick(CROSS))
         output += " - Cross";
-      if(PS3.getButtonClick(SQUARE))
+      if (PS3.getButtonClick(SQUARE))
         output += " - Square";
 
-      if(PS3.getButtonClick(UP)) {
+      if (PS3.getButtonClick(UP)) {
         output += " - Up";
-        if(PS3.PS3Connected) {
-          PS3.setAllOff();
+        if (PS3.PS3Connected) {
+          PS3.setLedOff();
           PS3.setLedOn(LED4);
         }
-      } 
-      if(PS3.getButtonClick(RIGHT)) {
+      }
+      if (PS3.getButtonClick(RIGHT)) {
         output += " - Right";
-        if(PS3.PS3Connected) {
-          PS3.setAllOff();
-          PS3.setLedOn(LED1); 
-        }         
-      } 
-      if(PS3.getButtonClick(DOWN)) {
-        output += " - Down";          
-        if(PS3.PS3Connected) {
-          PS3.setAllOff();
-          PS3.setLedOn(LED2);          
+        if (PS3.PS3Connected) {
+          PS3.setLedOff();
+          PS3.setLedOn(LED1);
         }
-      } 
-      if(PS3.getButtonClick(LEFT)) {  
-        output += " - Left";         
-        if(PS3.PS3Connected) {
-          PS3.setAllOff();         
-          PS3.setLedOn(LED3);            
-        }         
-      } 
+      }
+      if (PS3.getButtonClick(DOWN)) {
+        output += " - Down";
+        if (PS3.PS3Connected) {
+          PS3.setLedOff();
+          PS3.setLedOn(LED2);
+        }
+      }
+      if (PS3.getButtonClick(LEFT)) {
+        output += " - Left";
+        if (PS3.PS3Connected) {
+          PS3.setLedOff();
+          PS3.setLedOn(LED3);
+        }
+      }
 
-      if(PS3.getButtonClick(L1))
+      if (PS3.getButtonClick(L1))
         output += " - L1";
-      if(PS3.getButtonClick(L3))
-        output += " - L3";        
-      if(PS3.getButtonClick(R1))
-        output += " - R1";               
-      if(PS3.getButtonClick(R3))
-        output += " - R3";               
+      if (PS3.getButtonClick(L3))
+        output += " - L3";
+      if (PS3.getButtonClick(R1))
+        output += " - R1";
+      if (PS3.getButtonClick(R3))
+        output += " - R3";
 
-      if(PS3.getButtonClick(SELECT)) {
+      if (PS3.getButtonClick(SELECT)) {
         output += " - Select - ";
         output += PS3.getStatusString();
       }
-      if(PS3.getButtonClick(START))
-        output += " - Start";  
+      if (PS3.getButtonClick(START))
+        output += " - Start";
 
-      if(output != "") {
+      if (output != "") {
         String string = "PS3 Controller" + output;
         Serial.println(string);
-        if(SerialBT.connected)
+        if (SerialBT.connected)
           SerialBT.println(string);
       }
     }

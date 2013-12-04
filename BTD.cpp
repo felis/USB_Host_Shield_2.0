@@ -16,7 +16,7 @@
  */
 
 #include "BTD.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
 const uint8_t BTD::BTD_CONTROL_PIPE = 0;
@@ -403,14 +403,10 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_COMMAND_STATUS:
-                                if (hcibuf[2]) { // show status on serial if not OK
+                                if (hcibuf[2]) { // Show status on serial if not OK
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nHCI Command Failed: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[2], 0x80);
-                                        Notify(PSTR(" "), 0x80);
-                                        D_PrintHex<uint8_t > (hcibuf[4], 0x80);
-                                        Notify(PSTR(" "), 0x80);
-                                        D_PrintHex<uint8_t > (hcibuf[5], 0x80);
 #endif
                                 }
                                 break;
@@ -466,15 +462,18 @@ void BTD::HCI_event_task() {
                         case EV_CONNECT_COMPLETE:
                                 hci_event_flag |= HCI_FLAG_CONNECT_EVENT;
                                 if (!hcibuf[2]) { // check if connected OK
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nConnection established"), 0x80);
+#endif
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
                                         hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
-                                }
-#ifdef DEBUG_USB_HOST
-                                else {
-                                        Notify(PSTR("\r\nConnection Failed"), 0x80);
+                                } else {
                                         hci_state = HCI_CHECK_WII_SERVICE;
-                                }
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nConnection Failed: "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[2], 0x80);
 #endif
+                                }
                                 break;
 
                         case EV_DISCONNECT_COMPLETE:
@@ -971,16 +970,20 @@ void BTD::hci_inquiry_cancel() {
 }
 
 void BTD::hci_connect() {
+        hci_connect(disc_bdaddr); // Use last discovered device
+}
+
+void BTD::hci_connect(uint8_t *bdaddr) {
         hci_event_flag &= ~(HCI_FLAG_CONN_COMPLETE | HCI_FLAG_CONNECT_EVENT);
         hcibuf[0] = 0x05;
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x0D; // parameter Total Length = 13
-        hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
-        hcibuf[4] = disc_bdaddr[1];
-        hcibuf[5] = disc_bdaddr[2];
-        hcibuf[6] = disc_bdaddr[3];
-        hcibuf[7] = disc_bdaddr[4];
-        hcibuf[8] = disc_bdaddr[5];
+        hcibuf[3] = bdaddr[0]; // 6 octet bdaddr (LSB)
+        hcibuf[4] = bdaddr[1];
+        hcibuf[5] = bdaddr[2];
+        hcibuf[6] = bdaddr[3];
+        hcibuf[7] = bdaddr[4];
+        hcibuf[8] = bdaddr[5];
         hcibuf[9] = 0x18; // DM1 or DH1 may be used
         hcibuf[10] = 0xCC; // DM3, DH3, DM5, DH5 may be used
         hcibuf[11] = 0x01; // Page repetition mode R1
@@ -1079,7 +1082,7 @@ void BTD::hci_disconnect(uint16_t handle) { // This is called by the different s
 }
 
 void BTD::hci_write_class_of_device() { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
-        hcibuf[0] = 0x24; // HCI OCF = 3
+        hcibuf[0] = 0x24; // HCI OCF = 24
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = 0x03; // parameter length = 3
         hcibuf[3] = 0x04; // Robot
@@ -1259,9 +1262,9 @@ void BTD::setBdaddr(uint8_t* bdaddr) {
         buf[1] = 0x00;
 
         for (uint8_t i = 0; i < 6; i++)
-                buf[i + 2] = bdaddr[5 - i]; // Copy into buffer, has to be written reversed
+                buf[i + 2] = bdaddr[5 - i]; // Copy into buffer, has to be written reversed, so it is MSB first
 
-        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
         pUsb->ctrlReq(bAddress, epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
 }
 
@@ -1277,6 +1280,6 @@ void BTD::setMoveBdaddr(uint8_t* bdaddr) {
         for (uint8_t i = 0; i < 6; i++)
                 buf[i + 1] = bdaddr[i];
 
-        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
+        // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
         pUsb->ctrlReq(bAddress, epInfo[BTD_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
 }

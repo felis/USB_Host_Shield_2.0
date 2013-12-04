@@ -98,7 +98,7 @@ More information can be found at these blog posts:
 * <http://www.circuitsathome.com/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released>
 * <http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/>
 
-To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple. 
+To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
 It enables me to see the Bluetooth communication between my Mac and any device.
 
 ### PS3 Library
@@ -107,7 +107,7 @@ These libraries consist of the [PS3BT](PS3BT.cpp) and [PS3USB](PS3USB.cpp). Thes
 
 In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via USB and letting the library set it automatically.
 
-__Note:__ To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L12>.
+__Note:__ To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L15>.
 
 For more information about the PS3 protocol see the official wiki: <https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information>.
 
@@ -184,7 +184,7 @@ After that you can simply create the instance like so:
 WII Wii(&Btd);
 ```
 
-Then just press any button any button on the Wiimote and it will connect to the dongle.
+Then just press any button on the Wiimote and it will then connect to the dongle.
 
 Take a look at the example for more information: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino>.
 

@@ -43,12 +43,12 @@ EXTRA_FLAGS += -D USB_HOST_SERIAL=Serial3
 #EXTRA_FLAGS += -D DEBUG_USB_HOST
 
 # The following are the libraries used.
-LIB_DIRS =
-LIB_DIRS += ../libraries/xmem
-LIB_DIRS += ../libraries/USB_Host_Shield_2_0
-LIB_DIRS += ../libraries/generic_storage
-LIB_DIRS += ../libraries/RTClib
+LIB_DIRS += ../../
+LIB_DIRS += ../testusbhostFAT/xmem2
+LIB_DIRS += ../testusbhostFAT/generic_storage
+LIB_DIRS += ../testusbhostFAT/RTClib
 LIB_DIRS += $(ARD_HOME)/libraries/Wire
 LIB_DIRS += $(ARD_HOME)/libraries/Wire/utility
+
 # And finally, the part that brings everything together for you.
-include ../Arduino_Makefile_master/_Makefile.master
+include Arduino_Makefile_master/_Makefile.master
