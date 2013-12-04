@@ -66,6 +66,7 @@ uint8_t ADK::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         uint8_t num_of_conf; // number of configurations
         UsbDevice *p = NULL;
@@ -117,7 +118,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         bAddress = addrPool.AllocAddress(parent, false, port);
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
         if (rcode) {
@@ -149,11 +150,11 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         }
 
         //check if ADK device is already in accessory mode; if yes, configure and exit
-        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor == ADK_VID &&
-                (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)) {
+        if (udd->idVendor == ADK_VID &&
+                (udd->idProduct == ADK_PID || udd->idProduct == ADB_PID)) {
                 USBTRACE("\r\nAcc.mode device detected");
                 /* go through configurations, find first bulk-IN, bulk-OUT EP, fill epInfo and quit */
-                num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+                num_of_conf = udd->bNumConfigurations;
 
                 //USBTRACE2("\r\nNC:",num_of_conf);
 
@@ -268,15 +269,15 @@ FailSwAcc:
         goto Fail;
 #endif
 
-SwAttempt:
-#ifdef DEBUG_USB_HOST
-        USBTRACE("\r\nAccessory mode switch attempt");
-#endif
         //FailOnInit:
         //	USBTRACE("OnInit:");
         //	goto Fail;
         //
+SwAttempt:
+#ifdef DEBUG_USB_HOST
+        USBTRACE("\r\nAccessory mode switch attempt");
 Fail:
+#endif
         //USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
         //NotifyFail(rcode);
         Release();

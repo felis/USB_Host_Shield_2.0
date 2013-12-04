@@ -19,11 +19,43 @@ e-mail   :  support@circuitsathome.com
 
 #include "hid.h"
 
-#define KEY_SPACE							0x2c
-#define KEY_ZERO							0x27
-#define KEY_ZERO2							0x62
-#define KEY_ENTER							0x28
-#define KEY_PERIOD							0x63
+//
+// FIX-ME:
+// Prevent teensy HID collisions.
+// These are problematic. Who changes?
+// The best policy for now is to take over these definitions.
+// This is a classic reason why a library should prefix defines with something unique.
+// I suggest prefixing with 'UHS_' for every define in the entire library.
+// Yes, this could break things, but what is one to do?
+//
+#ifdef KEY_SPACE
+#undef KEY_SPACE
+#endif
+#ifdef KEY_ENTER
+#undef KEY_ENTER
+#endif
+#ifdef KEY_PERIOD
+#undef KEY_PERIOD
+#endif
+#ifdef KEY_NUM_LOCK
+#undef KEY_NUM_LOCK
+#endif
+#ifdef KEY_CAPS_LOCK
+#undef KEY_CAPS_LOCK
+#endif
+#ifdef KEY_SCROLL_LOCK
+#undef KEY_SCROLL_LOCK
+#endif
+
+#define KEY_ZERO	0x27
+#define KEY_ENTER	0x28
+#define KEY_SPACE	0x2c
+#define KEY_CAPS_LOCK	0x39
+#define KEY_SCROLL_LOCK	0x47
+#define KEY_NUM_LOCK    0x53
+#define KEY_ZERO2	0x62
+#define KEY_PERIOD	0x63
+
 
 struct MOUSEINFO {
 
@@ -106,10 +138,6 @@ struct KBDLEDS {
         uint8_t bmKana : 1;
         uint8_t bmReserved : 3;
 };
-
-#define KEY_NUM_LOCK    0x53
-#define KEY_CAPS_LOCK	0x39
-#define KEY_SCROLL_LOCK	0x47
 
 class KeyboardReportParser : public HIDReportParser {
         static const uint8_t numKeys[];

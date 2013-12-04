@@ -394,7 +394,7 @@ public:
         bmCBWLUN(lu), bmReserved1(0), bmCBWCBLength(cmdlen), bmReserved2(0) {
                 for(int i = 0; i < 16; i++) CBWCB[i] = 0;
                 // Type punning can cause optimization problems and bugs.
-                // Using reinterpret_cast to a different object is the proper way to do this.
+                // Using reinterpret_cast to a dreinterpretifferent object is the proper way to do this.
                 //(((BASICCDB_t *) CBWCB)->LUN) = cmd;
                 BASICCDB_t *x = reinterpret_cast<BASICCDB_t *> (CBWCB);
                 x->LUN = cmd;

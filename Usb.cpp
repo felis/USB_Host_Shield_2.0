@@ -650,6 +650,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t devConfigIndex;
         uint8_t rcode = 0;
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR *udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR *>(buf);
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
         EpInfo epInfo;
@@ -694,10 +695,9 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
 
         //if (!bAddress)
         //        return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
-
-        uint16_t vid = (uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        uint16_t pid = (uint16_t)((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
-        uint8_t klass = ((USB_DEVICE_DESCRIPTOR*)buf)->bDeviceClass;
+        uint16_t vid = udd->idVendor;
+        uint16_t pid = udd->idProduct;
+        uint8_t klass = udd->bDeviceClass;
 
         // Attempt to configure if VID/PID or device class matches with a driver
         for (devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
@@ -767,13 +767,14 @@ uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t con
 uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p) {
         const uint8_t bufSize = 64;
         uint8_t buf[bufSize];
+        USB_CONFIGURATION_DESCRIPTOR *ucd = reinterpret_cast<USB_CONFIGURATION_DESCRIPTOR *>(buf);
 
         uint8_t ret = getConfDescr(addr, ep, 9, conf, buf);
 
         if (ret)
                 return ret;
 
-        uint16_t total = ((USB_CONFIGURATION_DESCRIPTOR*)buf)->wTotalLength;
+        uint16_t total = ucd->wTotalLength;
 
         //USBTRACE2("\r\ntotal conf.size:", total);
 

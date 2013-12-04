@@ -28,8 +28,8 @@ bControlIface(0),
 bDataIface(0),
 bNumEP(1),
 qNextPollTime(0),
-ready(false),
-bPollEnable(false) {
+bPollEnable(false),
+ready(false) {
         for (uint8_t i = 0; i < ACM_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
@@ -48,6 +48,8 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
+
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -95,7 +97,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -119,7 +121,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
@@ -211,8 +213,8 @@ FailOnInit:
         USBTRACE("OnInit:");
 #endif
 
-Fail:
 #ifdef DEBUG_USB_HOST
+Fail:
         NotifyFail(rcode);
 #endif
         Release();

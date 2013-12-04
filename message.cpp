@@ -44,7 +44,7 @@ void E_NotifyStr(char const * msg, int lvl) {
         if (!msg) return;
         char c;
 
-        while (c = *msg++) E_Notifyc(c, lvl);
+        while ((c = *msg++)) E_Notifyc(c, lvl);
 }
 
 void E_Notify(uint8_t b, int lvl) {

@@ -236,6 +236,7 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -282,9 +283,9 @@ uint8_t BulkOnly::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
         // Steal and abuse from epInfo structure to save on memory.
-        epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        epInfo[1].epAddr = udd->bNumConfigurations;
         // </TECHNICAL>
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
@@ -294,7 +295,6 @@ FailGetDevDescr:
 #endif
         rcode = USB_ERROR_FailGetDevDescr;
 
-Fail:
         Release();
         return rcode;
 };
@@ -436,7 +436,7 @@ uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         printf(" standards.\r\n");
 #endif
                         uint8_t tries = 0xf0;
-                        while (rcode = TestUnitReady(lun)) {
+                        while ((rcode = TestUnitReady(lun))) {
                                 if (rcode == 0x08) break; // break on no media, this is OK to do.
                                 // try to lock media and spin up
                                 if (tries < 14) {
@@ -489,8 +489,8 @@ FailGetMaxLUN:
         goto Fail;
 #endif
 
-FailInvalidSectorSize:
 #ifdef DEBUG_USB_HOST
+FailInvalidSectorSize:
         USBTRACE("Sector Size is NOT VALID: ");
         goto Fail;
 #endif
@@ -506,8 +506,8 @@ FailGetConfDescr:
         NotifyFailGetConfDescr();
 #endif
 
-Fail:
 #ifdef DEBUG_USB_HOST
+Fail:
         NotifyFail(rcode);
 #endif
         Release();
@@ -808,9 +808,8 @@ uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
 
         uint8_t ret = 0;
 
-        while (ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT,
-                USB_REQUEST_CLEAR_FEATURE, USB_FEATURE_ENDPOINT_HALT, 0, ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr), 0, 0, NULL, NULL))
-                == 0x01) delay(6);
+        while ((ret = (pUsb->ctrlReq(bAddress, 0, USB_SETUP_HOST_TO_DEVICE | USB_SETUP_TYPE_STANDARD | USB_SETUP_RECIPIENT_ENDPOINT, USB_REQUEST_CLEAR_FEATURE, USB_FEATURE_ENDPOINT_HALT, 0, ((index == epDataInIndex) ? (0x80 | epInfo[index].epAddr) : epInfo[index].epAddr), 0, 0, NULL, NULL)) == 0x01))
+                delay(6);
 
         if (ret) {
                 ErrorMessage<uint8_t > (PSTR("ClearEpHalt"), ret);

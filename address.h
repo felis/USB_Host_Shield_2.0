@@ -122,7 +122,8 @@ class AddressPoolImpl : public AddressPool {
 
         uint8_t FindChildIndex(UsbDeviceAddress addr, uint8_t start = 1) {
                 for(uint8_t i = (start < 1 || start >= MAX_DEVICES_ALLOWED) ? 1 : start; i < MAX_DEVICES_ALLOWED; i++) {
-                        if(((UsbDeviceAddress*) & thePool[i].address)->bmParent == addr.bmAddress)
+                        UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(&thePool[i].address);
+                        if(uda->bmParent == addr.bmAddress)
                                 return i;
                 }
                 return 0;
@@ -133,14 +134,14 @@ class AddressPoolImpl : public AddressPool {
                 // Zerro field is reserved and should not be affected
                 if(index == 0)
                         return;
-
+                UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(& thePool[index].address);
                 // If a hub was switched off all port addresses should be freed
-                if(((UsbDeviceAddress*) & thePool[index].address)->bmHub == 1) {
-                        for(uint8_t i = 1; (i = FindChildIndex(*((UsbDeviceAddress*) & thePool[index].address), i));)
+                if(uda->bmHub == 1) {
+                        for(uint8_t i = 1; (i = FindChildIndex(*uda, i));)
                                 FreeAddressByIndex(i);
 
                         // If the hub had the last allocated address, hubCounter should be decremented
-                        if(hubCounter == ((UsbDeviceAddress*) & thePool[index].address)->bmAddress)
+                        if(hubCounter == uda->bmAddress)
                                 hubCounter--;
                 }
                 InitEntry(index);
@@ -220,8 +221,9 @@ public:
 
                 UsbDeviceAddress addr;
                 addr.devAddress = 0; // Ensure all bits are zero
-
-                addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
+                UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(&parent);
+                //addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
+                addr.bmParent = uda->bmAddress;
 
                 if(is_hub) {
                         addr.bmHub = 1;
@@ -230,7 +232,9 @@ public:
                         addr.bmHub = 0;
                         addr.bmAddress = port;
                 }
-                thePool[index].address = *((uint8_t*) & addr);
+                uint8_t* uaddr = reinterpret_cast<uint8_t*>(&addr);
+                //thePool[index].address = *((uint8_t*) & addr);
+                thePool[index].address = *uaddr;
                 /*
                                 USB_HOST_SERIAL.print("Addr:");
                                 USB_HOST_SERIAL.print(addr.bmHub, HEX);

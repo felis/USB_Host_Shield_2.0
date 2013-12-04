@@ -37,6 +37,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
 
 uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -89,8 +90,8 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailGetDevDescr;
 
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+        VID = udd->idVendor;
+        PID = udd->idProduct;
 
         if (VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID && VID != GAMESTOP_VID) // Check VID
                 goto FailUnknownDevice;
@@ -114,7 +115,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -133,7 +134,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         delay(300); // Spec says you should wait at least 200ms
-        
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -157,14 +158,14 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[ XBOX_INPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX 360 output endpoint
         epInfo[ XBOX_OUTPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = 0;
 
         rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
         if (rcode)
@@ -208,8 +209,8 @@ FailUnknownDevice:
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-Fail:
 #ifdef DEBUG_USB_HOST
+Fail:
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif

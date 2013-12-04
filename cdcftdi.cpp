@@ -42,6 +42,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -78,19 +79,18 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);
+        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
         if (rcode)
                 goto FailGetDevDescr;
-
-        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != FTDI_VID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != FTDI_PID)
+        if (udd->idVendor != FTDI_VID || udd->idProduct != FTDI_PID)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Save type of FTDI chip
-        wFTDIType = ((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice;
+        wFTDIType = udd->bcdDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
@@ -99,7 +99,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -123,7 +123,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
@@ -204,10 +204,8 @@ FailSetConfDescr:
 FailOnInit:
 #ifdef DEBUG_USB_HOST
         USBTRACE("OnInit:");
-#endif
 
 Fail:
-#ifdef DEBUG_USB_HOST
         NotifyFail(rcode);
 #endif
         Release();

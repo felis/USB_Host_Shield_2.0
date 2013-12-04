@@ -39,6 +39,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
 
 uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -91,8 +92,8 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if (rcode)
                 goto FailGetDevDescr;
 
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+        VID = udd->idVendor;
+        PID = udd->idProduct;
 
         if (VID != XBOX_VID && VID != MADCATZ_VID) // We just check if it's a Xbox receiver using the Vendor ID
                 goto FailUnknownDevice;
@@ -110,7 +111,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -129,7 +130,7 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
         delay(300); // Spec says you should wait at least 200ms
-        
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -153,53 +154,53 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[ XBOX_INPUT_PIPE_1 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_1 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_1 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE_1 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE_1 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE_1 ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE_1 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].epAddr = 0x01; // XBOX 360 output endpoint - poll interval 8ms
         epInfo[ XBOX_OUTPUT_PIPE_1 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_1 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE_1 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE_1 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE_1 ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE_1 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_2 ].epAddr = 0x03; // XBOX 360 report endpoint - poll interval 1ms
         epInfo[ XBOX_INPUT_PIPE_2 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_2 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_2 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE_2 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE_2 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE_2 ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE_2 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].epAddr = 0x03; // XBOX 360 output endpoint - poll interval 8ms
         epInfo[ XBOX_OUTPUT_PIPE_2 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_2 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE_2 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE_2 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE_2 ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE_2 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_3 ].epAddr = 0x05; // XBOX 360 report endpoint - poll interval 1ms
         epInfo[ XBOX_INPUT_PIPE_3 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_3 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_3 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE_3 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE_3 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE_3 ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE_3 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].epAddr = 0x05; // XBOX 360 output endpoint - poll interval 8ms
         epInfo[ XBOX_OUTPUT_PIPE_3 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_3 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE_3 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE_3 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE_3 ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE_3 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_4 ].epAddr = 0x07; // XBOX 360 report endpoint - poll interval 1ms
         epInfo[ XBOX_INPUT_PIPE_4 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_4 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_4 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE_4 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE_4 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE_4 ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE_4 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_4 ].epAddr = 0x07; // XBOX 360 output endpoint - poll interval 8ms
         epInfo[ XBOX_OUTPUT_PIPE_4 ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_4 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_4 ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE_4 ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE_4 ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE_4 ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE_4 ].bmRcvToggle = 0;
 
         rcode = pUsb->setEpInfoEntry(bAddress, 9, epInfo);
         if (rcode)
@@ -235,7 +236,6 @@ FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
 #endif
-        goto Fail;
 
 FailUnknownDevice:
 #ifdef DEBUG_USB_HOST
@@ -243,8 +243,8 @@ FailUnknownDevice:
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-Fail:
 #ifdef DEBUG_USB_HOST
+Fail:
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif
@@ -442,7 +442,9 @@ uint8_t XBOXRECV::getBatteryLevel(uint8_t controller) {
 }
 
 void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
+#ifdef EXTRADEBUG
         uint8_t rcode;
+#endif
         uint8_t outputPipe;
         switch (controller) {
                 case 0: outputPipe = XBOX_OUTPUT_PIPE_1;
@@ -453,8 +455,13 @@ void XBOXRECV::XboxCommand(uint8_t controller, uint8_t* data, uint16_t nbytes) {
                         break;
                 case 3: outputPipe = XBOX_OUTPUT_PIPE_4;
                         break;
+                default:
+                        return;
         }
-        rcode = pUsb->outTransfer(bAddress, epInfo[ outputPipe ].epAddr, nbytes, data);
+#ifdef EXTRADEBUG
+        rcode =
+#endif
+                pUsb->outTransfer(bAddress, epInfo[ outputPipe ].epAddr, nbytes, data);
 #ifdef EXTRADEBUG
         if (rcode)
                 Notify(PSTR("Error sending Xbox message\r\n"), 0x80);

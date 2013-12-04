@@ -126,7 +126,8 @@ public:
         itemPrefix(0),
         rptSize(0),
         rptCount(0),
-        pfUsage(NULL) {
+        pfUsage(NULL)
+        {
                 theBuffer.pValue = varBuffer;
                 valParser.Initialize(&theBuffer);
                 theSkipper.Initialize(&theBuffer);

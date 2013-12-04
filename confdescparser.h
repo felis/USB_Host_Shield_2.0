@@ -88,6 +88,8 @@ void ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::Parse(const uin
   compare masks for them. When the match is found, calls EndpointXtract passing buffer containing endpoint descriptor */
 template <const uint8_t CLASS_ID, const uint8_t SUBCLASS_ID, const uint8_t PROTOCOL_ID, const uint8_t MASK>
 bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor(uint8_t **pp, uint16_t *pcntdn) {
+        USB_CONFIGURATION_DESCRIPTOR* ucd= reinterpret_cast<USB_CONFIGURATION_DESCRIPTOR*>(varBuffer);
+        USB_INTERFACE_DESCRIPTOR* uid= reinterpret_cast<USB_INTERFACE_DESCRIPTOR*>(varBuffer);
         switch(stateParseDescr) {
                 case 0:
                         theBuffer.valueSize = 2;
@@ -128,22 +130,22 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                                 case USB_DESCRIPTOR_CONFIGURATION:
                                         if(!valParser.Parse(pp, pcntdn))
                                                 return false;
-                                        confValue = ((USB_CONFIGURATION_DESCRIPTOR*) varBuffer)->bConfigurationValue;
+                                        confValue = ucd->bConfigurationValue;
                                         break;
                                 case USB_DESCRIPTOR_INTERFACE:
                                         if(!valParser.Parse(pp, pcntdn))
                                                 return false;
-                                        if((MASK & CP_MASK_COMPARE_CLASS) && ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bInterfaceClass != CLASS_ID)
+                                        if((MASK & CP_MASK_COMPARE_CLASS) && uid->bInterfaceClass != CLASS_ID)
                                                 break;
-                                        if((MASK & CP_MASK_COMPARE_SUBCLASS) && ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bInterfaceSubClass != SUBCLASS_ID)
+                                        if((MASK & CP_MASK_COMPARE_SUBCLASS) && uid->bInterfaceSubClass != SUBCLASS_ID)
                                                 break;
-                                        if((MASK & CP_MASK_COMPARE_PROTOCOL) && ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bInterfaceProtocol != PROTOCOL_ID)
+                                        if((MASK & CP_MASK_COMPARE_PROTOCOL) && uid->bInterfaceProtocol != PROTOCOL_ID)
                                                 break;
 
                                         isGoodInterface = true;
-                                        ifaceNumber = ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bInterfaceNumber;
-                                        ifaceAltSet = ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bAlternateSetting;
-                                        protoValue = ((USB_INTERFACE_DESCRIPTOR*) varBuffer)->bInterfaceProtocol;
+                                        ifaceNumber = uid->bInterfaceNumber;
+                                        ifaceAltSet = uid->bAlternateSetting;
+                                        protoValue = uid->bInterfaceProtocol;
                                         break;
                                 case USB_DESCRIPTOR_ENDPOINT:
                                         if(!valParser.Parse(pp, pcntdn))

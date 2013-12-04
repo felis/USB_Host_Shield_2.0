@@ -46,6 +46,7 @@ bPollEnable(false) // Don't start polling before dongle is connected
 uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -98,11 +99,11 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
         }
 
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
-        epInfo[1].epAddr = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
+        epInfo[1].epAddr = udd->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+        VID = udd->idVendor;
+        PID = udd->idProduct;
 
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
 
@@ -249,8 +250,8 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0; // Successful configuration
 
         /* diagnostic messages */
-FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
+FailGetDevDescr:
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
