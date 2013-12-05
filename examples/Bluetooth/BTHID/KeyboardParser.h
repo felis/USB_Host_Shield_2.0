@@ -17,15 +17,15 @@ uint8_t KbdRptParser::HandleLockingKeys(HID *hid, uint8_t key) {
   uint8_t old_keys = kbdLockingKeys.bLeds;
 
   switch (key) {
-    case KEY_NUM_LOCK:
+    case UHS_HID_BOOT_KEY_NUM_LOCK:
       Serial.println(F("Num lock"));
       kbdLockingKeys.kbdLeds.bmNumLock = ~kbdLockingKeys.kbdLeds.bmNumLock;
       break;
-    case KEY_CAPS_LOCK:
+    case UHS_HID_BOOT_KEY_CAPS_LOCK:
       Serial.println(F("Caps lock"));
       kbdLockingKeys.kbdLeds.bmCapsLock = ~kbdLockingKeys.kbdLeds.bmCapsLock;
       break;
-    case KEY_SCROLL_LOCK:
+    case UHS_HID_BOOT_KEY_SCROLL_LOCK:
       Serial.println(F("Scroll lock"));
       kbdLockingKeys.kbdLeds.bmScrollLock = ~kbdLockingKeys.kbdLeds.bmScrollLock;
       break;
