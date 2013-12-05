@@ -108,7 +108,7 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         uint8_t shift = (mod & 0x22);
 
         // [a-z]
-        if (key > 0x03 && key < 0x1e) {
+        if (VALUE_WITHIN(key, 0x04, 0x1d)) {
                 // Upper case letters
                 if ((kbdLockingKeys.kbdLeds.bmCapsLock == 0 && (mod & 2)) ||
                         (kbdLockingKeys.kbdLeds.bmCapsLock == 1 && (mod & 2) == 0))
@@ -118,18 +118,18 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
                 else
                         return (key - 4 + 'a');
         }// Numbers
-        else if (key > 0x1d && key < 0x28) {
+        else if (VALUE_WITHIN(key, 0x1e, 0x27)) {
                 if (shift)
                         return ((uint8_t)pgm_read_byte(&getNumKeys()[key - 0x1e]));
                 else
                         return ((key == UHS_HID_BOOT_KEY_ZERO) ? '0' : key - 0x1e + '1');
         }// Keypad Numbers
-        else if (key > 0x58 && key < 0x62) {
+        else if (VALUE_WITHIN(key, 0x59, 0x61)) {
                 if (kbdLockingKeys.kbdLeds.bmNumLock == 1)
                         return (key - 0x59 + '1');
-        } else if (key > 0x2c && key < 0x39)
+        } else if (VALUE_WITHIN(key, 0x2d, 0x38))
                 return ((shift) ? (uint8_t)pgm_read_byte(&getSymKeysUp()[key - 0x2d]) : (uint8_t)pgm_read_byte(&getSymKeysLo()[key - 0x2d]));
-        else if (key > 0x53 && key < 0x59)
+        else if (VALUE_WITHIN(key, 0x54, 0x58))
                 return (uint8_t)pgm_read_byte(&getPadKeys()[key - 0x54]);
         else {
                 switch (key) {
