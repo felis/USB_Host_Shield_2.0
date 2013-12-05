@@ -821,5 +821,4 @@ MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 
 #endif // __arm__
 
-#define output_pgm_message(wa, fp, mp , el) wa = &mp, fp((char *)pgm_read_pointer(wa), el)
 #endif //_avrpins_h_
