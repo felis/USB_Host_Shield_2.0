@@ -56,7 +56,7 @@ void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t 
 		if (prevState.bInfo[0x00] != buf[0x00]) {
 			OnControlKeysChanged(prevState.bInfo[0x00], buf[0x00]);
 		}
-	
+
         for (uint8_t i = 2; i < 8; i++) {
                 bool down = false;
                 bool up = false;
@@ -82,13 +82,13 @@ uint8_t KeyboardReportParser::HandleLockingKeys(HID *hid, uint8_t key) {
         uint8_t old_keys = kbdLockingKeys.bLeds;
 
         switch (key) {
-                case KEY_NUM_LOCK:
+                case UHS_HID_BOOT_KEY_NUM_LOCK:
                         kbdLockingKeys.kbdLeds.bmNumLock = ~kbdLockingKeys.kbdLeds.bmNumLock;
                         break;
-                case KEY_CAPS_LOCK:
+                case UHS_HID_BOOT_KEY_CAPS_LOCK:
                         kbdLockingKeys.kbdLeds.bmCapsLock = ~kbdLockingKeys.kbdLeds.bmCapsLock;
                         break;
-                case KEY_SCROLL_LOCK:
+                case UHS_HID_BOOT_KEY_SCROLL_LOCK:
                         kbdLockingKeys.kbdLeds.bmScrollLock = ~kbdLockingKeys.kbdLeds.bmScrollLock;
                         break;
         }
@@ -133,11 +133,11 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
                 return (uint8_t)pgm_read_byte(&padKeys[key - 0x54]);
         else {
                 switch (key) {
-                        case KEY_SPACE: return (0x20);
-                        case KEY_ENTER: return (0x13);
-                        case KEY_ZERO: return ((shift) ? ')': '0');
-                        case KEY_ZERO2: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '0': 0);
-                        case KEY_PERIOD: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '.': 0);
+                        case UHS_HID_BOOT_KEY_SPACE: return (0x20);
+                        case UHS_HID_BOOT_KEY_ENTER: return (0x13);
+                        case UHS_HID_BOOT_KEY_ZERO: return ((shift) ? ')': '0');
+                        case UHS_HID_BOOT_KEY_ZERO2: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '0': 0);
+                        case UHS_HID_BOOT_KEY_PERIOD: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '.': 0);
                 }
         }
         return ( 0);
