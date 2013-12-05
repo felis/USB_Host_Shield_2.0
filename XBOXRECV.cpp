@@ -104,9 +104,7 @@ uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
         }
 
-        // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
-        //epInfo[1].epAddr = udd->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
 
         delay(20); // Wait a little before resetting device
 
@@ -138,8 +136,6 @@ Fail:
 
 uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
-        //uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
-        //epInfo[1].epAddr = 0;
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
