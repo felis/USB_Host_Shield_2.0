@@ -89,16 +89,19 @@
 #define BT_RFCOMM_NSC_RSP    0x11
  */
 
-/** This BluetoothService class implements the Serial Port Protocol (SPP). */
+/**
+ * This BluetoothService class implements the Serial Port Protocol (SPP).
+ * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print functions.
+ */
 class SPP : public BluetoothService, public Stream {
 public:
         /**
          * Constructor for the SPP class.
          * @param  p   Pointer to BTD class instance.
          * @param  name   Set the name to BTD#btdName. If argument is omitted, then "Arduino" will be used.
-         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "1234" will be used.
+         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          */
-        SPP(BTD *p, const char* name = "Arduino", const char* pin = "1234");
+        SPP(BTD *p, const char *name = "Arduino", const char *pin = "0000");
 
         /**
          * Used to provide Boolean tests for the class.
@@ -130,8 +133,10 @@ public:
          * @return Return the number of bytes ready to be read.
          */
         virtual int available(void);
-        /** Discard all the bytes in the buffer. */
-        virtual void flush(void);
+        /** Send out all bytes in the buffer. */
+        virtual void flush(void) {
+                send();
+        };
         /**
          * Used to read the next value in the buffer without advancing to the next one.
          * @return Return the byte. Will return -1 if no bytes are available.
@@ -157,6 +162,8 @@ public:
         virtual size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
         using Print::write;
+        /** Discard all the bytes in the buffer. */
+        void discard(void);
         /**
          * This will send all the bytes in the buffer.
          * This is called whenever Usb.Task() is called,

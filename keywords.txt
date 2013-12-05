@@ -20,6 +20,11 @@ USBHub	KEYWORD1
 BTD	KEYWORD1
 
 ####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+Task	KEYWORD2
+
+####################################################
 # Syntax Coloring Map For PS3 Bluetooth/USB Library
 ####################################################
 
@@ -223,8 +228,7 @@ SPP	KEYWORD1
 ####################################################
 
 connected	KEYWORD2
-printNumber	KEYWORD2
-printNumberln	KEYWORD2
+discard	KEYWORD2
 
 ####################################################
 # Syntax Coloring Map For Wiimote Library
@@ -293,3 +297,19 @@ getIRs3	KEYWORD2
 getIRx4	KEYWORD2
 getIRy4	KEYWORD2
 getIRs4	KEYWORD2
+
+####################################################
+# Syntax Coloring Map For RFCOMM/SPP Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+BTHID	KEYWORD1
+
+####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+SetReportParser	KEYWORD2
+setProtocolMode	KEYWORD2

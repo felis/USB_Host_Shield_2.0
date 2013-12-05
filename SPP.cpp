@@ -801,7 +801,7 @@ int SPP::available(void) {
         return rfcommAvailable;
 };
 
-void SPP::flush(void) {
+void SPP::discard(void) {
         rfcommAvailable = 0;
 }
 

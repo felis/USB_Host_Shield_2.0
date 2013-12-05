@@ -23,7 +23,7 @@ USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instances of the bluetooth services in two ways */
-SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "1234"
+SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
 //SPP SerialBTBT(&Btd,"Lauszus's Arduino","0000"); // You can also set the name and pin like so
 PS3BT PS3(&Btd); // This will just create the instance
 //PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch

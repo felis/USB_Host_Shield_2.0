@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -67,6 +67,7 @@ Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.0)
+	* Note if you are using the Teensy 3.0 you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
@@ -86,7 +87,15 @@ This library make it easy to add support for different Bluetooth services like a
 Some different examples can be found in the [example directory](examples/Bluetooth).
 
 The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:
-<https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>
+<https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>.
+
+### [BTHID library](BTHID.cpp)
+
+The [Bluetooth HID library](BTHID.cpp) allows you to connect HID devices via Bluetooth to the USB Host Shield.
+
+Currently HID mice and keyboards are supported.
+
+It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino> for more information.
 
 ### [SPP library](SPP.cpp)
 

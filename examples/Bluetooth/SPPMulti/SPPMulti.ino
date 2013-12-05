@@ -22,7 +22,7 @@ uint8_t buffer[50];
 
 void setup() {
   for (uint8_t i = 0; i < length; i++)
-    SerialBT[i] = new SPP(&Btd); // This will set the name to the default: "Arduino" and the pin to "1234" for all connections
+    SerialBT[i] = new SPP(&Btd); // This will set the name to the default: "Arduino" and the pin to "0000" for all connections
 
   Serial.begin(115200);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection

@@ -495,10 +495,14 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
                                 if(pRptParser[i])
                                         pRptParser[i]->Parse((HID*)this, 0, (uint8_t) read, buf);
 
-                                //for (uint8_t i=0; i<read; i++)
-                                //	PrintHex<uint8_t>(buf[i]);
-                                //if (read)
-                                //	USB_HOST_SERIAL.println("");
+#if 0 // Set this to 1 to print the incoming data
+                                for (uint8_t i=0; i < read; i++) {
+                                        PrintHex<uint8_t > (buf[i], 0x80);
+                                        USB_HOST_SERIAL.write(' ');
+                                }
+                                if (read)
+                                        USB_HOST_SERIAL.println();
+#endif
                         } else {
                                 if(rcode != hrNAK) {
                                         USBTRACE2("Poll:", rcode);
