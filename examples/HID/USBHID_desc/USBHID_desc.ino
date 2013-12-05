@@ -2,10 +2,11 @@
 #include <hiduniversal.h>
 #include <hidescriptorparser.h>
 #include <usbhub.h>
-#ifdef arm
+#include "pgmstrings.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
 #endif
-#include "pgmstrings.h"
 
 class HIDUniversal2 : public HIDUniversal
 {
