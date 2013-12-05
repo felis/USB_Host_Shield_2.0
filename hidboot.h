@@ -112,10 +112,10 @@ struct KBDLEDS {
 };
 
 class KeyboardReportParser : public HIDReportParser {
-        static const uint8_t numKeys[];
-        static const uint8_t symKeysUp[];
-        static const uint8_t symKeysLo[];
-        static const uint8_t padKeys[];
+        static const uint8_t numKeys[10];
+        static const uint8_t symKeysUp[12];
+        static const uint8_t symKeysLo[12];
+        static const uint8_t padKeys[5];
 
 protected:
 
@@ -149,6 +149,22 @@ protected:
         };
 
         virtual void OnKeyUp(uint8_t mod, uint8_t key) {
+        };
+
+        virtual const uint8_t *getNumKeys() {
+                return numKeys;
+        };
+
+        virtual const uint8_t *getSymKeysUp() {
+                return symKeysUp;
+        };
+
+        virtual const uint8_t *getSymKeysLo() {
+                return symKeysLo;
+        };
+
+        virtual const uint8_t *getPadKeys() {
+                return padKeys;
         };
 };
 

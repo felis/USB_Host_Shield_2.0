@@ -99,10 +99,10 @@ uint8_t KeyboardReportParser::HandleLockingKeys(HID *hid, uint8_t key) {
         return 0;
 }
 
-const uint8_t KeyboardReportParser::numKeys[] PROGMEM = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
-const uint8_t KeyboardReportParser::symKeysUp[] PROGMEM = {'_', '+', '{', '}', '|', '~', ':', '"', '~', '<', '>', '?'};
-const uint8_t KeyboardReportParser::symKeysLo[] PROGMEM = {'-', '=', '[', ']', '\\', ' ', ';', '\'', '`', ',', '.', '/'};
-const uint8_t KeyboardReportParser::padKeys[] PROGMEM = {'/', '*', '-', '+', 0x13};
+const uint8_t KeyboardReportParser::numKeys[10] PROGMEM = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
+const uint8_t KeyboardReportParser::symKeysUp[12] PROGMEM = {'_', '+', '{', '}', '|', '~', ':', '"', '~', '<', '>', '?'};
+const uint8_t KeyboardReportParser::symKeysLo[12] PROGMEM = {'-', '=', '[', ']', '\\', ' ', ';', '\'', '`', ',', '.', '/'};
+const uint8_t KeyboardReportParser::padKeys[5] PROGMEM = {'/', '*', '-', '+', 0x13};
 
 uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         uint8_t shift = (mod & 0x22);
@@ -118,24 +118,23 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
                 else
                         return (key - 4 + 'a');
         }// Numbers
-        else if (key > 0x1d && key < 0x27) {
+        else if (key > 0x1d && key < 0x28) {
                 if (shift)
-                        return ((uint8_t)pgm_read_byte(&numKeys[key - 0x1e]));
+                        return ((uint8_t)pgm_read_byte(&getNumKeys()[key - 0x1e]));
                 else
-                        return (key - 0x1e + '1');
+                        return ((key == UHS_HID_BOOT_KEY_ZERO) ? '0' : key - 0x1e + '1');
         }// Keypad Numbers
         else if (key > 0x58 && key < 0x62) {
                 if (kbdLockingKeys.kbdLeds.bmNumLock == 1)
                         return (key - 0x59 + '1');
         } else if (key > 0x2c && key < 0x39)
-                return ((shift) ? (uint8_t)pgm_read_byte(&symKeysUp[key - 0x2d]) : (uint8_t)pgm_read_byte(&symKeysLo[key - 0x2d]));
+                return ((shift) ? (uint8_t)pgm_read_byte(&getSymKeysUp()[key - 0x2d]) : (uint8_t)pgm_read_byte(&getSymKeysLo()[key - 0x2d]));
         else if (key > 0x53 && key < 0x59)
-                return (uint8_t)pgm_read_byte(&padKeys[key - 0x54]);
+                return (uint8_t)pgm_read_byte(&getPadKeys()[key - 0x54]);
         else {
                 switch (key) {
                         case UHS_HID_BOOT_KEY_SPACE: return (0x20);
                         case UHS_HID_BOOT_KEY_ENTER: return (0x13);
-                        case UHS_HID_BOOT_KEY_ZERO: return ((shift) ? ')': '0');
                         case UHS_HID_BOOT_KEY_ZERO2: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '0': 0);
                         case UHS_HID_BOOT_KEY_PERIOD: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '.': 0);
                 }
