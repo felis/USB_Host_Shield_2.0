@@ -106,7 +106,7 @@ uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 
         // Extract Max Packet Size from device descriptor
         epInfo[0].maxPktSize = udd->bMaxPacketSize0;
-        epInfo[1].epAddr = udd->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
+        //epInfo[1].epAddr = udd->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
         delay(20); // Wait a little before resetting device
 
@@ -138,8 +138,8 @@ Fail:
 
 uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
-        uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
-        epInfo[1].epAddr = 0;
+        //uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
+        //epInfo[1].epAddr = 0;
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
@@ -262,8 +262,8 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0; // Successful configuration
 
         /* Diagnostic messages */
-FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
+FailGetDevDescr:
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
@@ -279,8 +279,8 @@ FailSetConfDescr:
         NotifyFailSetConfDescr();
 #endif
 
-FailUnknownDevice:
 #ifdef DEBUG_USB_HOST
+FailUnknownDevice:
         NotifyFailUnknownDevice(VID,PID);
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
