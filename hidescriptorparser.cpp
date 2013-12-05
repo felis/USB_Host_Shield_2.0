@@ -1246,8 +1246,8 @@ void ReportDescParserBase::PrintUsagePage(uint16_t page) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(page, 0x00, 0x11, w, E_Notify, usagePageTitles0[page - 1], 0x80)
-        else output_if_between(page, 0x8b, 0x92, w, E_Notify, usagePageTitles1[page - 0x8c], 0x80)
+        output_if_between(page, 0x00, 0x11, w, E_Notify, usagePageTitles0, 0x80)
+        else output_if_between(page, 0x8b, 0x92, w, E_Notify, usagePageTitles1, 0x80)
         else if (VALUE_BETWEEN(page, 0x7f, 0x84))
                 E_Notify(pstrUsagePageMonitor, 0x80);
         else if (VALUE_BETWEEN(page, 0x83, 0x8c))
@@ -1288,11 +1288,11 @@ void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x0a, w, E_Notify, genDesktopTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x2f, 0x49, w, E_Notify, genDesktopTitles1[usage - 0x30], 0x80)
-        else output_if_between(usage, 0x7f, 0x94, w, E_Notify, genDesktopTitles2[usage - 0x80], 0x80)
-        else output_if_between(usage, 0x9f, 0xa9, w, E_Notify, genDesktopTitles3[usage - 0xa0], 0x80)
-        else output_if_between(usage, 0xaf, 0xb8, w, E_Notify, genDesktopTitles4[usage - 0xb0], 0x80)
+        output_if_between(usage, 0x00, 0x0a, w, E_Notify, genDesktopTitles0, 0x80)
+        else output_if_between(usage, 0x2f, 0x49, w, E_Notify, genDesktopTitles1, 0x80)
+        else output_if_between(usage, 0x7f, 0x94, w, E_Notify, genDesktopTitles2, 0x80)
+        else output_if_between(usage, 0x9f, 0xa9, w, E_Notify, genDesktopTitles3, 0x80)
+        else output_if_between(usage, 0xaf, 0xb8, w, E_Notify, genDesktopTitles4, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1300,9 +1300,9 @@ void ReportDescParserBase::PrintSimulationControlsPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x0d, w, E_Notify, simuTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x26, w, E_Notify, simuTitles1[usage - 0x20], 0x80)
-        else output_if_between(usage, 0xaf, 0xd1, w, E_Notify, simuTitles2[usage - 0xb0], 0x80)
+        output_if_between(usage, 0x00, 0x0d, w, E_Notify, simuTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x26, w, E_Notify, simuTitles1, 0x80)
+        else output_if_between(usage, 0xaf, 0xd1, w, E_Notify, simuTitles2, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1310,8 +1310,8 @@ void ReportDescParserBase::PrintVRControlsPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x0b, w, E_Notify, vrTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x22, w, E_Notify, vrTitles1[usage - 0x20], 0x80)
+        output_if_between(usage, 0x00, 0x0b, w, E_Notify, vrTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x22, w, E_Notify, vrTitles1, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1319,9 +1319,9 @@ void ReportDescParserBase::PrintSportsControlsPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x05, w, E_Notify, sportsCtrlTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x2f, 0x3a, w, E_Notify, sportsCtrlTitles1[usage - 0x30], 0x80)
-        else output_if_between(usage, 0x4f, 0x64, w, E_Notify, sportsCtrlTitles2[usage - 0x50], 0x80)
+        output_if_between(usage, 0x00, 0x05, w, E_Notify, sportsCtrlTitles0, 0x80)
+        else output_if_between(usage, 0x2f, 0x3a, w, E_Notify, sportsCtrlTitles1, 0x80)
+        else output_if_between(usage, 0x4f, 0x64, w, E_Notify, sportsCtrlTitles2, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1329,8 +1329,8 @@ void ReportDescParserBase::PrintGameControlsPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x04, w, E_Notify, gameTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x3a, w, E_Notify, gameTitles1[usage - 0x20], 0x80)
+        output_if_between(usage, 0x00, 0x04, w, E_Notify, gameTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x3a, w, E_Notify, gameTitles1, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1338,7 +1338,7 @@ void ReportDescParserBase::PrintGenericDeviceControlsPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x1f, 0x27, w, E_Notify, genDevCtrlTitles[usage - 0x20], 0x80)
+        output_if_between(usage, 0x1f, 0x27, w, E_Notify, genDevCtrlTitles, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1346,7 +1346,7 @@ void ReportDescParserBase::PrintLEDPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x4e, w, E_Notify, ledTitles[usage - 1], 0x80)
+        output_if_between(usage, 0x00, 0x4e, w, E_Notify, ledTitles, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1354,12 +1354,12 @@ void ReportDescParserBase::PrintTelephonyPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x08, w, E_Notify, telTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x32, w, E_Notify, telTitles1[usage - 0x1f], 0x80)
-        else output_if_between(usage, 0x4f, 0x54, w, E_Notify, telTitles2[usage - 0x4f], 0x80)
-        else output_if_between(usage, 0x6f, 0x75, w, E_Notify, telTitles3[usage - 0x6f], 0x80)
-        else output_if_between(usage, 0x8f, 0x9f, w, E_Notify, telTitles4[usage - 0x8f], 0x80)
-        else output_if_between(usage, 0xaf, 0xc0, w, E_Notify, telTitles5[usage - 0xaf], 0x80)
+        output_if_between(usage, 0x00, 0x08, w, E_Notify, telTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x32, w, E_Notify, telTitles1, 0x80)
+        else output_if_between(usage, 0x4f, 0x54, w, E_Notify, telTitles2, 0x80)
+        else output_if_between(usage, 0x6f, 0x75, w, E_Notify, telTitles3, 0x80)
+        else output_if_between(usage, 0x8f, 0x9f, w, E_Notify, telTitles4, 0x80)
+        else output_if_between(usage, 0xaf, 0xc0, w, E_Notify, telTitles5, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1367,21 +1367,21 @@ void ReportDescParserBase::PrintConsumerPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x07, w, E_Notify, consTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, consTitles1[usage - 0x1f], 0x80)
-        else output_if_between(usage, 0x2f, 0x37, w, E_Notify, consTitles2[usage - 0x2f], 0x80)
-        else output_if_between(usage, 0x3f, 0x49, w, E_Notify, consTitles3[usage - 0x3f], 0x80)
-        else output_if_between(usage, 0x5f, 0x67, w, E_Notify, consTitles4[usage - 0x5f], 0x80)
-        else output_if_between(usage, 0x7f, 0xa5, w, E_Notify, consTitles5[usage - 0x7f], 0x80)
-        else output_if_between(usage, 0xaf, 0xcf, w, E_Notify, consTitles6[usage - 0xaf], 0x80)
-        else output_if_between(usage, 0xdf, 0xeb, w, E_Notify, consTitles7[usage - 0xdf], 0x80)
-        else output_if_between(usage, 0xef, 0xf6, w, E_Notify, consTitles8[usage - 0xef], 0x80)
-        else output_if_between(usage, 0xff, 0x10e, w, E_Notify, consTitles9[usage - 0xff], 0x80)
-        else output_if_between(usage, 0x14f, 0x156, w, E_Notify, consTitlesA[usage - 0x14f], 0x80)
-        else output_if_between(usage, 0x15f, 0x16b, w, E_Notify, consTitlesB[usage - 0x15f], 0x80)
-        else output_if_between(usage, 0x16f, 0x175, w, E_Notify, consTitlesC[usage - 0x16f], 0x80)
-        else output_if_between(usage, 0x17f, 0x1c8, w, E_Notify, consTitlesD[usage - 0x17f], 0x80)
-        else output_if_between(usage, 0x1ff, 0x29d, w, E_Notify, consTitlesE[usage - 0x1ff], 0x80)
+        output_if_between(usage, 0x00, 0x07, w, E_Notify, consTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, consTitles1, 0x80)
+        else output_if_between(usage, 0x2f, 0x37, w, E_Notify, consTitles2, 0x80)
+        else output_if_between(usage, 0x3f, 0x49, w, E_Notify, consTitles3, 0x80)
+        else output_if_between(usage, 0x5f, 0x67, w, E_Notify, consTitles4, 0x80)
+        else output_if_between(usage, 0x7f, 0xa5, w, E_Notify, consTitles5, 0x80)
+        else output_if_between(usage, 0xaf, 0xcf, w, E_Notify, consTitles6, 0x80)
+        else output_if_between(usage, 0xdf, 0xeb, w, E_Notify, consTitles7, 0x80)
+        else output_if_between(usage, 0xef, 0xf6, w, E_Notify, consTitles8, 0x80)
+        else output_if_between(usage, 0xff, 0x10e, w, E_Notify, consTitles9, 0x80)
+        else output_if_between(usage, 0x14f, 0x156, w, E_Notify, consTitlesA, 0x80)
+        else output_if_between(usage, 0x15f, 0x16b, w, E_Notify, consTitlesB, 0x80)
+        else output_if_between(usage, 0x16f, 0x175, w, E_Notify, consTitlesC, 0x80)
+        else output_if_between(usage, 0x17f, 0x1c8, w, E_Notify, consTitlesD, 0x80)
+        else output_if_between(usage, 0x1ff, 0x29d, w, E_Notify, consTitlesE, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1389,9 +1389,9 @@ void ReportDescParserBase::PrintDigitizerPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x0e, w, E_Notify, digitTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, digitTitles1[usage - 0x1f], 0x80)
-        else output_if_between(usage, 0x2f, 0x47, w, E_Notify, digitTitles2[usage - 0x2f], 0x80)
+        output_if_between(usage, 0x00, 0x0e, w, E_Notify, digitTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, digitTitles1, 0x80)
+        else output_if_between(usage, 0x2f, 0x47, w, E_Notify, digitTitles2, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1399,9 +1399,9 @@ void ReportDescParserBase::PrintAlphanumDisplayPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        output_if_between(usage, 0x00, 0x03, w, E_Notify, aplphanumTitles0[usage - 1], 0x80)
-        else output_if_between(usage, 0x1f, 0x4e, w, E_Notify, aplphanumTitles1[usage - 0x1f], 0x80)
-        else output_if_between(usage, 0x7f, 0x96, w, E_Notify, digitTitles2[usage - 0x80], 0x80)
+        output_if_between(usage, 0x00, 0x03, w, E_Notify, aplphanumTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x4e, w, E_Notify, aplphanumTitles1, 0x80)
+        else output_if_between(usage, 0x7f, 0x96, w, E_Notify, digitTitles2, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
@@ -1412,11 +1412,11 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
         if (usage == 1) E_Notify(pstrUsageMedicalUltrasound, 0x80);
         else if (usage == 0x70)
                 E_Notify(pstrUsageDepthGainCompensation, 0x80);
-        else output_if_between(usage, 0x1f, 0x28, w, E_Notify, medInstrTitles0[usage - 0x1f], 0x80)
-        else output_if_between(usage, 0x3f, 0x45, w, E_Notify, medInstrTitles1[usage - 0x40], 0x80)
-        else output_if_between(usage, 0x5f, 0x62, w, E_Notify, medInstrTitles2[usage - 0x60], 0x80)
-        else output_if_between(usage, 0x7f, 0x8a, w, E_Notify, medInstrTitles3[usage - 0x80], 0x80)
-        else output_if_between(usage, 0x9f, 0xa2, w, E_Notify, medInstrTitles4[usage - 0xa0], 0x80)
+        else output_if_between(usage, 0x1f, 0x28, w, E_Notify, medInstrTitles0, 0x80)
+        else output_if_between(usage, 0x3f, 0x45, w, E_Notify, medInstrTitles1, 0x80)
+        else output_if_between(usage, 0x5f, 0x62, w, E_Notify, medInstrTitles2, 0x80)
+        else output_if_between(usage, 0x7f, 0x8a, w, E_Notify, medInstrTitles3, 0x80)
+        else output_if_between(usage, 0x9f, 0xa2, w, E_Notify, medInstrTitles4, 0x80)
         else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
