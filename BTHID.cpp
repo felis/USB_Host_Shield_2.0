@@ -24,7 +24,7 @@ BTHID::BTHID(BTD *p, bool pair, const char *pin) :
 pBtd(p), // pointer to USB class instance - mandatory
 protocolMode(HID_BOOT_PROTOCOL)
 {
-        for (uint8_t i = 0; i < epMUL; i++)
+        for (uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;
 
         if (pBtd)

@@ -61,7 +61,7 @@
 
 #define KEYBOARD_PARSER_ID      0
 #define MOUSE_PARSER_ID         1
-#define epMUL                   2
+#define NUM_PARSERS             2
 
 /** This BluetoothService class implements support for the HID keyboard and mice. */
 class BTHID : public BluetoothService {
@@ -124,7 +124,7 @@ public:
 private:
         BTD *pBtd; // Pointer to BTD instance
 
-        HIDReportParser *pRptParser[epMUL];
+        HIDReportParser *pRptParser[NUM_PARSERS];
 
         /** Set report protocol. */
         void setProtocol();
