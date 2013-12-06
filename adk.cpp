@@ -228,13 +228,22 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 USBTRACE2("\r\nADK protocol rev. ", adkproto);
         }
 
+        delay(100);
+
         //sending ID strings
         sendStr(ACCESSORY_STRING_MANUFACTURER, manufacturer);
+        delay(10);
         sendStr(ACCESSORY_STRING_MODEL, model);
+        delay(10);
         sendStr(ACCESSORY_STRING_DESCRIPTION, description);
+        delay(10);
         sendStr(ACCESSORY_STRING_VERSION, version);
+        delay(10);
         sendStr(ACCESSORY_STRING_URI, uri);
+        delay(10);
         sendStr(ACCESSORY_STRING_SERIAL, serial);
+
+        delay(100);
 
         //switch to accessory mode
         //the Android phone will reset
@@ -243,7 +252,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailSwAcc; //init fails
         }
         rcode = USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
-        delay(1000); // Give Android a chance to do its reset. This is a guess, and possibly could be lower.
+        delay(100); // Give Android a chance to do its reset. This is a guess, and possibly could be lower.
         goto SwAttempt; //switch to accessory mode attempted
 
         /* diagnostic messages */
