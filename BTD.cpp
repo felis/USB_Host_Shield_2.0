@@ -251,13 +251,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         }
         return 0; // Successful configuration
 
-        /* diagnostic messages */
-#ifdef DEBUG_USB_HOST
-FailGetDevDescr:
-        NotifyFailGetDevDescr();
-        goto Fail;
-#endif
-
+        /* Diagnostic messages */
 FailSetDevTblEntry:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
