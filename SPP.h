@@ -147,6 +147,8 @@ public:
          * @return Return the byte. Will return -1 if no bytes are available.
          */
         virtual int read(void);
+
+#if defined(ARDUINO) && ARDUINO >=100
         /**
          * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The byte to write.
@@ -162,6 +164,20 @@ public:
         virtual size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
         using Print::write;
+#else
+        /**
+         * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
+         * @param  data The byte to write.
+         */
+        virtual void write(uint8_t data);
+        /**
+         * Writes the bytes to send to a buffer. The message is send when either send() or after Usb.Task() is called.
+         * @param data The data array to send.
+         * @param size Size of the data.
+         */
+        virtual void write(const uint8_t* data, size_t size);
+#endif
+
         /** Discard all the bytes in the buffer. */
         void discard(void);
         /**

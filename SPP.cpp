@@ -756,17 +756,29 @@ bool SPP::checkFcs(uint8_t *data, uint8_t fcs) {
 }
 
 /* Serial commands */
+#if defined(ARDUINO) && ARDUINO >=100
 size_t SPP::write(uint8_t data) {
-        return write(&data,1);
+        return write(&data, 1);
 }
+#else
+void SPP::write(uint8_t data) {
+        write(&data, 1);
+}
+#endif
 
+#if defined(ARDUINO) && ARDUINO >=100
 size_t SPP::write(const uint8_t *data, size_t size) {
+#else
+void SPP::write(const uint8_t *data, size_t size) {
+#endif
         for(uint8_t i = 0; i < size; i++) {
                 if(sppIndex >= sizeof(sppOutputBuffer)/sizeof(sppOutputBuffer[0]))
                         send(); // Send the current data in the buffer
                 sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function
         }
+#if defined(ARDUINO) && ARDUINO >=100
         return size;
+#endif
 }
 
 void SPP::send() {
