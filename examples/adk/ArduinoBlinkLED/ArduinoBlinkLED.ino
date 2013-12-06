@@ -13,6 +13,7 @@ ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
 #define LED LED_BUILTIN // Use built in LED  - note that pin 13 is occupied by the SCK pin on a normal Arduino (Uno, Duemilanove etc.), so use a different pin
 
 uint32_t timer;
+boolean connected;
 
 void setup() {
   Serial.begin(115200);
@@ -27,7 +28,13 @@ void setup() {
 
 void loop() {
   Usb.Task();
+
   if (adk.isReady()) {
+    if (!connected) {
+      connected = true;
+      Serial.print(F("\r\nConnected to accessory"));
+    }
+
     uint8_t msg[1];
     uint16_t len = sizeof(msg);
     uint8_t rcode = adk.RcvData(&len, msg);
@@ -51,7 +58,11 @@ void loop() {
         Serial.print(timer);
       }
     }
+  } else {
+    if (connected) {
+      connected = false;
+      Serial.print(F("\r\nDisconnected from accessory"));
+      digitalWrite(LED, LOW);
+    }
   }
-  else
-    digitalWrite(LED, LOW);
 }
