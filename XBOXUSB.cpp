@@ -201,16 +201,17 @@ FailSetDevTblEntry:
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
-        goto Fail;
 #endif
+        goto Fail;
+
 FailUnknownDevice:
 #ifdef DEBUG_USB_HOST
         NotifyFailUnknownDevice(VID, PID);
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-#ifdef DEBUG_USB_HOST
 Fail:
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox 360 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif

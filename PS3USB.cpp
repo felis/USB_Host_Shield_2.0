@@ -221,14 +221,15 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         bPollEnable = true;
         Notify(PSTR("\r\n"), 0x80);
         timer = millis();
-        return 0; // successful configuration
+        return 0; // Successful configuration
 
-        /* diagnostic messages */
+        /* Diagnostic messages */
 FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailGetDevDescr();
         goto Fail;
 #endif
+
 FailSetDevTblEntry:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
@@ -238,8 +239,8 @@ FailSetDevTblEntry:
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
-        goto Fail;
 #endif
+        goto Fail;
 
 FailUnknownDevice:
 #ifdef DEBUG_USB_HOST
@@ -247,8 +248,8 @@ FailUnknownDevice:
 #endif
         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
-#ifdef DEBUG_USB_HOST
 Fail:
+#ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nPS3 Init Failed, error code: "), 0x80);
         NotifyFail(rcode);
 #endif
