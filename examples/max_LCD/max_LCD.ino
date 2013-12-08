@@ -1,4 +1,4 @@
-// Just a copy of the HelloWorld example bundled with the LiquidCrystal in the Arduino IDE
+// Just a copy of the HelloWorld example bundled with the LiquidCrystal library in the Arduino IDE
 
 // HD44780 compatible LCD display via MAX3421E GPOUT support header
 // pinout: D[4-7] -> GPOUT[4-7], RS-> GPOUT[2], E ->GPOUT[3]
