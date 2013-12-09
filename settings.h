@@ -71,11 +71,24 @@
 #include <Arduino.h>
 #else
 #include <WProgram.h>
-// I am not sure what WProgram.h does not include, so these are here. --xxxajk
 #include <pins_arduino.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
 #define F(str) (str)
+#endif
+
+#ifdef __GNUC__
+#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#if GCC_VERSION < 40602 // Test for GCC < 4.6.2
+#ifdef PROGMEM
+#undef PROGMEM
+#define PROGMEM __attribute__((section(".progmem.data"))) // Workaround for http://gcc.gnu.org/bugzilla/show_bug.cgi?id=34734#c4
+#ifdef PSTR
+#undef PSTR
+#define PSTR(s) (__extension__({static const char __c[] PROGMEM = (s); &__c[0];})) // Copied from pgmspace.h in avr-libc source
+#endif
+#endif
+#endif
 #endif
 
 #if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)
