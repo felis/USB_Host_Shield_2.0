@@ -20,41 +20,6 @@
 
 #include "BTD.h"
 
-/* Bluetooth L2CAP states for SDP_task() */
-#define L2CAP_SDP_WAIT                  0
-#define L2CAP_SDP_REQUEST               1
-#define L2CAP_SDP_SUCCESS               2
-#define L2CAP_SDP_DONE                  3
-#define L2CAP_DISCONNECT_RESPONSE       4
-
-/* Bluetooth L2CAP states for RFCOMM_task() */
-#define L2CAP_RFCOMM_WAIT               0
-#define L2CAP_RFCOMM_REQUEST            1
-#define L2CAP_RFCOMM_SUCCESS            2
-#define L2CAP_RFCOMM_DONE               3
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONNECTION_SDP_REQUEST       0x001
-#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST    0x002
-#define L2CAP_FLAG_CONFIG_SDP_REQUEST           0x004
-#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST        0x008
-#define L2CAP_FLAG_CONFIG_SDP_SUCCESS           0x010
-#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS        0x020
-#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST       0x040
-#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST    0x080
-#define L2CAP_FLAG_DISCONNECT_RESPONSE          0x100
-
-/* Macros for L2CAP event flag tests */
-#define l2cap_connection_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_SDP_REQUEST)
-#define l2cap_connection_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST)
-#define l2cap_config_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_REQUEST)
-#define l2cap_config_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_REQUEST)
-#define l2cap_config_success_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_SUCCESS)
-#define l2cap_config_success_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS)
-#define l2cap_disconnect_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_SDP_REQUEST)
-#define l2cap_disconnect_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)
-#define l2cap_disconnect_response_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RESPONSE)
-
 /* Used for SDP */
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
 #define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs
@@ -91,7 +56,7 @@
 
 /**
  * This BluetoothService class implements the Serial Port Protocol (SPP).
- * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print functions.
+ * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print and stream functions.
  */
 class SPP : public BluetoothService, public Stream {
 public:
@@ -201,7 +166,7 @@ private:
         /* Variables used by L2CAP state machines */
         uint8_t l2cap_sdp_state;
         uint8_t l2cap_rfcomm_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 
         uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
         uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands

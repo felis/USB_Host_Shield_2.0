@@ -26,55 +26,12 @@
 /** You will have to uncomment this to use the IR camera */
 //#define WIICAMERA
 
-/* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_WAIT                      0
-
-// These states are used if the Wiimote is the host
-#define L2CAP_CONTROL_SUCCESS           1
-#define L2CAP_INTERRUPT_SETUP           2
-
-// These states are used if the Arduino is the host
-#define L2CAP_CONTROL_CONNECT_REQUEST   3
-#define L2CAP_CONTROL_CONFIG_REQUEST    4
-#define L2CAP_INTERRUPT_CONNECT_REQUEST 5
-
-#define L2CAP_INTERRUPT_CONFIG_REQUEST  6
-
-#define L2CAP_CHECK_MOTION_PLUS_STATE   7
-#define L2CAP_CHECK_EXTENSION_STATE     8
-#define L2CAP_INIT_MOTION_PLUS_STATE    9
-#define L2CAP_LED_STATE                 10
-#define L2CAP_DONE                      11
-
-#define L2CAP_INTERRUPT_DISCONNECT      12
-#define L2CAP_CONTROL_DISCONNECT        13
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONTROL_CONNECTED                0x001
-#define L2CAP_FLAG_INTERRUPT_CONNECTED              0x002
-#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS           0x004
-#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS         0x008
-#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE      0x040
-#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE    0x080
-#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST       0x100
-#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST     0x200
-
-/* Macros for L2CAP event flag tests */
-#define l2cap_connected_control_flag (l2cap_event_flag & L2CAP_FLAG_CONTROL_CONNECTED)
-#define l2cap_connected_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_INTERRUPT_CONNECTED)
-#define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
-#define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
-#define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
-#define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
-#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
-#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
-
 /* Wii event flags */
-#define WII_FLAG_MOTION_PLUS_CONNECTED              0x400
-#define WII_FLAG_NUNCHUCK_CONNECTED                 0x800
+#define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
+#define WII_FLAG_NUNCHUCK_CONNECTED     0x02
 
-#define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
-#define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
+#define motion_plus_connected_flag (wii_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
+#define nunchuck_connected_flag (wii_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
 
 /** Enum used to read the joystick on the Nunchuck. */
 enum Hat {
@@ -447,7 +404,8 @@ private:
 
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // l2cap flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+        uint8_t wii_event_flag; // Used for Wii flags
 
         uint32_t ButtonState;
         uint32_t OldButtonState;

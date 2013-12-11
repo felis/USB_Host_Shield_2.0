@@ -21,40 +21,7 @@
 #include "BTD.h"
 #include "PS3Enums.h"
 
-#define HID_BUFFERSIZE              50 // Size of the buffer for the Playstation Motion Controller
-
-/* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_WAIT                   0
-#define L2CAP_CONTROL_REQUEST        1
-#define L2CAP_CONTROL_SUCCESS        2
-#define L2CAP_INTERRUPT_SETUP        3
-#define L2CAP_INTERRUPT_REQUEST      4
-#define L2CAP_INTERRUPT_SUCCESS      5
-#define L2CAP_HID_ENABLE_SIXAXIS     6
-#define L2CAP_HID_PS3_LED            7
-#define L2CAP_DONE                   8
-#define L2CAP_INTERRUPT_DISCONNECT   9
-#define L2CAP_CONTROL_DISCONNECT     10
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST     0x01
-#define L2CAP_FLAG_CONFIG_CONTROL_REQUEST         0x02
-#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS         0x04
-#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST   0x08
-#define L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST       0x10
-#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS       0x20
-#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE    0x40
-#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE  0x80
-
-/*Macros for L2CAP event flag tests */
-#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
-#define l2cap_config_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_REQUEST)
-#define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
-#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
-#define l2cap_config_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST)
-#define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
-#define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
-#define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
+#define HID_BUFFERSIZE 50 // Size of the buffer for the Playstation Motion Controller
 
 /**
  * This BluetoothService class implements support for all the official PS3 Controllers:
@@ -249,7 +216,7 @@ private:
 
         /* variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
 
         unsigned long timer;
 

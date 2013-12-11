@@ -47,7 +47,7 @@
 #define HCI_SET_NAME_STATE              5
 #define HCI_CHECK_DEVICE_SERVICE        6
 
-#define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a Wii controller
+#define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a device
 #define HCI_CONNECT_DEVICE_STATE        8
 #define HCI_CONNECTED_DEVICE_STATE      9
 
@@ -105,6 +105,89 @@
 #define EV_LOOPBACK_COMMAND                             0x19
 #define EV_PAGE_SCAN_REP_MODE                           0x20
 
+/* Bluetooth states for the different Bluetooth drivers */
+#define L2CAP_WAIT                      0
+#define L2CAP_DONE                      1
+
+/* Used for HID Control channel */
+#define L2CAP_CONTROL_CONNECT_REQUEST   2
+#define L2CAP_CONTROL_CONFIG_REQUEST    3
+#define L2CAP_CONTROL_SUCCESS           4
+#define L2CAP_CONTROL_DISCONNECT        5
+
+/* Used for HID Interrupt channel */
+#define L2CAP_INTERRUPT_SETUP           6
+#define L2CAP_INTERRUPT_CONNECT_REQUEST 7
+#define L2CAP_INTERRUPT_CONFIG_REQUEST  8
+#define L2CAP_INTERRUPT_DISCONNECT      9
+
+/* Used for SDP channel */
+#define L2CAP_SDP_WAIT                  10
+#define L2CAP_SDP_REQUEST               11
+#define L2CAP_SDP_SUCCESS               12
+#define L2CAP_SDP_DONE                  13
+#define L2CAP_DISCONNECT_RESPONSE       14
+
+/* Used for RFCOMM channel */
+#define L2CAP_RFCOMM_WAIT               15
+#define L2CAP_RFCOMM_REQUEST            16
+#define L2CAP_RFCOMM_SUCCESS            17
+#define L2CAP_RFCOMM_DONE               18
+
+/* Bluetooth states used by some drivers */
+#define TURN_ON_LED                     19
+#define PS3_ENABLE_SIXAXIS              20
+#define WII_CHECK_MOTION_PLUS_STATE     21
+#define WII_CHECK_EXTENSION_STATE       22
+#define WII_INIT_MOTION_PLUS_STATE      23
+
+/* L2CAP event flags */
+#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST           0x00000001
+#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS               0x00000002
+#define L2CAP_FLAG_CONTROL_CONNECTED                    0x00000004
+#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE          0x00000008
+
+#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST         0x00000010
+#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS             0x00000020
+#define L2CAP_FLAG_INTERRUPT_CONNECTED                  0x00000040
+#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE        0x00000080
+
+#define L2CAP_FLAG_CONNECTION_SDP_REQUEST               0x00000100
+#define L2CAP_FLAG_CONFIG_SDP_REQUEST                   0x00000200
+#define L2CAP_FLAG_CONFIG_SDP_SUCCESS                   0x00000400
+#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST               0x00000800
+
+#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST            0x00001000
+#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST                0x00002000
+#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS                0x00004000
+#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST            0x00008000
+
+#define L2CAP_FLAG_DISCONNECT_RESPONSE                  0x00010000
+
+/* Macros for L2CAP event flag tests */
+
+#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
+#define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
+#define l2cap_connected_control_flag (l2cap_event_flag & L2CAP_FLAG_CONTROL_CONNECTED)
+#define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
+
+#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
+#define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
+#define l2cap_connected_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_INTERRUPT_CONNECTED)
+#define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
+
+#define l2cap_connection_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_SDP_REQUEST)
+#define l2cap_config_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_REQUEST)
+#define l2cap_config_success_sdp_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_SDP_SUCCESS)
+#define l2cap_disconnect_request_sdp_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_SDP_REQUEST)
+
+#define l2cap_connection_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST)
+#define l2cap_config_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_REQUEST)
+#define l2cap_config_success_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS)
+#define l2cap_disconnect_request_rfcomm_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)
+
+#define l2cap_disconnect_response_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_RESPONSE)
+
 /* L2CAP signaling commands */
 #define L2CAP_CMD_COMMAND_REJECT        0x01
 #define L2CAP_CMD_CONNECTION_REQUEST    0x02
@@ -131,11 +214,11 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than four simply increase this number
+#define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than 4 simply increase this number
 
 #define PAIR    1
 
-/** All Bluetooth services should include this class. */
+/** All Bluetooth services should inherit this class. */
 class BluetoothService {
 public:
         /**

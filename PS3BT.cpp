@@ -305,12 +305,10 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                         //Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
-                                        identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_REQUEST;
+                                        pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], control_scid);
                                 } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                                         //Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
-                                        identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST;
+                                        pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], interrupt_scid);
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
                                 if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
@@ -390,15 +388,6 @@ void PS3BT::L2CAP_task() {
                                 identifier++;
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, control_scid);
-                                l2cap_state = L2CAP_CONTROL_REQUEST;
-                        }
-                        break;
-                case L2CAP_CONTROL_REQUEST:
-                        if (l2cap_config_request_control_flag) {
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
-#endif
-                                pBtd->l2cap_config_response(hci_handle, identifier, control_scid);
                                 l2cap_state = L2CAP_CONTROL_SUCCESS;
                         }
                         break;
@@ -411,6 +400,7 @@ void PS3BT::L2CAP_task() {
                                 l2cap_state = L2CAP_INTERRUPT_SETUP;
                         }
                         break;
+
                 case L2CAP_INTERRUPT_SETUP:
                         if (l2cap_connection_request_interrupt_flag) {
 #ifdef DEBUG_USB_HOST
@@ -423,28 +413,20 @@ void PS3BT::L2CAP_task() {
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, interrupt_scid);
 
-                                l2cap_state = L2CAP_INTERRUPT_REQUEST;
+                                l2cap_state = L2CAP_INTERRUPT_CONFIG_REQUEST;
                         }
                         break;
-                case L2CAP_INTERRUPT_REQUEST:
-                        if (l2cap_config_request_interrupt_flag) {
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
-#endif
-                                pBtd->l2cap_config_response(hci_handle, identifier, interrupt_scid);
-                                l2cap_state = L2CAP_INTERRUPT_SUCCESS;
-                        }
-                        break;
-                case L2CAP_INTERRUPT_SUCCESS:
+
+                case L2CAP_INTERRUPT_CONFIG_REQUEST:
                         if (l2cap_config_success_interrupt_flag) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"), 0x80);
 #endif
                                 if (remote_name[0] == 'M') { // First letter in Motion Controller ('M')
                                         memset(l2capinbuf, 0, BULK_MAXPKTSIZE); // Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                                        l2cap_state = L2CAP_HID_PS3_LED;
+                                        l2cap_state = TURN_ON_LED;
                                 } else
-                                        l2cap_state = L2CAP_HID_ENABLE_SIXAXIS;
+                                        l2cap_state = PS3_ENABLE_SIXAXIS;
                                 timer = millis();
                         }
                         break;
@@ -478,18 +460,18 @@ void PS3BT::L2CAP_task() {
 
 void PS3BT::Run() {
         switch (l2cap_state) {
-                case L2CAP_HID_ENABLE_SIXAXIS:
+                case PS3_ENABLE_SIXAXIS:
                         if (millis() - timer > 1000) { // loop 1 second before sending the command
                                 memset(l2capinbuf, 0, BULK_MAXPKTSIZE); // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                 for (uint8_t i = 15; i < 19; i++)
                                         l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position
                                 enable_sixaxis();
-                                l2cap_state = L2CAP_HID_PS3_LED;
+                                l2cap_state = TURN_ON_LED;
                                 timer = millis();
                         }
                         break;
 
-                case L2CAP_HID_PS3_LED:
+                case TURN_ON_LED:
                         if (millis() - timer > 1000) { // loop 1 second before sending the command
                                 if (remote_name[0] == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
 #ifdef DEBUG_USB_HOST

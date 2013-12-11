@@ -375,7 +375,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nInactive Wii Motion Plus"), 0x80);
                                                                 Notify(PSTR("\r\nPlease unplug the Motion Plus, disconnect the Wiimote and then replug the Motion Plus Extension"), 0x80);
 #endif
-                                                                stateCounter = 300; // Skip the rest in "L2CAP_CHECK_MOTION_PLUS_STATE"
+                                                                stateCounter = 300; // Skip the rest in "WII_CHECK_MOTION_PLUS_STATE"
                                                         } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x01 && l2capinbuf[20] == 0x20) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nWii U Pro Controller connected"), 0x80);
@@ -648,7 +648,7 @@ void WII::L2CAP_task() {
                                 pBtd->connectToWii = false;
                                 pBtd->pairWithWii = false;
                                 stateCounter = 0;
-                                l2cap_state = L2CAP_CHECK_MOTION_PLUS_STATE;
+                                l2cap_state = WII_CHECK_MOTION_PLUS_STATE;
                         }
                         break;
 
@@ -711,7 +711,7 @@ void WII::Run() {
                         }
                         break;
 
-                case L2CAP_CHECK_MOTION_PLUS_STATE:
+                case WII_CHECK_MOTION_PLUS_STATE:
 #ifdef DEBUG_USB_HOST
                         if (stateCounter == 0) // Only print onnce
                                 Notify(PSTR("\r\nChecking if a Motion Plus is connected"), 0x80);
@@ -721,7 +721,7 @@ void WII::Run() {
                                 checkMotionPresent(); // Check if there is a motion plus connected
                         if (motion_plus_connected_flag) {
                                 stateCounter = 0;
-                                l2cap_state = L2CAP_INIT_MOTION_PLUS_STATE;
+                                l2cap_state = WII_INIT_MOTION_PLUS_STATE;
                                 timer = micros();
 
                                 if (unknownExtensionConnected) {
@@ -736,11 +736,11 @@ void WII::Run() {
                                 Notify(PSTR("\r\nNo Motion Plus was detected"), 0x80);
 #endif
                                 stateCounter = 0;
-                                l2cap_state = L2CAP_CHECK_EXTENSION_STATE;
+                                l2cap_state = WII_CHECK_EXTENSION_STATE;
                         }
                         break;
 
-                case L2CAP_CHECK_EXTENSION_STATE: // This is used to check if there is anything plugged in to the extension port
+                case WII_CHECK_EXTENSION_STATE: // This is used to check if there is anything plugged in to the extension port
 #ifdef DEBUG_USB_HOST
                         if (stateCounter == 0) // Only print onnce
                                 Notify(PSTR("\r\nChecking if there is any extension connected"), 0x80);
@@ -760,11 +760,11 @@ void WII::Run() {
                                 unknownExtensionConnected = false;
                         } else if (stateCounter == 400) {
                                 stateCounter = 0;
-                                l2cap_state = L2CAP_LED_STATE;
+                                l2cap_state = TURN_ON_LED;
                         }
                         break;
 
-                case L2CAP_INIT_MOTION_PLUS_STATE:
+                case WII_INIT_MOTION_PLUS_STATE:
                         stateCounter++;
                         if (stateCounter == 1)
                                 initMotionPlus();
@@ -775,11 +775,11 @@ void WII::Run() {
                         else if (stateCounter == 300) {
                                 stateCounter = 0;
                                 unknownExtensionConnected = false; // The motion plus will send a status report when it's activated, we will set this to false so it doesn't reinitialize the Motion Plus
-                                l2cap_state = L2CAP_LED_STATE;
+                                l2cap_state = TURN_ON_LED;
                         }
                         break;
 
-                case L2CAP_LED_STATE:
+                case TURN_ON_LED:
                         if (nunchuck_connected_flag)
                                 nunchuckConnected = true;
                         wiimoteConnected = true;
