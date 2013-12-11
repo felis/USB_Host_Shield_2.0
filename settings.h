@@ -98,7 +98,7 @@
 #define XMEM_RELEASE_SPI() (void(0))
 #endif
 
-#ifdef __MK20DX128__
+#if defined(__MK20DX128__) || defined(__MK20DX256__)
 #define USING_SPI4TEENSY3 USE_SPI4TEENSY3
 #else
 #define USING_SPI4TEENSY3 0
