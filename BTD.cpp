@@ -503,9 +503,12 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_REMOTE_NAME_COMPLETE:
-                                if (!hcibuf[2]) { // check if reading is OK
-                                        for (uint8_t i = 0; i < min(sizeof (remote_name), sizeof (hcibuf) - 9); i++)
+                                if (!hcibuf[2]) { // Check if reading is OK
+                                        for (uint8_t i = 0; i < min(sizeof (remote_name), sizeof (hcibuf) - 9); i++) {
                                                 remote_name[i] = hcibuf[9 + i];
+                                                if (remote_name[i] == '\0') // End of string
+                                                        break;
+                                        }
                                         hci_event_flag |= HCI_FLAG_REMOTE_NAME_COMPLETE;
                                 }
                                 break;
@@ -789,7 +792,7 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nRemote Name: "), 0x80);
                                 for (uint8_t i = 0; i < 30; i++) {
-                                        if (remote_name[i] == NULL)
+                                        if (remote_name[i] == '\0') // End of string
                                                 break;
                                         Notifyc(remote_name[i], 0x80);
                                 }
