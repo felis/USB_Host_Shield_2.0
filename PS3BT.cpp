@@ -285,21 +285,21 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                                         identifier = l2capinbuf[9];
                                         control_scid[0] = l2capinbuf[14];
                                         control_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_CONTROL_REQUEST;
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST);
                                 } else if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_INTR_PSM) {
                                         identifier = l2capinbuf[9];
                                         interrupt_scid[0] = l2capinbuf[14];
                                         interrupt_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST;
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST);
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS);
                                         } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS);
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
@@ -330,11 +330,11 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                                 if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE;
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE);
                                 } else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE;
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE);
                                 }
                         }
 #ifdef EXTRADEBUG
@@ -378,7 +378,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
 void PS3BT::L2CAP_task() {
         switch (l2cap_state) {
                 case L2CAP_WAIT:
-                        if (l2cap_connection_request_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Incoming Connection Request"), 0x80);
 #endif
@@ -393,7 +393,7 @@ void PS3BT::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_SUCCESS:
-                        if (l2cap_config_success_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Successfully Configured"), 0x80);
 #endif
@@ -402,7 +402,7 @@ void PS3BT::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_SETUP:
-                        if (l2cap_connection_request_interrupt_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Incoming Connection Request"), 0x80);
 #endif
@@ -418,7 +418,7 @@ void PS3BT::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_CONFIG_REQUEST:
-                        if (l2cap_config_success_interrupt_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)) { // Now the HID channels is established
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"), 0x80);
 #endif
@@ -434,7 +434,7 @@ void PS3BT::L2CAP_task() {
                         /* These states are handled in Run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if (l2cap_disconnect_response_interrupt_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -445,7 +445,7 @@ void PS3BT::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_DISCONNECT:
-                        if (l2cap_disconnect_response_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Control Channel"), 0x80);
 #endif

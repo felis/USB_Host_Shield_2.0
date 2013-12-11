@@ -168,13 +168,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
                                                 control_scid[1] = l2capinbuf[13];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONTROL_CONNECTED;
+                                                l2cap_set_flag(L2CAP_FLAG_CONTROL_CONNECTED);
                                         } else if (l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 interrupt_scid[0] = l2capinbuf[12];
                                                 interrupt_scid[1] = l2capinbuf[13];
-                                                l2cap_event_flag |= L2CAP_FLAG_INTERRUPT_CONNECTED;
+                                                l2cap_set_flag(L2CAP_FLAG_INTERRUPT_CONNECTED);
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
@@ -194,23 +194,23 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         identifier = l2capinbuf[9];
                                         control_scid[0] = l2capinbuf[14];
                                         control_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_CONTROL_REQUEST;
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST);
                                 } else if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_INTR_PSM) {
                                         identifier = l2capinbuf[9];
                                         interrupt_scid[0] = l2capinbuf[14];
                                         interrupt_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST;
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST);
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS);
                                         } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS);
                                         }
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
@@ -241,11 +241,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                 if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE;
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE);
                                 } else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE;
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE);
                                 }
                         }
 #ifdef EXTRADEBUG
@@ -319,7 +319,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR(" - from Motion Plus"), 0x80);
 #endif
-                                                                        l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
+                                                                        wii_clear_flag(WII_FLAG_NUNCHUCK_CONNECTED);
                                                                         if (!activateNunchuck) // If it's already trying to initialize the Nunchuck don't set it to false
                                                                                 nunchuckConnected = false;
                                                                         //else if(classicControllerConnected)
@@ -328,7 +328,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         Notify(PSTR(" - Nunchuck"), 0x80);
 #endif
                                                                         nunchuckConnected = false; // It must be the Nunchuck controller then
-                                                                        l2cap_event_flag &= ~WII_FLAG_NUNCHUCK_CONNECTED;
+                                                                        wii_clear_flag(WII_FLAG_NUNCHUCK_CONNECTED);
                                                                         onInit();
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
                                                                 } else
@@ -344,12 +344,12 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nNunchuck connected"), 0x80);
 #endif
-                                                                l2cap_event_flag |= WII_FLAG_NUNCHUCK_CONNECTED;
+                                                                wii_set_flag(WII_FLAG_NUNCHUCK_CONNECTED);
                                                         } else if (l2capinbuf[16] == 0x00 && (l2capinbuf[17] == 0xA6 || l2capinbuf[17] == 0xA4) && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nMotion Plus connected"), 0x80);
 #endif
-                                                                l2cap_event_flag |= WII_FLAG_MOTION_PLUS_CONNECTED;
+                                                                wii_set_flag(WII_FLAG_MOTION_PLUS_CONNECTED);
                                                         } else if (l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x05) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nMotion Plus activated in normal mode"), 0x80);
@@ -582,7 +582,7 @@ void WII::L2CAP_task() {
         switch (l2cap_state) {
                         /* These states are used if the Wiimote is the host */
                 case L2CAP_CONTROL_SUCCESS:
-                        if (l2cap_config_success_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Successfully Configured"), 0x80);
 #endif
@@ -591,7 +591,7 @@ void WII::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_SETUP:
-                        if (l2cap_connection_request_interrupt_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Incoming Connection Request"), 0x80);
 #endif
@@ -608,7 +608,7 @@ void WII::L2CAP_task() {
 
                         /* These states are used if the Arduino is the host */
                 case L2CAP_CONTROL_CONNECT_REQUEST:
-                        if (l2cap_connected_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONTROL_CONNECTED)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Control Config Request"), 0x80);
 #endif
@@ -619,7 +619,7 @@ void WII::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_CONFIG_REQUEST:
-                        if (l2cap_config_success_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Interrupt Connection Request"), 0x80);
 #endif
@@ -630,7 +630,7 @@ void WII::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_CONNECT_REQUEST:
-                        if (l2cap_connected_interrupt_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_INTERRUPT_CONNECTED)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Interrupt Config Request"), 0x80);
 #endif
@@ -641,7 +641,7 @@ void WII::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_CONFIG_REQUEST:
-                        if (l2cap_config_success_interrupt_flag) { // Now the HID channels is established
+                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)) { // Now the HID channels is established
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Channels Established"), 0x80);
 #endif
@@ -655,7 +655,7 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if (l2cap_disconnect_response_interrupt_flag && millis() > timer) {
+                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && millis() > timer) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -666,7 +666,7 @@ void WII::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_DISCONNECT:
-                        if (l2cap_disconnect_response_control_flag) {
+                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Control Channel"), 0x80);
 #endif
@@ -697,7 +697,7 @@ void WII::Run() {
                                 identifier = 0;
                                 pBtd->l2cap_connection_request(hci_handle, identifier, control_dcid, HID_CTRL_PSM);
                                 l2cap_state = L2CAP_CONTROL_CONNECT_REQUEST;
-                        } else if (l2cap_connection_request_control_flag) {
+                        } else if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Incoming Connection Request"), 0x80);
 #endif
@@ -719,7 +719,7 @@ void WII::Run() {
                         stateCounter++;
                         if (stateCounter % 200 == 0)
                                 checkMotionPresent(); // Check if there is a motion plus connected
-                        if (motion_plus_connected_flag) {
+                        if (wii_check_flag(WII_FLAG_MOTION_PLUS_CONNECTED)) {
                                 stateCounter = 0;
                                 l2cap_state = WII_INIT_MOTION_PLUS_STATE;
                                 timer = micros();
@@ -780,7 +780,7 @@ void WII::Run() {
                         break;
 
                 case TURN_ON_LED:
-                        if (nunchuck_connected_flag)
+                        if (wii_check_flag(WII_FLAG_NUNCHUCK_CONNECTED))
                                 nunchuckConnected = true;
                         wiimoteConnected = true;
                         onInit();
@@ -806,7 +806,7 @@ void WII::Run() {
                                 else if (stateCounter == 200)
                                         readExtensionType();
                                 else if (stateCounter == 250) {
-                                        if (nunchuck_connected_flag) {
+                                        if (wii_check_flag(WII_FLAG_NUNCHUCK_CONNECTED)) {
 #ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nNunchuck was reconnected"), 0x80);
 #endif
