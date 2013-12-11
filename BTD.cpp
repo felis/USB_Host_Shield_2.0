@@ -372,20 +372,19 @@ uint8_t BTD::Poll() {
                 return 0;
         if (qNextPollTime <= millis()) { // Don't poll if shorter than polling interval
                 qNextPollTime = millis() + pollInterval; // Set new poll time
-                HCI_event_task(); // poll the HCI event pipe
-                ACL_event_task(); // start polling the ACL input pipe too, though discard data until connected
+                HCI_event_task(); // Poll the HCI event pipe
+                HCI_task(); // HCI state machine
+                ACL_event_task(); // Poll the ACL input pipe too
         }
         return 0;
 }
 
 void BTD::HCI_event_task() {
-        /* check the event pipe*/
-        uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
-        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &MAX_BUFFER_SIZE, hcibuf); // input on endpoint 1
-        if (!rcode || rcode == hrNAK) // Check for errors
-        {
-                switch (hcibuf[0]) //switch on event type
-                {
+        uint16_t length = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
+        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &length, hcibuf); // Input on endpoint 1
+
+        if (!rcode || rcode == hrNAK) { // Check for errors
+                switch (hcibuf[0]) { // Switch on event type
                         case EV_COMMAND_COMPLETE:
                                 if (!hcibuf[5]) { // Check if command succeeded
                                         hci_set_flag(HCI_FLAG_CMD_COMPLETE); // Set command complete flag
@@ -607,7 +606,6 @@ void BTD::HCI_event_task() {
                 D_PrintHex<uint8_t > (rcode, 0x80);
         }
 #endif
-        HCI_task();
 }
 
 /* Poll Bluetooth and print result */
@@ -878,12 +876,16 @@ void BTD::HCI_task() {
 }
 
 void BTD::ACL_event_task() {
-        uint16_t MAX_BUFFER_SIZE = BULK_MAXPKTSIZE;
-        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &MAX_BUFFER_SIZE, l2capinbuf); // input on endpoint 2
+        uint16_t length = BULK_MAXPKTSIZE;
+        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &length, l2capinbuf); // Input on endpoint 2
+
         if (!rcode) { // Check for errors
-                for (uint8_t i = 0; i < BTD_NUMSERVICES; i++)
-                        if (btService[i])
-                                btService[i]->ACLData(l2capinbuf);
+                if (length > 0) { // Check if any data was read
+                        for (uint8_t i = 0; i < BTD_NUMSERVICES; i++) {
+                                if (btService[i])
+                                        btService[i]->ACLData(l2capinbuf);
+                        }
+                }
         }
 #ifdef EXTRADEBUG
         else if (rcode != hrNAK) {
