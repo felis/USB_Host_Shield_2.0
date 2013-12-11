@@ -388,11 +388,11 @@ void BTD::HCI_event_task() {
                 {
                         case EV_COMMAND_COMPLETE:
                                 if (!hcibuf[5]) { // Check if command succeeded
-                                        hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // set command complete flag
-                                        if ((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // parameters from read local version information
+                                        hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // Set command complete flag
+                                        if ((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // Parameters from read local version information
                                                 hci_version = hcibuf[6]; // Used to check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
                                                 hci_event_flag |= HCI_FLAG_READ_VERSION;
-                                        } else if ((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // parameters from read local bluetooth address
+                                        } else if ((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // Parameters from read local bluetooth address
                                                 for (uint8_t i = 0; i < 6; i++)
                                                         my_bdaddr[i] = hcibuf[6 + i];
                                                 hci_event_flag |= HCI_FLAG_READ_BDADDR;
@@ -440,7 +440,7 @@ void BTD::HCI_event_task() {
                                                 for (uint8_t j = 0; j < 3; j++)
                                                         classOfDevice[j] = hcibuf[j + 4 + offset];
 
-                                                if (pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0x0C)) { // See http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html and http://wiibrew.org/wiki/Wiimote#SDP_information
+                                                if (pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
                                                         if (classOfDevice[0] & 0x08) // Check if it's the new Wiimote with motion plus inside that was detected
                                                                 motionPlusInside = true;
                                                         else
@@ -451,7 +451,7 @@ void BTD::HCI_event_task() {
 
                                                         hci_event_flag |= HCI_FLAG_DEVICE_FOUND;
                                                         break;
-                                                } else if (pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC0)) { // Check if it is a mouse or keyboard
+                                                } else if (pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC0)) { // Check if it is a mouse or keyboard - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
 #ifdef DEBUG_USB_HOST
                                                         if (classOfDevice[0] & 0x80)
                                                                 Notify(PSTR("\r\nMouse found"), 0x80);
@@ -480,12 +480,12 @@ void BTD::HCI_event_task() {
 
                         case EV_CONNECT_COMPLETE:
                                 hci_event_flag |= HCI_FLAG_CONNECT_EVENT;
-                                if (!hcibuf[2]) { // check if connected OK
+                                if (!hcibuf[2]) { // Check if connected OK
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nConnection established"), 0x80);
 #endif
-                                        hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // store the handle for the ACL connection
-                                        hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // set connection complete flag
+                                        hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // Store the handle for the ACL connection
+                                        hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // Set connection complete flag
                                 } else {
                                         hci_state = HCI_CHECK_DEVICE_SERVICE;
 #ifdef DEBUG_USB_HOST
@@ -496,9 +496,9 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_DISCONNECT_COMPLETE:
-                                if (!hcibuf[2]) { // check if disconnected OK
-                                        hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; // set disconnect command complete flag
-                                        hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // clear connection complete flag
+                                if (!hcibuf[2]) { // Check if disconnected OK
+                                        hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; // Set disconnect command complete flag
+                                        hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // Clear connection complete flag
                                 }
                                 break;
 
@@ -567,12 +567,12 @@ void BTD::HCI_event_task() {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nPairing successful with Wiimote"), 0x80);
 #endif
-                                        connectToWii = true; // Only send the ACL data to the Wii service
+                                        connectToWii = true; // Used to indicate to the Wii service, that it should connect to this device
                                 } else if (pairWithHIDDevice && !connectToHIDDevice) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nPairing successful with HID device"), 0x80);
 #endif
-                                        connectToHIDDevice = true; // Only send the ACL data to the Wii service
+                                        connectToHIDDevice = true; // Used to indicate to the BTHID service, that it should connect to this device
                                 }
                                 break;
                                 /* We will just ignore the following events */
@@ -596,7 +596,7 @@ void BTD::HCI_event_task() {
                                 }
                                 break;
 #endif
-                } // switch
+                } // Switch
         }
 #ifdef EXTRADEBUG
         else {
@@ -686,7 +686,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CHECK_DEVICE_SERVICE:
-                        if (pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a wiimote
+                        if (pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a Wiimote
 #ifdef DEBUG_USB_HOST
                                 if (pairWithWii)
                                         Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press sync if you are using a Wii U Pro Controller"), 0x80);
@@ -750,7 +750,7 @@ void BTD::HCI_task() {
                                         else
                                                 Notify(PSTR("\r\nConnected to HID device"), 0x80);
 #endif
-                                        hci_authentication_request(); // This will start the pairing with the wiimote
+                                        hci_authentication_request(); // This will start the pairing with the Wiimote
                                         hci_state = HCI_SCANNING_STATE;
                                 } else {
 #ifdef DEBUG_USB_HOST
@@ -860,18 +860,11 @@ void BTD::HCI_task() {
                                 hci_event_flag = 0; // Clear all flags
 
                                 // Reset all buffers
-                                for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
-                                        hcibuf[i] = 0;
-                                for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
-                                        l2capinbuf[i] = 0;
+                                memset(hcibuf, 0, BULK_MAXPKTSIZE);
+                                memset(l2capinbuf, 0, BULK_MAXPKTSIZE);
 
-                                connectToWii = false;
-                                incomingWii = false;
-                                pairWithWii = false;
-
-                                connectToHIDDevice = false;
-                                incomingHIDDevice = false;
-                                pairWithHIDDevice = false;
+                                connectToWii = incomingWii = pairWithWii = false;
+                                connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = false;
 
                                 hci_state = HCI_SCANNING_STATE;
                         }
