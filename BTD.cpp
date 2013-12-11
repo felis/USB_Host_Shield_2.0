@@ -388,14 +388,14 @@ void BTD::HCI_event_task() {
                 {
                         case EV_COMMAND_COMPLETE:
                                 if (!hcibuf[5]) { // Check if command succeeded
-                                        hci_event_flag |= HCI_FLAG_CMD_COMPLETE; // Set command complete flag
+                                        hci_set_flag(HCI_FLAG_CMD_COMPLETE); // Set command complete flag
                                         if ((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // Parameters from read local version information
                                                 hci_version = hcibuf[6]; // Used to check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
-                                                hci_event_flag |= HCI_FLAG_READ_VERSION;
+                                                hci_set_flag(HCI_FLAG_READ_VERSION);
                                         } else if ((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // Parameters from read local bluetooth address
                                                 for (uint8_t i = 0; i < 6; i++)
                                                         my_bdaddr[i] = hcibuf[6 + i];
-                                                hci_event_flag |= HCI_FLAG_READ_BDADDR;
+                                                hci_set_flag(HCI_FLAG_READ_BDADDR);
                                         }
                                 }
                                 break;
@@ -449,7 +449,7 @@ void BTD::HCI_event_task() {
                                                         for (uint8_t j = 0; j < 6; j++)
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
 
-                                                        hci_event_flag |= HCI_FLAG_DEVICE_FOUND;
+                                                        hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                         break;
                                                 } else if (pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC0)) { // Check if it is a mouse or keyboard - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
 #ifdef DEBUG_USB_HOST
@@ -462,7 +462,7 @@ void BTD::HCI_event_task() {
                                                         for (uint8_t j = 0; j < 6; j++)
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
 
-                                                        hci_event_flag |= HCI_FLAG_DEVICE_FOUND;
+                                                        hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                 }
 #ifdef EXTRADEBUG
                                                 else {
@@ -479,13 +479,13 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_CONNECT_COMPLETE:
-                                hci_event_flag |= HCI_FLAG_CONNECT_EVENT;
+                                hci_set_flag(HCI_FLAG_CONNECT_EVENT);
                                 if (!hcibuf[2]) { // Check if connected OK
 #ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nConnection established"), 0x80);
 #endif
                                         hci_handle = hcibuf[3] | ((hcibuf[4] & 0x0F) << 8); // Store the handle for the ACL connection
-                                        hci_event_flag |= HCI_FLAG_CONN_COMPLETE; // Set connection complete flag
+                                        hci_set_flag(HCI_FLAG_CONNECT_COMPLETE); // Set connection complete flag
                                 } else {
                                         hci_state = HCI_CHECK_DEVICE_SERVICE;
 #ifdef DEBUG_USB_HOST
@@ -497,8 +497,8 @@ void BTD::HCI_event_task() {
 
                         case EV_DISCONNECT_COMPLETE:
                                 if (!hcibuf[2]) { // Check if disconnected OK
-                                        hci_event_flag |= HCI_FLAG_DISCONN_COMPLETE; // Set disconnect command complete flag
-                                        hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE; // Clear connection complete flag
+                                        hci_set_flag(HCI_FLAG_DISCONNECT_COMPLETE); // Set disconnect command complete flag
+                                        hci_clear_flag(HCI_FLAG_CONNECT_COMPLETE); // Clear connection complete flag
                                 }
                                 break;
 
@@ -509,7 +509,7 @@ void BTD::HCI_event_task() {
                                                 if (remote_name[i] == '\0') // End of string
                                                         break;
                                         }
-                                        hci_event_flag |= HCI_FLAG_REMOTE_NAME_COMPLETE;
+                                        hci_set_flag(HCI_FLAG_REMOTE_NAME_COMPLETE);
                                 }
                                 break;
 
@@ -535,7 +535,7 @@ void BTD::HCI_event_task() {
                                 Notify(PSTR(" "), 0x80);
                                 D_PrintHex<uint8_t > (hcibuf[8], 0x80);
 #endif
-                                hci_event_flag |= HCI_FLAG_INCOMING_REQUEST;
+                                hci_set_flag(HCI_FLAG_INCOMING_REQUEST);
                                 break;
 
                         case EV_PIN_CODE_REQUEST:
@@ -624,7 +624,7 @@ void BTD::HCI_task() {
 
                 case HCI_RESET_STATE:
                         hci_counter++;
-                        if (hci_cmd_complete) {
+                        if (hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
                                 hci_counter = 0;
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHCI Reset complete"), 0x80);
@@ -644,7 +644,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CLASS_STATE:
-                        if (hci_cmd_complete) {
+                        if (hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nWrite class of device"), 0x80);
 #endif
@@ -654,7 +654,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_BDADDR_STATE:
-                        if (hci_read_bdaddr_complete) {
+                        if (hci_check_flag(HCI_FLAG_READ_BDADDR)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nLocal Bluetooth Address: "), 0x80);
                                 for (int8_t i = 5; i > 0; i--) {
@@ -669,7 +669,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_LOCAL_VERSION_STATE: // The local version is used by the PS3BT class
-                        if (hci_read_version_complete) {
+                        if (hci_check_flag(HCI_FLAG_READ_VERSION)) {
                                 if (btdName != NULL) {
                                         hci_set_local_name(btdName);
                                         hci_state = HCI_SET_NAME_STATE;
@@ -679,7 +679,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_SET_NAME_STATE:
-                        if (hci_cmd_complete) {
+                        if (hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nThe name is set to: "), 0x80);
                                 NotifyStr(btdName, 0x80);
@@ -703,7 +703,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_INQUIRY_STATE:
-                        if (hci_device_found) {
+                        if (hci_check_flag(HCI_FLAG_DEVICE_FOUND)) {
                                 hci_inquiry_cancel(); // Stop inquiry
 #ifdef DEBUG_USB_HOST
                                 if (pairWithWii)
@@ -732,7 +732,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CONNECT_DEVICE_STATE:
-                        if (hci_cmd_complete) {
+                        if (hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 if (pairWithWii)
                                         Notify(PSTR("\r\nConnecting to Wiimote"), 0x80);
@@ -745,8 +745,8 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CONNECTED_DEVICE_STATE:
-                        if (hci_connect_event) {
-                                if (hci_connect_complete) {
+                        if (hci_check_flag(HCI_FLAG_CONNECT_EVENT)) {
+                                if (hci_check_flag(HCI_FLAG_CONNECT_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                         if (pairWithWii)
                                                 Notify(PSTR("\r\nConnected to Wiimote"), 0x80);
@@ -776,19 +776,19 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CONNECT_IN_STATE:
-                        if (hci_incoming_connect_request) {
+                        if (hci_check_flag(HCI_FLAG_INCOMING_REQUEST)) {
                                 watingForConnection = false;
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nIncoming Connection Request"), 0x80);
 #endif
                                 hci_remote_name();
                                 hci_state = HCI_REMOTE_NAME_STATE;
-                        } else if (hci_disconnect_complete)
+                        } else if (hci_check_flag(HCI_FLAG_DISCONNECT_COMPLETE))
                                 hci_state = HCI_DISCONNECT_STATE;
                         break;
 
                 case HCI_REMOTE_NAME_STATE:
-                        if (hci_remote_name_complete) {
+                        if (hci_check_flag(HCI_FLAG_REMOTE_NAME_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nRemote Name: "), 0x80);
                                 for (uint8_t i = 0; i < 30; i++) {
@@ -828,7 +828,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CONNECTED_STATE:
-                        if (hci_connect_complete) {
+                        if (hci_check_flag(HCI_FLAG_CONNECT_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nConnected to Device: "), 0x80);
                                 for (int8_t i = 5; i > 0; i--) {
@@ -856,7 +856,7 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_DISCONNECT_STATE:
-                        if (hci_disconnect_complete) {
+                        if (hci_check_flag(HCI_FLAG_DISCONNECT_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHCI Disconnected from Device"), 0x80);
 #endif
@@ -901,7 +901,7 @@ void BTD::ACL_event_task() {
 
 /************************************************************/
 void BTD::HCI_Command(uint8_t* data, uint16_t nbytes) {
-        hci_event_flag &= ~HCI_FLAG_CMD_COMPLETE;
+        hci_clear_flag(HCI_FLAG_CMD_COMPLETE);
         pUsb->ctrlReq(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bmREQ_HCI_OUT, 0x00, 0x00, 0x00, 0x00, nbytes, nbytes, data, NULL);
 }
 
@@ -915,7 +915,7 @@ void BTD::hci_reset() {
 }
 
 void BTD::hci_write_scan_enable() {
-        hci_event_flag &= ~HCI_FLAG_INCOMING_REQUEST;
+        hci_clear_flag(HCI_FLAG_INCOMING_REQUEST);
         hcibuf[0] = 0x1A; // HCI OCF = 1A
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = 0x01; // parameter length = 1
@@ -937,6 +937,7 @@ void BTD::hci_write_scan_disable() {
 }
 
 void BTD::hci_read_bdaddr() {
+        hci_clear_flag(HCI_FLAG_READ_BDADDR);
         hcibuf[0] = 0x09; // HCI OCF = 9
         hcibuf[1] = 0x04 << 2; // HCI OGF = 4
         hcibuf[2] = 0x00;
@@ -945,6 +946,7 @@ void BTD::hci_read_bdaddr() {
 }
 
 void BTD::hci_read_local_version_information() {
+        hci_clear_flag(HCI_FLAG_READ_VERSION);
         hcibuf[0] = 0x01; // HCI OCF = 1
         hcibuf[1] = 0x04 << 2; // HCI OGF = 4
         hcibuf[2] = 0x00;
@@ -953,7 +955,7 @@ void BTD::hci_read_local_version_information() {
 }
 
 void BTD::hci_accept_connection() {
-        hci_event_flag &= ~HCI_FLAG_CONN_COMPLETE;
+        hci_clear_flag(HCI_FLAG_CONNECT_COMPLETE);
         hcibuf[0] = 0x09; // HCI OCF = 9
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x07; // parameter length 7
@@ -969,7 +971,7 @@ void BTD::hci_accept_connection() {
 }
 
 void BTD::hci_remote_name() {
-        hci_event_flag &= ~HCI_FLAG_REMOTE_NAME_COMPLETE;
+        hci_clear_flag(HCI_FLAG_REMOTE_NAME_COMPLETE);
         hcibuf[0] = 0x19; // HCI OCF = 19
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x0A; // parameter length = 10
@@ -1000,7 +1002,7 @@ void BTD::hci_set_local_name(const char* name) {
 }
 
 void BTD::hci_inquiry() {
-        hci_event_flag &= ~HCI_FLAG_DEVICE_FOUND;
+        hci_clear_flag(HCI_FLAG_DEVICE_FOUND);
         hcibuf[0] = 0x01;
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x05; // Parameter Total Length = 5
@@ -1026,7 +1028,7 @@ void BTD::hci_connect() {
 }
 
 void BTD::hci_connect(uint8_t *bdaddr) {
-        hci_event_flag &= ~(HCI_FLAG_CONN_COMPLETE | HCI_FLAG_CONNECT_EVENT);
+        hci_clear_flag(HCI_FLAG_CONNECT_COMPLETE | HCI_FLAG_CONNECT_EVENT);
         hcibuf[0] = 0x05;
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x0D; // parameter Total Length = 13
@@ -1122,7 +1124,7 @@ void BTD::hci_authentication_request() {
 }
 
 void BTD::hci_disconnect(uint16_t handle) { // This is called by the different services
-        hci_event_flag &= ~HCI_FLAG_DISCONN_COMPLETE;
+        hci_clear_flag(HCI_FLAG_DISCONNECT_COMPLETE);
         hcibuf[0] = 0x06; // HCI OCF = 6
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x03; // parameter length = 3

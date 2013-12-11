@@ -61,8 +61,8 @@
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
-#define HCI_FLAG_CONN_COMPLETE          0x02
-#define HCI_FLAG_DISCONN_COMPLETE       0x04
+#define HCI_FLAG_CONNECT_COMPLETE       0x02
+#define HCI_FLAG_DISCONNECT_COMPLETE    0x04
 #define HCI_FLAG_REMOTE_NAME_COMPLETE   0x08
 #define HCI_FLAG_INCOMING_REQUEST       0x10
 #define HCI_FLAG_READ_BDADDR            0x20
@@ -70,16 +70,10 @@
 #define HCI_FLAG_DEVICE_FOUND           0x80
 #define HCI_FLAG_CONNECT_EVENT          0x100
 
-/*Macros for HCI event flag tests */
-#define hci_cmd_complete (hci_event_flag & HCI_FLAG_CMD_COMPLETE)
-#define hci_connect_complete (hci_event_flag & HCI_FLAG_CONN_COMPLETE)
-#define hci_disconnect_complete (hci_event_flag & HCI_FLAG_DISCONN_COMPLETE)
-#define hci_remote_name_complete (hci_event_flag & HCI_FLAG_REMOTE_NAME_COMPLETE)
-#define hci_incoming_connect_request (hci_event_flag & HCI_FLAG_INCOMING_REQUEST)
-#define hci_read_bdaddr_complete (hci_event_flag & HCI_FLAG_READ_BDADDR)
-#define hci_read_version_complete (hci_event_flag & HCI_FLAG_READ_VERSION)
-#define hci_device_found (hci_event_flag & HCI_FLAG_DEVICE_FOUND)
-#define hci_connect_event (hci_event_flag & HCI_FLAG_CONNECT_EVENT)
+/* Macros for HCI event flag tests */
+#define hci_check_flag(flag) (hci_event_flag & flag)
+#define hci_set_flag(flag) (hci_event_flag |= flag)
+#define hci_clear_flag(flag) (hci_event_flag &= ~flag)
 
 /* HCI Events managed */
 #define EV_INQUIRY_COMPLETE                             0x01
@@ -141,22 +135,25 @@
 #define WII_CHECK_EXTENSION_STATE       22
 #define WII_INIT_MOTION_PLUS_STATE      23
 
-/* L2CAP event flags */
+/* L2CAP event flags for HID Control channel */
 #define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST           0x00000001
 #define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS               0x00000002
 #define L2CAP_FLAG_CONTROL_CONNECTED                    0x00000004
 #define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE          0x00000008
 
+/* L2CAP event flags for HID Interrupt channel */
 #define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST         0x00000010
 #define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS             0x00000020
 #define L2CAP_FLAG_INTERRUPT_CONNECTED                  0x00000040
 #define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE        0x00000080
 
+/* L2CAP event flags for SDP channel */
 #define L2CAP_FLAG_CONNECTION_SDP_REQUEST               0x00000100
 #define L2CAP_FLAG_CONFIG_SDP_REQUEST                   0x00000200
 #define L2CAP_FLAG_CONFIG_SDP_SUCCESS                   0x00000400
 #define L2CAP_FLAG_DISCONNECT_SDP_REQUEST               0x00000800
 
+/* L2CAP event flags for RFCOMM channel */
 #define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST            0x00001000
 #define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST                0x00002000
 #define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS                0x00004000
@@ -467,7 +464,7 @@ public:
 
         /** The name you wish to make the dongle show up as. It is set automatically by the SPP library. */
         const char* btdName;
-        /** The pin you wish to make the dongle use for authentication. It is set automatically by the SPP library. */
+        /** The pin you wish to make the dongle use for authentication. It is set automatically by the SPP and BTHID library. */
         const char* btdPin;
 
         /** The bluetooth dongles Bluetooth address. */
