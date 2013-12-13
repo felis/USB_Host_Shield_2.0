@@ -73,13 +73,13 @@ void SPP::Reset() {
 
 void SPP::disconnect() {
         connected = false;
-        // First the two L2CAP channels has to be disconencted and then the HCI connection
+        // First the two L2CAP channels has to be disconnected and then the HCI connection
         if (RFCOMMConnected)
-                pBtd->l2cap_disconnection_request(hci_handle, 0x0A, rfcomm_scid, rfcomm_dcid);
+                pBtd->l2cap_disconnection_request(hci_handle, ++identifier, rfcomm_scid, rfcomm_dcid);
         if (RFCOMMConnected && SDPConnected)
                 delay(1); // Add delay between commands
         if (SDPConnected)
-                pBtd->l2cap_disconnection_request(hci_handle, 0x0B, sdp_scid, sdp_dcid);
+                pBtd->l2cap_disconnection_request(hci_handle, ++identifier, sdp_scid, sdp_dcid);
         l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
 }
 

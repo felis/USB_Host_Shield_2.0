@@ -218,14 +218,14 @@ void PS3BT::Reset() {
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
 
-        // Needed for PS3 Dualshock Controller commands to work via bluetooth
+        // Needed for PS3 Dualshock Controller commands to work via Bluetooth
         for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
                 HIDBuffer[i + 2] = pgm_read_byte(&PS3_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
 }
 
 void PS3BT::disconnect() { // Use this void to disconnect any of the controllers
-        //First the HID interrupt channel has to be disconencted, then the HID control channel and finally the HCI connection
-        pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
+        // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
+        pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
 }

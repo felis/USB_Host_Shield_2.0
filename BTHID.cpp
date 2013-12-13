@@ -53,7 +53,7 @@ void BTHID::Reset() {
 
 void BTHID::disconnect() { // Use this void to disconnect any of the controllers
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
-        pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
+        pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
 }
