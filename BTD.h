@@ -71,9 +71,9 @@
 #define HCI_FLAG_CONNECT_EVENT          0x100
 
 /* Macros for HCI event flag tests */
-#define hci_check_flag(flag) (hci_event_flag & flag)
-#define hci_set_flag(flag) (hci_event_flag |= flag)
-#define hci_clear_flag(flag) (hci_event_flag &= ~flag)
+#define hci_check_flag(flag) (hci_event_flag & (flag))
+#define hci_set_flag(flag) (hci_event_flag |= (flag))
+#define hci_clear_flag(flag) (hci_event_flag &= ~(flag))
 
 /* HCI Events managed */
 #define EV_INQUIRY_COMPLETE                             0x01
@@ -157,9 +157,9 @@
 #define L2CAP_FLAG_DISCONNECT_RESPONSE                  0x00004000
 
 /* Macros for L2CAP event flag tests */
-#define l2cap_check_flag(flag) (l2cap_event_flag & flag)
-#define l2cap_set_flag(flag) (l2cap_event_flag |= flag)
-#define l2cap_clear_flag(flag) (l2cap_event_flag &= ~flag)
+#define l2cap_check_flag(flag) (l2cap_event_flag & (flag))
+#define l2cap_set_flag(flag) (l2cap_event_flag |= (flag))
+#define l2cap_clear_flag(flag) (l2cap_event_flag &= ~(flag))
 
 /* L2CAP signaling commands */
 #define L2CAP_CMD_COMMAND_REJECT        0x01
