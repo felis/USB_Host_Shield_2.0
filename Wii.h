@@ -30,9 +30,9 @@
 #define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
 #define WII_FLAG_NUNCHUCK_CONNECTED     0x02
 
-#define wii_check_flag(flag)  (wii_event_flag & flag)
-#define wii_set_flag(flag)  (wii_event_flag |= flag)
-#define wii_clear_flag(flag)  (wii_event_flag &= ~flag)
+#define wii_check_flag(flag)  (wii_event_flag & (flag))
+#define wii_set_flag(flag)  (wii_event_flag |= (flag))
+#define wii_clear_flag(flag)  (wii_event_flag &= ~(flag))
 
 /** Enum used to read the joystick on the Nunchuck. */
 enum Hat {
