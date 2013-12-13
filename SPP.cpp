@@ -151,12 +151,10 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
                                         //Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
-                                        identifier = l2capinbuf[9];
-                                        l2cap_set_flag(L2CAP_FLAG_CONFIG_SDP_REQUEST);
+                                        pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], sdp_scid);
                                 } else if (l2capinbuf[12] == rfcomm_dcid[0] && l2capinbuf[13] == rfcomm_dcid[1]) {
                                         //Notify(PSTR("\r\nRFCOMM Configuration Request"), 0x80);
-                                        identifier = l2capinbuf[9];
-                                        l2cap_set_flag(L2CAP_FLAG_CONFIG_RFCOMM_REQUEST);
+                                        pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], rfcomm_scid);
                                 }
                         } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
                                 if (l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
@@ -403,7 +401,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                                         connected = true; // The RFCOMM channel is now established
                                         sppIndex = 0;
                                 }
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                 else if (rfcommChannelType != RFCOMM_DISC) {
                                         Notify(PSTR("\r\nUnsupported RFCOMM Data - ChannelType: "), 0x80);
                                         D_PrintHex<uint8_t > (rfcommChannelType, 0x80);
@@ -453,16 +451,6 @@ void SPP::SDP_task() {
                                 identifier++;
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, sdp_scid);
-                                l2cap_sdp_state = L2CAP_SDP_REQUEST;
-                        }
-                        break;
-                case L2CAP_SDP_REQUEST:
-                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_SDP_REQUEST)) {
-                                l2cap_clear_flag(L2CAP_FLAG_CONFIG_SDP_REQUEST); // Clear flag
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
-#endif
-                                pBtd->l2cap_config_response(hci_handle, identifier, sdp_scid);
                                 l2cap_sdp_state = L2CAP_SDP_SUCCESS;
                         }
                         break;
@@ -520,16 +508,6 @@ void SPP::RFCOMM_task() {
                                 identifier++;
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, rfcomm_scid);
-                                l2cap_rfcomm_state = L2CAP_RFCOMM_REQUEST;
-                        }
-                        break;
-                case L2CAP_RFCOMM_REQUEST:
-                        if (l2cap_check_flag(L2CAP_FLAG_CONFIG_RFCOMM_REQUEST)) {
-                                l2cap_clear_flag(L2CAP_FLAG_CONFIG_RFCOMM_REQUEST); // Clear flag
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nRFCOMM Configuration Request"), 0x80);
-#endif
-                                pBtd->l2cap_config_response(hci_handle, identifier, rfcomm_scid);
                                 l2cap_rfcomm_state = L2CAP_RFCOMM_SUCCESS;
                         }
                         break;

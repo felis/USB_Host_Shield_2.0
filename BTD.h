@@ -30,7 +30,7 @@
 #define IOGEAR_GBU521_PID       0x21E8
 
 /* Bluetooth dongle data taken from descriptors */
-#define BULK_MAXPKTSIZE         64 // max size for ACL data
+#define BULK_MAXPKTSIZE         64 // Max size for ACL data
 
 // Used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
@@ -117,16 +117,15 @@
 
 /* Used for SDP channel */
 #define L2CAP_SDP_WAIT                  10
-#define L2CAP_SDP_REQUEST               11
 #define L2CAP_SDP_SUCCESS               12
 #define L2CAP_SDP_DONE                  13
-#define L2CAP_DISCONNECT_RESPONSE       14
 
 /* Used for RFCOMM channel */
 #define L2CAP_RFCOMM_WAIT               15
-#define L2CAP_RFCOMM_REQUEST            16
 #define L2CAP_RFCOMM_SUCCESS            17
 #define L2CAP_RFCOMM_DONE               18
+
+#define L2CAP_DISCONNECT_RESPONSE       14 // Used for both SDP and RFCOMM channel
 
 /* Bluetooth states used by some drivers */
 #define TURN_ON_LED                     19
@@ -149,13 +148,11 @@
 
 /* L2CAP event flags for SDP channel */
 #define L2CAP_FLAG_CONNECTION_SDP_REQUEST               0x00000100
-#define L2CAP_FLAG_CONFIG_SDP_REQUEST                   0x00000200
 #define L2CAP_FLAG_CONFIG_SDP_SUCCESS                   0x00000400
 #define L2CAP_FLAG_DISCONNECT_SDP_REQUEST               0x00000800
 
 /* L2CAP event flags for RFCOMM channel */
 #define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST            0x00001000
-#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST                0x00002000
 #define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS                0x00004000
 #define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST            0x00008000
 
