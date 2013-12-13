@@ -118,14 +118,12 @@
 /* Used for SDP channel */
 #define L2CAP_SDP_WAIT                  10
 #define L2CAP_SDP_SUCCESS               11
-#define L2CAP_SDP_DONE                  12
 
 /* Used for RFCOMM channel */
-#define L2CAP_RFCOMM_WAIT               13
-#define L2CAP_RFCOMM_SUCCESS            14
-#define L2CAP_RFCOMM_DONE               15
+#define L2CAP_RFCOMM_WAIT               12
+#define L2CAP_RFCOMM_SUCCESS            13
 
-#define L2CAP_DISCONNECT_RESPONSE       16 // Used for both SDP and RFCOMM channel
+#define L2CAP_DISCONNECT_RESPONSE       14 // Used for both SDP and RFCOMM channel
 
 /* Bluetooth states used by some drivers */
 #define TURN_ON_LED                     17

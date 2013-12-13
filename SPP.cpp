@@ -452,6 +452,13 @@ void SPP::SDP_task() {
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, sdp_scid);
                                 l2cap_sdp_state = L2CAP_SDP_SUCCESS;
+                        } else if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_SDP_REQUEST)) {
+                                l2cap_clear_flag(L2CAP_FLAG_DISCONNECT_SDP_REQUEST); // Clear flag
+                                SDPConnected = false;
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nDisconnected SDP Channel"), 0x80);
+#endif
+                                pBtd->l2cap_disconnection_response(hci_handle, identifier, sdp_dcid, sdp_scid);
                         }
                         break;
                 case L2CAP_SDP_SUCCESS:
@@ -462,33 +469,18 @@ void SPP::SDP_task() {
 #endif
                                 firstMessage = true; // Reset bool
                                 SDPConnected = true;
-                                l2cap_sdp_state = L2CAP_SDP_DONE;
+                                l2cap_sdp_state = L2CAP_SDP_WAIT;
                         }
                         break;
-                case L2CAP_SDP_DONE:
-                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_SDP_REQUEST)) {
-                                l2cap_clear_flag(L2CAP_FLAG_DISCONNECT_SDP_REQUEST); // Clear flag
-                                SDPConnected = false;
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nDisconnected SDP Channel"), 0x80);
-#endif
-                                pBtd->l2cap_disconnection_response(hci_handle, identifier, sdp_dcid, sdp_scid);
-                                l2cap_sdp_state = L2CAP_SDP_WAIT;
-                        } else if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_SDP_REQUEST))
-                                l2cap_rfcomm_state = L2CAP_SDP_WAIT;
-                        break;
+
                 case L2CAP_DISCONNECT_RESPONSE: // This is for both disconnection response from the RFCOMM and SDP channel if they were connected
                         if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected L2CAP Connection"), 0x80);
 #endif
-                                RFCOMMConnected = false;
-                                SDPConnected = false;
                                 pBtd->hci_disconnect(hci_handle);
                                 hci_handle = -1; // Reset handle
-                                l2cap_event_flag = 0; // Reset flags
-                                l2cap_sdp_state = L2CAP_SDP_WAIT;
-                                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
+                                Reset();
                         }
                         break;
         }
@@ -509,6 +501,14 @@ void SPP::RFCOMM_task() {
                                 delay(1);
                                 pBtd->l2cap_config_request(hci_handle, identifier, rfcomm_scid);
                                 l2cap_rfcomm_state = L2CAP_RFCOMM_SUCCESS;
+                        } else if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)) {
+                                l2cap_clear_flag(L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST); // Clear flag
+                                RFCOMMConnected = false;
+                                connected = false;
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nDisconnected RFCOMM Channel"), 0x80);
+#endif
+                                pBtd->l2cap_disconnection_response(hci_handle, identifier, rfcomm_dcid, rfcomm_scid);
                         }
                         break;
                 case L2CAP_RFCOMM_SUCCESS:
@@ -520,21 +520,8 @@ void SPP::RFCOMM_task() {
                                 rfcommAvailable = 0; // Reset number of bytes available
                                 bytesRead = 0; // Reset number of bytes received
                                 RFCOMMConnected = true;
-                                l2cap_rfcomm_state = L2CAP_RFCOMM_DONE;
+                                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
                         }
-                        break;
-                case L2CAP_RFCOMM_DONE:
-                        if (l2cap_check_flag(L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST)) {
-                                l2cap_clear_flag(L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST); // Clear flag
-                                RFCOMMConnected = false;
-                                connected = false;
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nDisconnected RFCOMM Channel"), 0x80);
-#endif
-                                pBtd->l2cap_disconnection_response(hci_handle, identifier, rfcomm_dcid, rfcomm_scid);
-                                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
-                        } else if (l2cap_check_flag(L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST))
-                                l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
                         break;
         }
 }
@@ -719,10 +706,11 @@ uint8_t SPP::crc(uint8_t *data) {
 
 /* Calculate FCS */
 uint8_t SPP::calcFcs(uint8_t *data) {
+		uint8_t temp = crc(data);
         if ((data[1] & 0xEF) == RFCOMM_UIH)
-                return (0xFF - crc(data)); // FCS on 2 bytes
+                return (0xFF - temp); // FCS on 2 bytes
         else
-                return (0xFF - pgm_read_byte(&rfcomm_crc_table[crc(data) ^ data[2]])); // FCS on 3 bytes
+                return (0xFF - pgm_read_byte(&rfcomm_crc_table[temp ^ data[2]])); // FCS on 3 bytes
 }
 
 /* Check FCS */
