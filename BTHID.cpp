@@ -31,9 +31,7 @@ protocolMode(HID_BOOT_PROTOCOL)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
 
         pBtd->pairWithHIDDevice = pair;
-
-        if (pair)
-                pBtd->btdPin= pin;
+        pBtd->btdPin= pin;
 
         /* Set device cid for the control and intterrupt channelse - LSB */
         control_dcid[0] = 0x70; // 0x0070
