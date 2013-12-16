@@ -706,7 +706,7 @@ uint8_t SPP::crc(uint8_t *data) {
 
 /* Calculate FCS */
 uint8_t SPP::calcFcs(uint8_t *data) {
-		uint8_t temp = crc(data);
+        uint8_t temp = crc(data);
         if ((data[1] & 0xEF) == RFCOMM_UIH)
                 return (0xFF - temp); // FCS on 2 bytes
         else
