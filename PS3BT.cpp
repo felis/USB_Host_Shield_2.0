@@ -162,48 +162,48 @@ bool PS3BT::getStatus(Status c) {
 
 String PS3BT::getStatusString() {
         if (PS3Connected || PS3NavigationConnected) {
-                char statusOutput[100];
+                char statusOutput[100]; // Max string length plus null character
 
-                strcpy(statusOutput, "ConnectionStatus: ");
+                strcpy_P(statusOutput, PSTR("ConnectionStatus: "));
 
-                if (getStatus(Plugged)) strcat(statusOutput, "Plugged");
-                else if (getStatus(Unplugged)) strcat(statusOutput, "Unplugged");
-                else strcat(statusOutput, "Error");
+                if (getStatus(Plugged)) strcat_P(statusOutput, PSTR("Plugged"));
+                else if (getStatus(Unplugged)) strcat_P(statusOutput, PSTR("Unplugged"));
+                else strcat_P(statusOutput, PSTR("Error"));
 
 
-                strcat(statusOutput, " - PowerRating: ");
-                if (getStatus(Charging)) strcat(statusOutput, "Charging");
-                else if (getStatus(NotCharging)) strcat(statusOutput, "Not Charging");
-                else if (getStatus(Shutdown)) strcat(statusOutput, "Shutdown");
-                else if (getStatus(Dying)) strcat(statusOutput, "Dying");
-                else if (getStatus(Low)) strcat(statusOutput, "Low");
-                else if (getStatus(High)) strcat(statusOutput, "High");
-                else if (getStatus(Full)) strcat(statusOutput, "Full");
-                else strcat(statusOutput, "Error");
+                strcat_P(statusOutput, PSTR(" - PowerRating: "));
+                if (getStatus(Charging)) strcat_P(statusOutput, PSTR("Charging"));
+                else if (getStatus(NotCharging)) strcat_P(statusOutput, PSTR("Not Charging"));
+                else if (getStatus(Shutdown)) strcat_P(statusOutput, PSTR("Shutdown"));
+                else if (getStatus(Dying)) strcat_P(statusOutput, PSTR("Dying"));
+                else if (getStatus(Low)) strcat_P(statusOutput, PSTR("Low"));
+                else if (getStatus(High)) strcat_P(statusOutput, PSTR("High"));
+                else if (getStatus(Full)) strcat_P(statusOutput, PSTR("Full"));
+                else strcat_P(statusOutput, PSTR("Error"));
 
-                strcat(statusOutput, " - WirelessStatus: ");
+                strcat_P(statusOutput, PSTR(" - WirelessStatus: "));
 
-                if (getStatus(CableRumble)) strcat(statusOutput, "Cable - Rumble is on");
-                else if (getStatus(Cable)) strcat(statusOutput, "Cable - Rumble is off");
-                else if (getStatus(BluetoothRumble)) strcat(statusOutput, "Bluetooth - Rumble is on");
-                else if (getStatus(Bluetooth)) strcat(statusOutput, "Bluetooth - Rumble is off");
-                else strcat(statusOutput, "Error");
+                if (getStatus(CableRumble)) strcat_P(statusOutput, PSTR("Cable - Rumble is on"));
+                else if (getStatus(Cable)) strcat_P(statusOutput, PSTR("Cable - Rumble is off"));
+                else if (getStatus(BluetoothRumble)) strcat_P(statusOutput, PSTR("Bluetooth - Rumble is on"));
+                else if (getStatus(Bluetooth)) strcat_P(statusOutput, PSTR("Bluetooth - Rumble is off"));
+                else strcat_P(statusOutput, PSTR("Error"));
 
                 return statusOutput;
 
         } else if (PS3MoveConnected) {
-                char statusOutput[50];
+                char statusOutput[26]; // Max string length plus null character
 
-                strcpy(statusOutput, "PowerRating: ");
+                strcpy_P(statusOutput, PSTR("PowerRating: "));
 
-                if (getStatus(MoveCharging)) strcat(statusOutput, "Charging");
-                else if (getStatus(MoveNotCharging)) strcat(statusOutput, "Not Charging");
-                else if (getStatus(MoveShutdown)) strcat(statusOutput, "Shutdown");
-                else if (getStatus(MoveDying)) strcat(statusOutput, "Dying");
-                else if (getStatus(MoveLow)) strcat(statusOutput, "Low");
-                else if (getStatus(MoveHigh)) strcat(statusOutput, "High");
-                else if (getStatus(MoveFull)) strcat(statusOutput, "Full");
-                else strcat(statusOutput, "Error");
+                if (getStatus(MoveCharging)) strcat_P(statusOutput, PSTR("Charging"));
+                else if (getStatus(MoveNotCharging)) strcat_P(statusOutput, PSTR("Not Charging"));
+                else if (getStatus(MoveShutdown)) strcat_P(statusOutput, PSTR("Shutdown"));
+                else if (getStatus(MoveDying)) strcat_P(statusOutput, PSTR("Dying"));
+                else if (getStatus(MoveLow)) strcat_P(statusOutput, PSTR("Low"));
+                else if (getStatus(MoveHigh)) strcat_P(statusOutput, PSTR("High"));
+                else if (getStatus(MoveFull)) strcat_P(statusOutput, PSTR("Full"));
+                else strcat_P(statusOutput, PSTR("Error"));
 
                 return statusOutput;
         } else
