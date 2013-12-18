@@ -31,9 +31,7 @@ protocolMode(HID_BOOT_PROTOCOL)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
 
         pBtd->pairWithHIDDevice = pair;
-
-        if (pair)
-                pBtd->btdPin= pin;
+        pBtd->btdPin= pin;
 
         /* Set device cid for the control and intterrupt channelse - LSB */
         control_dcid[0] = 0x70; // 0x0070
@@ -53,7 +51,7 @@ void BTHID::Reset() {
 
 void BTHID::disconnect() { // Use this void to disconnect any of the controllers
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
-        pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
+        pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
 }
@@ -203,13 +201,6 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                                         uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
                                                         pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 }
-                                                break;
-
-                                        case 0x03:
-#ifdef DEBUG_USB_HOST
-                                                Notify(PSTR("\r\nChange mode event: "), 0x80);
-                                                D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
-#endif
                                                 break;
 #ifdef DEBUG_USB_HOST
                                         default:

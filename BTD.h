@@ -30,7 +30,7 @@
 #define IOGEAR_GBU521_PID       0x21E8
 
 /* Bluetooth dongle data taken from descriptors */
-#define BULK_MAXPKTSIZE         64 // max size for ACL data
+#define BULK_MAXPKTSIZE         64 // Max size for ACL data
 
 // Used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
@@ -71,9 +71,9 @@
 #define HCI_FLAG_CONNECT_EVENT          0x100
 
 /* Macros for HCI event flag tests */
-#define hci_check_flag(flag) (hci_event_flag & flag)
-#define hci_set_flag(flag) (hci_event_flag |= flag)
-#define hci_clear_flag(flag) (hci_event_flag &= ~flag)
+#define hci_check_flag(flag) (hci_event_flag & (flag))
+#define hci_set_flag(flag) (hci_event_flag |= (flag))
+#define hci_clear_flag(flag) (hci_event_flag &= ~(flag))
 
 /* HCI Events managed */
 #define EV_INQUIRY_COMPLETE                             0x01
@@ -117,23 +117,20 @@
 
 /* Used for SDP channel */
 #define L2CAP_SDP_WAIT                  10
-#define L2CAP_SDP_REQUEST               11
-#define L2CAP_SDP_SUCCESS               12
-#define L2CAP_SDP_DONE                  13
-#define L2CAP_DISCONNECT_RESPONSE       14
+#define L2CAP_SDP_SUCCESS               11
 
 /* Used for RFCOMM channel */
-#define L2CAP_RFCOMM_WAIT               15
-#define L2CAP_RFCOMM_REQUEST            16
-#define L2CAP_RFCOMM_SUCCESS            17
-#define L2CAP_RFCOMM_DONE               18
+#define L2CAP_RFCOMM_WAIT               12
+#define L2CAP_RFCOMM_SUCCESS            13
+
+#define L2CAP_DISCONNECT_RESPONSE       14 // Used for both SDP and RFCOMM channel
 
 /* Bluetooth states used by some drivers */
-#define TURN_ON_LED                     19
-#define PS3_ENABLE_SIXAXIS              20
-#define WII_CHECK_MOTION_PLUS_STATE     21
-#define WII_CHECK_EXTENSION_STATE       22
-#define WII_INIT_MOTION_PLUS_STATE      23
+#define TURN_ON_LED                     17
+#define PS3_ENABLE_SIXAXIS              18
+#define WII_CHECK_MOTION_PLUS_STATE     19
+#define WII_CHECK_EXTENSION_STATE       20
+#define WII_INIT_MOTION_PLUS_STATE      21
 
 /* L2CAP event flags for HID Control channel */
 #define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST           0x00000001
@@ -149,22 +146,20 @@
 
 /* L2CAP event flags for SDP channel */
 #define L2CAP_FLAG_CONNECTION_SDP_REQUEST               0x00000100
-#define L2CAP_FLAG_CONFIG_SDP_REQUEST                   0x00000200
-#define L2CAP_FLAG_CONFIG_SDP_SUCCESS                   0x00000400
-#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST               0x00000800
+#define L2CAP_FLAG_CONFIG_SDP_SUCCESS                   0x00000200
+#define L2CAP_FLAG_DISCONNECT_SDP_REQUEST               0x00000400
 
 /* L2CAP event flags for RFCOMM channel */
-#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST            0x00001000
-#define L2CAP_FLAG_CONFIG_RFCOMM_REQUEST                0x00002000
-#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS                0x00004000
-#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST            0x00008000
+#define L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST            0x00000800
+#define L2CAP_FLAG_CONFIG_RFCOMM_SUCCESS                0x00001000
+#define L2CAP_FLAG_DISCONNECT_RFCOMM_REQUEST            0x00002000
 
-#define L2CAP_FLAG_DISCONNECT_RESPONSE                  0x00010000
+#define L2CAP_FLAG_DISCONNECT_RESPONSE                  0x00004000
 
 /* Macros for L2CAP event flag tests */
-#define l2cap_check_flag(flag) (l2cap_event_flag & flag)
-#define l2cap_set_flag(flag) (l2cap_event_flag |= flag)
-#define l2cap_clear_flag(flag) (l2cap_event_flag &= ~flag)
+#define l2cap_check_flag(flag) (l2cap_event_flag & (flag))
+#define l2cap_set_flag(flag) (l2cap_event_flag |= (flag))
+#define l2cap_clear_flag(flag) (l2cap_event_flag &= ~(flag))
 
 /* L2CAP signaling commands */
 #define L2CAP_CMD_COMMAND_REJECT        0x01
