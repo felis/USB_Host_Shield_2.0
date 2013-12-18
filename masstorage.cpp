@@ -489,11 +489,11 @@ FailGetMaxLUN:
         goto Fail;
 #endif
 
-#ifdef DEBUG_USB_HOST
-FailInvalidSectorSize:
-        USBTRACE("Sector Size is NOT VALID: ");
-        goto Fail;
-#endif
+//#ifdef DEBUG_USB_HOST
+//FailInvalidSectorSize:
+//        USBTRACE("Sector Size is NOT VALID: ");
+//        goto Fail;
+//#endif
 
 FailSetDevTblEntry:
 #ifdef DEBUG_USB_HOST

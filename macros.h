@@ -64,6 +64,7 @@
  */
 #define USBTRACE(s) (Notify(PSTR(s), 0x80))
 #define USBTRACE2(s,r) (Notify(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR("\r\n"), 0x80))
+#define USBTRACE3(s,r,l) (Notify(PSTR(s), l), D_PrintHex((r), l), Notify(PSTR("\r\n"), l))
 
 
 #endif	/* MACROS_H */

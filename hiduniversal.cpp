@@ -360,7 +360,7 @@ uint8_t HIDUniversal::Poll() {
 
                         if (rcode) {
                                 if (rcode != hrNAK)
-                                        USBTRACE2("Poll:", rcode);
+                                        USBTRACE3("(hiduniversal.h) Poll:", rcode, 0x81);
                                 return rcode;
                         }
 

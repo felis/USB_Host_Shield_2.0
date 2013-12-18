@@ -62,7 +62,7 @@ struct UsbDeviceAddress {
                         uint8_t bmAddress : 3; // device address/port number
                         uint8_t bmParent : 3; // parent hub address
                         uint8_t bmHub : 1; // hub flag
-                        uint8_t bmReserved : 1; // reserved, must be zerro
+                        uint8_t bmReserved : 1; // reserved, must be zero
                 } __attribute__((packed));
                 uint8_t devAddress;
         };
@@ -74,7 +74,7 @@ struct UsbDeviceAddress {
 
 struct UsbDevice {
         EpInfo *epinfo; // endpoint info pointer
-        uint8_t address; // address
+        UsbDeviceAddress address;
         uint8_t epcount; // number of endpoints
         bool lowspeed; // indicates if a device is the low speed one
         //	uint8_t			devclass;		// device class
@@ -104,50 +104,50 @@ class AddressPoolImpl : public AddressPool {
         // Initializes address pool entry
 
         void InitEntry(uint8_t index) {
-                thePool[index].address = 0;
+                thePool[index].address.devAddress = 0;
                 thePool[index].epcount = 1;
                 thePool[index].lowspeed = 0;
                 thePool[index].epinfo = &dev0ep;
         };
-        // Returns thePool index for a given address
 
+        // Returns thePool index for a given address
         uint8_t FindAddressIndex(uint8_t address = 0) {
                 for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++) {
-                        if(thePool[i].address == address)
+                        if(thePool[i].address.devAddress == address)
                                 return i;
                 }
                 return 0;
         };
-        // Returns thePool child index for a given parent
 
+        // Returns thePool child index for a given parent
         uint8_t FindChildIndex(UsbDeviceAddress addr, uint8_t start = 1) {
                 for(uint8_t i = (start < 1 || start >= MAX_DEVICES_ALLOWED) ? 1 : start; i < MAX_DEVICES_ALLOWED; i++) {
-                        UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(&thePool[i].address);
-                        if(uda->bmParent == addr.bmAddress)
+                        if(thePool[i].address.bmParent == addr.bmAddress)
                                 return i;
                 }
                 return 0;
         };
-        // Frees address entry specified by index parameter
 
+        // Frees address entry specified by index parameter
         void FreeAddressByIndex(uint8_t index) {
-                // Zerro field is reserved and should not be affected
+                // Zero field is reserved and should not be affected
                 if(index == 0)
                         return;
-                UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(& thePool[index].address);
+
+                UsbDeviceAddress uda = thePool[index].address;
                 // If a hub was switched off all port addresses should be freed
-                if(uda->bmHub == 1) {
-                        for(uint8_t i = 1; (i = FindChildIndex(*uda, i));)
+                if(uda.bmHub == 1) {
+                        for(uint8_t i = 1; (i = FindChildIndex(uda, i));)
                                 FreeAddressByIndex(i);
 
                         // If the hub had the last allocated address, hubCounter should be decremented
-                        if(hubCounter == uda->bmAddress)
+                        if(hubCounter == uda.bmAddress)
                                 hubCounter--;
                 }
                 InitEntry(index);
         }
-        // Initializes the whole address pool at once
 
+        // Initializes the whole address pool at once
         void InitAllAddresses() {
                 for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
                         InitEntry(i);
@@ -161,7 +161,7 @@ public:
                 // Zero address is reserved
                 InitEntry(0);
 
-                thePool[0].address = 0;
+                thePool[0].address.devAddress = 0;
                 thePool[0].epinfo = &dev0ep;
                 dev0ep.epAddr = 0;
                 dev0ep.maxPktSize = 8;
@@ -170,8 +170,8 @@ public:
 
                 InitAllAddresses();
         };
-        // Returns a pointer to a specified address entry
 
+        // Returns a pointer to a specified address entry
         virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) {
                 if(!addr)
                         return thePool;
@@ -182,22 +182,23 @@ public:
         };
 
         // Performs an operation specified by pfunc for each addressed device
-
         void ForEachUsbDevice(UsbDeviceHandleFunc pfunc) {
                 if(!pfunc)
                         return;
 
                 for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
-                        if(thePool[i].address)
+                        if(thePool[i].address.devAddress)
                                 pfunc(thePool + i);
         };
-        // Allocates new address
 
+        // Allocates new address
         virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) {
                 /* if (parent != 0 && port == 0)
                         USB_HOST_SERIAL.println("PRT:0"); */
-
-                if(parent > 127 || port > 7)
+                UsbDeviceAddress _parent;
+                _parent.devAddress = parent;
+                if(_parent.bmReserved || port > 7)
+                //if(parent > 127 || port > 7)
                         return 0;
 
                 if(is_hub && hubCounter == 7)
@@ -209,22 +210,19 @@ public:
                 if(!index) // if empty entry is not found
                         return 0;
 
-                if(parent == 0) {
+                if(_parent.devAddress == 0) {
                         if(is_hub) {
-                                thePool[index].address = 0x41;
+                                thePool[index].address.devAddress = 0x41;
                                 hubCounter++;
                         } else
-                                thePool[index].address = 1;
+                                thePool[index].address.devAddress = 1;
 
-                        return thePool[index].address;
+                        return thePool[index].address.devAddress;
                 }
 
                 UsbDeviceAddress addr;
                 addr.devAddress = 0; // Ensure all bits are zero
-                UsbDeviceAddress* uda = reinterpret_cast<UsbDeviceAddress *>(&parent);
-                //addr.bmParent = ((UsbDeviceAddress*) & parent)->bmAddress;
-                addr.bmParent = uda->bmAddress;
-
+                addr.bmParent = _parent.bmAddress;
                 if(is_hub) {
                         addr.bmHub = 1;
                         addr.bmAddress = ++hubCounter;
@@ -232,9 +230,7 @@ public:
                         addr.bmHub = 0;
                         addr.bmAddress = port;
                 }
-                uint8_t* uaddr = reinterpret_cast<uint8_t*>(&addr);
-                //thePool[index].address = *((uint8_t*) & addr);
-                thePool[index].address = *uaddr;
+                thePool[index].address = addr;
                 /*
                                 USB_HOST_SERIAL.print("Addr:");
                                 USB_HOST_SERIAL.print(addr.bmHub, HEX);
@@ -243,10 +239,10 @@ public:
                                 USB_HOST_SERIAL.print(".");
                                 USB_HOST_SERIAL.println(addr.bmAddress, HEX);
                  */
-                return thePool[index].address;
+                return thePool[index].address.devAddress;
         };
-        // Empties pool entry
 
+        // Empties pool entry
         virtual void FreeAddress(uint8_t addr) {
                 // if the root hub is disconnected all the addresses should be initialized
                 if(addr == 0x41) {
@@ -256,6 +252,7 @@ public:
                 uint8_t index = FindAddressIndex(addr);
                 FreeAddressByIndex(index);
         };
+
         // Returns number of hubs attached
         // It can be rather helpfull to find out if there are hubs attached than getting the exact number of hubs.
         //uint8_t GetNumHubs()

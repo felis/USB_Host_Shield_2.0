@@ -97,8 +97,8 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         }
                 }
         }
-        if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000))) { // acl_handle_ok
-                if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
+        if (((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000U))) { // acl_handle_ok
+                if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { //l2cap_control - Channel ID for ACL-U
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);

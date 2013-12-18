@@ -372,9 +372,9 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 }
         }
 
-        USBTRACE2("\r\nbAddr:", bAddress);
-        USBTRACE2("\r\nbNumEP:", bNumEP);
-        USBTRACE2("\r\ntotalEndpoints:", totalEndpoints);
+        USBTRACE2("bAddr:", bAddress);
+        USBTRACE2("bNumEP:", bNumEP);
+        USBTRACE2("totalEndpoints:", totalEndpoints);
         if(bNumEP != totalEndpoints) {
                 rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
                 goto Fail;
@@ -382,8 +382,8 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
-
-        USBTRACE2("\r\nCnf:", bConfNum);
+        USBTRACE2("setEpInfoEntry returned ", rcode);
+        USBTRACE2("Cnf:", bConfNum);
 
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -391,7 +391,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         if(rcode)
                 goto FailSetConfDescr;
 
-        USBTRACE2("\r\nIf:", bIfaceNum);
+        USBTRACE2("If:", bIfaceNum);
 
         rcode = SetProtocol(bIfaceNum, HID_BOOT_PROTOCOL);
 
@@ -422,11 +422,11 @@ FailSetDevTblEntry:
         goto Fail;
 #endif
 
-FailGetConfDescr:
-#ifdef DEBUG_USB_HOST
-        NotifyFailGetConfDescr();
-        goto Fail;
-#endif
+//FailGetConfDescr:
+//#ifdef DEBUG_USB_HOST
+//        NotifyFailGetConfDescr();
+//        goto Fail;
+//#endif
 
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
@@ -503,7 +503,9 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
                         const uint8_t const_buff_len = 16;
                         uint8_t buf[const_buff_len];
 
-
+                        USBTRACE3("(hidboot.h) i=", i, 0x81);
+                        USBTRACE3("(hidboot.h) epInfo[epInterruptInIndex + i].epAddr=", epInfo[epInterruptInIndex + i].epAddr, 0x81);
+                        USBTRACE3("(hidboot.h) epInfo[epInterruptInIndex + i].maxPktSize=", epInfo[epInterruptInIndex + i].maxPktSize, 0x81);
                         uint16_t read = (uint16_t) epInfo[epInterruptInIndex + i].maxPktSize;
 
                         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &read, buf);
@@ -521,7 +523,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
 #endif
                         } else {
                                 if(rcode != hrNAK) {
-                                        USBTRACE2("Poll:", rcode);
+                                        USBTRACE3("(hidboot.h) Poll:", rcode, 0x81);
                                         break;
                                 }
                         }

@@ -70,7 +70,7 @@ uint8_t USB::setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr)
         if (!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        p->address = addr;
+        p->address.devAddress = addr;
         p->epinfo = eprecord_ptr;
         p->epcount = epcount;
 
@@ -210,7 +210,9 @@ uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* 
         uint8_t rcode = SetAddress(addr, ep, &pep, nak_limit);
 
         if (rcode) {
-                //printf("SetAddress Failed");
+                USBTRACE3("(USB::InTransfer) SetAddress Failed ", rcode, 0x81);
+                USBTRACE3("(USB::InTransfer) addr requested ", addr, 0x81);
+                USBTRACE3("(USB::InTransfer) ep requested ", ep, 0x81);
                 return rcode;
         }
         return InTransfer(pep, nak_limit, nbytesptr, data);
