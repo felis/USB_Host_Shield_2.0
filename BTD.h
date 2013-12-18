@@ -39,25 +39,25 @@
 #define HID_REQUEST_SET_REPORT      0x09
 
 /* Bluetooth HCI states for hci_task() */
-#define HCI_INIT_STATE          0
-#define HCI_RESET_STATE         1
-#define HCI_CLASS_STATE         2
-#define HCI_BDADDR_STATE        3
-#define HCI_LOCAL_VERSION_STATE 4
-#define HCI_SET_NAME_STATE      5
-#define HCI_CHECK_WII_SERVICE   6
+#define HCI_INIT_STATE                  0
+#define HCI_RESET_STATE                 1
+#define HCI_CLASS_STATE                 2
+#define HCI_BDADDR_STATE                3
+#define HCI_LOCAL_VERSION_STATE         4
+#define HCI_SET_NAME_STATE              5
+#define HCI_CHECK_DEVICE_SERVICE        6
 
-#define HCI_INQUIRY_STATE       7 // These three states are only used if it should pair and connect to a Wii controller
-#define HCI_CONNECT_WII_STATE   8
-#define HCI_CONNECTED_WII_STATE 9
+#define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a Wii controller
+#define HCI_CONNECT_DEVICE_STATE        8
+#define HCI_CONNECTED_DEVICE_STATE      9
 
-#define HCI_SCANNING_STATE      10
-#define HCI_CONNECT_IN_STATE    11
-#define HCI_REMOTE_NAME_STATE   12
-#define HCI_CONNECTED_STATE     13
-#define HCI_DISABLE_SCAN_STATE  14
-#define HCI_DONE_STATE          15
-#define HCI_DISCONNECT_STATE    16
+#define HCI_SCANNING_STATE              10
+#define HCI_CONNECT_IN_STATE            11
+#define HCI_REMOTE_NAME_STATE           12
+#define HCI_CONNECTED_STATE             13
+#define HCI_DISABLE_SCAN_STATE          14
+#define HCI_DONE_STATE                  15
+#define HCI_DISCONNECT_STATE            16
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           0x01
@@ -67,7 +67,7 @@
 #define HCI_FLAG_INCOMING_REQUEST       0x10
 #define HCI_FLAG_READ_BDADDR            0x20
 #define HCI_FLAG_READ_VERSION           0x40
-#define HCI_FLAG_WII_FOUND              0x80
+#define HCI_FLAG_DEVICE_FOUND           0x80
 #define HCI_FLAG_CONNECT_EVENT          0x100
 
 /*Macros for HCI event flag tests */
@@ -78,7 +78,7 @@
 #define hci_incoming_connect_request (hci_event_flag & HCI_FLAG_INCOMING_REQUEST)
 #define hci_read_bdaddr_complete (hci_event_flag & HCI_FLAG_READ_BDADDR)
 #define hci_read_version_complete (hci_event_flag & HCI_FLAG_READ_VERSION)
-#define hci_wii_found (hci_event_flag & HCI_FLAG_WII_FOUND)
+#define hci_device_found (hci_event_flag & HCI_FLAG_DEVICE_FOUND)
 #define hci_connect_event (hci_event_flag & HCI_FLAG_CONNECT_EVENT)
 
 /* HCI Events managed */
@@ -132,6 +132,8 @@
 
 #define BTD_MAX_ENDPOINTS   4
 #define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than four simply increase this number
+
+#define PAIR    1
 
 /** All Bluetooth services should include this class. */
 class BluetoothService {
@@ -219,7 +221,13 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == PS3_VID || vid == IOGEAR_GBU521_VID) && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID || pid == IOGEAR_GBU521_PID));
+                if (vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
+                        return true;
+                if (my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
+                        if (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
+                                return true;
+                }
+                return false;
         };
         /**@}*/
 
@@ -307,8 +315,13 @@ public:
         void hci_inquiry();
         /** Cancel a HCI inquiry. */
         void hci_inquiry_cancel();
-        /** Connect to a device. */
+        /** Connect to last device communicated with. */
         void hci_connect();
+        /**
+         * Connect to device.
+         * @param bdaddr Bluetooth address of the device.
+         */
+        void hci_connect(uint8_t *bdaddr);
         /** Used to a set the class of the device. */
         void hci_write_class_of_device();
         /**@}*/
@@ -411,18 +424,30 @@ public:
         /** Call this function to pair with a Wiimote */
         void pairWithWiimote() {
                 pairWithWii = true;
-                hci_state = HCI_CHECK_WII_SERVICE;
+                hci_state = HCI_CHECK_DEVICE_SERVICE;
         };
         /** Used to only send the ACL data to the wiimote. */
         bool connectToWii;
         /** True if a Wiimote is connecting. */
         bool incomingWii;
-        /** True when it should pair with the incoming Wiimote. */
+        /** True when it should pair with a Wiimote. */
         bool pairWithWii;
         /** True if it's the new Wiimote with the Motion Plus Inside or a Wii U Pro Controller. */
         bool motionPlusInside;
         /** True if it's a Wii U Pro Controller. */
         bool wiiUProController;
+
+        /** Call this function to pair with a Wiimote */
+        void pairWithHID() {
+                pairWithHIDDevice = true;
+                hci_state = HCI_CHECK_DEVICE_SERVICE;
+        };
+        /** Used to only send the ACL data to the wiimote. */
+        bool connectToHIDDevice;
+        /** True if a Wiimote is connecting. */
+        bool incomingHIDDevice;
+        /** True when it should pair with a device like a mouse or keyboard. */
+        bool pairWithHIDDevice;
 
         /**
          * Read the poll interval taken from the endpoint descriptors.
@@ -463,7 +488,7 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 private:
-        void clearAllVariables(); // Set all variables, endpoint structs etc. to default values
+        void Initialize(); // Set all variables, endpoint structs etc. to default values
         BluetoothService* btService[BTD_NUMSERVICES];
 
         uint16_t PID, VID; // PID and VID of device connected

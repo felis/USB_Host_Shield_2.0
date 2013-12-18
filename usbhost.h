@@ -22,8 +22,26 @@ e-mail   :  support@circuitsathome.com
 #else
 #define _USBHOST_H_
 
+#if USING_SPI4TEENSY3
+#include <spi4teensy3.h>
+#include <sys/types.h>
+#endif
+
 /* SPI initialization */
 template< typename CLK, typename MOSI, typename MISO, typename SPI_SS > class SPi {
+#if USING_SPI4TEENSY3
+public:
+
+        static void init() {
+                // spi4teensy3 inits everything for us, except /SS
+                // CLK, MOSI and MISO are hard coded for now.
+                // spi4teensy3::init(0,0,0); // full speed, cpol 0, cpha 0
+                spi4teensy3::init(); // full speed, cpol 0, cpha 0
+                SPI_SS::SetDirWrite();
+                SPI_SS::Set();
+        }
+
+#else
 public:
 
         static void init() {
@@ -39,6 +57,7 @@ public:
                 //tmp = SPSR;
                 //tmp = SPDR;
         }
+#endif
 };
 
 /* SPI pin definitions. see avrpins.h   */
@@ -93,7 +112,7 @@ template< typename SS, typename INTR >
 /* constructor */
 template< typename SS, typename INTR >
 MAX3421e< SS, INTR >::MAX3421e() {
-// Leaving ADK hardware setup in here, for now. This really belongs with the other parts.
+        // Leaving ADK hardware setup in here, for now. This really belongs with the other parts.
 #ifdef BOARD_MEGA_ADK
         // For Mega ADK, which has a Max3421e on-board, set MAX_RESET to output mode, and then set it to HIGH
         P55::SetDirWrite();
@@ -106,10 +125,17 @@ template< typename SS, typename INTR >
 void MAX3421e< SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         XMEM_ACQUIRE_SPI();
         SS::Clear();
+#if USING_SPI4TEENSY3
+        uint8_t c[2];
+        c[0] = reg | 0x02;
+        c[1] = data;
+        spi4teensy3::send(c, 2);
+#else
         SPDR = (reg | 0x02);
         while(!(SPSR & (1 << SPIF)));
         SPDR = data;
         while(!(SPSR & (1 << SPIF)));
+#endif
         SS::Set();
         XMEM_RELEASE_SPI();
         return;
@@ -121,6 +147,11 @@ template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         XMEM_ACQUIRE_SPI();
         SS::Clear();
+#if USING_SPI4TEENSY3
+        spi4teensy3::send(reg | 0x02);
+        spi4teensy3::send(data_p, nbytes);
+        data_p += nbytes;
+#else
         SPDR = (reg | 0x02); //set WR bit and send register number
         while(nbytes--) {
                 while(!(SPSR & (1 << SPIF))); //check if previous byte was sent
@@ -128,6 +159,7 @@ uint8_t* MAX3421e< SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* dat
                 data_p++; // advance data pointer
         }
         while(!(SPSR & (1 << SPIF)));
+#endif
         SS::Set();
         XMEM_RELEASE_SPI();
         return( data_p);
@@ -149,12 +181,18 @@ template< typename SS, typename INTR >
 uint8_t MAX3421e< SS, INTR >::regRd(uint8_t reg) {
         XMEM_ACQUIRE_SPI();
         SS::Clear();
+#if USING_SPI4TEENSY3
+        spi4teensy3::send(reg);
+        uint8_t rv = spi4teensy3::receive();
+        SS::Set();
+#else
         SPDR = reg;
         while(!(SPSR & (1 << SPIF)));
         SPDR = 0; //send empty byte
         while(!(SPSR & (1 << SPIF)));
         SS::Set();
         uint8_t rv = SPDR;
+#endif
         XMEM_RELEASE_SPI();
         return(rv);
 }
@@ -165,6 +203,11 @@ template< typename SS, typename INTR >
 uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         XMEM_ACQUIRE_SPI();
         SS::Clear();
+#if USING_SPI4TEENSY3
+        spi4teensy3::send(reg);
+        spi4teensy3::receive(data_p, nbytes);
+        data_p += nbytes;
+#else
         SPDR = reg;
         while(!(SPSR & (1 << SPIF))); //wait
         while(nbytes) {
@@ -182,6 +225,7 @@ uint8_t* MAX3421e< SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* dat
 #else
                 *data_p++ = SPDR;
         }
+#endif
 #endif
         SS::Set();
         XMEM_RELEASE_SPI();

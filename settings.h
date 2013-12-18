@@ -6,7 +6,7 @@
  */
 
 #ifndef USB_HOST_SHIELD_SETTINGS_H
-#define	USB_HOST_SHIELD_SETTINGS_H
+#define USB_HOST_SHIELD_SETTINGS_H
 #include "macros.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,14 @@
 #define MASS_MAX_SUPPORTED_LUN 8
 #endif
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Set to 1 to use the faster spi4teensy3 driver.
+////////////////////////////////////////////////////////////////////////////////
+#ifndef USE_SPI4TEENSY3
+#define USE_SPI4TEENSY3 1
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // AUTOMATIC Settings
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +82,12 @@
 #else
 #define XMEM_ACQUIRE_SPI() (void(0))
 #define XMEM_RELEASE_SPI() (void(0))
+#endif
+
+#ifdef __MK20DX128__
+#define USING_SPI4TEENSY3 USE_SPI4TEENSY3
+#else
+#define USING_SPI4TEENSY3 0
 #endif
 
 #endif	/* SETTINGS_H */

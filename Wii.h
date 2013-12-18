@@ -76,8 +76,6 @@
 #define motion_plus_connected_flag (l2cap_event_flag & WII_FLAG_MOTION_PLUS_CONNECTED)
 #define nunchuck_connected_flag (l2cap_event_flag & WII_FLAG_NUNCHUCK_CONNECTED)
 
-#define PAIR    1
-
 /** Enum used to read the joystick on the Nunchuck. */
 enum Hat {
         /** Read the x-axis on the Nunchuck joystick. */
@@ -191,6 +189,10 @@ public:
          * @param value See: ::LED enum.
          */
         void setLedRaw(uint8_t value);
+        /** Turn all LEDs off. */
+        void setLedOff() {
+                setLedRaw(0);
+        }
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.
@@ -210,9 +212,7 @@ public:
          * This will set the LEDs, so the user can see which connections are active.
          *
          * The first ::LED indicate that the Wiimote is connected,
-         *
          * the second ::LED indicate indicate that a Motion Plus is also connected
-         *
          * the third ::LED will indicate that a Nunchuck controller is also connected.
          */
         void setLedStatus();

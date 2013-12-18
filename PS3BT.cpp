@@ -16,7 +16,7 @@
  */
 
 #include "PS3BT.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
@@ -36,14 +36,14 @@ pBtd(p) // pointer to USB class instance - mandatory
         HIDBuffer[0] = 0x52; // HID BT Set_report (0x50) | Report Type (Output 0x02)
         HIDBuffer[1] = 0x01; // Report ID
 
-        //Needed for PS3 Move Controller commands to work via bluetooth
+        // Needed for PS3 Move Controller commands to work via bluetooth
         HIDMoveBuffer[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
         HIDMoveBuffer[1] = 0x02; // Report ID
 
         /* Set device cid for the control and intterrupt channelse - LSB */
-        control_dcid[0] = 0x40; //0x0040
+        control_dcid[0] = 0x40; // 0x0040
         control_dcid[1] = 0x00;
-        interrupt_dcid[0] = 0x41; //0x0041
+        interrupt_dcid[0] = 0x41; // 0x0041
         interrupt_dcid[1] = 0x00;
 
         Reset();
@@ -56,25 +56,19 @@ bool PS3BT::getButtonPress(Button b) {
 bool PS3BT::getButtonClick(Button b) {
         uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
-        ButtonClickState &= ~button; // clear "click" event
+        ButtonClickState &= ~button; // Clear "click" event
         return click;
 }
 
 uint8_t PS3BT::getAnalogButton(Button a) {
-        if (l2capinbuf == NULL)
-                return 0;
         return (uint8_t)(l2capinbuf[pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a])]);
 }
 
 uint8_t PS3BT::getAnalogHat(AnalogHat a) {
-        if (l2capinbuf == NULL)
-                return 0;
         return (uint8_t)(l2capinbuf[(uint8_t)a + 15]);
 }
 
 int16_t PS3BT::getSensor(Sensor a) {
-        if (l2capinbuf == NULL)
-                return 0;
         if (PS3Connected) {
                 if (a == aX || a == aY || a == aZ || a == gZ)
                         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
@@ -92,13 +86,11 @@ int16_t PS3BT::getSensor(Sensor a) {
 }
 
 double PS3BT::getAngle(Angle a) {
-        double accXval;
-        double accYval;
-        double accZval;
+        double accXval, accYval, accZval;
 
         if (PS3Connected) {
                 // Data for the Kionix KXPC4 used in the DualShock 3
-                const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
+                const double zeroG = 511.5; // 1.65/3.3*1023 (1.65V)
                 accXval = -((double)getSensor(aX) - zeroG);
                 accYval = -((double)getSensor(aY) - zeroG);
                 accZval = -((double)getSensor(aZ) - zeroG);
@@ -114,13 +106,10 @@ double PS3BT::getAngle(Angle a) {
         // Convert to 360 degrees resolution
         // atan2 outputs the value of -π to π (radians)
         // We are then converting it to 0 to 2π and then to degrees
-        if (a == Pitch) {
-                double angle = (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
-                return angle;
-        } else {
-                double angle = (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
-                return angle;
-        }
+        if (a == Pitch)
+                return (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
+        else
+                return (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
 }
 
 double PS3BT::get9DOFValues(Sensor a) { // Thanks to Manfred Piendl
@@ -168,11 +157,7 @@ String PS3BT::getTemperature() {
 }
 
 bool PS3BT::getStatus(Status c) {
-        if (l2capinbuf == NULL)
-                return false;
-        if (l2capinbuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff))
-                return true;
-        return false;
+        return (l2capinbuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff));
 }
 
 String PS3BT::getStatusString() {
@@ -266,8 +251,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                 }
         }
         if (((ACLData[0] | (ACLData[1] << 8)) == (hci_handle | 0x2000))) { //acl_handle_ok
-                for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++)
-                        l2capinbuf[i] = ACLData[i];
+                memcpy(l2capinbuf, ACLData, BULK_MAXPKTSIZE);
                 if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { //l2cap_control - Channel ID for ACL-U
                         if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
@@ -457,8 +441,7 @@ void PS3BT::L2CAP_task() {
                                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"), 0x80);
 #endif
                                 if (remote_name[0] == 'M') { // First letter in Motion Controller ('M')
-                                        for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                                                l2capinbuf[i] = 0;
+                                        memset(l2capinbuf, 0, BULK_MAXPKTSIZE); // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                         l2cap_state = L2CAP_HID_PS3_LED;
                                 } else
                                         l2cap_state = L2CAP_HID_ENABLE_SIXAXIS;
@@ -497,8 +480,7 @@ void PS3BT::Run() {
         switch (l2cap_state) {
                 case L2CAP_HID_ENABLE_SIXAXIS:
                         if (millis() - timer > 1000) { // loop 1 second before sending the command
-                                for (uint8_t i = 0; i < BULK_MAXPKTSIZE; i++) // Reset l2cap in buffer as it sometimes read it as a button has been pressed
-                                        l2capinbuf[i] = 0;
+                                memset(l2capinbuf, 0, BULK_MAXPKTSIZE); // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                 for (uint8_t i = 15; i < 19; i++)
                                         l2capinbuf[i] = 0x7F; // Set the analog joystick values to center position
                                 enable_sixaxis();
@@ -529,16 +511,16 @@ void PS3BT::Run() {
                                 ButtonState = 0; // Clear all values
                                 OldButtonState = 0;
                                 ButtonClickState = 0;
-                                
+
                                 onInit(); // Turn on the LED on the controller
                                 l2cap_state = L2CAP_DONE;
                         }
                         break;
 
                 case L2CAP_DONE:
-                        if (PS3MoveConnected) { //The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
-                                if (millis() - timerBulbRumble > 4000) { //Send at least every 4th second
-                                        HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE); //The Bulb and rumble values, has to be written again and again, for it to stay turned on
+                        if (PS3MoveConnected) { // The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
+                                if (millis() - timerBulbRumble > 4000) { // Send at least every 4th second
+                                        HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
                                         timerBulbRumble = millis();
                                 }
                         }
@@ -550,18 +532,22 @@ void PS3BT::Run() {
 /*                    HID Commands                          */
 /************************************************************/
 
-//Playstation Sixaxis Dualshock and Navigation Controller commands
+// Playstation Sixaxis Dualshock and Navigation Controller commands
 
 void PS3BT::HID_Command(uint8_t* data, uint8_t nbytes) {
-        if (millis() - timerHID <= 250)// Check if is has been more than 250ms since last command
-                delay((uint32_t)(250 - (millis() - timerHID))); //There have to be a delay between commands
+        if (millis() - timerHID <= 150) // Check if is has been more than 150ms since last command
+                delay((uint32_t)(150 - (millis() - timerHID))); // There have to be a delay between commands
         pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]); // Both the Navigation and Dualshock controller sends data via the control channel
         timerHID = millis();
 }
 
 void PS3BT::setAllOff() {
-        for (uint8_t i = 0; i < PS3_REPORT_BUFFER_SIZE; i++)
-                HIDBuffer[i + 2] = pgm_read_byte(&PS3_REPORT_BUFFER[i]); // First two bytes reserved for report type and ID
+        HIDBuffer[3] = 0x00; // Rumble bytes
+        HIDBuffer[4] = 0x00;
+        HIDBuffer[5] = 0x00;
+        HIDBuffer[6] = 0x00;
+
+        HIDBuffer[11] = 0x00; // LED byte
 
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
@@ -596,6 +582,7 @@ void PS3BT::setLedRaw(uint8_t value) {
         HIDBuffer[11] = value << 1;
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
+
 void PS3BT::setLedOff(LED a) {
         HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
@@ -611,7 +598,7 @@ void PS3BT::setLedToggle(LED a) {
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+void PS3BT::enable_sixaxis() { // Command used to enable the Dualshock 3 and Navigation controller to send data via Bluetooth
         uint8_t cmd_buf[6];
         cmd_buf[0] = 0x53; // HID BT Set_report (0x50) | Report Type (Feature 0x03)
         cmd_buf[1] = 0xF4; // Report ID
@@ -623,17 +610,17 @@ void PS3BT::enable_sixaxis() { //Command used to enable the Dualshock 3 and Navi
         HID_Command(cmd_buf, 6);
 }
 
-//Playstation Move Controller commands
+// Playstation Move Controller commands
 
 void PS3BT::HIDMove_Command(uint8_t* data, uint8_t nbytes) {
-        if (millis() - timerHID <= 250)// Check if is has been less than 200ms since last command
-                delay((uint32_t)(250 - (millis() - timerHID))); //There have to be a delay between commands
+        if (millis() - timerHID <= 150)// Check if is has been less than 150ms since last command
+                delay((uint32_t)(150 - (millis() - timerHID))); // There have to be a delay between commands
         pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // The Move controller sends it's data via the intterrupt channel
         timerHID = millis();
 }
 
 void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set the Color using RGB values
-        //set the Bulb's values into the write buffer
+        // Set the Bulb's values into the write buffer
         HIDMoveBuffer[3] = r;
         HIDMoveBuffer[4] = g;
         HIDMoveBuffer[5] = b;
@@ -650,7 +637,7 @@ void PS3BT::moveSetRumble(uint8_t rumble) {
         if (rumble < 64 && rumble != 0) // The rumble value has to at least 64, or approximately 25% (64/255*100)
                 Notify(PSTR("\r\nThe rumble value has to at least 64, or approximately 25%"), 0x80);
 #endif
-        //set the rumble value into the write buffer
+        // Set the rumble value into the write buffer
         HIDMoveBuffer[7] = rumble;
 
         HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);

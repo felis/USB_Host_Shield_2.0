@@ -18,7 +18,7 @@
  */
 
 #include "Wii.h"
-// To enable serial debugging uncomment "#define DEBUG_USB_HOST" in message.h
+// To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
 
@@ -163,7 +163,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                         } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
-                                        if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) { // Success
+                                        if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
@@ -473,11 +473,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
 
                                                                         /* The onboard gyro has two ranges for slow and fast mode */
-                                                                        if (!(l2capinbuf[18] & 0x02)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[18] & 0x02)) // Check if fast mode is used
                                                                                 yawGyroSpeed *= 4.545;
-                                                                        if (!(l2capinbuf[18] & 0x01)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[18] & 0x01)) // Check if fast mode is used
                                                                                 pitchGyroSpeed *= 4.545;
-                                                                        if (!(l2capinbuf[19] & 0x02)) // Check if fast more is used
+                                                                        if (!(l2capinbuf[19] & 0x02)) // Check if fast mode is used
                                                                                 rollGyroSpeed *= 4.545;
 
                                                                         compPitch = (0.93 * (compPitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimotePitch()); // Use a complimentary filter to calculate the angle
