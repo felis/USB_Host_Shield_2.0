@@ -128,7 +128,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         //USBTRACE2("\r\nAddr:", bAddress);
         // Spec says you should wait at least 200ms.
-        delay(300);
+        //delay(300);
 
         p->lowspeed = false;
 

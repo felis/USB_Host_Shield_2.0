@@ -133,7 +133,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
-        delay(300); // Spec says you should wait at least 200ms
+        //delay(300); // Spec says you should wait at least 200ms
 
         p->lowspeed = false;
 

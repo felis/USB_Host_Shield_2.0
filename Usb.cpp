@@ -447,7 +447,7 @@ void USB::Task(void) //USB state machine
                 case LSHOST:
 
                         lowspeed = true;
-                				//intentional fallthrough
+                        //intentional fallthrough
                 case FSHOST: //attached
                         if ((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
                                 delay = millis() + USB_SETTLE_DELAY;
@@ -503,11 +503,11 @@ void USB::Task(void) //USB state machine
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_RESET:
                         if (delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
-                        else break;  // don't fall through
+                        else break; // don't fall through
                 case USB_STATE_CONFIGURING:
 
-                				//Serial.print("\r\nConf.LS: ");
-                				//Serial.println(lowspeed, HEX);
+                        //Serial.print("\r\nConf.LS: ");
+                        //Serial.println(lowspeed, HEX);
 
                         rcode = Configuring(0, 0, lowspeed);
 
@@ -748,7 +748,7 @@ uint8_t USB::ReleaseDevice(uint8_t addr) {
                 return 0;
 
         for (uint8_t i = 0; i < USB_NUMDEVICES; i++) {
-                if(!devConfig[i]) continue;
+                if (!devConfig[i]) continue;
                 if (devConfig[i]->GetAddress() == addr)
                         return devConfig[i]->Release();
         }
@@ -794,7 +794,11 @@ uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, u
 //set address
 
 uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
-        return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));
+        uint8_t rcode = ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL);
+        //delay(2); //per USB 2.0 sect.9.2.6.3
+        delay(300); // Older spec says you should wait at least 200ms
+        return rcode;
+        //return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));
 }
 //set configuration
 
