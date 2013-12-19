@@ -256,6 +256,8 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         AddressPool &addrPool = pUsb->GetAddressPool();
 
         USBTRACE("BM Init\r\n");
+        USBTRACE2("totalEndpoints:", (uint8_t)(totalEndpoints(BOOT_PROTOCOL)));
+        USBTRACE2("epMUL:", epMUL(BOOT_PROTOCOL));
 
         if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -314,7 +316,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 USBTRACE2("setAddr:", rcode);
                 return rcode;
         }
-        delay(2); //per USB 2.0 sect.9.2.6.3
+        //delay(2); //per USB 2.0 sect.9.2.6.3
 
         USBTRACE2("Addr:", bAddress);
 
@@ -348,7 +350,6 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         //}
 
         USBTRACE2("bNumEP:", bNumEP);
-        USBTRACE2("totalEndpoints:", (uint8_t) (bitsEndpoints(BOOT_PROTOCOL)));
         // GCC will optimize unused stuff away.
         if(BOOT_PROTOCOL & HID_PROTOCOL_KEYBOARD) {
                 USBTRACE("HID_PROTOCOL_KEYBOARD\r\n");
@@ -360,7 +361,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                                 CP_MASK_COMPARE_ALL> confDescrParserA(this);
 
                         pUsb->getConfDescr(bAddress, 0, i, &confDescrParserA);
-                        if(bNumEP == (uint8_t) (bitsEndpoints(BOOT_PROTOCOL)))
+                        if(bNumEP == (uint8_t)(totalEndpoints(BOOT_PROTOCOL)))
                                 break;
                 }
         }
@@ -376,7 +377,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                                 CP_MASK_COMPARE_ALL> confDescrParserB(this);
 
                         pUsb->getConfDescr(bAddress, 0, i, &confDescrParserB);
-                        if(bNumEP > 1 /* (uint8_t) (totalEndpoints(BOOT_PROTOCOL))*/)
+                        if(bNumEP == ((uint8_t)(totalEndpoints(BOOT_PROTOCOL))))
                                 break;
 
                 }
@@ -385,8 +386,6 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
 
         USBTRACE2("bAddr:", bAddress);
         USBTRACE2("bNumEP:", bNumEP);
-        USBTRACE2("totalEndpoints:", (uint8_t) (bitsEndpoints(BOOT_PROTOCOL)));
-        USBTRACE2("epMUL:", epMUL(BOOT_PROTOCOL));
 
                 if(bNumEP != (uint8_t)(totalEndpoints(BOOT_PROTOCOL))) {
                         rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
