@@ -16,7 +16,7 @@ uint32_t next_time;
 void PrintAllAddresses(UsbDevice *pdev)
 {
     UsbDeviceAddress adr;
-    adr.devAddress = pdev->address;
+    adr.devAddress = pdev->address.devAddress;
     Serial.print("\r\nAddr:");
     Serial.print(adr.devAddress, HEX);
     Serial.print("(");
@@ -86,9 +86,9 @@ void PrintDescriptors(uint8_t addr)
 void PrintAllDescriptors(UsbDevice *pdev)
 {
     Serial.println("\r\n");
-    print_hex(pdev->address, 8);
+    print_hex(pdev->address.devAddress, 8);
     Serial.println("\r\n--");
-    PrintDescriptors( pdev->address );
+    PrintDescriptors( pdev->address.devAddress );
 }
 
 void loop()
