@@ -258,12 +258,6 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0; // Successful configuration
 
         /* Diagnostic messages */
-//#ifdef DEBUG_USB_HOST
-//FailGetDevDescr:
-//        NotifyFailGetDevDescr();
-//        goto Fail;
-//#endif
-
 FailSetDevTblEntry:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetDevTblEntry();
