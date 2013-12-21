@@ -78,7 +78,9 @@
 #endif
 
 #ifdef __GNUC__
+#ifndef GCC_VERSION
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#endif
 #if GCC_VERSION < 40602 // Test for GCC < 4.6.2
 #ifdef PROGMEM
 #undef PROGMEM
