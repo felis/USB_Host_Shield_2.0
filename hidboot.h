@@ -42,7 +42,7 @@ struct MOUSEINFO {
                 uint8_t bmLeftButton : 1;
                 uint8_t bmRightButton : 1;
                 uint8_t bmMiddleButton : 1;
-                uint8_t bmDummy : 1;
+                uint8_t bmDummy : 5;
         };
         int8_t dX;
         int8_t dY;

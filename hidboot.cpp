@@ -85,7 +85,7 @@ void MouseReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *bu
                 // event = true;
         }
 
-        if(prevState.mouseInfo.bmMiddleButton != prevState.mouseInfo.bmMiddleButton) {
+        if(prevState.mouseInfo.bmMiddleButton != pmi->bmMiddleButton) {
                 if(pmi->bmMiddleButton) {
                         OnMiddleButtonDown(pmi);
                 } else {
