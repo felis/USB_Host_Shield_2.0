@@ -1,7 +1,7 @@
 #include "hid.h"
 
 //get HID report descriptor
-
+/* WRONG! Endpoint is _ALWAYS_ ZERO for HID! We want the _INTERFACE_ value here!
 uint8_t HID::GetReportDescr(uint8_t ep, USBReadParser *parser) {
         const uint8_t constBufLen = 64;
         uint8_t buf[constBufLen];
@@ -12,6 +12,18 @@ uint8_t HID::GetReportDescr(uint8_t ep, USBReadParser *parser) {
         //return ((rcode != hrSTALL) ? rcode : 0);
         return rcode;
 }
+*/
+uint8_t HID::GetReportDescr(uint16_t wIndex, USBReadParser *parser) {
+        const uint8_t constBufLen = 64;
+        uint8_t buf[constBufLen];
+
+        uint8_t rcode = pUsb->ctrlReq(bAddress, 0x00, bmREQ_HIDREPORT, USB_REQUEST_GET_DESCRIPTOR, 0x00,
+                HID_DESCRIPTOR_REPORT, wIndex, 128, constBufLen, buf, (USBReadParser*)parser);
+
+        //return ((rcode != hrSTALL) ? rcode : 0);
+        return rcode;
+}
+
 //uint8_t HID::getHidDescr( uint8_t ep, uint16_t nbytes, uint8_t* dataptr )
 //{
 //    return( pUsb->ctrlReq( bAddress, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, HID_DESCRIPTOR_HID, 0x0000, nbytes, dataptr ));

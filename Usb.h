@@ -28,6 +28,7 @@ e-mail   :  support@circuitsathome.com
 #include "printhex.h"
 #include "message.h"
 #include "hexdump.h"
+#include "sink_parser.h"
 #include "max3421e.h"
 #include "address.h"
 #include "avrpins.h"

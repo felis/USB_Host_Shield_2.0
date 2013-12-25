@@ -174,7 +174,7 @@ public:
         uint8_t GetIdle(uint8_t iface, uint8_t reportID, uint8_t* dataptr);
         uint8_t SetIdle(uint8_t iface, uint8_t reportID, uint8_t duration);
 
-        uint8_t GetReportDescr(uint8_t ep, USBReadParser *parser = NULL);
+        uint8_t GetReportDescr(uint16_t wIndex, USBReadParser *parser = NULL);
 
         uint8_t GetHidDescr(uint8_t ep, uint16_t nbytes, uint8_t* dataptr);
         uint8_t GetReport(uint8_t ep, uint8_t iface, uint8_t report_type, uint8_t report_id, uint16_t nbytes, uint8_t* dataptr);
