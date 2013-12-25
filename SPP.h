@@ -98,6 +98,7 @@ public:
          * @return Return the number of bytes ready to be read.
          */
         virtual int available(void);
+
         /** Send out all bytes in the buffer. */
         virtual void flush(void) {
                 send();

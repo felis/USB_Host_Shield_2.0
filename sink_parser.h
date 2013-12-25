@@ -22,14 +22,19 @@ e-mail   :  support@circuitsathome.com
 extern int UsbDEBUGlvl;
 
 // This parser does absolutely nothing with the data, just swallows it.
+
 template <class BASE_CLASS, class LEN_TYPE, class OFFSET_TYPE>
 class SinkParser : public BASE_CLASS {
-
 public:
 
-        SinkParser() {};
-        void Initialize() {};
-        void Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {};
+        SinkParser() {
+        };
+
+        void Initialize() {
+        };
+
+        void Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
+        };
 };
 
 

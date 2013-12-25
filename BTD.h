@@ -262,12 +262,15 @@ public:
         virtual bool isReady() {
                 return bPollEnable;
         };
+
         /**
          * Used by the USB core to check what this driver support.
          * @param  klass The device's USB class.
          * @return       Returns true if the device's USB class matches this driver.
          */
-        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == USB_CLASS_WIRELESS_CTRL); }
+        virtual boolean DEVCLASSOK(uint8_t klass) {
+                return (klass == USB_CLASS_WIRELESS_CTRL);
+        }
 
         /**
          * Used by the USB core to check what this driver support.
@@ -277,10 +280,10 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                if (vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
+                if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
                         return true;
-                if (my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
-                        if (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
+                if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
+                        if(vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
                                 return true;
                 }
                 return false;

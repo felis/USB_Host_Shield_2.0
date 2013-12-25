@@ -111,6 +111,7 @@ class AddressPoolImpl : public AddressPool {
         };
 
         // Returns thePool index for a given address
+
         uint8_t FindAddressIndex(uint8_t address = 0) {
                 for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++) {
                         if(thePool[i].address.devAddress == address)
@@ -120,6 +121,7 @@ class AddressPoolImpl : public AddressPool {
         };
 
         // Returns thePool child index for a given parent
+
         uint8_t FindChildIndex(UsbDeviceAddress addr, uint8_t start = 1) {
                 for(uint8_t i = (start < 1 || start >= MAX_DEVICES_ALLOWED) ? 1 : start; i < MAX_DEVICES_ALLOWED; i++) {
                         if(thePool[i].address.bmParent == addr.bmAddress)
@@ -129,6 +131,7 @@ class AddressPoolImpl : public AddressPool {
         };
 
         // Frees address entry specified by index parameter
+
         void FreeAddressByIndex(uint8_t index) {
                 // Zero field is reserved and should not be affected
                 if(index == 0)
@@ -148,6 +151,7 @@ class AddressPoolImpl : public AddressPool {
         }
 
         // Initializes the whole address pool at once
+
         void InitAllAddresses() {
                 for(uint8_t i = 1; i < MAX_DEVICES_ALLOWED; i++)
                         InitEntry(i);
@@ -172,16 +176,18 @@ public:
         };
 
         // Returns a pointer to a specified address entry
+
         virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) {
                 if(!addr)
                         return thePool;
 
                 uint8_t index = FindAddressIndex(addr);
 
-                return(!index) ? NULL : thePool + index;
+                return (!index) ? NULL : thePool + index;
         };
 
         // Performs an operation specified by pfunc for each addressed device
+
         void ForEachUsbDevice(UsbDeviceHandleFunc pfunc) {
                 if(!pfunc)
                         return;
@@ -192,13 +198,14 @@ public:
         };
 
         // Allocates new address
+
         virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) {
                 /* if (parent != 0 && port == 0)
                         USB_HOST_SERIAL.println("PRT:0"); */
                 UsbDeviceAddress _parent;
                 _parent.devAddress = parent;
                 if(_parent.bmReserved || port > 7)
-                //if(parent > 127 || port > 7)
+                        //if(parent > 127 || port > 7)
                         return 0;
 
                 if(is_hub && hubCounter == 7)
@@ -243,6 +250,7 @@ public:
         };
 
         // Empties pool entry
+
         virtual void FreeAddress(uint8_t addr) {
                 // if the root hub is disconnected all the addresses should be initialized
                 if(addr == 0x41) {

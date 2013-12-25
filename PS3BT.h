@@ -143,6 +143,7 @@ public:
          * @param value See: ::LED enum.
          */
         void setLedRaw(uint8_t value);
+
         /** Turn all LEDs off. */
         void setLedOff() {
                 setLedRaw(0);

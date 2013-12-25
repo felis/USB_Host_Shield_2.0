@@ -1,6 +1,7 @@
 #include "hid.h"
 
 //get HID report descriptor
+
 /* WRONG! Endpoint is _ALWAYS_ ZERO for HID! We want the _INTERFACE_ value here!
 uint8_t HID::GetReportDescr(uint8_t ep, USBReadParser *parser) {
         const uint8_t constBufLen = 64;
@@ -12,7 +13,7 @@ uint8_t HID::GetReportDescr(uint8_t ep, USBReadParser *parser) {
         //return ((rcode != hrSTALL) ? rcode : 0);
         return rcode;
 }
-*/
+ */
 uint8_t HID::GetReportDescr(uint16_t wIndex, USBReadParser *parser) {
         const uint8_t constBufLen = 64;
         uint8_t buf[constBufLen];

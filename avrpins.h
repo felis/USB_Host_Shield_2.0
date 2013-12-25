@@ -218,7 +218,7 @@ public:
         }
 
         static uint8_t IsSet() {
-                return PORT::PinRead() & (uint8_t) (1 << PIN);
+                return PORT::PinRead() & (uint8_t)(1 << PIN);
         }
 
         static void WaiteForSet() {

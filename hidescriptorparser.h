@@ -101,7 +101,7 @@ protected:
         MultiValueBuffer theBuffer;
         MultiByteValueParser valParser;
         ByteSkipper theSkipper;
-        uint8_t varBuffer[sizeof(USB_CONFIGURATION_DESCRIPTOR)];
+        uint8_t varBuffer[sizeof (USB_CONFIGURATION_DESCRIPTOR)];
 
         uint8_t itemParseState; // Item parser state variable
         uint8_t itemSize; // Item size
@@ -126,8 +126,7 @@ public:
         itemPrefix(0),
         rptSize(0),
         rptCount(0),
-        pfUsage(NULL)
-        {
+        pfUsage(NULL) {
                 theBuffer.pValue = varBuffer;
                 valParser.Initialize(&theBuffer);
                 theSkipper.Initialize(&theBuffer);

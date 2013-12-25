@@ -26,7 +26,7 @@ pUsb(p),
 bAddress(0),
 bNumEP(1),
 wFTDIType(0) {
-        for (uint8_t i = 0; i < FTDI_MAX_ENDPOINTS; i++) {
+        for(uint8_t i = 0; i < FTDI_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
@@ -34,7 +34,7 @@ wFTDIType(0) {
                 //if (!i)
                 epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
-        if (pUsb)
+        if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
 
@@ -56,16 +56,16 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("FTDI Init\r\n");
 
-        if (bAddress)
+        if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -84,9 +84,9 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
-        if (udd->idVendor != FTDI_VID || udd->idProduct != FTDI_PID)
+        if(udd->idVendor != FTDI_VID || udd->idProduct != FTDI_PID)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Save type of FTDI chip
@@ -95,7 +95,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
@@ -104,7 +104,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
 
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -118,7 +118,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
@@ -128,30 +128,30 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         USBTRACE2("NC:", num_of_conf);
 
-        for (uint8_t i = 0; i < num_of_conf; i++) {
+        for(uint8_t i = 0; i < num_of_conf; i++) {
                 HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
                 ConfigDescParser < 0xFF, 0xFF, 0xFF, CP_MASK_COMPARE_ALL> confDescrParser(this);
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
-                if (bNumEP > 1)
+                if(bNumEP > 1)
                         break;
         } // for
 
-        if (bNumEP < 2)
+        if(bNumEP < 2)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         USBTRACE2("NumEP:", bNumEP);
@@ -164,12 +164,12 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
         rcode = pAsync->OnInit(this);
 
-        if (rcode)
+        if(rcode)
                 goto FailOnInit;
 
         USBTRACE("FTDI configured\r\n");
@@ -221,10 +221,10 @@ void FTDI::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t prot
 
         uint8_t index;
 
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
                 index = epInterruptInIndex;
         else
-                if ((pep->bmAttributes & 0x02) == 2)
+                if((pep->bmAttributes & 0x02) == 2)
                 index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
         else
                 return;
@@ -270,19 +270,19 @@ uint8_t FTDI::SetBaudRate(uint32_t baud) {
 
         divisor3 = 48000000 / 2 / baud; // divisor shifted 3 bits to the left
 
-        if (wFTDIType == FT232AM) {
-                if ((divisor3 & 0x7) == 7)
+        if(wFTDIType == FT232AM) {
+                if((divisor3 & 0x7) == 7)
                         divisor3++; // round x.7/8 up to x+1
 
                 baud_value = divisor3 >> 3;
                 divisor3 &= 0x7;
 
-                if (divisor3 == 1) baud_value |= 0xc000;
+                if(divisor3 == 1) baud_value |= 0xc000;
                 else // 0.125
-                        if (divisor3 >= 4) baud_value |= 0x4000;
+                        if(divisor3 >= 4) baud_value |= 0x4000;
                 else // 0.5
-                        if (divisor3 != 0) baud_value |= 0x8000; // 0.25
-                if (baud_value == 1) baud_value = 0; /* special case for maximum baud rate */
+                        if(divisor3 != 0) baud_value |= 0x8000; // 0.25
+                if(baud_value == 1) baud_value = 0; /* special case for maximum baud rate */
         } else {
                 static const unsigned char divfrac [8] = {0, 3, 2, 0, 1, 1, 2, 3};
                 static const unsigned char divindex[8] = {0, 0, 0, 1, 0, 1, 1, 1};
@@ -292,9 +292,9 @@ uint8_t FTDI::SetBaudRate(uint32_t baud) {
                 baud_index = divindex[divisor3 & 0x7];
 
                 /* Deal with special cases for highest baud rates. */
-                if (baud_value == 1) baud_value = 0;
+                if(baud_value == 1) baud_value = 0;
                 else // 1.0
-                        if (baud_value == 0x4001) baud_value = 1; // 1.5
+                        if(baud_value == 0x4001) baud_value = 1; // 1.5
         }
         USBTRACE2("baud_value:", baud_value);
         USBTRACE2("baud_index:", baud_index);

@@ -22,7 +22,7 @@ e-mail   :  support@circuitsathome.com
 int UsbDEBUGlvl = 0x80;
 
 void E_Notifyc(char c, int lvl) {
-        if (UsbDEBUGlvl < lvl) return;
+        if(UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
         USB_HOST_SERIAL.print(c);
 #else
@@ -32,23 +32,23 @@ void E_Notifyc(char c, int lvl) {
 }
 
 void E_Notify(char const * msg, int lvl) {
-        if (UsbDEBUGlvl < lvl) return;
-        if (!msg) return;
+        if(UsbDEBUGlvl < lvl) return;
+        if(!msg) return;
         char c;
 
-        while ((c = pgm_read_byte(msg++))) E_Notifyc(c, lvl);
+        while((c = pgm_read_byte(msg++))) E_Notifyc(c, lvl);
 }
 
 void E_NotifyStr(char const * msg, int lvl) {
-        if (UsbDEBUGlvl < lvl) return;
-        if (!msg) return;
+        if(UsbDEBUGlvl < lvl) return;
+        if(!msg) return;
         char c;
 
-        while ((c = *msg++)) E_Notifyc(c, lvl);
+        while((c = *msg++)) E_Notifyc(c, lvl);
 }
 
 void E_Notify(uint8_t b, int lvl) {
-        if (UsbDEBUGlvl < lvl) return;
+        if(UsbDEBUGlvl < lvl) return;
 #if defined(ARDUINO) && ARDUINO >=100
         USB_HOST_SERIAL.print(b);
 #else
@@ -58,12 +58,13 @@ void E_Notify(uint8_t b, int lvl) {
 }
 
 void E_Notify(double d, int lvl) {
-        if (UsbDEBUGlvl < lvl) return;
+        if(UsbDEBUGlvl < lvl) return;
         USB_HOST_SERIAL.print(d);
         //USB_HOST_SERIAL.flush();
 }
 
 #ifdef DEBUG_USB_HOST
+
 void NotifyFailGetDevDescr(void) {
         Notify(PSTR("\r\ngetDevDescr "), 0x80);
 }
@@ -71,6 +72,7 @@ void NotifyFailGetDevDescr(void) {
 void NotifyFailSetDevTblEntry(void) {
         Notify(PSTR("\r\nsetDevTblEn "), 0x80);
 }
+
 void NotifyFailGetConfDescr(void) {
         Notify(PSTR("\r\ngetConf "), 0x80);
 }

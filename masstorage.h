@@ -396,7 +396,7 @@ public:
                 // Type punning can cause optimization problems and bugs.
                 // Using reinterpret_cast to a dreinterpretifferent object is the proper way to do this.
                 //(((BASICCDB_t *) CBWCB)->LUN) = cmd;
-                BASICCDB_t *x = reinterpret_cast<BASICCDB_t *> (CBWCB);
+                BASICCDB_t *x = reinterpret_cast<BASICCDB_t *>(CBWCB);
                 x->LUN = cmd;
         }
 
@@ -516,7 +516,7 @@ public:
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
         virtual boolean DEVCLASSOK(uint8_t klass) {
-                return(klass == USB_CLASS_MASS_STORAGE);
+                return (klass == USB_CLASS_MASS_STORAGE);
         }
 
         uint8_t SCSITransaction6(CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);

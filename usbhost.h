@@ -162,7 +162,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
         SPI_SS::Set();
         XMEM_RELEASE_SPI();
-        return( data_p);
+        return ( data_p);
 }
 /* GPIO write                                           */
 /*GPIO byte is split between 2 registers, so two writes are needed to write one byte */
@@ -194,7 +194,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         uint8_t rv = SPDR;
 #endif
         XMEM_RELEASE_SPI();
-        return(rv);
+        return (rv);
 }
 /* multiple-byte register read  */
 
@@ -229,7 +229,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
         SPI_SS::Set();
         XMEM_RELEASE_SPI();
-        return( data_p);
+        return ( data_p);
 }
 /* GPIO read. See gpioWr for explanation */
 
@@ -240,7 +240,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::gpioRd() {
         gpin = regRd(rIOPINS2); //pins 4-7
         gpin &= 0xf0; //clean lower nibble
         gpin |= (regRd(rIOPINS1) >> 4); //shift low bits and OR with upper from previous operation.
-        return( gpin);
+        return ( gpin);
 }
 
 /* reset MAX3421E. Returns number of cycles it took for PLL to stabilize after reset
@@ -255,7 +255,7 @@ uint16_t MAX3421e< SPI_SS, INTR >::reset() {
                         break;
                 }
         }
-        return( i);
+        return ( i);
 }
 
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
@@ -276,7 +276,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
 
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
-                return( -1);
+                return ( -1);
         }
 
         regWr(rMODE, bmDPPULLDN | bmDMPULLDN | bmHOST); // set pull-downs, Host
@@ -292,7 +292,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         regWr(rHIRQ, bmCONDETIRQ); //clear connection detect interrupt
         regWr(rCPUCTL, 0x01); //enable interrupt pin
 
-        return( 0);
+        return ( 0);
 }
 
 /* initialize MAX3421E. Set Host mode, pullups, and stuff. Returns 0 if success, -1 if not */
@@ -312,7 +312,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init(int mseconds) {
         regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL | GPX_VBDET));
 
         if(reset() == 0) { //OSCOKIRQ hasn't asserted in time
-                return( -1);
+                return ( -1);
         }
 
         // Delay a minimum of 1 second to ensure any capacitors are drained.
@@ -336,7 +336,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init(int mseconds) {
         // GPX pin on. This is done here so that busprobe will fail if we have a switch connected.
         regWr(rPINCTL, (bmFDUPSPI | bmINTLEVEL));
 
-        return( 0);
+        return ( 0);
 }
 
 /* probe bus to determine device presence and speed and switch host to this speed */
@@ -391,7 +391,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::Task(void) {
         //        GpxHandler();
         //    }
         //    usbSM();                                //USB state machine
-        return( rcode);
+        return ( rcode);
 }
 
 template< typename SPI_SS, typename INTR >
@@ -408,7 +408,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::IntHandler() {
         }
         /* End HIRQ interrupts handling, clear serviced IRQs    */
         regWr(rHIRQ, HIRQ_sendback);
-        return( HIRQ_sendback);
+        return ( HIRQ_sendback);
 }
 //template< typename SPI_SS, typename INTR >
 //uint8_t MAX3421e< SPI_SS, INTR >::GpxHandler()

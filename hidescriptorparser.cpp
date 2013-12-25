@@ -980,7 +980,7 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 
         totalSize = 0;
 
-        while (cntdn) {
+        while(cntdn) {
                 //USB_HOST_SERIAL.println("");
                 //PrintHex<uint16_t>(offset + len - cntdn);
                 //USB_HOST_SERIAL.print(":");
@@ -995,7 +995,7 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 
 void ReportDescParserBase::PrintValue(uint8_t *p, uint8_t len) {
         E_Notify(PSTR("("), 0x80);
-        for (; len; p++, len--)
+        for(; len; p++, len--)
                 PrintHex<uint8_t > (*p, 0x80);
         E_Notify(PSTR(")"), 0x80);
 }
@@ -1007,7 +1007,7 @@ void ReportDescParserBase::PrintByteValue(uint8_t data) {
 }
 
 void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
-        switch (prefix & (TYPE_MASK | TAG_MASK)) {
+        switch(prefix & (TYPE_MASK | TAG_MASK)) {
                 case (TYPE_GLOBAL | TAG_GLOBAL_PUSH):
                         E_Notify(PSTR("\r\nPush"), 0x80);
                         break;
@@ -1074,9 +1074,9 @@ void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
 uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t	ret = enErrorSuccess;
         //reinterpret_cast<>(varBuffer);
-switch (itemParseState) {
+        switch(itemParseState) {
                 case 0:
-                        if (**pp == HID_LONG_ITEM_PREFIX)
+                        if(**pp == HID_LONG_ITEM_PREFIX)
                                 USBTRACE("\r\nLONG\r\n");
                         else {
                                 uint8_t size = ((**pp) & DATA_SIZE_MASK);
@@ -1091,10 +1091,10 @@ switch (itemParseState) {
                         itemSize--;
                         itemParseState = 1;
 
-                        if (!itemSize)
+                        if(!itemSize)
                                 break;
 
-                        if (!pcntdn)
+                        if(!pcntdn)
                                 return enErrorIncomplete;
                 case 1:
                         //USBTRACE2("\r\niSz:",itemSize);
@@ -1103,18 +1103,18 @@ switch (itemParseState) {
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
                 case 2:
-                        if (!valParser.Parse(pp, pcntdn))
+                        if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
 
-                        switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
+                        switch(itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
-                                        if (pfUsage) {
-                                                if (theBuffer.valueSize > 1) {
-                                                        uint16_t* ui16 =  reinterpret_cast<uint16_t *>(varBuffer);
+                                        if(pfUsage) {
+                                                if(theBuffer.valueSize > 1) {
+                                                        uint16_t* ui16 = reinterpret_cast<uint16_t *>(varBuffer);
                                                         pfUsage(*ui16);
                                                 } else
                                                         pfUsage(data);
@@ -1149,7 +1149,7 @@ switch (itemParseState) {
                                         break;
                                 case (TYPE_MAIN | TAG_MAIN_COLLECTION):
                                 case (TYPE_MAIN | TAG_MAIN_ENDCOLLECTION):
-                                        switch (data) {
+                                        switch(data) {
                                                 case 0x00:
                                                         E_Notify(PSTR(" Physical"), 0x80);
                                                         break;
@@ -1216,23 +1216,23 @@ ReportDescParserBase::UsagePageFunc ReportDescParserBase::usagePageFunctions[] /
 void ReportDescParserBase::SetUsagePage(uint16_t page) {
         pfUsage = NULL;
 
-        if (VALUE_BETWEEN(page, 0x00, 0x11))
+        if(VALUE_BETWEEN(page, 0x00, 0x11))
                 pfUsage = (usagePageFunctions[page - 1]);
 
-        // Dead code...
-        //
-        //      pfUsage = (UsagePageFunc)pgm_read_pointer(usagePageFunctions[page - 1]);
-        //else if (page > 0x7f && page < 0x84)
-        //      E_Notify(pstrUsagePageMonitor);
-        //else if (page > 0x83 && page < 0x8c)
-        //	E_Notify(pstrUsagePagePower);
-        //else if (page > 0x8b && page < 0x92)
-        //	E_Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]));
-        //else if (page > 0xfeff && page <= 0xffff)
-        //	E_Notify(pstrUsagePageVendorDefined);
-        //
+                // Dead code...
+                //
+                //      pfUsage = (UsagePageFunc)pgm_read_pointer(usagePageFunctions[page - 1]);
+                //else if (page > 0x7f && page < 0x84)
+                //      E_Notify(pstrUsagePageMonitor);
+                //else if (page > 0x83 && page < 0x8c)
+                //	E_Notify(pstrUsagePagePower);
+                //else if (page > 0x8b && page < 0x92)
+                //	E_Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]));
+                //else if (page > 0xfeff && page <= 0xffff)
+                //	E_Notify(pstrUsagePageVendorDefined);
+                //
         else
-                switch (page) {
+                switch(page) {
                         case 0x14:
                                 pfUsage = &ReportDescParserBase::PrintAlphanumDisplayPageUsage;
                                 break;
@@ -1248,14 +1248,14 @@ void ReportDescParserBase::PrintUsagePage(uint16_t page) {
 
         output_if_between(page, 0x00, 0x11, w, E_Notify, usagePageTitles0, 0x80)
         else output_if_between(page, 0x8b, 0x92, w, E_Notify, usagePageTitles1, 0x80)
-        else if (VALUE_BETWEEN(page, 0x7f, 0x84))
+        else if(VALUE_BETWEEN(page, 0x7f, 0x84))
                 E_Notify(pstrUsagePageMonitor, 0x80);
-        else if (VALUE_BETWEEN(page, 0x83, 0x8c))
+        else if(VALUE_BETWEEN(page, 0x83, 0x8c))
                 E_Notify(pstrUsagePagePower, 0x80);
-        else if (page > 0xfeff /* && page <= 0xffff */)
+        else if(page > 0xfeff /* && page <= 0xffff */)
                 E_Notify(pstrUsagePageVendorDefined, 0x80);
         else
-                switch (page) {
+                switch(page) {
                         case 0x14:
                                 E_Notify(pstrUsagePageAlphaNumericDisplay, 0x80);
                                 break;
@@ -1409,8 +1409,8 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
         const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage == 1) E_Notify(pstrUsageMedicalUltrasound, 0x80);
-        else if (usage == 0x70)
+        if(usage == 1) E_Notify(pstrUsageMedicalUltrasound, 0x80);
+        else if(usage == 0x70)
                 E_Notify(pstrUsageDepthGainCompensation, 0x80);
         else output_if_between(usage, 0x1f, 0x28, w, E_Notify, medInstrTitles0, 0x80)
         else output_if_between(usage, 0x3f, 0x45, w, E_Notify, medInstrTitles1, 0x80)
@@ -1423,9 +1423,9 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
 uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t	ret = enErrorSuccess;
 
-        switch (itemParseState) {
+        switch(itemParseState) {
                 case 0:
-                        if (**pp == HID_LONG_ITEM_PREFIX)
+                        if(**pp == HID_LONG_ITEM_PREFIX)
                                 USBTRACE("\r\nLONG\r\n");
                         else {
                                 uint8_t size = ((**pp) & DATA_SIZE_MASK);
@@ -1437,28 +1437,28 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         itemSize--;
                         itemParseState = 1;
 
-                        if (!itemSize)
+                        if(!itemSize)
                                 break;
 
-                        if (!pcntdn)
+                        if(!pcntdn)
                                 return enErrorIncomplete;
                 case 1:
                         theBuffer.valueSize = itemSize;
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
                 case 2:
-                        if (!valParser.Parse(pp, pcntdn))
+                        if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
 
-                        switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
+                        switch(itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
-                                        if (pfUsage) {
-                                                if (theBuffer.valueSize > 1) {
-                                                        uint16_t* ui16 =  reinterpret_cast<uint16_t *>(varBuffer);
+                                        if(pfUsage) {
+                                                if(theBuffer.valueSize > 1) {
+                                                        uint16_t* ui16 = reinterpret_cast<uint16_t *>(varBuffer);
                                                         pfUsage(*ui16);
                                                 } else
                                                         pfUsage(data);
@@ -1512,7 +1512,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
         uint8_t bit_offset = totalSize - tmp; // number of bits in the current byte already handled
         uint8_t *p = pBuf + byte_offset; // current byte pointer
 
-        if (bit_offset)
+        if(bit_offset)
                 *p >>= bit_offset;
 
         uint8_t usage = useMin;
@@ -1522,7 +1522,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
         uint8_t bits_of_byte = 8;
 
         // for each field in field array defined by rptCount
-        for (uint8_t field = 0; field < rptCount; field++, usage++) {
+        for(uint8_t field = 0; field < rptCount; field++, usage++) {
 
                 union {
                         uint8_t bResult[4];
@@ -1533,7 +1533,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 result.dwResult = 0;
                 uint8_t mask = 0;
 
-                if (print_usemin_usemax)
+                if(print_usemin_usemax)
                         pfUsage(usage);
 
                 // bits_left		- number of bits in the field(array of fields, depending on Report Count) left to process
@@ -1541,7 +1541,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 // bits_to_copy		- number of bits to copy to result buffer
 
                 // for each bit in a field
-                for (uint8_t bits_left = rptSize, bits_to_copy = 0; bits_left;
+                for(uint8_t bits_left = rptSize, bits_to_copy = 0; bits_left;
                         bits_left -= bits_to_copy) {
                         bits_to_copy = (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
 
@@ -1553,7 +1553,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
 
                         mask = 0;
 
-                        for (uint8_t j = bits_to_copy; j; j--) {
+                        for(uint8_t j = bits_to_copy; j; j--) {
                                 mask <<= 1;
                                 mask |= 1;
                         }
@@ -1562,7 +1562,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
 
                         bits_of_byte -= bits_to_copy;
 
-                        if (bits_of_byte < 1) {
+                        if(bits_of_byte < 1) {
                                 bits_of_byte = 8;
                                 p++;
                         }
@@ -1577,6 +1577,6 @@ void UniversalReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t
 
         uint8_t ret = hid->GetReportDescr(0, &prs);
 
-        if (ret)
+        if(ret)
                 ErrorMessage<uint8_t > (PSTR("GetReportDescr-2"), ret);
 }

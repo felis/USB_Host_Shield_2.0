@@ -140,7 +140,6 @@ public:
         virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) = 0;
 };
 
-
 class HID : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
         USB *pUsb; // USB class instance pointer

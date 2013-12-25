@@ -85,6 +85,7 @@ public:
         /**@}*/
 
         /** @name Wii Controller functions */
+
         /** Call this to start the paring sequence with a controller */
         void pair(void) {
                 if(pBtd)
@@ -108,7 +109,7 @@ public:
          * @return Pitch in the range from 0-360.
          */
         double getPitch() {
-                if (motionPlusConnected)
+                if(motionPlusConnected)
                         return compPitch;
                 return getWiimotePitch();
         };
@@ -118,7 +119,7 @@ public:
          * @return Roll in the range from 0-360.
          */
         double getRoll() {
-                if (motionPlusConnected)
+                if(motionPlusConnected)
                         return compRoll;
                 return getWiimoteRoll();
         };
@@ -147,6 +148,7 @@ public:
          * @param value See: ::LED enum.
          */
         void setLedRaw(uint8_t value);
+
         /** Turn all LEDs off. */
         void setLedOff() {
                 setLedRaw(0);
@@ -180,6 +182,7 @@ public:
          * @return The battery level in the range 0-255.
          */
         uint8_t getBatteryLevel();
+
         /**
          * Return the Wiimote state.
          * @return See: http://wiibrew.org/wiki/Wiimote#0x20:_Status.
@@ -211,20 +214,24 @@ public:
         /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
 
         /**@{*/
+
         /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
         double getWiimotePitch() {
                 return (atan2(accYwiimote, accZwiimote) + PI) * RAD_TO_DEG;
         };
+
         double getWiimoteRoll() {
                 return (atan2(accXwiimote, accZwiimote) + PI) * RAD_TO_DEG;
         };
         /**@}*/
 
         /**@{*/
+
         /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
         double getNunchuckPitch() {
                 return (atan2(accYnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
         };
+
         double getNunchuckRoll() {
                 return (atan2(accXnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
         };
@@ -381,7 +388,7 @@ public:
          * @return     True if it's enabled, false if not.
          */
         bool isIRCameraEnabled() {
-                return(wiiState & 0x08);
+                return (wiiState & 0x08);
         };
         /**@}*/
 #endif

@@ -48,6 +48,7 @@ public:
         virtual void Reset();
         /** Used this to disconnect any of the controllers. */
         virtual void disconnect();
+
         /**@}*/
 
         HIDReportParser *GetReportParser(uint8_t id) {
@@ -71,7 +72,7 @@ public:
 
         /** Call this to start the paring sequence with a controller */
         void pair(void) {
-                if (pBtd)
+                if(pBtd)
                         pBtd->pairWithHID();
         };
 
@@ -98,7 +99,7 @@ private:
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         void onInit() {
-                if (pFuncOnInit)
+                if(pFuncOnInit)
                         pFuncOnInit(); // Call the user function
         }
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()

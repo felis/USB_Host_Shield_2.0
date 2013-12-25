@@ -7,14 +7,14 @@ bPollEnable(false),
 bHasReportId(false) {
         Initialize();
 
-        if (pUsb)
+        if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
 
 uint16_t HIDUniversal::GetHidClassDescrLen(uint8_t type, uint8_t num) {
-        for (uint8_t i = 0, n = 0; i < HID_MAX_HID_CLASS_DESCRIPTORS; i++) {
-                if (descrInfo[i].bDescrType == type) {
-                        if (n == num)
+        for(uint8_t i = 0, n = 0; i < HID_MAX_HID_CLASS_DESCRIPTORS; i++) {
+                if(descrInfo[i].bDescrType == type) {
+                        if(n == num)
                                 return descrInfo[i].wDescriptorLength;
                         n++;
                 }
@@ -23,22 +23,22 @@ uint16_t HIDUniversal::GetHidClassDescrLen(uint8_t type, uint8_t num) {
 }
 
 void HIDUniversal::Initialize() {
-        for (uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
+        for(uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
                 rptParsers[i].rptId = 0;
                 rptParsers[i].rptParser = NULL;
         }
-        for (uint8_t i = 0; i < HID_MAX_HID_CLASS_DESCRIPTORS; i++) {
+        for(uint8_t i = 0; i < HID_MAX_HID_CLASS_DESCRIPTORS; i++) {
                 descrInfo[i].bDescrType = 0;
                 descrInfo[i].wDescriptorLength = 0;
         }
-        for (uint8_t i = 0; i < maxHidInterfaces; i++) {
+        for(uint8_t i = 0; i < maxHidInterfaces; i++) {
                 hidInterfaces[i].bmInterface = 0;
                 hidInterfaces[i].bmProtocol = 0;
 
-                for (uint8_t j = 0; j < maxEpPerInterface; j++)
+                for(uint8_t j = 0; j < maxEpPerInterface; j++)
                         hidInterfaces[i].epIndex[j] = 0;
         }
-        for (uint8_t i = 0; i < totalEndpoints; i++) {
+        for(uint8_t i = 0; i < totalEndpoints; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
@@ -52,8 +52,8 @@ void HIDUniversal::Initialize() {
 }
 
 bool HIDUniversal::SetReportParser(uint8_t id, HIDReportParser *prs) {
-        for (uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
-                if (rptParsers[i].rptId == 0 && rptParsers[i].rptParser == NULL) {
+        for(uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
+                if(rptParsers[i].rptId == 0 && rptParsers[i].rptParser == NULL) {
                         rptParsers[i].rptId = id;
                         rptParsers[i].rptParser = prs;
                         return true;
@@ -63,11 +63,11 @@ bool HIDUniversal::SetReportParser(uint8_t id, HIDReportParser *prs) {
 }
 
 HIDReportParser* HIDUniversal::GetReportParser(uint8_t id) {
-        if (!bHasReportId)
+        if(!bHasReportId)
                 return ((rptParsers[0].rptParser) ? rptParsers[0].rptParser : NULL);
 
-        for (uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
-                if (rptParsers[i].rptId == id)
+        for(uint8_t i = 0; i < MAX_REPORT_PARSERS; i++) {
+                if(rptParsers[i].rptId == id)
                         return rptParsers[i].rptParser;
         }
         return NULL;
@@ -90,16 +90,16 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("HU Init\r\n");
 
-        if (bAddress)
+        if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -115,10 +115,10 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Get device descriptor
         rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*)buf);
 
-        if (!rcode)
+        if(!rcode)
                 len = (buf[0] > constBufSize) ? constBufSize : buf[0];
 
-        if (rcode) {
+        if(rcode) {
                 // Restore p->epinfo
                 p->epinfo = oldep_ptr;
 
@@ -131,7 +131,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
@@ -140,7 +140,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
 
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -156,15 +156,15 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
 
-        if (len)
+        if(len)
                 rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*)buf);
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
 
         num_of_conf = udd->bNumConfigurations;
@@ -172,12 +172,12 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         USBTRACE2("NC:", num_of_conf);
 
-        for (uint8_t i = 0; i < num_of_conf; i++) {
+        for(uint8_t i = 0; i < num_of_conf; i++) {
                 //HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
                 ConfigDescParser<USB_CLASS_HID, 0, 0,
                         CP_MASK_COMPARE_CLASS> confDescrParser(this);
@@ -185,14 +185,14 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 //rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
-                if (bNumEP > 1)
+                if(bNumEP > 1)
                         break;
         } // for
 
-        if (bNumEP < 2)
+        if(bNumEP < 2)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Assign epInfo to epinfo pointer
@@ -203,16 +203,16 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
-        for (uint8_t i = 0; i < bNumIface; i++) {
-                if (hidInterfaces[i].epIndex[epInterruptInIndex] == 0)
+        for(uint8_t i = 0; i < bNumIface; i++) {
+                if(hidInterfaces[i].epIndex[epInterruptInIndex] == 0)
                         continue;
 
                 rcode = SetIdle(hidInterfaces[i].bmInterface, 0, 0);
 
-                if (rcode && rcode != hrSTALL)
+                if(rcode && rcode != hrSTALL)
                         goto FailSetIdle;
         }
 
@@ -262,8 +262,8 @@ Fail:
 }
 
 HIDUniversal::HIDInterface* HIDUniversal::FindInterface(uint8_t iface, uint8_t alt, uint8_t proto) {
-        for (uint8_t i = 0; i < bNumIface && i < maxHidInterfaces; i++)
-                if (hidInterfaces[i].bmInterface == iface && hidInterfaces[i].bmAltSet == alt
+        for(uint8_t i = 0; i < bNumIface && i < maxHidInterfaces; i++)
+                if(hidInterfaces[i].bmInterface == iface && hidInterfaces[i].bmAltSet == alt
                         && hidInterfaces[i].bmProtocol == proto)
                         return hidInterfaces + i;
         return NULL;
@@ -271,7 +271,7 @@ HIDUniversal::HIDInterface* HIDUniversal::FindInterface(uint8_t iface, uint8_t a
 
 void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
         // If the first configuration satisfies, the others are not concidered.
-        if (bNumEP > 1 && conf != bConfNum)
+        if(bNumEP > 1 && conf != bConfNum)
                 return;
 
         //ErrorMessage<uint8_t>(PSTR("\r\nConf.Val"), conf);
@@ -284,7 +284,7 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
         HIDInterface *piface = FindInterface(iface, alt, proto);
 
         // Fill in interface structure in case of new interface
-        if (!piface) {
+        if(!piface) {
                 piface = hidInterfaces + bNumIface;
                 piface->bmInterface = iface;
                 piface->bmAltSet = alt;
@@ -292,12 +292,12 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 bNumIface++;
         }
 
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
                 index = epInterruptInIndex;
         else
                 index = epInterruptOutIndex;
 
-        if (index) {
+        if(index) {
                 // Fill in the endpoint info structure
                 epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
@@ -323,34 +323,34 @@ uint8_t HIDUniversal::Release() {
 }
 
 bool HIDUniversal::BuffersIdentical(uint8_t len, uint8_t *buf1, uint8_t *buf2) {
-        for (uint8_t i = 0; i < len; i++)
-                if (buf1[i] != buf2[i])
+        for(uint8_t i = 0; i < len; i++)
+                if(buf1[i] != buf2[i])
                         return false;
         return true;
 }
 
 void HIDUniversal::ZeroMemory(uint8_t len, uint8_t *buf) {
-        for (uint8_t i = 0; i < len; i++)
+        for(uint8_t i = 0; i < len; i++)
                 buf[i] = 0;
 }
 
 void HIDUniversal::SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest) {
-        for (uint8_t i = 0; i < len; i++)
+        for(uint8_t i = 0; i < len; i++)
                 dest[i] = src[i];
 }
 
 uint8_t HIDUniversal::Poll() {
         uint8_t rcode = 0;
 
-        if (!bPollEnable)
+        if(!bPollEnable)
                 return 0;
 
-        if (qNextPollTime <= millis()) {
+        if(qNextPollTime <= millis()) {
                 qNextPollTime = millis() + 50;
 
                 uint8_t buf[constBuffLen];
 
-                for (uint8_t i = 0; i < bNumIface; i++) {
+                for(uint8_t i = 0; i < bNumIface; i++) {
                         uint8_t index = hidInterfaces[i].epIndex[epInterruptInIndex];
                         uint16_t read = (uint16_t)epInfo[index].maxPktSize;
 
@@ -358,32 +358,32 @@ uint8_t HIDUniversal::Poll() {
 
                         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[index].epAddr, &read, buf);
 
-                        if (rcode) {
-                                if (rcode != hrNAK)
+                        if(rcode) {
+                                if(rcode != hrNAK)
                                         USBTRACE3("(hiduniversal.h) Poll:", rcode, 0x81);
                                 return rcode;
                         }
 
-                        if (read > constBuffLen)
+                        if(read > constBuffLen)
                                 read = constBuffLen;
 
                         bool identical = BuffersIdentical(read, buf, prevBuf);
 
                         SaveBuffer(read, buf, prevBuf);
 
-                        if (identical)
+                        if(identical)
                                 return 0;
 
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
-                        for (uint8_t i = 0; i < read; i++)
+                        for(uint8_t i = 0; i < read; i++)
                                 D_PrintHex<uint8_t > (buf[i], 0x80);
 
                         Notify(PSTR("\r\n"), 0x80);
 
                         HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 
-                        if (prs)
+                        if(prs)
                                 prs->Parse(this, bHasReportId, (uint8_t)read, buf);
                 }
         }

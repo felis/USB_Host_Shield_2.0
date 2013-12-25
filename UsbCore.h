@@ -104,14 +104,38 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 
 class USBDeviceConfig {
 public:
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) { return 0; }
-        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {return 0; }
-        virtual uint8_t Release() { return 0; }
-        virtual uint8_t Poll() { return 0; }
-        virtual uint8_t GetAddress() { return 0; }
-        virtual void ResetHubPort(uint8_t port) { return; } // Note used for hubs only!
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) { return false; }
-        virtual boolean DEVCLASSOK(uint8_t klass) { return false; }
+
+        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed) {
+                return 0;
+        }
+
+        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
+                return 0;
+        }
+
+        virtual uint8_t Release() {
+                return 0;
+        }
+
+        virtual uint8_t Poll() {
+                return 0;
+        }
+
+        virtual uint8_t GetAddress() {
+                return 0;
+        }
+
+        virtual void ResetHubPort(uint8_t port) {
+                return;
+        } // Note used for hubs only!
+
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return false;
+        }
+
+        virtual boolean DEVCLASSOK(uint8_t klass) {
+                return false;
+        }
 };
 
 /* USB Setup Packet Structure   */
@@ -138,7 +162,7 @@ typedef struct {
         } wVal_u;
         uint16_t wIndex; //   4      Depends on bRequest
         uint16_t wLength; //   6      Depends on bRequest
-}__attribute__((packed)) SETUP_PKT, *PSETUP_PKT;
+} __attribute__((packed)) SETUP_PKT, *PSETUP_PKT;
 
 
 
@@ -166,7 +190,7 @@ public:
         };
 
         AddressPool& GetAddressPool() {
-                return(AddressPool&) addrPool;
+                return (AddressPool&)addrPool;
         };
 
         uint8_t RegisterDeviceClass(USBDeviceConfig *pdev) {
@@ -225,30 +249,29 @@ private:
 //get device descriptor
 
 inline uint8_t USB::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
-        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
+        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
 }
 //get configuration descriptor
 
 inline uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
-        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
+        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
 }
 //get string descriptor
 
 inline uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
-        return( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
+        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
 }
 //set address
 
 inline uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
-        return( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
+        return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
 }
 //set configuration
 
 inline uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
-        return( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
+        return ( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
 }
 
 #endif // defined(USB_METHODS_INLINE)
 
 #endif	/* USBCORE_H */
-

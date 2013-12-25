@@ -63,6 +63,7 @@
  * Debug macros: Strings are stored in progmem (flash) instead of RAM.
  */
 #define USBTRACE(s) (Notify(PSTR(s), 0x80))
+#define USBTRACE1(s,l) (Notify(PSTR(s), l))
 #define USBTRACE2(s,r) (Notify(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR("\r\n"), 0x80))
 #define USBTRACE3(s,r,l) (Notify(PSTR(s), l), D_PrintHex((r), l), Notify(PSTR("\r\n"), l))
 

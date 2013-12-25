@@ -30,7 +30,7 @@ bNumEP(1),
 qNextPollTime(0),
 bPollEnable(false),
 ready(false) {
-        for (uint8_t i = 0; i < ACM_MAX_ENDPOINTS; i++) {
+        for(uint8_t i = 0; i < ACM_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
@@ -40,7 +40,7 @@ ready(false) {
                 //if (!i)
                 epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
-        if (pUsb)
+        if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
 
@@ -59,16 +59,16 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("ACM Init\r\n");
 
-        if (bAddress)
+        if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -87,13 +87,13 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
@@ -102,7 +102,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
 
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -116,7 +116,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
@@ -126,12 +126,12 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         USBTRACE2("NC:", num_of_conf);
 
-        for (uint8_t i = 0; i < num_of_conf; i++) {
+        for(uint8_t i = 0; i < num_of_conf; i++) {
                 ConfigDescParser< USB_CLASS_COM_AND_CDC_CTRL,
                         CDC_SUBCLASS_ACM,
                         CDC_PROTOCOL_ITU_T_V_250,
@@ -144,19 +144,19 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &CdcControlParser);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &CdcDataParser);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
-                if (bNumEP > 1)
+                if(bNumEP > 1)
                         break;
         } // for
 
-        if (bNumEP < 4)
+        if(bNumEP < 4)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Assign epInfo to epinfo pointer
@@ -167,12 +167,12 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
         rcode = pAsync->OnInit(this);
 
-        if (rcode)
+        if(rcode)
                 goto FailOnInit;
 
         USBTRACE("ACM configured\r\n");
@@ -230,10 +230,10 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
         uint8_t index;
 
-        if ((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
                 index = epInterruptInIndex;
         else
-                if ((pep->bmAttributes & 0x02) == 2)
+                if((pep->bmAttributes & 0x02) == 2)
                 index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
         else
                 return;
@@ -264,7 +264,7 @@ uint8_t ACM::Release() {
 uint8_t ACM::Poll() {
         uint8_t rcode = 0;
 
-        if (!bPollEnable)
+        if(!bPollEnable)
                 return 0;
 
         //uint32_t	time_now = millis();

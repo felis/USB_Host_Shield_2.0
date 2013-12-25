@@ -170,7 +170,7 @@ class USBHub : USBDeviceConfig {
 
         uint8_t bAddress; // address
         uint8_t bNbrPorts; // number of ports
-//        uint8_t bInitState; // initialization state variable
+        //        uint8_t bInitState; // initialization state variable
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
 
@@ -195,52 +195,56 @@ public:
         virtual uint8_t Release();
         virtual uint8_t Poll();
         virtual void ResetHubPort(uint8_t port);
+
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
-        virtual boolean DEVCLASSOK(uint8_t klass) { return (klass == 0x09); }
+
+        virtual boolean DEVCLASSOK(uint8_t klass) {
+                return (klass == 0x09);
+        }
 
 };
 
 // Clear Hub Feature
 
 inline uint8_t USBHub::ClearHubFeature(uint8_t fid) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_HUB_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Clear Port Feature
 
 inline uint8_t USBHub::ClearPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000 | port) | (sel << 8)), 0, 0, NULL, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CLEAR_PORT_FEATURE, USB_REQUEST_CLEAR_FEATURE, fid, 0, ((0x0000 | port) | (sel << 8)), 0, 0, NULL, NULL));
 }
 // Get Hub Descriptor
 
 inline uint8_t USBHub::GetHubDescriptor(uint8_t index, uint16_t nbytes, uint8_t *dataptr) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_DESCRIPTOR, USB_REQUEST_GET_DESCRIPTOR, index, 0x29, 0, nbytes, nbytes, dataptr, NULL));
 }
 // Get Hub Status
 
 inline uint8_t USBHub::GetHubStatus(uint16_t nbytes, uint8_t* dataptr) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_HUB_STATUS, USB_REQUEST_GET_STATUS, 0, 0, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 // Get Port Status
 
 inline uint8_t USBHub::GetPortStatus(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_GET_PORT_STATUS, USB_REQUEST_GET_STATUS, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Descriptor
 
 inline uint8_t USBHub::SetHubDescriptor(uint8_t port, uint16_t nbytes, uint8_t* dataptr) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_DESCRIPTOR, USB_REQUEST_SET_DESCRIPTOR, 0, 0, port, nbytes, nbytes, dataptr, NULL));
 }
 // Set Hub Feature
 
 inline uint8_t USBHub::SetHubFeature(uint8_t fid) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_HUB_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, 0, 0, 0, NULL, NULL));
 }
 // Set Port Feature
 
 inline uint8_t USBHub::SetPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
 }
 
 void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);

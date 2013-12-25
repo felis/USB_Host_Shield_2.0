@@ -114,14 +114,13 @@ typedef struct {
         uint8_t bDataBits; // Data bits (5, 6, 7, 8 or 16)
 } LINE_CODING;
 
-typedef struct
-{
-  uint8_t   bmRequestType;  // 0xa1 for class-specific notifications
-  uint8_t   bNotification;
-  uint16_t  wValue;
-  uint16_t  wIndex;
-  uint16_t  wLength;
-  uint16_t  bmState;        //UART state bitmap for SERIAL_STATE, other notifications variable length
+typedef struct {
+        uint8_t bmRequestType; // 0xa1 for class-specific notifications
+        uint8_t bNotification;
+        uint16_t wValue;
+        uint16_t wIndex;
+        uint16_t wLength;
+        uint16_t bmState; //UART state bitmap for SERIAL_STATE, other notifications variable length
 } CLASS_NOTIFICATION;
 
 class ACM;
@@ -151,7 +150,7 @@ protected:
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
-       	bool  ready;      //device ready indicator
+        bool ready; //device ready indicator
 
         EpInfo epInfo[ACM_MAX_ENDPOINTS];
 
@@ -167,7 +166,7 @@ public:
         uint8_t GetLineCoding(LINE_CODING *dataptr);
         uint8_t SetControlLineState(uint8_t state);
         uint8_t SendBreak(uint16_t duration);
-        uint8_t GetNotif( uint16_t *bytes_rcvd, uint8_t *dataptr );
+        uint8_t GetNotif(uint16_t *bytes_rcvd, uint8_t *dataptr);
 
         // Methods for recieving and sending data
         uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
@@ -182,9 +181,9 @@ public:
                 return bAddress;
         };
 
-				virtual bool isReady() {
-								return ready;
-				};
+        virtual bool isReady() {
+                return ready;
+        };
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
