@@ -52,7 +52,7 @@ class MouseReportParser : public HIDReportParser {
 
         union {
                 MOUSEINFO mouseInfo;
-                uint8_t bInfo[sizeof(MOUSEINFO)];
+                uint8_t bInfo[sizeof (MOUSEINFO)];
         } prevState;
 
 public:
@@ -128,7 +128,7 @@ protected:
 
         union {
                 KBDINFO kbdInfo;
-                uint8_t bInfo[sizeof(KBDINFO)];
+                uint8_t bInfo[sizeof (KBDINFO)];
         } prevState;
 
         union {
@@ -245,7 +245,7 @@ void HIDBoot<BOOT_PROTOCOL>::Initialize() {
 
 template <const uint8_t BOOT_PROTOCOL>
 uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed) {
-        const uint8_t constBufSize = sizeof(USB_DEVICE_DESCRIPTOR);
+        const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
         uint8_t rcode;
@@ -287,7 +287,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*) buf);
+        rcode = pUsb->getDevDescr(0, 0, 8, (uint8_t*)buf);
 
         if(!rcode)
                 len = (buf[0] > constBufSize) ? constBufSize : buf[0];
@@ -309,7 +309,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t) ((USB_DEVICE_DESCRIPTOR*) buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -335,12 +335,12 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         p->lowspeed = lowspeed;
 
         if(len)
-                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*) buf);
+                rcode = pUsb->getDevDescr(bAddress, 0, len, (uint8_t*)buf);
 
         if(rcode)
                 goto FailGetDevDescr;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*) buf)->bNumConfigurations;
+        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
 
         USBTRACE2("NC:", num_of_conf);
 
@@ -355,7 +355,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 confDescrParser.SetOR(); // Use the OR variant.
                 for(uint8_t i = 0; i < num_of_conf; i++) {
                         pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
-                        if(bNumEP == (uint8_t) (totalEndpoints(BOOT_PROTOCOL)))
+                        if(bNumEP == (uint8_t)(totalEndpoints(BOOT_PROTOCOL)))
                                 break;
                 }
         } else {
@@ -370,7 +370,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                                         CP_MASK_COMPARE_ALL> confDescrParserA(this);
 
                                 pUsb->getConfDescr(bAddress, 0, i, &confDescrParserA);
-                                if(bNumEP == (uint8_t) (totalEndpoints(BOOT_PROTOCOL)))
+                                if(bNumEP == (uint8_t)(totalEndpoints(BOOT_PROTOCOL)))
                                         break;
                         }
                 }
@@ -386,7 +386,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                                         CP_MASK_COMPARE_ALL> confDescrParserB(this);
 
                                 pUsb->getConfDescr(bAddress, 0, i, &confDescrParserB);
-                                if(bNumEP == ((uint8_t) (totalEndpoints(BOOT_PROTOCOL))))
+                                if(bNumEP == ((uint8_t)(totalEndpoints(BOOT_PROTOCOL))))
                                         break;
 
                         }
@@ -394,7 +394,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         }
         USBTRACE2("bNumEP:", bNumEP);
 
-        if(bNumEP != (uint8_t) (totalEndpoints(BOOT_PROTOCOL))) {
+        if(bNumEP != (uint8_t)(totalEndpoints(BOOT_PROTOCOL))) {
                 rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
                 goto Fail;
         }
@@ -425,7 +425,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 USBTRACE2("PROTOCOL SET HID_BOOT rcode:", rcode);
                 rcode = SetIdle(i, 0, 0);
                 USBTRACE2("SET_IDLE rcode:", rcode);
-                if(rcode) goto FailSetIdle;
+                // if(rcode) goto FailSetIdle; This can fail.
                 // Get the RPIPE and just throw it away.
                 SinkParser<USBReadParser, uint16_t, uint16_t> sink;
                 rcode = GetReportDescr(i, &sink);
@@ -480,10 +480,10 @@ FailSetProtocol:
         goto Fail;
 #endif
 
-FailSetIdle:
-#ifdef DEBUG_USB_HOST
-        USBTRACE("SetIdle:");
-#endif
+        //FailSetIdle:
+        //#ifdef DEBUG_USB_HOST
+        //        USBTRACE("SetIdle:");
+        //#endif
 
 Fail:
 #ifdef DEBUG_USB_HOST
@@ -510,7 +510,7 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
 
                 // Fill in the endpoint info structure
                 epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
-                epInfo[bNumEP].maxPktSize = (uint8_t) pep->wMaxPacketSize;
+                epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
                 epInfo[bNumEP].epAttribs = 0;
                 epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
                 bNumEP++;
@@ -538,35 +538,44 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
 
         if(bPollEnable && qNextPollTime <= millis()) {
 
-                // To-do: optimize manually, getting rid of the loop
+                // To-do: optimize manually, using the for loop only if needed.
                 for(int i = 0; i < epMUL(BOOT_PROTOCOL); i++) {
-                        const uint8_t const_buff_len = 16;
+                        const uint16_t const_buff_len = 16;
                         uint8_t buf[const_buff_len];
 
                         USBTRACE3("(hidboot.h) i=", i, 0x81);
                         USBTRACE3("(hidboot.h) epInfo[epInterruptInIndex + i].epAddr=", epInfo[epInterruptInIndex + i].epAddr, 0x81);
                         USBTRACE3("(hidboot.h) epInfo[epInterruptInIndex + i].maxPktSize=", epInfo[epInterruptInIndex + i].maxPktSize, 0x81);
-                        uint16_t read = (uint16_t) epInfo[epInterruptInIndex + i].maxPktSize;
+                        uint16_t read = (uint16_t)epInfo[epInterruptInIndex + i].maxPktSize;
 
-                        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &read, buf);
-                        if(!rcode) {
+                        rcode = pUsb->inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &read, buf);
+                        // SOME buggy dongles report extra keys (like sleep) using a 2 byte packet on the wrong endpoint.
+                        // Since keyboard and mice must report at least 3 bytes, we ignore the extra data.
+                        if(!rcode && read > 2) {
                                 if(pRptParser[i])
-                                        pRptParser[i]->Parse((HID*)this, 0, (uint8_t) read, buf);
-
-#if 0 // Set this to 1 to print the incoming data
-                                for(uint8_t i = 0; i < read; i++) {
-                                        PrintHex<uint8_t > (buf[i], 0x80);
-                                        USB_HOST_SERIAL.write(' ');
-                                }
-                                if(read)
-                                        USB_HOST_SERIAL.println();
-#endif
+                                        pRptParser[i]->Parse((HID*)this, 0, (uint8_t)read, buf);
+#ifdef DEBUG_USB_HOST
+                                // We really don't care about errors and anomalies unless we are debugging.
                         } else {
                                 if(rcode != hrNAK) {
                                         USBTRACE3("(hidboot.h) Poll:", rcode, 0x81);
-                                        //break;
+                                }
+                                if(!rcode && read) {
+                                        USBTRACE3("(hidboot.h) Strange read count: ", read, 0x80);
+                                        USBTRACE3("(hidboot.h) Interface:", i, 0x80);
                                 }
                         }
+
+                        if(!rcode && read && (UsbDEBUGlvl > 0x7f)) {
+                                for(uint8_t i = 0; i < read; i++) {
+                                        PrintHex<uint8_t > (buf[i], 0x80);
+                                        USBTRACE1(" ", 0x80);
+                                }
+                                if(read)
+                                        USBTRACE1("\r\n", 0x80);
+#endif
+                        }
+
                 }
                 qNextPollTime = millis() + bInterval;
         }
