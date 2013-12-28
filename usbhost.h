@@ -153,9 +153,10 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         data_p += nbytes;
 #else
         SPDR = (reg | 0x02); //set WR bit and send register number
-        while(nbytes--) {
+        while(nbytes) {
                 while(!(SPSR & (1 << SPIF))); //check if previous byte was sent
                 SPDR = (*data_p); // send next data byte
+                nbytes--;
                 data_p++; // advance data pointer
         }
         while(!(SPSR & (1 << SPIF)));
