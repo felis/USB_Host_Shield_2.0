@@ -24,10 +24,10 @@ uint8_t HIDUniversal2::OnInitSuccessful()
     HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
     ReportDescParser                                Rpt;
 
-    if (rcode = GetReportDescr(0, &Hex))
+    if ((rcode = GetReportDescr(0, &Hex)))
         goto FailGetReportDescr1;
 
-    if (rcode = GetReportDescr(0, &Rpt))
+    if ((rcode = GetReportDescr(0, &Rpt)))
 	goto FailGetReportDescr2;
 
     return 0;
