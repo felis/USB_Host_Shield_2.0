@@ -42,11 +42,11 @@ public:
          * @param ACLData Incoming acldata.
          */
         virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state maschine. */
+        /** Used to run part of the state machine. */
         virtual void Run();
         /** Use this to reset the service. */
         virtual void Reset();
-        /** Used this to disconnect any of the controllers. */
+        /** Used this to disconnect the devices. */
         virtual void disconnect();
 
         /**@}*/
@@ -60,24 +60,31 @@ public:
                 return true;
         };
 
+        /**
+         * Set HID protocol mode.
+         * @param mode HID protocol to use. Either HID_BOOT_PROTOCOL or HID_RPT_PROTOCOL.
+         */
         void setProtocolMode(uint8_t mode) {
                 protocolMode = mode;
         };
 
-        /** Used to set the leds on a keyboard */
+        /**
+         * Used to set the leds on a keyboard.
+         * @param data See KBDLEDS in hidboot.h
+         */
         void setLeds(uint8_t data);
 
         /** True if a device is connected */
         bool connected;
 
-        /** Call this to start the paring sequence with a controller */
+        /** Call this to start the paring sequence with a device */
         void pair(void) {
                 if(pBtd)
                         pBtd->pairWithHID();
         };
 
         /**
-         * Used to call your own function when the controller is successfully initialized.
+         * Used to call your own function when the device is successfully initialized.
          * @param funcOnInit Function to call.
          */
         void attachOnInit(void (*funcOnInit)(void)) {
@@ -87,28 +94,28 @@ public:
 private:
         BTD *pBtd; // Pointer to BTD instance
 
-        HIDReportParser *pRptParser[NUM_PARSERS];
+        HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
 
         /** Set report protocol. */
         void setProtocol();
         uint8_t protocolMode;
 
         /**
-         * Called when the controller is successfully initialized.
+         * Called when a device is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         void onInit() {
                 if(pFuncOnInit)
                         pFuncOnInit(); // Call the user function
-        }
+        };
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         void L2CAP_task(); // L2CAP state machine
 
         /* Variables filled from HCI event management */
         uint16_t hci_handle;
-        bool activeConnection; // Used to indicate if it's already has established a connection
+        bool activeConnection; // Used to indicate if it already has established a connection
 
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;

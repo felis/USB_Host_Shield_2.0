@@ -286,7 +286,7 @@ public:
          */
         virtual boolean DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_WIRELESS_CTRL);
-        }
+        };
 
         /**
          * Used by the USB core to check what this driver support.

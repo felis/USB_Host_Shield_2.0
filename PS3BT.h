@@ -46,7 +46,7 @@ public:
          * @param ACLData Incoming acldata.
          */
         virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state maschine. */
+        /** Used to run part of the state machine. */
         virtual void Run();
         /** Use this to reset the service. */
         virtual void Reset();
@@ -147,7 +147,7 @@ public:
         /** Turn all LEDs off. */
         void setLedOff() {
                 setLedRaw(0);
-        }
+        };
         /**
          * Turn the specific ::LED off.
          * @param a The ::LED to turn off.
