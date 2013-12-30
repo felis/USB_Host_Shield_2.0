@@ -191,6 +191,22 @@
 
 #define PAIR    1
 
+/* acl_handle_ok or it's a new connection */
+#if 0
+#define UHS_ACL_HANDLE_OK(x, y) ((uint16_t)(x[0]) | (uint16_t)(x[1] << 8)) == (y | 0x2000U)
+#else
+/*
+ *  Better implementation.
+ *  o One place for this code, it is reused four times in the source.
+ *    Perhaps it is better as a function.
+ *  o This should be faster since the && operation can early exit, this means
+ *    the shift would only be performed if the first byte matches.
+ *  o Casting is eliminated.
+ *  o How does this compare in code size? No difference. It is a free optimization.
+ */
+#define UHS_ACL_HANDLE_OK(x, y) ((x[0] == (y & 0xff)) && (x[1] == ((y >> 8) | 0x20)))
+#endif
+
 /** All Bluetooth services should inherit this class. */
 class BluetoothService {
 public:
