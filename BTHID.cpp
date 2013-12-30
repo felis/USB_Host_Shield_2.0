@@ -48,7 +48,7 @@ void BTHID::Reset() {
         l2cap_state = L2CAP_WAIT;
 }
 
-void BTHID::disconnect() { // Use this void to disconnect any of the controllers
+void BTHID::disconnect() { // Use this void to disconnect the device
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
         pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
@@ -383,7 +383,13 @@ void BTHID::setProtocol() {
         Notify(PSTR("\r\nSet protocol mode: "), 0x80);
         D_PrintHex<uint8_t > (protocolMode, 0x80);
 #endif
-        uint8_t command = 0x70 | protocolMode; // Set Protocol, see HID specs page 33
+        if (protocolMode != HID_BOOT_PROTOCOL && protocolMode != HID_RPT_PROTOCOL) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nNot a valid protocol mode. Using Boot protocol instead."), 0x80);
+#endif
+                protocolMode = HID_BOOT_PROTOCOL; // Use Boot Protocol by default
+        }
+        uint8_t command = 0x70 | protocolMode; // Set Protocol, see Bluetooth HID specs page 33
         pBtd->L2CAP_Command(hci_handle, &command, 1, control_scid[0], control_scid[1]);
 }
 
