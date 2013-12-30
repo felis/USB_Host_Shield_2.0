@@ -42,6 +42,7 @@
 #define XBOX_WIRELESS_PID                       0x028F  // Wireless controller only support charging
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
+#define MADCATZ_WIRED_PID                       0xF016  // Mad Catz wired controller
 #define GAMESTOP_WIRED_PID                      0x0401  // Gamestop wired controller
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
@@ -104,7 +105,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == GAMESTOP_WIRED_PID));
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == MADCATZ_WIRED_PID || pid == GAMESTOP_WIRED_PID));
         };
         /**@}*/
 
