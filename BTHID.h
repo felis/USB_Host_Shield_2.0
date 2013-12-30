@@ -51,11 +51,26 @@ public:
 
         /**@}*/
 
+        /**
+         * Get HIDReportParser.
+         * @param  id ID of parser.
+         * @return    Returns the corresponding HIDReportParser. Returns NULL if id is not valid.
+         */
         HIDReportParser *GetReportParser(uint8_t id) {
+                if (id >= NUM_PARSERS)
+                        return NULL;
                 return pRptParser[id];
         };
 
+        /**
+         * Set HIDReportParser to be used.
+         * @param  id  Id of parser.
+         * @param  prs Pointer to HIDReportParser.
+         * @return     Returns true if the HIDReportParser is set. False otherwise.
+         */
         bool SetReportParser(uint8_t id, HIDReportParser *prs) {
+                if (id >= NUM_PARSERS)
+                        return false;
                 pRptParser[id] = prs;
                 return true;
         };
