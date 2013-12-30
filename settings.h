@@ -38,6 +38,13 @@
 #define USE_XMEM_SPI_LOCK 0
 
 ////////////////////////////////////////////////////////////////////////////////
+// Wii IR camera
+////////////////////////////////////////////////////////////////////////////////
+
+/* Set this to 1 to activate code for the Wii IR camera */
+#define ENABLE_WII_IR_CAMERA 0
+
+////////////////////////////////////////////////////////////////////////////////
 // MASS STORAGE
 ////////////////////////////////////////////////////////////////////////////////
 // <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
@@ -46,7 +53,6 @@
 #ifndef MASS_MAX_SUPPORTED_LUN
 #define MASS_MAX_SUPPORTED_LUN 8
 #endif
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Set to 1 to use the faster spi4teensy3 driver.
@@ -61,10 +67,6 @@
 
 // No user serviceable parts below this line.
 // DO NOT change anything below here unless you are a developer!
-
-#if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
-#define DEBUG_USB_HOST
-#endif
 
 // When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
@@ -91,6 +93,14 @@
 #endif
 #endif
 #endif
+#endif
+
+#if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
+#define DEBUG_USB_HOST
+#endif
+
+#if !defined(WIICAMERA) && ENABLE_WII_IR_CAMERA
+#define WIICAMERA
 #endif
 
 #if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)

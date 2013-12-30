@@ -86,8 +86,8 @@ The [BTD library](BTD.cpp) is a general purpose library for an ordinary Bluetoot
 This library make it easy to add support for different Bluetooth services like a PS3 or a Wii controller or SPP which is a virtual serial port via Bluetooth.
 Some different examples can be found in the [example directory](examples/Bluetooth).
 
-The BTD library will also make it possible to use multiple services at once, the following example sketch is an example of this:
-<https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3SPP/PS3SPP.ino>.
+The BTD library also makes it possible to use multiple services at once, the following example sketch is an example of this:
+[PS3SPP.ino](examples/Bluetooth/PS3SPP/PS3SPP.ino).
 
 ### [BTHID library](BTHID.cpp)
 
@@ -95,12 +95,14 @@ The [Bluetooth HID library](BTHID.cpp) allows you to connect HID devices via Blu
 
 Currently HID mice and keyboards are supported.
 
-It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/BTHID/BTHID.ino> for more information.
+It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: [BTHID.ino](examples/Bluetooth/BTHID/BTHID.ino) for more information.
 
 ### [SPP library](SPP.cpp)
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
 It has been tested successfully on Windows, Mac OS X, Linux, and Android.
+
+Take a look at the [SPP.ino](examples/Bluetooth/SPP/SPP.ino) example for more information.
 
 More information can be found at these blog posts:
 
@@ -116,7 +118,7 @@ These libraries consist of the [PS3BT](PS3BT.cpp) and [PS3USB](PS3USB.cpp). Thes
 
 In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via USB and letting the library set it automatically.
 
-__Note:__ To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/PS3BT/PS3BT.ino#L15>.
+__Note:__ To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: [PS3BT.ino#L20](examples/Bluetooth/PS3BT/PS3BT.ino#L20).
 
 For more information about the PS3 protocol see the official wiki: <https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information>.
 
@@ -195,11 +197,16 @@ WII Wii(&Btd);
 
 Then just press any button on the Wiimote and it will then connect to the dongle.
 
-Take a look at the example for more information: <https://github.com/felis/USB_Host_Shield_2.0/blob/master/examples/Bluetooth/Wii/Wii.ino>.
+Take a look at the example for more information: [Wii.ino](examples/Bluetooth/Wii/Wii.ino).
 
 Also take a look at the blog post:
 
 * <http://blog.tkjelectronics.dk/2012/08/wiimote-added-to-usb-host-library/>
+
+The Wii IR camera can also be used, but you will have to activate the code for it manually as it is quite large. Simply set ```ENABLE_WII_IR_CAMERA``` to 1 in [settings.h](settings.h).
+
+The [WiiIRCamera.ino](examples/Bluetooth/WiiIRCamera/WiiIRCamera.ino) example shows how it can be used.
+
 
 All the information about the Wii controllers are from these sites:
 

@@ -19,7 +19,7 @@ Otherwise, wire up a IR LED yourself.
 #endif
 
 #ifndef WIICAMERA // Used to check if WIICAMERA is defined
-#error "Uncomment WIICAMERA in Wii.h to use this example"
+#error "Please set ENABLE_WII_IR_CAMERA to 1 in settings.h"
 #endif
 
 USB Usb;

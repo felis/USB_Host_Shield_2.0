@@ -23,9 +23,6 @@
 #include "BTD.h"
 #include "controllerEnums.h"
 
-/** You will have to uncomment this to use the IR camera */
-//#define WIICAMERA
-
 /* Wii event flags */
 #define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
 #define WII_FLAG_NUNCHUCK_CONNECTED     0x02
@@ -281,7 +278,7 @@ public:
 
 #ifdef WIICAMERA
         /** @name Wiimote IR camera functions
-         * You will have to uncomment #WIICAMERA in Wii.h to use the IR camera.
+         * You will have to set ENABLE_WII_IR_CAMERA in settings.h to 1 in order use the IR camera.
          */
         /** Initialises the camera as per the steps from: http://wiibrew.org/wiki/Wiimote#IR_Camera */
         void IRinitialize();
