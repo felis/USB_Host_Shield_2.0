@@ -96,7 +96,7 @@ void loop() {
 
     if (PS3.getButtonClick(SELECT)) {
       Serial.print(F("\r\nSelect - "));
-      Serial.print(PS3.getStatusString());
+      PS3.printStatusString();
     }
     if (PS3.getButtonClick(START)) {
       Serial.print(F("\r\nStart"));

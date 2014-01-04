@@ -52,7 +52,7 @@ getSensor	KEYWORD2
 getAngle	KEYWORD2
 get9DOFValues	KEYWORD2
 getStatus	KEYWORD2
-getStatusString	KEYWORD2
+printStatusString	KEYWORD2
 getTemperature	KEYWORD2
 disconnect	KEYWORD2
 

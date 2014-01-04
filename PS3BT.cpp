@@ -160,18 +160,17 @@ bool PS3BT::getStatus(StatusEnum c) {
         return (l2capinbuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff));
 }
 
-String PS3BT::getStatusString() {
+void PS3BT::printStatusString() {
+        char statusOutput[100]; // Max string length plus null character
         if(PS3Connected || PS3NavigationConnected) {
-                char statusOutput[100]; // Max string length plus null character
-
                 strcpy_P(statusOutput, PSTR("ConnectionStatus: "));
 
                 if(getStatus(Plugged)) strcat_P(statusOutput, PSTR("Plugged"));
                 else if(getStatus(Unplugged)) strcat_P(statusOutput, PSTR("Unplugged"));
                 else strcat_P(statusOutput, PSTR("Error"));
 
-
                 strcat_P(statusOutput, PSTR(" - PowerRating: "));
+
                 if(getStatus(Charging)) strcat_P(statusOutput, PSTR("Charging"));
                 else if(getStatus(NotCharging)) strcat_P(statusOutput, PSTR("Not Charging"));
                 else if(getStatus(Shutdown)) strcat_P(statusOutput, PSTR("Shutdown"));
@@ -188,12 +187,7 @@ String PS3BT::getStatusString() {
                 else if(getStatus(BluetoothRumble)) strcat_P(statusOutput, PSTR("Bluetooth - Rumble is on"));
                 else if(getStatus(Bluetooth)) strcat_P(statusOutput, PSTR("Bluetooth - Rumble is off"));
                 else strcat_P(statusOutput, PSTR("Error"));
-
-                return statusOutput;
-
         } else if(PS3MoveConnected) {
-                char statusOutput[26]; // Max string length plus null character
-
                 strcpy_P(statusOutput, PSTR("PowerRating: "));
 
                 if(getStatus(MoveCharging)) strcat_P(statusOutput, PSTR("Charging"));
@@ -204,10 +198,10 @@ String PS3BT::getStatusString() {
                 else if(getStatus(MoveHigh)) strcat_P(statusOutput, PSTR("High"));
                 else if(getStatus(MoveFull)) strcat_P(statusOutput, PSTR("Full"));
                 else strcat_P(statusOutput, PSTR("Error"));
-
-                return statusOutput;
         } else
-                return "Error";
+                strcpy_P(statusOutput, PSTR("Error"));
+
+        USB_HOST_SERIAL.write((uint8_t*)statusOutput, strlen(statusOutput));
 }
 
 void PS3BT::Reset() {

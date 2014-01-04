@@ -116,7 +116,7 @@ void loop() {
 
         if (PS3[i]->getButtonClick(SELECT)) {
           Serial.print(F("\r\nSelect - "));
-          Serial.print(PS3[i]->getStatusString());
+          PS3[i]->printStatusString();
         }
         if (PS3[i]->getButtonClick(START)) {
           Serial.print(F("\r\nStart"));

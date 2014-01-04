@@ -193,11 +193,8 @@ public:
          * @return   True if correct and false if not.
          */
         bool getStatus(StatusEnum c);
-        /**
-         * Read all the available ::StatusEnum from the controller.
-         * @return One large string with all the information.
-         */
-        String getStatusString();
+        /** Read all the available statuses from the controller and prints it as a nice formated string. */
+        void printStatusString();
 
         /** Used to set all LEDs and rumble off. */
         void setAllOff();

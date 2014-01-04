@@ -141,8 +141,7 @@ void loop() {
         output += " - R3";
 
       if (PS3.getButtonClick(SELECT)) {
-        output += " - Select - ";
-        output += PS3.getStatusString();
+        output += " - Select";
       }
       if (PS3.getButtonClick(START))
         output += " - Start";
