@@ -122,7 +122,7 @@ void onInit() {
   for (uint8_t i = 0; i < length; i++) {
     if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
       oldControllerState[i] = true; // Used to check which is the new controller
-      Wii[i]->setLedOn((LED)i); // Cast directly to LED enum - see: "controllerEnums.h"
+      Wii[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
     }
   }
 }

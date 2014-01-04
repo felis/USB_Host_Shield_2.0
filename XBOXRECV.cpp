@@ -406,15 +406,15 @@ void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#d
 #endif
 }
 
-uint8_t XBOXRECV::getButtonPress(Button b, uint8_t controller) {
+uint8_t XBOXRECV::getButtonPress(ButtonEnum b, uint8_t controller) {
         if(b == L2) // These are analog buttons
                 return (uint8_t)(ButtonState[controller] >> 8);
         else if(b == R2)
                 return (uint8_t)ButtonState[controller];
-        return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]) << 16));
 }
 
-bool XBOXRECV::getButtonClick(Button b, uint8_t controller) {
+bool XBOXRECV::getButtonClick(ButtonEnum b, uint8_t controller) {
         if(b == L2) {
                 if(L2Clicked[controller]) {
                         L2Clicked[controller] = false;
@@ -428,13 +428,13 @@ bool XBOXRECV::getButtonClick(Button b, uint8_t controller) {
                 }
                 return false;
         }
-        uint16_t button = pgm_read_word(&XBOXBUTTONS[(uint8_t)b]);
+        uint16_t button = pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState[controller] & button);
         ButtonClickState[controller] &= ~button; // clear "click" event
         return click;
 }
 
-int16_t XBOXRECV::getAnalogHat(AnalogHat a, uint8_t controller) {
+int16_t XBOXRECV::getAnalogHat(AnalogHatEnum a, uint8_t controller) {
         return hatValue[controller][a];
 }
 
@@ -512,16 +512,18 @@ void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {
         XboxCommand(controller, writeBuf, 4);
 }
 
-void XBOXRECV::setLedOn(LED led, uint8_t controller) {
-        if(led != ALL) // All LEDs can't be on a the same time
-                setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]) + 4, controller);
+void XBOXRECV::setLedOn(LEDEnum led, uint8_t controller) {
+        if(led == OFF)
+                setLedRaw(0);
+        else if(led != ALL) // All LEDs can't be on a the same time
+                setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]) + 4);
 }
 
-void XBOXRECV::setLedBlink(LED led, uint8_t controller) {
-        setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]), controller);
+void XBOXRECV::setLedBlink(LEDEnum led, uint8_t controller) {
+        setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]), controller);
 }
 
-void XBOXRECV::setLedMode(LEDMode ledMode, uint8_t controller) { // This function is used to do some speciel LED stuff the controller supports
+void XBOXRECV::setLedMode(LEDModeEnum ledMode, uint8_t controller) { // This function is used to do some speciel LED stuff the controller supports
         setLedRaw((uint8_t)ledMode, controller);
 }
 
@@ -567,7 +569,7 @@ void XBOXRECV::onInit(uint8_t controller) {
         if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
         else {
-                LED led;
+                LEDEnum led;
                 if(controller == 0)
                         led = LED1;
                 else if(controller == 1)

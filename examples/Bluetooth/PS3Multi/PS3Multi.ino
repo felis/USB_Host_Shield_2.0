@@ -139,7 +139,7 @@ void onInit() {
   for (uint8_t i = 0; i < length; i++) {
     if ((PS3[i]->PS3Connected || PS3[i]->PS3NavigationConnected) && !oldControllerState[i]) {
       oldControllerState[i] = true; // Used to check which is the new controller
-      PS3[i]->setLedOn((LED)i); // Cast directly to LED enum - see: "controllerEnums.h"
+      PS3[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
     }
   }
 }

@@ -20,8 +20,11 @@
 
 #include "controllerEnums.h"
 
+/** Size of the output report buffer for the Dualshock and Navigation controllers */
+#define PS3_REPORT_BUFFER_SIZE  48
+
 /** Report buffer for all PS3 commands */
-const uint8_t PS3_REPORT_BUFFER[] PROGMEM = {
+const uint8_t PS3_REPORT_BUFFER[PS3_REPORT_BUFFER_SIZE] PROGMEM = {
         0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00,
         0xff, 0x27, 0x10, 0x00, 0x32,
@@ -33,14 +36,12 @@ const uint8_t PS3_REPORT_BUFFER[] PROGMEM = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-/** Size of the output report buffer for the Dualshock and Navigation controllers */
-#define PS3_REPORT_BUFFER_SIZE  48
-
 /** Size of the output report buffer for the Move Controller */
 #define MOVE_REPORT_BUFFER_SIZE 7
 
 /** Used to set the LEDs on the controllers */
-const uint8_t LEDS[] PROGMEM = {
+const uint8_t PS3_LEDS[] PROGMEM = {
+        0x00, // OFF
         0x01, // LED1
         0x02, // LED2
         0x04, // LED3
@@ -51,15 +52,15 @@ const uint8_t LEDS[] PROGMEM = {
         0x0C, // LED7
         0x0D, // LED8
         0x0E, // LED9
-        0x0F // LED10
+        0x0F, // LED10
 };
 
 /**
  * Buttons on the controllers
  *
- * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
  */
-const uint32_t BUTTONS[] PROGMEM = {
+const uint32_t PS3_BUTTONS[] PROGMEM = {
         0x10, // UP
         0x20, // RIGHT
         0x40, // DOWN
@@ -82,15 +83,15 @@ const uint32_t BUTTONS[] PROGMEM = {
 
         0x010000, // PS
         0x080000, // MOVE - covers 12 bits - we only need to read the top 8
-        0x100000 // T - covers 12 bits - we only need to read the top 8
+        0x100000, // T - covers 12 bits - we only need to read the top 8
 };
 
 /**
  * Analog buttons on the controllers
  *
- * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
  */
-const uint8_t ANALOGBUTTONS[] PROGMEM = {
+const uint8_t PS3_ANALOG_BUTTONS[] PROGMEM = {
         23, // UP_ANALOG
         24, // RIGHT_ANALOG
         25, // DOWN_ANALOG
@@ -108,11 +109,11 @@ const uint8_t ANALOGBUTTONS[] PROGMEM = {
         0, 0, // Skip PS and MOVE
 
         // Playstation Move Controller
-        15 // T_ANALOG - Both at byte 14 (last reading) and byte 15 (current reading)
+        15, // T_ANALOG - Both at byte 14 (last reading) and byte 15 (current reading)
 };
 
 /** Used to set the colors of the move controller. */
-enum Colors {
+enum ColorsEnum {
         /** r = 255, g = 0, b = 0 */
         Red = 0xFF0000,
         /** r = 0, g = 255, b = 0 */
@@ -136,9 +137,9 @@ enum Colors {
 /**
  * Sensors inside the Sixaxis Dualshock 3 and Move controller.
  *
- * <B>Note:</B> that the location is shiftet 9 when it's connected via USB.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
  */
-enum Sensor {
+enum SensorEnum {
         /** Accelerometer x-axis */
         aX = 50,
         /** Accelerometer y-axis */
@@ -174,13 +175,13 @@ enum Sensor {
 };
 
 /** Used to get the angle calculated using the accelerometer. */
-enum Angle {
+enum AngleEnum {
         Pitch = 0x01,
         Roll = 0x02,
 };
 
-enum Status {
-        // Note that the location is shiftet 9 when it's connected via USB
+enum StatusEnum {
+        // Note that the location is shifted 9 when it's connected via USB
         // Byte location | bit location
         Plugged = (38 << 8) | 0x02,
         Unplugged = (38 << 8) | 0x03,
@@ -201,13 +202,13 @@ enum Status {
         MoveHigh = (21 << 8) | 0x04,
         MoveFull = (21 << 8) | 0x05,
 
-        CableRumble = (40 << 8) | 0x10, //Opperating by USB and rumble is turned on
-        Cable = (40 << 8) | 0x12, //Opperating by USB and rumble is turned off
-        BluetoothRumble = (40 << 8) | 0x14, //Opperating by bluetooth and rumble is turned on
-        Bluetooth = (40 << 8) | 0x16, //Opperating by bluetooth and rumble is turned off
+        CableRumble = (40 << 8) | 0x10, // Operating by USB and rumble is turned on
+        Cable = (40 << 8) | 0x12, // Operating by USB and rumble is turned off
+        BluetoothRumble = (40 << 8) | 0x14, // Operating by Bluetooth and rumble is turned on
+        Bluetooth = (40 << 8) | 0x16, // Operating by Bluetooth and rumble is turned off
 };
 
-enum Rumble {
+enum RumbleEnum {
         RumbleHigh = 0x10,
         RumbleLow = 0x20,
 };

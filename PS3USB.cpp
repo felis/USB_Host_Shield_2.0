@@ -312,30 +312,30 @@ void PS3USB::printReport() { // Uncomment "#define PRINTREPORT" to print the rep
 #endif
 }
 
-bool PS3USB::getButtonPress(Button b) {
-        return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
+bool PS3USB::getButtonPress(ButtonEnum b) {
+        return (ButtonState & pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]));
 }
 
-bool PS3USB::getButtonClick(Button b) {
-        uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+bool PS3USB::getButtonClick(ButtonEnum b) {
+        uint32_t button = pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // Clear "click" event
         return click;
 }
 
-uint8_t PS3USB::getAnalogButton(Button a) {
-        return (uint8_t)(readBuf[(pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a])) - 9]);
+uint8_t PS3USB::getAnalogButton(ButtonEnum a) {
+        return (uint8_t)(readBuf[(pgm_read_byte(&PS3_ANALOG_BUTTONS[(uint8_t)a])) - 9]);
 }
 
-uint8_t PS3USB::getAnalogHat(AnalogHat a) {
+uint8_t PS3USB::getAnalogHat(AnalogHatEnum a) {
         return (uint8_t)(readBuf[((uint8_t)a + 6)]);
 }
 
-uint16_t PS3USB::getSensor(Sensor a) {
+uint16_t PS3USB::getSensor(SensorEnum a) {
         return ((readBuf[((uint16_t)a) - 9] << 8) | readBuf[((uint16_t)a + 1) - 9]);
 }
 
-double PS3USB::getAngle(Angle a) {
+double PS3USB::getAngle(AngleEnum a) {
         if(PS3Connected) {
                 double accXval;
                 double accYval;
@@ -358,7 +358,7 @@ double PS3USB::getAngle(Angle a) {
                 return 0;
 }
 
-bool PS3USB::getStatus(Status c) {
+bool PS3USB::getStatus(StatusEnum c) {
         return (readBuf[((uint16_t)c >> 8) - 9] == ((uint8_t)c & 0xff));
 }
 
@@ -419,7 +419,7 @@ void PS3USB::setRumbleOff() {
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::setRumbleOn(Rumble mode) {
+void PS3USB::setRumbleOn(RumbleEnum mode) {
         if((mode & 0x30) > 0x00) {
                 uint8_t power[2] = {0xff, 0x00}; // Defaults to RumbleLow
                 if(mode == RumbleHigh) {
@@ -443,18 +443,22 @@ void PS3USB::setLedRaw(uint8_t value) {
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::setLedOff(LED a) {
-        writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
+void PS3USB::setLedOff(LEDEnum a) {
+        writeBuf[9] &= ~((uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1));
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::setLedOn(LED a) {
-        writeBuf[9] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
-        PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+void PS3USB::setLedOn(LEDEnum a) {
+        if(a == OFF)
+                setLedRaw(0);
+        else {
+                writeBuf[9] |= (uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1);
+                PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+        }
 }
 
-void PS3USB::setLedToggle(LED a) {
-        writeBuf[9] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+void PS3USB::setLedToggle(LEDEnum a) {
+        writeBuf[9] ^= (uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1);
         PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
@@ -506,7 +510,7 @@ void PS3USB::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { // Use this to set t
         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE);
 }
 
-void PS3USB::moveSetBulb(Colors color) { // Use this to set the Color using the predefined colors in "enums.h"
+void PS3USB::moveSetBulb(ColorsEnum color) { // Use this to set the Color using the predefined colors in "enums.h"
         moveSetBulb((uint8_t)(color >> 16), (uint8_t)(color >> 8), (uint8_t)(color));
 }
 

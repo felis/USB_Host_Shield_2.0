@@ -49,26 +49,26 @@ pBtd(p) // pointer to USB class instance - mandatory
         Reset();
 }
 
-bool PS3BT::getButtonPress(Button b) {
-        return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
+bool PS3BT::getButtonPress(ButtonEnum b) {
+        return (ButtonState & pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]));
 }
 
-bool PS3BT::getButtonClick(Button b) {
-        uint32_t button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+bool PS3BT::getButtonClick(ButtonEnum b) {
+        uint32_t button = pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // Clear "click" event
         return click;
 }
 
-uint8_t PS3BT::getAnalogButton(Button a) {
-        return (uint8_t)(l2capinbuf[pgm_read_byte(&ANALOGBUTTONS[(uint8_t)a])]);
+uint8_t PS3BT::getAnalogButton(ButtonEnum a) {
+        return (uint8_t)(l2capinbuf[pgm_read_byte(&PS3_ANALOG_BUTTONS[(uint8_t)a])]);
 }
 
-uint8_t PS3BT::getAnalogHat(AnalogHat a) {
+uint8_t PS3BT::getAnalogHat(AnalogHatEnum a) {
         return (uint8_t)(l2capinbuf[(uint8_t)a + 15]);
 }
 
-int16_t PS3BT::getSensor(Sensor a) {
+int16_t PS3BT::getSensor(SensorEnum a) {
         if(PS3Connected) {
                 if(a == aX || a == aY || a == aZ || a == gZ)
                         return ((l2capinbuf[(uint16_t)a] << 8) | l2capinbuf[(uint16_t)a + 1]);
@@ -85,7 +85,7 @@ int16_t PS3BT::getSensor(Sensor a) {
                 return 0;
 }
 
-double PS3BT::getAngle(Angle a) {
+double PS3BT::getAngle(AngleEnum a) {
         double accXval, accYval, accZval;
 
         if(PS3Connected) {
@@ -112,7 +112,7 @@ double PS3BT::getAngle(Angle a) {
                 return (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
 }
 
-double PS3BT::get9DOFValues(Sensor a) { // Thanks to Manfred Piendl
+double PS3BT::get9DOFValues(SensorEnum a) { // Thanks to Manfred Piendl
         if(!PS3MoveConnected)
                 return 0;
         int16_t value = getSensor(a);
@@ -156,7 +156,7 @@ String PS3BT::getTemperature() {
                 return "Error";
 }
 
-bool PS3BT::getStatus(Status c) {
+bool PS3BT::getStatus(StatusEnum c) {
         return (l2capinbuf[(uint16_t)c >> 8] == ((uint8_t)c & 0xff));
 }
 
@@ -544,7 +544,7 @@ void PS3BT::setRumbleOff() {
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::setRumbleOn(Rumble mode) {
+void PS3BT::setRumbleOn(RumbleEnum mode) {
         uint8_t power[2] = {0xff, 0x00}; // Defaults to RumbleLow
         if(mode == RumbleHigh) {
                 power[0] = 0x00;
@@ -566,18 +566,22 @@ void PS3BT::setLedRaw(uint8_t value) {
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::setLedOff(LED a) {
-        HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1));
+void PS3BT::setLedOff(LEDEnum a) {
+        HIDBuffer[11] &= ~((uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1));
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::setLedOn(LED a) {
-        HIDBuffer[11] |= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
-        HID_Command(HIDBuffer, HID_BUFFERSIZE);
+void PS3BT::setLedOn(LEDEnum a) {
+        if(a == OFF)
+                setLedRaw(0);
+        else {
+                HIDBuffer[11] |= (uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1);
+                HID_Command(HIDBuffer, HID_BUFFERSIZE);
+        }
 }
 
-void PS3BT::setLedToggle(LED a) {
-        HIDBuffer[11] ^= (uint8_t)((pgm_read_byte(&LEDS[(uint8_t)a]) & 0x0f) << 1);
+void PS3BT::setLedToggle(LEDEnum a) {
+        HIDBuffer[11] ^= (uint8_t)((pgm_read_byte(&PS3_LEDS[(uint8_t)a]) & 0x0f) << 1);
         HID_Command(HIDBuffer, HID_BUFFERSIZE);
 }
 
@@ -602,7 +606,7 @@ void PS3BT::HIDMove_Command(uint8_t* data, uint8_t nbytes) {
         timerHID = millis();
 }
 
-void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set the Color using RGB values
+void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { // Use this to set the Color using RGB values
         // Set the Bulb's values into the write buffer
         HIDMoveBuffer[3] = r;
         HIDMoveBuffer[4] = g;
@@ -611,7 +615,7 @@ void PS3BT::moveSetBulb(uint8_t r, uint8_t g, uint8_t b) { //Use this to set the
         HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE);
 }
 
-void PS3BT::moveSetBulb(Colors color) { //Use this to set the Color using the predefined colors in enum
+void PS3BT::moveSetBulb(ColorsEnum color) { // Use this to set the Color using the predefined colors in enum
         moveSetBulb((uint8_t)(color >> 16), (uint8_t)(color >> 8), (uint8_t)(color));
 }
 

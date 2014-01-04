@@ -120,19 +120,18 @@ public:
 
         /** @name Xbox Controller functions */
         /**
-         * getButtonPress(uint8_t controller, Button b) will return true as long as the button is held down.
+         * getButtonPress(uint8_t controller, ButtonEnum b) will return true as long as the button is held down.
          *
-         * While getButtonClick(uint8_t controller, Button b) will only return it once.
+         * While getButtonClick(uint8_t controller, ButtonEnum b) will only return it once.
          *
-         * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, Button b),
-         * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, Button b).
-         * @param  b          ::Button to read.
+         * So you instance if you need to increase a variable once you would use getButtonClick(uint8_t controller, ButtonEnum b),
+         * but if you need to drive a robot forward you would use getButtonPress(uint8_t controller, ButtonEnum b).
+         * @param  b          ::ButtonEnum to read.
          * @param  controller The controller to read from. Default to 0.
-         * @return            getButtonClick(uint8_t controller, Button b) will return a bool, but getButtonPress(uint8_t controller, Button b)
-         * will return a byte if reading ::L2 or ::R2.
+         * @return            getButtonClick(uint8_t controller, ButtonEnum b) will return a bool, while getButtonPress(uint8_t controller, ButtonEnum b) will return a byte if reading ::L2 or ::R2.
          */
-        uint8_t getButtonPress(Button b, uint8_t controller = 0);
-        bool getButtonClick(Button b, uint8_t controller = 0);
+        uint8_t getButtonPress(ButtonEnum b, uint8_t controller = 0);
+        bool getButtonClick(ButtonEnum b, uint8_t controller = 0);
         /**@}*/
 
         /** @name Xbox Controller functions */
@@ -142,7 +141,7 @@ public:
          * @param  controller The controller to read from. Default to 0.
          * @return            Returns a signed 16-bit integer.
          */
-        int16_t getAnalogHat(AnalogHat a, uint8_t controller = 0);
+        int16_t getAnalogHat(AnalogHatEnum a, uint8_t controller = 0);
 
         /**
          * Used to disconnect any of the controllers.
@@ -174,7 +173,7 @@ public:
          */
         void setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller = 0);
         /**
-         * Set LED value. Without using the ::LED or ::LEDMode enum.
+         * Set LED value. Without using the ::LEDEnum or ::LEDMode enum.
          * @param value      See:
          * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
          * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).
@@ -190,23 +189,23 @@ public:
                 setLedRaw(0, controller);
         };
         /**
-         * Turn on a LED by using the ::LED enum.
-         * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+         * Turn on a LED by using ::LEDEnum.
+         * @param l          ::OFF, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
-        void setLedOn(LED l, uint8_t controller = 0);
+        void setLedOn(LEDEnum l, uint8_t controller = 0);
         /**
-         * Turn on a LED by using the ::LED enum.
+         * Turn on a LED by using ::LEDEnum.
          * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          * @param controller The controller to write to. Default to 0.
          */
-        void setLedBlink(LED l, uint8_t controller = 0);
+        void setLedBlink(LEDEnum l, uint8_t controller = 0);
         /**
          * Used to set special LED modes supported by the Xbox controller.
-         * @param lm         See ::LEDMode.
+         * @param lm         See ::LEDModeEnum.
          * @param controller The controller to write to. Default to 0.
          */
-        void setLedMode(LEDMode lm, uint8_t controller = 0);
+        void setLedMode(LEDModeEnum lm, uint8_t controller = 0);
         /**
          * Used to get the battery level from the controller.
          * @param  controller The controller to read from. Default to 0.

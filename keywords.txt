@@ -77,6 +77,7 @@ watingForConnection	KEYWORD2
 ####################################################
 # Constants and enums (LITERAL1)
 ####################################################
+OFF	LITERAL1
 LED1	LITERAL1
 LED2	LITERAL1
 LED3	LITERAL1

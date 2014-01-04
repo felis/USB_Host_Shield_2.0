@@ -279,15 +279,15 @@ void XBOXUSB::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
 #endif
 }
 
-uint8_t XBOXUSB::getButtonPress(Button b) {
+uint8_t XBOXUSB::getButtonPress(ButtonEnum b) {
         if(b == L2) // These are analog buttons
                 return (uint8_t)(ButtonState >> 8);
         else if(b == R2)
                 return (uint8_t)ButtonState;
-        return (bool)(ButtonState & ((uint32_t)pgm_read_word(&XBOXBUTTONS[(uint8_t)b]) << 16));
+        return (bool)(ButtonState & ((uint32_t)pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]) << 16));
 }
 
-bool XBOXUSB::getButtonClick(Button b) {
+bool XBOXUSB::getButtonClick(ButtonEnum b) {
         if(b == L2) {
                 if(L2Clicked) {
                         L2Clicked = false;
@@ -301,13 +301,13 @@ bool XBOXUSB::getButtonClick(Button b) {
                 }
                 return false;
         }
-        uint16_t button = pgm_read_word(&XBOXBUTTONS[(uint8_t)b]);
+        uint16_t button = pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
         return click;
 }
 
-int16_t XBOXUSB::getAnalogHat(AnalogHat a) {
+int16_t XBOXUSB::getAnalogHat(AnalogHatEnum a) {
         return hatValue[a];
 }
 
@@ -325,16 +325,18 @@ void XBOXUSB::setLedRaw(uint8_t value) {
         XboxCommand(writeBuf, 3);
 }
 
-void XBOXUSB::setLedOn(LED led) {
-        if(led != ALL) // All LEDs can't be on a the same time
-                setLedRaw((pgm_read_byte(&XBOXLEDS[(uint8_t)led])) + 4);
+void XBOXUSB::setLedOn(LEDEnum led) {
+        if(led == OFF)
+                setLedRaw(0);
+        else if(led != ALL) // All LEDs can't be on a the same time
+                setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]) + 4);
 }
 
-void XBOXUSB::setLedBlink(LED led) {
-        setLedRaw(pgm_read_byte(&XBOXLEDS[(uint8_t)led]));
+void XBOXUSB::setLedBlink(LEDEnum led) {
+        setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]));
 }
 
-void XBOXUSB::setLedMode(LEDMode ledMode) { // This function is used to do some speciel LED stuff the controller supports
+void XBOXUSB::setLedMode(LEDModeEnum ledMode) { // This function is used to do some special LED stuff the controller supports
         setLedRaw((uint8_t)ledMode);
 }
 

@@ -22,7 +22,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Wii controllers
 
-const uint8_t LEDS[] PROGMEM = {
+const uint8_t WII_LEDS[] PROGMEM = {
+        0x00, // OFF
         0x10, // LED1
         0x20, // LED2
         0x40, // LED3
@@ -33,10 +34,10 @@ const uint8_t LEDS[] PROGMEM = {
         0xC0, // LED7
         0xD0, // LED8
         0xE0, // LED9
-        0xF0 // LED10
+        0xF0, // LED10
 };
 
-const uint32_t BUTTONS[] PROGMEM = {
+const uint32_t WII_BUTTONS[] PROGMEM = {
         0x00008, // UP
         0x00002, // RIGHT
         0x00004, // DOWN
@@ -53,9 +54,9 @@ const uint32_t BUTTONS[] PROGMEM = {
         0x20000, // C
 
         0x00400, // B
-        0x00800 // A
+        0x00800, // A
 };
-const uint32_t PROCONTROLLERBUTTONS[] PROGMEM = {
+const uint32_t WII_PROCONTROLLER_BUTTONS[] PROGMEM = {
         0x00100, // UP
         0x00080, // RIGHT
         0x00040, // DOWN
@@ -78,7 +79,7 @@ const uint32_t PROCONTROLLERBUTTONS[] PROGMEM = {
         0x00020, // L
         0x00002, // R
         0x08000, // ZL
-        0x00400 // ZR
+        0x00400, // ZR
 };
 
 WII::WII(BTD *p, bool pair) :
@@ -845,7 +846,7 @@ void WII::Run() {
 /************************************************************/
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
         if(motionPlusInside)
-                pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new wiimote with the Motion Plus Inside
+                pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new Wiimote with the Motion Plus Inside or Wii U Pro controller
         else
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
 }
@@ -880,21 +881,25 @@ void WII::setLedRaw(uint8_t value) {
         HID_Command(HIDBuffer, 3);
 }
 
-void WII::setLedOff(LED a) {
+void WII::setLedOff(LEDEnum a) {
         HIDBuffer[1] = 0x11;
-        HIDBuffer[2] &= ~(pgm_read_byte(&LEDS[(uint8_t)a]));
+        HIDBuffer[2] &= ~(pgm_read_byte(&WII_LEDS[(uint8_t)a]));
         HID_Command(HIDBuffer, 3);
 }
 
-void WII::setLedOn(LED a) {
-        HIDBuffer[1] = 0x11;
-        HIDBuffer[2] |= pgm_read_byte(&LEDS[(uint8_t)a]);
-        HID_Command(HIDBuffer, 3);
+void WII::setLedOn(LEDEnum a) {
+        if(a == OFF)
+                setLedRaw(0);
+        else {
+                HIDBuffer[1] = 0x11;
+                HIDBuffer[2] |= pgm_read_byte(&WII_LEDS[(uint8_t)a]);
+                HID_Command(HIDBuffer, 3);
+        }
 }
 
-void WII::setLedToggle(LED a) {
+void WII::setLedToggle(LEDEnum a) {
         HIDBuffer[1] = 0x11;
-        HIDBuffer[2] ^= pgm_read_byte(&LEDS[(uint8_t)a]);
+        HIDBuffer[2] ^= pgm_read_byte(&WII_LEDS[(uint8_t)a]);
         HID_Command(HIDBuffer, 3);
 }
 
@@ -1033,25 +1038,25 @@ void WII::checkMotionPresent() {
 
 /************************************************************/
 
-bool WII::getButtonPress(Button b) { // Return true when a button is pressed
+bool WII::getButtonPress(ButtonEnum b) { // Return true when a button is pressed
         if(wiiUProControllerConnected)
-                return (ButtonState & pgm_read_dword(&PROCONTROLLERBUTTONS[(uint8_t)b]));
+                return (ButtonState & pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[(uint8_t)b]));
         else
-                return (ButtonState & pgm_read_dword(&BUTTONS[(uint8_t)b]));
+                return (ButtonState & pgm_read_dword(&WII_BUTTONS[(uint8_t)b]));
 }
 
-bool WII::getButtonClick(Button b) { // Only return true when a button is clicked
+bool WII::getButtonClick(ButtonEnum b) { // Only return true when a button is clicked
         uint32_t button;
         if(wiiUProControllerConnected)
-                button = pgm_read_dword(&PROCONTROLLERBUTTONS[(uint8_t)b]);
+                button = pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[(uint8_t)b]);
         else
-                button = pgm_read_dword(&BUTTONS[(uint8_t)b]);
+                button = pgm_read_dword(&WII_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
         return click;
 }
 
-uint8_t WII::getAnalogHat(Hat a) {
+uint8_t WII::getAnalogHat(HatEnum a) {
         if(!nunchuckConnected)
                 return 127; // Return center position
         else {
@@ -1063,7 +1068,7 @@ uint8_t WII::getAnalogHat(Hat a) {
         }
 }
 
-uint16_t WII::getAnalogHat(AnalogHat a) {
+uint16_t WII::getAnalogHat(AnalogHatEnum a) {
         if(!wiiUProControllerConnected)
                 return 2000;
         else {

@@ -21,7 +21,7 @@
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
 /** Buttons on the controllers */
-const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
+const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
         0x01, // UP
         0x08, // RIGHT
         0x02, // DOWN
@@ -291,15 +291,15 @@ void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" t
 #endif
 }
 
-uint8_t XBOXOLD::getButtonPress(Button b) {
-        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
+uint8_t XBOXOLD::getButtonPress(ButtonEnum b) {
+        uint8_t button = pgm_read_byte(&XBOXOLD_BUTTONS[(uint8_t)b]);
         if(b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
                 return buttonValues[button]; // Analog buttons
         return (ButtonState & button); // Digital buttons
 }
 
-bool XBOXOLD::getButtonClick(Button b) {
-        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
+bool XBOXOLD::getButtonClick(ButtonEnum b) {
+        uint8_t button = pgm_read_byte(&XBOXOLD_BUTTONS[(uint8_t)b]);
         if(b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
                 if(buttonClicked[button]) {
                         buttonClicked[button] = false;
@@ -313,7 +313,7 @@ bool XBOXOLD::getButtonClick(Button b) {
         return click;
 }
 
-int16_t XBOXOLD::getAnalogHat(AnalogHat a) {
+int16_t XBOXOLD::getAnalogHat(AnalogHatEnum a) {
         return hatValue[a];
 }
 

@@ -24,24 +24,25 @@
  */
 
 /** Enum used to turn on the LEDs on the different controllers. */
-enum LED {
-        LED1 = 0,
-        LED2 = 1,
-        LED3 = 2,
-        LED4 = 3,
+enum LEDEnum {
+        OFF = 0,
+        LED1 = 1,
+        LED2 = 2,
+        LED3 = 3,
+        LED4 = 4,
 
-        LED5 = 4,
-        LED6 = 5,
-        LED7 = 6,
-        LED8 = 7,
-        LED9 = 8,
-        LED10 = 9,
+        LED5 = 5,
+        LED6 = 6,
+        LED7 = 7,
+        LED8 = 8,
+        LED9 = 9,
+        LED10 = 10,
         /** Used to blink all LEDs on the Xbox controller */
-        ALL = 4,
+        ALL = 5,
 };
 
 /** This enum is used to read all the different buttons on the different controllers */
-enum Button {
+enum ButtonEnum {
         /**@{*/
         /** These buttons are available on all the the controllers */
         UP = 0,
@@ -106,7 +107,7 @@ enum Button {
 };
 
 /** Joysticks on the PS3 and Xbox controllers. */
-enum AnalogHat {
+enum AnalogHatEnum {
         /** Left joystick x-axis */
         LeftHatX = 0,
         /** Left joystick y-axis */

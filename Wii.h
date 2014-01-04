@@ -32,7 +32,7 @@
 #define wii_clear_flag(flag)  (wii_event_flag &= ~(flag))
 
 /** Enum used to read the joystick on the Nunchuck. */
-enum Hat {
+enum HatEnum {
         /** Read the x-axis on the Nunchuck joystick. */
         HatX = 0,
         /** Read the y-axis on the Nunchuck joystick. */
@@ -76,9 +76,11 @@ public:
          *
          * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
          * but if you need to drive a robot forward you would use getButtonPress(Button b).
+         * @param  b          ::ButtonEnum to read.
+         * @return            getButtonPress(ButtonEnum b) will return a true as long as a button is held down, while getButtonClick(ButtonEnum b) will return true once for each button press.
          */
-        bool getButtonPress(Button b);
-        bool getButtonClick(Button b);
+        bool getButtonPress(ButtonEnum b);
+        bool getButtonClick(ButtonEnum b);
         /**@}*/
 
         /** @name Wii Controller functions */
@@ -93,13 +95,13 @@ public:
          * @param  a Either ::HatX or ::HatY.
          * @return   Return the analog value in the range from approximately 25-230.
          */
-        uint8_t getAnalogHat(Hat a);
+        uint8_t getAnalogHat(HatEnum a);
         /**
          * Used to read the joystick of the Wii U Pro Controller.
          * @param  a Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @return   Return the analog value in the range from approximately 800-3200.
          */
-        uint16_t getAnalogHat(AnalogHat a);
+        uint16_t getAnalogHat(AnalogHatEnum a);
 
         /**
          * Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
@@ -141,8 +143,8 @@ public:
         void setRumbleToggle();
 
         /**
-         * Set LED value without using the ::LED enum.
-         * @param value See: ::LED enum.
+         * Set LED value without using the ::LEDEnum.
+         * @param value See: ::LEDEnum.
          */
         void setLedRaw(uint8_t value);
 
@@ -151,26 +153,26 @@ public:
                 setLedRaw(0);
         };
         /**
-         * Turn the specific ::LED off.
-         * @param a The ::LED to turn off.
+         * Turn the specific ::LEDEnum off.
+         * @param a The ::LEDEnum to turn off.
          */
-        void setLedOff(LED a);
+        void setLedOff(LEDEnum a);
         /**
-         * Turn the specific ::LED on.
-         * @param a The ::LED to turn on.
+         * Turn the specific ::LEDEnum on.
+         * @param a The ::LEDEnum to turn on.
          */
-        void setLedOn(LED a);
+        void setLedOn(LEDEnum a);
         /**
-         * Toggle the specific ::LED.
-         * @param a The ::LED to toggle.
+         * Toggle the specific ::LEDEnum.
+         * @param a The ::LEDEnum to toggle.
          */
-        void setLedToggle(LED a);
+        void setLedToggle(LEDEnum a);
         /**
          * This will set the LEDs, so the user can see which connections are active.
          *
-         * The first ::LED indicate that the Wiimote is connected,
-         * the second ::LED indicate indicate that a Motion Plus is also connected
-         * the third ::LED will indicate that a Nunchuck controller is also connected.
+         * The first ::LEDEnum indicate that the Wiimote is connected,
+         * the second ::LEDEnum indicate indicate that a Motion Plus is also connected
+         * the third ::LEDEnum will indicate that a Nunchuck controller is also connected.
          */
         void setLedStatus();
 
