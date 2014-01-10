@@ -571,6 +571,9 @@ private:
         uint8_t pollInterval;
         bool bPollEnable;
 
+        bool incomingPS4; // True if a PS4 controller is connecting
+        uint8_t classOfDevice[3]; // Class of device of last device
+
         /* Variables used by high level HCI task */
         uint8_t hci_state; //current state of bluetooth hci connection
         uint16_t hci_counter; // counter used for bluetooth hci reset loops
