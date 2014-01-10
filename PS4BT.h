@@ -63,7 +63,10 @@ struct PS4Data {
         uint8_t trigger[2];
 };
 
-/** This BluetoothService class implements support for the PS4 controller via Bluetooth. */
+/**
+ * This class implements support for the PS4 controller via Bluetooth.
+ * It uses the BTHID class for all the Bluetooth communication.
+ */
 class PS4BT : public HIDReportParser {
 public:
         /**
