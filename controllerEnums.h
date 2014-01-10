@@ -94,6 +94,12 @@ enum ButtonEnum {
         T = 18, // Covers 12 bits - we only need to read the top 8
         /**@}*/
 
+        /** PS4 controllers buttons - SHARE and OPTIONS are present instead of SELECT and START */
+        SHARE = 4,
+        OPTIONS = 5,
+        KEYPAD = 17,
+        /**@}*/
+
         /**@{*/
         /** Xbox buttons */
         BACK = 4,

@@ -302,6 +302,7 @@ void BTD::Initialize() {
         incomingWii = false;
         connectToHIDDevice = false;
         incomingHIDDevice = false;
+        incomingPS4 = false;
         bAddress = 0; // Clear device address
         bNumEP = 1; // Must have to be reset to 1
         qNextPollTime = 0; // Reset next poll time
@@ -434,7 +435,6 @@ void BTD::HCI_event_task() {
 #endif
                                         for(uint8_t i = 0; i < hcibuf[2]; i++) {
                                                 uint8_t offset = 8 * hcibuf[2] + 3 * i;
-                                                uint8_t classOfDevice[3];
 
                                                 for(uint8_t j = 0; j < 3; j++)
                                                         classOfDevice[j] = hcibuf[j + 4 + offset];
@@ -450,12 +450,14 @@ void BTD::HCI_event_task() {
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                         break;
-                                                } else if(pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC0)) { // Check if it is a mouse or keyboard - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+                                                } else if(pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
 #ifdef DEBUG_USB_HOST
                                                         if(classOfDevice[0] & 0x80)
                                                                 Notify(PSTR("\r\nMouse found"), 0x80);
                                                         if(classOfDevice[0] & 0x40)
                                                                 Notify(PSTR("\r\nKeyboard found"), 0x80);
+                                                        if(classOfDevice[0] & 0x08)
+                                                                Notify(PSTR("\r\nGamepad found"), 0x80);
 #endif
 
                                                         for(uint8_t j = 0; j < 6; j++)
@@ -516,23 +518,28 @@ void BTD::HCI_event_task() {
                                 for(uint8_t i = 0; i < 6; i++)
                                         disc_bdaddr[i] = hcibuf[i + 2];
 
-                                if((hcibuf[9] & 0x05) && (hcibuf[8] & 0xC0)) { // Check if it is a mouse or keyboard
+                                for(uint8_t i = 0; i < 3; i++)
+                                        classOfDevice[i] = hcibuf[i + 8];
+
+                                if((classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad
 #ifdef DEBUG_USB_HOST
-                                        if(hcibuf[8] & 0x80)
+                                        if(classOfDevice[0] & 0x80)
                                                 Notify(PSTR("\r\nMouse is connecting"), 0x80);
-                                        if(hcibuf[8] & 0x40)
+                                        if(classOfDevice[0] & 0x40)
                                                 Notify(PSTR("\r\nKeyboard is connecting"), 0x80);
+                                        if(classOfDevice[0] & 0x08)
+                                                Notify(PSTR("\r\nGamepad is connecting"), 0x80);
 #endif
                                         incomingHIDDevice = true;
                                 }
 
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nClass of device: "), 0x80);
-                                D_PrintHex<uint8_t > (hcibuf[10], 0x80);
+                                D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                D_PrintHex<uint8_t > (hcibuf[9], 0x80);
+                                D_PrintHex<uint8_t > (classOfDevice[1], 0x80);
                                 Notify(PSTR(" "), 0x80);
-                                D_PrintHex<uint8_t > (hcibuf[8], 0x80);
+                                D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
 #endif
                                 hci_set_flag(HCI_FLAG_INCOMING_REQUEST);
                                 break;
@@ -816,6 +823,12 @@ void BTD::HCI_task() {
                                                 wiiUProController = false;
                                         }
                                 }
+                                if(classOfDevice[2] == 0 && classOfDevice[1] == 0x25 && classOfDevice[0] == 0x08 && strncmp((const char*)remote_name, "Wireless Controller", 19) == 0) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nPS4 controller is connecting"), 0x80);
+#endif
+                                        incomingPS4 = true;
+                                }
                                 if(pairWithWii && motionPlusInside)
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
                                 else {
@@ -835,6 +848,9 @@ void BTD::HCI_task() {
                                 }
                                 D_PrintHex<uint8_t > (disc_bdaddr[0], 0x80);
 #endif
+                                if(incomingPS4)
+                                        connectToHIDDevice = true; // We should always connect to the PS4 controller
+
                                 // Clear these flags for a new connection
                                 l2capConnectionClaimed = false;
                                 sdpConnectionClaimed = false;
@@ -866,6 +882,7 @@ void BTD::HCI_task() {
 
                                 connectToWii = incomingWii = pairWithWii = false;
                                 connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = false;
+                                incomingPS4 = false;
 
                                 hci_state = HCI_SCANNING_STATE;
                         }
@@ -967,7 +984,7 @@ void BTD::hci_accept_connection() {
         hcibuf[6] = disc_bdaddr[3];
         hcibuf[7] = disc_bdaddr[4];
         hcibuf[8] = disc_bdaddr[5];
-        hcibuf[9] = 0x00; //switch role to master
+        hcibuf[9] = 0x00; // Switch role to master
 
         HCI_Command(hcibuf, 10);
 }
@@ -983,10 +1000,10 @@ void BTD::hci_remote_name() {
         hcibuf[6] = disc_bdaddr[3];
         hcibuf[7] = disc_bdaddr[4];
         hcibuf[8] = disc_bdaddr[5];
-        hcibuf[9] = 0x01; //Page Scan Repetition Mode
-        hcibuf[10] = 0x00; //Reserved
-        hcibuf[11] = 0x00; //Clock offset - low byte
-        hcibuf[12] = 0x00; //Clock offset - high byte
+        hcibuf[9] = 0x01; // Page Scan Repetition Mode
+        hcibuf[10] = 0x00; // Reserved
+        hcibuf[11] = 0x00; // Clock offset - low byte
+        hcibuf[12] = 0x00; // Clock offset - high byte
 
         HCI_Command(hcibuf, 13);
 }

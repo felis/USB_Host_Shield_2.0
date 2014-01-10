@@ -25,13 +25,14 @@ BTD	KEYWORD1
 Task	KEYWORD2
 
 ####################################################
-# Syntax Coloring Map For PS3 Bluetooth/USB Library
+# Syntax Coloring Map For PS3/PS4 Bluetooth/USB Library
 ####################################################
 
 ####################################################
 # Datatypes (KEYWORD1)
 ####################################################
 
+PS4BT	KEYWORD1
 PS3BT	KEYWORD1
 PS3USB	KEYWORD1
 
@@ -117,6 +118,10 @@ SQUARE	LITERAL1
 PS	LITERAL1
 MOVE	LITERAL1
 T	LITERAL1
+
+SHARE	LITERAL1
+OPTIONS	LITERAL1
+KEYPAD	LITERAL1
 
 LeftHatX	LITERAL1
 LeftHatY	LITERAL1
