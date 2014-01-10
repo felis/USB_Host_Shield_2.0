@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['val',['val',['../union_p_s4_buttons.html#a0cb061ca058b493218c01eb1ada1af00',1,'PS4Buttons']]],
+  ['valparser',['valParser',['../class_report_desc_parser_base.html#a8833e671168779d081e7f50e579bc206',1,'ReportDescParserBase']]],
+  ['value_5fbetween',['VALUE_BETWEEN',['../macros_8h.html#a18de126009ef53f46469341d2e223799',1,'macros.h']]],
+  ['value_5fwithin',['VALUE_WITHIN',['../macros_8h.html#ad1bf62861b3f4199c42a93bf6b2181d0',1,'macros.h']]],
+  ['valuesize',['valueSize',['../struct_multi_value_buffer.html#ab3151f4125e3ca92871307e654de24b7',1,'MultiValueBuffer']]],
+  ['varbuffer',['varBuffer',['../class_report_desc_parser_base.html#a82cde32720eba596e5864fe7d541ea13',1,'ReportDescParserBase']]],
+  ['vbus_5foff',['vbus_off',['../usbhost_8h.html#ab1424f62efde609157774a4e80e016efaeb979760d8e42acc9ef9d8085c955426',1,'usbhost.h']]],
+  ['vbus_5fon',['vbus_on',['../usbhost_8h.html#ab1424f62efde609157774a4e80e016efa74e666f0192f8886fbb2be73fb852b0a',1,'usbhost.h']]],
+  ['vbus_5ft',['VBUS_t',['../usbhost_8h.html#ab1424f62efde609157774a4e80e016ef',1,'usbhost.h']]],
+  ['vbuspower',['vbusPower',['../class_m_a_x3421e.html#a50e96bcc646e14e331ca15252667ace3',1,'MAX3421e']]],
+  ['vendor_5fread_5frequest',['VENDOR_READ_REQUEST',['../cdcprolific_8h.html#a230385b0735fad9d7b33e4f80d7deb4d',1,'cdcprolific.h']]],
+  ['vendor_5fread_5frequest_5ftype',['VENDOR_READ_REQUEST_TYPE',['../cdcprolific_8h.html#a21c64a6ccc471ac907896f8590dcf7b2',1,'cdcprolific.h']]],
+  ['vendor_5fwrite_5frequest',['VENDOR_WRITE_REQUEST',['../cdcprolific_8h.html#aa0dae52300cd2ca352f5d3cd2194824b',1,'cdcprolific.h']]],
+  ['vendor_5fwrite_5frequest_5ftype',['VENDOR_WRITE_REQUEST_TYPE',['../cdcprolific_8h.html#a242bbbe616270b5c01d3614dbe57fe45',1,'cdcprolific.h']]],
+  ['vendorid',['VendorID',['../struct_inquiry_response.html#acc610ff84bef225f8826585725ad9802',1,'InquiryResponse']]],
+  ['version',['Version',['../struct_inquiry_response.html#a86832a5def98c1e21447497177a8cc3a',1,'InquiryResponse']]],
+  ['vidpidok',['VIDPIDOK',['../class_a_d_k.html#a1fc7e5918fa0b5fbffdd1e488dd08427',1,'ADK::VIDPIDOK()'],['../class_b_t_d.html#adf5dce0907ea33c919908fea5dc0cf21',1,'BTD::VIDPIDOK()'],['../class_p_s3_u_s_b.html#ababb6cbf8297581b27400f9a39d75e5a',1,'PS3USB::VIDPIDOK()'],['../class_u_s_b_device_config.html#a1cf695242e2e22893eea9c892282221b',1,'USBDeviceConfig::VIDPIDOK()'],['../class_x_b_o_x_o_l_d.html#a20c8b928ca5e7c1a758a605ec45fe2ee',1,'XBOXOLD::VIDPIDOK()'],['../class_x_b_o_x_r_e_c_v.html#a3881c65a52835e2eb824af1bde0a4192',1,'XBOXRECV::VIDPIDOK()'],['../class_x_b_o_x_u_s_b.html#aa25ae7e9161bf1f4cc03a007738a292b',1,'XBOXUSB::VIDPIDOK()']]],
+  ['vrtitles0',['vrTitles0',['../class_report_desc_parser_base.html#a42d34a0a49f987c9dcfdd4fb8d42bf0d',1,'ReportDescParserBase']]],
+  ['vrtitles1',['vrTitles1',['../class_report_desc_parser_base.html#a41af57cb0fb0bbed7277bcd04a9e9fe9',1,'ReportDescParserBase']]],
+  ['vs',['VS',['../struct_inquiry_response.html#a9a6c47a45be5bd1ce230c9fac3cc9bbd',1,'InquiryResponse']]]
+];

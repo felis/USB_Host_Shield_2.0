@@ -1,0 +1,18 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="6,135,136,163"/>
+<area shape="rect" id="node2" href="$class_a_c_m.html" title="ACM" alt="" coords="207,109,257,137"/>
+<area shape="rect" id="node4" href="$class_a_d_k.html" title="ADK" alt="" coords="208,213,256,241"/>
+<area shape="rect" id="node5" href="$class_b_t_d.html" title="BTD" alt="" coords="208,265,256,293"/>
+<area shape="rect" id="node6" href="$class_bulk_only.html" title="BulkOnly" alt="" coords="195,5,269,33"/>
+<area shape="rect" id="node7" href="$class_f_t_d_i.html" title="FTDI" alt="" coords="207,57,257,85"/>
+<area shape="rect" id="node8" href="$class_h_i_d.html" title="HID" alt="" coords="210,161,254,189"/>
+<area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="402,109,470,137"/>
+<area shape="rect" id="node9" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="329,161,543,189"/>
+<area shape="rect" id="node10" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="386,213,486,241"/>
+<area shape="rect" id="node11" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="7,265,135,293"/>
+<area shape="rect" id="node12" href="$class_p_s3_u_s_b.html" title="PS3USB" alt="" coords="195,473,269,501"/>
+<area shape="rect" id="node13" href="$class_u_s_b_hub.html" title="USBHub" alt="" coords="195,525,269,553"/>
+<area shape="rect" id="node14" href="$class_x_b_o_x_o_l_d.html" title="XBOXOLD" alt="" coords="189,317,275,345"/>
+<area shape="rect" id="node15" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="184,369,280,397"/>
+<area shape="rect" id="node16" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="189,421,275,449"/>
+</map>
