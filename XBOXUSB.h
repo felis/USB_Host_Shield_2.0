@@ -149,7 +149,7 @@ public:
          */
         void setRumbleOn(uint8_t lValue, uint8_t rValue);
         /**
-         * Set LED value. Without using the ::LEDEnum or ::LEDMode enum.
+         * Set LED value. Without using the ::LEDEnum or ::LEDModeEnum.
          * @param value      See:
          * setLedOff(), setLedOn(LEDEnum l),
          * setLedBlink(LEDEnum l), and setLedMode(LEDModeEnum lm).
@@ -172,7 +172,7 @@ public:
         void setLedBlink(LEDEnum l);
         /**
          * Used to set special LED modes supported by the Xbox controller.
-         * @param lm         See ::LEDMode.
+         * @param lm         See ::LEDModeEnum.
          */
         void setLedMode(LEDModeEnum lm);
 
