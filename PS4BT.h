@@ -157,7 +157,8 @@ public:
 
                 ps4Data.btn.dpad = DPAD_OFF;
                 oldButtonState.dpad = DPAD_OFF;
-                buttonClickState.dpad = DPAD_OFF;
+                buttonClickState.dpad = 0;
+                oldDpad = 0;
         };
 
         /**
@@ -174,10 +175,11 @@ public:
 private:
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
-        bool checkDpad(PS4Buttons ps4Buttons, DPADEnum b); // Used to check PS4 DPAD buttons
+        bool checkDpad(DPADEnum b); // Used to check PS4 DPAD buttons
 
         BTHID *pBthid; // Pointer to BTHID instance
         PS4Data ps4Data;
         PS4Buttons oldButtonState, buttonClickState;
+        uint8_t oldDpad;
 };
 #endif

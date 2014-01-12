@@ -53,14 +53,25 @@ const uint8_t PS4_ANALOG_BUTTONS[] PROGMEM = {
         1, // R2
 };
 
-bool PS4BT::checkDpad(PS4Buttons ps4Buttons, DPADEnum b) {
-	return ps4Buttons.dpad == b;
+bool PS4BT::checkDpad(DPADEnum b) {
+	switch (b) {
+		case DPAD_UP:
+			return ps4Data.btn.dpad == DPAD_LEFT_UP || ps4Data.btn.dpad == DPAD_UP || ps4Data.btn.dpad == DPAD_UP_RIGHT;
+		case DPAD_RIGHT:
+			return ps4Data.btn.dpad == DPAD_UP_RIGHT || ps4Data.btn.dpad == DPAD_RIGHT || ps4Data.btn.dpad == DPAD_RIGHT_DOWN;
+		case DPAD_DOWN:
+			return ps4Data.btn.dpad == DPAD_RIGHT_DOWN || ps4Data.btn.dpad == DPAD_DOWN || ps4Data.btn.dpad == DPAD_DOWN_LEFT;
+		case DPAD_LEFT:
+			return ps4Data.btn.dpad == DPAD_DOWN_LEFT || ps4Data.btn.dpad == DPAD_LEFT || ps4Data.btn.dpad == DPAD_LEFT_UP;
+		default:
+			return false;
+	}
 }
 
 bool PS4BT::getButtonPress(ButtonEnum b) {
 	uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
 	if (b <= LEFT) // Dpad
-		return checkDpad(ps4Data.btn, (DPADEnum)button);
+		return checkDpad((DPADEnum)button);
 	else {
 		uint8_t index = button < 8 ? 0 : button < 16 ? 1 : 2;
 		uint8_t mask = (1 << (button - 8 * index));
@@ -69,21 +80,18 @@ bool PS4BT::getButtonPress(ButtonEnum b) {
 }
 
 bool PS4BT::getButtonClick(ButtonEnum b) {
-	uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
-	if (b <= LEFT) { // Dpad
-		if (checkDpad(buttonClickState, (DPADEnum)button)) {
-			buttonClickState.dpad = DPAD_OFF;
-			return true;
-		}
-		return false;
-	} else {
-		uint8_t index = button < 8 ? 0 : button < 16 ? 1 : 2;
-		uint8_t mask = (1 << (button - 8 * index));
-
-		bool click = buttonClickState.val[index] & mask;
-		buttonClickState.val[index] &= ~mask; // Clear "click" event
-		return click;
+	uint8_t mask, index = 0;
+	if (b <= LEFT) // Dpad
+		mask = 1 << b;
+	else {
+		uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
+		index = button < 8 ? 0 : button < 16 ? 1 : 2;
+		mask = (1 << (button - 8 * index));
 	}
+
+	bool click = buttonClickState.val[index] & mask;
+	buttonClickState.val[index] &= ~mask; // Clear "click" event
+	return click;
 }
 
 uint8_t PS4BT::getAnalogButton(ButtonEnum a) {
@@ -99,11 +107,24 @@ void PS4BT::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
 		memcpy(&ps4Data, buf, len);
 
 		for (uint8_t i = 0; i < sizeof(ps4Data.btn); i++) {
-			if (ps4Data.btn.val[i] != oldButtonState.val[i]) {
+			if (ps4Data.btn.val[i] != oldButtonState.val[i]) { // Check if anything has changed
 				buttonClickState.val[i] = ps4Data.btn.val[i] & ~oldButtonState.val[i]; // Update click state variable
 				oldButtonState.val[i] = ps4Data.btn.val[i];
-				if (i == 0)
-					buttonClickState.dpad = ps4Data.btn.dpad; // The DPAD buttons does not set the different bits, but set a value corresponding to the buttons pressed
+				if (i == 0) { // The DPAD buttons does not set the different bits, but set a value corresponding to the buttons pressed, we will simply set the bits ourself
+					uint8_t newDpad = 0;
+					if (checkDpad(DPAD_UP))
+						newDpad |= 1 << UP;
+					if (checkDpad(DPAD_RIGHT))
+						newDpad |= 1 << RIGHT;
+					if (checkDpad(DPAD_DOWN))
+						newDpad |= 1 << DOWN;
+					if (checkDpad(DPAD_LEFT))
+						newDpad |= 1 << LEFT;
+					if (newDpad != oldDpad) {
+						buttonClickState.dpad = newDpad & ~oldDpad; // Override values
+						oldDpad = newDpad;
+					}
+				}
 			}
 		}
 #ifdef PRINTREPORT
