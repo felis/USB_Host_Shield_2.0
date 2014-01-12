@@ -67,15 +67,16 @@ struct PS4Data {
  * This class implements support for the PS4 controller via Bluetooth.
  * It uses the BTHID class for all the Bluetooth communication.
  */
-class PS4BT : public HIDReportParser {
+class PS4BT : public HIDReportParser, public BTHIDService {
 public:
         /**
          * Constructor for the PS4BT class.
-         * @param  p   Pointer to the BTD class instance.
+         * @param  p   Pointer to the BTHID class instance.
          */
         PS4BT(BTHID *p) :
         pBthid(p) {
                 pBthid->SetReportParser(KEYBOARD_PARSER_ID, this);
+                pBthid->registerServiceClass(this); // Register it as a Bluetooth HID service
                 Reset();
         };
 
@@ -133,7 +134,17 @@ public:
                         pBthid->pair();
         };
 
-        void Reset() {
+        /**
+         * Used to call your own function when the device is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
+
+        /** @name BTHIDService implementation */
+        /** Used to reset the different buffers to there default values */
+        virtual void Reset() {
                 uint8_t i;
                 for (0; i < sizeof(ps4Data.hatValue); i++)
                         ps4Data.hatValue[i] = 127;
@@ -150,24 +161,17 @@ public:
         };
 
         /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
-        };
-
-private:
-        /**
          * Called when a device is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        void onInit() {
-                Reset();
-                if(pFuncOnInit)
+        virtual void onInit() {
+                if (pFuncOnInit)
                         pFuncOnInit(); // Call the user function
         };
+        /**@}*/
+
+private:
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         bool checkDpad(PS4Buttons ps4Buttons, DPADEnum b); // Used to check PS4 DPAD buttons

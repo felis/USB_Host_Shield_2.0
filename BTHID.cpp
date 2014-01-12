@@ -46,6 +46,11 @@ void BTHID::Reset() {
         activeConnection = false;
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
+
+        for(uint8_t i = 0; i < BTHID_NUM_SERVICES; i++) {
+                if(bthidService[i])
+                        bthidService[i]->Reset();
+        }
 }
 
 void BTHID::disconnect() { // Use this void to disconnect the device
