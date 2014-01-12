@@ -19,7 +19,7 @@
 #define _ps4bt_h_
 
 #include "BTHID.h"
-#include "PS3Enums.h"
+#include "controllerEnums.h"
 
 enum DPADEnum {
         DPAD_UP = 0x0,
