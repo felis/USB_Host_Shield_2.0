@@ -92,8 +92,8 @@ void loop() {
         Serial.print(F("\r\nShare"));
       if (PS4.getButtonClick(OPTIONS))
         Serial.print(F("\r\nOptions"));
-      if (PS4.getButtonClick(KEYPAD))
-        Serial.print(F("\r\nKeypad"));
+      if (PS4.getButtonClick(TOUCHPAD))
+        Serial.print(F("\r\nTouchpad"));
     }
   }
 }

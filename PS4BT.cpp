@@ -43,7 +43,7 @@ const uint8_t PS4_BUTTONS[] PROGMEM = {
         0x04, // SQUARE
 
         0x10, // PS
-        0x11, // KEYPAD
+        0x11, // TOUCHPAD
 };
 
 /** Analog buttons on the controller */

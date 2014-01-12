@@ -97,7 +97,7 @@ enum ButtonEnum {
         /** PS4 controllers buttons - SHARE and OPTIONS are present instead of SELECT and START */
         SHARE = 4,
         OPTIONS = 5,
-        KEYPAD = 17,
+        TOUCHPAD = 17,
         /**@}*/
 
         /**@{*/

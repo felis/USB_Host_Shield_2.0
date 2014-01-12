@@ -51,7 +51,7 @@ union PS4Buttons {
                 uint8_t r3 : 1;
 
                 uint8_t ps : 1;
-                uint8_t keypad : 1;
+                uint8_t touchpad : 1;
                 uint8_t dummy : 6;
         };
         uint8_t val[3];
