@@ -48,9 +48,9 @@ const uint8_t PS4_BUTTONS[] PROGMEM = {
 
 /** Analog buttons on the controller */
 const uint8_t PS4_ANALOG_BUTTONS[] PROGMEM = {
-        0, 0, 0, 0, 0, 0, 0, 0, // Skip UP_ANALOG, RIGHT_ANALOG, DOWN_ANALOG, LEFT_ANALOG, SELECT, L3, R3 and START
-        0, // L2_ANALOG
-        1, // R2_ANALOG
+        0, 0, 0, 0, 0, 0, 0, 0, // Skip UP, RIGHT, DOWN, LEFT, SHARE, OPTIONS, L3, and R3
+        0, // L2
+        1, // R2
 };
 
 bool PS4BT::checkDpad(PS4Buttons ps4Buttons, DPADEnum b) {
@@ -59,7 +59,7 @@ bool PS4BT::checkDpad(PS4Buttons ps4Buttons, DPADEnum b) {
 
 bool PS4BT::getButtonPress(ButtonEnum b) {
 	uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
-	if (b < 4) // Dpad
+	if (b <= LEFT) // Dpad
 		return checkDpad(ps4Data.btn, (DPADEnum)button);
 	else {
 		uint8_t index = button < 8 ? 0 : button < 16 ? 1 : 2;
@@ -70,7 +70,7 @@ bool PS4BT::getButtonPress(ButtonEnum b) {
 
 bool PS4BT::getButtonClick(ButtonEnum b) {
 	uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
-	if (b < 4) { // Dpad
+	if (b <= LEFT) { // Dpad
 		if (checkDpad(buttonClickState, (DPADEnum)button)) {
 			buttonClickState.dpad = DPAD_OFF;
 			return true;
@@ -87,7 +87,7 @@ bool PS4BT::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS4BT::getAnalogButton(ButtonEnum a) {
-	return (uint8_t)(ps4Data.trigger[pgm_read_byte(&PS4_ANALOG_BUTTONS[(uint8_t)a])]);
+	return ps4Data.trigger[pgm_read_byte(&PS4_ANALOG_BUTTONS[(uint8_t)a])];
 }
 
 uint8_t PS4BT::getAnalogHat(AnalogHatEnum a) {

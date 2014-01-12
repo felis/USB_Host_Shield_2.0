@@ -18,6 +18,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instance of the BTHID class in two ways */
 // This will start an inquiry and then pair with the PS4 controller - you only have to do this once
+// You will need to hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode
 BTHID bthid(&Btd, PAIR);
 
 // After that you can simply create the instance like so and then press the PS button on the device

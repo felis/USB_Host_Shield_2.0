@@ -36,7 +36,7 @@ qNextPollTime(0), // Reset NextPollTime
 pollInterval(0),
 bPollEnable(false) // Don't start polling before dongle is connected
 {
-        for(uint8_t i = 0; i < BTD_NUMSERVICES; i++)
+        for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
                 btService[i] = NULL;
 
         Initialize(); // Set all variables, endpoint structs etc. to default values
@@ -293,7 +293,7 @@ void BTD::Initialize() {
                 epInfo[i].epAttribs = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
-        for(i = 0; i < BTD_NUMSERVICES; i++) {
+        for(i = 0; i < BTD_NUM_SERVICES; i++) {
                 if(btService[i])
                         btService[i]->Reset(); // Reset all Bluetooth services
         }
@@ -898,7 +898,7 @@ void BTD::ACL_event_task() {
 
         if(!rcode) { // Check for errors
                 if(length > 0) { // Check if any data was read
-                        for(uint8_t i = 0; i < BTD_NUMSERVICES; i++) {
+                        for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++) {
                                 if(btService[i])
                                         btService[i]->ACLData(l2capinbuf);
                         }
@@ -910,7 +910,7 @@ void BTD::ACL_event_task() {
                 D_PrintHex<uint8_t > (rcode, 0x80);
         }
 #endif
-        for(uint8_t i = 0; i < BTD_NUMSERVICES; i++)
+        for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
                 if(btService[i])
                         btService[i]->Run();
 }

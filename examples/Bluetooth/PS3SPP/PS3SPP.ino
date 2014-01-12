@@ -26,7 +26,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
 //SPP SerialBTBT(&Btd,"Lauszus's Arduino","0000"); // You can also set the name and pin like so
 PS3BT PS3(&Btd); // This will just create the instance
-//PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
+//PS3BT PS3(&Btd, 0x00, 0x15, 0x83, 0x3D, 0x0A, 0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
 boolean firstMessage = true;
 String output = ""; // We will store the data in this string
@@ -77,7 +77,7 @@ void loop() {
         output += "\r\n";
       output += "L2: ";
       output += PS3.getAnalogButton(L2);
-      if (!PS3.PS3NavigationConnected) {
+      if (PS3.PS3Connected) {
         output += "\tR2: ";
         output += PS3.getAnalogButton(R2);
       }
