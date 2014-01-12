@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -97,6 +97,8 @@ Currently HID mice and keyboards are supported.
 
 It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: [BTHID.ino](examples/Bluetooth/BTHID/BTHID.ino) for more information.
 
+The [PS4 library](#ps4-library) also uses this class to handle all Bluetooth communication.
+
 ### [SPP library](SPP.cpp)
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
@@ -111,6 +113,20 @@ More information can be found at these blog posts:
 
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
 It enables me to see the Bluetooth communication between my Mac and any device.
+
+### PS4 Library
+
+This is the [PS4BT](PS4BT.cpp) library. It works with the official Sony PS4 controller via Bluetooth.
+
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) example shows how to easily read the buttons and joysticks on the controller.
+
+I still have not figured out how to read the touchpad, turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.
+
+Before you can use the PS4 controller you will need to pair with it.
+
+Simply create the BTHID instance like so: ```BTHID bthid(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
 
 ### PS3 Library
 
