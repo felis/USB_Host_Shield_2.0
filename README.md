@@ -236,4 +236,5 @@ All the information about the Wii controllers are from these sites:
 
 > When I plug my device into the USB connector nothing happens?
 
-Try to connect a external power supply to the Arduino - this solves the problem in most cases.
+* Try to connect a external power supply to the Arduino - this solves the problem in most cases.
+* You can also use a powered hub between the device and the USB Host Shield. You should then include the USB hub library: ```#include <usbhub.h>``` and create the instance like so: ```USBHub Hub1(&Usb);```.
