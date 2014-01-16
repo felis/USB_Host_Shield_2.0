@@ -488,7 +488,7 @@ public:
         /** Last incoming devices Bluetooth address. */
         uint8_t disc_bdaddr[6];
         /** First 30 chars of last remote name. */
-        uint8_t remote_name[30];
+        char remote_name[30];
         /**
          * The supported HCI Version read from the Bluetooth dongle.
          * Used by the PS3BT library to check the HCI Version of the Bluetooth dongle,

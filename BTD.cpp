@@ -796,11 +796,8 @@ void BTD::HCI_task() {
                         if(hci_check_flag(HCI_FLAG_REMOTE_NAME_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nRemote Name: "), 0x80);
-                                for(uint8_t i = 0; i < 30; i++) {
-                                        if(remote_name[i] == '\0') // End of string
-                                                break;
+                                for(uint8_t i = 0; i < strlen(remote_name); i++)
                                         Notifyc(remote_name[i], 0x80);
-                                }
 #endif
                                 if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
                                         incomingWii = true;
