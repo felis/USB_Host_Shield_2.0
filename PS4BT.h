@@ -65,7 +65,7 @@ public:
 
         /** True if a device is connected */
         bool connected() {
-                BTHID::connected;
+                return BTHID::connected;
         };
 
         /**
