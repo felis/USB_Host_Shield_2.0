@@ -18,9 +18,9 @@
 #ifndef _controllerenums_h
 #define _controllerenums_h
 
-/*
- This header file is used to store different enums for the controllers,
- This is necessary so all the different libraries can be used at once
+/**
+ * This header file is used to store different enums for the controllers,
+ * This is necessary so all the different libraries can be used at once.
  */
 
 /** Enum used to turn on the LEDs on the different controllers. */
@@ -122,6 +122,42 @@ enum AnalogHatEnum {
         RightHatX = 2,
         /** Right joystick y-axis */
         RightHatY = 3,
+};
+
+/**
+ * Sensors inside the Sixaxis Dualshock 3, Move controller and PS4 controller.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USB on the PS3 controller.
+ */
+enum SensorEnum {
+        /** Accelerometer values */
+        aX = 50, aY = 52, aZ = 54,
+        /** Gyro z-axis */
+        gZ = 56,
+        gX, gY, // These are not available on the PS3 controller
+
+        /** Accelerometer x-axis */
+        aXmove = 28,
+        /** Accelerometer z-axis */
+        aZmove = 30,
+        /** Accelerometer y-axis */
+        aYmove = 32,
+
+        /** Gyro x-axis */
+        gXmove = 40,
+        /** Gyro z-axis */
+        gZmove = 42,
+        /** Gyro y-axis */
+        gYmove = 44,
+
+        /** Temperature sensor */
+        tempMove = 46,
+
+        /** Magnetometer x-axis */
+        mXmove = 47,
+        /** Magnetometer z-axis */
+        mZmove = 49,
+        /** Magnetometer y-axis */
+        mYmove = 50,
 };
 
 /** Used to get the angle calculated using the PS3 controller and PS4 controller. */

@@ -121,11 +121,6 @@ enum DPADEnum {
         DPAD_OFF = 0x8,
 };
 
-enum PS4SensorEnum {
-        gX, gY, gZ, /** Gyro values */
-        aX, aY, aZ, /** Accelerometer values */
-};
-
 /** This class parses all the data sent by the PS4 controller */
 class PS4Parser {
 public:
@@ -191,8 +186,8 @@ public:
                         return (atan2(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
         };
 
-        int16_t getSensor(PS4SensorEnum a) {
-                switch(a) {
+        int16_t getSensor(SensorEnum s) {
+                switch(s) {
                         case gX:
                                 return ps4Data.gyroX;
                         case gY:

@@ -56,8 +56,7 @@ const uint8_t PS3_LEDS[] PROGMEM = {
 };
 
 /**
- * Buttons on the controllers
- *
+ * Buttons on the controllers.
  * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
  */
 const uint32_t PS3_BUTTONS[] PROGMEM = {
@@ -87,8 +86,7 @@ const uint32_t PS3_BUTTONS[] PROGMEM = {
 };
 
 /**
- * Analog buttons on the controllers
- *
+ * Analog buttons on the controllers.
  * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
  */
 const uint8_t PS3_ANALOG_BUTTONS[] PROGMEM = {
@@ -132,46 +130,6 @@ enum ColorsEnum {
         White = 0xFFFFFF,
         /** r = 0, g = 0, b = 0 */
         Off = 0x00,
-};
-
-/**
- * Sensors inside the Sixaxis Dualshock 3 and Move controller.
- *
- * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
- */
-enum SensorEnum {
-        /** Accelerometer x-axis */
-        aX = 50,
-        /** Accelerometer y-axis */
-        aY = 52,
-        /** Accelerometer z-axis */
-        aZ = 54,
-        /** Gyro z-axis */
-        gZ = 56,
-
-        /** Accelerometer x-axis */
-        aXmove = 28,
-        /** Accelerometer z-axis */
-        aZmove = 30,
-        /** Accelerometer y-axis */
-        aYmove = 32,
-
-        /** Gyro x-axis */
-        gXmove = 40,
-        /** Gyro z-axis */
-        gZmove = 42,
-        /** Gyro y-axis */
-        gYmove = 44,
-
-        /** Temperature sensor */
-        tempMove = 46,
-
-        /** Magnetometer x-axis */
-        mXmove = 47,
-        /** Magnetometer z-axis */
-        mZmove = 49,
-        /** Magnetometer y-axis */
-        mYmove = 50,
 };
 
 enum StatusEnum {
