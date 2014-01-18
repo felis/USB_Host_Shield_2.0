@@ -124,4 +124,10 @@ enum AnalogHatEnum {
         RightHatY = 3,
 };
 
+/** Used to get the angle calculated using the PS3 controller and PS4 controller. */
+enum AngleEnum {
+        Pitch = 0x01,
+        Roll = 0x02,
+};
+
 #endif

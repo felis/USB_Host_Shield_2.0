@@ -174,12 +174,6 @@ enum SensorEnum {
         mYmove = 50,
 };
 
-/** Used to get the angle calculated using the accelerometer. */
-enum AngleEnum {
-        Pitch = 0x01,
-        Roll = 0x02,
-};
-
 enum StatusEnum {
         // Note that the location is shifted 9 when it's connected via USB
         // Byte location | bit location

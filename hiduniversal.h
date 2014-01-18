@@ -35,6 +35,7 @@ class HIDUniversal : public HID {
         uint8_t bNumIface; // number of interfaces in the configuration
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
+        uint8_t pollInterval;
         bool bPollEnable; // poll enable flag
 
         static const uint16_t constBuffLen = 64; // event buffer length
@@ -50,11 +51,17 @@ class HIDUniversal : public HID {
 protected:
         bool bHasReportId;
 
+        uint16_t PID, VID; // PID and VID of connected device
+
         // HID implementation
         virtual HIDReportParser* GetReportParser(uint8_t id);
 
         virtual uint8_t OnInitSuccessful() {
                 return 0;
+        };
+
+        virtual void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+                return;
         };
 
 public:
@@ -70,6 +77,10 @@ public:
 
         virtual uint8_t GetAddress() {
                 return bAddress;
+        };
+
+        virtual bool isReady() {
+                return bPollEnable;
         };
 
         // UsbConfigXtracter implementation

@@ -32,9 +32,10 @@ Task	KEYWORD2
 # Datatypes (KEYWORD1)
 ####################################################
 
-PS4BT	KEYWORD1
 PS3BT	KEYWORD1
 PS3USB	KEYWORD1
+PS4BT	KEYWORD1
+PS4USB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
@@ -74,6 +75,11 @@ PS3NavigationConnected	KEYWORD2
 
 isReady	KEYWORD2
 watingForConnection	KEYWORD2
+
+isTouching	KEYWORD2
+getX	KEYWORD2
+getY	KEYWORD2
+getTouchCounter	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
@@ -131,6 +137,8 @@ RightHatY	LITERAL1
 aX	LITERAL1
 aY	LITERAL1
 aZ	LITERAL1
+gX	LITERAL1
+gY	LITERAL1
 gZ	LITERAL1
 aXmove	LITERAL1
 aYmove	LITERAL1

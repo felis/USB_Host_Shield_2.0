@@ -116,15 +116,17 @@ It enables me to see the Bluetooth communication between my Mac and any device.
 
 ### PS4 Library
 
-This is the [PS4BT](PS4BT.cpp) library. It works with the official Sony PS4 controller via Bluetooth.
+The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
-The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) example shows how to easily read the buttons and joysticks on the controller.
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons and joysticks on the controller via Bluetooth and USB respectively.
 
-I still have not figured out how to read the touchpad, turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.
+I still have not figured out how to turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.
 
-Before you can use the PS4 controller you will need to pair with it.
+Also the gyro, accelerometer and touchpad values are still only available via USB at the moment.
 
-Simply create the BTHID instance like so: ```BTHID bthid(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
+Before you can use the PS4 controller via Bluetooth you will need to pair with it.
+
+Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
 
 It should then automatically pair the dongle with your controller. This only have to be done once.
 

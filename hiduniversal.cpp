@@ -3,6 +3,7 @@
 HIDUniversal::HIDUniversal(USB *p) :
 HID(p),
 qNextPollTime(0),
+pollInterval(0),
 bPollEnable(false),
 bHasReportId(false) {
         Initialize();
@@ -47,6 +48,7 @@ void HIDUniversal::Initialize() {
         bNumEP = 1;
         bNumIface = 0;
         bConfNum = 0;
+        pollInterval = 0;
 
         ZeroMemory(constBuffLen, prevBuf);
 }
@@ -167,6 +169,9 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailGetDevDescr;
 
+        VID = udd->idVendor; // Can be used by classes that inherits this class to check the VID and PID of the connected device
+        PID = udd->idProduct;
+
         num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
@@ -198,7 +203,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-        USBTRACE2("\r\nCnf:", bConfNum);
+        USBTRACE2("Cnf:", bConfNum);
 
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -307,6 +312,9 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 // Fill in the endpoint index list
                 piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
 
+                if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+                        pollInterval = pep->bInterval;
+
                 bNumEP++;
         }
         //PrintEndpointDescriptor(pep);
@@ -346,7 +354,7 @@ uint8_t HIDUniversal::Poll() {
                 return 0;
 
         if(qNextPollTime <= millis()) {
-                qNextPollTime = millis() + 50;
+                qNextPollTime = millis() + pollInterval;
 
                 uint8_t buf[constBuffLen];
 
@@ -380,6 +388,8 @@ uint8_t HIDUniversal::Poll() {
                                 D_PrintHex<uint8_t > (buf[i], 0x80);
 
                         Notify(PSTR("\r\n"), 0x80);
+
+                        ParseHIDData(this, bHasReportId, (uint8_t)read, buf);
 
                         HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 

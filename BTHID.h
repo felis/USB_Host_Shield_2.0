@@ -25,14 +25,6 @@
 #define MOUSE_PARSER_ID         1
 #define NUM_PARSERS             2
 
-#define BTHID_NUM_SERVICES      4 // Max number of Bluetooth HID services - if you need more than 4 simply increase this number
-
-class BTHIDService {
-public:
-        virtual void onInit();
-        virtual void Reset();
-};
-
 /** This BluetoothService class implements support for the HID keyboard and mice. */
 class BTHID : public BluetoothService {
 public:
@@ -56,7 +48,6 @@ public:
         virtual void Reset();
         /** Used this to disconnect the devices. */
         virtual void disconnect();
-
         /**@}*/
 
         /**
@@ -114,25 +105,30 @@ public:
                 pFuncOnInit = funcOnInit;
         };
 
+protected:
+        /** @name Overridable functions */
         /**
-         * Register Bluetooth HID services.
-         * @param  pService Pointer to BTHIDService class instance.
-         * @return          The service ID on success or -1 on fail.
+         * Used to parse Bluetooth HID data to any class that inherits this class.
+         * @param bthid Pointer to this class.
+         * @param len The length of the incoming data.
+         * @param buf Pointer to the data buffer.
          */
-        int8_t registerServiceClass(BTHIDService *pService) {
-                for(uint8_t i = 0; i < BTHID_NUM_SERVICES; i++) {
-                        if(!bthidService[i]) {
-                                bthidService[i] = pService;
-                                return i; // Return ID
-                        }
-                }
-                return -1; // ErrorregisterServiceClass
+        virtual void ParseBTHID(BTHID *bthid, uint8_t len, uint8_t *buf) {
+                return;
         };
+        /** Called when a device is connected */
+        virtual void OnInitBTHID() {
+                return;
+        };
+        /** Used to reset any buffers in the class that inherits this */
+        virtual void ResetBTHID() {
+                return;
+        }
+        /**@}*/
 
 private:
         BTD *pBtd; // Pointer to BTD instance
         HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
-        BTHIDService *bthidService[BTHID_NUM_SERVICES];
 
         /** Set report protocol. */
         void setProtocol();
@@ -146,11 +142,7 @@ private:
         void onInit() {
                 if(pFuncOnInit)
                         pFuncOnInit(); // Call the user function
-
-                for(uint8_t i = 0; i < BTHID_NUM_SERVICES; i++) {
-                        if(bthidService[i])
-                                bthidService[i]->onInit();
-                }
+                OnInitBTHID();
         };
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 

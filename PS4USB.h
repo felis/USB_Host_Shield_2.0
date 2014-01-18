@@ -15,36 +15,41 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#ifndef _ps4bt_h_
-#define _ps4bt_h_
+#ifndef _ps4usb_h_
+#define _ps4usb_h_
 
-#include "BTHID.h"
+#include "hiduniversal.h"
 #include "PS4Parser.h"
 
+#define PS4_VID 0x054C  // Sony Corporation
+#define PS4_PID 0x05C4  // PS4 Controller
+
 /**
- * This class implements support for the PS4 controller via Bluetooth.
- * It uses the BTHID class for all the Bluetooth communication.
+ * This class implements support for the PS4 controller via USB.
+ * It uses the HIDUniversal class for all the USB communication.
  */
-class PS4BT : public BTHID, public PS4Parser {
+class PS4USB : public HIDUniversal, public PS4Parser {
 public:
         /**
-         * Constructor for the PS4BT class.
-         * @param  p   Pointer to the BTHID class instance.
+         * Constructor for the PS4USB class.
+         * @param  p   Pointer to the HIDUniversal class instance.
          */
-        PS4BT(BTD *p, bool pair = false, const char *pin = "0000") :
-        BTHID(p, pair, pin) {
+        PS4USB(USB *p) :
+        HIDUniversal(p) {
                 PS4Parser::Reset();
         };
 
-        /** @name BTHID implementation */
+        /** @name HIDUniversal implementation */
         /**
-         * Used to parse Bluetooth HID data.
-         * @param bthid Pointer to the BTHID class.
-         * @param len The length of the incoming data.
-         * @param buf Pointer to the data buffer.
+         * Used to parse USB HID data.
+         * @param hid       Pointer to the HID class.
+         * @param is_rpt_id Only used for Hubs.
+         * @param len       The length of the incoming data.
+         * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseBTHID(BTHID *bthid, uint8_t len, uint8_t *buf) {
-                PS4Parser::Parse(len, buf);
+        virtual void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID)
+                        PS4Parser::Parse(len, buf);
         };
 
         /**
@@ -52,20 +57,20 @@ public:
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        virtual void OnInitBTHID() {
-                if (pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
-        };
-
-        /** Used to reset the different buffers to there default values */
-        virtual void ResetBTHID() {
+        virtual uint8_t OnInitSuccessful() {
                 PS4Parser::Reset();
+                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID && pFuncOnInit)
+                        pFuncOnInit(); // Call the user function
+                return 0;
         };
         /**@}*/
 
-        /** True if a device is connected */
+        /**
+         * Used to check if a PS4 controller is connected.
+         * @return Returns true if it is connected.
+         */
         bool connected() {
-                BTHID::connected;
+                return HIDUniversal::isReady() && HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID;
         };
 
         /**
