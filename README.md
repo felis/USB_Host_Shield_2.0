@@ -99,6 +99,8 @@ It uses the standard Boot protocol by default, but it is also able to use the Re
 
 The [PS4 library](#ps4-library) also uses this class to handle all Bluetooth communication.
 
+For information see the following blog post: <http://blog.tkjelectronics.dk/2013/12/bluetooth-hid-devices-now-supported-by-the-usb-host-library/>.
+
 ### [SPP library](SPP.cpp)
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
@@ -129,6 +131,8 @@ Before you can use the PS4 controller via Bluetooth you will need to pair with i
 Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
 
 It should then automatically pair the dongle with your controller. This only have to be done once.
+
+For information see the following blog post: <http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/>.
 
 ### PS3 Library
 
