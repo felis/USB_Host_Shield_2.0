@@ -8,6 +8,8 @@ var searchData=
   ['ps3enums_2eh',['PS3Enums.h',['../_p_s3_enums_8h.html',1,'']]],
   ['ps3usb_2ecpp',['PS3USB.cpp',['../_p_s3_u_s_b_8cpp.html',1,'']]],
   ['ps3usb_2eh',['PS3USB.h',['../_p_s3_u_s_b_8h.html',1,'']]],
-  ['ps4bt_2ecpp',['PS4BT.cpp',['../_p_s4_b_t_8cpp.html',1,'']]],
-  ['ps4bt_2eh',['PS4BT.h',['../_p_s4_b_t_8h.html',1,'']]]
+  ['ps4bt_2eh',['PS4BT.h',['../_p_s4_b_t_8h.html',1,'']]],
+  ['ps4parser_2ecpp',['PS4Parser.cpp',['../_p_s4_parser_8cpp.html',1,'']]],
+  ['ps4parser_2eh',['PS4Parser.h',['../_p_s4_parser_8h.html',1,'']]],
+  ['ps4usb_2eh',['PS4USB.h',['../_p_s4_u_s_b_8h.html',1,'']]]
 ];

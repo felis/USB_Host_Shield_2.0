@@ -19,5 +19,7 @@ var searchData=
   ['ps3_5freport_5fbuffer_5fsize',['PS3_REPORT_BUFFER_SIZE',['../_p_s3_enums_8h.html#a4898fccf5d2aa053bc67894aa3627e0f',1,'PS3Enums.h']]],
   ['ps3_5fvid',['PS3_VID',['../_b_t_d_8h.html#a5bb06f989db583d290ba79642d37c514',1,'PS3_VID():&#160;BTD.h'],['../_p_s3_u_s_b_8h.html#a5bb06f989db583d290ba79642d37c514',1,'PS3_VID():&#160;PS3USB.h']]],
   ['ps3move_5fpid',['PS3MOVE_PID',['../_b_t_d_8h.html#afc242b8a1b867f79c49ad78e3a47b37f',1,'PS3MOVE_PID():&#160;BTD.h'],['../_p_s3_u_s_b_8h.html#afc242b8a1b867f79c49ad78e3a47b37f',1,'PS3MOVE_PID():&#160;PS3USB.h']]],
-  ['ps3navigation_5fpid',['PS3NAVIGATION_PID',['../_b_t_d_8h.html#a54903b410722a45f8246653cd4d00632',1,'PS3NAVIGATION_PID():&#160;BTD.h'],['../_p_s3_u_s_b_8h.html#a54903b410722a45f8246653cd4d00632',1,'PS3NAVIGATION_PID():&#160;PS3USB.h']]]
+  ['ps3navigation_5fpid',['PS3NAVIGATION_PID',['../_b_t_d_8h.html#a54903b410722a45f8246653cd4d00632',1,'PS3NAVIGATION_PID():&#160;BTD.h'],['../_p_s3_u_s_b_8h.html#a54903b410722a45f8246653cd4d00632',1,'PS3NAVIGATION_PID():&#160;PS3USB.h']]],
+  ['ps4_5fpid',['PS4_PID',['../_p_s4_u_s_b_8h.html#a776f4d4694166dbe732e585ebb8c816e',1,'PS4USB.h']]],
+  ['ps4_5fvid',['PS4_VID',['../_p_s4_u_s_b_8h.html#ac878fc36cc22549eb8a7ab6371197877',1,'PS4USB.h']]]
 ];

@@ -6,5 +6,7 @@ var searchData=
   ['ps4bt',['PS4BT',['../class_p_s4_b_t.html',1,'']]],
   ['ps4buttons',['PS4Buttons',['../union_p_s4_buttons.html',1,'']]],
   ['ps4data',['PS4Data',['../struct_p_s4_data.html',1,'']]],
+  ['ps4parser',['PS4Parser',['../class_p_s4_parser.html',1,'']]],
+  ['ps4usb',['PS4USB',['../class_p_s4_u_s_b.html',1,'']]],
   ['ptplistparser',['PTPListParser',['../class_p_t_p_list_parser.html',1,'']]]
 ];

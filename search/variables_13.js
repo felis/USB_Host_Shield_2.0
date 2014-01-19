@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['val',['val',['../union_p_s4_buttons.html#a0cb061ca058b493218c01eb1ada1af00',1,'PS4Buttons']]],
-  ['valparser',['valParser',['../class_report_desc_parser_base.html#a8833e671168779d081e7f50e579bc206',1,'ReportDescParserBase']]],
-  ['valuesize',['valueSize',['../struct_multi_value_buffer.html#ab3151f4125e3ca92871307e654de24b7',1,'MultiValueBuffer']]],
-  ['varbuffer',['varBuffer',['../class_report_desc_parser_base.html#a82cde32720eba596e5864fe7d541ea13',1,'ReportDescParserBase']]],
-  ['vendorid',['VendorID',['../struct_inquiry_response.html#acc610ff84bef225f8826585725ad9802',1,'InquiryResponse']]],
-  ['version',['Version',['../struct_inquiry_response.html#a86832a5def98c1e21447497177a8cc3a',1,'InquiryResponse']]],
-  ['vrtitles0',['vrTitles0',['../class_report_desc_parser_base.html#a42d34a0a49f987c9dcfdd4fb8d42bf0d',1,'ReportDescParserBase']]],
-  ['vrtitles1',['vrTitles1',['../class_report_desc_parser_base.html#a41af57cb0fb0bbed7277bcd04a9e9fe9',1,'ReportDescParserBase']]],
-  ['vs',['VS',['../struct_inquiry_response.html#a9a6c47a45be5bd1ce230c9fac3cc9bbd',1,'InquiryResponse']]]
+  ['unused',['unused',['../struct_b_a_s_i_c_c_d_b.html#a2c6031f3dde94acd5d03c80db213c534',1,'BASICCDB']]],
+  ['usagepagefunctions',['usagePageFunctions',['../class_report_desc_parser_base.html#af91679187bb24d185979b3ec045c215b',1,'ReportDescParserBase']]],
+  ['usagepagetitles0',['usagePageTitles0',['../class_report_desc_parser_base.html#a7f723a8b7bddd061aee7f0af06aeae08',1,'ReportDescParserBase']]],
+  ['usagepagetitles1',['usagePageTitles1',['../class_report_desc_parser_base.html#ae6dadd42986663f261aac948d24911a6',1,'ReportDescParserBase']]],
+  ['usbdebuglvl',['UsbDEBUGlvl',['../hexdump_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78',1,'UsbDEBUGlvl():&#160;message.cpp'],['../message_8cpp.html#a25b114fa75a1d5c09bde2dadc5a27f78',1,'UsbDEBUGlvl():&#160;message.cpp'],['../message_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78',1,'UsbDEBUGlvl():&#160;message.cpp'],['../sink__parser_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78',1,'UsbDEBUGlvl():&#160;message.cpp']]]
 ];

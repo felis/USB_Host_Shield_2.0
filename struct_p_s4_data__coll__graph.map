@@ -1,3 +1,4 @@
 <map id="PS4Data" name="PS4Data">
-<area shape="rect" id="node2" href="$union_p_s4_buttons.html" title="PS4Buttons" alt="" coords="5,6,96,34"/>
+<area shape="rect" id="node2" href="$structtouchpad_x_y.html" title="touchpadXY" alt="" coords="5,6,99,34"/>
+<area shape="rect" id="node3" href="$union_p_s4_buttons.html" title="PS4Buttons" alt="" coords="123,6,215,34"/>
 </map>

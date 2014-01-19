@@ -1,8 +1,6 @@
 <map id="PS3Enums.h" name="PS3Enums.h">
-<area shape="rect" id="node2" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="18,83,91,111"/>
-<area shape="rect" id="node4" href="$_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="123,83,207,111"/>
-<area shape="rect" id="node6" href="$_p_s4_b_t_8h.html" title="PS4BT.h" alt="" coords="238,83,311,111"/>
+<area shape="rect" id="node2" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="15,83,88,111"/>
+<area shape="rect" id="node4" href="$_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="119,83,203,111"/>
 <area shape="rect" id="node3" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="4,161,91,189"/>
 <area shape="rect" id="node5" href="$_p_s3_u_s_b_8cpp.html" title="PS3USB.cpp" alt="" coords="116,161,215,189"/>
-<area shape="rect" id="node7" href="$_p_s4_b_t_8cpp.html" title="PS4BT.cpp" alt="" coords="239,161,325,189"/>
 </map>

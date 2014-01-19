@@ -90,7 +90,7 @@ var searchData=
   ['sendbreak',['SendBreak',['../class_a_c_m.html#a2a618cbff52737740e76977db557ddff',1,'ACM']]],
   ['sendlcdpins',['SENDlcdPins',['../max___l_c_d_8cpp.html#ab9142420ababc8fe568edee4796183ba',1,'max_LCD.cpp']]],
   ['sensekeyspecific',['SenseKeySpecific',['../struct_request_sense_responce.html#a61d034714befc2fa0fb7dcea30942324',1,'RequestSenseResponce']]],
-  ['sensorenum',['SensorEnum',['../_p_s3_enums_8h.html#a00d5030559c481763282483889597d51',1,'PS3Enums.h']]],
+  ['sensorenum',['SensorEnum',['../controller_enums_8h.html#a00d5030559c481763282483889597d51',1,'controllerEnums.h']]],
   ['serial_5fstate',['SERIAL_STATE',['../cdcacm_8h.html#a8e278dbd137d5d873d24e1647be9d4e6',1,'cdcacm.h']]],
   ['serialport_5fuuid',['SERIALPORT_UUID',['../_s_p_p_8h.html#a677a1fc4883355f7fad87551cc003c1b',1,'SPP.h']]],
   ['serialprinthex',['SerialPrintHex',['../printhex_8h.html#a7ac5c085b9fdf94266b7c273695efa87',1,'printhex.h']]],

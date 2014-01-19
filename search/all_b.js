@@ -12,7 +12,6 @@ var searchData=
   ['kdsr',['kDSR',['../cdcprolific_8h.html#af9973cf2cb19393174ae738d2e3eadc6',1,'cdcprolific.h']]],
   ['keyboard_5fparser_5fid',['KEYBOARD_PARSER_ID',['../_b_t_h_i_d_8h.html#a699c5d6eb13133dce9504391bc610f3e',1,'BTHID.h']]],
   ['keyboardreportparser',['KeyboardReportParser',['../class_keyboard_report_parser.html',1,'KeyboardReportParser'],['../class_keyboard_report_parser.html#aa9b5c7b50c3d2b920060b15e7a5133f9',1,'KeyboardReportParser::KeyboardReportParser()']]],
-  ['keypad',['keypad',['../union_p_s4_buttons.html#a0923bb3148f730c2823853d368576917',1,'PS4Buttons::keypad()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda010863ffb4e151e6a1b2ac64f6f95b1f',1,'KEYPAD():&#160;controllerEnums.h']]],
   ['keys',['Keys',['../struct_k_b_d_i_n_f_o.html#a942e4eb5551fbe8958e858057391dd2d',1,'KBDINFO']]],
   ['kframeerror',['kFrameError',['../cdcprolific_8h.html#a25ba69ccbb225bf2c900f87ca5c51fb1',1,'cdcprolific.h']]],
   ['khandshakeinmask',['kHandshakeInMask',['../cdcprolific_8h.html#ae9976c97335cf1b46c32caaa054438a9',1,'cdcprolific.h']]],

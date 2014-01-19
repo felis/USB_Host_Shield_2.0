@@ -187,6 +187,6 @@ var searchData=
   ['bt_5frfcomm_5frpn_5fcmd',['BT_RFCOMM_RPN_CMD',['../_s_p_p_8h.html#ad9b8c11f7f4f8e8d59ac77999b2ec4a3',1,'SPP.h']]],
   ['bt_5frfcomm_5frpn_5frsp',['BT_RFCOMM_RPN_RSP',['../_s_p_p_8h.html#a336bf1805637fdd66033c9040e606a6b',1,'SPP.h']]],
   ['btd_5fmax_5fendpoints',['BTD_MAX_ENDPOINTS',['../_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd',1,'BTD.h']]],
-  ['btd_5fnumservices',['BTD_NUMSERVICES',['../_b_t_d_8h.html#a2222709eed4c8af293e881ea36f599b0',1,'BTD.h']]],
+  ['btd_5fnum_5fservices',['BTD_NUM_SERVICES',['../_b_t_d_8h.html#afeaafddda417fd2f053dbd476332ea19',1,'BTD.h']]],
   ['bulk_5fmaxpktsize',['BULK_MAXPKTSIZE',['../_b_t_d_8h.html#a32d591ef5742a99963130616ef146787',1,'BTD.h']]]
 ];

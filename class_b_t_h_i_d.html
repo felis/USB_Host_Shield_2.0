@@ -98,7 +98,7 @@ Inheritance diagram for BTHID:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_b_t_h_i_d__inherit__graph.png" border="0" usemap="#_b_t_h_i_d_inherit__map" alt="Inheritance graph"/></div>
 <map name="_b_t_h_i_d_inherit__map" id="_b_t_h_i_d_inherit__map">
-<area shape="rect" id="node2" href="class_bluetooth_service.html" title="BluetoothService" alt="" coords="4,6,125,34"/></map>
+<area shape="rect" id="node3" href="class_p_s4_b_t.html" title="PS4BT" alt="" coords="34,161,96,189"/><area shape="rect" id="node2" href="class_bluetooth_service.html" title="BluetoothService" alt="" coords="4,6,125,34"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for BTHID:</div>
@@ -138,9 +138,19 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ab3a81823a1d8805383146a6baad6ccc4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#ab3a81823a1d8805383146a6baad6ccc4">connected</a></td></tr>
 <tr class="separator:ab3a81823a1d8805383146a6baad6ccc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Overridable functions</div></td></tr>
+<tr class="memitem:af9a13ab2a8c9c10fc74b3ed7dde1ff52"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#af9a13ab2a8c9c10fc74b3ed7dde1ff52">ParseBTHID</a> (<a class="el" href="class_b_t_h_i_d.html">BTHID</a> *bthid, uint8_t len, uint8_t *buf)</td></tr>
+<tr class="separator:af9a13ab2a8c9c10fc74b3ed7dde1ff52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d92c1771d643172094fcd084f418421"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#a6d92c1771d643172094fcd084f418421">OnInitBTHID</a> ()</td></tr>
+<tr class="separator:a6d92c1771d643172094fcd084f418421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc22bf5baaa096fe09b72c812c1134f0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#acc22bf5baaa096fe09b72c812c1134f0">ResetBTHID</a> ()</td></tr>
+<tr class="separator:acc22bf5baaa096fe09b72c812c1134f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class implements support for the <a class="el" href="class_h_i_d.html">HID</a> keyboard and mice. </p>
+<div class="textblock"><p>This <a class="el" href="class_bluetooth_service.html">BluetoothService</a> class implements support for Bluetooth <a class="el" href="class_h_i_d.html">HID</a> devices. </p>
 
 <p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00029">29</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -219,7 +229,7 @@ Public Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a8dc98310fe481357eaa86c53e49af113">BluetoothService</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00058">58</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00059">59</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
 
 </div>
 </div>
@@ -303,7 +313,7 @@ Public Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_bluetooth_service.html#a66ee2f09c6087b82e3920c3d652a99b2">BluetoothService</a>.</p>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00051">51</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00052">52</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +347,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns the corresponding <a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a>. Returns NULL if id is not valid. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00059">59</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00058">58</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -382,7 +392,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="class_h_i_d_report_parser.html">HIDReportParser</a> is set. False otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00071">71</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00070">70</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -415,7 +425,7 @@ Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00082">82</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00081">81</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -467,7 +477,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Call this to start the paring sequence with a device </p>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00096">96</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00095">95</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -500,7 +510,116 @@ Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00105">105</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00104">104</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af9a13ab2a8c9c10fc74b3ed7dde1ff52"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void BTHID::ParseBTHID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_b_t_h_i_d.html">BTHID</a> *&#160;</td>
+          <td class="paramname"><em>bthid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to parse Bluetooth <a class="el" href="class_h_i_d.html">HID</a> data to any class that inherits this class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bthid</td><td>Pointer to this class. </td></tr>
+    <tr><td class="paramname">len</td><td>The length of the incoming data. </td></tr>
+    <tr><td class="paramname">buf</td><td>Pointer to the data buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_p_s4_b_t.html#a9f9e18bee9e7d9cf6538681e0370193f">PS4BT</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00116">116</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6d92c1771d643172094fcd084f418421"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void BTHID::OnInitBTHID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called when a device is connected </p>
+
+<p>Reimplemented in <a class="el" href="class_p_s4_b_t.html#a91088a6ed093d3cebb82d8f5e208304b">PS4BT</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00120">120</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acc22bf5baaa096fe09b72c812c1134f0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void BTHID::ResetBTHID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to reset any buffers in the class that inherits this </p>
+
+<p>Reimplemented in <a class="el" href="class_p_s4_b_t.html#a4b1c9e15ccdc7ab24f7fb42fc9b5d827">PS4BT</a>.</p>
+
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00124">124</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -516,7 +635,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True if a device is connected </p>
 
-<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00093">93</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p>Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00092">92</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>

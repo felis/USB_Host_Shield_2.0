@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['keypad',['KEYPAD',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda010863ffb4e151e6a1b2ac64f6f95b1f',1,'controllerEnums.h']]],
   ['kxo_5fidle',['kXO_Idle',['../cdcprolific_8h.html#add931a54ea58b7022eab1911dfd744fbafa4e17811895e3cfdc0fd24f1ebc80fb',1,'cdcprolific.h']]],
   ['kxoffneeded',['kXOffNeeded',['../cdcprolific_8h.html#add931a54ea58b7022eab1911dfd744fba3a3441d7b96b577a695864955081644d',1,'cdcprolific.h']]],
   ['kxoffsent',['kXOffSent',['../cdcprolific_8h.html#add931a54ea58b7022eab1911dfd744fbacd69a72b64873b169216781514aab2d8',1,'cdcprolific.h']]],

@@ -11,7 +11,7 @@ var searchData=
   ['right',['RIGHT',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaec8379af7490bb9eaaf579cf17876f38',1,'controllerEnums.h']]],
   ['righthatx',['RightHatX',['../controller_enums_8h.html#a34dad8f0a0927471137c403216597093aaeb027a0ae5bbc6ba25e1c78a6486c7b',1,'controllerEnums.h']]],
   ['righthaty',['RightHatY',['../controller_enums_8h.html#a34dad8f0a0927471137c403216597093a7f1fb2db5381286691f4dec179ed5d5a',1,'controllerEnums.h']]],
-  ['roll',['Roll',['../_p_s3_enums_8h.html#a7c7824a10a9ffa8fea85602fcf4d84e6a9d80e5f030503ccac779c6491826a173',1,'PS3Enums.h']]],
+  ['roll',['Roll',['../controller_enums_8h.html#a7c7824a10a9ffa8fea85602fcf4d84e6a9d80e5f030503ccac779c6491826a173',1,'controllerEnums.h']]],
   ['rotating',['ROTATING',['../xbox_enums_8h.html#abb8a1831f62ea139a2255c67bb24330fab341b3ec217357462f12510d0435c25b',1,'xboxEnums.h']]],
   ['rumblehigh',['RumbleHigh',['../_p_s3_enums_8h.html#ab195293384292950ebc2166bfe360fd1a5819f165165589a8e65b07bf46c7382b',1,'PS3Enums.h']]],
   ['rumblelow',['RumbleLow',['../_p_s3_enums_8h.html#ab195293384292950ebc2166bfe360fd1a080b52389e532b79b9e48f43ae6086ac',1,'PS3Enums.h']]]

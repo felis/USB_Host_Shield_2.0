@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x',['X',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda58833a3110c570fb05130d40c365d1e4',1,'controllerEnums.h']]],
+  ['x',['x',['../structtouchpad_x_y.html#a1c38a3e4161b1495b4d8ce37124c72a5',1,'touchpadXY::x()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda58833a3110c570fb05130d40c365d1e4',1,'X():&#160;controllerEnums.h']]],
   ['xbox',['XBOX',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdad4689acdcdf0e61373d52de14ff07eae',1,'controllerEnums.h']]],
   ['xbox360connected',['Xbox360Connected',['../class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a',1,'XBOXRECV::Xbox360Connected()'],['../class_x_b_o_x_u_s_b.html#a1c779ae5483a2f73426650242a37d868',1,'XBOXUSB::Xbox360Connected()']]],
   ['xbox_5fbuttons',['XBOX_BUTTONS',['../xbox_enums_8h.html#a35901eab017bd1df5d2361634309adbd',1,'xboxEnums.h']]],
@@ -42,5 +42,6 @@ var searchData=
   ['xboxusb_2eh',['XBOXUSB.h',['../_x_b_o_x_u_s_b_8h.html',1,'']]],
   ['xmem_5facquire_5fspi',['XMEM_ACQUIRE_SPI',['../settings_8h.html#a1289c5bfe1747cedd6acea1a4c95b4c6',1,'settings.h']]],
   ['xmem_5frelease_5fspi',['XMEM_RELEASE_SPI',['../settings_8h.html#a909a9e2c3a84ded69a51e29986df52db',1,'settings.h']]],
-  ['xoom',['XOOM',['../adk_8h.html#aeb9a797aace2bcf4a9d1f786a632ca4b',1,'adk.h']]]
+  ['xoom',['XOOM',['../adk_8h.html#aeb9a797aace2bcf4a9d1f786a632ca4b',1,'adk.h']]],
+  ['xy',['xy',['../struct_p_s4_data.html#a1cfd90d32bbd9233dae34fb148fc9f56',1,'PS4Data']]]
 ];

@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li><b>Kristian Lauszus, TKJ Electronics</b> - <a href="#" onclick="location.href='mai'+'lto:'+'kri'+'st'+'ian'+'l@'+'tkj'+'el'+'ect'+'ro'+'nic'+'s.'+'com'; return false;">krist<span style="display: none;">.nosp@m.</span>ianl<span style="display: none;">.nosp@m.</span>@tkje<span style="display: none;">.nosp@m.</span>lect<span style="display: none;">.nosp@m.</span>ronic<span style="display: none;">.nosp@m.</span>s.co<span style="display: none;">.nosp@m.</span>m</a><ul>
-<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, and <a href="#xbox-library">Xbox</a> libraries</li>
+<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, and <a href="#xbox-library">Xbox</a> libraries</li>
 </ul>
 </li>
 <li><b>Andrew Kroll</b> - <a href="#" onclick="location.href='mai'+'lto:'+'xxx'+'aj'+'k@g'+'ma'+'il.'+'co'+'m'; return false;">xxxaj<span style="display: none;">.nosp@m.</span>k@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a><ul>
@@ -157,6 +157,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>The <a href="BTHID.cpp">Bluetooth HID library</a> allows you to connect <a class="el" href="class_h_i_d.html">HID</a> devices via Bluetooth to the <a class="el" href="class_u_s_b.html">USB</a> Host Shield.</p>
 <p>Currently <a class="el" href="class_h_i_d.html">HID</a> mice and keyboards are supported.</p>
 <p>It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call <code>setProtocolMode()</code> and then parse <code>HID_RPT_PROTOCOL</code> as an argument. You will then have to modify the parser for your device. See the example: <a href="examples/Bluetooth/BTHID/BTHID.ino">BTHID.ino</a> for more information.</p>
+<p>The <a href="#ps4-library">PS4 library</a> also uses this class to handle all Bluetooth communication.</p>
+<p>For information see the following blog post: <a href="http://blog.tkjelectronics.dk/2013/12/bluetooth-hid-devices-now-supported-by-the-usb-host-library/">http://blog.tkjelectronics.dk/2013/12/bluetooth-hid-devices-now-supported-by-the-usb-host-library/</a>.</p>
 <h3><a href="SPP.cpp">SPP library</a></h3>
 <p><a class="el" href="class_s_p_p.html">SPP</a> stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth. It has been tested successfully on Windows, Mac OS X, Linux, and Android.</p>
 <p>Take a look at the <a href="examples/Bluetooth/SPP/SPP.ino">SPP.ino</a> example for more information.</p>
@@ -166,6 +168,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/">http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/</a></li>
 </ul>
 <p>To implement the <a class="el" href="class_s_p_p.html">SPP</a> protocol I used a Bluetooth sniffing tool called <a href="http://www.tkjelectronics.com/uploads/PacketLogger.zip">PacketLogger</a> developed by Apple. It enables me to see the Bluetooth communication between my Mac and any device.</p>
+<h3>PS4 Library</h3>
+<p>The <a class="el" href="class_p_s4_b_t.html">PS4BT</a> library is split up into the <a href="PS4BT.h">PS4BT</a> and the <a href="PS4USB.h">PS4USB</a> library. These allow you to use the Sony PS4 controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>The <a href="examples/Bluetooth/PS4BT/PS4BT.ino">PS4BT.ino</a> and <a href="examples/PS4USB/PS4USB.ino">PS4USB.ino</a> examples shows how to easily read the buttons and joysticks on the controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a> respectively.</p>
+<p>I still have not figured out how to turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.</p>
+<p>Also the gyro, accelerometer and touchpad values are still only available via <a class="el" href="class_u_s_b.html">USB</a> at the moment.</p>
+<p>Before you can use the PS4 controller via Bluetooth you will need to pair with it.</p>
+<p>Simply create the <a class="el" href="class_p_s4_b_t.html">PS4BT</a> instance like so: <code><a class="el" href="class_p_s4_b_t.html">PS4BT</a> PS4(&amp;Btd, PAIR);</code> and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.</p>
+<p>It should then automatically pair the dongle with your controller. This only have to be done once.</p>
+<p>For information see the following blog post: <a href="http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/">http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/</a>.</p>
 <h3>PS3 Library</h3>
 <p>These libraries consist of the <a href="PS3BT.cpp">PS3BT</a> and <a href="PS3USB.cpp">PS3USB</a>. These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the <a class="el" href="class_u_s_b.html">USB</a> Host Shield both via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
 <p>In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via <a class="el" href="class_u_s_b.html">USB</a> and letting the library set it automatically.</p>
@@ -245,7 +256,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>When I plug my device into the <a class="el" href="class_u_s_b.html">USB</a> connector nothing happens?</p>
 <p></p>
 </blockquote>
-<p>Try to connect a external power supply to the Arduino - this solves the problem in most cases. </p>
+<ul>
+<li>Try to connect a external power supply to the Arduino - this solves the problem in most cases.</li>
+<li>You can also use a powered hub between the device and the <a class="el" href="class_u_s_b.html">USB</a> Host Shield. You should then include the <a class="el" href="class_u_s_b.html">USB</a> hub library: <code>#include &lt;<a class="el" href="usbhub_8h.html">usbhub.h</a>&gt;</code> and create the instance like so: <code><a class="el" href="class_u_s_b_hub.html">USBHub</a> Hub1(&amp;Usb);</code>. </li>
+</ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

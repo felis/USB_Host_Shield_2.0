@@ -314,7 +314,7 @@ var searchData=
   ['btd_5fdataout_5fpipe',['BTD_DATAOUT_PIPE',['../class_b_t_d.html#a0d82870f7eef8c27c33e6f5989d7a4dd',1,'BTD']]],
   ['btd_5fevent_5fpipe',['BTD_EVENT_PIPE',['../class_b_t_d.html#a24166c9b308925eeb2f635fae43ca5ec',1,'BTD']]],
   ['btd_5fmax_5fendpoints',['BTD_MAX_ENDPOINTS',['../_b_t_d_8h.html#aee41c4878894db24e7ad8cd6246595cd',1,'BTD.h']]],
-  ['btd_5fnumservices',['BTD_NUMSERVICES',['../_b_t_d_8h.html#a2222709eed4c8af293e881ea36f599b0',1,'BTD.h']]],
+  ['btd_5fnum_5fservices',['BTD_NUM_SERVICES',['../_b_t_d_8h.html#afeaafddda417fd2f053dbd476332ea19',1,'BTD.h']]],
   ['btdname',['btdName',['../class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9',1,'BTD']]],
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
   ['bthelun',['bTheLUN',['../class_bulk_only.html#a24c051d401f5f1a9ce65c1bc25ab02dd',1,'BulkOnly']]],

@@ -1,6 +1,5 @@
 <map id="HIDReportParser" name="HIDReportParser">
 <area shape="rect" id="node2" href="$class_keyboard_report_parser.html" title="KeyboardReportParser" alt="" coords="5,83,163,111"/>
 <area shape="rect" id="node3" href="$class_mouse_report_parser.html" title="MouseReportParser" alt="" coords="187,83,327,111"/>
-<area shape="rect" id="node4" href="$class_p_s4_b_t.html" title="PS4BT" alt="" coords="352,83,415,111"/>
-<area shape="rect" id="node5" href="$class_universal_report_parser.html" title="UniversalReportParser" alt="" coords="439,83,595,111"/>
+<area shape="rect" id="node4" href="$class_universal_report_parser.html" title="UniversalReportParser" alt="" coords="351,83,507,111"/>
 </map>
