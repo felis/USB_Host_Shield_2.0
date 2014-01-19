@@ -25,7 +25,7 @@
 #define MOUSE_PARSER_ID         1
 #define NUM_PARSERS             2
 
-/** This BluetoothService class implements support for the HID keyboard and mice. */
+/** This BluetoothService class implements support for Bluetooth HID devices. */
 class BTHID : public BluetoothService {
 public:
         /**

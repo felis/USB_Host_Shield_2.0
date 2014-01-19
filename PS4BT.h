@@ -29,13 +29,30 @@ class PS4BT : public BTHID, public PS4Parser {
 public:
         /**
          * Constructor for the PS4BT class.
-         * @param  p   Pointer to the BTHID class instance.
+         * @param  p   Pointer to the BTD class instance.
          */
         PS4BT(BTD *p, bool pair = false, const char *pin = "0000") :
         BTHID(p, pair, pin) {
                 PS4Parser::Reset();
         };
 
+        /**
+         * Used to check if a PS4 controller is connected.
+         * @return Returns true if it is connected.
+         */
+        bool connected() {
+                return BTHID::connected;
+        };
+
+        /**
+         * Used to call your own function when the device is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
+
+protected:
         /** @name BTHID implementation */
         /**
          * Used to parse Bluetooth HID data.
@@ -62,19 +79,6 @@ public:
                 PS4Parser::Reset();
         };
         /**@}*/
-
-        /** True if a device is connected */
-        bool connected() {
-                return BTHID::connected;
-        };
-
-        /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
-        };
 
 private:
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()

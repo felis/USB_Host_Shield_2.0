@@ -32,13 +32,30 @@ class PS4USB : public HIDUniversal, public PS4Parser {
 public:
         /**
          * Constructor for the PS4USB class.
-         * @param  p   Pointer to the HIDUniversal class instance.
+         * @param  p   Pointer to the USB class instance.
          */
         PS4USB(USB *p) :
         HIDUniversal(p) {
                 PS4Parser::Reset();
         };
 
+        /**
+         * Used to check if a PS4 controller is connected.
+         * @return Returns true if it is connected.
+         */
+        bool connected() {
+                return HIDUniversal::isReady() && HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID;
+        };
+
+        /**
+         * Used to call your own function when the device is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
+
+protected:
         /** @name HIDUniversal implementation */
         /**
          * Used to parse USB HID data.
@@ -64,22 +81,6 @@ public:
                 return 0;
         };
         /**@}*/
-
-        /**
-         * Used to check if a PS4 controller is connected.
-         * @return Returns true if it is connected.
-         */
-        bool connected() {
-                return HIDUniversal::isReady() && HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID;
-        };
-
-        /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
-        };
 
 private:
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()

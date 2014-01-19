@@ -61,10 +61,10 @@ bool PS4Parser::getButtonClick(ButtonEnum b) {
 	return click;
 }
 
-uint8_t PS4Parser::getAnalogButton(ButtonEnum a) {
-	if (a == L2) // These are the only analog buttons on the controller
+uint8_t PS4Parser::getAnalogButton(ButtonEnum b) {
+	if (b == L2) // These are the only analog buttons on the controller
 		return ps4Data.trigger[0];
-	else if (a == R2)
+	else if (b == R2)
 		return ps4Data.trigger[1];
 	return 0;
 }
@@ -75,7 +75,21 @@ uint8_t PS4Parser::getAnalogHat(AnalogHatEnum a) {
 
 void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 	if (len > 0 && buf)  {
+#ifdef PRINTREPORT
+		for (uint8_t i = 0; i < len; i++) {
+			D_PrintHex<uint8_t > (buf[i], 0x80);
+			Notify(PSTR(" "), 0x80);
+		}
+		Notify(PSTR("\r\n"), 0x80);
+#endif
+
 		memcpy(&ps4Data, buf, min(len, sizeof(ps4Data)));
+		if (ps4Data.reportId != 0x01) {
+#ifdef DEBUG_USB_HOST
+                	Notify(PSTR("\r\nUnknown report id"), 0x80);
+#endif
+                	return;
+		}
 
 		for (uint8_t i = 0; i < sizeof(ps4Data.btn); i++) {
 			if (ps4Data.btn.val[i] != oldButtonState.val[i]) { // Check if anything has changed
@@ -98,12 +112,5 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 				}
 			}
 		}
-#ifdef PRINTREPORT
-		for (uint8_t i = 0; i < len; i++) {
-			D_PrintHex<uint8_t > (buf[i], 0x80);
-			Notify(PSTR(" "), 0x80);
-		}
-		Notify(PSTR("\r\n"), 0x80);
-#endif
 	}
 }

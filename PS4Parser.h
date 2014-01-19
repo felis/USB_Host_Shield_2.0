@@ -18,7 +18,7 @@
 #ifndef _ps4parser_h_
 #define _ps4parser_h_
 
-#include "hid.h"
+#include "Usb.h"
 #include "controllerEnums.h"
 
 /** Buttons on the controller */
@@ -87,7 +87,7 @@ struct touchpadXY {
 
 struct PS4Data {
         /* Button and joystick values */
-        uint8_t report_id; // Always 0x01
+        uint8_t reportId; // Always 0x01
         uint8_t hatValue[4];
         PS4Buttons btn;
         uint8_t trigger[2];
@@ -95,12 +95,12 @@ struct PS4Data {
         // I still need to figure out how to make the PS4 controller send out the rest of the data via Bluetooth
 
         /* Gyro and accelerometer values */
-        uint8_t dummy[3]; // First two looks random, while the third one might be some kind of status
+        uint8_t dummy[3]; // First two looks random, while the third one might be some kind of status - it increments once in a while
         int16_t gyroY, gyroZ, gyroX;
         int16_t accX, accZ, accY;
 
         /* The rest is data for the touchpad */
-        uint8_t dummy2[9]; // Byte 5 looks like some kind of status (maybe battery status), bit 1 of byte 9 is set every time a finger is moving around the touchpad
+        uint8_t dummy2[9]; // Byte 5 looks like some kind of status (maybe battery status), bit 1 of byte 8 is set every time a finger is moving around the touchpad
         touchpadXY xy[3]; // It looks like it sends out three coordinates each time, this is possible because the microcontroller inside the PS4 controller is much faster than the Bluetooth connection.
                           // The last data is read from the last position in the array while the oldest measurement is from the first position.
                           // The first position will also keep it's value after the finger is released, while the other two will set them to zero.
@@ -152,7 +152,7 @@ public:
          * ::TRIANGLE, ::CIRCLE, ::CROSS, ::SQUARE, and ::T.
          * @return   Analog value in the range of 0-255.
          */
-        uint8_t getAnalogButton(ButtonEnum a);
+        uint8_t getAnalogButton(ButtonEnum b);
 
         /**
          * Used to read the analog joystick.
@@ -163,22 +163,59 @@ public:
         /**@}*/
 
         /** @name Only available via USB at the moment */
+        /**
+         * Get the x-coordinate of the touchpad. Position 0 is in the top left.
+         * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.
+         * @param  xyId   The controller sends out three packets with the same structure.
+         *                The third one will contain the last measure, but if you read from the controller then there is only be data in the first one.
+         *                For that reason it will be set to 0 if the argument is omitted.
+         * @return        Returns the x-coordinate of the finger.
+         */
         uint16_t getX(uint8_t finger = 0, uint8_t xyId = 0) {
                 return ps4Data.xy[xyId].finger[finger].x;
         };
 
+        /**
+         * Get the y-coordinate of the touchpad. Position 0 is in the top left.
+         * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.
+         * @param  xyId   The controller sends out three packets with the same structure.
+         *                The third one will contain the last measure, but if you read from the controller then there is only be data in the first one.
+         *                For that reason it will be set to 0 if the argument is omitted.
+         * @return        Returns the y-coordinate of the finger.
+         */
         uint16_t getY(uint8_t finger = 0, uint8_t xyId = 0) {
                 return ps4Data.xy[xyId].finger[finger].y;
         };
 
-        uint8_t isTouching(uint8_t finger = 0, uint8_t xyId = 0) {
-                return !(ps4Data.xy[xyId].finger[finger].touching); // The bit is cleared every time when a finger is touching the touchpad
+        /**
+         * Returns whenever the user is toucing the touchpad.
+         * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.
+         * @param  xyId   The controller sends out three packets with the same structure.
+         *                The third one will contain the last measure, but if you read from the controller then there is only be data in the first one.
+         *                For that reason it will be set to 0 if the argument is omitted.
+         * @return        Returns true if the specific finger is touching the touchpad.
+         */
+        bool isTouching(uint8_t finger = 0, uint8_t xyId = 0) {
+                return !(ps4Data.xy[xyId].finger[finger].touching); // The bit is cleared when a finger is touching the touchpad
         };
 
+        /**
+         * This counter increments every time a finger touches the touchpad.
+         * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.
+         * @param  xyId   The controller sends out three packets with the same structure.
+         *                The third one will contain the last measure, but if you read from the controller then there is only be data in the first one.
+         *                For that reason it will be set to 0 if the argument is omitted.
+         * @return        Return the value of the counter, note that it is only a 7-bit value.
+         */
         uint8_t getTouchCounter(uint8_t finger = 0, uint8_t xyId = 0) {
                 return ps4Data.xy[xyId].finger[finger].counter;
         };
 
+        /**
+         * Get the angle of the controller calculated using the accelerometer.
+         * @param  a Either ::Pitch or ::Roll.
+         * @return   Return the angle in the range of 0-360.
+         */
         double getAngle(AngleEnum a) {
                 if(a == Pitch)
                         return (atan2(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
@@ -186,6 +223,11 @@ public:
                         return (atan2(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
         };
 
+        /**
+         * Used to get the raw values from the 3-axis gyroscope and 3-axis accelerometer inside the PS4 controller.
+         * @param  s The sensor to read.
+         * @return   Returns the raw sensor reading.
+         */
         int16_t getSensor(SensorEnum s) {
                 switch(s) {
                         case gX:
@@ -205,6 +247,14 @@ public:
                 }
         };
         /**@}*/
+
+protected:
+        /**
+         * Used to parse data sent from the PS4 controller.
+         * @param len Length of the data.
+         * @param buf Pointer to the data buffer.
+         */
+        void Parse(uint8_t len, uint8_t *buf);
 
         /** Used to reset the different buffers to their default values */
         void Reset() {
@@ -227,9 +277,6 @@ public:
                 buttonClickState.dpad = 0;
                 oldDpad = 0;
         };
-
-protected:
-        void Parse(uint8_t len, uint8_t *buf);
 
 private:
         bool checkDpad(ButtonEnum b); // Used to check PS4 DPAD buttons
