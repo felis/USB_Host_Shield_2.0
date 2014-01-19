@@ -146,7 +146,7 @@ public:
         /** @name PS4 Controller functions */
         /**
          * Used to get the analog value from button presses.
-         * @param  a The ::ButtonEnum to read.
+         * @param  b The ::ButtonEnum to read.
          * The supported buttons are:
          * ::UP, ::RIGHT, ::DOWN, ::LEFT, ::L1, ::L2, ::R1, ::R2,
          * ::TRIANGLE, ::CIRCLE, ::CROSS, ::SQUARE, and ::T.

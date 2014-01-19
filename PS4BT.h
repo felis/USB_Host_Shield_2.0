@@ -29,7 +29,9 @@ class PS4BT : public BTHID, public PS4Parser {
 public:
         /**
          * Constructor for the PS4BT class.
-         * @param  p   Pointer to the BTD class instance.
+         * @param  p     Pointer to the BTD class instance.
+         * @param  pair  Set this to true in order to pair with the device. If the argument is omitted then it will not pair with it. One can use ::PAIR to set it to true.
+         * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          */
         PS4BT(BTD *p, bool pair = false, const char *pin = "0000") :
         BTHID(p, pair, pin) {
