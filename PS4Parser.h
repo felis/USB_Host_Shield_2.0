@@ -66,7 +66,7 @@ union PS4Buttons {
 
                 uint8_t ps : 1;
                 uint8_t touchpad : 1;
-                uint8_t timestamp : 6; // Only available via USB
+                uint8_t reportCounter : 6;
         };
         uint8_t val[3];
 };
@@ -91,8 +91,6 @@ struct PS4Data {
         PS4Buttons btn;
         uint8_t trigger[2];
 
-        // I still need to figure out how to make the PS4 controller send out the rest of the data via Bluetooth
-
         /* Gyro and accelerometer values */
         uint8_t dummy[3]; // First two looks random, while the third one might be some kind of status - it increments once in a while
         int16_t gyroY, gyroZ, gyroX;
@@ -100,7 +98,7 @@ struct PS4Data {
 
         /* The rest is data for the touchpad */
         uint8_t dummy2[9]; // Byte 5 looks like some kind of status (maybe battery status), bit 1 of byte 8 is set every time a finger is moving around the touchpad
-        touchpadXY xy[3]; // It looks like it sends out three coordinates each time, this is possible because the microcontroller inside the PS4 controller is much faster than the Bluetooth connection.
+        touchpadXY xy[3]; // It looks like it sends out three coordinates each time, this might be because the microcontroller inside the PS4 controller is much faster than the Bluetooth connection.
                           // The last data is read from the last position in the array while the oldest measurement is from the first position.
                           // The first position will also keep it's value after the finger is released, while the other two will set them to zero.
                           // Note that if you read fast enough from the device, then only the first one will contain any data.
@@ -159,9 +157,7 @@ public:
          * @return   Return the analog value in the range of 0-255.
          */
         uint8_t getAnalogHat(AnalogHatEnum a);
-        /**@}*/
 
-        /** @name Only available via USB at the moment */
         /**
          * Get the x-coordinate of the touchpad. Position 0 is in the top left.
          * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.

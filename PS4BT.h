@@ -72,7 +72,7 @@ protected:
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         virtual void OnInitBTHID() {
-                enable_sixaxis(); // Make the controller to send out the entire output report
+                enable_sixaxis(); // Make the controller send out the entire output report
                 if (pFuncOnInit)
                         pFuncOnInit(); // Call the user function
         };
