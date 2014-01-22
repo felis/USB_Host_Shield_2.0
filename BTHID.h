@@ -126,8 +126,20 @@ protected:
         }
         /**@}*/
 
+        /** Pointer to BTD instance */
+        BTD *pBtd;
+
+        /** HCI Handle for connection */
+        uint16_t hci_handle;
+
+        /** L2CAP source CID for HID_Control */
+
+        uint8_t control_scid[2];
+
+        /** L2CAP source CID for HID_Interrupt */
+        uint8_t interrupt_scid[2];
+
 private:
-        BTD *pBtd; // Pointer to BTD instance
         HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
 
         /** Set report protocol. */
@@ -148,19 +160,13 @@ private:
 
         void L2CAP_task(); // L2CAP state machine
 
-        /* Variables filled from HCI event management */
-        uint16_t hci_handle;
         bool activeConnection; // Used to indicate if it already has established a connection
 
-        /* Variables used by high level L2CAP task */
+        /* Variables used for L2CAP communication */
+        uint8_t control_dcid[2]; // L2CAP device CID for HID_Control - Always 0x0070
+        uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
+        uint8_t identifier; // Identifier for connection
         uint8_t l2cap_state;
         uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
-
-        /* L2CAP Channels */
-        uint8_t control_scid[2]; // L2CAP source CID for HID_Control
-        uint8_t control_dcid[2]; // 0x0070
-        uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
-        uint8_t interrupt_dcid[2]; // 0x0071
-        uint8_t identifier; // Identifier for connection
 };
 #endif

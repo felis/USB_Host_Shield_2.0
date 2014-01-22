@@ -87,7 +87,6 @@ struct touchpadXY {
 
 struct PS4Data {
         /* Button and joystick values */
-        uint8_t reportId; // Always 0x01
         uint8_t hatValue[4];
         PS4Buttons btn;
         uint8_t trigger[2];

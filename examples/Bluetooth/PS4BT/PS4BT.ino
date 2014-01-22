@@ -24,6 +24,8 @@ PS4BT PS4(&Btd, PAIR);
 // After that you can simply create the instance like so and then press the PS button on the device
 //PS4BT PS4(&Btd);
 
+boolean printAngle, printTouch;
+
 void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
@@ -88,10 +90,35 @@ void loop() {
 
       if (PS4.getButtonClick(SHARE))
         Serial.print(F("\r\nShare"));
-      if (PS4.getButtonClick(OPTIONS))
+      if (PS4.getButtonClick(OPTIONS)) {
         Serial.print(F("\r\nOptions"));
-      if (PS4.getButtonClick(TOUCHPAD))
+        printAngle = !printAngle;
+      }
+      if (PS4.getButtonClick(TOUCHPAD)) {
         Serial.print(F("\r\nTouchpad"));
+        printTouch = !printTouch;
+      }
+
+      if (printAngle) { // Print angle calculated using the accelerometer only
+        Serial.print(F("\r\nPitch: "));
+        Serial.print(PS4.getAngle(Pitch));
+        Serial.print(F("\tRoll: "));
+        Serial.print(PS4.getAngle(Roll));
+      }
+
+      if (printTouch) { // Print the x, y coordinates of the touchpad
+        if (PS4.isTouching(0) || PS4.isTouching(1)) // Print newline and carriage return if any of the fingers are touching the touchpad
+          Serial.print(F("\r\n"));
+        for (uint8_t i = 0; i < 2; i++) { // The touchpad track two fingers
+          if (PS4.isTouching(i)) { // Print the position of the finger if it is touching the touchpad
+            Serial.print(F("X")); Serial.print(i + 1); Serial.print(F(": "));
+            Serial.print(PS4.getX(i));
+            Serial.print(F("\tY")); Serial.print(i + 1); Serial.print(F(": "));
+            Serial.print(PS4.getY(i));
+            Serial.print(F("\t"));
+          }
+        }
+      }
     }
   }
 }

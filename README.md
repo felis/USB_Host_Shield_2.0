@@ -124,8 +124,6 @@ The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS
 
 I still have not figured out how to turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.
 
-Also the gyro, accelerometer and touchpad values are still only available via USB at the moment.
-
 Before you can use the PS4 controller via Bluetooth you will need to pair with it.
 
 Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
@@ -133,6 +131,8 @@ Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then 
 It should then automatically pair the dongle with your controller. This only have to be done once.
 
 For information see the following blog post: <http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/>.
+
+Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4>.
 
 ### PS3 Library
 

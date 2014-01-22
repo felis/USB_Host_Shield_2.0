@@ -202,7 +202,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                                 if(pRptParser[MOUSE_PARSER_ID])
                                                         pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                         default:
                                                 Notify(PSTR("\r\nUnknown Report type: "), 0x80);
                                                 D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
