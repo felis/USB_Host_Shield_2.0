@@ -457,7 +457,7 @@ public:
 #define P2  Pe4
 #define P3  Pe5
 #define P4  Pg5
-#define P5  Pe5
+#define P5  Pe3
 #define P6  Ph3
 #define P7  Ph4
 
