@@ -74,14 +74,10 @@ union PS4Buttons {
 struct touchpadXY {
         uint8_t dummy; // I can not figure out what this data is for, it seems to change randomly, maybe a timestamp?
         struct {
-                struct {
-                        uint8_t counter : 7; // Increments every time a finger is touching the touchpad
-                        uint8_t touching : 1; // The top bit is cleared if the finger is touching the touchpad
-                };
-                struct {
-                        uint16_t x : 12;
-                        uint16_t y : 12;
-                };
+                uint8_t counter : 7; // Increments every time a finger is touching the touchpad
+                uint8_t touching : 1; // The top bit is cleared if the finger is touching the touchpad
+                uint16_t x : 12;
+                uint16_t y : 12;
         } finger[2]; // 0 = first finger, 1 = second finger
 };
 

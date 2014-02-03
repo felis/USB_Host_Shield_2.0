@@ -109,11 +109,10 @@ protected:
         /** @name Overridable functions */
         /**
          * Used to parse Bluetooth HID data to any class that inherits this class.
-         * @param bthid Pointer to this class.
          * @param len The length of the incoming data.
          * @param buf Pointer to the data buffer.
          */
-        virtual void ParseBTHID(BTHID *bthid, uint8_t len, uint8_t *buf) {
+        virtual void ParseBTHIDData(uint8_t len, uint8_t *buf) {
                 return;
         };
         /** Called when a device is connected */

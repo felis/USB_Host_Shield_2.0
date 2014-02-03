@@ -21,8 +21,8 @@
 #include "hiduniversal.h"
 #include "PS4Parser.h"
 
-#define PS4_VID 0x054C  // Sony Corporation
-#define PS4_PID 0x05C4  // PS4 Controller
+#define PS4_VID 0x054C // Sony Corporation
+#define PS4_PID 0x05C4 // PS4 Controller
 
 /**
  * This class implements support for the PS4 controller via USB.

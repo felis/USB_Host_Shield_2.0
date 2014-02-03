@@ -190,7 +190,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 #endif
                         if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
                                 uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                ParseBTHID(this, (uint8_t)(length - 1), &l2capinbuf[9]);
+                                ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]);
 
                                 switch(l2capinbuf[9]) {
                                         case 0x01: // Keyboard or Joystick events
