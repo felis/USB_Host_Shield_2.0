@@ -6,6 +6,11 @@
 
 #include <PS4USB.h>
 
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
+
 USB Usb;
 PS4USB PS4(&Usb);
 

@@ -120,9 +120,7 @@ It enables me to see the Bluetooth communication between my Mac and any device.
 
 The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
-The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons and joysticks on the controller via Bluetooth and USB respectively.
-
-I still have not figured out how to turn rumble on and off and set the color of the light, but hopefully I will figure that out soon.
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller.
 
 Before you can use the PS4 controller via Bluetooth you will need to pair with it.
 
@@ -132,7 +130,7 @@ It should then automatically pair the dongle with your controller. This only hav
 
 For information see the following blog post: <http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/>.
 
-Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4>.
+Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4> and this Linux driver: <https://github.com/chrippa/ds4drv>.
 
 ### PS3 Library
 

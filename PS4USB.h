@@ -75,14 +75,44 @@ protected:
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         virtual uint8_t OnInitSuccessful() {
-                PS4Parser::Reset();
-                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID && pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
+                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID) {
+                        PS4Parser::Reset();
+                        if (pFuncOnInit)
+                                pFuncOnInit(); // Call the user function
+                        else
+                                setLed(Blue);
+                };
                 return 0;
         };
         /**@}*/
 
 private:
+        /** @name PS4Parser implementation */
+        virtual void sendOutputReport(PS4Output *output) { // Source: https://github.com/chrippa/ds4drv
+                uint8_t buf[32];
+                memset(buf, 0, sizeof(buf));
+
+                buf[0] = 0x05; // Report ID
+                buf[1]= 0xFF;
+
+                buf[4] = output->bigRumble; // Big Rumble
+                buf[5] = output->smallRumble; // Small rumble
+
+                buf[6] = output->r; // Red
+                buf[7] = output->g; // Green
+                buf[8] = output->b; // Blue
+
+                buf[9] = output->flashOn; // Time to flash bright (255 = 2.5 seconds)
+                buf[10] = output->flashOff; // Time to flash dark (255 = 2.5 seconds)
+
+                output->reportChanged = false;
+
+                // The PS4 console actually set the four last bytes to a CRC32 checksum, but it seems like it is actually not needed
+
+                pUsb->outTransfer(bAddress, epInfo[ hidInterfaces[0].epIndex[epInterruptOutIndex] ].epAddr, sizeof(buf), buf);
+        };
+        /**@}*/
+
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 };
 #endif

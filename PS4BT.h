@@ -46,6 +46,14 @@ public:
                 return BTHID::connected;
         };
 
+        /**
+         * Used to call your own function when the device is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
+
 protected:
         /** @name BTHID implementation */
         /**
@@ -64,7 +72,12 @@ protected:
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         virtual void OnInitBTHID() {
+                PS4Parser::Reset();
                 enable_sixaxis(); // Make the controller send out the entire output report
+                if (pFuncOnInit)
+                        pFuncOnInit(); // Call the user function
+                else
+                        setLed(Blue);
         };
 
         /** Used to reset the different buffers to there default values */
@@ -74,6 +87,34 @@ protected:
         /**@}*/
 
 private:
+        /** @name PS4Parser implementation */
+        virtual void sendOutputReport(PS4Output *output) { // Source: https://github.com/chrippa/ds4drv
+                uint8_t buf[79];
+                memset(buf, 0, sizeof(buf));
+
+                buf[0] = 0x52; // HID BT Set_report (0x50) | Report Type (Output 0x02)
+                buf[1] = 0x11; // Report ID
+                buf[2] = 0x80;
+                buf[4]= 0xFF;
+
+                buf[7] = output->bigRumble; // Big Rumble
+                buf[8] = output->smallRumble; // Small rumble
+
+                buf[9] = output->r; // Red
+                buf[10] = output->g; // Green
+                buf[11] = output->b; // Blue
+
+                buf[12] = output->flashOn; // Time to flash bright (255 = 2.5 seconds)
+                buf[13] = output->flashOff; // Time to flash dark (255 = 2.5 seconds)
+
+                output->reportChanged = false;
+
+                // The PS4 console actually set the four last bytes to a CRC32 checksum, but it seems like it is actually not needed
+
+                HID_Command(buf, sizeof(buf));
+        };
+        /**@}*/
+
         void HID_Command(uint8_t *data, uint8_t nbytes) {
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
         };
@@ -85,5 +126,7 @@ private:
 
                 HID_Command(buf, 2);
         };
+
+        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 };
 #endif

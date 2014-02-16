@@ -17,10 +17,7 @@ class HIDUniversal : public HID {
         // Returns HID class specific descriptor length by its type and order number
         uint16_t GetHidClassDescrLen(uint8_t type, uint8_t num);
 
-        EpInfo epInfo[totalEndpoints];
-
         struct HIDInterface {
-
                 struct {
                         uint8_t bmInterface : 3;
                         uint8_t bmAltSet : 3;
@@ -28,8 +25,6 @@ class HIDUniversal : public HID {
                 };
                 uint8_t epIndex[maxEpPerInterface];
         };
-
-        HIDInterface hidInterfaces[maxHidInterfaces];
 
         uint8_t bConfNum; // configuration number
         uint8_t bNumIface; // number of interfaces in the configuration
@@ -49,6 +44,9 @@ class HIDUniversal : public HID {
         void SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest);
 
 protected:
+        EpInfo epInfo[totalEndpoints];
+        HIDInterface hidInterfaces[maxHidInterfaces];
+
         bool bHasReportId;
 
         uint16_t PID, VID; // PID and VID of connected device

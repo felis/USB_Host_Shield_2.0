@@ -102,6 +102,13 @@ struct PS4Data {
         // The last three bytes are always: 0x00, 0x80, 0x00
 } __attribute__((packed));
 
+struct PS4Output {
+        uint8_t bigRumble, smallRumble; // Rumble
+        uint8_t r, g, b; // RGB
+        uint8_t flashOn, flashOff; // Time to flash bright/dark (255 = 2.5 seconds)
+        bool reportChanged; // The data is send when data is received from the controller
+} __attribute__((packed));
+
 enum DPADEnum {
         DPAD_UP = 0x0,
         DPAD_UP_RIGHT = 0x1,
@@ -237,6 +244,74 @@ public:
                                 return 0;
                 }
         };
+
+        /** Turn both rumble and the LEDs off. */
+        void setAllOff() {
+                setRumbleOff();
+                setLedOff();
+        };
+
+        /** Set rumble off. */
+        void setRumbleOff() {
+                setRumbleOn(0, 0);
+        };
+
+        /**
+         * Turn on rumble.
+         * @param mode Either ::RumbleHigh or ::RumbleLow.
+         */
+        void setRumbleOn(RumbleEnum mode) {
+                if (mode == RumbleLow)
+                        setRumbleOn(0xFF, 0x00);
+                else
+                        setRumbleOn(0x00, 0xFF);
+        };
+
+        /**
+         * Turn on rumble.
+         * @param bigRumble   Value for big motor.
+         * @param smallRumble Value for small motor.
+         */
+        void setRumbleOn(uint8_t bigRumble, uint8_t smallRumble) {
+                ps4Output.bigRumble = bigRumble;
+                ps4Output.smallRumble = smallRumble;
+                ps4Output.reportChanged = true;
+        };
+
+        /** Turn all LEDs off. */
+        void setLedOff() {
+                setLed(0, 0, 0);
+        };
+
+        /**
+         * Use this to set the color using RGB values.
+         * @param r,g,b RGB value.
+         */
+        void setLed(uint8_t r, uint8_t g, uint8_t b) {
+                ps4Output.r = r;
+                ps4Output.g = g;
+                ps4Output.b = b;
+                ps4Output.reportChanged = true;
+        };
+
+        /**
+         * Use this to set the color using the predefined colors in ::ColorsEnum.
+         * @param color The desired color.
+         */
+        void setLed(ColorsEnum color) {
+                setLed((uint8_t)(color >> 16), (uint8_t)(color >> 8), (uint8_t)(color));
+        };
+
+        /**
+         * Set the LEDs flash time.
+         * @param flashOn  Time to flash bright (255 = 2.5 seconds).
+         * @param flashOff Time to flash dark (255 = 2.5 seconds).
+         */
+        void setLedFlash(uint8_t flashOn, uint8_t flashOff) {
+                ps4Output.flashOn = flashOn;
+                ps4Output.flashOff = flashOff;
+                ps4Output.reportChanged = true;
+        };
         /**@}*/
 
 protected:
@@ -267,13 +342,21 @@ protected:
                 oldButtonState.dpad = DPAD_OFF;
                 buttonClickState.dpad = 0;
                 oldDpad = 0;
+
+                ps4Output.bigRumble = ps4Output.smallRumble = 0;
+                ps4Output.r = ps4Output.g = ps4Output.b = 0;
+                ps4Output.flashOn = ps4Output.flashOff = 0;
+                ps4Output.reportChanged = false;
         };
+
+        virtual void sendOutputReport(PS4Output *output) = 0; // This is overridden in PS4BT and PS4USB
 
 private:
         bool checkDpad(ButtonEnum b); // Used to check PS4 DPAD buttons
 
         PS4Data ps4Data;
         PS4Buttons oldButtonState, buttonClickState;
+        PS4Output ps4Output;
         uint8_t oldDpad;
 };
 #endif

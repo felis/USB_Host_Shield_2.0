@@ -41,6 +41,33 @@ enum LEDEnum {
         ALL = 5,
 };
 
+/** Used to set the colors of the Move and PS4 controller. */
+enum ColorsEnum {
+        /** r = 255, g = 0, b = 0 */
+        Red = 0xFF0000,
+        /** r = 0, g = 255, b = 0 */
+        Green = 0xFF00,
+        /** r = 0, g = 0, b = 255 */
+        Blue = 0xFF,
+
+        /** r = 255, g = 235, b = 4 */
+        Yellow = 0xFFEB04,
+        /** r = 0, g = 255, b = 255 */
+        Lightblue = 0xFFFF,
+        /** r = 255, g = 0, b = 255 */
+        Purble = 0xFF00FF,
+
+        /** r = 255, g = 255, b = 255 */
+        White = 0xFFFFFF,
+        /** r = 0, g = 0, b = 0 */
+        Off = 0x00,
+};
+
+enum RumbleEnum {
+        RumbleHigh = 0x10,
+        RumbleLow = 0x20,
+};
+
 /** This enum is used to read all the different buttons on the different controllers */
 enum ButtonEnum {
         /**@{*/

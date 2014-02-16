@@ -64,6 +64,7 @@ setRumbleOn	KEYWORD2
 setLedOff	KEYWORD2
 setLedOn	KEYWORD2
 setLedToggle	KEYWORD2
+setLedFlash	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 

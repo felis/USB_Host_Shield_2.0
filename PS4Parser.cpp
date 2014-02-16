@@ -118,4 +118,7 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 			}
 		}
 	}
+
+	if (ps4Output.reportChanged)
+		sendOutputReport(&ps4Output); // Send output report
 }
