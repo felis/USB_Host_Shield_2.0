@@ -67,7 +67,7 @@ union PS4Buttons {
                 uint8_t ps : 1;
                 uint8_t touchpad : 1;
                 uint8_t reportCounter : 6;
-        };
+        } __attribute__((packed));
         uint8_t val[3];
 };
 
@@ -78,8 +78,8 @@ struct touchpadXY {
                 uint8_t touching : 1; // The top bit is cleared if the finger is touching the touchpad
                 uint16_t x : 12;
                 uint16_t y : 12;
-        } finger[2]; // 0 = first finger, 1 = second finger
-};
+        } __attribute__((packed)) finger[2]; // 0 = first finger, 1 = second finger
+} __attribute__((packed));
 
 struct PS4Data {
         /* Button and joystick values */
@@ -100,7 +100,7 @@ struct PS4Data {
                           // Note that if you read fast enough from the device, then only the first one will contain any data.
 
         // The last three bytes are always: 0x00, 0x80, 0x00
-};
+} __attribute__((packed));
 
 enum DPADEnum {
         DPAD_UP = 0x0,
