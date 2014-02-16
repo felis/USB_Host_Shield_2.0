@@ -86,7 +86,6 @@ protected:
         };
         /**@}*/
 
-private:
         /** @name PS4Parser implementation */
         virtual void sendOutputReport(PS4Output *output) { // Source: https://github.com/chrippa/ds4drv
                 uint8_t buf[32];
@@ -113,6 +112,7 @@ private:
         };
         /**@}*/
 
+private:
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 };
 #endif

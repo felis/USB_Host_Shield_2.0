@@ -86,7 +86,6 @@ protected:
         };
         /**@}*/
 
-private:
         /** @name PS4Parser implementation */
         virtual void sendOutputReport(PS4Output *output) { // Source: https://github.com/chrippa/ds4drv
                 uint8_t buf[79];
@@ -115,16 +114,17 @@ private:
         };
         /**@}*/
 
-        void HID_Command(uint8_t *data, uint8_t nbytes) {
-                pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
-        };
-
+private:
         void enable_sixaxis() { // Command used to make the PS4 controller send out the entire output report
                 uint8_t buf[2];
                 buf[0] = 0x43; // HID BT Get_report (0x40) | Report Type (Feature 0x03)
                 buf[1] = 0x02; // Report ID
 
                 HID_Command(buf, 2);
+        };
+
+        void HID_Command(uint8_t *data, uint8_t nbytes) {
+                pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
         };
 
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()

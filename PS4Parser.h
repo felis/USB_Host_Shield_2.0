@@ -215,7 +215,7 @@ public:
          * @return   Return the angle in the range of 0-360.
          */
         double getAngle(AngleEnum a) {
-                if(a == Pitch)
+                if (a == Pitch)
                         return (atan2(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
                 else
                         return (atan2(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
@@ -349,7 +349,11 @@ protected:
                 ps4Output.reportChanged = false;
         };
 
-        virtual void sendOutputReport(PS4Output *output) = 0; // This is overridden in PS4BT and PS4USB
+        /**
+         * Send the output to the PS4 controller. This is implemented in PS4BT.h and PS4USB.h.
+         * @param output Pointer to PS4Output buffer;
+         */
+        virtual void sendOutputReport(PS4Output *output) = 0;
 
 private:
         bool checkDpad(ButtonEnum b); // Used to check PS4 DPAD buttons
