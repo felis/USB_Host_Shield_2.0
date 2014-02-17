@@ -96,8 +96,8 @@ protected:
                 buf[2] = 0x80;
                 buf[4]= 0xFF;
 
-                buf[7] = output->bigRumble; // Big Rumble
-                buf[8] = output->smallRumble; // Small rumble
+                buf[7] = output->smallRumble; // Small Rumble
+                buf[8] = output->bigRumble; // Big rumble
 
                 buf[9] = output->r; // Red
                 buf[10] = output->g; // Green

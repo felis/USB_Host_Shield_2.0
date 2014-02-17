@@ -262,9 +262,9 @@ public:
          */
         void setRumbleOn(RumbleEnum mode) {
                 if (mode == RumbleLow)
-                        setRumbleOn(0xFF, 0x00);
-                else
                         setRumbleOn(0x00, 0xFF);
+                else
+                        setRumbleOn(0xFF, 0x00);
         };
 
         /**

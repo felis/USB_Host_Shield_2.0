@@ -94,8 +94,8 @@ protected:
                 buf[0] = 0x05; // Report ID
                 buf[1]= 0xFF;
 
-                buf[4] = output->bigRumble; // Big Rumble
-                buf[5] = output->smallRumble; // Small rumble
+                buf[4] = output->smallRumble; // Small Rumble
+                buf[5] = output->bigRumble; // Big rumble
 
                 buf[6] = output->r; // Red
                 buf[7] = output->g; // Green
