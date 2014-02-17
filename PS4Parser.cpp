@@ -38,26 +38,14 @@ bool PS4Parser::checkDpad(ButtonEnum b) {
 bool PS4Parser::getButtonPress(ButtonEnum b) {
         if (b <= LEFT) // Dpad
                 return checkDpad(b);
-        else {
-                uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
-                uint8_t index = button < 8 ? 0 : button < 16 ? 1 : 2;
-                uint8_t mask = 1 << (button - 8 * index);
-                return ps4Data.btn.val[index] & mask;
-        }
+        else
+                return ps4Data.btn.val & (1UL << pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]));
 }
 
 bool PS4Parser::getButtonClick(ButtonEnum b) {
-        uint8_t mask, index = 0;
-        if (b <= LEFT) // Dpad
-                mask = 1 << b;
-        else {
-                uint8_t button = pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
-                index = button < 8 ? 0 : button < 16 ? 1 : 2;
-                mask = 1 << (button - 8 * index);
-        }
-
-        bool click = buttonClickState.val[index] & mask;
-        buttonClickState.val[index] &= ~mask; // Clear "click" event
+        uint32_t mask = 1UL << pgm_read_byte(&PS4_BUTTONS[(uint8_t)b]);
+        bool click = buttonClickState.val & mask;
+        buttonClickState.val &= ~mask; // Clear "click" event
         return click;
 }
 
@@ -83,7 +71,6 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
                 }
 #endif
 
-
                 if (buf[0] == 0x01) // Check report ID
                         memcpy(&ps4Data, buf + 1, min(len - 1, sizeof(ps4Data)));
                 else if (buf[0] == 0x11) // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
@@ -96,25 +83,23 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
                         return;
                 }
 
-                for (uint8_t i = 0; i < sizeof(ps4Data.btn); i++) {
-                        if (ps4Data.btn.val[i] != oldButtonState.val[i]) { // Check if anything has changed
-                                buttonClickState.val[i] = ps4Data.btn.val[i] & ~oldButtonState.val[i]; // Update click state variable
-                                oldButtonState.val[i] = ps4Data.btn.val[i];
-                                if (i == 0) { // The DPAD buttons does not set the different bits, but set a value corresponding to the buttons pressed, we will simply set the bits ourself
-                                        uint8_t newDpad = 0;
-                                        if (checkDpad(UP))
-                                                newDpad |= 1 << UP;
-                                        if (checkDpad(RIGHT))
-                                                newDpad |= 1 << RIGHT;
-                                        if (checkDpad(DOWN))
-                                                newDpad |= 1 << DOWN;
-                                        if (checkDpad(LEFT))
-                                                newDpad |= 1 << LEFT;
-                                        if (newDpad != oldDpad) {
-                                                buttonClickState.dpad = newDpad & ~oldDpad; // Override values
-                                                oldDpad = newDpad;
-                                        }
-                                }
+                if (ps4Data.btn.val != oldButtonState.val) { // Check if anything has changed
+                        buttonClickState.val = ps4Data.btn.val & ~oldButtonState.val; // Update click state variable
+                        oldButtonState.val = ps4Data.btn.val;
+
+                        // The DPAD buttons does not set the different bits, but set a value corresponding to the buttons pressed, we will simply set the bits ourself
+                        uint8_t newDpad = 0;
+                        if (checkDpad(UP))
+                                newDpad |= 1 << UP;
+                        if (checkDpad(RIGHT))
+                                newDpad |= 1 << RIGHT;
+                        if (checkDpad(DOWN))
+                                newDpad |= 1 << DOWN;
+                        if (checkDpad(LEFT))
+                                newDpad |= 1 << LEFT;
+                        if (newDpad != oldDpad) {
+                                buttonClickState.dpad = newDpad & ~oldDpad; // Override values
+                                oldDpad = newDpad;
                         }
                 }
         }

@@ -68,8 +68,8 @@ union PS4Buttons {
                 uint8_t touchpad : 1;
                 uint8_t reportCounter : 6;
         } __attribute__((packed));
-        uint8_t val[3];
-};
+        uint32_t val : 24;
+} __attribute__((packed));
 
 struct touchpadXY {
         uint8_t dummy; // I can not figure out what this data is for, it seems to change randomly, maybe a timestamp?
@@ -326,11 +326,9 @@ protected:
         void Reset() {
                 uint8_t i;
                 for (i = 0; i < sizeof(ps4Data.hatValue); i++)
-                        ps4Data.hatValue[i] = 127;
-                for (i = 0; i < sizeof(PS4Buttons); i++) {
-                        ps4Data.btn.val[i] = 0;
-                        oldButtonState.val[i] = 0;
-                }
+                        ps4Data.hatValue[i] = 127; // Center value
+                ps4Data.btn.val = 0;
+                oldButtonState.val = 0;
                 for (i = 0; i < sizeof(ps4Data.trigger); i++)
                         ps4Data.trigger[i] = 0;
                 for (i = 0; i < sizeof(ps4Data.xy)/sizeof(ps4Data.xy[0]); i++) {
