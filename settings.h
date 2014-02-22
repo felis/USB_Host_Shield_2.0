@@ -103,11 +103,17 @@
 #define WIICAMERA
 #endif
 
-#if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)
+#if USE_XMEM_SPI_LOCK || defined(USE_MULTIPLE_APP_API)
 #include <xmem.h>
 #else
 #define XMEM_ACQUIRE_SPI() (void(0))
 #define XMEM_RELEASE_SPI() (void(0))
+#endif
+
+#if !defined(EXT_RAM) && defined(EXT_RAM_STACK) || defined(EXT_RAM_HEAP)
+#include <xmem.h>
+#else
+#define EXT_RAM 0
 #endif
 
 #if defined(__MK20DX128__) || defined(__MK20DX256__)

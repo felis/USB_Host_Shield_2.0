@@ -18,7 +18,11 @@
 #ifdef BOARD_BLACK_WIDDOW
 typedef MAX3421e<P6, P3> MAX3421E; // Black Widow
 #elif defined(CORE_TEENSY) && (defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__))
+#if EXT_RAM
+typedef MAX3421e<P20, P7> MAX3421E; // Teensy++ 2.0 with XMEM2
+#else
 typedef MAX3421e<P9, P8> MAX3421E; // Teensy++ 1.0 and 2.0
+#endif
 #elif defined(BOARD_MEGA_ADK)
 typedef MAX3421e<P53, P54> MAX3421E; // Arduino Mega ADK
 #elif defined(ARDUINO_AVR_BALANDUINO)

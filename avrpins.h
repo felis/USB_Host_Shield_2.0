@@ -681,7 +681,8 @@ public:
 #define P8  Pa1 /* 8  - PA1 */
 #define P9  Pa2 /* 9  - PA2 */
 #define P10 Pa3 /* 10 - PA3 */
-#define P11 Pa4 /* 11 - PA4 */
+#define P11 Pa4 /* 11        digitalWrite(4, 0);
+ - PA4 */
 #define P12 Pa5 /* 12 - PA5 */
 #define P13 Pc1 /* 13 - PC1 */
 #define P14 Pc0 /* 14 - PC0 */
