@@ -343,6 +343,8 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         if(PS3Connected || PS3MoveConnected || PS3NavigationConnected) {
                                 /* Read Report */
                                 if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
+                                        lastMessageTime = millis(); // Store the last message time
+
                                         if(PS3Connected || PS3NavigationConnected)
                                                 ButtonState = (uint32_t)(l2capinbuf[11] | ((uint16_t)l2capinbuf[12] << 8) | ((uint32_t)l2capinbuf[13] << 16));
                                         else if(PS3MoveConnected)

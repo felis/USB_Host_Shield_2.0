@@ -179,6 +179,11 @@ public:
          */
         void moveSetRumble(uint8_t rumble);
 
+        /** Used to get the millis() of the last message */
+        uint32_t getLastMessageTime() {
+                return lastMessageTime;
+        };
+
         /**
          * Used to call your own function when the controller is successfully initialized.
          * @param funcOnInit Function to call.
@@ -214,9 +219,11 @@ private:
         uint8_t remote_name[30]; // First 30 chars of remote name
         bool activeConnection; // Used to indicate if it's already has established a connection
 
-        /* variables used by high level L2CAP task */
+        /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
         uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+
+        uint32_t lastMessageTime; // Variable used to store the millis value of the last message.
 
         unsigned long timer;
 
