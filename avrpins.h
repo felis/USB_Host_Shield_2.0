@@ -823,15 +823,17 @@ MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 
-// Disable interrupts
-// Enable the pull up resistor
-// Set to INPUT
-// Enable PIO
+// SetDirRead:
+//   Disable interrupts
+//   Enable the pull up resistor
+//   Set to INPUT
+//   Enable PIO
 
-// Disable interrupts
-// Disable the pull up resistor
-// Set to OUTPUT
-// Enable PIO
+// SetDirWrite:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to OUTPUT
+//   Enable PIO
 
 #define MAKE_PIN(className, baseReg, pinMask) \
 class className { \
