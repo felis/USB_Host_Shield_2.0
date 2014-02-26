@@ -835,29 +835,29 @@ MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 //   Set to OUTPUT
 //   Enable PIO
 
-#define MAKE_PIN(className, baseReg, pinMask) \
+#define MAKE_PIN(className, pio, pinMask) \
 class className { \
 public: \
   static void Set() { \
-    baseReg->PIO_SODR = pinMask; \
+    pio->PIO_SODR = pinMask; \
   } \
   static void Clear() { \
-    baseReg->PIO_CODR = pinMask; \
+    pio->PIO_CODR = pinMask; \
   } \
   static void SetDirRead() { \
-    baseReg->PIO_IDR = pinMask ; \
-    baseReg->PIO_PUDR = pinMask; \
-    baseReg->PIO_ODR = pinMask; \
-    baseReg->PIO_PER = pinMask; \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_ODR = pinMask; \
+    pio->PIO_PER = pinMask; \
   } \
   static void SetDirWrite() { \
-    baseReg->PIO_IDR = pinMask ; \
-    baseReg->PIO_PUDR = pinMask; \
-    baseReg->PIO_OER = pinMask; \
-    baseReg->PIO_PER = pinMask; \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_OER = pinMask; \
+    pio->PIO_PER = pinMask; \
   } \
   static uint8_t IsSet() { \
-    return baseReg->PIO_PDSR & pinMask; \
+    return pio->PIO_PDSR & pinMask; \
   } \
 };
 
