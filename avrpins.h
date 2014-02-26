@@ -825,7 +825,7 @@ MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 
 // SetDirRead:
 //   Disable interrupts
-//   Enable the pull up resistor
+//   Disable the pull up resistor
 //   Set to INPUT
 //   Enable PIO
 
@@ -846,7 +846,7 @@ public: \
   } \
   static void SetDirRead() { \
     baseReg->PIO_IDR = pinMask ; \
-    baseReg->PIO_PUER = pinMask; \
+    baseReg->PIO_PUDR = pinMask; \
     baseReg->PIO_ODR = pinMask; \
     baseReg->PIO_PER = pinMask; \
   } \
