@@ -103,11 +103,17 @@
 #define WIICAMERA
 #endif
 
+// To use some other locking (e.g. freertos),
+// define XMEM_ACQUIRE_SPI and XMEM_RELEASE_SPI to point to your lock and unlock.
+// NOTE: NO argument is passed. You have to do this within your routine for
+// whatever you are using to lock and unlock.
+#if !defined(XMEM_ACQUIRE_SPI)
 #if USE_XMEM_SPI_LOCK || defined(USE_MULTIPLE_APP_API)
 #include <xmem.h>
 #else
 #define XMEM_ACQUIRE_SPI() (void(0))
 #define XMEM_RELEASE_SPI() (void(0))
+#endif
 #endif
 
 #if !defined(EXT_RAM) && defined(EXT_RAM_STACK) || defined(EXT_RAM_HEAP)
