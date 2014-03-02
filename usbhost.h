@@ -44,6 +44,7 @@ public:
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
                 SPI.begin();
+                SPI.setClockDivider(BOARD_SPI_DEFAULT_SS, 4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
         }
 #else
         static void init() {
