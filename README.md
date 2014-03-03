@@ -57,7 +57,7 @@ Documentation for the library can be found at the following link: <http://felis.
 
 By default serial debugging is disabled. To turn it on simply change ```ENABLE_UHS_DEBUGGING``` to 1 in [settings.h](settings.h) like so:
 
-```
+```C++
 #define ENABLE_UHS_DEBUGGING 1
 ```
 
@@ -204,15 +204,15 @@ The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
-```
-WII Wii(&Btd,PAIR);
+```C++
+WII Wii(&Btd, PAIR);
 ```
 
 And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
 
 After that you can simply create the instance like so:
 
-```
+```C++
 WII Wii(&Btd);
 ```
 
