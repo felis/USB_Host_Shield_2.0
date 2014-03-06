@@ -503,7 +503,7 @@ void loop() {
                                                                         if (isfat(parts[cpart].type)) {
                                                                                 Fats[cpart] = new PFAT(&sto[i], cpart, parts[cpart].firstSector);
                                                                                 //int r = Fats[cpart]->Good();
-                                                                                if (Fats[cpart]->Good()) {
+                                                                                if (Fats[cpart]->MountStatus()) {
                                                                                         delete Fats[cpart];
                                                                                         Fats[cpart] = NULL;
                                                                                 } else cpart++;
@@ -514,7 +514,7 @@ void loop() {
                                                         // try superblock
                                                         Fats[cpart] = new PFAT(&sto[i], cpart, 0);
                                                         //int r = Fats[cpart]->Good();
-                                                        if (Fats[cpart]->Good()) {
+                                                        if (Fats[cpart]->MountStatus()) {
                                                                 //printf_P(PSTR("Superblock error %x\r\n"), r);
                                                                 delete Fats[cpart];
                                                                 Fats[cpart] = NULL;
