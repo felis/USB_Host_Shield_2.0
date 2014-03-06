@@ -57,7 +57,7 @@ Documentation for the library can be found at the following link: <http://felis.
 
 By default serial debugging is disabled. To turn it on simply change ```ENABLE_UHS_DEBUGGING``` to 1 in [settings.h](settings.h) like so:
 
-```
+```C++
 #define ENABLE_UHS_DEBUGGING 1
 ```
 
@@ -66,8 +66,10 @@ By default serial debugging is disabled. To turn it on simply change ```ENABLE_U
 Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
-* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.0)
-	* Note if you are using the Teensy 3.0 you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
+    * If you are using the Arduino Due, then you must include the Arduino SPI library like so: ```#include <SPI.h>``` in your .ino file.
+* Arduino Due
+* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.x)
+	* Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
@@ -203,15 +205,15 @@ The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
-```
-WII Wii(&Btd,PAIR);
+```C++
+WII Wii(&Btd, PAIR);
 ```
 
 And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
 
 After that you can simply create the instance like so:
 
-```
+```C++
 WII Wii(&Btd);
 ```
 

@@ -68,7 +68,6 @@
 // No user serviceable parts below this line.
 // DO NOT change anything below here unless you are a developer!
 
-// When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
 #include <Arduino.h>
 #else
@@ -79,7 +78,7 @@
 #define F(str) (str)
 #endif
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && defined(__AVR__)
 #ifndef GCC_VERSION
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #endif
@@ -110,10 +109,14 @@
 #define XMEM_RELEASE_SPI() (void(0))
 #endif
 
-#if defined(__MK20DX128__) || defined(__MK20DX256__)
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
 #define USING_SPI4TEENSY3 USE_SPI4TEENSY3
 #else
 #define USING_SPI4TEENSY3 0
+#endif
+
+#if defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+#include <SPI.h> // Use the Arduino SPI library for the Arduino Due
 #endif
 
 #endif	/* SETTINGS_H */
