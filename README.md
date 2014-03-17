@@ -126,7 +126,7 @@ The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS
 
 Before you can use the PS4 controller via Bluetooth you will need to pair with it.
 
-Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
+Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the Share button and then hold down the PS without releasing the Share button. The PS4 controller will then start to blink rapidly indicating that it is in paring mode.
 
 It should then automatically pair the dongle with your controller. This only have to be done once.
 
