@@ -25,6 +25,7 @@ PS4BT PS4(&Btd, PAIR);
 //PS4BT PS4(&Btd);
 
 boolean printAngle, printTouch;
+uint8_t oldL2Value, oldR2Value;
 
 void setup() {
   Serial.begin(115200);
@@ -56,28 +57,46 @@ void loop() {
       Serial.print(F("\tR2: "));
       Serial.print(PS4.getAnalogButton(R2));
     }
+    if (PS4.getAnalogButton(L2) != oldL2Value || PS4.getAnalogButton(R2) != oldR2Value) // Only write value if it's different
+      PS4.setRumbleOn(PS4.getAnalogButton(L2), PS4.getAnalogButton(R2));
+    oldL2Value = PS4.getAnalogButton(L2);
+    oldR2Value = PS4.getAnalogButton(R2);
+
     if (PS4.getButtonClick(PS)) {
       Serial.print(F("\r\nPS"));
       PS4.disconnect();
     }
     else {
-      if (PS4.getButtonClick(TRIANGLE))
+      if (PS4.getButtonClick(TRIANGLE)) {
         Serial.print(F("\r\nTraingle"));
-      if (PS4.getButtonClick(CIRCLE))
+        PS4.setRumbleOn(RumbleLow);
+      }
+      if (PS4.getButtonClick(CIRCLE)) {
         Serial.print(F("\r\nCircle"));
-      if (PS4.getButtonClick(CROSS))
+        PS4.setRumbleOn(RumbleHigh);
+      }
+      if (PS4.getButtonClick(CROSS)) {
         Serial.print(F("\r\nCross"));
-      if (PS4.getButtonClick(SQUARE))
+        PS4.setLedFlash(10, 10); // Set it to blink rapidly
+      }
+      if (PS4.getButtonClick(SQUARE)) {
         Serial.print(F("\r\nSquare"));
+        PS4.setLedFlash(0, 0); // Turn off blinking
+      }
 
-      if (PS4.getButtonClick(UP))
+      if (PS4.getButtonClick(UP)) {
         Serial.print(F("\r\nUp"));
-      if (PS4.getButtonClick(RIGHT))
+        PS4.setLed(Red);
+      } if (PS4.getButtonClick(RIGHT)) {
         Serial.print(F("\r\nRight"));
-      if (PS4.getButtonClick(DOWN))
+        PS4.setLed(Blue);
+      } if (PS4.getButtonClick(DOWN)) {
         Serial.print(F("\r\nDown"));
-      if (PS4.getButtonClick(LEFT))
+        PS4.setLed(Yellow);
+      } if (PS4.getButtonClick(LEFT)) {
         Serial.print(F("\r\nLeft"));
+        PS4.setLed(Green);
+      }
 
       if (PS4.getButtonClick(L1))
         Serial.print(F("\r\nL1"));
