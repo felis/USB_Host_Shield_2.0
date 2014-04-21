@@ -20,7 +20,7 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report sent to the Arduino
 
-SPPServer::SPPServer(BTD *p, const char *name, const char *pin, bool pair, uint8_t *addr) :
+SPPServer::SPPServer(BTD *p, const char *name, const char *pin) :
 SPPBase(p)
 {
         if(pBtd)
@@ -28,12 +28,6 @@ SPPBase(p)
 
         pBtd->btdName = name;
         pBtd->btdPin = pin;
-
-        if (addr) // Make sure address is set
-            pBtd->pairWithOtherDevice = pair;
-
-        for (uint8_t i = 0; i < 6; i++)
-            pBtd->remote_bdaddr[i] = addr[5 - i];
 
         /* Set device cid for the SDP and RFCOMM channelse */
         sdp_dcid[0] = 0x50; // 0x0050
