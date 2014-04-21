@@ -15,12 +15,12 @@
  e-mail   :  kristianl@tkjelectronics.com
  */
 
-#include "SPP.h"
+#include "SPPServer.h"
 // To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report sent to the Arduino
 
-SPP::SPP(BTD *p, const char *name, const char *pin, bool pair, uint8_t *addr) :
+SPPServer::SPPServer(BTD *p, const char *name, const char *pin, bool pair, uint8_t *addr) :
 SPPBase(p)
 {
         if(pBtd)
@@ -45,7 +45,7 @@ SPPBase(p)
         Reset();
 }
 
-void SPP::Reset() {
+void SPPServer::Reset() {
         connected = false;
         RFCOMMConnected = false;
         SDPConnected = false;
@@ -56,7 +56,7 @@ void SPP::Reset() {
         sppIndex = 0;
 }
 
-void SPP::ACLData(uint8_t *l2capinbuf) {
+void SPPServer::ACLData(uint8_t *l2capinbuf) {
         if(!connected) {
                 if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM && !pBtd->sdpConnectionClaimed) {
@@ -398,7 +398,7 @@ void SPP::ACLData(uint8_t *l2capinbuf) {
         }
 }
 
-void SPP::Run() {
+void SPPServer::Run() {
         if(waitForLastCommand && (millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"), 0x80);
@@ -411,7 +411,7 @@ void SPP::Run() {
         send(); // Send all bytes currently in the buffer
 }
 
-void SPP::SDP_task() {
+void SPPServer::SDP_task() {
         switch(l2cap_sdp_state) {
                 case L2CAP_SDP_WAIT:
                         if(l2cap_check_flag(L2CAP_FLAG_CONNECTION_SDP_REQUEST)) {
@@ -460,7 +460,7 @@ void SPP::SDP_task() {
         }
 }
 
-void SPP::RFCOMM_task() {
+void SPPServer::RFCOMM_task() {
         switch(l2cap_rfcomm_state) {
                 case L2CAP_RFCOMM_WAIT:
                         if(l2cap_check_flag(L2CAP_FLAG_CONNECTION_RFCOMM_REQUEST)) {
@@ -502,11 +502,11 @@ void SPP::RFCOMM_task() {
 /************************************************************/
 /*                    SDP Commands                          */
 /************************************************************/
-void SPP::SDP_Command(uint8_t *data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
+void SPPServer::SDP_Command(uint8_t *data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
         pBtd->L2CAP_Command(hci_handle, data, nbytes, sdp_scid[0], sdp_scid[1]);
 }
 
-void SPP::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
+void SPPServer::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
         l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU;
         l2capoutbuf[1] = transactionIDHigh;
         l2capoutbuf[2] = transactionIDLow;
@@ -523,7 +523,7 @@ void SPP::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLo
         SDP_Command(l2capoutbuf, 10);
 }
 
-void SPP::serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
+void SPPServer::serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
         l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU;
         l2capoutbuf[1] = transactionIDHigh;
         l2capoutbuf[2] = transactionIDLow;
@@ -581,7 +581,7 @@ void SPP::serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLo
         SDP_Command(l2capoutbuf, 48);
 }
 
-void SPP::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
+void SPPServer::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
         l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU;
         l2capoutbuf[1] = transactionIDHigh;
         l2capoutbuf[2] = transactionIDLow;
@@ -623,16 +623,16 @@ void SPP::serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLo
         SDP_Command(l2capoutbuf, 33);
 }
 
-void SPP::l2capResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
+void SPPServer::l2capResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
         serialPortResponse1(transactionIDHigh, transactionIDLow); // These has to send all the supported functions, since it only supports virtual serialport it just sends the message again
 }
 
-void SPP::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
+void SPPServer::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
         serialPortResponse2(transactionIDHigh, transactionIDLow); // Same data as serialPortResponse2
 }
 /************************************************************/
 /*                    RFCOMM Commands                       */
 /************************************************************/
-void SPP::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
+void SPPServer::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
         pBtd->L2CAP_Command(hci_handle, data, nbytes, rfcomm_scid[0], rfcomm_scid[1]);
 }

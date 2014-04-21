@@ -236,7 +236,8 @@ Y	LITERAL1
 # Datatypes (KEYWORD1)
 ####################################################
 
-SPP	KEYWORD1
+SPPServer	KEYWORD1
+SPPClient	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)

@@ -13,28 +13,53 @@
  Kristian Lauszus, TKJ Electronics
  Web      :  http://www.tkjelectronics.com
  e-mail   :  kristianl@tkjelectronics.com
+
+ Enhanced by Dmitry Pakhomenko to initiate connection with remote SPP-aware device
+ 04.04.2014, Magictale Electronics
  */
 
-#ifndef _spp_h_
-#define _spp_h_
+#ifndef _sppclient_h_
+#define _sppclient_h_
 
 #include "SPPBase.h"
 
+/* Bluetooth L2CAP states for SDP_task() */
+#define L2CAP_SDP_WAIT                  0
+#define L2CAP_SDP_REQUEST               1
+#define L2CAP_SDP_DONE                  2
+#define L2CAP_DISCONNECT_RESPONSE       3
+#define L2CAP_SDP_CONN_RESPONSE         4
+#define L2CAP_SDP_CONFIG_REQUEST        5
+#define L2CAP_SDP_SERVICE_SEARCH_ATTR1  6
+#define L2CAP_SDP_SERVICE_SEARCH_ATTR2  7
+
+/* Bluetooth L2CAP states for RFCOMM_task() */
+#define L2CAP_RFCOMM_WAIT               0
+#define L2CAP_RFCOMM_REQUEST            1
+#define L2CAP_RFCOMM_DONE               3
+#define L2CAP_RFCOMM_CONN_RESPONSE      4
+#define L2CAP_RFCOMM_CONFIG_REQUEST     6
+#define L2CAP_RFCOMM_CONFIG_RESPONSE    7
+
 /**
- * This BluetoothService class a Serial Port Protocol (SPP) server.
+ * This BluetoothService class a Serial Port Protocol (SPP) client.
  * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print functions.
  */
-class SPP : public SPPBase {
+class SPPClient : public SPPBase {
 public:
         /**
-         * Constructor for the SPP class.
+         * Constructor for the SPPClient class.
          * @param  p     Pointer to BTD class instance.
          * @param  name  Set the name to BTD#btdName. If argument is omitted, then "Arduino" will be used.
          * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          * @param  pair  Set this to true if you want to pair with a device.
          * @param  addr  Set this to the address you want to connect to.
          */
-        SPP(BTD *p, const char *name = "Arduino", const char *pin = "0000", bool pair = false, uint8_t *addr = NULL);
+        SPPClient(BTD *p, const char *name = "Arduino", const char *pin = "0000", bool pair = false, uint8_t *addr = NULL);
+
+#if GCC_VERSION > 40700 // Test for GCC > 4.7.0
+        SPPClient(BTD *p, bool pair = false, uint8_t *addr = NULL) : SPPClient(p, "Arduino", "0000", pair, addr) {}; // Use a delegating constructor
+#endif
 
         /** @name SPPBase implementation */
         /**
@@ -49,25 +74,16 @@ public:
         /**@}*/
 
 private:
-        uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
-
-        unsigned long timer;
-        bool waitForLastCommand;
-
-        bool firstMessage; // Used to see if it's the first SDP request received
-
-        /* State machines */
-        void SDP_task(); // SDP state machine
-        void RFCOMM_task(); // RFCOMM state machine
+        uint8_t remainingBytes;
+        uint8_t rfcomm_uuid_sign_idx; // A progressing index while searching for "RFCOMM UUID" signature, starts from 0 (nothing found) and ends with 5 (found full sequence)
+        uint8_t rfcomm_found;
 
         /* SDP Commands */
         virtual void SDP_Command(uint8_t *data, uint8_t nbytes);
-        void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
-        void serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow);
-        void serialPortResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
-        void l2capResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow);
-        void l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow);
+        void SDP_Service_Search_Attr(uint8_t transactionIDHigh, uint8_t transactionIDLow, uint8_t remainingLen = 0);
 
+        /* RFCOMM Commands */
         virtual void RFCOMM_Command(uint8_t *data, uint8_t nbytes); // Used for RFCOMM commands
+        void parseAttrReply(uint8_t *l2capinbuf);
 };
 #endif

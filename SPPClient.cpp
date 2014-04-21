@@ -19,7 +19,7 @@
  */
 
 
-#include "SPPi.h"
+#include "SPPClient.h"
 // To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report sent to the Arduino
@@ -29,7 +29,7 @@
  */
 const uint8_t rfcomm_uuid_sign[6] PROGMEM = { 0x35, 0x05, 0x19, 0x00, 0x03, 0x08 };
 
-SPPi::SPPi(BTD *p, const char* name, const char* pin, bool pair, uint8_t *addr) :
+SPPClient::SPPClient(BTD *p, const char* name, const char* pin, bool pair, uint8_t *addr) :
 SPPBase(p)
 {
     if (pBtd)
@@ -54,7 +54,7 @@ SPPBase(p)
     Reset();
 }
 
-void SPPi::Reset() {
+void SPPClient::Reset() {
     connected = false;
     RFCOMMConnected = false;
     SDPConnected = false;
@@ -66,7 +66,7 @@ void SPPi::Reset() {
     rfcomm_found = false;
 }
 
-void SPPi::ACLData(uint8_t *l2capinbuf) {
+void SPPClient::ACLData(uint8_t *l2capinbuf) {
 
 #ifdef EXTRADEBUG
     Notify(PSTR("\r\nIncoming Packet: "), 0x80);
@@ -546,7 +546,7 @@ void SPPi::ACLData(uint8_t *l2capinbuf) {
     }
 }
 
-void SPPi::Run() {
+void SPPClient::Run() {
     if (pBtd->pairWithOtherDevice){
         if (l2cap_sdp_state == L2CAP_SDP_WAIT) {
             if (pBtd->connectToOtherDevice && !pBtd->l2capConnectionClaimed && !connected) {
@@ -567,11 +567,11 @@ void SPPi::Run() {
 /************************************************************/
 /*                    SDP Commands                          */
 /************************************************************/
-void SPPi::SDP_Command(uint8_t *data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
+void SPPClient::SDP_Command(uint8_t *data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
     pBtd->L2CAP_Command(hci_handle, data, nbytes, sdp_dcid[0], sdp_dcid[1]);
 }
 
-void SPPi::SDP_Service_Search_Attr(uint8_t transactionIDHigh, uint8_t transactionIDLow, uint8_t remainingLen) {
+void SPPClient::SDP_Service_Search_Attr(uint8_t transactionIDHigh, uint8_t transactionIDLow, uint8_t remainingLen) {
     l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU;
     l2capoutbuf[1] = transactionIDHigh;
     l2capoutbuf[2] = transactionIDLow;
@@ -617,11 +617,11 @@ void SPPi::SDP_Service_Search_Attr(uint8_t transactionIDHigh, uint8_t transactio
 /************************************************************/
 /*                    RFCOMM Commands                       */
 /************************************************************/
-void SPPi::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
+void SPPClient::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
         pBtd->L2CAP_Command(hci_handle, data, nbytes, rfcomm_dcid[0], rfcomm_dcid[1]);
 }
 
-void SPPi::parseAttrReply(uint8_t *l2capinbuf) {
+void SPPClient::parseAttrReply(uint8_t *l2capinbuf) {
     if ((l2capinbuf[2] + 4) < 15) return; // Sanity check
 
     if (rfcomm_found) {
