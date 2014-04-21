@@ -41,6 +41,10 @@
 #define L2CAP_RFCOMM_CONFIG_REQUEST     6
 #define L2CAP_RFCOMM_CONFIG_RESPONSE    7
 
+#ifndef GCC_VERSION
+#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#endif
+
 /**
  * This BluetoothService class a Serial Port Protocol (SPP) client.
  * It inherits the Arduino Stream class. This allows it to use all the standard Arduino print functions.
@@ -57,7 +61,7 @@ public:
          */
         SPPClient(BTD *p, const char *name = "Arduino", const char *pin = "0000", bool pair = false, uint8_t *addr = NULL);
 
-#if GCC_VERSION > 40700 // Test for GCC > 4.7.0
+#if GCC_VERSION > 40700 // Test for GCC > 4.7.0 - then C++11 should be supported
         SPPClient(BTD *p, bool pair = false, uint8_t *addr = NULL) : SPPClient(p, "Arduino", "0000", pair, addr) {}; // Use a delegating constructor
 #endif
 
