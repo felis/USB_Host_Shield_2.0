@@ -524,6 +524,19 @@ public:
         /** True when it should pair with a device like a mouse or keyboard. */
         bool pairWithHIDDevice;
 
+        /** True when it should pair with a device with a specific Bluetooth address. */
+        bool pairWithOtherDevice;
+        /* True when it should connect to a device with a specific Bluetooth address. */
+        bool connectToOtherDevice;
+        /** Call this to pair with a device with a specific Bluetooth address. */
+        void pairWithOther() {
+                pairWithOtherDevice = true;
+                hci_state = HCI_CONNECT_DEVICE_STATE;
+        };
+
+        /** Remote address of Bluetooth device to connect to. */
+        uint8_t remote_bdaddr[6];
+
         /**
          * Read the poll interval taken from the endpoint descriptors.
          * @return The poll interval in ms.

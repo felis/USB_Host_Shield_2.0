@@ -29,6 +29,7 @@ connectToWii(false),
 pairWithWii(false),
 connectToHIDDevice(false),
 pairWithHIDDevice(false),
+pairWithOtherDevice(false),
 pUsb(p), // Pointer to USB class instance - mandatory
 bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
@@ -301,6 +302,7 @@ void BTD::Initialize() {
         connectToWii = false;
         incomingWii = false;
         connectToHIDDevice = false;
+        connectToOtherDevice = false;
         incomingHIDDevice = false;
         incomingPS4 = false;
         bAddress = 0; // Clear device address
@@ -410,11 +412,13 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_INQUIRY_COMPLETE:
-                                if(inquiry_counter >= 5 && (pairWithWii || pairWithHIDDevice)) {
+                                if (inquiry_counter >= 5 && (pairWithWii || pairWithHIDDevice || pairWithOtherDevice)) {
                                         inquiry_counter = 0;
 #ifdef DEBUG_USB_HOST
                                         if(pairWithWii)
                                                 Notify(PSTR("\r\nCouldn't find Wiimote"), 0x80);
+                                        else if (pairWithOtherDevice)
+                                                Notify(PSTR("\r\nCouldn't find 'Other' device"), 0x80);
                                         else
                                                 Notify(PSTR("\r\nCouldn't find HID device"), 0x80);
 #endif
@@ -422,6 +426,8 @@ void BTD::HCI_event_task() {
                                         pairWithWii = false;
                                         connectToHIDDevice = false;
                                         pairWithHIDDevice = false;
+                                        connectToOtherDevice = false;
+                                        pairWithOtherDevice = false;
                                         hci_state = HCI_SCANNING_STATE;
                                 }
                                 inquiry_counter++;
@@ -464,17 +470,37 @@ void BTD::HCI_event_task() {
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
-                                                }
+                                                } else {
 #ifdef EXTRADEBUG
-                                                else {
                                                         Notify(PSTR("\r\nClass of device: "), 0x80);
                                                         D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
                                                         Notify(PSTR(" "), 0x80);
                                                         D_PrintHex<uint8_t > (classOfDevice[1], 0x80);
                                                         Notify(PSTR(" "), 0x80);
                                                         D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
-                                                }
 #endif
+                                                        uint8_t discovered = true;
+                                                        for (uint8_t j = 0; j < 6; j++) {
+                                                                if (hcibuf[j + 3 + 6 * i] != remote_bdaddr[j])
+                                                                        discovered = false;
+                                                                disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
+                                                        }
+                                                        if (discovered) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nDevice: "), 0x80);
+                                                                for (int8_t j = 5; j > 0; j--) {
+                                                                        D_PrintHex<uint8_t > (disc_bdaddr[j], 0x80);
+                                                                        Notify(PSTR(":"), 0x80);
+                                                                }
+                                                                D_PrintHex<uint8_t > (disc_bdaddr[0], 0x80);
+
+                                                                Notify(PSTR(" has been found"), 0x80);
+#endif
+                                                                hci_set_flag(HCI_FLAG_DEVICE_FOUND);
+                                                        }
+
+                                                }
+
                                         }
                                 }
                                 break;
@@ -582,6 +608,11 @@ void BTD::HCI_event_task() {
                                         Notify(PSTR("\r\nPairing successful with HID device"), 0x80);
 #endif
                                         connectToHIDDevice = true; // Used to indicate to the BTHID service, that it should connect to this device
+                                } else if (pairWithOtherDevice && !connectToOtherDevice) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nPairing successful with 'Other' device"), 0x80);
+#endif
+                                        connectToOtherDevice = true;
                                 }
                                 break;
                                 /* We will just ignore the following events */
@@ -694,12 +725,14 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_CHECK_DEVICE_SERVICE:
-                        if(pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a Wiimote
+                        if(pairWithHIDDevice || pairWithWii || pairWithOtherDevice) { // Check if it should try to connect to a HID device, Wiimote or 'Other device'
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
                                         Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press sync if you are using a Wii U Pro Controller"), 0x80);
-                                else
+                                else if (pairWithHIDDevice)
                                         Notify(PSTR("\r\nPlease enable discovery of your device"), 0x80);
+                                else
+                                        Notify(PSTR("\r\nPairing with 'Other' device with predefined address"), 0x80);
 #endif
                                 hci_inquiry();
                                 hci_state = HCI_INQUIRY_STATE;
@@ -713,20 +746,28 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
                                         Notify(PSTR("\r\nWiimote found"), 0x80);
+                                else if (pairWithOtherDevice)
+                                        Notify(PSTR("\r\n'Other' device found"), 0x80);
                                 else
                                         Notify(PSTR("\r\nHID device found"), 0x80);
 
-                                Notify(PSTR("\r\nNow just create the instance like so:"), 0x80);
-                                if(pairWithWii)
-                                        Notify(PSTR("\r\nWII Wii(&Btd);"), 0x80);
-                                else
-                                        Notify(PSTR("\r\nBTHID bthid(&Btd);"), 0x80);
+                                if (!pairWithOtherDevice) {
+                                        Notify(PSTR("\r\nNow just create the instance like so:"), 0x80);
+                                        if(pairWithWii)
+                                                Notify(PSTR("\r\nWII Wii(&Btd);"), 0x80);
+                                        else
+#ifdef _ps4bt_h_ // Check if the PS4 driver is being used
+                                                Notify(PSTR("\r\nPS4BT PS4(&Btd);"), 0x80);
+#else
+                                                Notify(PSTR("\r\nBTHID bthid(&Btd);"), 0x80);
+#endif
 
-                                Notify(PSTR("\r\nAnd then press any button on the "), 0x80);
-                                if(pairWithWii)
-                                        Notify(PSTR("Wiimote"), 0x80);
-                                else
-                                        Notify(PSTR("device"), 0x80);
+                                        Notify(PSTR("\r\nAnd then press any button on the "), 0x80);
+                                        if(pairWithWii)
+                                                Notify(PSTR("Wiimote"), 0x80);
+                                        else
+                                                Notify(PSTR("device"), 0x80);
+                                }
 #endif
                                 if(motionPlusInside) {
                                         hci_remote_name(); // We need to know the name to distinguish between a Wiimote and a Wii U Pro Controller
@@ -741,6 +782,8 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
                                         Notify(PSTR("\r\nConnecting to Wiimote"), 0x80);
+                                else if (pairWithOtherDevice)
+                                        Notify(PSTR("\r\nConnecting to 'Other' device"), 0x80);
                                 else
                                         Notify(PSTR("\r\nConnecting to HID device"), 0x80);
 #endif
@@ -755,6 +798,8 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                         if(pairWithWii)
                                                 Notify(PSTR("\r\nConnected to Wiimote"), 0x80);
+                                        else if (pairWithOtherDevice)
+                                                Notify(PSTR("\r\nConnected to 'Other' device"), 0x80);
                                         else
                                                 Notify(PSTR("\r\nConnected to HID device"), 0x80);
 #endif
@@ -770,7 +815,8 @@ void BTD::HCI_task() {
                         break;
 
                 case HCI_SCANNING_STATE:
-                        if(!connectToWii && !pairWithWii && !connectToHIDDevice && !pairWithHIDDevice) {
+                        if (!connectToWii && !pairWithWii && !connectToHIDDevice && !pairWithHIDDevice && !connectToOtherDevice && !pairWithOtherDevice) {
+
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nWait For Incoming Connection Request"), 0x80);
 #endif
@@ -879,6 +925,7 @@ void BTD::HCI_task() {
 
                                 connectToWii = incomingWii = pairWithWii = false;
                                 connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = false;
+                                pairWithOtherDevice = connectToOtherDevice = false;
                                 incomingPS4 = false;
 
                                 hci_state = HCI_SCANNING_STATE;
@@ -1040,7 +1087,10 @@ void BTD::hci_inquiry_cancel() {
 }
 
 void BTD::hci_connect() {
-        hci_connect(disc_bdaddr); // Use last discovered device
+        if (pairWithOtherDevice)
+                hci_connect(remote_bdaddr);
+        else
+                hci_connect(disc_bdaddr); // Use last discovered device
 }
 
 void BTD::hci_connect(uint8_t *bdaddr) {

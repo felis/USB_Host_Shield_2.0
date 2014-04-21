@@ -73,6 +73,7 @@ Currently the following boards are supported by the library:
 * Balanduino
 * Sanguino
 * Black Widdow
+* Luminardo
 
 The following boards need to be activated manually in [settings.h](settings.h):
 

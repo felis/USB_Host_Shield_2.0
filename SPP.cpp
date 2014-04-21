@@ -20,30 +20,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report sent to the Arduino
 
-/*
- * CRC (reversed crc) lookup table as calculated by the table generator in ETSI TS 101 369 V6.3.0.
- */
-const uint8_t rfcomm_crc_table[256] PROGMEM = {/* reversed, 8-bit, poly=0x07 */
-        0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C, 0x09, 0x98, 0xEA, 0x7B,
-        0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69, 0x12, 0x83, 0xF1, 0x60, 0x15, 0x84, 0xF6, 0x67,
-        0x38, 0xA9, 0xDB, 0x4A, 0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31, 0xA0, 0xD2, 0x43,
-        0x24, 0xB5, 0xC7, 0x56, 0x23, 0xB2, 0xC0, 0x51, 0x2A, 0xBB, 0xC9, 0x58, 0x2D, 0xBC, 0xCE, 0x5F,
-        0x70, 0xE1, 0x93, 0x02, 0x77, 0xE6, 0x94, 0x05, 0x7E, 0xEF, 0x9D, 0x0C, 0x79, 0xE8, 0x9A, 0x0B,
-        0x6C, 0xFD, 0x8F, 0x1E, 0x6B, 0xFA, 0x88, 0x19, 0x62, 0xF3, 0x81, 0x10, 0x65, 0xF4, 0x86, 0x17,
-        0x48, 0xD9, 0xAB, 0x3A, 0x4F, 0xDE, 0xAC, 0x3D, 0x46, 0xD7, 0xA5, 0x34, 0x41, 0xD0, 0xA2, 0x33,
-        0x54, 0xC5, 0xB7, 0x26, 0x53, 0xC2, 0xB0, 0x21, 0x5A, 0xCB, 0xB9, 0x28, 0x5D, 0xCC, 0xBE, 0x2F,
-        0xE0, 0x71, 0x03, 0x92, 0xE7, 0x76, 0x04, 0x95, 0xEE, 0x7F, 0x0D, 0x9C, 0xE9, 0x78, 0x0A, 0x9B,
-        0xFC, 0x6D, 0x1F, 0x8E, 0xFB, 0x6A, 0x18, 0x89, 0xF2, 0x63, 0x11, 0x80, 0xF5, 0x64, 0x16, 0x87,
-        0xD8, 0x49, 0x3B, 0xAA, 0xDF, 0x4E, 0x3C, 0xAD, 0xD6, 0x47, 0x35, 0xA4, 0xD1, 0x40, 0x32, 0xA3,
-        0xC4, 0x55, 0x27, 0xB6, 0xC3, 0x52, 0x20, 0xB1, 0xCA, 0x5B, 0x29, 0xB8, 0xCD, 0x5C, 0x2E, 0xBF,
-        0x90, 0x01, 0x73, 0xE2, 0x97, 0x06, 0x74, 0xE5, 0x9E, 0x0F, 0x7D, 0xEC, 0x99, 0x08, 0x7A, 0xEB,
-        0x8C, 0x1D, 0x6F, 0xFE, 0x8B, 0x1A, 0x68, 0xF9, 0x82, 0x13, 0x61, 0xF0, 0x85, 0x14, 0x66, 0xF7,
-        0xA8, 0x39, 0x4B, 0xDA, 0xAF, 0x3E, 0x4C, 0xDD, 0xA6, 0x37, 0x45, 0xD4, 0xA1, 0x30, 0x42, 0xD3,
-        0xB4, 0x25, 0x57, 0xC6, 0xB3, 0x22, 0x50, 0xC1, 0xBA, 0x2B, 0x59, 0xC8, 0xBD, 0x2C, 0x5E, 0xCF
-};
-
-SPP::SPP(BTD *p, const char* name, const char* pin) :
-pBtd(p) // Pointer to BTD class instance - mandatory
+SPP::SPP(BTD *p, const char *name, const char *pin, bool pair, uint8_t *addr) :
+SPPBase(p)
 {
         if(pBtd)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
@@ -51,9 +29,16 @@ pBtd(p) // Pointer to BTD class instance - mandatory
         pBtd->btdName = name;
         pBtd->btdPin = pin;
 
+        if (addr) // Make sure address is set
+            pBtd->pairWithOtherDevice = pair;
+
+        for (uint8_t i = 0; i < 6; i++)
+            pBtd->remote_bdaddr[i] = addr[i];
+
         /* Set device cid for the SDP and RFCOMM channelse */
         sdp_dcid[0] = 0x50; // 0x0050
         sdp_dcid[1] = 0x00;
+
         rfcomm_dcid[0] = 0x51; // 0x0051
         rfcomm_dcid[1] = 0x00;
 
@@ -71,19 +56,7 @@ void SPP::Reset() {
         sppIndex = 0;
 }
 
-void SPP::disconnect() {
-        connected = false;
-        // First the two L2CAP channels has to be disconnected and then the HCI connection
-        if(RFCOMMConnected)
-                pBtd->l2cap_disconnection_request(hci_handle, ++identifier, rfcomm_scid, rfcomm_dcid);
-        if(RFCOMMConnected && SDPConnected)
-                delay(1); // Add delay between commands
-        if(SDPConnected)
-                pBtd->l2cap_disconnection_request(hci_handle, ++identifier, sdp_scid, sdp_dcid);
-        l2cap_sdp_state = L2CAP_DISCONNECT_RESPONSE;
-}
-
-void SPP::ACLData(uint8_t* l2capinbuf) {
+void SPP::ACLData(uint8_t *l2capinbuf) {
         if(!connected) {
                 if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM && !pBtd->sdpConnectionClaimed) {
@@ -99,7 +72,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
         }
         //if((l2capinbuf[0] | (uint16_t)l2capinbuf[1] << 8) == (hci_handle | 0x2000U)) { // acl_handle_ok
         if(UHS_ACL_HANDLE_OK(l2capinbuf, hci_handle)) { // acl_handle_ok
-                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { //l2cap_control - Channel ID for ACL-U
+                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
                         if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
@@ -528,9 +501,8 @@ void SPP::RFCOMM_task() {
 }
 /************************************************************/
 /*                    SDP Commands                          */
-
 /************************************************************/
-void SPP::SDP_Command(uint8_t* data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
+void SPP::SDP_Command(uint8_t *data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
         pBtd->L2CAP_Command(hci_handle, data, nbytes, sdp_scid[0], sdp_scid[1]);
 }
 
@@ -660,156 +632,7 @@ void SPP::l2capResponse2(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
 }
 /************************************************************/
 /*                    RFCOMM Commands                       */
-
 /************************************************************/
 void SPP::RFCOMM_Command(uint8_t* data, uint8_t nbytes) {
         pBtd->L2CAP_Command(hci_handle, data, nbytes, rfcomm_scid[0], rfcomm_scid[1]);
-}
-
-void SPP::sendRfcomm(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t* data, uint8_t length) {
-        l2capoutbuf[0] = channel | direction | CR | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = channelType | pfBit; // RFCOMM Control
-        l2capoutbuf[2] = length << 1 | 0x01; // Length and format (always 0x01 bytes format)
-        uint8_t i = 0;
-        for(; i < length; i++)
-                l2capoutbuf[i + 3] = data[i];
-        l2capoutbuf[i + 3] = calcFcs(l2capoutbuf);
-#ifdef EXTRADEBUG
-        Notify(PSTR(" - RFCOMM Data: "), 0x80);
-        for(i = 0; i < length + 4; i++) {
-                D_PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
-                Notify(PSTR(" "), 0x80);
-        }
-#endif
-        RFCOMM_Command(l2capoutbuf, length + 4);
-}
-
-void SPP::sendRfcommCredit(uint8_t channel, uint8_t direction, uint8_t CR, uint8_t channelType, uint8_t pfBit, uint8_t credit) {
-        l2capoutbuf[0] = channel | direction | CR | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = channelType | pfBit; // RFCOMM Control
-        l2capoutbuf[2] = 0x01; // Length = 0
-        l2capoutbuf[3] = credit; // Credit
-        l2capoutbuf[4] = calcFcs(l2capoutbuf);
-#ifdef EXTRADEBUG
-        Notify(PSTR(" - RFCOMM Credit Data: "), 0x80);
-        for(uint8_t i = 0; i < 5; i++) {
-                D_PrintHex<uint8_t > (l2capoutbuf[i], 0x80);
-                Notify(PSTR(" "), 0x80);
-        }
-#endif
-        RFCOMM_Command(l2capoutbuf, 5);
-}
-
-/* CRC on 2 bytes */
-uint8_t SPP::crc(uint8_t *data) {
-        return (pgm_read_byte(&rfcomm_crc_table[pgm_read_byte(&rfcomm_crc_table[0xFF ^ data[0]]) ^ data[1]]));
-}
-
-/* Calculate FCS */
-uint8_t SPP::calcFcs(uint8_t *data) {
-        uint8_t temp = crc(data);
-        if((data[1] & 0xEF) == RFCOMM_UIH)
-                return (0xFF - temp); // FCS on 2 bytes
-        else
-                return (0xFF - pgm_read_byte(&rfcomm_crc_table[temp ^ data[2]])); // FCS on 3 bytes
-}
-
-/* Check FCS */
-bool SPP::checkFcs(uint8_t *data, uint8_t fcs) {
-        uint8_t temp = crc(data);
-        if((data[1] & 0xEF) != RFCOMM_UIH)
-                temp = pgm_read_byte(&rfcomm_crc_table[temp ^ data[2]]); // FCS on 3 bytes
-        return (pgm_read_byte(&rfcomm_crc_table[temp ^ fcs]) == 0xCF);
-}
-
-/* Serial commands */
-#if defined(ARDUINO) && ARDUINO >=100
-
-size_t SPP::write(uint8_t data) {
-        return write(&data, 1);
-}
-#else
-
-void SPP::write(uint8_t data) {
-        write(&data, 1);
-}
-#endif
-
-#if defined(ARDUINO) && ARDUINO >=100
-
-size_t SPP::write(const uint8_t *data, size_t size) {
-#else
-
-void SPP::write(const uint8_t *data, size_t size) {
-#endif
-        for(uint8_t i = 0; i < size; i++) {
-                if(sppIndex >= sizeof (sppOutputBuffer) / sizeof (sppOutputBuffer[0]))
-                        send(); // Send the current data in the buffer
-                sppOutputBuffer[sppIndex++] = data[i]; // All the bytes are put into a buffer and then send using the send() function
-        }
-#if defined(ARDUINO) && ARDUINO >=100
-        return size;
-#endif
-}
-
-void SPP::send() {
-        if(!connected || !sppIndex)
-                return;
-        uint8_t length; // This is the length of the string we are sending
-        uint8_t offset = 0; // This is used to keep track of where we are in the string
-
-        l2capoutbuf[0] = rfcommChannelConnection | 0 | 0 | extendAddress; // RFCOMM Address
-        l2capoutbuf[1] = RFCOMM_UIH; // RFCOMM Control
-
-        while(sppIndex) { // We will run this while loop until this variable is 0
-                if(sppIndex > (sizeof (l2capoutbuf) - 4)) // Check if the string is larger than the outgoing buffer
-                        length = sizeof (l2capoutbuf) - 4;
-                else
-                        length = sppIndex;
-
-                l2capoutbuf[2] = length << 1 | 1; // Length
-                uint8_t i = 0;
-                for(; i < length; i++)
-                        l2capoutbuf[i + 3] = sppOutputBuffer[i + offset];
-                l2capoutbuf[i + 3] = calcFcs(l2capoutbuf); // Calculate checksum
-
-                RFCOMM_Command(l2capoutbuf, length + 4);
-
-                sppIndex -= length;
-                offset += length; // Increment the offset
-        }
-}
-
-int SPP::available(void) {
-        return rfcommAvailable;
-};
-
-void SPP::discard(void) {
-        rfcommAvailable = 0;
-}
-
-int SPP::peek(void) {
-        if(rfcommAvailable == 0) // Don't read if there is nothing in the buffer
-                return -1;
-        return rfcommDataBuffer[0];
-}
-
-int SPP::read(void) {
-        if(rfcommAvailable == 0) // Don't read if there is nothing in the buffer
-                return -1;
-        uint8_t output = rfcommDataBuffer[0];
-        for(uint8_t i = 1; i < rfcommAvailable; i++)
-                rfcommDataBuffer[i - 1] = rfcommDataBuffer[i]; // Shift the buffer one left
-        rfcommAvailable--;
-        bytesRead++;
-        if(bytesRead > (sizeof (rfcommDataBuffer) - 5)) { // We will send the command just before it runs out of credit
-                bytesRead = 0;
-                sendRfcommCredit(rfcommChannelConnection, rfcommDirection, 0, RFCOMM_UIH, 0x10, sizeof (rfcommDataBuffer)); // Send more credit
-#ifdef EXTRADEBUG
-                Notify(PSTR("\r\nSent "), 0x80);
-                Notify((uint8_t)sizeof (rfcommDataBuffer), 0x80);
-                Notify(PSTR(" more credit"), 0x80);
-#endif
-        }
-        return output;
 }
