@@ -16,7 +16,8 @@ USB Usb;
 
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 
-uint8_t addr[6] = { 0x71, 0xB4, 0xB0, 0xC8, 0xBC, 0xC8 }; // Set this to the Bluetooth address you want to connect to
+uint8_t addr[6] = { 0x00, 0x12, 0x02, 0x10, 0x45, 0x13 }; // Set this to the Bluetooth address you want to connect to
+
 SPPClient SerialBT(&Btd, "Arduino", "0000", true, addr);
 
 boolean firstMessage = true;

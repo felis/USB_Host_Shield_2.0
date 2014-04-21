@@ -33,7 +33,7 @@ SPPBase(p)
             pBtd->pairWithOtherDevice = pair;
 
         for (uint8_t i = 0; i < 6; i++)
-            pBtd->remote_bdaddr[i] = addr[i];
+            pBtd->remote_bdaddr[i] = addr[5 - i];
 
         /* Set device cid for the SDP and RFCOMM channelse */
         sdp_dcid[0] = 0x50; // 0x0050
