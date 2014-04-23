@@ -81,6 +81,14 @@ struct touchpadXY {
         } __attribute__((packed)) finger[2]; // 0 = first finger, 1 = second finger
 } __attribute__((packed));
 
+struct PS4Status {
+        uint8_t battery : 4;
+        uint8_t usb : 1;
+        uint8_t audio : 1;
+        uint8_t mic : 1;
+        uint8_t unknown : 1; // Extension port?
+} __attribute__((packed));
+
 struct PS4Data {
         /* Button and joystick values */
         uint8_t hatValue[4];
@@ -92,8 +100,11 @@ struct PS4Data {
         int16_t gyroY, gyroZ, gyroX;
         int16_t accX, accZ, accY;
 
+        uint8_t dummy2[5];
+        PS4Status status;
+        uint8_t dummy3[3];
+
         /* The rest is data for the touchpad */
-        uint8_t dummy2[9]; // Byte 5 looks like some kind of status (maybe battery status), bit 1 of byte 8 is set every time a finger is moving around the touchpad
         touchpadXY xy[3]; // It looks like it sends out three coordinates each time, this might be because the microcontroller inside the PS4 controller is much faster than the Bluetooth connection.
                           // The last data is read from the last position in the array while the oldest measurement is from the first position.
                           // The first position will also keep it's value after the finger is released, while the other two will set them to zero.
@@ -243,6 +254,38 @@ public:
                         default:
                                 return 0;
                 }
+        };
+
+        /**
+         * Return the battery level of the PS4 controller.
+         * @return The battery level in the range 0-15.
+         */
+        uint8_t getBatteryLevel() {
+                return ps4Data.status.battery;
+        };
+
+        /**
+         * Use this to check if an USB cable is connected to the PS4 controller.
+         * @return Returns true if an USB cable is connected.
+         */
+        bool getUsbStatus() {
+                return ps4Data.status.usb;
+        };
+
+        /**
+         * Use this to check if an audio jack cable is connected to the PS4 controller.
+         * @return Returns true if an audio jack cable is connected.
+         */
+        bool getAudioStatus() {
+                return ps4Data.status.audio;
+        };
+
+        /**
+         * Use this to check if a microphone is connected to the PS4 controller.
+         * @return Returns true if a microphone is connected.
+         */
+        bool getMicStatus() {
+                return ps4Data.status.mic;
         };
 
         /** Turn both rumble and the LEDs off. */
