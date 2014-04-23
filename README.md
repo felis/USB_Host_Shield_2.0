@@ -122,7 +122,7 @@ It enables me to see the Bluetooth communication between my Mac and any device.
 
 The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
-The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller.
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller and get the battery level.
 
 Before you can use the PS4 controller via Bluetooth you will need to pair with it.
 
