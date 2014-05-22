@@ -187,7 +187,7 @@
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
 
 #define BTD_MAX_ENDPOINTS   4
-#define BTD_NUMSERVICES     4 // Max number of Bluetooth services - if you need more than 4 simply increase this number
+#define BTD_NUM_SERVICES    4 // Max number of Bluetooth services - if you need more than 4 simply increase this number
 
 #define PAIR    1
 
@@ -237,7 +237,7 @@ public:
 
         /** @name USBDeviceConfig implementation */
         /**
-         * Address assignment and basic initilization is done here.
+         * Address assignment and basic initialization is done here.
          * @param  parent   Hub number.
          * @param  port     Port number on the hub.
          * @param  lowspeed Speed of the device.
@@ -258,7 +258,7 @@ public:
          */
         virtual uint8_t Release();
         /**
-         * Poll the USB Input endpoins and run the state machines.
+         * Poll the USB Input endpoints and run the state machines.
          * @return 0 on success.
          */
         virtual uint8_t Poll();
@@ -320,18 +320,18 @@ public:
 
         /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */
         void disconnect() {
-                for(uint8_t i = 0; i < BTD_NUMSERVICES; i++)
+                for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
                         if(btService[i])
                                 btService[i]->disconnect();
         };
 
         /**
-         * Register bluetooth dongle members/services.
+         * Register Bluetooth dongle members/services.
          * @param  pService Pointer to BluetoothService class instance.
-         * @return          The serice ID on succes or -1 on fail.
+         * @return          The service ID on success or -1 on fail.
          */
         int8_t registerServiceClass(BluetoothService *pService) {
-                for(uint8_t i = 0; i < BTD_NUMSERVICES; i++) {
+                for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++) {
                         if(!btService[i]) {
                                 btService[i] = pService;
                                 return i; // Return ID
@@ -488,7 +488,7 @@ public:
         /** Last incoming devices Bluetooth address. */
         uint8_t disc_bdaddr[6];
         /** First 30 chars of last remote name. */
-        uint8_t remote_name[30];
+        char remote_name[30];
         /**
          * The supported HCI Version read from the Bluetooth dongle.
          * Used by the PS3BT library to check the HCI Version of the Bluetooth dongle,
@@ -501,7 +501,7 @@ public:
                 pairWithWii = true;
                 hci_state = HCI_CHECK_DEVICE_SERVICE;
         };
-        /** Used to only send the ACL data to the wiimote. */
+        /** Used to only send the ACL data to the Wiimote. */
         bool connectToWii;
         /** True if a Wiimote is connecting. */
         bool incomingWii;
@@ -517,7 +517,7 @@ public:
                 pairWithHIDDevice = true;
                 hci_state = HCI_CHECK_DEVICE_SERVICE;
         };
-        /** Used to only send the ACL data to the wiimote. */
+        /** Used to only send the ACL data to the Wiimote. */
         bool connectToHIDDevice;
         /** True if a Wiimote is connecting. */
         bool incomingHIDDevice;
@@ -564,23 +564,26 @@ protected:
 
 private:
         void Initialize(); // Set all variables, endpoint structs etc. to default values
-        BluetoothService* btService[BTD_NUMSERVICES];
+        BluetoothService *btService[BTD_NUM_SERVICES];
 
         uint16_t PID, VID; // PID and VID of device connected
 
         uint8_t pollInterval;
         bool bPollEnable;
 
+        bool incomingPS4; // True if a PS4 controller is connecting
+        uint8_t classOfDevice[3]; // Class of device of last device
+
         /* Variables used by high level HCI task */
-        uint8_t hci_state; //current state of bluetooth hci connection
-        uint16_t hci_counter; // counter used for bluetooth hci reset loops
-        uint16_t hci_num_reset_loops; // this value indicate how many times it should read before trying to reset
-        uint16_t hci_event_flag; // hci flags of received bluetooth events
+        uint8_t hci_state; // Current state of Bluetooth HCI connection
+        uint16_t hci_counter; // Counter used for Bluetooth HCI reset loops
+        uint16_t hci_num_reset_loops; // This value indicate how many times it should read before trying to reset
+        uint16_t hci_event_flag; // HCI flags of received Bluetooth events
         uint8_t inquiry_counter;
 
-        uint8_t hcibuf[BULK_MAXPKTSIZE]; //General purpose buffer for hci data
-        uint8_t l2capinbuf[BULK_MAXPKTSIZE]; //General purpose buffer for l2cap in data
-        uint8_t l2capoutbuf[14]; //General purpose buffer for l2cap out data
+        uint8_t hcibuf[BULK_MAXPKTSIZE]; // General purpose buffer for HCI data
+        uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for L2CAP in data
+        uint8_t l2capoutbuf[14]; // General purpose buffer for L2CAP out data
 
         /* State machines */
         void HCI_event_task(); // Poll the HCI event pipe

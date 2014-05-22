@@ -1,8 +1,18 @@
-/*
- * File:   UsbCore.h
- * Author: xxxajk
- *
- * Created on September 29, 2013, 9:25 PM
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
  */
 
 #if !defined(_usb_h_) || defined(USBCORE_H)
@@ -28,7 +38,7 @@ typedef MAX3421e<P53, P54> MAX3421E; // Arduino Mega ADK
 #elif defined(ARDUINO_AVR_BALANDUINO)
 typedef MAX3421e<P20, P19> MAX3421E; // Balanduino
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo etc.) or Teensy 2.0 and 3.0
+typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.) or Teensy 2.0 and 3.0
 #endif
 
 /* Common setup data constant combinations  */

@@ -46,6 +46,7 @@ void BTHID::Reset() {
         activeConnection = false;
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
+        ResetBTHID();
 }
 
 void BTHID::disconnect() { // Use this void to disconnect the device
@@ -188,21 +189,20 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         }
 #endif
                         if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
+                                uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]);
+
                                 switch(l2capinbuf[9]) {
-                                        case 0x01: // Keyboard events
-                                                if(pRptParser[KEYBOARD_PARSER_ID]) {
-                                                        uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
-                                                }
+                                        case 0x01: // Keyboard or Joystick events
+                                                if(pRptParser[KEYBOARD_PARSER_ID])
+                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
 
                                         case 0x02: // Mouse events
-                                                if(pRptParser[MOUSE_PARSER_ID]) {
-                                                        uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
-                                                }
+                                                if(pRptParser[MOUSE_PARSER_ID])
+                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                         default:
                                                 Notify(PSTR("\r\nUnknown Report type: "), 0x80);
                                                 D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);

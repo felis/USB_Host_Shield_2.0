@@ -392,7 +392,7 @@ void PS3USB::printStatusString() {
         } else
                 strcpy_P(statusOutput, PSTR("Error"));
 
-        USB_HOST_SERIAL.write((uint8_t*)statusOutput, strlen(statusOutput));
+        USB_HOST_SERIAL.write(statusOutput);
 }
 
 /* Playstation Sixaxis Dualshock and Navigation Controller commands */

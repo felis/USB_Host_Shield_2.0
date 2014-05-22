@@ -173,7 +173,7 @@ public:
          */
         void setRumbleOn(uint8_t lValue, uint8_t rValue, uint8_t controller = 0);
         /**
-         * Set LED value. Without using the ::LEDEnum or ::LEDMode enum.
+         * Set LED value. Without using the ::LEDEnum or ::LEDModeEnum.
          * @param value      See:
          * setLedOff(uint8_t controller), setLedOn(uint8_t controller, LED l),
          * setLedBlink(uint8_t controller, LED l), and setLedMode(uint8_t controller, LEDMode lm).

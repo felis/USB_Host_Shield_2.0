@@ -22,7 +22,7 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
@@ -57,7 +57,7 @@ Documentation for the library can be found at the following link: <http://felis.
 
 By default serial debugging is disabled. To turn it on simply change ```ENABLE_UHS_DEBUGGING``` to 1 in [settings.h](settings.h) like so:
 
-```
+```C++
 #define ENABLE_UHS_DEBUGGING 1
 ```
 
@@ -66,8 +66,10 @@ By default serial debugging is disabled. To turn it on simply change ```ENABLE_U
 Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
-* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.0)
-	* Note if you are using the Teensy 3.0 you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
+* Arduino Due
+    * If you are using the Arduino Due, then you must include the Arduino SPI library like so: ```#include <SPI.h>``` in your .ino file.
+* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.x)
+	* Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
@@ -97,6 +99,10 @@ Currently HID mice and keyboards are supported.
 
 It uses the standard Boot protocol by default, but it is also able to use the Report protocol as well. You would simply have to call ```setProtocolMode()``` and then parse ```HID_RPT_PROTOCOL``` as an argument. You will then have to modify the parser for your device. See the example: [BTHID.ino](examples/Bluetooth/BTHID/BTHID.ino) for more information.
 
+The [PS4 library](#ps4-library) also uses this class to handle all Bluetooth communication.
+
+For information see the following blog post: <http://blog.tkjelectronics.dk/2013/12/bluetooth-hid-devices-now-supported-by-the-usb-host-library/>.
+
 ### [SPP library](SPP.cpp)
 
 SPP stands for "Serial Port Profile" and is a Bluetooth protocol that implements a virtual comport which allows you to send data back and forth from your computer/phone to your Arduino via Bluetooth.
@@ -111,6 +117,22 @@ More information can be found at these blog posts:
 
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
 It enables me to see the Bluetooth communication between my Mac and any device.
+
+### PS4 Library
+
+The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
+
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller.
+
+Before you can use the PS4 controller via Bluetooth you will need to pair with it.
+
+Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
+
+For information see the following blog post: <http://blog.tkjelectronics.dk/2014/01/ps4-controller-now-supported-by-the-usb-host-library/>.
+
+Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4> and this Linux driver: <https://github.com/chrippa/ds4drv>.
 
 ### PS3 Library
 
@@ -183,15 +205,15 @@ The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
-```
-WII Wii(&Btd,PAIR);
+```C++
+WII Wii(&Btd, PAIR);
 ```
 
 And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
 
 After that you can simply create the instance like so:
 
-```
+```C++
 WII Wii(&Btd);
 ```
 
@@ -220,4 +242,5 @@ All the information about the Wii controllers are from these sites:
 
 > When I plug my device into the USB connector nothing happens?
 
-Try to connect a external power supply to the Arduino - this solves the problem in most cases.
+* Try to connect a external power supply to the Arduino - this solves the problem in most cases.
+* You can also use a powered hub between the device and the USB Host Shield. You should then include the USB hub library: ```#include <usbhub.h>``` and create the instance like so: ```USBHub Hub1(&Usb);```.

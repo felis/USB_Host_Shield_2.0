@@ -457,7 +457,7 @@ public:
 #define P2  Pe4
 #define P3  Pe5
 #define P4  Pg5
-#define P5  Pe5
+#define P5  Pe3
 #define P6  Ph3
 #define P7  Ph4
 
@@ -749,10 +749,12 @@ public:
 
 #endif // __AVR__
 
-#if defined(__arm__) && defined(CORE_TEENSY)
+#if defined(__arm__)
 
 // pointers are 32 bits on ARM
 #define pgm_read_pointer(p) pgm_read_dword(p)
+
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
 
 #include "core_pins.h"
 #include "avr_emulation.h"
@@ -818,6 +820,59 @@ MAKE_PIN(P32, CORE_PIN32_PORTREG, CORE_PIN32_BIT, CORE_PIN32_CONFIG);
 MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 
 #undef MAKE_PIN
+
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+
+// SetDirRead:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to INPUT
+//   Enable PIO
+
+// SetDirWrite:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to OUTPUT
+//   Enable PIO
+
+#define MAKE_PIN(className, pio, pinMask) \
+class className { \
+public: \
+  static void Set() { \
+    pio->PIO_SODR = pinMask; \
+  } \
+  static void Clear() { \
+    pio->PIO_CODR = pinMask; \
+  } \
+  static void SetDirRead() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_ODR = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static void SetDirWrite() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_OER = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static uint8_t IsSet() { \
+    return pio->PIO_PDSR & pinMask; \
+  } \
+};
+
+MAKE_PIN(P9, PIOC, PIO_PC21); // INT
+MAKE_PIN(P10, PIOC, PIO_PC29); // SS
+MAKE_PIN(P74, PIOA, PIO_PA25); // MISO
+MAKE_PIN(P75, PIOA, PIO_PA26); // MOSI
+MAKE_PIN(P76, PIOA, PIO_PA27); // CLK
+
+#undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
+#endif
 
 #endif // __arm__
 

@@ -29,9 +29,8 @@ e-mail   :  support@circuitsathome.com
 
 /* SPI initialization */
 template< typename SPI_CLK, typename SPI_MOSI, typename SPI_MISO, typename SPI_SS > class SPi {
-#if USING_SPI4TEENSY3
 public:
-
+#if USING_SPI4TEENSY3
         static void init() {
                 // spi4teensy3 inits everything for us, except /SS
                 // CLK, MOSI and MISO are hard coded for now.
@@ -40,10 +39,14 @@ public:
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
         }
-
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+        static void init() {
+                SPI_SS::SetDirWrite();
+                SPI_SS::Set();
+                SPI.begin();
+                SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
+        }
 #else
-public:
-
         static void init() {
                 //uint8_t tmp;
                 SPI_CLK::SetDirWrite();
@@ -67,8 +70,10 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
-#elif defined(__MK20DX128__) || defined(__MK20DX256__)
+#elif defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
 typedef SPi< P13, P11, P12, P10 > spi;
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+typedef SPi< P76, P75, P74, P10 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
@@ -130,6 +135,9 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         spi4teensy3::send(c, 2);
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+        SPI.transfer(reg | 0x02);
+        SPI.transfer(data);
 #else
         SPDR = (reg | 0x02);
         while(!(SPSR & (1 << SPIF)));
@@ -151,6 +159,13 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
         data_p += nbytes;
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+        SPI.transfer(reg | 0x02);
+        while(nbytes) {
+                SPI.transfer(*data_p);
+                nbytes--;
+                data_p++; // advance data pointer
+        }
 #else
         SPDR = (reg | 0x02); //set WR bit and send register number
         while(nbytes) {
@@ -186,6 +201,10 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         spi4teensy3::send(reg);
         uint8_t rv = spi4teensy3::receive();
         SPI_SS::Set();
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+        SPI.transfer(reg);
+        uint8_t rv = SPI.transfer(0);
+        SPI_SS::Set();
 #else
         SPDR = reg;
         while(!(SPSR & (1 << SPIF)));
@@ -208,6 +227,12 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg);
         spi4teensy3::receive(data_p, nbytes);
         data_p += nbytes;
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+        SPI.transfer(reg);
+        while(nbytes) {
+            *data_p++ = SPI.transfer(0);
+            nbytes--;
+        }
 #else
         SPDR = reg;
         while(!(SPSR & (1 << SPIF))); //wait

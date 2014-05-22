@@ -25,7 +25,7 @@
 #define MOUSE_PARSER_ID         1
 #define NUM_PARSERS             2
 
-/** This BluetoothService class implements support for the HID keyboard and mice. */
+/** This BluetoothService class implements support for Bluetooth HID devices. */
 class BTHID : public BluetoothService {
 public:
         /**
@@ -48,7 +48,6 @@ public:
         virtual void Reset();
         /** Used this to disconnect the devices. */
         virtual void disconnect();
-
         /**@}*/
 
         /**
@@ -106,9 +105,40 @@ public:
                 pFuncOnInit = funcOnInit;
         };
 
-private:
-        BTD *pBtd; // Pointer to BTD instance
+protected:
+        /** @name Overridable functions */
+        /**
+         * Used to parse Bluetooth HID data to any class that inherits this class.
+         * @param len The length of the incoming data.
+         * @param buf Pointer to the data buffer.
+         */
+        virtual void ParseBTHIDData(uint8_t len, uint8_t *buf) {
+                return;
+        };
+        /** Called when a device is connected */
+        virtual void OnInitBTHID() {
+                return;
+        };
+        /** Used to reset any buffers in the class that inherits this */
+        virtual void ResetBTHID() {
+                return;
+        }
+        /**@}*/
 
+        /** Pointer to BTD instance */
+        BTD *pBtd;
+
+        /** HCI Handle for connection */
+        uint16_t hci_handle;
+
+        /** L2CAP source CID for HID_Control */
+
+        uint8_t control_scid[2];
+
+        /** L2CAP source CID for HID_Interrupt */
+        uint8_t interrupt_scid[2];
+
+private:
         HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
 
         /** Set report protocol. */
@@ -123,24 +153,19 @@ private:
         void onInit() {
                 if(pFuncOnInit)
                         pFuncOnInit(); // Call the user function
+                OnInitBTHID();
         };
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
         void L2CAP_task(); // L2CAP state machine
 
-        /* Variables filled from HCI event management */
-        uint16_t hci_handle;
         bool activeConnection; // Used to indicate if it already has established a connection
 
-        /* Variables used by high level L2CAP task */
+        /* Variables used for L2CAP communication */
+        uint8_t control_dcid[2]; // L2CAP device CID for HID_Control - Always 0x0070
+        uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
+        uint8_t identifier; // Identifier for connection
         uint8_t l2cap_state;
         uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
-
-        /* L2CAP Channels */
-        uint8_t control_scid[2]; // L2CAP source CID for HID_Control
-        uint8_t control_dcid[2]; // 0x0070
-        uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
-        uint8_t interrupt_dcid[2]; // 0x0071
-        uint8_t identifier; // Identifier for connection
 };
 #endif

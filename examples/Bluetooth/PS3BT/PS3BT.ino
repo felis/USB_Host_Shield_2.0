@@ -17,7 +17,7 @@ USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 PS3BT PS3(&Btd); // This will just create the instance
-//PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
+//PS3BT PS3(&Btd, 0x00, 0x15, 0x83, 0x3D, 0x0A, 0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
 boolean printTemperature;
 boolean printAngle;
@@ -52,7 +52,7 @@ void loop() {
     if (PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
       Serial.print(F("\r\nL2: "));
       Serial.print(PS3.getAnalogButton(L2));
-      if (!PS3.PS3NavigationConnected) {
+      if (PS3.PS3Connected) {
         Serial.print(F("\tR2: "));
         Serial.print(PS3.getAnalogButton(R2));
       }

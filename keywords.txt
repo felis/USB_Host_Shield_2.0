@@ -25,7 +25,7 @@ BTD	KEYWORD1
 Task	KEYWORD2
 
 ####################################################
-# Syntax Coloring Map For PS3 Bluetooth/USB Library
+# Syntax Coloring Map For PS3/PS4 Bluetooth/USB Library
 ####################################################
 
 ####################################################
@@ -34,6 +34,8 @@ Task	KEYWORD2
 
 PS3BT	KEYWORD1
 PS3USB	KEYWORD1
+PS4BT	KEYWORD1
+PS4USB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
@@ -62,6 +64,7 @@ setRumbleOn	KEYWORD2
 setLedOff	KEYWORD2
 setLedOn	KEYWORD2
 setLedToggle	KEYWORD2
+setLedFlash	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 
@@ -73,6 +76,11 @@ PS3NavigationConnected	KEYWORD2
 
 isReady	KEYWORD2
 watingForConnection	KEYWORD2
+
+isTouching	KEYWORD2
+getX	KEYWORD2
+getY	KEYWORD2
+getTouchCounter	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
@@ -118,6 +126,10 @@ PS	LITERAL1
 MOVE	LITERAL1
 T	LITERAL1
 
+SHARE	LITERAL1
+OPTIONS	LITERAL1
+TOUCHPAD	LITERAL1
+
 LeftHatX	LITERAL1
 LeftHatY	LITERAL1
 RightHatX	LITERAL1
@@ -126,6 +138,8 @@ RightHatY	LITERAL1
 aX	LITERAL1
 aY	LITERAL1
 aZ	LITERAL1
+gX	LITERAL1
+gY	LITERAL1
 gZ	LITERAL1
 aXmove	LITERAL1
 aYmove	LITERAL1

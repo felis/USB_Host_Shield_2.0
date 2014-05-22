@@ -1,8 +1,26 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+ */
+
 #include "hiduniversal.h"
 
 HIDUniversal::HIDUniversal(USB *p) :
 HID(p),
 qNextPollTime(0),
+pollInterval(0),
 bPollEnable(false),
 bHasReportId(false) {
         Initialize();
@@ -47,6 +65,7 @@ void HIDUniversal::Initialize() {
         bNumEP = 1;
         bNumIface = 0;
         bConfNum = 0;
+        pollInterval = 0;
 
         ZeroMemory(constBuffLen, prevBuf);
 }
@@ -167,6 +186,9 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailGetDevDescr;
 
+        VID = udd->idVendor; // Can be used by classes that inherits this class to check the VID and PID of the connected device
+        PID = udd->idProduct;
+
         num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
@@ -198,7 +220,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
 
-        USBTRACE2("\r\nCnf:", bConfNum);
+        USBTRACE2("Cnf:", bConfNum);
 
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
@@ -307,6 +329,9 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 // Fill in the endpoint index list
                 piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
 
+                if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+                        pollInterval = pep->bInterval;
+
                 bNumEP++;
         }
         //PrintEndpointDescriptor(pep);
@@ -346,7 +371,7 @@ uint8_t HIDUniversal::Poll() {
                 return 0;
 
         if(qNextPollTime <= millis()) {
-                qNextPollTime = millis() + 50;
+                qNextPollTime = millis() + pollInterval;
 
                 uint8_t buf[constBuffLen];
 
@@ -373,13 +398,15 @@ uint8_t HIDUniversal::Poll() {
 
                         if(identical)
                                 return 0;
-
+#if 1
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
                         for(uint8_t i = 0; i < read; i++)
                                 D_PrintHex<uint8_t > (buf[i], 0x80);
 
                         Notify(PSTR("\r\n"), 0x80);
+#endif
+                        ParseHIDData(this, bHasReportId, (uint8_t)read, buf);
 
                         HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 
