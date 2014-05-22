@@ -532,6 +532,20 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
 
         uint8_t index;
 
+#if 1
+        if((pep->bmAttributes & 0x02) == 2) {
+                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
+                // Fill in the endpoint info structure
+                epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
+                epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+                epInfo[index].epAttribs = 0;
+
+                bNumEP++;
+
+                PrintEndpointDescriptor(pep);
+
+        }
+#else
         if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
                 index = epInterruptInIndex;
         else
@@ -548,6 +562,7 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
         bNumEP++;
 
         PrintEndpointDescriptor(pep);
+#endif
 }
 
 /**
