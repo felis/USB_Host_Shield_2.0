@@ -514,9 +514,9 @@ void XBOXRECV::setLedRaw(uint8_t value, uint8_t controller) {
 
 void XBOXRECV::setLedOn(LEDEnum led, uint8_t controller) {
         if(led == OFF)
-                setLedRaw(0);
+                setLedRaw(0, controller);
         else if(led != ALL) // All LEDs can't be on a the same time
-                setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]) + 4);
+                setLedRaw(pgm_read_byte(&XBOX_LEDS[(uint8_t)led]) + 4, controller);
 }
 
 void XBOXRECV::setLedBlink(LEDEnum led, uint8_t controller) {

@@ -122,11 +122,11 @@ It enables me to see the Bluetooth communication between my Mac and any device.
 
 The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
-The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller.
+The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller and get the battery level.
 
 Before you can use the PS4 controller via Bluetooth you will need to pair with it.
 
-Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in paring mode.
+Simply create the PS4BT instance like so: ```PS4BT PS4(&Btd, PAIR);``` and then hold down the Share button and then hold down the PS without releasing the Share button. The PS4 controller will then start to blink rapidly indicating that it is in paring mode.
 
 It should then automatically pair the dongle with your controller. This only have to be done once.
 
@@ -138,9 +138,11 @@ Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http
 
 These libraries consist of the [PS3BT](PS3BT.cpp) and [PS3USB](PS3USB.cpp). These libraries allows you to use a Dualshock 3, Navigation or a Motion controller with the USB Host Shield both via Bluetooth and USB.
 
-In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by plugging the controller in via USB and letting the library set it automatically.
+In order to use your Playstation controller via Bluetooth you have to set the Bluetooth address of the dongle internally to your PS3 Controller. This can be achieved by first plugging in the Bluetooth dongle and wait a few seconds. Now plug in the controller via USB and wait until the LEDs start to flash. The library has now written the Bluetooth address of the dongle to the PS3 controller.
 
-__Note:__ To obtain the address you have to plug in the Bluetooth dongle before connecting the controller, or alternatively you could set it in code like so: [PS3BT.ino#L20](examples/Bluetooth/PS3BT/PS3BT.ino#L20).
+Finally simply plug in the Bluetooth dongle again and press PS on the PS3 controller. After a few seconds it should be connected to the dongle and ready to use.
+
+__Note:__ You will have to plug in the Bluetooth dongle before connecting the controller, as the library needs to read the address of the dongle. Alternatively you could set it in code like so: [PS3BT.ino#L20](examples/Bluetooth/PS3BT/PS3BT.ino#L20).
 
 For more information about the PS3 protocol see the official wiki: <https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information>.
 

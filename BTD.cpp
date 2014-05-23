@@ -720,7 +720,7 @@ void BTD::HCI_task() {
                                 if(pairWithWii)
                                         Notify(PSTR("\r\nWII Wii(&Btd);"), 0x80);
                                 else
-                                        Notify(PSTR("\r\nBTHID hid(&Btd);"), 0x80);
+                                        Notify(PSTR("\r\nBTHID bthid(&Btd);"), 0x80);
 
                                 Notify(PSTR("\r\nAnd then press any button on the "), 0x80);
                                 if(pairWithWii)
