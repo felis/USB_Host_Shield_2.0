@@ -97,7 +97,7 @@ void loop()
 
   if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
-    if (millis() >= next_time)
+    if ((next_time - millis()) >= 0L)
     {
         Usb.ForEachUsbDevice(&PrintAllDescriptors);
         Usb.ForEachUsbDevice(&PrintAllAddresses);

@@ -327,7 +327,7 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                 regWr(rHIRQ, bmHXFRDNIRQ); //clear IRQ
                 rcode = (regRd(rHRSL) & 0x0f);
 
-                while(rcode && (timeout > millis())) {
+                while(rcode && ((long)(millis() - timeout) >= 0L)) {
                         switch(rcode) {
                                 case hrNAK:
                                         nak_count++;
@@ -380,11 +380,11 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
         uint8_t retry_count = 0;
         uint16_t nak_count = 0;
 
-        while(timeout > millis()) {
+        while((long)(millis() - timeout) >= 0L) {
                 regWr(rHXFR, (token | ep)); //launch the transfer
                 rcode = USB_ERROR_TRANSFER_TIMEOUT;
 
-                while(timeout > millis()) //wait for transfer completion
+                while((long)(millis() - timeout) >= 0L) //wait for transfer completion
                 {
                         tmpdata = regRd(rHIRQ);
 
@@ -475,7 +475,7 @@ void USB::Task(void) //USB state machine
                 case USB_DETACHED_SUBSTATE_ILLEGAL: //just sit here
                         break;
                 case USB_ATTACHED_SUBSTATE_SETTLE: //settle time for just attached device
-                        if(delay < millis())
+                        if((long)(millis() - delay) >= 0L)
                                 usb_task_state = USB_ATTACHED_SUBSTATE_RESET_DEVICE;
                         else break; // don't fall through
                 case USB_ATTACHED_SUBSTATE_RESET_DEVICE:
@@ -502,7 +502,7 @@ void USB::Task(void) //USB state machine
                         }
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_RESET:
-                        if(delay < millis()) usb_task_state = USB_STATE_CONFIGURING;
+                        if((long)(millis() - delay) >= 0L) usb_task_state = USB_STATE_CONFIGURING;
                         else break; // don't fall through
                 case USB_STATE_CONFIGURING:
 

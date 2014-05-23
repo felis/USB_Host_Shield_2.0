@@ -126,7 +126,7 @@ static int tty_std_putc(char c, FILE *t) {
 }
 
 static int tty_std_getc(FILE *t) {
-        while (!Serial.available());
+        while(!Serial.available());
         return Serial.read();
 }
 
@@ -140,18 +140,18 @@ extern "C" {
 
         int _write(int fd, const char *ptr, int len) {
                 int j;
-                for (j = 0; j < len; j++) {
-                        if (fd == 1)
+                for(j = 0; j < len; j++) {
+                        if(fd == 1)
                                 Serial.write(*ptr++);
-                        else if (fd == 2)
+                        else if(fd == 2)
                                 USB_HOST_SERIAL.write(*ptr++);
                 }
                 return len;
         }
 
         int _read(int fd, char *ptr, int len) {
-                if (len > 0 && fd == 0) {
-                        while (!Serial.available());
+                if(len > 0 && fd == 0) {
+                        while(!Serial.available());
                         *ptr = Serial.read();
                         return 1;
                 }
@@ -175,7 +175,7 @@ extern "C" {
 
 void setup() {
         boolean serr = false;
-        for (int i = 0; i < _VOLUMES; i++) {
+        for(int i = 0; i < _VOLUMES; i++) {
                 Fats[i] = NULL;
                 sto[i].private_data = new pvt_t;
                 ((pvt_t *)sto[i].private_data)->B = 255; // impossible
@@ -193,7 +193,7 @@ void setup() {
         // Initialize 'debug' serial port
         USB_HOST_SERIAL.begin(115200);
         // Do not start primary Serial port if already started.
-        if (bit_is_clear(UCSR0B, TXEN0)) {
+        if(bit_is_clear(UCSR0B, TXEN0)) {
                 Serial.begin(115200);
                 serr = true;
         }
@@ -220,7 +220,7 @@ void setup() {
         analogWrite(LED_BUILTIN, 0);
         delay(500);
 #else
-        while (!Serial);
+        while(!Serial);
 #endif
 
         printf_P(PSTR("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStart\r\n"));
@@ -236,7 +236,7 @@ void setup() {
                 "Disabled"
 #endif
                 "\r\n"));
-        if (serr) {
+        if(serr) {
                 fprintf_P(stderr, PSTR("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStart\r\n"));
                 fprintf_P(stderr, PSTR("Current UsbDEBUGlvl %02x\r\n"), UsbDEBUGlvl);
                 fprintf_P(stderr, PSTR("Long filename support: "
@@ -274,7 +274,7 @@ void setup() {
         // I want to be able to have slightly more control.
         // Besides, it is easier to initialize stuff...
 #if WANT_HUB_TEST
-        for (int i = 0; i < MAX_HUBS; i++) {
+        for(int i = 0; i < MAX_HUBS; i++) {
                 Hubs[i] = new USBHub(&Usb);
 #if defined(AVR)
                 printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
@@ -284,7 +284,7 @@ void setup() {
         // Initialize generic storage. This must be done before USB starts.
         InitStorage();
 
-        while (Usb.Init(1000) == -1) {
+        while(Usb.Init(1000) == -1) {
                 printf_P(PSTR("No USB HOST Shield?\r\n"));
                 Notify(PSTR("OSC did not start."), 0x40);
         }
@@ -316,7 +316,7 @@ void setup() {
         //printf("SPI_CTAR0 = %8.8X\r\n", ctar);
 
         uint32_t mcr = SPI0_MCR;
-        if (mcr & SPI_MCR_MDIS) {
+        if(mcr & SPI_MCR_MDIS) {
                 SPI0_CTAR0 = ctar;
         } else {
                 SPI0_MCR = mcr | SPI_MCR_MDIS | SPI_MCR_HALT;
@@ -334,23 +334,23 @@ void serialEvent() {
         // . to increase by 16, , to decrease by 16
         // e to flick VBUS
         // * to report debug level
-        if (Serial.available()) {
+        if(Serial.available()) {
                 int inByte = Serial.read();
-                switch (inByte) {
+                switch(inByte) {
                         case '+':
-                                if (UsbDEBUGlvl < 0xff) UsbDEBUGlvl++;
+                                if(UsbDEBUGlvl < 0xff) UsbDEBUGlvl++;
                                 reportlvl = true;
                                 break;
                         case '-':
-                                if (UsbDEBUGlvl > 0x00) UsbDEBUGlvl--;
+                                if(UsbDEBUGlvl > 0x00) UsbDEBUGlvl--;
                                 reportlvl = true;
                                 break;
                         case '.':
-                                if (UsbDEBUGlvl < 0xf0) UsbDEBUGlvl += 16;
+                                if(UsbDEBUGlvl < 0xf0) UsbDEBUGlvl += 16;
                                 reportlvl = true;
                                 break;
                         case ',':
-                                if (UsbDEBUGlvl > 0x0f) UsbDEBUGlvl -= 16;
+                                if(UsbDEBUGlvl > 0x0f) UsbDEBUGlvl -= 16;
                                 reportlvl = true;
                                 break;
                         case '*':
@@ -370,7 +370,7 @@ void serialEvent() {
 #if defined(AVR)
 
 ISR(TIMER3_COMPA_vect) {
-        if (millis() >= LEDnext_time) {
+        if(millis() >= LEDnext_time) {
                 LEDnext_time = millis() + 30;
 
                 // set the brightness of LED
@@ -380,11 +380,11 @@ ISR(TIMER3_COMPA_vect) {
                 brightness = brightness + fadeAmount;
 
                 // reverse the direction of the fading at the ends of the fade:
-                if (brightness <= 0) {
+                if(brightness <= 0) {
                         brightness = 0;
                         fadeAmount = -fadeAmount;
                 }
-                if (brightness >= 255) {
+                if(brightness >= 255) {
                         brightness = 255;
                         fadeAmount = -fadeAmount;
                 }
@@ -406,8 +406,8 @@ void loop() {
 
 #if defined(AVR)
         // Print a heap status report about every 10 seconds.
-        if (millis() >= HEAPnext_time) {
-                if (UsbDEBUGlvl > 0x50) {
+        if(millis() >= HEAPnext_time) {
+                if(UsbDEBUGlvl > 0x50) {
                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
                 }
                 HEAPnext_time = millis() + 10000;
@@ -419,14 +419,14 @@ void loop() {
 #endif
         // Horrid! This sort of thing really belongs in an ISR, not here!
         // We also will be needing to test each hub port, we don't do this yet!
-        if (!change && !usbon && millis() >= usbon_time) {
+        if(!change && !usbon && millis() >= usbon_time) {
                 change = true;
                 usbon = true;
         }
 
-        if (change) {
+        if(change) {
                 change = false;
-                if (usbon) {
+                if(usbon) {
                         Usb.vbusPower(vbus_on);
                         printf_P(PSTR("VBUS on\r\n"));
                 } else {
@@ -436,21 +436,21 @@ void loop() {
         }
         Usb.Task();
         current_state = Usb.getUsbTaskState();
-        if (current_state != last_state) {
-                if (UsbDEBUGlvl > 0x50)
+        if(current_state != last_state) {
+                if(UsbDEBUGlvl > 0x50)
                         printf_P(PSTR("USB state = %x\r\n"), current_state);
 #if defined(AVR)
-                if (current_state == USB_STATE_RUNNING) {
+                if(current_state == USB_STATE_RUNNING) {
                         fadeAmount = 30;
                 }
 #endif
-                if (current_state == USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE) {
+                if(current_state == USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE) {
 #if defined(AVR)
                         fadeAmount = 80;
 #endif
                         partsready = false;
-                        for (int i = 0; i < cpart; i++) {
-                                if (Fats[i] != NULL)
+                        for(int i = 0; i < cpart; i++) {
+                                if(Fats[i] != NULL)
                                         delete Fats[i];
                                 Fats[i] = NULL;
                         }
@@ -462,28 +462,27 @@ void loop() {
         }
 
         // only do any of this if usb is on
-        if (usbon) {
-                if (partsready && !fatready) {
-                        if (cpart > 0) fatready = true;
+        if(usbon) {
+                if(partsready && !fatready) {
+                        if(cpart > 0) fatready = true;
                 }
                 // This is horrible, and needs to be moved elsewhere!
-                for (int B = 0; B < MAX_USB_MS_DRIVERS; B++) {
-                        if (!partsready && (Bulk[B]->GetAddress() != NULL)) {
+                for(int B = 0; B < MAX_USB_MS_DRIVERS; B++) {
+                        if(!partsready && (Bulk[B]->GetAddress() != NULL)) {
 
                                 // Build a list.
                                 int ML = Bulk[B]->GetbMaxLUN();
                                 //printf("MAXLUN = %i\r\n", ML);
                                 ML++;
-                                for (int i = 0; i < ML; i++) {
-                                        if (Bulk[B]->LUNIsGood(i)) {
+                                for(int i = 0; i < ML; i++) {
+                                        if(Bulk[B]->LUNIsGood(i)) {
                                                 partsready = true;
                                                 ((pvt_t *)(sto[i].private_data))->lun = i;
                                                 ((pvt_t *)(sto[i].private_data))->B = B;
-                                                sto[i].Read = *PRead;
-                                                sto[i].Write = *PWrite;
                                                 sto[i].Reads = *PReads;
                                                 sto[i].Writes = *PWrites;
                                                 sto[i].Status = *PStatus;
+                                                sto[i].Commit = *UHS_USB_BulkOnly_Commit;
                                                 sto[i].TotalSectors = Bulk[B]->GetCapacity(i);
                                                 sto[i].SectorSize = Bulk[B]->GetSectorSize(i);
                                                 printf_P(PSTR("LUN:\t\t%u\r\n"), i);
@@ -492,18 +491,18 @@ void loop() {
                                                 // get the partition data...
                                                 PT = new PCPartition;
 
-                                                if (!PT->Init(&sto[i])) {
+                                                if(!PT->Init(&sto[i])) {
                                                         part_t *apart;
-                                                        for (int j = 0; j < 4; j++) {
+                                                        for(int j = 0; j < 4; j++) {
                                                                 apart = PT->GetPart(j);
-                                                                if (apart != NULL && apart->type != 0x00) {
+                                                                if(apart != NULL && apart->type != 0x00) {
                                                                         memcpy(&(parts[cpart]), apart, sizeof (part_t));
                                                                         printf_P(PSTR("Partition %u type %#02x\r\n"), j, parts[cpart].type);
                                                                         // for now
-                                                                        if (isfat(parts[cpart].type)) {
+                                                                        if(isfat(parts[cpart].type)) {
                                                                                 Fats[cpart] = new PFAT(&sto[i], cpart, parts[cpart].firstSector);
                                                                                 //int r = Fats[cpart]->Good();
-                                                                                if (Fats[cpart]->MountStatus()) {
+                                                                                if(Fats[cpart]->MountStatus()) {
                                                                                         delete Fats[cpart];
                                                                                         Fats[cpart] = NULL;
                                                                                 } else cpart++;
@@ -514,7 +513,7 @@ void loop() {
                                                         // try superblock
                                                         Fats[cpart] = new PFAT(&sto[i], cpart, 0);
                                                         //int r = Fats[cpart]->Good();
-                                                        if (Fats[cpart]->MountStatus()) {
+                                                        if(Fats[cpart]->MountStatus()) {
                                                                 //printf_P(PSTR("Superblock error %x\r\n"), r);
                                                                 delete Fats[cpart];
                                                                 Fats[cpart] = NULL;
@@ -535,18 +534,18 @@ void loop() {
                         }
                 }
 
-                if (fatready) {
-                        if (Fats[0] != NULL) {
+                if(fatready) {
+                        if(Fats[0] != NULL) {
                                 struct Pvt * p;
                                 p = ((struct Pvt *)(Fats[0]->storage->private_data));
-                                if (!Bulk[p->B]->LUNIsGood(p->lun)) {
+                                if(!Bulk[p->B]->LUNIsGood(p->lun)) {
                                         // media change
 #if defined(AVR)
                                         fadeAmount = 80;
 #endif
                                         partsready = false;
-                                        for (int i = 0; i < cpart; i++) {
-                                                if (Fats[i] != NULL)
+                                        for(int i = 0; i < cpart; i++) {
+                                                if(Fats[i] != NULL)
                                                         delete Fats[i];
                                                 Fats[cpart] = NULL;
                                         }
@@ -557,62 +556,61 @@ void loop() {
 
                         }
                 }
-                if (fatready) {
+                if(fatready) {
                         FRESULT rc; /* Result code */
                         UINT bw, br, i;
 
-                        if (!notified) {
+                        if(!notified) {
 #if defined(AVR)
                                 fadeAmount = 5;
 #endif
                                 notified = true;
                                 printf_P(PSTR("\r\nOpen an existing file (message.txt).\r\n"));
                                 rc = f_open(&My_File_Object_x, "0:/MESSAGE.TXT", FA_READ);
-                                if (rc) printf_P(PSTR("Error %i, message.txt not found.\r\n"), rc);
+                                if(rc) printf_P(PSTR("Error %i, message.txt not found.\r\n"), rc);
                                 else {
                                         printf_P(PSTR("\r\nType the file content.\r\n"));
-                                        for (;;) {
+                                        for(;;) {
                                                 rc = f_read(&My_File_Object_x, My_Buff_x, mbxs, &br); /* Read a chunk of file */
-                                                if (rc || !br) break; /* Error or end of file */
-                                                for (i = 0; i < br; i++) {
+                                                if(rc || !br) break; /* Error or end of file */
+                                                for(i = 0; i < br; i++) {
                                                         /* Type the data */
-                                                        if (My_Buff_x[i] == '\n')
+                                                        if(My_Buff_x[i] == '\n')
                                                                 Serial.write('\r');
-                                                        if (My_Buff_x[i] != '\r')
+                                                        if(My_Buff_x[i] != '\r')
                                                                 Serial.write(My_Buff_x[i]);
                                                         Serial.flush();
                                                 }
                                         }
-                                        if (rc) {
+                                        if(rc) {
                                                 f_close(&My_File_Object_x);
                                                 goto out;
                                         }
 
                                         printf_P(PSTR("\r\nClose the file.\r\n"));
                                         rc = f_close(&My_File_Object_x);
-                                        if (rc) goto out;
+                                        if(rc) goto out;
                                 }
                                 printf_P(PSTR("\r\nCreate a new file (hello.txt).\r\n"));
                                 rc = f_open(&My_File_Object_x, "0:/Hello.TxT", FA_WRITE | FA_CREATE_ALWAYS);
-                                if (rc) {
+                                if(rc) {
                                         die(rc);
                                         goto outdir;
                                 }
                                 printf_P(PSTR("\r\nWrite a text data. (Hello world!)\r\n"));
                                 rc = f_write(&My_File_Object_x, "Hello world!\r\n", 14, &bw);
-                                if (rc) {
+                                if(rc) {
                                         goto out;
                                 }
                                 printf_P(PSTR("%u bytes written.\r\n"), bw);
 
                                 printf_P(PSTR("\r\nClose the file.\r\n"));
                                 rc = f_close(&My_File_Object_x);
-                                if (rc) {
+                                if(rc) {
                                         die(rc);
                                         goto out;
                                 }
-outdir:
-                                {
+outdir:{
 #if _USE_LFN
                                         char lfn[_MAX_LFN + 1];
                                         FILINFO My_File_Info_Object_x; /* File information object */
@@ -621,7 +619,7 @@ outdir:
                                         DIR My_Dir_Object_x; /* Directory object */
                                         printf_P(PSTR("\r\nOpen root directory.\r\n"));
                                         rc = f_opendir(&My_Dir_Object_x, "0:/");
-                                        if (rc) {
+                                        if(rc) {
                                                 die(rc);
                                                 goto out;
                                         }
@@ -630,46 +628,46 @@ outdir:
 #if defined(AVR)
                                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
 #endif
-                                        for (;;) {
+                                        for(;;) {
 #if _USE_LFN
                                                 My_File_Info_Object_x.lfsize = _MAX_LFN;
 #endif
 
                                                 rc = f_readdir(&My_Dir_Object_x, &My_File_Info_Object_x); /* Read a directory item */
-                                                if (rc || !My_File_Info_Object_x.fname[0]) break; /* Error or end of dir */
+                                                if(rc || !My_File_Info_Object_x.fname[0]) break; /* Error or end of dir */
 
-                                                if (My_File_Info_Object_x.fattrib & AM_DIR) {
+                                                if(My_File_Info_Object_x.fattrib & AM_DIR) {
                                                         Serial.write('d');
                                                 } else {
                                                         Serial.write('-');
                                                 }
                                                 Serial.write('r');
 
-                                                if (My_File_Info_Object_x.fattrib & AM_RDO) {
+                                                if(My_File_Info_Object_x.fattrib & AM_RDO) {
                                                         Serial.write('-');
                                                 } else {
                                                         Serial.write('w');
                                                 }
-                                                if (My_File_Info_Object_x.fattrib & AM_HID) {
+                                                if(My_File_Info_Object_x.fattrib & AM_HID) {
                                                         Serial.write('h');
                                                 } else {
                                                         Serial.write('-');
                                                 }
 
-                                                if (My_File_Info_Object_x.fattrib & AM_SYS) {
+                                                if(My_File_Info_Object_x.fattrib & AM_SYS) {
                                                         Serial.write('s');
                                                 } else {
                                                         Serial.write('-');
                                                 }
 
-                                                if (My_File_Info_Object_x.fattrib & AM_ARC) {
+                                                if(My_File_Info_Object_x.fattrib & AM_ARC) {
                                                         Serial.write('a');
                                                 } else {
                                                         Serial.write('-');
                                                 }
 
 #if _USE_LFN
-                                                if (*My_File_Info_Object_x.lfname)
+                                                if(*My_File_Info_Object_x.lfname)
                                                         printf_P(PSTR(" %8lu  %s (%s)\r\n"), My_File_Info_Object_x.fsize, My_File_Info_Object_x.fname, My_File_Info_Object_x.lfname);
                                                 else
 #endif
@@ -677,48 +675,48 @@ outdir:
                                         }
                                 }
 out:
-                                if (rc) die(rc);
+                                if(rc) die(rc);
                                 printf_P(PSTR("\r\nTest completed.\r\n"));
 
                         }
 
-                        if (runtest) {
+                        if(runtest) {
                                 ULONG ii, wt, rt, start, end;
                                 runtest = false;
                                 f_unlink("0:/10MB.bin");
                                 printf_P(PSTR("\r\nCreate a new 10MB test file (10MB.bin).\r\n"));
                                 rc = f_open(&My_File_Object_x, "0:/10MB.bin", FA_WRITE | FA_CREATE_ALWAYS);
-                                if (rc) goto failed;
-                                for (bw = 0; bw < mbxs; bw++) My_Buff_x[bw] = bw & 0xff;
+                                if(rc) goto failed;
+                                for(bw = 0; bw < mbxs; bw++) My_Buff_x[bw] = bw & 0xff;
                                 fflush(stdout);
                                 start = millis();
-                                while (start == millis());
-                                for (ii = 10485760LU / mbxs; ii > 0LU; ii--) {
+                                while(start == millis());
+                                for(ii = 10485760LU / mbxs; ii > 0LU; ii--) {
                                         rc = f_write(&My_File_Object_x, My_Buff_x, mbxs, &bw);
-                                        if (rc || !bw) goto failed;
+                                        if(rc || !bw) goto failed;
                                 }
                                 rc = f_close(&My_File_Object_x);
-                                if (rc) goto failed;
+                                if(rc) goto failed;
                                 end = millis();
                                 wt = (end - start) - 1;
                                 printf_P(PSTR("Time to write 10485760 bytes: %lu ms (%lu sec) \r\n"), wt, (500 + wt) / 1000UL);
                                 rc = f_open(&My_File_Object_x, "0:/10MB.bin", FA_READ);
                                 fflush(stdout);
                                 start = millis();
-                                while (start == millis());
-                                if (rc) goto failed;
-                                for (;;) {
+                                while(start == millis());
+                                if(rc) goto failed;
+                                for(;;) {
                                         rc = f_read(&My_File_Object_x, My_Buff_x, mbxs, &bw); /* Read a chunk of file */
-                                        if (rc || !bw) break; /* Error or end of file */
+                                        if(rc || !bw) break; /* Error or end of file */
                                 }
                                 end = millis();
-                                if (rc) goto failed;
+                                if(rc) goto failed;
                                 rc = f_close(&My_File_Object_x);
-                                if (rc) goto failed;
+                                if(rc) goto failed;
                                 rt = (end - start) - 1;
                                 printf_P(PSTR("Time to read 10485760 bytes: %lu ms (%lu sec)\r\nDelete test file\r\n"), rt, (500 + rt) / 1000UL);
 failed:
-                                if (rc) die(rc);
+                                if(rc) die(rc);
                                 printf_P(PSTR("10MB timing test finished.\r\n"));
                         }
                 }

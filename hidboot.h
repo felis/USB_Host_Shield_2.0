@@ -536,7 +536,7 @@ template <const uint8_t BOOT_PROTOCOL>
 uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
         uint8_t rcode = 0;
 
-        if(bPollEnable && qNextPollTime <= millis()) {
+        if(bPollEnable && ((long)(millis() - qNextPollTime) >= 0L)) {
 
                 // To-do: optimize manually, using the for loop only if needed.
                 for(int i = 0; i < epMUL(BOOT_PROTOCOL); i++) {
