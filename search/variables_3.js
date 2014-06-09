@@ -16,7 +16,8 @@ var searchData=
   ['disc_5fbdaddr',['disc_bdaddr',['../class_b_t_d.html#ab23f95f12675d7b4505ca6807d379182',1,'BTD']]],
   ['dpad',['dpad',['../union_p_s4_buttons.html#a99e2971b4e511a8d1bb718408f559a92',1,'PS4Buttons']]],
   ['dummy',['dummy',['../structtouchpad_x_y.html#aad3a6094ac41933907969856dfb93e15',1,'touchpadXY::dummy()'],['../struct_p_s4_data.html#aef57cffc87f423db996d817ea75fe5f9',1,'PS4Data::dummy()']]],
-  ['dummy2',['dummy2',['../struct_p_s4_data.html#ae084b9b30d75bf86aa29b7c537297e55',1,'PS4Data']]],
+  ['dummy2',['dummy2',['../struct_p_s4_data.html#a1135843ae5c396792eee84d1f2254ccc',1,'PS4Data']]],
+  ['dummy3',['dummy3',['../struct_p_s4_data.html#ae8342b8249be90f258685928695dd726',1,'PS4Data']]],
   ['dwdterate',['dwDTERate',['../struct_l_i_n_e___c_o_d_i_n_g.html#ae9fd7d7247b4c50df89a6dd5ed955073',1,'LINE_CODING']]],
   ['dx',['dX',['../struct_m_o_u_s_e_i_n_f_o.html#a8b67db1c54e5db9782a0b5b707dcf9db',1,'MOUSEINFO']]],
   ['dy',['dY',['../struct_m_o_u_s_e_i_n_f_o.html#ae7192500776548f5c6868cc37eaaabb2',1,'MOUSEINFO']]]

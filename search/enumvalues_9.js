@@ -17,6 +17,6 @@ var searchData=
   ['left',['LEFT',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdadb45120aafd37a973140edee24708065',1,'controllerEnums.h']]],
   ['lefthatx',['LeftHatX',['../controller_enums_8h.html#a34dad8f0a0927471137c403216597093a383cb8895dd296b7f69ce845ed16b0ca',1,'controllerEnums.h']]],
   ['lefthaty',['LeftHatY',['../controller_enums_8h.html#a34dad8f0a0927471137c403216597093af3f3925efa9762c4e9e71ac7da7a94a3',1,'controllerEnums.h']]],
-  ['lightblue',['Lightblue',['../_p_s3_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2a7ff0cc1f92da1e4577a4bf08d0ffbd5a',1,'PS3Enums.h']]],
+  ['lightblue',['Lightblue',['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2a7ff0cc1f92da1e4577a4bf08d0ffbd5a',1,'controllerEnums.h']]],
   ['low',['Low',['../_p_s3_enums_8h.html#add5c7a32e8138b44244caf07232161aea7a352a3dd2accc1dd65a4538c3754ee8',1,'PS3Enums.h']]]
 ];

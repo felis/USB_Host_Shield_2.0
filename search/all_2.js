@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['B',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda3f2a77ecd272aa6d6b5902faa5e5fc68',1,'controllerEnums.h']]],
+  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda3f2a77ecd272aa6d6b5902faa5e5fc68',1,'B():&#160;controllerEnums.h']]],
   ['back',['BACK',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdac921ff2cfc571c1d19b0485d7f6926ee',1,'controllerEnums.h']]],
   ['badditionallength',['bAdditionalLength',['../struct_request_sense_responce.html#adbc6f965fe2820222504d1e8853f1518',1,'RequestSenseResponce']]],
   ['badditionalsensecode',['bAdditionalSenseCode',['../struct_request_sense_responce.html#a554063acfa94e465da27a7dc73cf786a',1,'RequestSenseResponce']]],
@@ -9,6 +9,7 @@ var searchData=
   ['balternatesetting',['bAlternateSetting',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a0ddcf6c9bc46ed757e9e15086746b5a1',1,'USB_INTERFACE_DESCRIPTOR']]],
   ['basiccdb',['BASICCDB',['../struct_b_a_s_i_c_c_d_b.html',1,'']]],
   ['basiccdb_5ft',['BASICCDB_t',['../masstorage_8h.html#aa0e2e213a2f05df124f199eeac3dbdd8',1,'masstorage.h']]],
+  ['battery',['battery',['../struct_p_s4_status.html#af37fc91df68a3ec4fbba6409747b5e29',1,'PS4Status']]],
   ['bcddevice',['bcdDevice',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#aa4e565c598b6605cbcfe8cab66f99e65',1,'USB_DEVICE_DESCRIPTOR']]],
   ['bcdhid',['bcdHID',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a5af9915c06d97e5fb38d5f8f968420e5',1,'USB_HID_DESCRIPTOR']]],
   ['bcdusb',['bcdUSB',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a621148cd71148fb15e136010480a34ac',1,'USB_DEVICE_DESCRIPTOR']]],
@@ -43,6 +44,7 @@ var searchData=
   ['bhasreportid',['bHasReportId',['../class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1',1,'HIDUniversal']]],
   ['bhubcontrcurrent',['bHubContrCurrent',['../struct_hub_descriptor.html#a454ce905f8af25625156fbeb729d53b7',1,'HubDescriptor']]],
   ['biface',['bIface',['../class_bulk_only.html#ac18ad598cd9a1ee99f49d51a572a50a4',1,'BulkOnly']]],
+  ['bigrumble',['bigRumble',['../struct_p_s4_output.html#ac9e9e57cfce3e7b9588abb273bd908ec',1,'PS4Output']]],
   ['binfo',['bInfo',['../class_mouse_report_parser.html#aa12ee1ccfc7bf834268ab6546c11998c',1,'MouseReportParser::bInfo()'],['../class_keyboard_report_parser.html#a65e6da24b038be3095d06e13b4a280ba',1,'KeyboardReportParser::bInfo()']]],
   ['binterfaceclass',['bInterfaceClass',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a4d352604355f617fef9509951d573356',1,'USB_INTERFACE_DESCRIPTOR']]],
   ['binterfacenumber',['bInterfaceNumber',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a3ae5da44842f99bbde5cca9b20c6911a',1,'USB_INTERFACE_DESCRIPTOR']]],
@@ -55,7 +57,7 @@ var searchData=
   ['bleds',['bLeds',['../class_keyboard_report_parser.html#ae910089ecc7caff18429925affc5dc7f',1,'KeyboardReportParser']]],
   ['blength',['bLength',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a951dd86a1fee895f356a0be0fc8c0d8f',1,'USB_DEVICE_DESCRIPTOR::bLength()'],['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#a2ba304d3cb0f6b506c190ca8391fd1a6',1,'USB_CONFIGURATION_DESCRIPTOR::bLength()'],['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#ad1a0f98931b5e094d33c8c31d4e29ad6',1,'USB_INTERFACE_DESCRIPTOR::bLength()'],['../struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a55263a9cc9dc17abc37226ac8a471ad0',1,'USB_ENDPOINT_DESCRIPTOR::bLength()'],['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a8b525ca82d81716c699e1d1f9c6d2de2',1,'USB_HID_DESCRIPTOR::bLength()']]],
   ['blink',['blink',['../class_max___l_c_d.html#aa25fa75294a10b24b7359d6886b8f0ab',1,'Max_LCD']]],
-  ['blue',['Blue',['../_p_s3_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2af5e09dd1da4088464f264b7a3118bff8',1,'PS3Enums.h']]],
+  ['blue',['Blue',['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2af5e09dd1da4088464f264b7a3118bff8',1,'controllerEnums.h']]],
   ['bluetooth',['Bluetooth',['../_p_s3_enums_8h.html#add5c7a32e8138b44244caf07232161aea730728c9aac83393ac83f96a8125b8bb',1,'PS3Enums.h']]],
   ['bluetoothrumble',['BluetoothRumble',['../_p_s3_enums_8h.html#add5c7a32e8138b44244caf07232161aea27912f9ea05a45aada21fc375817342c',1,'PS3Enums.h']]],
   ['bluetoothservice',['BluetoothService',['../class_bluetooth_service.html',1,'']]],

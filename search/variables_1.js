@@ -1,10 +1,12 @@
 var searchData=
 [
+  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output']]],
   ['badditionallength',['bAdditionalLength',['../struct_request_sense_responce.html#adbc6f965fe2820222504d1e8853f1518',1,'RequestSenseResponce']]],
   ['badditionalsensecode',['bAdditionalSenseCode',['../struct_request_sense_responce.html#a554063acfa94e465da27a7dc73cf786a',1,'RequestSenseResponce']]],
   ['badditionalsensequalifier',['bAdditionalSenseQualifier',['../struct_request_sense_responce.html#a628379310065c48e738bd07037b329e6',1,'RequestSenseResponce']]],
   ['baddress',['bAddress',['../class_a_d_k.html#ab22a7c60cec56823727d4ff2cf2c4edf',1,'ADK::bAddress()'],['../class_b_t_d.html#a58f78a9a28db81858dcc34a32a2ec82c',1,'BTD::bAddress()'],['../class_a_c_m.html#abaa06a619a519f4cb39cc8482af6f111',1,'ACM::bAddress()'],['../class_h_i_d.html#a525edb36c2cd8470eae703d3b236e4a7',1,'HID::bAddress()'],['../class_bulk_only.html#a9968a2119df66fa0093b020e318d8ac6',1,'BulkOnly::bAddress()'],['../class_p_s3_u_s_b.html#a3f43df159277003acdf7dd107bda27fd',1,'PS3USB::bAddress()'],['../class_x_b_o_x_o_l_d.html#ae28d3306b484750d7067fa5f7ed0beae',1,'XBOXOLD::bAddress()'],['../class_x_b_o_x_r_e_c_v.html#a1d4bdb1b740c87fd51aca3969e67c730',1,'XBOXRECV::bAddress()'],['../class_x_b_o_x_u_s_b.html#a5e9c00af9f4b978c53819791b0a0eb65',1,'XBOXUSB::bAddress()']]],
   ['balternatesetting',['bAlternateSetting',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a0ddcf6c9bc46ed757e9e15086746b5a1',1,'USB_INTERFACE_DESCRIPTOR']]],
+  ['battery',['battery',['../struct_p_s4_status.html#af37fc91df68a3ec4fbba6409747b5e29',1,'PS4Status']]],
   ['bcddevice',['bcdDevice',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#aa4e565c598b6605cbcfe8cab66f99e65',1,'USB_DEVICE_DESCRIPTOR']]],
   ['bcdhid',['bcdHID',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a5af9915c06d97e5fb38d5f8f968420e5',1,'USB_HID_DESCRIPTOR']]],
   ['bcdusb',['bcdUSB',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a621148cd71148fb15e136010480a34ac',1,'USB_DEVICE_DESCRIPTOR']]],
@@ -30,6 +32,7 @@ var searchData=
   ['bhasreportid',['bHasReportId',['../class_h_i_d_universal.html#a1c333e67c1bd0e69db565d6976d063b1',1,'HIDUniversal']]],
   ['bhubcontrcurrent',['bHubContrCurrent',['../struct_hub_descriptor.html#a454ce905f8af25625156fbeb729d53b7',1,'HubDescriptor']]],
   ['biface',['bIface',['../class_bulk_only.html#ac18ad598cd9a1ee99f49d51a572a50a4',1,'BulkOnly']]],
+  ['bigrumble',['bigRumble',['../struct_p_s4_output.html#ac9e9e57cfce3e7b9588abb273bd908ec',1,'PS4Output']]],
   ['binfo',['bInfo',['../class_mouse_report_parser.html#aa12ee1ccfc7bf834268ab6546c11998c',1,'MouseReportParser::bInfo()'],['../class_keyboard_report_parser.html#a65e6da24b038be3095d06e13b4a280ba',1,'KeyboardReportParser::bInfo()']]],
   ['binterfaceclass',['bInterfaceClass',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a4d352604355f617fef9509951d573356',1,'USB_INTERFACE_DESCRIPTOR']]],
   ['binterfacenumber',['bInterfaceNumber',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a3ae5da44842f99bbde5cca9b20c6911a',1,'USB_INTERFACE_DESCRIPTOR']]],

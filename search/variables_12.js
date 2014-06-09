@@ -9,7 +9,6 @@ var searchData=
   ['thebuffer',['theBuffer',['../class_report_desc_parser_base.html#a5ac0dd6f06df15a4cd2bad3fa175e7b9',1,'ReportDescParserBase']]],
   ['theskipper',['theSkipper',['../class_report_desc_parser_base.html#a23b769d890d9f578fd6b8f47cb1f7e23',1,'ReportDescParserBase']]],
   ['threepc',['ThreePC',['../struct_inquiry_response.html#a48b774030b80f98823e9b38aba8a625d',1,'InquiryResponse']]],
-  ['timestamp',['timestamp',['../union_p_s4_buttons.html#a936ab414f4e60f0264945622d9aa1aea',1,'PS4Buttons']]],
   ['totalendpoints',['totalEndpoints',['../class_h_i_d.html#a884aa67312324e7d23a052a6dc80337e',1,'HID']]],
   ['totalsize',['totalSize',['../class_report_desc_parser_base.html#aa5223ad6eb8be8c7fb53a98d4ddde594',1,'ReportDescParserBase']]],
   ['touching',['touching',['../structtouchpad_x_y.html#a2c078e99c3b96303e6b6a60e2f36acc5',1,'touchpadXY']]],

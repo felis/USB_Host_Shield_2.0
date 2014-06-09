@@ -24,6 +24,7 @@ var searchData=
   ['constitlesd',['consTitlesD',['../class_report_desc_parser_base.html#a4db83eb7ee2c16ff29da2c09dbf182f3',1,'ReportDescParserBase']]],
   ['constitlese',['consTitlesE',['../class_report_desc_parser_base.html#a46332dbba5ab524aedb370684510c990',1,'ReportDescParserBase']]],
   ['control',['Control',['../struct_c_d_b6.html#a8629bc31675353132e17e5e37b3e0e41',1,'CDB6::Control()'],['../struct_c_d_b10.html#aa39a2ed8852448c4bcbba7d3bc478be5',1,'CDB10::Control()'],['../struct_c_d_b12.html#a1478895d17ea1ba1e2a70f5f5904e0b7',1,'CDB12::Control()'],['../struct_c_d_b___l_b_a32__16.html#aed4424e6a3afd515084359084a5e8fcb',1,'CDB_LBA32_16::Control()'],['../struct_c_d_b___l_b_a64__16.html#ad40f82369182a1001877c7f8d818c418',1,'CDB_LBA64_16::Control()']]],
+  ['control_5fscid',['control_scid',['../class_b_t_h_i_d.html#acf6933a4988ed9f48c6e08cc7c9b906c',1,'BTHID']]],
   ['counter',['counter',['../structtouchpad_x_y.html#ae52c34f2e6e66933e06b2f3448badcf0',1,'touchpadXY']]],
   ['cross',['cross',['../union_p_s4_buttons.html#a1163dc3517b1c27093b7cdd597eaa9fd',1,'PS4Buttons']]],
   ['currentcapacity',['CurrentCapacity',['../class_bulk_only.html#a73c3f6b8f6f79ad60e5ba05e560b277d',1,'BulkOnly']]],

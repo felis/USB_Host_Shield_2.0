@@ -27,5 +27,6 @@ var searchData=
   ['allocationlength',['AllocationLength',['../struct_c_d_b6.html#a49d35d920a46db55bc300ee25f6065ef',1,'CDB6']]],
   ['aplphanumtitles0',['aplphanumTitles0',['../class_report_desc_parser_base.html#a5cd50b03ac2d022ca55e6a5bbd448ac8',1,'ReportDescParserBase']]],
   ['aplphanumtitles1',['aplphanumTitles1',['../class_report_desc_parser_base.html#afac5fab915e65babde2645e09b66e74f',1,'ReportDescParserBase']]],
-  ['aplphanumtitles2',['aplphanumTitles2',['../class_report_desc_parser_base.html#ae0090afb0e090b539fcaa4b71f099b08',1,'ReportDescParserBase']]]
+  ['aplphanumtitles2',['aplphanumTitles2',['../class_report_desc_parser_base.html#ae0090afb0e090b539fcaa4b71f099b08',1,'ReportDescParserBase']]],
+  ['audio',['audio',['../struct_p_s4_status.html#a21781405f5b603ef41334a1b09930075',1,'PS4Status']]]
 ];

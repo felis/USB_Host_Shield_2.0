@@ -1,7 +1,7 @@
 <map id="HID" name="HID">
-<area shape="rect" id="node4" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="5,161,219,189"/>
-<area shape="rect" id="node5" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="243,161,343,189"/>
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="63,6,191,34"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="215,6,344,34"/>
-<area shape="rect" id="node6" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="256,238,329,266"/>
+<area shape="rect" id="node4" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="5,152,219,177"/>
+<area shape="rect" id="node5" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="244,152,344,177"/>
+<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="63,5,191,31"/>
+<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="215,5,345,31"/>
+<area shape="rect" id="node6" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="257,225,331,251"/>
 </map>

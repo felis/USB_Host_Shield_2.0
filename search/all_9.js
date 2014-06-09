@@ -13,6 +13,7 @@ var searchData=
   ['initialize',['Initialize',['../class_hex_dumper.html#accd2712258f54a8072eae3d2ad8cceba',1,'HexDumper::Initialize()'],['../class_multi_byte_value_parser.html#a9bd52b4e180d68dbb8f97c059250f4c3',1,'MultiByteValueParser::Initialize()'],['../class_byte_skipper.html#a274a09686d5535e11961d2ccf38ffa08',1,'ByteSkipper::Initialize()'],['../class_p_t_p_list_parser.html#a18f6c785d1ddb51d7e158810644079b7',1,'PTPListParser::Initialize()'],['../class_sink_parser.html#a3c2ac73b459e326e955c26d658733f9f',1,'SinkParser::Initialize()']]],
   ['inquiryresponse',['InquiryResponse',['../struct_inquiry_response.html',1,'']]],
   ['internal_5fdelay',['INTERNAL_DELAY',['../cdcprolific_8h.html#ad77e166d8f5931c693952f5e89c2b732',1,'cdcprolific.h']]],
+  ['interrupt_5fscid',['interrupt_scid',['../class_b_t_h_i_d.html#a34a91f92ea32033403c2b37af92535dc',1,'BTHID']]],
   ['inthandler',['IntHandler',['../class_m_a_x3421e.html#af88faea04dd27cf354cf0643cc7acef2',1,'MAX3421e']]],
   ['intr_5fdescr_5flen',['INTR_DESCR_LEN',['../usb__ch9_8h.html#a4922a4b2d56a973f3704ce1775cf9d37',1,'usb_ch9.h']]],
   ['intransfer',['inTransfer',['../class_u_s_b.html#ad75d64f648b102fab2bd75e53e1324a4',1,'USB']]],

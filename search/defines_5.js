@@ -29,6 +29,7 @@ var searchData=
   ['ev_5fread_5fremote_5fversion_5finformation_5fcomplete',['EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE',['../_b_t_d_8h.html#a830b2a3bcb09c4802910e8b05531d317',1,'BTD.h']]],
   ['ev_5fremote_5fname_5fcomplete',['EV_REMOTE_NAME_COMPLETE',['../_b_t_d_8h.html#a29c1744f72f3cd85865c8173eace5a36',1,'BTD.h']]],
   ['ev_5frole_5fchanged',['EV_ROLE_CHANGED',['../_b_t_d_8h.html#ac61db50de3007a22e19e660bd7e68e69',1,'BTD.h']]],
+  ['ext_5fram',['EXT_RAM',['../settings_8h.html#afdb33d1e651e2cdd5574d3f9336fdb30',1,'settings.h']]],
   ['extendaddress',['extendAddress',['../_s_p_p_8h.html#af31032289d962bc2408debecc2823b8c',1,'SPP.h']]],
   ['external_5fmask',['EXTERNAL_MASK',['../cdcprolific_8h.html#a18bdc379296992f91a263a8aa869cf24',1,'cdcprolific.h']]]
 ];

@@ -1,5 +1,5 @@
 <map id="ACM" name="ACM">
-<area shape="rect" id="node4" href="$class_p_l2303.html" title="PL2303" alt="" coords="112,161,179,189"/>
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,6,133,34"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,6,287,34"/>
+<area shape="rect" id="node4" href="$class_p_l2303.html" title="PL2303" alt="" coords="112,152,179,177"/>
+<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,5,133,31"/>
+<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,5,288,31"/>
 </map>

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['g',['g',['../struct_p_s4_output.html#afc78d4e2c0aafbf4b0a27db3746ad93c',1,'PS4Output']]],
   ['gametitles0',['gameTitles0',['../class_report_desc_parser_base.html#a981cacbfad335b19528e59ab2de866e5',1,'ReportDescParserBase']]],
   ['gametitles1',['gameTitles1',['../class_report_desc_parser_base.html#ac9327d02115b1dd60c79c37d1d11cf41',1,'ReportDescParserBase']]],
   ['gendesktoptitles0',['genDesktopTitles0',['../class_report_desc_parser_base.html#a3021443d9320135788844c166240149f',1,'ReportDescParserBase']]],

@@ -3,6 +3,7 @@ var searchData=
   ['pairwithhiddevice',['pairWithHIDDevice',['../class_b_t_d.html#a2aa418d820fb6b877ea079e0436a518e',1,'BTD']]],
   ['pairwithwii',['pairWithWii',['../class_b_t_d.html#a0c8cc2a2dd2cda3e760b8b4c1a2d169c',1,'BTD']]],
   ['pasync',['pAsync',['../class_a_c_m.html#a3f160c6c757994f0c30bd5c5f1fb9d95',1,'ACM']]],
+  ['pbtd',['pBtd',['../class_b_t_h_i_d.html#a02c37811a4a401618caf188e744e8e3d',1,'BTHID']]],
   ['peripheralqualifier',['PeripheralQualifier',['../struct_inquiry_response.html#a8e8f2cb6b5a0d1ed2c300155bf2b3faa',1,'InquiryResponse']]],
   ['pfusage',['pfUsage',['../class_report_desc_parser_base.html#a22006cbf92a3d4008695e53d7f6e2452',1,'ReportDescParserBase']]],
   ['pid',['PID',['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal']]],
