@@ -1,9 +1,10 @@
 <map id="controllerEnums.h" name="controllerEnums.h">
 <area shape="rect" id="node2" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="113,79,212,104"/>
 <area shape="rect" id="node7" href="$_p_s4_parser_8h.html" title="PS4Parser.h" alt="" coords="394,79,490,104"/>
-<area shape="rect" id="node11" href="$_wii_8h.html" title="Wii.h" alt="" coords="576,79,626,104"/>
-<area shape="rect" id="node13" href="$xbox_enums_8h.html" title="xboxEnums.h" alt="" coords="659,79,761,104"/>
-<area shape="rect" id="node18" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="850,79,947,104"/>
+<area shape="rect" id="node11" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="580,79,660,104"/>
+<area shape="rect" id="node13" href="$_wii_8h.html" title="Wii.h" alt="" coords="690,79,741,104"/>
+<area shape="rect" id="node15" href="$xbox_enums_8h.html" title="xboxEnums.h" alt="" coords="778,79,880,104"/>
+<area shape="rect" id="node20" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="969,79,1065,104"/>
 <area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="16,152,90,177"/>
 <area shape="rect" id="node5" href="$_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="120,152,205,177"/>
 <area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="5,225,93,251"/>
@@ -11,10 +12,11 @@
 <area shape="rect" id="node8" href="$_p_s4_b_t_8h.html" title="PS4BT.h" alt="" coords="228,152,302,177"/>
 <area shape="rect" id="node9" href="$_p_s4_parser_8cpp.html" title="PS4Parser.cpp" alt="" coords="326,152,436,177"/>
 <area shape="rect" id="node10" href="$_p_s4_u_s_b_8h.html" title="PS4USB.h" alt="" coords="460,152,545,177"/>
-<area shape="rect" id="node12" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="568,152,634,177"/>
-<area shape="rect" id="node14" href="$_x_b_o_x_r_e_c_v_8h.html" title="XBOXRECV.h" alt="" coords="658,152,763,177"/>
-<area shape="rect" id="node16" href="$_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="787,152,884,177"/>
-<area shape="rect" id="node15" href="$_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="644,225,763,251"/>
-<area shape="rect" id="node17" href="$_x_b_o_x_u_s_b_8cpp.html" title="XBOXUSB.cpp" alt="" coords="787,225,898,251"/>
-<area shape="rect" id="node19" href="$_x_b_o_x_o_l_d_8cpp.html" title="XBOXOLD.cpp" alt="" coords="908,152,1019,177"/>
+<area shape="rect" id="node12" href="$_p_s_buzz_8cpp.html" title="PSBuzz.cpp" alt="" coords="569,152,663,177"/>
+<area shape="rect" id="node14" href="$_wii_8cpp.html" title="Wii.cpp" alt="" coords="687,152,752,177"/>
+<area shape="rect" id="node16" href="$_x_b_o_x_r_e_c_v_8h.html" title="XBOXRECV.h" alt="" coords="776,152,882,177"/>
+<area shape="rect" id="node18" href="$_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="906,152,1003,177"/>
+<area shape="rect" id="node17" href="$_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="763,225,882,251"/>
+<area shape="rect" id="node19" href="$_x_b_o_x_u_s_b_8cpp.html" title="XBOXUSB.cpp" alt="" coords="905,225,1016,251"/>
+<area shape="rect" id="node21" href="$_x_b_o_x_o_l_d_8cpp.html" title="XBOXOLD.cpp" alt="" coords="1027,152,1138,177"/>
 </map>

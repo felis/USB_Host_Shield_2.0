@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['val',['val',['../union_p_s4_buttons.html#aa381b471d6e5f1e36fa87048b0f8ddc9',1,'PS4Buttons']]],
+  ['val',['val',['../union_p_s4_buttons.html#aa381b471d6e5f1e36fa87048b0f8ddc9',1,'PS4Buttons::val()'],['../union_p_s_b_u_z_z_buttons.html#aff7e8cc5b9c87d4662dbe687741b78f2',1,'PSBUZZButtons::val()']]],
   ['valparser',['valParser',['../class_report_desc_parser_base.html#a8833e671168779d081e7f50e579bc206',1,'ReportDescParserBase']]],
   ['valuesize',['valueSize',['../struct_multi_value_buffer.html#ab3151f4125e3ca92871307e654de24b7',1,'MultiValueBuffer']]],
   ['varbuffer',['varBuffer',['../class_report_desc_parser_base.html#a82cde32720eba596e5864fe7d541ea13',1,'ReportDescParserBase']]],

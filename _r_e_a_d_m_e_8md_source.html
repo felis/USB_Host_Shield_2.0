@@ -109,7 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">* __Alexei Glushchenko, Circuits\@Home__ - &lt;alex-gl@mail.ru&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">    * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">* __Kristian Lauszus, TKJ Electronics__ - &lt;kristianl@tkjelectronics.com&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">* __Andrew Kroll__ - &lt;xxxajk@gmail.com&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">    * Major contributor to mass storage code</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral"></span></div>
@@ -327,12 +327,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="stringliteral">* &lt;http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus&gt;</span></div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="stringliteral">* The old library created by _Tomoyuki Tanaka_: &lt;https://github.com/moyuchin/WiiRemote_on_Arduino&gt; also helped a lot.</span></div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="stringliteral"># FAQ</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="stringliteral">### [PS Buzz Library](PSBuzz.cpp)</span></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="stringliteral">&gt; When I plug my device into the USB connector nothing happens?</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="stringliteral">This library implements support for the Playstation Buzz controllers via USB.</span></div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="stringliteral">* Try to connect a external power supply to the Arduino - this solves the problem in most cases.</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="stringliteral">* You can also use a powered hub between the device and the USB Host Shield. You should then include the USB hub library: ```#include &lt;usbhub.h&gt;``` and create the instance like so: ```USBHub Hub1(&amp;Usb);```.</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="stringliteral">It is essentially just a wrapper around the [HIDUniversal](hiduniversal.cpp) which takes care of the initializing and reading of the controllers. The [PSBuzz](PSBuzz.cpp) class simply inherits this and parses the data, so it is easy for users to read the buttons and turn the big red button on the controllers on and off.</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="stringliteral">The example [PSBuzz.ino](examples/PSBuzz/PSBuzz.ino) shows how one can do this with just a few lines of code.</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="stringliteral">More information about the controller can be found at the following sites:</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="stringliteral">* http://www.developerfusion.com/article/84338/making-usb-c-friendly/</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="stringliteral">* https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="stringliteral"># FAQ</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="stringliteral">&gt; When I plug my device into the USB connector nothing happens?</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="stringliteral">* Try to connect a external power supply to the Arduino - this solves the problem in most cases.</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="stringliteral">* You can also use a powered hub between the device and the USB Host Shield. You should then include the USB hub library: ```#include &lt;usbhub.h&gt;``` and create the instance like so: ```USBHub Hub1(&amp;Usb);```.</span></div>
 <div class="ttc" id="class_m_a_x3421e_html"><div class="ttname"><a href="class_m_a_x3421e.html">MAX3421e</a></div><div class="ttdef"><b>Definition:</b> <a href="usbhost_8h_source.html#l00086">usbhost.h:86</a></div></div>
 <div class="ttc" id="class_u_s_b_html"><div class="ttname"><a href="class_u_s_b.html">USB</a></div><div class="ttdef"><b>Definition:</b> <a href="_usb_core_8h_source.html#l00190">UsbCore.h:190</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

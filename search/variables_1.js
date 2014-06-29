@@ -42,6 +42,7 @@ var searchData=
   ['blastusberror',['bLastUsbError',['../class_bulk_only.html#a20ff3cc4bb15c557f57a8c6200b412d1',1,'BulkOnly']]],
   ['bleds',['bLeds',['../class_keyboard_report_parser.html#ae910089ecc7caff18429925affc5dc7f',1,'KeyboardReportParser']]],
   ['blength',['bLength',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a951dd86a1fee895f356a0be0fc8c0d8f',1,'USB_DEVICE_DESCRIPTOR::bLength()'],['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#a2ba304d3cb0f6b506c190ca8391fd1a6',1,'USB_CONFIGURATION_DESCRIPTOR::bLength()'],['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#ad1a0f98931b5e094d33c8c31d4e29ad6',1,'USB_INTERFACE_DESCRIPTOR::bLength()'],['../struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a55263a9cc9dc17abc37226ac8a471ad0',1,'USB_ENDPOINT_DESCRIPTOR::bLength()'],['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a8b525ca82d81716c699e1d1f9c6d2de2',1,'USB_HID_DESCRIPTOR::bLength()']]],
+  ['blue',['blue',['../union_p_s_b_u_z_z_buttons.html#a28d1237b28db689be4b0e79348c2f993',1,'PSBUZZButtons']]],
   ['bmaddress',['bmAddress',['../struct_usb_device_address.html#ae12b0ac1b76a34d0a5080cc62f41c622',1,'UsbDeviceAddress']]],
   ['bmattributes',['bmAttributes',['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#ac2f4c62d572fe371be5680962e42a8d3',1,'USB_CONFIGURATION_DESCRIPTOR::bmAttributes()'],['../struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a8ee7f1bafac335258c6e742969387f57',1,'USB_ENDPOINT_DESCRIPTOR::bmAttributes()']]],
   ['bmaxlun',['bMaxLUN',['../class_bulk_only.html#a6bbdd41bf6efc4060f3c36da7d6ed8b2',1,'BulkOnly']]],
@@ -119,6 +120,6 @@ var searchData=
   ['btdname',['btdName',['../class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9',1,'BTD']]],
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
   ['bthelun',['bTheLUN',['../class_bulk_only.html#a24c051d401f5f1a9ce65c1bc25ab02dd',1,'BulkOnly']]],
-  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data']]],
+  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#adc227bdd6f33d09bdfc6abd0571a26a9',1,'PSBUZZButtons::btn()']]],
   ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]]
 ];

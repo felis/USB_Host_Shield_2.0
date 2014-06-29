@@ -10,5 +10,7 @@ var searchData=
   ['ps4parser',['PS4Parser',['../class_p_s4_parser.html',1,'']]],
   ['ps4status',['PS4Status',['../struct_p_s4_status.html',1,'']]],
   ['ps4usb',['PS4USB',['../class_p_s4_u_s_b.html',1,'']]],
+  ['psbuzz',['PSBuzz',['../class_p_s_buzz.html',1,'']]],
+  ['psbuzzbuttons',['PSBUZZButtons',['../union_p_s_b_u_z_z_buttons.html',1,'']]],
   ['ptplistparser',['PTPListParser',['../class_p_t_p_list_parser.html',1,'']]]
 ];

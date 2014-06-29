@@ -11,5 +11,7 @@ var searchData=
   ['ps4bt_2eh',['PS4BT.h',['../_p_s4_b_t_8h.html',1,'']]],
   ['ps4parser_2ecpp',['PS4Parser.cpp',['../_p_s4_parser_8cpp.html',1,'']]],
   ['ps4parser_2eh',['PS4Parser.h',['../_p_s4_parser_8h.html',1,'']]],
-  ['ps4usb_2eh',['PS4USB.h',['../_p_s4_u_s_b_8h.html',1,'']]]
+  ['ps4usb_2eh',['PS4USB.h',['../_p_s4_u_s_b_8h.html',1,'']]],
+  ['psbuzz_2ecpp',['PSBuzz.cpp',['../_p_s_buzz_8cpp.html',1,'']]],
+  ['psbuzz_2eh',['PSBuzz.h',['../_p_s_buzz_8h.html',1,'']]]
 ];

@@ -5,13 +5,14 @@
 <area shape="rect" id="node6" href="$class_bulk_only.html" title="BulkOnly" alt="" coords="232,79,307,104"/>
 <area shape="rect" id="node7" href="$class_f_t_d_i.html" title="FTDI" alt="" coords="331,79,382,104"/>
 <area shape="rect" id="node8" href="$class_h_i_d.html" title="HID" alt="" coords="406,79,450,104"/>
-<area shape="rect" id="node12" href="$class_p_s3_u_s_b.html" title="PS3USB" alt="" coords="474,79,548,104"/>
-<area shape="rect" id="node13" href="$class_u_s_b_hub.html" title="USBHub" alt="" coords="572,79,645,104"/>
-<area shape="rect" id="node14" href="$class_x_b_o_x_o_l_d.html" title="XBOXOLD" alt="" coords="669,79,755,104"/>
-<area shape="rect" id="node15" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="779,79,875,104"/>
-<area shape="rect" id="node16" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="899,79,985,104"/>
+<area shape="rect" id="node13" href="$class_p_s3_u_s_b.html" title="PS3USB" alt="" coords="474,79,548,104"/>
+<area shape="rect" id="node14" href="$class_u_s_b_hub.html" title="USBHub" alt="" coords="572,79,645,104"/>
+<area shape="rect" id="node15" href="$class_x_b_o_x_o_l_d.html" title="XBOXOLD" alt="" coords="669,79,755,104"/>
+<area shape="rect" id="node16" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="779,79,875,104"/>
+<area shape="rect" id="node17" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="899,79,985,104"/>
 <area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="5,152,73,177"/>
 <area shape="rect" id="node9" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="231,152,445,177"/>
 <area shape="rect" id="node10" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="469,152,569,177"/>
-<area shape="rect" id="node11" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="482,225,556,251"/>
+<area shape="rect" id="node11" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="434,225,508,251"/>
+<area shape="rect" id="node12" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="533,225,601,251"/>
 </map>

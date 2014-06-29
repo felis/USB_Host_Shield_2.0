@@ -1,10 +1,10 @@
 <map id="hidusagestr.h" name="hidusagestr.h">
-<area shape="rect" id="node2" href="$hid_8h.html" title="hid.h" alt="" coords="307,79,358,104"/>
-<area shape="rect" id="node14" href="$hidusagetitlearrays_8cpp.html" title="hidusagetitlearrays.cpp" alt="" coords="381,79,540,104"/>
-<area shape="rect" id="node3" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="137,152,213,177"/>
-<area shape="rect" id="node8" href="$hid_8cpp.html" title="hid.cpp" alt="" coords="238,152,302,177"/>
-<area shape="rect" id="node9" href="$hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="326,152,464,177"/>
-<area shape="rect" id="node11" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="495,152,599,177"/>
+<area shape="rect" id="node2" href="$hid_8h.html" title="hid.h" alt="" coords="319,79,370,104"/>
+<area shape="rect" id="node16" href="$hidusagetitlearrays_8cpp.html" title="hidusagetitlearrays.cpp" alt="" coords="393,79,552,104"/>
+<area shape="rect" id="node3" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="149,152,225,177"/>
+<area shape="rect" id="node8" href="$hid_8cpp.html" title="hid.cpp" alt="" coords="250,152,314,177"/>
+<area shape="rect" id="node9" href="$hidescriptorparser_8h.html" title="hidescriptorparser.h" alt="" coords="338,152,476,177"/>
+<area shape="rect" id="node11" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="558,152,662,177"/>
 <area shape="rect" id="node4" href="$_b_t_h_i_d_8h.html" title="BTHID.h" alt="" coords="64,225,137,251"/>
 <area shape="rect" id="node7" href="$hidboot_8cpp.html" title="hidboot.cpp" alt="" coords="161,225,251,251"/>
 <area shape="rect" id="node5" href="$_b_t_h_i_d_8cpp.html" title="BTHID.cpp" alt="" coords="5,299,92,324"/>
@@ -12,4 +12,6 @@
 <area shape="rect" id="node10" href="$hidescriptorparser_8cpp.html" title="hidescriptorparser.cpp" alt="" coords="312,225,465,251"/>
 <area shape="rect" id="node12" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="488,225,606,251"/>
 <area shape="rect" id="node13" href="$_p_s4_u_s_b_8h.html" title="PS4USB.h" alt="" coords="630,225,715,251"/>
+<area shape="rect" id="node14" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="739,225,819,251"/>
+<area shape="rect" id="node15" href="$_p_s_buzz_8cpp.html" title="PSBuzz.cpp" alt="" coords="732,299,826,324"/>
 </map>

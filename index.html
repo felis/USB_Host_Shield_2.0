@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li><b>Kristian Lauszus, TKJ Electronics</b> - <a href="#" onclick="location.href='mai'+'lto:'+'kri'+'st'+'ian'+'l@'+'tkj'+'el'+'ect'+'ro'+'nic'+'s.'+'com'; return false;">krist<span style="display: none;">.nosp@m.</span>ianl<span style="display: none;">.nosp@m.</span>@tkje<span style="display: none;">.nosp@m.</span>lect<span style="display: none;">.nosp@m.</span>ronic<span style="display: none;">.nosp@m.</span>s.co<span style="display: none;">.nosp@m.</span>m</a><ul>
-<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, and <a href="#xbox-library">Xbox</a> libraries</li>
+<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
 </ul>
 </li>
 <li><b>Andrew Kroll</b> - <a href="#" onclick="location.href='mai'+'lto:'+'xxx'+'aj'+'k@g'+'ma'+'il.'+'co'+'m'; return false;">xxxaj<span style="display: none;">.nosp@m.</span>k@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a><ul>
@@ -253,6 +253,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck">http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck</a></li>
 <li><a href="http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus">http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus</a></li>
 <li>The old library created by <em>Tomoyuki Tanaka</em>: <a href="https://github.com/moyuchin/WiiRemote_on_Arduino">https://github.com/moyuchin/WiiRemote_on_Arduino</a> also helped a lot.</li>
+</ul>
+<h3><a href="PSBuzz.cpp">PS Buzz Library</a></h3>
+<p>This library implements support for the Playstation Buzz controllers via <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>It is essentially just a wrapper around the <a href="hiduniversal.cpp">HIDUniversal</a> which takes care of the initializing and reading of the controllers. The <a href="PSBuzz.cpp">PSBuzz</a> class simply inherits this and parses the data, so it is easy for users to read the buttons and turn the big red button on the controllers on and off.</p>
+<p>The example <a href="examples/PSBuzz/PSBuzz.ino">PSBuzz.ino</a> shows how one can do this with just a few lines of code.</p>
+<p>More information about the controller can be found at the following sites:</p>
+<ul>
+<li><a href="http://www.developerfusion.com/article/84338/making-usb-c-friendly/">http://www.developerfusion.com/article/84338/making-usb-c-friendly/</a></li>
+<li><a href="https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c">https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c</a></li>
 </ul>
 <h1>FAQ</h1>
 <blockquote class="doxtable">

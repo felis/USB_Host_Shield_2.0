@@ -3,7 +3,7 @@ var searchData=
   ['wiicamerareadme',['WiiCameraReadme',['../md___users__lauszus__git_hub__u_s_b__host__shield_2_80__wii_camera_readme.html',1,'']]],
   ['watingforconnection',['watingForConnection',['../class_b_t_d.html#aa7735da01865bab01b569ee836173737',1,'BTD']]],
   ['wdescriptorlength',['wDescriptorLength',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a0b160c43f6a6132c0debabd6ef171950',1,'USB_HID_DESCRIPTOR::wDescriptorLength()'],['../struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html#a98251c1867caf1651f6e926952189201',1,'HID_CLASS_DESCRIPTOR_LEN_AND_TYPE::wDescriptorLength()']]],
-  ['white',['WHITE',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda283fc479650da98250635b9c3c0e7e50',1,'WHITE():&#160;controllerEnums.h'],['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ab548046646b36c12aa6ba841de500094',1,'White():&#160;controllerEnums.h']]],
+  ['white',['White',['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ab548046646b36c12aa6ba841de500094',1,'White():&#160;controllerEnums.h'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda283fc479650da98250635b9c3c0e7e50',1,'WHITE():&#160;controllerEnums.h']]],
   ['wi_5fprotocol_5fbt',['WI_PROTOCOL_BT',['../_b_t_d_8h.html#a05903a9351c5ced6b8be27b2869e62af',1,'BTD.h']]],
   ['wi_5fsubclass_5frf',['WI_SUBCLASS_RF',['../_b_t_d_8h.html#a177fe269ddb7979d99b76d52bc281551',1,'BTD.h']]],
   ['widebus16bit',['WideBus16Bit',['../struct_inquiry_response.html#a39a63fd0fd92c50370af9aefe93c13cf',1,'InquiryResponse']]],
@@ -33,7 +33,7 @@ var searchData=
   ['writeok',['WriteOk',['../class_bulk_only.html#af763ffffdd131949322d583fb4cd2737',1,'BulkOnly']]],
   ['writeprotected',['WriteProtected',['../class_bulk_only.html#ab0976e6d4f5fdeff800f3769e7b287c9',1,'BulkOnly']]],
   ['wtotallength',['wTotalLength',['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#a39499f3dd4e3f1ef1d8a2c9b430bc11b',1,'USB_CONFIGURATION_DESCRIPTOR']]],
-  ['wval_5fu',['wVal_u',['../struct_s_e_t_u_p___p_k_t.html#af6cb87d710f8ec212bf5b47890554214',1,'SETUP_PKT']]],
+  ['wval_5fu',['wVal_u',['../struct_s_e_t_u_p___p_k_t.html#aa99db9f696b4d9cbe9c6beaa4f993c0a',1,'SETUP_PKT']]],
   ['wvalue',['wValue',['../struct_c_l_a_s_s___n_o_t_i_f_i_c_a_t_i_o_n.html#ab55dc65ad3f5b47da89beeaf7c03b4bc',1,'CLASS_NOTIFICATION::wValue()'],['../struct_s_e_t_u_p___p_k_t.html#a1382f4a10a9b0774f803d1125dd9bb52',1,'SETUP_PKT::wValue()']]],
   ['wvaluehi',['wValueHi',['../struct_s_e_t_u_p___p_k_t.html#a04ea2d151f9edb6575fc159a58f1e443',1,'SETUP_PKT']]],
   ['wvaluelo',['wValueLo',['../struct_s_e_t_u_p___p_k_t.html#a68c9436c00560f96e044052c3fb681e9',1,'SETUP_PKT']]]
