@@ -246,6 +246,8 @@ This library implements support for the Playstation Buzz controllers via USB.
 
 It is essentially just a wrapper around the [HIDUniversal](hiduniversal.cpp) which takes care of the initializing and reading of the controllers. The [PSBuzz](PSBuzz.cpp) class simply inherits this and parses the data, so it is easy for users to read the buttons and turn the big red button on the controllers on and off.
 
+The example [PSBuzz.ino](examples/PSBuzz/PSBuzz.ino) shows how one can do this with just a few lines of code.
+
 More information about the controller can be found at the following sites:
 
 * http://www.developerfusion.com/article/84338/making-usb-c-friendly/
