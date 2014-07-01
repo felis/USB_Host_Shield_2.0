@@ -26,6 +26,26 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
 
+# Table of Contents
+
+* [How to include the library](#how-to-include-the-library)
+* [How to use the library](#how-to-use-the-library)
+    * [Documentation](#documentation)
+    * [Enable debugging](#enable-debugging)
+    * [Boards](#boards)
+    * [Bluetooth libraries](#bluetooth-libraries)
+    * [BTHID library](#bthid-library)
+    * [SPP library](#spp-library)
+    * [PS4 Library](#ps4-library)
+    * [PS3 Library](#ps3-library)
+    * [Xbox Libraries](#xbox-libraries)
+        * [Xbox library](#xbox-library)
+        * [Xbox 360 Library](#xbox-360-library)
+    * [Wii library](#wii-library)
+    * [PS Buzz Library](#ps-buzz-library)
+* [Interface modifications](#interface-modifications)
+* [FAQ](#faq)
+
 # How to include the library
 
 First download the library by clicking on the following link: <https://github.com/felis/USB_Host_Shield_2.0/archive/master.zip>.
