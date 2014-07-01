@@ -253,6 +253,26 @@ More information about the controller can be found at the following sites:
 * http://www.developerfusion.com/article/84338/making-usb-c-friendly/
 * https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c
 
+# Interface modifications
+
+The shield is using SPI for communicating with the MAX3421E USB host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.
+
+Furthermore it uses one pin as SS and one INT pin. These are by default located on pin 10 and 9 respectively. They can easily be reconfigured in case you need to use them for something else by cutting the jumper on the shield and then solder a wire from the pad to the new pin.
+
+After that you need modify the following entry in [UsbCore.h](UsbCore.h):
+
+```C++
+typedef MAX3421e<P10, P9> MAX3421E;
+```
+
+For instance if you have rerouted SS to pin 7 it should read:
+
+```C++
+typedef MAX3421e<P7, P9> MAX3421E;
+```
+
+See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
+
 # FAQ
 
 > When I plug my device into the USB connector nothing happens?
