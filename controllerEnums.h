@@ -137,6 +137,14 @@ enum ButtonEnum {
         BLACK = 8, // Available on the original Xbox controller
         WHITE = 9, // Available on the original Xbox controller
         /**@}*/
+
+        /** PS Buzz controllers */
+        RED = 0,
+        YELLOW = 1,
+        GREEN = 2,
+        ORANGE = 3,
+        BLUE = 4,
+        /**@}*/
 };
 
 /** Joysticks on the PS3 and Xbox controllers. */

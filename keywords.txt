@@ -319,7 +319,7 @@ getIRy4	KEYWORD2
 getIRs4	KEYWORD2
 
 ####################################################
-# Syntax Coloring Map For RFCOMM/SPP Library
+# Syntax Coloring Map For BTHID Library
 ####################################################
 
 ####################################################
@@ -333,3 +333,30 @@ BTHID	KEYWORD1
 ####################################################
 SetReportParser	KEYWORD2
 setProtocolMode	KEYWORD2
+
+####################################################
+# Syntax Coloring Map For PS Buzz Library
+####################################################
+
+####################################################
+# Datatypes (KEYWORD1)
+####################################################
+
+PSBuzz	KEYWORD1
+
+####################################################
+# Methods and Functions (KEYWORD2)
+####################################################
+
+setLedOnAll	KEYWORD2
+setLedOffAll	KEYWORD2
+
+####################################################
+# Constants and enums (LITERAL1)
+####################################################
+
+RED	LITERAL1
+YELLOW	LITERAL1
+GREEN	LITERAL1
+ORANGE	LITERAL1
+BLUE	LITERAL1

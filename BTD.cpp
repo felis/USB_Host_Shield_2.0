@@ -373,7 +373,7 @@ uint8_t BTD::Release() {
 uint8_t BTD::Poll() {
         if(!bPollEnable)
                 return 0;
-        if(qNextPollTime <= millis()) { // Don't poll if shorter than polling interval
+        if((long)(millis() - qNextPollTime) >= 0L) { // Don't poll if shorter than polling interval
                 qNextPollTime = millis() + pollInterval; // Set new poll time
                 HCI_event_task(); // Poll the HCI event pipe
                 HCI_task(); // HCI state machine
@@ -470,6 +470,7 @@ void BTD::HCI_event_task() {
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
+                                                        break;
                                                 } else {
 #ifdef EXTRADEBUG
                                                         Notify(PSTR("\r\nClass of device: "), 0x80);
@@ -497,6 +498,7 @@ void BTD::HCI_event_task() {
                                                                 Notify(PSTR(" has been found"), 0x80);
 #endif
                                                                 hci_set_flag(HCI_FLAG_DEVICE_FOUND);
+                                                                break;
                                                         }
 
                                                 }

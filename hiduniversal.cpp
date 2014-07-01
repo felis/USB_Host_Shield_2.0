@@ -370,7 +370,7 @@ uint8_t HIDUniversal::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if(qNextPollTime <= millis()) {
+        if((long)(millis() - qNextPollTime) >= 0L) {
                 qNextPollTime = millis() + pollInterval;
 
                 uint8_t buf[constBuffLen];
@@ -398,11 +398,13 @@ uint8_t HIDUniversal::Poll() {
 
                         if(identical)
                                 return 0;
-#if 1
+#if 0
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
-                        for(uint8_t i = 0; i < read; i++)
+                        for(uint8_t i = 0; i < read; i++) {
                                 D_PrintHex<uint8_t > (buf[i], 0x80);
+                                Notify(PSTR(" "), 0x80);
+                        }
 
                         Notify(PSTR("\r\n"), 0x80);
 #endif
