@@ -464,6 +464,7 @@ void BTD::HCI_event_task() {
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
+                                                        break;
                                                 }
 #ifdef EXTRADEBUG
                                                 else {
