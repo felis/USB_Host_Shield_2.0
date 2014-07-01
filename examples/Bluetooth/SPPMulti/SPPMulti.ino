@@ -6,7 +6,7 @@
 
 #include <SPP.h>
 #include <usbhub.h>
-// Satisfy IDE, which only needs to see the include statment in the ino.
+// Satisfy IDE, which only needs to see the include statement in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #endif
@@ -15,10 +15,11 @@ USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
 
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
-SPP *SerialBT[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
-const uint8_t length = sizeof(SerialBT) / sizeof(SerialBT[0]); // Get the lenght of the array
+
+const uint8_t length = 2; // Set the number of instances here
+SPP *SerialBT[length]; // We will use this pointer to store the instances, you can easily make it larger if you like, but it will use a lot of RAM!
+
 boolean firstMessage[length] = { true }; // Set all to true
-uint8_t buffer[50];
 
 void setup() {
   for (uint8_t i = 0; i < length; i++)
@@ -28,10 +29,11 @@ void setup() {
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
-    while (1); //halt
+    while (1); // Halt
   }
   Serial.print(F("\r\nSPP Bluetooth Library Started"));
 }
+
 void loop() {
   Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
 
@@ -47,22 +49,15 @@ void loop() {
     else
       firstMessage[i] = true;
   }
+
+  // Set the connection you want to send to using the first character
+  // For instance "0Hello World" would send "Hello World" to connection 0
   if (Serial.available()) {
     delay(10); // Wait for the rest of the data to arrive
-    uint8_t i = 0;
-    while (Serial.available() && i < sizeof(buffer)) // Read the data
-      buffer[i++] = Serial.read();
-    /*
-      Set the connection you want to send to using the first character
-      For instace "0Hello World" would send "Hello World" to connection 0
-    */
-    uint8_t id = buffer[0] - '0'; // Convert from ASCII
-    if (id < length && i > 1) { // And then compare to length and make sure there is any text
-      if (SerialBT[id]->connected) { // Check if a device is actually connected
-        for (uint8_t i2 = 0; i2 < i - 1; i2++) // Don't include the first character
-          buffer[i2] = buffer[i2 + 1];
-        SerialBT[id]->write(buffer, i - 1); // Send the data
-      }
+    uint8_t id = Serial.read() - '0'; // Convert from ASCII
+    if (id < length && SerialBT[id]->connected) { // Make sure that the id is valid and make sure that a device is actually connected
+      while (Serial.available()) // Check if data is available
+        SerialBT[id]->write(Serial.read()); // Send the data
     }
   }
 }
