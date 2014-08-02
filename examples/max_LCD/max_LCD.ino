@@ -5,6 +5,11 @@
 
 #include <max_LCD.h>
 
+#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
+#include <SPI.h>
+#include <spi4teensy3.h>
+#endif
+
 USB Usb;
 Max_LCD lcd(&Usb);
 

@@ -2,6 +2,11 @@
 // The code for the Android application is heavily based on this guide: http://allaboutee.com/2011/12/31/arduino-adk-board-blink-an-led-with-your-phone-code-and-explanation/ by Miguel
 #include <adk.h>
 
+#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
+#include <SPI.h>
+#include <spi4teensy3.h>
+#endif
+
 USB Usb;
 ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
               "ArduinoBlinkLED", // Model Name

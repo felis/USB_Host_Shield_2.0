@@ -59,6 +59,7 @@
 #if WANT_HUB_TEST
 #include <usbhub.h>
 #endif
+#include <SPI.h>
 #include <masstorage.h>
 #include <Storage.h>
 #include <PCpartition/PCPartition.h>

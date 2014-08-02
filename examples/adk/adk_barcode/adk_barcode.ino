@@ -5,6 +5,11 @@
 #include <hidboot.h>
 #include <usbhub.h>
 
+#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
+#include <SPI.h>
+#include <spi4teensy3.h>
+#endif
+
 USB Usb;
 USBHub Hub1(&Usb);
 USBHub Hub2(&Usb);     
