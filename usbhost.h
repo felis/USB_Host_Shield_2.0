@@ -236,7 +236,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         SPI_SS::Set();
 #elif USING_SPI4TEENSY3
         spi4teensy3::send(reg);
-        uint8_t rv = spi4teensy3::receive(); // Send empty byte
+        uint8_t rv = spi4teensy3::receive();
         SPI_SS::Set();
 #else
         SPDR = reg;
@@ -266,6 +266,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 
 #if SPI_HAS_TRANSACTION
         SPI.transfer(reg);
+        memset(data_p, 0, nbytes); // Make sure we send out empty bytes
         SPI.transfer(data_p, nbytes);
         data_p += nbytes;
 #elif USING_SPI4TEENSY3
@@ -282,7 +283,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         SPDR = reg;
         while(!(SPSR & (1 << SPIF))); //wait
         while(nbytes) {
-                SPDR = 0; //send empty byte
+                SPDR = 0; // Send empty byte
                 nbytes--;
                 while(!(SPSR & (1 << SPIF)));
 #if 0
