@@ -79,6 +79,7 @@ class FTDI;
 class FTDIAsyncOper {
 public:
         virtual uint8_t OnInit(FTDI *pftdi) = 0;
+        virtual uint8_t OnRelease(FTDI *pftdi) = 0;
 };
 
 

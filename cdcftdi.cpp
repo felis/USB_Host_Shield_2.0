@@ -246,7 +246,7 @@ uint8_t FTDI::Release() {
         bNumEP = 1;
         qNextPollTime = 0;
         bPollEnable = false;
-        return 0;
+        return pAsync->OnRelease(this);
 }
 
 uint8_t FTDI::Poll() {
