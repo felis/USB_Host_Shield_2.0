@@ -9,6 +9,10 @@
 BOARD = mega
 PROGRAMMER = arduino
 
+#BOARD = teensypp2
+#BOARD = teensy3
+#BOARD = teensy31
+
 # set your Arduino tty port here
 PORT = /dev/ttyUSB0
 

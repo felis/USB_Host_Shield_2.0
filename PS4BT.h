@@ -58,7 +58,6 @@ protected:
         /** @name BTHID implementation */
         /**
          * Used to parse Bluetooth HID data.
-         * @param bthid Pointer to the BTHID class.
          * @param len The length of the incoming data.
          * @param buf Pointer to the data buffer.
          */

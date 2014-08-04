@@ -22,9 +22,29 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
 	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), and [Xbox](#xbox-library) libraries
+	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
 	* Major contributor to mass storage code
+
+# Table of Contents
+
+* [How to include the library](#how-to-include-the-library)
+* [How to use the library](#how-to-use-the-library)
+    * [Documentation](#documentation)
+    * [Enable debugging](#enable-debugging)
+    * [Boards](#boards)
+    * [Bluetooth libraries](#bluetooth-libraries)
+    * [BTHID library](#bthid-library)
+    * [SPP library](#spp-library)
+    * [PS4 Library](#ps4-library)
+    * [PS3 Library](#ps3-library)
+    * [Xbox Libraries](#xbox-libraries)
+        * [Xbox library](#xbox-library)
+        * [Xbox 360 Library](#xbox-360-library)
+    * [Wii library](#wii-library)
+    * [PS Buzz Library](#ps-buzz-library)
+* [Interface modifications](#interface-modifications)
+* [FAQ](#faq)
 
 # How to include the library
 
@@ -239,6 +259,39 @@ All the information about the Wii controllers are from these sites:
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck>
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus>
 * The old library created by _Tomoyuki Tanaka_: <https://github.com/moyuchin/WiiRemote_on_Arduino> also helped a lot.
+
+### [PS Buzz Library](PSBuzz.cpp)
+
+This library implements support for the Playstation Buzz controllers via USB.
+
+It is essentially just a wrapper around the [HIDUniversal](hiduniversal.cpp) which takes care of the initializing and reading of the controllers. The [PSBuzz](PSBuzz.cpp) class simply inherits this and parses the data, so it is easy for users to read the buttons and turn the big red button on the controllers on and off.
+
+The example [PSBuzz.ino](examples/PSBuzz/PSBuzz.ino) shows how one can do this with just a few lines of code.
+
+More information about the controller can be found at the following sites:
+
+* http://www.developerfusion.com/article/84338/making-usb-c-friendly/
+* https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c
+
+# Interface modifications
+
+The shield is using SPI for communicating with the MAX3421E USB host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.
+
+Furthermore it uses one pin as SS and one INT pin. These are by default located on pin 10 and 9 respectively. They can easily be reconfigured in case you need to use them for something else by cutting the jumper on the shield and then solder a wire from the pad to the new pin.
+
+After that you need modify the following entry in [UsbCore.h](UsbCore.h):
+
+```C++
+typedef MAX3421e<P10, P9> MAX3421E;
+```
+
+For instance if you have rerouted SS to pin 7 it should read:
+
+```C++
+typedef MAX3421e<P7, P9> MAX3421E;
+```
+
+See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
 
 # FAQ
 

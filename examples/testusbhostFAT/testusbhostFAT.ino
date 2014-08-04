@@ -19,35 +19,39 @@
  *
  */
 
+/////////////////////////////////////////////////////////////
+// Please Note:                                            //
+// This section is for info with the Arduino IDE ONLY.     //
+// Unfortunately due to short sightedness of the Arduino   //
+// code team, that you must set the following in the       //
+// respective libraries.                                   //
+// Changing them here will have _NO_ effect!               //
+/////////////////////////////////////////////////////////////
+
+// Uncomment to enable debugging
+//#define DEBUG_USB_HOST
+// This is where stderr/USB debugging goes to
+//#define USB_HOST_SERIAL Serial3
+
+// If you have external memory, setting this to 0 enables FAT table caches.
+// The 0 setting is recommended only if you have external memory.
+//#define _FS_TINY 1
+
+//#define _USE_LFN 3
+//#define EXT_RAM_STACK 1
+//#define EXT_RAM_HEAP 1
+//#define _MAX_SS 512
+/////////////////////////////////////////////////////////////
+// End of Arduino IDE specific information                 //
+/////////////////////////////////////////////////////////////
+
 // You can set this to 0 if you are not using a USB hub.
 // It will save a little bit of flash and RAM.
 // Set to 1 if you want to use a hub.
 #define WANT_HUB_TEST 0
 
 
-/////////////////////////////////////////////////////////////
-// Please Note: This section is for Arduino IDE ONLY.      //
-// Use of Make creates a flash image that is 3.3KB smaller //
-/////////////////////////////////////////////////////////////
-#ifndef USING_MAKEFILE
-// Uncomment to enable debugging
-//#define DEBUG_USB_HOST
-// This is where stderr/USB debugging goes to
-#define USB_HOST_SERIAL Serial3
-// If you have external memory, setting this to 0 enables FAT table caches.
-// The 0 setting is recommended only if you have external memory.
-#define _FS_TINY 1
-
-// These you can safely leave alone.
-#define _USE_LFN 3
-#define EXT_RAM_STACK 1
-#define EXT_RAM_HEAP 1
-#define _MAX_SS 512
-#endif
-/////////////////////////////////////////////////////////////
-// End of Arduino IDE specific hacks                       //
-/////////////////////////////////////////////////////////////
-#if defined(AVR)
+#if defined(__AVR__)
 #include <xmem.h>
 #else
 #include <spi4teensy3.h>
@@ -63,7 +67,7 @@
 #include <Wire.h>
 #include <RTClib.h>
 #include <stdio.h>
-#if defined(AVR)
+#if defined(__AVR__)
 static FILE tty_stdio;
 static FILE tty_stderr;
 volatile uint32_t LEDnext_time; // fade timeout
@@ -100,7 +104,7 @@ static storage_t sto[_VOLUMES];
 #define mbxs 128
 static uint8_t My_Buff_x[mbxs]; /* File read buffer */
 
-#if defined(AVR)
+#if defined(__AVR__)
 
 #define prescale1       ((1 << WGM12) | (1 << CS10))
 #define prescale8       ((1 << WGM12) | (1 << CS11))
@@ -184,7 +188,7 @@ void setup() {
         // minimum 0x00, maximum 0xff
         UsbDEBUGlvl = 0x51;
 
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
         // make LED pin as an output:
         pinMode(LED_BUILTIN, OUTPUT);
         pinMode(2, OUTPUT);
@@ -198,6 +202,18 @@ void setup() {
                 serr = true;
         }
 
+
+        // Blink LED
+        delay(500);
+        analogWrite(LED_BUILTIN, 255);
+        delay(500);
+        analogWrite(LED_BUILTIN, 0);
+        delay(500);
+#else
+        while(!Serial);
+        Serial.begin(115200); // On the Teensy 3.x we get a delay at least!
+#endif
+#if defined(__AVR__)
         // Set up stdio/stderr
         tty_stdio.put = tty_std_putc;
         tty_stdio.get = tty_std_getc;
@@ -212,17 +228,7 @@ void setup() {
         stdout = &tty_stdio;
         stdin = &tty_stdio;
         stderr = &tty_stderr;
-
-        // Blink LED
-        delay(500);
-        analogWrite(LED_BUILTIN, 255);
-        delay(500);
-        analogWrite(LED_BUILTIN, 0);
-        delay(500);
-#else
-        while(!Serial);
 #endif
-
         printf_P(PSTR("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStart\r\n"));
         printf_P(PSTR("Current UsbDEBUGlvl %02x\r\n"), UsbDEBUGlvl);
         printf_P(PSTR("'+' and '-' increase/decrease by 0x01\r\n"));
@@ -247,8 +253,8 @@ void setup() {
 #endif
                         "\r\n"));
         }
-#if defined(AVR)
 
+#if !defined(CORE_TEENSY) && defined(__AVR__)
         analogWrite(LED_BUILTIN, 255);
         delay(500);
         analogWrite(LED_BUILTIN, 0);
@@ -263,7 +269,7 @@ void setup() {
         delay(500);
 
         LEDnext_time = millis() + 1;
-#ifdef EXT_RAM
+#if EXT_RAM
         printf_P(PSTR("Total EXT RAM banks %i\r\n"), xmem::getTotalBanks());
 #endif
         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
@@ -276,20 +282,20 @@ void setup() {
 #if WANT_HUB_TEST
         for(int i = 0; i < MAX_HUBS; i++) {
                 Hubs[i] = new USBHub(&Usb);
-#if defined(AVR)
+#if defined(__AVR__)
                 printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
 #endif
         }
 #endif
         // Initialize generic storage. This must be done before USB starts.
-        InitStorage();
+        Init_Generic_Storage();
 
         while(Usb.Init(1000) == -1) {
                 printf_P(PSTR("No USB HOST Shield?\r\n"));
                 Notify(PSTR("OSC did not start."), 0x40);
         }
 
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
         cli();
         TCCR3A = 0;
         TCCR3B = 0;
@@ -300,32 +306,10 @@ void setup() {
         sei();
 
         HEAPnext_time = millis() + 10000;
-#else
-#if 0
-        //
-        // On the teensy 3 we can raise the speed of SPI here.
-        //
-        // Default seen is 0xB8011001.
-        //
-
-        uint32_t ctar = SPI0_CTAR0;
-        //printf("SPI_CTAR0 = %8.8X\r\n", ctar);
-        ctar &= 0x7FFCFFF0; // 1/4 fSYS, 12.5Mhz
-        //printf("SPI_CTAR0 = %8.8X\r\n", ctar);
-        ctar |= 0x80000000; // 1/2 fSYS 25Mhz
-        //printf("SPI_CTAR0 = %8.8X\r\n", ctar);
-
-        uint32_t mcr = SPI0_MCR;
-        if(mcr & SPI_MCR_MDIS) {
-                SPI0_CTAR0 = ctar;
-        } else {
-                SPI0_MCR = mcr | SPI_MCR_MDIS | SPI_MCR_HALT;
-                SPI0_CTAR0 = ctar;
-                SPI0_MCR = mcr;
-        }
 #endif
+#if defined(__AVR__)
+        HEAPnext_time = millis() + 10000;
 #endif
-
 }
 
 void serialEvent() {
@@ -367,10 +351,11 @@ void serialEvent() {
         }
 }
 
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
+// ALL teensy versions LACK PWM ON LED
 
 ISR(TIMER3_COMPA_vect) {
-        if(millis() >= LEDnext_time) {
+        if((long)(millis() - LEDnext_time) >= 0L) {
                 LEDnext_time = millis() + 30;
 
                 // set the brightness of LED
@@ -404,22 +389,23 @@ void die(FRESULT rc) {
 void loop() {
         FIL My_File_Object_x; /* File object */
 
-#if defined(AVR)
+#if defined(__AVR__)
         // Print a heap status report about every 10 seconds.
-        if(millis() >= HEAPnext_time) {
+        if((long)(millis() - HEAPnext_time) >= 0L) {
                 if(UsbDEBUGlvl > 0x50) {
                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
                 }
                 HEAPnext_time = millis() + 10000;
         }
         TCCR3B = 0;
-#else
-        // Arm suffers here, oh well...
+#endif
+#if defined(CORE_TEENSY)
+        // Teensy suffers here, oh well...
         serialEvent();
 #endif
         // Horrid! This sort of thing really belongs in an ISR, not here!
         // We also will be needing to test each hub port, we don't do this yet!
-        if(!change && !usbon && millis() >= usbon_time) {
+        if(!change && !usbon && (long)(millis() - usbon_time) >= 0L) {
                 change = true;
                 usbon = true;
         }
@@ -439,13 +425,13 @@ void loop() {
         if(current_state != last_state) {
                 if(UsbDEBUGlvl > 0x50)
                         printf_P(PSTR("USB state = %x\r\n"), current_state);
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
                 if(current_state == USB_STATE_RUNNING) {
                         fadeAmount = 30;
                 }
 #endif
                 if(current_state == USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE) {
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
                         fadeAmount = 80;
 #endif
                         partsready = false;
@@ -468,23 +454,24 @@ void loop() {
                 }
                 // This is horrible, and needs to be moved elsewhere!
                 for(int B = 0; B < MAX_USB_MS_DRIVERS; B++) {
-                        if(!partsready && (Bulk[B]->GetAddress() != NULL)) {
+                        if(!partsready && (UHS_USB_BulkOnly[B]->GetAddress() != NULL)) {
 
                                 // Build a list.
-                                int ML = Bulk[B]->GetbMaxLUN();
+                                int ML = UHS_USB_BulkOnly[B]->GetbMaxLUN();
                                 //printf("MAXLUN = %i\r\n", ML);
                                 ML++;
                                 for(int i = 0; i < ML; i++) {
-                                        if(Bulk[B]->LUNIsGood(i)) {
+                                        if(UHS_USB_BulkOnly[B]->LUNIsGood(i)) {
                                                 partsready = true;
                                                 ((pvt_t *)(sto[i].private_data))->lun = i;
                                                 ((pvt_t *)(sto[i].private_data))->B = B;
-                                                sto[i].Reads = *PReads;
-                                                sto[i].Writes = *PWrites;
-                                                sto[i].Status = *PStatus;
+                                                sto[i].Reads = *UHS_USB_BulkOnly_Read;
+                                                sto[i].Writes = *UHS_USB_BulkOnly_Write;
+                                                sto[i].Status = *UHS_USB_BulkOnly_Status;
+                                                sto[i].Initialize = *UHS_USB_BulkOnly_Initialize;
                                                 sto[i].Commit = *UHS_USB_BulkOnly_Commit;
-                                                sto[i].TotalSectors = Bulk[B]->GetCapacity(i);
-                                                sto[i].SectorSize = Bulk[B]->GetSectorSize(i);
+                                                sto[i].TotalSectors = UHS_USB_BulkOnly[B]->GetCapacity(i);
+                                                sto[i].SectorSize = UHS_USB_BulkOnly[B]->GetSectorSize(i);
                                                 printf_P(PSTR("LUN:\t\t%u\r\n"), i);
                                                 printf_P(PSTR("Total Sectors:\t%08lx\t%lu\r\n"), sto[i].TotalSectors, sto[i].TotalSectors);
                                                 printf_P(PSTR("Sector Size:\t%04x\t\t%u\r\n"), sto[i].SectorSize, sto[i].SectorSize);
@@ -522,10 +509,9 @@ void loop() {
                                                 }
                                                 delete PT;
                                         } else {
-                                                sto[i].Read = NULL;
-                                                sto[i].Write = NULL;
                                                 sto[i].Writes = NULL;
                                                 sto[i].Reads = NULL;
+                                                sto[i].Initialize = NULL;
                                                 sto[i].TotalSectors = 0UL;
                                                 sto[i].SectorSize = 0;
                                         }
@@ -538,9 +524,9 @@ void loop() {
                         if(Fats[0] != NULL) {
                                 struct Pvt * p;
                                 p = ((struct Pvt *)(Fats[0]->storage->private_data));
-                                if(!Bulk[p->B]->LUNIsGood(p->lun)) {
+                                if(!UHS_USB_BulkOnly[p->B]->LUNIsGood(p->lun)) {
                                         // media change
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
                                         fadeAmount = 80;
 #endif
                                         partsready = false;
@@ -559,12 +545,15 @@ void loop() {
                 if(fatready) {
                         FRESULT rc; /* Result code */
                         UINT bw, br, i;
-
                         if(!notified) {
-#if defined(AVR)
+#if !defined(CORE_TEENSY) && defined(__AVR__)
                                 fadeAmount = 5;
 #endif
                                 notified = true;
+                                FATFS *fs = NULL;
+                                for(int zz = 0; zz < _VOLUMES; zz++) {
+                                        if(Fats[zz]->volmap == 0) fs = Fats[zz]->ffs;
+                                }
                                 printf_P(PSTR("\r\nOpen an existing file (message.txt).\r\n"));
                                 rc = f_open(&My_File_Object_x, "0:/MESSAGE.TXT", FA_READ);
                                 if(rc) printf_P(PSTR("Error %i, message.txt not found.\r\n"), rc);
@@ -625,7 +614,7 @@ outdir:{
                                         }
 
                                         printf_P(PSTR("\r\nDirectory listing...\r\n"));
-#if defined(AVR)
+#if defined(__AVR__)
                                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
 #endif
                                         for(;;) {
@@ -676,12 +665,18 @@ outdir:{
                                 }
 out:
                                 if(rc) die(rc);
+
+                                DISK_IOCTL(fs->drv, CTRL_COMMIT, 0);
                                 printf_P(PSTR("\r\nTest completed.\r\n"));
 
                         }
 
                         if(runtest) {
                                 ULONG ii, wt, rt, start, end;
+                                FATFS *fs = NULL;
+                                for(int zz = 0; zz < _VOLUMES; zz++) {
+                                        if(Fats[zz]->volmap == 0) fs = Fats[zz]->ffs;
+                                }
                                 runtest = false;
                                 f_unlink("0:/10MB.bin");
                                 printf_P(PSTR("\r\nCreate a new 10MB test file (10MB.bin).\r\n"));
@@ -717,6 +712,7 @@ out:
                                 printf_P(PSTR("Time to read 10485760 bytes: %lu ms (%lu sec)\r\nDelete test file\r\n"), rt, (500 + rt) / 1000UL);
 failed:
                                 if(rc) die(rc);
+                                DISK_IOCTL(fs->drv, CTRL_COMMIT, 0);
                                 printf_P(PSTR("10MB timing test finished.\r\n"));
                         }
                 }
