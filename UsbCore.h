@@ -150,6 +150,11 @@ public:
         virtual boolean DEVCLASSOK(uint8_t klass) {
                 return false;
         }
+
+        virtual boolean DEVSUBCLASSOK(uint8_t subklass) {
+                return true;
+        }
+
 };
 
 /* USB Setup Packet Structure   */
