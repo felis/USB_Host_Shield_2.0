@@ -214,6 +214,14 @@ public:
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+        virtual boolean DEVCLASSOK(uint8_t klass) {
+                return (klass == USB_CLASS_HID);
+        }
+
+        virtual boolean DEVSUBCLASSOK(uint8_t subklass) {
+                return (subklass == BOOT_PROTOCOL);
+        }
 };
 
 template <const uint8_t BOOT_PROTOCOL>
