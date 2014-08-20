@@ -672,10 +672,19 @@ public:
 // http://balanduino.net/
 #define P0  Pd0 /* 0  - PD0 */
 #define P1  Pd1 /* 1  - PD1 */
-#define P2  Pb2 /* 2  - PB2 */
-#define P3  Pd6 /* 3  - PD6 */
-#define P4  Pd7 /* 4  - PD7 */
-#define P5  Pb3 /* 5  - PB3 */
+
+#if BALANDUINO_REVISION < 13
+  #define P2  Pb2 /* 2  - PB2 */
+  #define P3  Pd6 /* 3  - PD6 */
+  #define P4  Pd7 /* 4  - PD7 */
+  #define P5  Pb3 /* 5  - PB3 */
+#else
+  #define P2  Pd2 /* 2  - PD2 */
+  #define P3  Pd3 /* 3  - PD3 */
+  #define P4  Pd6 /* 4  - PD6 */
+  #define P5  Pd7 /* 5  - PD7 */
+#endif
+
 #define P6  Pb4 /* 6  - PB4 */
 #define P7  Pa0 /* 7  - PA0 */
 #define P8  Pa1 /* 8  - PA1 */
@@ -685,8 +694,15 @@ public:
 #define P12 Pa5 /* 12 - PA5 */
 #define P13 Pc1 /* 13 - PC1 */
 #define P14 Pc0 /* 14 - PC0 */
-#define P15 Pd2 /* 15 - PD2 */
-#define P16 Pd3 /* 16 - PD3 */
+
+#if BALANDUINO_REVISION < 13
+  #define P15 Pd2 /* 15 - PD2 */
+  #define P16 Pd3 /* 16 - PD3 */
+#else
+  #define P15 Pb2 /* 15 - PB2 */
+  #define P16 Pb3 /* 16 - PB2 */
+#endif
+
 #define P17 Pd4 /* 17 - PD4 */
 #define P18 Pd5 /* 18 - PD5 */
 #define P19 Pc2 /* 19 - PC2 */
