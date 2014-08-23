@@ -7,6 +7,10 @@
 
 #include <PS3BT.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
@@ -52,7 +56,7 @@ void loop() {
       if (PS3[i]->getAnalogButton(L2) || PS3[i]->getAnalogButton(R2)) {
         Serial.print(F("\r\nL2: "));
         Serial.print(PS3[i]->getAnalogButton(L2));
-        if (!PS3[i]->PS3NavigationConnected) {
+        if (PS3[i]->PS3Connected) {
           Serial.print(F("\tR2: "));
           Serial.print(PS3[i]->getAnalogButton(R2));
         }
@@ -112,7 +116,7 @@ void loop() {
 
         if (PS3[i]->getButtonClick(SELECT)) {
           Serial.print(F("\r\nSelect - "));
-          Serial.print(PS3[i]->getStatusString());
+          PS3[i]->printStatusString();
         }
         if (PS3[i]->getButtonClick(START)) {
           Serial.print(F("\r\nStart"));
@@ -135,7 +139,7 @@ void onInit() {
   for (uint8_t i = 0; i < length; i++) {
     if ((PS3[i]->PS3Connected || PS3[i]->PS3NavigationConnected) && !oldControllerState[i]) {
       oldControllerState[i] = true; // Used to check which is the new controller
-      PS3[i]->setLedOn((LED)i); // Cast directly to LED enum - see: "controllerEnums.h"
+      PS3[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
     }
   }
 }

@@ -2,7 +2,7 @@ Please see <http://wiibrew.org/wiki/Wiimote#IR_Camera> for the complete capabili
 
 This library is large, if you run into memory problems when uploading to the Arduino, disable serial debugging.
 
-To enable the IR camera code, uncomment \#define WIICAMERA in Wii.h.
+To enable the IR camera code, simply set ```ENABLE_WII_IR_CAMERA``` to 1 in [settings.h](settings.h).
 
 This library implements the following settings:
 

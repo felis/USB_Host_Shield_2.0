@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 
 /* Google ADK interface */
 
@@ -42,7 +42,7 @@ bConfNum(0), //configuration number
 bNumEP(1), //if config descriptor needs to be parsed
 ready(false) {
         // initialize endpoint data structures
-        for (uint8_t i = 0; i < ADK_MAX_ENDPOINTS; i++) {
+        for(uint8_t i = 0; i < ADK_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
@@ -50,7 +50,7 @@ ready(false) {
         }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
 
         // register in USB subsystem
-        if (pUsb) {
+        if(pUsb) {
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
         }
 }
@@ -62,6 +62,7 @@ uint8_t ADK::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 /* Connection initialization of an Android phone */
 uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         uint8_t num_of_conf; // number of configurations
         UsbDevice *p = NULL;
@@ -73,7 +74,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USBTRACE("\r\nADK Init");
 
         // check if address has already been assigned to an instance
-        if (bAddress) {
+        if(bAddress) {
                 USBTRACE("\r\nAddress in use");
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
         }
@@ -81,12 +82,12 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p) {
+        if(!p) {
                 USBTRACE("\r\nAddress not found");
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo is null\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -105,7 +106,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if (rcode) {
+        if(rcode) {
                 goto FailGetDevDescr;
         }
 
@@ -113,11 +114,11 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         bAddress = addrPool.AllocAddress(parent, false, port);
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -127,13 +128,13 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         //USBTRACE2("\r\nAddr:", bAddress);
         // Spec says you should wait at least 200ms.
-        delay(300);
+        //delay(300);
 
         p->lowspeed = false;
 
         //get pointer to assigned address record
         p = addrPool.GetUsbDevicePtr(bAddress);
-        if (!p) {
+        if(!p) {
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
@@ -141,49 +142,49 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         // Assign epInfo to epinfo pointer - only EP0 is known
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
-        if (rcode) {
+        if(rcode) {
                 goto FailSetDevTblEntry;
         }
 
         //check if ADK device is already in accessory mode; if yes, configure and exit
-        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor == ADK_VID &&
-                (((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADK_PID || ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct == ADB_PID)) {
+        if(udd->idVendor == ADK_VID &&
+                (udd->idProduct == ADK_PID || udd->idProduct == ADB_PID)) {
                 USBTRACE("\r\nAcc.mode device detected");
                 /* go through configurations, find first bulk-IN, bulk-OUT EP, fill epInfo and quit */
-                num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+                num_of_conf = udd->bNumConfigurations;
 
                 //USBTRACE2("\r\nNC:",num_of_conf);
-                for (uint8_t i = 0; i < num_of_conf; i++) {
+                for(uint8_t i = 0; i < num_of_conf; i++) {
                         ConfigDescParser < 0, 0, 0, 0 > confDescrParser(this);
                         delay(1);
                         rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 #if defined(XOOM)
                         //added by Jaylen Scott Vanorden
-                        if (rcode) {
+                        if(rcode) {
                                 USBTRACE2("\r\nGot 1st bad code for config: ", rcode);
                                 // Try once more
                                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
                         }
 #endif
-                        if (rcode) {
+                        if(rcode) {
                                 goto FailGetConfDescr;
                         }
-                        if (bNumEP > 2) {
+                        if(bNumEP > 2) {
                                 break;
                         }
                 } // for (uint8_t i=0; i<num_of_conf; i++...
 
-                if (bNumEP == 3) {
+                if(bNumEP == 3) {
                         // Assign epInfo to epinfo pointer - this time all 3 endpoins
                         rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
-                        if (rcode) {
+                        if(rcode) {
                                 goto FailSetDevTblEntry;
                         }
                 }
 
                 // Set Configuration Value
                 rcode = pUsb->setConf(bAddress, 0, bConfNum);
-                if (rcode) {
+                if(rcode) {
                         goto FailSetConfDescr;
                 }
                 /* print endpoint structure */
@@ -201,7 +202,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 USBTRACE2("\r\nAddr: ", epInfo[epDataInIndex].epAddr);
                 USBTRACE2("\r\nMax.pkt.size: ", epInfo[epDataInIndex].maxPktSize);
                 USBTRACE2("\r\nAttr: ", epInfo[epDataInIndex].epAttribs);
-                */
+                 */
 
                 USBTRACE("\r\nConfiguration successful");
                 ready = true;
@@ -215,34 +216,43 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 rcode = getProto((uint8_t*) & adkproto);
 #if defined(XOOM)
                 //added by Jaylen Scott Vanorden
-                if (rcode) {
+                if(rcode) {
                         USBTRACE2("\r\nGot 1st bad code for proto: ", rcode);
                         // Try once more
                         rcode = getProto((uint8_t*) & adkproto);
                 }
 #endif
-                if (rcode) {
+                if(rcode) {
                         goto FailGetProto; //init fails
                 }
                 USBTRACE2("\r\nADK protocol rev. ", adkproto);
         }
 
+        delay(100);
+
         //sending ID strings
         sendStr(ACCESSORY_STRING_MANUFACTURER, manufacturer);
+        delay(10);
         sendStr(ACCESSORY_STRING_MODEL, model);
+        delay(10);
         sendStr(ACCESSORY_STRING_DESCRIPTION, description);
+        delay(10);
         sendStr(ACCESSORY_STRING_VERSION, version);
+        delay(10);
         sendStr(ACCESSORY_STRING_URI, uri);
+        delay(10);
         sendStr(ACCESSORY_STRING_SERIAL, serial);
+
+        delay(100);
 
         //switch to accessory mode
         //the Android phone will reset
         rcode = switchAcc();
-        if (rcode) {
+        if(rcode) {
                 goto FailSwAcc; //init fails
         }
         rcode = USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
-        delay(1000); // Give Android a chance to do its reset. This is a guess, and possibly could be lower.
+        delay(100); // Give Android a chance to do its reset. This is a guess, and possibly could be lower.
         goto SwAttempt; //switch to accessory mode attempted
 
         /* diagnostic messages */
@@ -282,14 +292,15 @@ FailSwAcc:
         goto Fail;
 #endif
 
+        //FailOnInit:
+        //	USBTRACE("OnInit:");
+        //	goto Fail;
+        //
 SwAttempt:
 #ifdef DEBUG_USB_HOST
         USBTRACE("\r\nAccessory mode switch attempt");
-#endif
-//FailOnInit:
-//        USBTRACE("OnInit:");
-//        goto Fail;
 Fail:
+#endif
         //USBTRACE2("\r\nADK Init Failed, error code: ", rcode);
         //NotifyFail(rcode);
         Release();
@@ -303,13 +314,13 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
         //ErrorMessage<uint8_t>(PSTR("Alt.Set"), alt);
 
         //added by Yuuichi Akagawa
-        if (bNumEP == 3) {
+        if(bNumEP == 3) {
                 return;
         }
 
         bConfNum = conf;
 
-        if ((pep->bmAttributes & 0x02) == 2) {
+        if((pep->bmAttributes & 0x02) == 2) {
                 uint8_t index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
                 // Fill in the endpoint info structure
                 epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);

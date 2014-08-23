@@ -1,8 +1,18 @@
-/*
- * File:   settings.h
- * Author: xxxajk
- *
- * Created on September 23, 2013, 12:00 AM
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
  */
 
 #ifndef USB_HOST_SHIELD_SETTINGS_H
@@ -38,6 +48,13 @@
 #define USE_XMEM_SPI_LOCK 0
 
 ////////////////////////////////////////////////////////////////////////////////
+// Wii IR camera
+////////////////////////////////////////////////////////////////////////////////
+
+/* Set this to 1 to activate code for the Wii IR camera */
+#define ENABLE_WII_IR_CAMERA 0
+
+////////////////////////////////////////////////////////////////////////////////
 // MASS STORAGE
 ////////////////////////////////////////////////////////////////////////////////
 // <<<<<<<<<<<<<<<< IMPORTANT >>>>>>>>>>>>>>>
@@ -46,7 +63,6 @@
 #ifndef MASS_MAX_SUPPORTED_LUN
 #define MASS_MAX_SUPPORTED_LUN 8
 #endif
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Set to 1 to use the faster spi4teensy3 driver.
@@ -62,32 +78,67 @@
 // No user serviceable parts below this line.
 // DO NOT change anything below here unless you are a developer!
 
-#if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
-#define DEBUG_USB_HOST
-#endif
-
-// When will we drop support for the older bug-ridden stuff?
 #if defined(ARDUINO) && ARDUINO >=100
 #include <Arduino.h>
 #else
 #include <WProgram.h>
-// I am not sure what WProgram.h does not include, so these are here. --xxxajk
 #include <pins_arduino.h>
 #include <avr/pgmspace.h>
 #include <avr/io.h>
+#define F(str) (str)
 #endif
 
-#if USE_XMEM_SPI_LOCK | defined(USE_MULTIPLE_APP_API)
+#if defined(__GNUC__) && defined(__AVR__)
+#ifndef GCC_VERSION
+#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#endif
+#if GCC_VERSION < 40602 // Test for GCC < 4.6.2
+#ifdef PROGMEM
+#undef PROGMEM
+#define PROGMEM __attribute__((section(".progmem.data"))) // Workaround for http://gcc.gnu.org/bugzilla/show_bug.cgi?id=34734#c4
+#ifdef PSTR
+#undef PSTR
+#define PSTR(s) (__extension__({static const char __c[] PROGMEM = (s); &__c[0];})) // Copied from pgmspace.h in avr-libc source
+#endif
+#endif
+#endif
+#endif
+
+#if !defined(DEBUG_USB_HOST) && ENABLE_UHS_DEBUGGING
+#define DEBUG_USB_HOST
+#endif
+
+#if !defined(WIICAMERA) && ENABLE_WII_IR_CAMERA
+#define WIICAMERA
+#endif
+
+// To use some other locking (e.g. freertos),
+// define XMEM_ACQUIRE_SPI and XMEM_RELEASE_SPI to point to your lock and unlock.
+// NOTE: NO argument is passed. You have to do this within your routine for
+// whatever you are using to lock and unlock.
+#if !defined(XMEM_ACQUIRE_SPI)
+#if USE_XMEM_SPI_LOCK || defined(USE_MULTIPLE_APP_API)
 #include <xmem.h>
 #else
 #define XMEM_ACQUIRE_SPI() (void(0))
 #define XMEM_RELEASE_SPI() (void(0))
 #endif
+#endif
 
-#ifdef __MK20DX128__
+#if !defined(EXT_RAM) && defined(EXT_RAM_STACK) || defined(EXT_RAM_HEAP)
+#include <xmem.h>
+#else
+#define EXT_RAM 0
+#endif
+
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
 #define USING_SPI4TEENSY3 USE_SPI4TEENSY3
 #else
 #define USING_SPI4TEENSY3 0
+#endif
+
+#if defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+#include <SPI.h> // Use the Arduino SPI library for the Arduino Due
 #endif
 
 #endif	/* SETTINGS_H */

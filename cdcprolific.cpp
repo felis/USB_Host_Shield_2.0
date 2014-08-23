@@ -25,6 +25,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -34,16 +35,16 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("PL Init\r\n");
 
-        if (bAddress)
+        if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
 
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
         }
@@ -62,28 +63,28 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
 
-        if (((USB_DEVICE_DESCRIPTOR*)buf)->idVendor != PL_VID && ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct != PL_PID)
+        if(udd->idVendor != PL_VID && udd->idProduct != PL_PID)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Save type of PL chip
-        wPLType = ((USB_DEVICE_DESCRIPTOR*)buf)->bcdDevice;
+        wPLType = udd->bcdDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
 
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -97,40 +98,40 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         p = addrPool.GetUsbDevicePtr(bAddress);
 
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         USBTRACE2("NC:", num_of_conf);
 
-        for (uint8_t i = 0; i < num_of_conf; i++) {
+        for(uint8_t i = 0; i < num_of_conf; i++) {
                 HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
                 ConfigDescParser < 0xFF, 0, 0, CP_MASK_COMPARE_CLASS> confDescrParser(this);
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
-                if (rcode)
+                if(rcode)
                         goto FailGetConfDescr;
 
-                if (bNumEP > 1)
+                if(bNumEP > 1)
                         break;
         } // for
 
-        if (bNumEP < 2)
+        if(bNumEP < 2)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Assign epInfo to epinfo pointer
@@ -141,12 +142,12 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
 
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
         rcode = pAsync->OnInit(this);
 
-        if (rcode)
+        if(rcode)
                 goto FailOnInit;
 
         USBTRACE("PL configured\r\n");
@@ -184,8 +185,8 @@ FailOnInit:
         USBTRACE("OnInit:");
 #endif
 
-Fail:
 #ifdef DEBUG_USB_HOST
+Fail:
         NotifyFail(rcode);
 #endif
         Release();
@@ -207,5 +208,3 @@ Fail:
 //	//}
 //	return rcode;
 //}
-
-

@@ -33,16 +33,18 @@
 #define XBOX_OUTPUT_PIPE     2
 
 // PID and VID of the different devices
-#define XBOX_VID                                0x045E  // Microsoft Corporation
-#define MADCATZ_VID                             0x1BAD  // For unofficial Mad Catz controllers
-#define JOYTECH_VID                             0x162E  // For unofficial Joytech controllers
-#define GAMESTOP_VID                            0x0E6F  // Gamestop controller
+#define XBOX_VID                                0x045E // Microsoft Corporation
+#define MADCATZ_VID                             0x1BAD // For unofficial Mad Catz controllers
+#define JOYTECH_VID                             0x162E // For unofficial Joytech controllers
+#define GAMESTOP_VID                            0x0E6F // Gamestop controller
 
-#define XBOX_WIRED_PID                          0x028E  // Microsoft 360 Wired controller
-#define XBOX_WIRELESS_PID                       0x028F  // Wireless controller only support charging
-#define XBOX_WIRELESS_RECEIVER_PID              0x0719  // Microsoft Wireless Gaming Receiver
-#define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291  // Third party Wireless Gaming Receiver
-#define GAMESTOP_WIRED_PID                      0x0401  // Gamestop wired controller
+#define XBOX_WIRED_PID                          0x028E // Microsoft 360 Wired controller
+#define XBOX_WIRELESS_PID                       0x028F // Wireless controller only support charging
+#define XBOX_WIRELESS_RECEIVER_PID              0x0719 // Microsoft Wireless Gaming Receiver
+#define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291 // Third party Wireless Gaming Receiver
+#define MADCATZ_WIRED_PID                       0xF016 // Mad Catz wired controller
+#define GAMESTOP_WIRED_PID                      0x0401 // Gamestop wired controller
+#define AFTERGLOW_WIRED_PID                     0x0213 // Afterglow wired controller - it uses the same VID as a Gamestop controller
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
 
@@ -104,24 +106,23 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == GAMESTOP_WIRED_PID));
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == MADCATZ_WIRED_PID || pid == GAMESTOP_WIRED_PID || pid == AFTERGLOW_WIRED_PID));
         };
         /**@}*/
 
         /** @name Xbox Controller functions */
         /**
-         * getButtonPress(Button b) will return true as long as the button is held down.
+         * getButtonPress(ButtonEnum b) will return true as long as the button is held down.
          *
-         * While getButtonClick(Button b) will only return it once.
+         * While getButtonClick(ButtonEnum b) will only return it once.
          *
-         * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
-         * but if you need to drive a robot forward you would use getButtonPress(Button b).
-         * @param  b          ::Button to read.
-         * @return            getButtonClick(Button b) will return a bool, but getButtonPress(Button b)
-         * will return a byte if reading ::L2 or ::R2.
+         * So you instance if you need to increase a variable once you would use getButtonClick(ButtonEnum b),
+         * but if you need to drive a robot forward you would use getButtonPress(ButtonEnum b).
+         * @param  b          ::ButtonEnum to read.
+         * @return            getButtonClick(ButtonEnum b) will return a bool, while getButtonPress(ButtonEnum b) will return a byte if reading ::L2 or ::R2.
          */
-        uint8_t getButtonPress(Button b);
-        bool getButtonClick(Button b);
+        uint8_t getButtonPress(ButtonEnum b);
+        bool getButtonClick(ButtonEnum b);
         /**@}*/
 
         /** @name Xbox Controller functions */
@@ -130,7 +131,7 @@ public:
          * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @return            Returns a signed 16-bit integer.
          */
-        int16_t getAnalogHat(AnalogHat a);
+        int16_t getAnalogHat(AnalogHatEnum a);
 
         /** Turn rumble off and all the LEDs on the controller. */
         void setAllOff() {
@@ -149,10 +150,10 @@ public:
          */
         void setRumbleOn(uint8_t lValue, uint8_t rValue);
         /**
-         * Set LED value. Without using the ::LED or ::LEDMode enum.
+         * Set LED value. Without using the ::LEDEnum or ::LEDModeEnum.
          * @param value      See:
-         * setLedOff(), setLedOn(LED l),
-         * setLedBlink(LED l), and setLedMode(LEDMode lm).
+         * setLedOff(), setLedOn(LEDEnum l),
+         * setLedBlink(LEDEnum l), and setLedMode(LEDModeEnum lm).
          */
         void setLedRaw(uint8_t value);
 
@@ -161,20 +162,20 @@ public:
                 setLedRaw(0);
         };
         /**
-         * Turn on a LED by using the ::LED enum.
-         * @param l          ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
+         * Turn on a LED by using ::LEDEnum.
+         * @param l          ::OFF, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          */
-        void setLedOn(LED l);
+        void setLedOn(LEDEnum l);
         /**
-         * Turn on a LED by using the ::LED enum.
+         * Turn on a LED by using ::LEDEnum.
          * @param l          ::ALL, ::LED1, ::LED2, ::LED3 and ::LED4 is supported by the Xbox controller.
          */
-        void setLedBlink(LED l);
+        void setLedBlink(LEDEnum l);
         /**
          * Used to set special LED modes supported by the Xbox controller.
-         * @param lm         See ::LEDMode.
+         * @param lm         See ::LEDModeEnum.
          */
-        void setLedMode(LEDMode lm);
+        void setLedMode(LEDModeEnum lm);
 
         /**
          * Used to call your own function when the controller is successfully initialized.

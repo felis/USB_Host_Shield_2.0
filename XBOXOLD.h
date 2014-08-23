@@ -106,18 +106,17 @@ public:
 
         /** @name Xbox Controller functions */
         /**
-         * getButtonPress(Button b) will return true as long as the button is held down.
+         * getButtonPress(ButtonEnum b) will return true as long as the button is held down.
          *
-         * While getButtonClick(Button b) will only return it once.
+         * While getButtonClick(ButtonEnum b) will only return it once.
          *
-         * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
-         * but if you need to drive a robot forward you would use getButtonPress(Button b).
-         * @param  b          ::Button to read.
-         * @return            getButtonClick(Button b) will return a bool, but getButtonPress(Button b)
-         * will return a byte if reading ::L2 or ::R2.
+         * So you instance if you need to increase a variable once you would use getButtonClick(ButtonEnum b),
+         * but if you need to drive a robot forward you would use getButtonPress(ButtonEnum b).
+         * @param  b          ::ButtonEnum to read.
+         * @return            getButtonClick(ButtonEnum b) will return a bool, while getButtonPress(ButtonEnum b) will return a byte if reading ::L2 or ::R2.
          */
-        uint8_t getButtonPress(Button b);
-        bool getButtonClick(Button b);
+        uint8_t getButtonPress(ButtonEnum b);
+        bool getButtonClick(ButtonEnum b);
         /**@}*/
 
         /** @name Xbox Controller functions */
@@ -126,7 +125,7 @@ public:
          * @param  a          Either ::LeftHatX, ::LeftHatY, ::RightHatX or ::RightHatY.
          * @return            Returns a signed 16-bit integer.
          */
-        int16_t getAnalogHat(AnalogHat a);
+        int16_t getAnalogHat(AnalogHatEnum a);
 
         /** Turn rumble off the controller. */
         void setRumbleOff() {

@@ -11,6 +11,10 @@
 #include <cdcprolific.h>
 
 #include <TinyGPS.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 /* This sample code demonstrates the normal use of a TinyGPS object.
     Modified to be used with USB Host Shield Library r2.0
@@ -26,7 +30,7 @@ public:
 uint8_t PLAsyncOper::OnInit(ACM *pacm)
 {
     uint8_t rcode;
-    
+
     // Set DTR = 1
     rcode = pacm->SetControlLineState(1);
 
@@ -36,17 +40,17 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm)
     }
 
     LINE_CODING lc;
-    lc.dwDTERate  = 4800;   //default serial speed of GPS unit  
+    lc.dwDTERate  = 4800;   //default serial speed of GPS unit
     lc.bCharFormat  = 0;
     lc.bParityType  = 0;
-    lc.bDataBits  = 8;  
-  
+    lc.bDataBits  = 8;
+
     rcode = pacm->SetLineCoding(&lc);
 
     if (rcode) {
         ErrorMessage<uint8_t>(PSTR("SetLineCoding"), rcode);
     }
-            
+
     return rcode;
 }
 
@@ -65,7 +69,7 @@ void setup()
 
   Serial.begin(115200);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
-    
+
   Serial.print("Testing TinyGPS library v. "); Serial.println(TinyGPS::library_version());
   Serial.println("by Mikal Hart");
   Serial.println();
@@ -75,16 +79,16 @@ void setup()
   if (Usb.Init() == -1) {
       Serial.println("OSCOKIRQ failed to assert");
   }
-      
-  delay( 200 ); 
+
+  delay( 200 );
 }
 
 void loop()
 {
   Usb.Task();
-  
+
   if( Pl.isReady()) {
-  
+
     bool newdata = false;
     unsigned long start = millis();
 
@@ -94,7 +98,7 @@ void loop()
         newdata = true;
       }
     }//while (millis()...
-  
+
     if (newdata) {
       Serial.println("Acquired Data");
       Serial.println("-------------");
@@ -118,7 +122,7 @@ void printFloat(double number, int digits)
   double rounding = 0.5;
   for (uint8_t i=0; i<digits; ++i)
     rounding /= 10.0;
-  
+
   number += rounding;
 
   // Extract the integer part of the number and print it
@@ -128,7 +132,7 @@ void printFloat(double number, int digits)
 
   // Print the decimal point, but only if there are digits beyond
   if (digits > 0)
-    Serial.print("."); 
+    Serial.print(".");
 
   // Extract digits from the remainder one at a time
   while (digits-- > 0)
@@ -136,8 +140,8 @@ void printFloat(double number, int digits)
     remainder *= 10.0;
     int toPrint = int(remainder);
     Serial.print(toPrint);
-    remainder -= toPrint; 
-  } 
+    remainder -= toPrint;
+  }
 }
 
 void gpsdump(TinyGPS &gps)
@@ -150,9 +154,9 @@ void gpsdump(TinyGPS &gps)
   unsigned short sentences, failed;
 
   gps.get_position(&lat, &lon, &age);
-  Serial.print("Lat/Long(10^-5 deg): "); Serial.print(lat); Serial.print(", "); Serial.print(lon); 
+  Serial.print("Lat/Long(10^-5 deg): "); Serial.print(lat); Serial.print(", "); Serial.print(lon);
   Serial.print(" Fix age: "); Serial.print(age); Serial.println("ms.");
-  
+
   feedgps(); // If we don't feed the gps during this long routine, we may drop characters and get checksum errors
 
   gps.f_get_position(&flat, &flon, &age);
@@ -171,7 +175,7 @@ void gpsdump(TinyGPS &gps)
   Serial.print("Date: "); Serial.print(static_cast<int>(month)); Serial.print("/"); Serial.print(static_cast<int>(day)); Serial.print("/"); Serial.print(year);
   Serial.print("  Time: "); Serial.print(static_cast<int>(hour)); Serial.print(":"); Serial.print(static_cast<int>(minute)); Serial.print(":"); Serial.print(static_cast<int>(second)); Serial.print("."); Serial.print(static_cast<int>(hundredths));
   Serial.print("  Fix age: ");  Serial.print(age); Serial.println("ms.");
-  
+
   feedgps();
 
   Serial.print("Alt(cm): "); Serial.print(gps.altitude()); Serial.print(" Course(10^-2 deg): "); Serial.print(gps.course()); Serial.print(" Speed(10^-2 knots): "); Serial.println(gps.speed());
@@ -184,13 +188,13 @@ void gpsdump(TinyGPS &gps)
   gps.stats(&chars, &sentences, &failed);
   Serial.print("Stats: characters: "); Serial.print(chars); Serial.print(" sentences: "); Serial.print(sentences); Serial.print(" failed checksum: "); Serial.println(failed);
 }
-  
+
 bool feedgps()
 {
   uint8_t rcode;
-  uint8_t  buf[64];    //serial buffer equals Max.packet size of bulk-IN endpoint           
-  uint16_t rcvd = 64;       
-    {  
+  uint8_t  buf[64];    //serial buffer equals Max.packet size of bulk-IN endpoint
+  uint16_t rcvd = 64;
+    {
         /* reading the GPS */
         rcode = Pl.RcvData(&rcvd, buf);
          if (rcode && rcode != hrNAK)
@@ -201,7 +205,7 @@ bool feedgps()
                 if( gps.encode((char)buf[i])) { //feed a character to gps object
                   rcode = true;
                 }//if( gps.encode(buf[i]...
-              }//for( uint16_t i=0; i < rcvd; i++...              
+              }//for( uint16_t i=0; i < rcvd; i++...
             }//if( rcvd...
     }
   return( rcode );

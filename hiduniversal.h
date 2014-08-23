@@ -1,3 +1,20 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+ */
+
 #if !defined(__HIDUNIVERSAL_H__)
 #define __HIDUNIVERSAL_H__
 
@@ -17,10 +34,7 @@ class HIDUniversal : public HID {
         // Returns HID class specific descriptor length by its type and order number
         uint16_t GetHidClassDescrLen(uint8_t type, uint8_t num);
 
-        EpInfo epInfo[totalEndpoints];
-
         struct HIDInterface {
-
                 struct {
                         uint8_t bmInterface : 3;
                         uint8_t bmAltSet : 3;
@@ -29,12 +43,11 @@ class HIDUniversal : public HID {
                 uint8_t epIndex[maxEpPerInterface];
         };
 
-        HIDInterface hidInterfaces[maxHidInterfaces];
-
         uint8_t bConfNum; // configuration number
         uint8_t bNumIface; // number of interfaces in the configuration
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
+        uint8_t pollInterval;
         bool bPollEnable; // poll enable flag
 
         static const uint16_t constBuffLen = 64; // event buffer length
@@ -48,13 +61,22 @@ class HIDUniversal : public HID {
         void SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest);
 
 protected:
+        EpInfo epInfo[totalEndpoints];
+        HIDInterface hidInterfaces[maxHidInterfaces];
+
         bool bHasReportId;
+
+        uint16_t PID, VID; // PID and VID of connected device
 
         // HID implementation
         virtual HIDReportParser* GetReportParser(uint8_t id);
 
         virtual uint8_t OnInitSuccessful() {
                 return 0;
+        };
+
+        virtual void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+                return;
         };
 
 public:
@@ -70,6 +92,10 @@ public:
 
         virtual uint8_t GetAddress() {
                 return bAddress;
+        };
+
+        virtual bool isReady() {
+                return bPollEnable;
         };
 
         // UsbConfigXtracter implementation

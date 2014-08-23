@@ -17,7 +17,6 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__HIDUSAGETITLEARRAYS_H__)
 #define __HIDUSAGETITLEARRAYS_H__
 
-#include <avr/pgmspace.h>
 #include "hidusagestr.h"
 
 //const char *usagePageTitles0[]	PROGMEM =

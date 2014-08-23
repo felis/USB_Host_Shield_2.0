@@ -6,6 +6,10 @@
  */
 
 #include <XBOXRECV.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 XBOXRECV Xbox(&Usb);

@@ -218,7 +218,7 @@ public:
         }
 
         static uint8_t IsSet() {
-                return PORT::PinRead() & (uint8_t) (1 << PIN);
+                return PORT::PinRead() & (uint8_t)(1 << PIN);
         }
 
         static void WaiteForSet() {
@@ -457,7 +457,7 @@ public:
 #define P2  Pe4
 #define P3  Pe5
 #define P4  Pg5
-#define P5  Pe5
+#define P5  Pe3
 #define P6  Ph3
 #define P7  Ph4
 
@@ -672,10 +672,19 @@ public:
 // http://balanduino.net/
 #define P0  Pd0 /* 0  - PD0 */
 #define P1  Pd1 /* 1  - PD1 */
-#define P2  Pb2 /* 2  - PB2 */
-#define P3  Pd6 /* 3  - PD6 */
-#define P4  Pd7 /* 4  - PD7 */
-#define P5  Pb3 /* 5  - PB3 */
+
+#if BALANDUINO_REVISION < 13
+  #define P2  Pb2 /* 2  - PB2 */
+  #define P3  Pd6 /* 3  - PD6 */
+  #define P4  Pd7 /* 4  - PD7 */
+  #define P5  Pb3 /* 5  - PB3 */
+#else
+  #define P2  Pd2 /* 2  - PD2 */
+  #define P3  Pd3 /* 3  - PD3 */
+  #define P4  Pd6 /* 4  - PD6 */
+  #define P5  Pd7 /* 5  - PD7 */
+#endif
+
 #define P6  Pb4 /* 6  - PB4 */
 #define P7  Pa0 /* 7  - PA0 */
 #define P8  Pa1 /* 8  - PA1 */
@@ -685,8 +694,15 @@ public:
 #define P12 Pa5 /* 12 - PA5 */
 #define P13 Pc1 /* 13 - PC1 */
 #define P14 Pc0 /* 14 - PC0 */
-#define P15 Pd2 /* 15 - PD2 */
-#define P16 Pd3 /* 16 - PD3 */
+
+#if BALANDUINO_REVISION < 13
+  #define P15 Pd2 /* 15 - PD2 */
+  #define P16 Pd3 /* 16 - PD3 */
+#else
+  #define P15 Pb2 /* 15 - PB2 */
+  #define P16 Pb3 /* 16 - PB2 */
+#endif
+
 #define P17 Pd4 /* 17 - PD4 */
 #define P18 Pd5 /* 18 - PD5 */
 #define P19 Pc2 /* 19 - PC2 */
@@ -749,10 +765,12 @@ public:
 
 #endif // __AVR__
 
-#if defined(__arm__) && defined(CORE_TEENSY)
+#if defined(__arm__)
 
 // pointers are 32 bits on ARM
 #define pgm_read_pointer(p) pgm_read_dword(p)
+
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
 
 #include "core_pins.h"
 #include "avr_emulation.h"
@@ -818,6 +836,135 @@ MAKE_PIN(P32, CORE_PIN32_PORTREG, CORE_PIN32_BIT, CORE_PIN32_CONFIG);
 MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
 
 #undef MAKE_PIN
+
+#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+
+// SetDirRead:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to INPUT
+//   Enable PIO
+
+// SetDirWrite:
+//   Disable interrupts
+//   Disable the pull up resistor
+//   Set to OUTPUT
+//   Enable PIO
+
+#define MAKE_PIN(className, pio, pinMask) \
+class className { \
+public: \
+  static void Set() { \
+    pio->PIO_SODR = pinMask; \
+  } \
+  static void Clear() { \
+    pio->PIO_CODR = pinMask; \
+  } \
+  static void SetDirRead() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_ODR = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static void SetDirWrite() { \
+    pio->PIO_IDR = pinMask ; \
+    pio->PIO_PUDR = pinMask; \
+    pio->PIO_OER = pinMask; \
+    pio->PIO_PER = pinMask; \
+  } \
+  static uint8_t IsSet() { \
+    return pio->PIO_PDSR & pinMask; \
+  } \
+};
+
+// See: http://arduino.cc/en/Hacking/PinMappingSAM3X and variant.cpp
+
+MAKE_PIN(P0, PIOA, PIO_PA8);
+MAKE_PIN(P1, PIOA, PIO_PA9);
+MAKE_PIN(P2, PIOB, PIO_PB25);
+MAKE_PIN(P3, PIOC, PIO_PC28);
+MAKE_PIN(P4, PIOC, PIO_PC26);
+MAKE_PIN(P5, PIOC, PIO_PC25);
+MAKE_PIN(P6, PIOC, PIO_PC24);
+MAKE_PIN(P7, PIOC, PIO_PC23);
+MAKE_PIN(P8, PIOC, PIO_PC22);
+MAKE_PIN(P9, PIOC, PIO_PC21);
+MAKE_PIN(P10, PIOC, PIO_PC29);
+MAKE_PIN(P11, PIOD, PIO_PD7);
+MAKE_PIN(P12, PIOD, PIO_PD8);
+MAKE_PIN(P13, PIOB, PIO_PB27);
+MAKE_PIN(P14, PIOD, PIO_PD4);
+MAKE_PIN(P15, PIOD, PIO_PD5);
+MAKE_PIN(P16, PIOA, PIO_PA13);
+MAKE_PIN(P17, PIOA, PIO_PA12);
+MAKE_PIN(P18, PIOA, PIO_PA11);
+MAKE_PIN(P19, PIOA, PIO_PA10);
+MAKE_PIN(P20, PIOB, PIO_PB12);
+MAKE_PIN(P21, PIOB, PIO_PB13);
+MAKE_PIN(P22, PIOB, PIO_PB26);
+MAKE_PIN(P23, PIOA, PIO_PA14);
+MAKE_PIN(P24, PIOA, PIO_PA15);
+MAKE_PIN(P25, PIOD, PIO_PD0);
+MAKE_PIN(P26, PIOD, PIO_PD1);
+MAKE_PIN(P27, PIOD, PIO_PD2);
+MAKE_PIN(P28, PIOD, PIO_PD3);
+MAKE_PIN(P29, PIOD, PIO_PD6);
+MAKE_PIN(P30, PIOD, PIO_PD9);
+MAKE_PIN(P31, PIOA, PIO_PA7);
+MAKE_PIN(P32, PIOD, PIO_PD10);
+MAKE_PIN(P33, PIOC, PIO_PC1);
+MAKE_PIN(P34, PIOC, PIO_PC2);
+MAKE_PIN(P35, PIOC, PIO_PC3);
+MAKE_PIN(P36, PIOC, PIO_PC4);
+MAKE_PIN(P37, PIOC, PIO_PC5);
+MAKE_PIN(P38, PIOC, PIO_PC6);
+MAKE_PIN(P39, PIOC, PIO_PC7);
+MAKE_PIN(P40, PIOC, PIO_PC8);
+MAKE_PIN(P41, PIOC, PIO_PC9);
+MAKE_PIN(P42, PIOA, PIO_PA19);
+MAKE_PIN(P43, PIOA, PIO_PA20);
+MAKE_PIN(P44, PIOC, PIO_PC19);
+MAKE_PIN(P45, PIOC, PIO_PC18);
+MAKE_PIN(P46, PIOC, PIO_PC17);
+MAKE_PIN(P47, PIOC, PIO_PC16);
+MAKE_PIN(P48, PIOC, PIO_PC15);
+MAKE_PIN(P49, PIOC, PIO_PC14);
+MAKE_PIN(P50, PIOC, PIO_PC13);
+MAKE_PIN(P51, PIOC, PIO_PC12);
+MAKE_PIN(P52, PIOB, PIO_PB21);
+MAKE_PIN(P53, PIOB, PIO_PB14);
+MAKE_PIN(P54, PIOA, PIO_PA16);
+MAKE_PIN(P55, PIOA, PIO_PA24);
+MAKE_PIN(P56, PIOA, PIO_PA23);
+MAKE_PIN(P57, PIOA, PIO_PA22);
+MAKE_PIN(P58, PIOA, PIO_PA6);
+MAKE_PIN(P59, PIOA, PIO_PA4);
+MAKE_PIN(P60, PIOA, PIO_PA3);
+MAKE_PIN(P61, PIOA, PIO_PA2);
+MAKE_PIN(P62, PIOB, PIO_PB17);
+MAKE_PIN(P63, PIOB, PIO_PB18);
+MAKE_PIN(P64, PIOB, PIO_PB19);
+MAKE_PIN(P65, PIOB, PIO_PB20);
+MAKE_PIN(P66, PIOB, PIO_PB15);
+MAKE_PIN(P67, PIOB, PIO_PB16);
+MAKE_PIN(P68, PIOA, PIO_PA1);
+MAKE_PIN(P69, PIOA, PIO_PA0);
+MAKE_PIN(P70, PIOA, PIO_PA17);
+MAKE_PIN(P71, PIOA, PIO_PA18);
+MAKE_PIN(P72, PIOC, PIO_PC30);
+MAKE_PIN(P73, PIOA, PIO_PA21);
+MAKE_PIN(P74, PIOA, PIO_PA25); // MISO
+MAKE_PIN(P75, PIOA, PIO_PA26); // MOSI
+MAKE_PIN(P76, PIOA, PIO_PA27); // CLK
+MAKE_PIN(P77, PIOA, PIO_PA28);
+MAKE_PIN(P78, PIOB, PIO_PB23); // Unconnected
+
+#undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
+#endif
 
 #endif // __arm__
 

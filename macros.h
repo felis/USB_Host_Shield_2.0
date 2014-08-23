@@ -1,8 +1,18 @@
-/*
- * File:   macros.h
- * Author: AJK
- *
- * Created on September 23, 2013, 12:31 AM
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
  */
 
 #if !defined(_usb_h_) || defined(MACROS_H)
@@ -13,6 +23,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // HANDY MACROS
 ////////////////////////////////////////////////////////////////////////////////
+
+#define VALUE_BETWEEN(v,l,h) (((v)>(l)) && ((v)<(h)))
+#define VALUE_WITHIN(v,l,h) (((v)>=(l)) && ((v)<=(h)))
+#define output_pgm_message(wa,fp,mp,el) wa = &mp, fp((char *)pgm_read_pointer(wa), el)
+#define output_if_between(v,l,h,wa,fp,mp,el) if(VALUE_BETWEEN(v,l,h)) output_pgm_message(wa,fp,mp[v-(l+1)],el);
 
 #define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 #ifndef __BYTE_GRABBING_DEFINED__
@@ -58,7 +73,9 @@
  * Debug macros: Strings are stored in progmem (flash) instead of RAM.
  */
 #define USBTRACE(s) (Notify(PSTR(s), 0x80))
+#define USBTRACE1(s,l) (Notify(PSTR(s), l))
 #define USBTRACE2(s,r) (Notify(PSTR(s), 0x80), D_PrintHex((r), 0x80), Notify(PSTR("\r\n"), 0x80))
+#define USBTRACE3(s,r,l) (Notify(PSTR(s), l), D_PrintHex((r), l), Notify(PSTR("\r\n"), l))
 
 
 #endif	/* MACROS_H */

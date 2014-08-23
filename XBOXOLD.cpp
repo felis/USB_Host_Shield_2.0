@@ -21,7 +21,7 @@
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
 /** Buttons on the controllers */
-const uint8_t XBOXOLDBUTTONS[] PROGMEM = {
+const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
         0x01, // UP
         0x08, // RIGHT
         0x02, // DOWN
@@ -48,19 +48,20 @@ XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
-        for (uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
+        for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if (pUsb) // register in USB subsystem
+        if(pUsb) // register in USB subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
 uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
+        USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -73,7 +74,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nXBOXUSB Init"), 0x80);
 #endif
         // check if address has already been assigned to an instance
-        if (bAddress) {
+        if(bAddress) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress in use"), 0x80);
 #endif
@@ -83,14 +84,14 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if (!p) {
+        if(!p) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nAddress not found"), 0x80);
 #endif
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
         }
 
-        if (!p->epinfo) {
+        if(!p->epinfo) {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nepinfo is null"), 0x80);
 #endif
@@ -110,27 +111,27 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if (rcode)
+        if(rcode)
                 goto FailGetDevDescr;
 
-        VID = ((USB_DEVICE_DESCRIPTOR*)buf)->idVendor;
-        PID = ((USB_DEVICE_DESCRIPTOR*)buf)->idProduct;
+        VID = udd->idVendor;
+        PID = udd->idProduct;
 
-        if ((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_OLD_PID1 && PID != XBOX_OLD_PID2 && PID != XBOX_OLD_PID3 && PID != XBOX_OLD_PID4)) // Check if VID and PID match
+        if((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_OLD_PID1 && PID != XBOX_OLD_PID2 && PID != XBOX_OLD_PID3 && PID != XBOX_OLD_PID4)) // Check if VID and PID match
                 goto FailUnknownDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
 
-        if (!bAddress)
+        if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
-        if (rcode) {
+        if(rcode) {
                 p->lowspeed = false;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
@@ -144,20 +145,20 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         Notify(PSTR("\r\nAddr: "), 0x80);
         D_PrintHex<uint8_t > (bAddress, 0x80);
 #endif
-        delay(300); // Spec says you should wait at least 200ms
+        //delay(300); // Spec says you should wait at least 200ms
 
         p->lowspeed = false;
 
         //get pointer to assigned address record
         p = addrPool.GetUsbDevicePtr(bAddress);
-        if (!p)
+        if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
 
         p->lowspeed = lowspeed;
 
         // Assign epInfo to epinfo pointer - only EP0 is known
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         /* The application will work in reduced host mode, so we can save program and data
@@ -169,29 +170,29 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[ XBOX_INPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = 0;
+        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX output endpoint
         epInfo[ XBOX_OUTPUT_PIPE ].epAttribs = EP_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = bmSNDTOG0;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = bmRCVTOG0;
+        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = 0;
+        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = 0;
 
         rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
-        if (rcode)
+        if(rcode)
                 goto FailSetDevTblEntry;
 
         delay(200); // Give time for address change
 
         rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
-        if (rcode)
+        if(rcode)
                 goto FailSetConfDescr;
 
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXbox Controller Connected\r\n"), 0x80);
 #endif
-        if (pFuncOnInit)
+        if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
         XboxConnected = true;
         bPollEnable = true;
@@ -213,8 +214,9 @@ FailSetDevTblEntry:
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
-        goto Fail;
 #endif
+        goto Fail;
+
 FailUnknownDevice:
 #ifdef DEBUG_USB_HOST
         NotifyFailUnknownDevice(VID, PID);
@@ -240,7 +242,7 @@ uint8_t XBOXOLD::Release() {
 }
 
 uint8_t XBOXOLD::Poll() {
-        if (!bPollEnable)
+        if(!bPollEnable)
                 return 0;
         uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
         pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
@@ -254,8 +256,8 @@ uint8_t XBOXOLD::Poll() {
 void XBOXOLD::readReport() {
         ButtonState = readBuf[2];
 
-        for (uint8_t i = 0; i < sizeof(buttonValues); i++)
-            buttonValues[i] = readBuf[i + 4]; // A, B, X, Y, BLACK, WHITE, L1, and R1
+        for(uint8_t i = 0; i < sizeof (buttonValues); i++)
+                buttonValues[i] = readBuf[i + 4]; // A, B, X, Y, BLACK, WHITE, L1, and R1
 
         hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[12] << 8) | readBuf[13]);
         hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[14] << 8) | readBuf[15]);
@@ -265,23 +267,23 @@ void XBOXOLD::readReport() {
         //Notify(PSTR("\r\nButtonState"), 0x80);
         //PrintHex<uint8_t>(ButtonState, 0x80);
 
-        if (ButtonState != OldButtonState || memcmp(buttonValues, oldButtonValues, sizeof(buttonValues)) != 0) {
+        if(ButtonState != OldButtonState || memcmp(buttonValues, oldButtonValues, sizeof (buttonValues)) != 0) {
                 ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                 OldButtonState = ButtonState;
 
-                for (uint8_t i = 0; i < sizeof(buttonValues); i++) {
-                    if (oldButtonValues[i] == 0 && buttonValues[i] != 0)
-                        buttonClicked[i] = true; // Update A, B, X, Y, BLACK, WHITE, L1, and R1 click state
-                    oldButtonValues[i] = buttonValues[i];
+                for(uint8_t i = 0; i < sizeof (buttonValues); i++) {
+                        if(oldButtonValues[i] == 0 && buttonValues[i] != 0)
+                                buttonClicked[i] = true; // Update A, B, X, Y, BLACK, WHITE, L1, and R1 click state
+                        oldButtonValues[i] = buttonValues[i];
                 }
         }
 }
 
 void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #ifdef PRINTREPORT
-        if (readBuf == NULL)
+        if(readBuf == NULL)
                 return;
-        for (uint8_t i = 0; i < length; i++) {
+        for(uint8_t i = 0; i < length; i++) {
                 D_PrintHex<uint8_t > (readBuf[i], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
@@ -289,21 +291,21 @@ void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" t
 #endif
 }
 
-uint8_t XBOXOLD::getButtonPress(Button b) {
-        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
-        if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
-            return buttonValues[button]; // Analog buttons
+uint8_t XBOXOLD::getButtonPress(ButtonEnum b) {
+        uint8_t button = pgm_read_byte(&XBOXOLD_BUTTONS[(uint8_t)b]);
+        if(b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+                return buttonValues[button]; // Analog buttons
         return (ButtonState & button); // Digital buttons
 }
 
-bool XBOXOLD::getButtonClick(Button b) {
-        uint8_t button = pgm_read_byte(&XBOXOLDBUTTONS[(uint8_t)b]);
-        if (b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
-            if (buttonClicked[button]) {
-                buttonClicked[button] = false;
-                return true;
-            }
-            return false;
+bool XBOXOLD::getButtonClick(ButtonEnum b) {
+        uint8_t button = pgm_read_byte(&XBOXOLD_BUTTONS[(uint8_t)b]);
+        if(b == A || b == B || b == X || b == Y || b == BLACK || b == WHITE || b == L1 || b == R1) { // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+                if(buttonClicked[button]) {
+                        buttonClicked[button] = false;
+                        return true;
+                }
+                return false;
         }
 
         bool click = (ButtonClickState & button);
@@ -311,7 +313,7 @@ bool XBOXOLD::getButtonClick(Button b) {
         return click;
 }
 
-int16_t XBOXOLD::getAnalogHat(AnalogHat a) {
+int16_t XBOXOLD::getAnalogHat(AnalogHatEnum a) {
         return hatValue[a];
 }
 

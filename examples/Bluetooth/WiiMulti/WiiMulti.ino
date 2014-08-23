@@ -7,6 +7,10 @@
 
 #include <Wii.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
@@ -118,7 +122,7 @@ void onInit() {
   for (uint8_t i = 0; i < length; i++) {
     if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
       oldControllerState[i] = true; // Used to check which is the new controller
-      Wii[i]->setLedOn((LED)i); // Cast directly to LED enum - see: "controllerEnums.h"
+      Wii[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
     }
   }
 }

@@ -6,6 +6,10 @@
 
 #include <PS3BT.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
@@ -13,7 +17,7 @@ USB Usb;
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 PS3BT PS3(&Btd); // This will just create the instance
-//PS3BT PS3(&Btd,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
+//PS3BT PS3(&Btd, 0x00, 0x15, 0x83, 0x3D, 0x0A, 0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
 boolean printTemperature;
 boolean printAngle;
@@ -48,7 +52,7 @@ void loop() {
     if (PS3.getAnalogButton(L2) || PS3.getAnalogButton(R2)) {
       Serial.print(F("\r\nL2: "));
       Serial.print(PS3.getAnalogButton(L2));
-      if (!PS3.PS3NavigationConnected) {
+      if (PS3.PS3Connected) {
         Serial.print(F("\tR2: "));
         Serial.print(PS3.getAnalogButton(R2));
       }
@@ -107,7 +111,7 @@ void loop() {
 
       if (PS3.getButtonClick(SELECT)) {
         Serial.print(F("\r\nSelect - "));
-        Serial.print(PS3.getStatusString());
+        PS3.printStatusString();
       }
       if (PS3.getButtonClick(START)) {
         Serial.print(F("\r\nStart"));
@@ -159,7 +163,7 @@ void loop() {
         PS3.moveSetBulb(Off);
         Serial.print(F("\r\nMove"));
         Serial.print(F(" - "));
-        Serial.print(PS3.getStatusString());
+        PS3.printStatusString();
       }
     }
     if (printAngle) {

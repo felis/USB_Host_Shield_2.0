@@ -22,18 +22,15 @@
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
 pBtd(p), // pointer to USB class instance - mandatory
-protocolMode(HID_BOOT_PROTOCOL)
-{
-        for (uint8_t i = 0; i < epMUL; i++)
+protocolMode(HID_BOOT_PROTOCOL) {
+        for(uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;
 
-        if (pBtd)
+        if(pBtd)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
 
         pBtd->pairWithHIDDevice = pair;
-
-        if (pair)
-                pBtd->btdPin= pin;
+        pBtd->btdPin = pin;
 
         /* Set device cid for the control and intterrupt channelse - LSB */
         control_dcid[0] = 0x70; // 0x0070
@@ -49,19 +46,20 @@ void BTHID::Reset() {
         activeConnection = false;
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
+        ResetBTHID();
 }
 
-void BTHID::disconnect() { // Use this void to disconnect any of the controllers
+void BTHID::disconnect() { // Use this void to disconnect the device
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
-        pBtd->l2cap_disconnection_request(hci_handle, 0x0A, interrupt_scid, interrupt_dcid);
+        pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
         l2cap_state = L2CAP_INTERRUPT_DISCONNECT;
 }
 
 void BTHID::ACLData(uint8_t* l2capinbuf) {
-        if (!pBtd->l2capConnectionClaimed && pBtd->incomingHIDDevice && !connected && !activeConnection) {
-                if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
-                        if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
+        if(!pBtd->l2capConnectionClaimed && pBtd->incomingHIDDevice && !connected && !activeConnection) {
+                if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
+                        if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
                                 pBtd->incomingHIDDevice = false;
                                 pBtd->l2capConnectionClaimed = true; // Claim that the incoming connection belongs to this service
                                 activeConnection = true;
@@ -70,9 +68,10 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         }
                 }
         }
-        if ((l2capinbuf[0] | (l2capinbuf[1] << 8)) == (hci_handle | 0x2000)) { // acl_handle_ok or it's a new connection
-                if ((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001) { // l2cap_control - Channel ID for ACL-U
-                        if (l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
+        //if((l2capinbuf[0] | (uint16_t)l2capinbuf[1] << 8) == (hci_handle | 0x2000U)) { // acl_handle_ok or it's a new connection
+        if(UHS_ACL_HANDLE_OK(l2capinbuf, hci_handle)) { // acl_handle_ok or it's a new connection
+                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
+                        if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
                                 D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
@@ -87,23 +86,23 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 Notify(PSTR(" "), 0x80);
                                 D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
 #endif
-                        } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
-                                if (((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
-                                        if (l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
+                                if(((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
+                                        if(l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
                                                 control_scid[1] = l2capinbuf[13];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONTROL_CONNECTED;
-                                        } else if (l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
+                                                l2cap_set_flag(L2CAP_FLAG_CONTROL_CONNECTED);
+                                        } else if(l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 interrupt_scid[0] = l2capinbuf[12];
                                                 interrupt_scid[1] = l2capinbuf[13];
-                                                l2cap_event_flag |= L2CAP_FLAG_INTERRUPT_CONNECTED;
+                                                l2cap_set_flag(L2CAP_FLAG_INTERRUPT_CONNECTED);
                                         }
                                 }
-                        } else if (l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nL2CAP Connection Request - PSM: "), 0x80);
                                 D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
@@ -116,46 +115,46 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 Notify(PSTR(" Identifier: "), 0x80);
                                 D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
 #endif
-                                if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
+                                if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
                                         identifier = l2capinbuf[9];
                                         control_scid[0] = l2capinbuf[14];
                                         control_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_CONTROL_REQUEST;
-                                } else if ((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_INTR_PSM) {
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST);
+                                } else if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_INTR_PSM) {
                                         identifier = l2capinbuf[9];
                                         interrupt_scid[0] = l2capinbuf[14];
                                         interrupt_scid[1] = l2capinbuf[15];
-                                        l2cap_event_flag |= L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST;
+                                        l2cap_set_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST);
                                 }
-                        } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
-                                if ((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
-                                        if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
+                                if((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
+                                        if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_CONTROL_SUCCESS;
-                                        } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS);
+                                        } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
-                                                l2cap_event_flag |= L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS;
+                                                l2cap_set_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS);
                                         }
                                 }
-                        } else if (l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
-                                if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
+                                if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                         //Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], control_scid);
-                                } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
+                                } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
                                         //Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], interrupt_scid);
                                 }
-                        } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
-                                if (l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
+                                if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDisconnect Request: Control Channel"), 0x80);
 #endif
                                         identifier = l2capinbuf[9];
                                         pBtd->l2cap_disconnection_response(hci_handle, identifier, control_dcid, control_scid);
                                         Reset();
-                                } else if (l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
+                                } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDisconnect Request: Interrupt Channel"), 0x80);
 #endif
@@ -163,15 +162,15 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                         pBtd->l2cap_disconnection_response(hci_handle, identifier, interrupt_dcid, interrupt_scid);
                                         Reset();
                                 }
-                        } else if (l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
-                                if (l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
+                        } else if(l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
+                                if(l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE;
-                                } else if (l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE);
+                                } else if(l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
                                         //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
                                         identifier = l2capinbuf[9];
-                                        l2cap_event_flag |= L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE;
+                                        l2cap_set_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE);
                                 }
                         }
 #ifdef EXTRADEBUG
@@ -181,37 +180,29 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
                         }
 #endif
-                } else if (l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
+                } else if(l2capinbuf[6] == interrupt_dcid[0] && l2capinbuf[7] == interrupt_dcid[1]) { // l2cap_interrupt
 #ifdef PRINTREPORT
                         Notify(PSTR("\r\nL2CAP Interrupt: "), 0x80);
-                        for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
+                        for(uint16_t i = 0; i < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
                                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
                                 Notify(PSTR(" "), 0x80);
                         }
 #endif
-                        if (l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
-                                switch (l2capinbuf[9]) {
-                                        case 0x01: // Keyboard events
-                                                if (pRptParser[KEYBOARD_PARSER_ID]) {
-                                                        uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
-                                                }
+                        if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
+                                uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]);
+
+                                switch(l2capinbuf[9]) {
+                                        case 0x01: // Keyboard or Joystick events
+                                                if(pRptParser[KEYBOARD_PARSER_ID])
+                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
 
                                         case 0x02: // Mouse events
-                                                if (pRptParser[MOUSE_PARSER_ID]) {
-                                                        uint16_t length =  ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *> (this), 0, (uint8_t) length, &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
-                                                }
+                                                if(pRptParser[MOUSE_PARSER_ID])
+                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
-
-                                        case 0x03:
-#ifdef DEBUG_USB_HOST
-                                                Notify(PSTR("\r\nChange mode event: "), 0x80);
-                                                D_PrintHex<uint8_t > (l2capinbuf[11], 0x80);
-#endif
-                                                break;
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                         default:
                                                 Notify(PSTR("\r\nUnknown Report type: "), 0x80);
                                                 D_PrintHex<uint8_t > (l2capinbuf[9], 0x80);
@@ -219,10 +210,10 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 #endif
                                 }
                         }
-                } else if (l2capinbuf[6] == control_dcid[0] && l2capinbuf[7] == control_dcid[1]) { // l2cap_control
+                } else if(l2capinbuf[6] == control_dcid[0] && l2capinbuf[7] == control_dcid[1]) { // l2cap_control
 #ifdef PRINTREPORT
                         Notify(PSTR("\r\nL2CAP Control: "), 0x80);
-                        for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
+                        for(uint16_t i = 0; i < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
                                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
                                 Notify(PSTR(" "), 0x80);
                         }
@@ -237,7 +228,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 
                         Notify(PSTR("\r\nData: "), 0x80);
                         Notify(PSTR("\r\n"), 0x80);
-                        for (uint16_t i = 0; i  < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
+                        for(uint16_t i = 0; i < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
                                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
                                 Notify(PSTR(" "), 0x80);
                         }
@@ -248,10 +239,10 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 }
 
 void BTHID::L2CAP_task() {
-        switch (l2cap_state) {
+        switch(l2cap_state) {
                         /* These states are used if the HID device is the host */
                 case L2CAP_CONTROL_SUCCESS:
-                        if (l2cap_config_success_control_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Successfully Configured"), 0x80);
 #endif
@@ -261,7 +252,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_SETUP:
-                        if (l2cap_connection_request_interrupt_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Incoming Connection Request"), 0x80);
 #endif
@@ -278,7 +269,7 @@ void BTHID::L2CAP_task() {
 
                         /* These states are used if the Arduino is the host */
                 case L2CAP_CONTROL_CONNECT_REQUEST:
-                        if (l2cap_connected_control_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_CONTROL_CONNECTED)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Control Config Request"), 0x80);
 #endif
@@ -289,7 +280,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_CONFIG_REQUEST:
-                        if (l2cap_config_success_control_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)) {
                                 setProtocol(); // Set protocol before establishing HID interrupt channel
                                 delay(1); // Short delay between commands - just to be sure
 #ifdef DEBUG_USB_HOST
@@ -302,7 +293,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_CONNECT_REQUEST:
-                        if (l2cap_connected_interrupt_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_INTERRUPT_CONNECTED)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nSend HID Interrupt Config Request"), 0x80);
 #endif
@@ -313,7 +304,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_CONFIG_REQUEST:
-                        if (l2cap_config_success_interrupt_flag) { // Now the HID channels is established
+                        if(l2cap_check_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)) { // Now the HID channels is established
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Channels Established"), 0x80);
 #endif
@@ -329,7 +320,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if (l2cap_disconnect_response_interrupt_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -340,7 +331,7 @@ void BTHID::L2CAP_task() {
                         break;
 
                 case L2CAP_CONTROL_DISCONNECT:
-                        if (l2cap_disconnect_response_control_flag) {
+                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Control Channel"), 0x80);
 #endif
@@ -354,9 +345,9 @@ void BTHID::L2CAP_task() {
 }
 
 void BTHID::Run() {
-        switch (l2cap_state) {
+        switch(l2cap_state) {
                 case L2CAP_WAIT:
-                        if (pBtd->connectToHIDDevice && !pBtd->l2capConnectionClaimed && !connected && !activeConnection) {
+                        if(pBtd->connectToHIDDevice && !pBtd->l2capConnectionClaimed && !connected && !activeConnection) {
                                 pBtd->l2capConnectionClaimed = true;
                                 activeConnection = true;
 #ifdef DEBUG_USB_HOST
@@ -367,7 +358,7 @@ void BTHID::Run() {
                                 identifier = 0;
                                 pBtd->l2cap_connection_request(hci_handle, identifier, control_dcid, HID_CTRL_PSM);
                                 l2cap_state = L2CAP_CONTROL_CONNECT_REQUEST;
-                        } else if (l2cap_connection_request_control_flag) {
+                        } else if(l2cap_check_flag(L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Control Incoming Connection Request"), 0x80);
 #endif
@@ -385,13 +376,20 @@ void BTHID::Run() {
 
 /************************************************************/
 /*                    HID Commands                          */
+
 /************************************************************/
 void BTHID::setProtocol() {
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nSet protocol mode: "), 0x80);
         D_PrintHex<uint8_t > (protocolMode, 0x80);
 #endif
-        uint8_t command = 0x70 | protocolMode; // Set Protocol, see HID specs page 33
+        if (protocolMode != HID_BOOT_PROTOCOL && protocolMode != HID_RPT_PROTOCOL) {
+#ifdef DEBUG_USB_HOST
+                Notify(PSTR("\r\nNot a valid protocol mode. Using Boot protocol instead."), 0x80);
+#endif
+                protocolMode = HID_BOOT_PROTOCOL; // Use Boot Protocol by default
+        }
+        uint8_t command = 0x70 | protocolMode; // Set Protocol, see Bluetooth HID specs page 33
         pBtd->L2CAP_Command(hci_handle, &command, 1, control_scid[0], control_scid[1]);
 }
 

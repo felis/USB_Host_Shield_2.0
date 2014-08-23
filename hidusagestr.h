@@ -17,7 +17,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined( __HIDUSAGESTR_H__)
 #define  __HIDUSAGESTR_H__
 
-#include <avr/pgmspace.h>
+#include "Usb.h"
 
 const char pstrSpace [] PROGMEM = " ";
 const char pstrCRLF [] PROGMEM = "\r\n";

@@ -1,5 +1,9 @@
 #include <hidboot.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 class MouseRptParser : public MouseReportParser
 {
@@ -12,14 +16,14 @@ protected:
 	virtual void OnMiddleButtonUp	(MOUSEINFO *mi);
 	virtual void OnMiddleButtonDown	(MOUSEINFO *mi);
 };
-void MouseRptParser::OnMouseMove(MOUSEINFO *mi)	
+void MouseRptParser::OnMouseMove(MOUSEINFO *mi)
 {
     Serial.print("dx=");
     Serial.print(mi->dX, DEC);
     Serial.print(" dy=");
     Serial.println(mi->dY, DEC);
 };
-void MouseRptParser::OnLeftButtonUp	(MOUSEINFO *mi)	
+void MouseRptParser::OnLeftButtonUp	(MOUSEINFO *mi)
 {
     Serial.println("L Butt Up");
 };
@@ -60,11 +64,11 @@ void setup()
 
     if (Usb.Init() == -1)
         Serial.println("OSC did not start.");
-      
+
     delay( 200 );
-  
+
     next_time = millis() + 5000;
-  
+
     HidMouse.SetReportParser(0,(HIDReportParser*)&Prs);
 }
 

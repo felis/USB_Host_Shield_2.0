@@ -2,14 +2,17 @@
 #include <hiduniversal.h>
 #include <hidescriptorparser.h>
 #include <usbhub.h>
-
-#include "pgmstrings.h"  
+#include "pgmstrings.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 class HIDUniversal2 : public HIDUniversal
 {
 public:
     HIDUniversal2(USB *usb) : HIDUniversal(usb) {};
-    
+
 protected:
     virtual uint8_t OnInitSuccessful();
 };
@@ -17,14 +20,14 @@ protected:
 uint8_t HIDUniversal2::OnInitSuccessful()
 {
     uint8_t    rcode;
-    
+
     HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
     ReportDescParser                                Rpt;
 
-    if (rcode = GetReportDescr(0, &Hex))
+    if ((rcode = GetReportDescr(0, &Hex)))
         goto FailGetReportDescr1;
-	        
-    if (rcode = GetReportDescr(0, &Rpt))
+
+    if ((rcode = GetReportDescr(0, &Rpt)))
 	goto FailGetReportDescr2;
 
     return 0;
@@ -43,10 +46,10 @@ Fail:
     return rcode;
 }
 
-USB                                             Usb;
-//USBHub                                          Hub(&Usb);
-HIDUniversal2                                   Hid(&Usb);
-UniversalReportParser                           Uni;
+USB Usb;
+//USBHub Hub(&Usb);
+HIDUniversal2 Hid(&Usb);
+UniversalReportParser Uni;
 
 void setup()
 {
@@ -56,11 +59,11 @@ void setup()
 
   if (Usb.Init() == -1)
       Serial.println("OSC did not start.");
-      
+
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Uni))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  ); 
+      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()

@@ -21,7 +21,7 @@
 #include "controllerEnums.h"
 
 /** Enum used to set special LED modes supported by the Xbox controller. */
-enum LEDMode {
+enum LEDModeEnum {
         ROTATING = 0x0A,
         FASTBLINK = 0x0B,
         SLOWBLINK = 0x0C,
@@ -29,15 +29,16 @@ enum LEDMode {
 };
 
 /** Used to set the LEDs on the controllers */
-const uint8_t XBOXLEDS[] PROGMEM = {
+const uint8_t XBOX_LEDS[] PROGMEM = {
+        0x00, // OFF
         0x02, // LED1
         0x03, // LED2
         0x04, // LED3
         0x05, // LED4
-        0x01 // ALL - Used to blink all LEDs
+        0x01, // ALL - Used to blink all LEDs
 };
 /** Buttons on the controllers */
-const uint16_t XBOXBUTTONS[] PROGMEM = {
+const uint16_t XBOX_BUTTONS[] PROGMEM = {
         0x0100, // UP
         0x0800, // RIGHT
         0x0200, // DOWN
@@ -58,7 +59,7 @@ const uint16_t XBOXBUTTONS[] PROGMEM = {
         0x0080, // Y
 
         0x0004, // XBOX
-        0x0008 // SYNC
+        0x0008, // SYNC
 };
 
 #endif

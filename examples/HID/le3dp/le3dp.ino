@@ -5,6 +5,10 @@
 #include <usbhub.h>
 
 #include "le3dp_rptparser.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB                                             Usb;
 USBHub                                          Hub(&Usb);
@@ -20,11 +24,11 @@ void setup()
 
   if (Usb.Init() == -1)
       Serial.println("OSC did not start.");
-      
+
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Joy))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  ); 
+      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()

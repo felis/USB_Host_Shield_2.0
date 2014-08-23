@@ -6,6 +6,10 @@
 #include <usbhub.h>
 
 #include "scale_rptparser.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB                                             Usb;
 USBHub                                          Hub(&Usb);
@@ -22,18 +26,18 @@ void setup()
 
   if (Usb.Init() == -1)
       Serial.println("OSC did not start.");
-      
-    // set up the LCD's number of rows and columns: 
+
+    // set up the LCD's number of rows and columns:
     LCD.begin(16, 2);
     LCD.clear();
     LCD.home();
     LCD.setCursor(0,0);
-    LCD.write('R');  
-      
+    LCD.write('R');
+
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Scale))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  ); 
+      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()

@@ -6,14 +6,18 @@
 
 #include <SPP.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
 
 BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
-SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "1234"
-//SPP SerialBT(&Btd, "Lauszus's Arduino","0000"); // You can also set the name and pin like so
+SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
+//SPP SerialBT(&Btd, "Lauszus's Arduino", "1234"); // You can also set the name and pin like so
 
 boolean firstMessage = true;
 

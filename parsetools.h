@@ -40,7 +40,7 @@ public:
         };
 
         void Initialize(MultiValueBuffer * const pbuf) {
-                pBuf = (uint8_t*) pbuf->pValue;
+                pBuf = (uint8_t*)pbuf->pValue;
                 countDown = valueSize = pbuf->valueSize;
         };
 
@@ -58,7 +58,7 @@ public:
         };
 
         void Initialize(MultiValueBuffer *pbuf) {
-                pBuf = (uint8_t*) pbuf->pValue;
+                pBuf = (uint8_t*)pbuf->pValue;
                 countDown = 0;
         };
 
@@ -73,7 +73,7 @@ public:
                                 if(!countDown)
                                         nStage = 0;
                 };
-                return(!countDown);
+                return (!countDown);
         };
 };
 

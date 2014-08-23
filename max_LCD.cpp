@@ -52,14 +52,14 @@ void Max_LCD::init() {
 }
 
 void Max_LCD::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
-        if (lines > 1) {
+        if(lines > 1) {
                 _displayfunction |= LCD_2LINE;
         }
         _numlines = lines;
         _currline = 0;
 
         // for some 1 line displays you can select a 10 pixel high font
-        if ((dotsize != 0) && (lines == 1)) {
+        if((dotsize != 0) && (lines == 1)) {
                 _displayfunction |= LCD_5x10DOTS;
         }
 
@@ -123,7 +123,7 @@ void Max_LCD::home() {
 
 void Max_LCD::setCursor(uint8_t col, uint8_t row) {
         int row_offsets[] = {0x00, 0x40, 0x14, 0x54};
-        if (row > _numlines) {
+        if(row > _numlines) {
                 row = _numlines - 1; // we count rows starting w/0
         }
 
@@ -211,7 +211,7 @@ void Max_LCD::noAutoscroll(void) {
 void Max_LCD::createChar(uint8_t location, uint8_t charmap[]) {
         location &= 0x7; // we only have 8 locations 0-7
         command(LCD_SETCGRAMADDR | (location << 3));
-        for (int i = 0; i < 8; i++) {
+        for(int i = 0; i < 8; i++) {
                 write(charmap[i]);
         }
 }
@@ -223,9 +223,18 @@ inline void Max_LCD::command(uint8_t value) {
         delayMicroseconds(100);
 }
 
+#if defined(ARDUINO) && ARDUINO >=100
+
+inline size_t Max_LCD::write(uint8_t value) {
+        LCD_sendchar(value);
+        return 1; // Assume success
+}
+#else
+
 inline void Max_LCD::write(uint8_t value) {
         LCD_sendchar(value);
 }
+#endif
 
 void Max_LCD::sendbyte(uint8_t val) {
         lcdPins &= 0x0f; //prepare place for the upper nibble

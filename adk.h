@@ -13,7 +13,7 @@ Contact information
 Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
-*/
+ */
 
 /* Google ADK interface support header */
 
@@ -27,8 +27,8 @@ e-mail   :  support@circuitsathome.com
 #define ADB_PID   0x2D01
 
 #define XOOM  //enables repeating getProto() and getConf() attempts
-              //necessary for slow devices such as Motorola XOOM
-              //defined by default, can be commented out to save memory
+//necessary for slow devices such as Motorola XOOM
+//defined by default, can be commented out to save memory
 
 /* requests */
 
@@ -124,17 +124,17 @@ public:
 
 /* returns 2 bytes in *adkproto */
 inline uint8_t ADK::getProto(uint8_t* adkproto) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_GET, ADK_GETPROTO, 0, 0, 0, 2, 2, adkproto, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_GET, ADK_GETPROTO, 0, 0, 0, 2, 2, adkproto, NULL));
 }
 
 /* send ADK string */
 inline uint8_t ADK::sendStr(uint8_t index, const char* str) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_SEND, ADK_SENDSTR, 0, 0, index, strlen(str) + 1, strlen(str) + 1, (uint8_t*) str, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_SEND, ADK_SENDSTR, 0, 0, index, strlen(str) + 1, strlen(str) + 1, (uint8_t*)str, NULL));
 }
 
 /* switch to accessory mode */
 inline uint8_t ADK::switchAcc(void) {
-        return( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_SEND, ADK_ACCSTART, 0, 0, 0, 0, 0, NULL, NULL));
+        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_ADK_SEND, ADK_ACCSTART, 0, 0, 0, 0, 0, NULL, NULL));
 }
 
 #endif // _ADK_H_

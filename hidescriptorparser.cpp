@@ -1,3 +1,20 @@
+/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+
+This software may be distributed and modified under the terms of the GNU
+General Public License version 2 (GPL2) as published by the Free Software
+Foundation and appearing in the file GPL2.TXT included in the packaging of
+this file. Please note that GPL2 Section 2[b] requires that all works based
+on this software must also be made publicly available under the terms of
+the GPL2 ("Copyleft").
+
+Contact information
+-------------------
+
+Circuits At Home, LTD
+Web      :  http://www.circuitsathome.com
+e-mail   :  support@circuitsathome.com
+ */
+
 #include "hidescriptorparser.h"
 
 const char * const ReportDescParserBase::usagePageTitles0[] PROGMEM = {
@@ -980,7 +997,7 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 
         totalSize = 0;
 
-        while (cntdn) {
+        while(cntdn) {
                 //USB_HOST_SERIAL.println("");
                 //PrintHex<uint16_t>(offset + len - cntdn);
                 //USB_HOST_SERIAL.print(":");
@@ -995,7 +1012,7 @@ void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const 
 
 void ReportDescParserBase::PrintValue(uint8_t *p, uint8_t len) {
         E_Notify(PSTR("("), 0x80);
-        for (; len; p++, len--)
+        for(; len; p++, len--)
                 PrintHex<uint8_t > (*p, 0x80);
         E_Notify(PSTR(")"), 0x80);
 }
@@ -1007,7 +1024,7 @@ void ReportDescParserBase::PrintByteValue(uint8_t data) {
 }
 
 void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
-        switch (prefix & (TYPE_MASK | TAG_MASK)) {
+        switch(prefix & (TYPE_MASK | TAG_MASK)) {
                 case (TYPE_GLOBAL | TAG_GLOBAL_PUSH):
                         E_Notify(PSTR("\r\nPush"), 0x80);
                         break;
@@ -1073,10 +1090,10 @@ void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
 
 uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t	ret = enErrorSuccess;
-
-        switch (itemParseState) {
+        //reinterpret_cast<>(varBuffer);
+        switch(itemParseState) {
                 case 0:
-                        if (**pp == HID_LONG_ITEM_PREFIX)
+                        if(**pp == HID_LONG_ITEM_PREFIX)
                                 USBTRACE("\r\nLONG\r\n");
                         else {
                                 uint8_t size = ((**pp) & DATA_SIZE_MASK);
@@ -1091,10 +1108,10 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         itemSize--;
                         itemParseState = 1;
 
-                        if (!itemSize)
+                        if(!itemSize)
                                 break;
 
-                        if (!pcntdn)
+                        if(!pcntdn)
                                 return enErrorIncomplete;
                 case 1:
                         //USBTRACE2("\r\niSz:",itemSize);
@@ -1103,19 +1120,20 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
                 case 2:
-                        if (!valParser.Parse(pp, pcntdn))
+                        if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
 
-                        switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
+                        switch(itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
-                                        if (pfUsage) {
-                                                if (theBuffer.valueSize > 1)
-                                                        pfUsage(*((uint16_t*)varBuffer));
-                                                else
+                                        if(pfUsage) {
+                                                if(theBuffer.valueSize > 1) {
+                                                        uint16_t* ui16 = reinterpret_cast<uint16_t *>(varBuffer);
+                                                        pfUsage(*ui16);
+                                                } else
                                                         pfUsage(data);
                                         }
                                         break;
@@ -1148,7 +1166,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                         break;
                                 case (TYPE_MAIN | TAG_MAIN_COLLECTION):
                                 case (TYPE_MAIN | TAG_MAIN_ENDCOLLECTION):
-                                        switch (data) {
+                                        switch(data) {
                                                 case 0x00:
                                                         E_Notify(PSTR(" Physical"), 0x80);
                                                         break;
@@ -1215,18 +1233,23 @@ ReportDescParserBase::UsagePageFunc ReportDescParserBase::usagePageFunctions[] /
 void ReportDescParserBase::SetUsagePage(uint16_t page) {
         pfUsage = NULL;
 
-        if (page > 0x00 && page < 0x11)
-                pfUsage = /*(UsagePageFunc)pgm_read_pointer*/(usagePageFunctions[page - 1]);
+        if(VALUE_BETWEEN(page, 0x00, 0x11))
+                pfUsage = (usagePageFunctions[page - 1]);
+
+                // Dead code...
+                //
+                //      pfUsage = (UsagePageFunc)pgm_read_pointer(usagePageFunctions[page - 1]);
                 //else if (page > 0x7f && page < 0x84)
-                //	E_Notify(pstrUsagePageMonitor);
+                //      E_Notify(pstrUsagePageMonitor);
                 //else if (page > 0x83 && page < 0x8c)
                 //	E_Notify(pstrUsagePagePower);
                 //else if (page > 0x8b && page < 0x92)
                 //	E_Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]));
                 //else if (page > 0xfeff && page <= 0xffff)
                 //	E_Notify(pstrUsagePageVendorDefined);
+                //
         else
-                switch (page) {
+                switch(page) {
                         case 0x14:
                                 pfUsage = &ReportDescParserBase::PrintAlphanumDisplayPageUsage;
                                 break;
@@ -1237,20 +1260,19 @@ void ReportDescParserBase::SetUsagePage(uint16_t page) {
 }
 
 void ReportDescParserBase::PrintUsagePage(uint16_t page) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (page > 0x00 && page < 0x11)
-                E_Notify((char*)pgm_read_pointer(&usagePageTitles0[page - 1]), 0x80);
-        else if (page > 0x7f && page < 0x84)
+        output_if_between(page, 0x00, 0x11, w, E_Notify, usagePageTitles0, 0x80)
+        else output_if_between(page, 0x8b, 0x92, w, E_Notify, usagePageTitles1, 0x80)
+        else if(VALUE_BETWEEN(page, 0x7f, 0x84))
                 E_Notify(pstrUsagePageMonitor, 0x80);
-        else if (page > 0x83 && page < 0x8c)
+        else if(VALUE_BETWEEN(page, 0x83, 0x8c))
                 E_Notify(pstrUsagePagePower, 0x80);
-        else if (page > 0x8b && page < 0x92)
-                E_Notify((char*)pgm_read_pointer(&usagePageTitles1[page - 0x8c]), 0x80);
-        else if (page > 0xfeff && page <= 0xffff)
+        else if(page > 0xfeff /* && page <= 0xffff */)
                 E_Notify(pstrUsagePageVendorDefined, 0x80);
         else
-                switch (page) {
+                switch(page) {
                         case 0x14:
                                 E_Notify(pstrUsagePageAlphaNumericDisplay, 0x80);
                                 break;
@@ -1280,197 +1302,147 @@ void ReportDescParserBase::PrintOrdinalPageUsage(uint16_t usage) {
 }
 
 void ReportDescParserBase::PrintGenericDesktopPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x0a)
-                E_Notify((char*)pgm_read_pointer(&genDesktopTitles0[usage - 1]), 0x80);
-        else if (usage > 0x2f && usage < 0x49)
-                E_Notify((char*)pgm_read_pointer(&genDesktopTitles1[usage - 0x30]), 0x80);
-        else if (usage > 0x7f && usage < 0x94)
-                E_Notify((char*)pgm_read_pointer(&genDesktopTitles2[usage - 0x80]), 0x80);
-        else if (usage > 0x9f && usage < 0xa9)
-                E_Notify((char*)pgm_read_pointer(&genDesktopTitles3[usage - 0xa0]), 0x80);
-        else if (usage > 0xaf && usage < 0xb8)
-                E_Notify((char*)pgm_read_pointer(&genDesktopTitles4[usage - 0xb0]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x0a, w, E_Notify, genDesktopTitles0, 0x80)
+        else output_if_between(usage, 0x2f, 0x49, w, E_Notify, genDesktopTitles1, 0x80)
+        else output_if_between(usage, 0x7f, 0x94, w, E_Notify, genDesktopTitles2, 0x80)
+        else output_if_between(usage, 0x9f, 0xa9, w, E_Notify, genDesktopTitles3, 0x80)
+        else output_if_between(usage, 0xaf, 0xb8, w, E_Notify, genDesktopTitles4, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintSimulationControlsPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x0d)
-                E_Notify((char*)pgm_read_pointer(&simuTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x26)
-                E_Notify((char*)pgm_read_pointer(&simuTitles1[usage - 0x20]), 0x80);
-        else if (usage > 0xaf && usage < 0xd1)
-                E_Notify((char*)pgm_read_pointer(&simuTitles2[usage - 0xb0]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x0d, w, E_Notify, simuTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x26, w, E_Notify, simuTitles1, 0x80)
+        else output_if_between(usage, 0xaf, 0xd1, w, E_Notify, simuTitles2, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintVRControlsPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x0b)
-                E_Notify((char*)pgm_read_pointer(&vrTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x22)
-                E_Notify((char*)pgm_read_pointer(&vrTitles1[usage - 0x20]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x0b, w, E_Notify, vrTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x22, w, E_Notify, vrTitles1, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintSportsControlsPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x05)
-                E_Notify((char*)pgm_read_pointer(&sportsCtrlTitles0[usage - 1]), 0x80);
-        else if (usage > 0x2f && usage < 0x3a)
-                E_Notify((char*)pgm_read_pointer(&sportsCtrlTitles1[usage - 0x30]), 0x80);
-        else if (usage > 0x4f && usage < 0x64)
-                E_Notify((char*)pgm_read_pointer(&sportsCtrlTitles2[usage - 0x50]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x05, w, E_Notify, sportsCtrlTitles0, 0x80)
+        else output_if_between(usage, 0x2f, 0x3a, w, E_Notify, sportsCtrlTitles1, 0x80)
+        else output_if_between(usage, 0x4f, 0x64, w, E_Notify, sportsCtrlTitles2, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintGameControlsPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x04)
-                E_Notify((char*)pgm_read_pointer(&gameTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x3a)
-                E_Notify((char*)pgm_read_pointer(&gameTitles1[usage - 0x20]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x04, w, E_Notify, gameTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x3a, w, E_Notify, gameTitles1, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintGenericDeviceControlsPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x1f && usage < 0x27)
-                E_Notify((char*)pgm_read_pointer(&genDevCtrlTitles[usage - 0x20]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x1f, 0x27, w, E_Notify, genDevCtrlTitles, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintLEDPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x4e)
-                E_Notify((char*)pgm_read_pointer(&ledTitles[usage - 1]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x4e, w, E_Notify, ledTitles, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintTelephonyPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x08)
-                E_Notify((char*)pgm_read_pointer(&telTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x32)
-                E_Notify((char*)pgm_read_pointer(&telTitles1[usage - 0x1f]), 0x80);
-        else if (usage > 0x4f && usage < 0x54)
-                E_Notify((char*)pgm_read_pointer(&telTitles2[usage - 0x4f]), 0x80);
-        else if (usage > 0x6f && usage < 0x75)
-                E_Notify((char*)pgm_read_pointer(&telTitles3[usage - 0x6f]), 0x80);
-        else if (usage > 0x8f && usage < 0x9f)
-                E_Notify((char*)pgm_read_pointer(&telTitles4[usage - 0x8f]), 0x80);
-        else if (usage > 0xaf && usage < 0xc0)
-                E_Notify((char*)pgm_read_pointer(&telTitles5[usage - 0xaf]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x08, w, E_Notify, telTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x32, w, E_Notify, telTitles1, 0x80)
+        else output_if_between(usage, 0x4f, 0x54, w, E_Notify, telTitles2, 0x80)
+        else output_if_between(usage, 0x6f, 0x75, w, E_Notify, telTitles3, 0x80)
+        else output_if_between(usage, 0x8f, 0x9f, w, E_Notify, telTitles4, 0x80)
+        else output_if_between(usage, 0xaf, 0xc0, w, E_Notify, telTitles5, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintConsumerPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x07)
-                E_Notify((char*)pgm_read_pointer(&consTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x23)
-                E_Notify((char*)pgm_read_pointer(&consTitles1[usage - 0x1f]), 0x80);
-        else if (usage > 0x2f && usage < 0x37)
-                E_Notify((char*)pgm_read_pointer(&consTitles2[usage - 0x2f]), 0x80);
-        else if (usage > 0x3f && usage < 0x49)
-                E_Notify((char*)pgm_read_pointer(&consTitles3[usage - 0x3f]), 0x80);
-        else if (usage > 0x5f && usage < 0x67)
-                E_Notify((char*)pgm_read_pointer(&consTitles4[usage - 0x5f]), 0x80);
-        else if (usage > 0x7f && usage < 0xa5)
-                E_Notify((char*)pgm_read_pointer(&consTitles5[usage - 0x7f]), 0x80);
-        else if (usage > 0xaf && usage < 0xcf)
-                E_Notify((char*)pgm_read_pointer(&consTitles6[usage - 0xaf]), 0x80);
-        else if (usage > 0xdf && usage < 0xeb)
-                E_Notify((char*)pgm_read_pointer(&consTitles7[usage - 0xdf]), 0x80);
-        else if (usage > 0xef && usage < 0xf6)
-                E_Notify((char*)pgm_read_pointer(&consTitles8[usage - 0xef]), 0x80);
-        else if (usage > 0xff && usage < 0x10e)
-                E_Notify((char*)pgm_read_pointer(&consTitles9[usage - 0xff]), 0x80);
-        else if (usage > 0x14f && usage < 0x156)
-                E_Notify((char*)pgm_read_pointer(&consTitlesA[usage - 0x14f]), 0x80);
-        else if (usage > 0x15f && usage < 0x16b)
-                E_Notify((char*)pgm_read_pointer(&consTitlesB[usage - 0x15f]), 0x80);
-        else if (usage > 0x16f && usage < 0x175)
-                E_Notify((char*)pgm_read_pointer(&consTitlesC[usage - 0x16f]), 0x80);
-        else if (usage > 0x17f && usage < 0x1c8)
-                E_Notify((char*)pgm_read_pointer(&consTitlesD[usage - 0x17f]), 0x80);
-        else if (usage > 0x1ff && usage < 0x29d)
-                E_Notify((char*)pgm_read_pointer(&consTitlesE[usage - 0x1ff]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x07, w, E_Notify, consTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, consTitles1, 0x80)
+        else output_if_between(usage, 0x2f, 0x37, w, E_Notify, consTitles2, 0x80)
+        else output_if_between(usage, 0x3f, 0x49, w, E_Notify, consTitles3, 0x80)
+        else output_if_between(usage, 0x5f, 0x67, w, E_Notify, consTitles4, 0x80)
+        else output_if_between(usage, 0x7f, 0xa5, w, E_Notify, consTitles5, 0x80)
+        else output_if_between(usage, 0xaf, 0xcf, w, E_Notify, consTitles6, 0x80)
+        else output_if_between(usage, 0xdf, 0xeb, w, E_Notify, consTitles7, 0x80)
+        else output_if_between(usage, 0xef, 0xf6, w, E_Notify, consTitles8, 0x80)
+        else output_if_between(usage, 0xff, 0x10e, w, E_Notify, consTitles9, 0x80)
+        else output_if_between(usage, 0x14f, 0x156, w, E_Notify, consTitlesA, 0x80)
+        else output_if_between(usage, 0x15f, 0x16b, w, E_Notify, consTitlesB, 0x80)
+        else output_if_between(usage, 0x16f, 0x175, w, E_Notify, consTitlesC, 0x80)
+        else output_if_between(usage, 0x17f, 0x1c8, w, E_Notify, consTitlesD, 0x80)
+        else output_if_between(usage, 0x1ff, 0x29d, w, E_Notify, consTitlesE, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintDigitizerPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x0e)
-                E_Notify((char*)pgm_read_pointer(&digitTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x23)
-                E_Notify((char*)pgm_read_pointer(&digitTitles1[usage - 0x1f]), 0x80);
-        else if (usage > 0x2f && usage < 0x47)
-                E_Notify((char*)pgm_read_pointer(&digitTitles2[usage - 0x2f]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x0e, w, E_Notify, digitTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x23, w, E_Notify, digitTitles1, 0x80)
+        else output_if_between(usage, 0x2f, 0x47, w, E_Notify, digitTitles2, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintAlphanumDisplayPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage > 0x00 && usage < 0x03)
-                E_Notify((char*)pgm_read_pointer(&aplphanumTitles0[usage - 1]), 0x80);
-        else if (usage > 0x1f && usage < 0x4e)
-                E_Notify((char*)pgm_read_pointer(&aplphanumTitles1[usage - 0x1f]), 0x80);
-        else if (usage > 0x7f && usage < 0x96)
-                E_Notify((char*)pgm_read_pointer(&digitTitles2[usage - 0x80]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        output_if_between(usage, 0x00, 0x03, w, E_Notify, aplphanumTitles0, 0x80)
+        else output_if_between(usage, 0x1f, 0x4e, w, E_Notify, aplphanumTitles1, 0x80)
+        else output_if_between(usage, 0x7f, 0x96, w, E_Notify, digitTitles2, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
+        const char * const * w;
         E_Notify(pstrSpace, 0x80);
 
-        if (usage == 1)
-                E_Notify(pstrUsageMedicalUltrasound, 0x80);
-        else if (usage > 0x1f && usage < 0x28)
-                E_Notify((char*)pgm_read_pointer(&medInstrTitles0[usage - 0x1f]), 0x80);
-        else if (usage > 0x3f && usage < 0x45)
-                E_Notify((char*)pgm_read_pointer(&medInstrTitles1[usage - 0x40]), 0x80);
-        else if (usage > 0x5f && usage < 0x62)
-                E_Notify((char*)pgm_read_pointer(&medInstrTitles2[usage - 0x60]), 0x80);
-        else if (usage == 0x70)
+        if(usage == 1) E_Notify(pstrUsageMedicalUltrasound, 0x80);
+        else if(usage == 0x70)
                 E_Notify(pstrUsageDepthGainCompensation, 0x80);
-        else if (usage > 0x7f && usage < 0x8a)
-                E_Notify((char*)pgm_read_pointer(&medInstrTitles3[usage - 0x80]), 0x80);
-        else if (usage > 0x9f && usage < 0xa2)
-                E_Notify((char*)pgm_read_pointer(&medInstrTitles4[usage - 0xa0]), 0x80);
-        else
-                E_Notify(pstrUsagePageUndefined, 0x80);
+        else output_if_between(usage, 0x1f, 0x28, w, E_Notify, medInstrTitles0, 0x80)
+        else output_if_between(usage, 0x3f, 0x45, w, E_Notify, medInstrTitles1, 0x80)
+        else output_if_between(usage, 0x5f, 0x62, w, E_Notify, medInstrTitles2, 0x80)
+        else output_if_between(usage, 0x7f, 0x8a, w, E_Notify, medInstrTitles3, 0x80)
+        else output_if_between(usage, 0x9f, 0xa2, w, E_Notify, medInstrTitles4, 0x80)
+        else E_Notify(pstrUsagePageUndefined, 0x80);
 }
 
 uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t	ret = enErrorSuccess;
 
-        switch (itemParseState) {
+        switch(itemParseState) {
                 case 0:
-                        if (**pp == HID_LONG_ITEM_PREFIX)
+                        if(**pp == HID_LONG_ITEM_PREFIX)
                                 USBTRACE("\r\nLONG\r\n");
                         else {
                                 uint8_t size = ((**pp) & DATA_SIZE_MASK);
@@ -1482,29 +1454,30 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         itemSize--;
                         itemParseState = 1;
 
-                        if (!itemSize)
+                        if(!itemSize)
                                 break;
 
-                        if (!pcntdn)
+                        if(!pcntdn)
                                 return enErrorIncomplete;
                 case 1:
                         theBuffer.valueSize = itemSize;
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
                 case 2:
-                        if (!valParser.Parse(pp, pcntdn))
+                        if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
 
-                        switch (itemPrefix & (TYPE_MASK | TAG_MASK)) {
+                        switch(itemPrefix & (TYPE_MASK | TAG_MASK)) {
                                 case (TYPE_LOCAL | TAG_LOCAL_USAGE):
-                                        if (pfUsage) {
-                                                if (theBuffer.valueSize > 1)
-                                                        pfUsage(*((uint16_t*)varBuffer));
-                                                else
+                                        if(pfUsage) {
+                                                if(theBuffer.valueSize > 1) {
+                                                        uint16_t* ui16 = reinterpret_cast<uint16_t *>(varBuffer);
+                                                        pfUsage(*ui16);
+                                                } else
                                                         pfUsage(data);
                                         }
                                         break;
@@ -1556,7 +1529,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
         uint8_t bit_offset = totalSize - tmp; // number of bits in the current byte already handled
         uint8_t *p = pBuf + byte_offset; // current byte pointer
 
-        if (bit_offset)
+        if(bit_offset)
                 *p >>= bit_offset;
 
         uint8_t usage = useMin;
@@ -1566,7 +1539,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
         uint8_t bits_of_byte = 8;
 
         // for each field in field array defined by rptCount
-        for (uint8_t field = 0; field < rptCount; field++, usage++) {
+        for(uint8_t field = 0; field < rptCount; field++, usage++) {
 
                 union {
                         uint8_t bResult[4];
@@ -1577,7 +1550,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 result.dwResult = 0;
                 uint8_t mask = 0;
 
-                if (print_usemin_usemax)
+                if(print_usemin_usemax)
                         pfUsage(usage);
 
                 // bits_left		- number of bits in the field(array of fields, depending on Report Count) left to process
@@ -1585,7 +1558,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 // bits_to_copy		- number of bits to copy to result buffer
 
                 // for each bit in a field
-                for (uint8_t bits_left = rptSize, bits_to_copy = 0; bits_left;
+                for(uint8_t bits_left = rptSize, bits_to_copy = 0; bits_left;
                         bits_left -= bits_to_copy) {
                         bits_to_copy = (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
 
@@ -1597,7 +1570,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
 
                         mask = 0;
 
-                        for (uint8_t j = bits_to_copy; j; j--) {
+                        for(uint8_t j = bits_to_copy; j; j--) {
                                 mask <<= 1;
                                 mask |= 1;
                         }
@@ -1606,7 +1579,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
 
                         bits_of_byte -= bits_to_copy;
 
-                        if (bits_of_byte < 1) {
+                        if(bits_of_byte < 1) {
                                 bits_of_byte = 8;
                                 p++;
                         }
@@ -1621,6 +1594,6 @@ void UniversalReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t
 
         uint8_t ret = hid->GetReportDescr(0, &prs);
 
-        if (ret)
+        if(ret)
                 ErrorMessage<uint8_t > (PSTR("GetReportDescr-2"), ret);
 }

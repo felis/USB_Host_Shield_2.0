@@ -21,40 +21,7 @@
 #include "BTD.h"
 #include "PS3Enums.h"
 
-#define HID_BUFFERSIZE              50 // Size of the buffer for the Playstation Motion Controller
-
-/* Bluetooth L2CAP states for L2CAP_task() */
-#define L2CAP_WAIT                   0
-#define L2CAP_CONTROL_REQUEST        1
-#define L2CAP_CONTROL_SUCCESS        2
-#define L2CAP_INTERRUPT_SETUP        3
-#define L2CAP_INTERRUPT_REQUEST      4
-#define L2CAP_INTERRUPT_SUCCESS      5
-#define L2CAP_HID_ENABLE_SIXAXIS     6
-#define L2CAP_HID_PS3_LED            7
-#define L2CAP_DONE                   8
-#define L2CAP_INTERRUPT_DISCONNECT   9
-#define L2CAP_CONTROL_DISCONNECT     10
-
-/* L2CAP event flags */
-#define L2CAP_FLAG_CONNECTION_CONTROL_REQUEST     0x01
-#define L2CAP_FLAG_CONFIG_CONTROL_REQUEST         0x02
-#define L2CAP_FLAG_CONFIG_CONTROL_SUCCESS         0x04
-#define L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST   0x08
-#define L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST       0x10
-#define L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS       0x20
-#define L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE    0x40
-#define L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE  0x80
-
-/*Macros for L2CAP event flag tests */
-#define l2cap_connection_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_CONTROL_REQUEST)
-#define l2cap_config_request_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_REQUEST)
-#define l2cap_config_success_control_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_CONTROL_SUCCESS)
-#define l2cap_connection_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONNECTION_INTERRUPT_REQUEST)
-#define l2cap_config_request_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_REQUEST)
-#define l2cap_config_success_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS)
-#define l2cap_disconnect_response_control_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE)
-#define l2cap_disconnect_response_interrupt_flag (l2cap_event_flag & L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE)
+#define HID_BUFFERSIZE 50 // Size of the buffer for the Playstation Motion Controller
 
 /**
  * This BluetoothService class implements support for all the official PS3 Controllers:
@@ -79,7 +46,7 @@ public:
          * @param ACLData Incoming acldata.
          */
         virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state maschine. */
+        /** Used to run part of the state machine. */
         virtual void Run();
         /** Use this to reset the service. */
         virtual void Reset();
@@ -89,32 +56,34 @@ public:
 
         /** @name PS3 Controller functions */
         /**
-         * getButtonPress(Button b) will return true as long as the button is held down.
+         * getButtonPress(ButtonEnum b) will return true as long as the button is held down.
          *
-         * While getButtonClick(Button b) will only return it once.
+         * While getButtonClick(ButtonEnum b) will only return it once.
          *
-         * So you instance if you need to increase a variable once you would use getButtonClick(Button b),
-         * but if you need to drive a robot forward you would use getButtonPress(Button b).
+         * So you instance if you need to increase a variable once you would use getButtonClick(ButtonEnum b),
+         * but if you need to drive a robot forward you would use getButtonPress(ButtonEnum b).
+         * @param  b          ::ButtonEnum to read.
+         * @return            getButtonPress(ButtonEnum b) will return a true as long as a button is held down, while getButtonClick(ButtonEnum b) will return true once for each button press.
          */
-        bool getButtonPress(Button b);
-        bool getButtonClick(Button b);
+        bool getButtonPress(ButtonEnum b);
+        bool getButtonClick(ButtonEnum b);
         /**@}*/
         /** @name PS3 Controller functions */
         /**
          * Used to get the analog value from button presses.
-         * @param  a The ::Button to read.
+         * @param  a The ::ButtonEnum to read.
          * The supported buttons are:
          * ::UP, ::RIGHT, ::DOWN, ::LEFT, ::L1, ::L2, ::R1, ::R2,
          * ::TRIANGLE, ::CIRCLE, ::CROSS, ::SQUARE, and ::T.
          * @return   Analog value in the range of 0-255.
          */
-        uint8_t getAnalogButton(Button a);
+        uint8_t getAnalogButton(ButtonEnum a);
         /**
          * Used to read the analog joystick.
          * @param  a ::LeftHatX, ::LeftHatY, ::RightHatX, and ::RightHatY.
          * @return   Return the analog value in the range of 0-255.
          */
-        uint8_t getAnalogHat(AnalogHat a);
+        uint8_t getAnalogHat(AnalogHatEnum a);
         /**
          * Used to read the sensors inside the Dualshock 3 and Move controller.
          * @param  a
@@ -123,47 +92,44 @@ public:
          * and a temperature sensor inside.
          * @return   Return the raw sensor value.
          */
-        int16_t getSensor(Sensor a);
+        int16_t getSensor(SensorEnum a);
         /**
          * Use this to get ::Pitch and ::Roll calculated using the accelerometer.
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(Angle a);
+        double getAngle(AngleEnum a);
         /**
          * Read the sensors inside the Move controller.
          * @param  a ::aXmove, ::aYmove, ::aZmove, ::gXmove, ::gYmove, ::gZmove, ::mXmove, ::mYmove, and ::mXmove.
          * @return   The value in SI units.
          */
-        double get9DOFValues(Sensor a);
+        double get9DOFValues(SensorEnum a);
         /**
-         * Get the ::Status from the controller.
-         * @param  c The ::Status you want to read.
+         * Get the status from the controller.
+         * @param  c The ::StatusEnum you want to read.
          * @return   True if correct and false if not.
          */
-        bool getStatus(Status c);
-        /**
-         * Read all the available ::Status from the controller.
-         * @return One large string with all the information.
-         */
-        String getStatusString();
+        bool getStatus(StatusEnum c);
+        /** Read all the available statuses from the controller and prints it as a nice formated string. */
+        void printStatusString();
         /**
          * Read the temperature from the Move controller.
-         * @return The temperature in degrees celsius.
+         * @return The temperature in degrees Celsius.
          */
         String getTemperature();
 
-        /** Used to set all LEDs and ::Rumble off. */
+        /** Used to set all LEDs and rumble off. */
         void setAllOff();
-        /** Turn off ::Rumble. */
+        /** Turn off rumble. */
         void setRumbleOff();
         /**
-         * Turn on ::Rumble.
+         * Turn on rumble.
          * @param mode Either ::RumbleHigh or ::RumbleLow.
          */
-        void setRumbleOn(Rumble mode);
+        void setRumbleOn(RumbleEnum mode);
         /**
-         * Turn on ::Rumble using custom duration and power.
+         * Turn on rumble using custom duration and power.
          * @param rightDuration The duration of the right/low rumble effect.
          * @param rightPower The intensity of the right/low rumble effect.
          * @param leftDuration The duration of the left/high rumble effect.
@@ -172,29 +138,30 @@ public:
         void setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower);
 
         /**
-         * Set LED value without using the ::LED enum.
-         * @param value See: ::LED enum.
+         * Set LED value without using ::LEDEnum.
+         * @param value See: ::LEDEnum.
          */
         void setLedRaw(uint8_t value);
+
         /** Turn all LEDs off. */
         void setLedOff() {
                 setLedRaw(0);
-        }
+        };
         /**
-         * Turn the specific ::LED off.
-         * @param a The ::LED to turn off.
+         * Turn the specific LED off.
+         * @param a The ::LEDEnum to turn off.
          */
-        void setLedOff(LED a);
+        void setLedOff(LEDEnum a);
         /**
-         * Turn the specific ::LED on.
-         * @param a The ::LED to turn on.
+         * Turn the specific LED on.
+         * @param a The ::LEDEnum to turn on.
          */
-        void setLedOn(LED a);
+        void setLedOn(LEDEnum a);
         /**
-         * Toggle the specific ::LED.
-         * @param a The ::LED to toggle.
+         * Toggle the specific LED.
+         * @param a The ::LEDEnum to toggle.
          */
-        void setLedToggle(LED a);
+        void setLedToggle(LEDEnum a);
 
         /**
          * Use this to set the Color using RGB values.
@@ -202,15 +169,20 @@ public:
          */
         void moveSetBulb(uint8_t r, uint8_t g, uint8_t b);
         /**
-         * Use this to set the color using the predefined colors in ::Colors.
+         * Use this to set the color using the predefined colors in ::ColorsEnum.
          * @param color The desired color.
          */
-        void moveSetBulb(Colors color);
+        void moveSetBulb(ColorsEnum color);
         /**
          * Set the rumble value inside the Move controller.
          * @param rumble The desired value in the range from 64-255.
          */
         void moveSetRumble(uint8_t rumble);
+
+        /** Used to get the millis() of the last message */
+        uint32_t getLastMessageTime() {
+                return lastMessageTime;
+        };
 
         /**
          * Used to call your own function when the controller is successfully initialized.
@@ -247,9 +219,11 @@ private:
         uint8_t remote_name[30]; // First 30 chars of remote name
         bool activeConnection; // Used to indicate if it's already has established a connection
 
-        /* variables used by high level L2CAP task */
+        /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint16_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
+
+        uint32_t lastMessageTime; // Variable used to store the millis value of the last message.
 
         unsigned long timer;
 

@@ -8,6 +8,10 @@
 #include <usbhub.h>
 #include "KeyboardParser.h"
 #include "MouseParser.h"
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#endif
 
 USB Usb;
 //USBHub Hub1(&Usb); // Some dongles have a hub inside
@@ -16,7 +20,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 // This will start an inquiry and then pair with your device - you only have to do this once
 // If you are using a Bluetooth keyboard, then you should type in the password on the keypad and then press enter
-BTHID hid(&Btd, PAIR, "0000");
+BTHID bthid(&Btd, PAIR, "0000");
 
 // After that you can simply create the instance like so and then press any button on the device
 //BTHID hid(&Btd);
@@ -32,13 +36,13 @@ void setup() {
     while (1); // Halt
   }
 
-  hid.SetReportParser(KEYBOARD_PARSER_ID, (HIDReportParser*)&keyboardPrs);
-  hid.SetReportParser(MOUSE_PARSER_ID, (HIDReportParser*)&mousePrs);
+  bthid.SetReportParser(KEYBOARD_PARSER_ID, (HIDReportParser*)&keyboardPrs);
+  bthid.SetReportParser(MOUSE_PARSER_ID, (HIDReportParser*)&mousePrs);
 
   // If "Boot Protocol Mode" does not work, then try "Report Protocol Mode"
   // If that does not work either, then uncomment PRINTREPORT in BTHID.cpp to see the raw report
-  hid.setProtocolMode(HID_BOOT_PROTOCOL); // Boot Protocol Mode
-  //hid.setProtocolMode(HID_RPT_PROTOCOL); // Report Protocol Mode
+  bthid.setProtocolMode(HID_BOOT_PROTOCOL); // Boot Protocol Mode
+  //bthid.setProtocolMode(HID_RPT_PROTOCOL); // Report Protocol Mode
 
   Serial.print(F("\r\nHID Bluetooth Library Started"));
 }
