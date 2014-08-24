@@ -137,8 +137,8 @@ e-mail   :  support@circuitsathome.com
 #define USING_SPI4TEENSY3 0
 #endif
 
-#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || ARDUINO >= 158) && !USING_SPI4TEENSY3
-#include <SPI.h> // Use the Arduino SPI library for the Arduino Due or if the SPI library with transaction is available
+#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(__ARDUINO_X86__) || ARDUINO >= 158) && !USING_SPI4TEENSY3
+#include <SPI.h> // Use the Arduino SPI library for the Arduino Due, Intel Galileo or if the SPI library with transaction is available
 #endif
 
 #endif  /* SETTINGS_H */
