@@ -214,13 +214,13 @@ public:
          * Used to pass acldata to the Bluetooth service.
          * @param ACLData Pointer to the incoming acldata.
          */
-        virtual void ACLData(uint8_t* ACLData);
+        virtual void ACLData(uint8_t* ACLData) = 0;
         /** Used to run the different state machines in the Bluetooth service. */
-        virtual void Run();
+        virtual void Run() = 0;
         /** Used to reset the Bluetooth service. */
-        virtual void Reset();
+        virtual void Reset() = 0;
         /** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
-        virtual void disconnect();
+        virtual void disconnect() = 0;
 };
 
 /**
