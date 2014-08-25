@@ -948,7 +948,7 @@ MAKE_PIN(P78, PIOB, PIO_PB23); // Unconnected
 
 #endif
 
-#elif defined(__ARDUINO_X86__)
+#elif defined(__ARDUINO_X86__) // Intel Galileo
 
 #include <avr/pgmspace.h>
 
@@ -989,6 +989,12 @@ MAKE_PIN(P10, 10);
 MAKE_PIN(P11, 11);
 MAKE_PIN(P12, 12);
 MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4
+MAKE_PIN(P19, 19); // A5
 
 #undef MAKE_PIN
 
