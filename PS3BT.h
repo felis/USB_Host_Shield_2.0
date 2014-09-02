@@ -41,15 +41,6 @@ public:
         PS3BT(BTD *pBtd, uint8_t btadr5 = 0, uint8_t btadr4 = 0, uint8_t btadr3 = 0, uint8_t btadr2 = 0, uint8_t btadr1 = 0, uint8_t btadr0 = 0);
 
         /** @name BluetoothService implementation */
-        /**
-         * Used to pass acldata to the services.
-         * @param ACLData Incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state machine. */
-        virtual void Run();
-        /** Use this to reset the service. */
-        virtual void Reset();
         /** Used this to disconnect any of the controllers. */
         virtual void disconnect();
         /**@}*/
@@ -183,14 +174,6 @@ public:
         uint32_t getLastMessageTime() {
                 return lastMessageTime;
         };
-
-        /**
-         * Used to call your own function when the controller is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
-        };
         /**@}*/
 
         /** Variable used to indicate if the normal Playstation controller is successfully connected. */
@@ -200,32 +183,39 @@ public:
         /** Variable used to indicate if the Navigation controller is successfully connected. */
         bool PS3NavigationConnected;
 
-private:
-        /* Mandatory members */
-        BTD *pBtd;
-
+protected:
+        /** @name BluetoothService implementation */
+        /**
+         * Used to pass acldata to the services.
+         * @param ACLData Incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData);
+        /** Used to run part of the state machine. */
+        virtual void Run();
+        /** Use this to reset the service. */
+        virtual void Reset();
         /**
          * Called when the controller is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        void onInit();
-        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+        virtual void onInit();
+        /**@}*/
+
+private:
 
         void L2CAP_task(); // L2CAP state machine
 
         /* Variables filled from HCI event management */
-        int16_t hci_handle;
         uint8_t remote_name[30]; // First 30 chars of remote name
         bool activeConnection; // Used to indicate if it's already has established a connection
 
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
 
         uint32_t lastMessageTime; // Variable used to store the millis value of the last message.
 
-        unsigned long timer;
+        uint32_t timer;
 
         uint32_t ButtonState;
         uint32_t OldButtonState;
@@ -243,7 +233,6 @@ private:
         uint8_t control_dcid[2]; // 0x0040
         uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
         uint8_t interrupt_dcid[2]; // 0x0041
-        uint8_t identifier; // Identifier for connection
 
         /* HID Commands */
         void HID_Command(uint8_t* data, uint8_t nbytes);

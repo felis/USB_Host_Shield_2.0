@@ -43,7 +43,7 @@ const uint8_t rfcomm_crc_table[256] PROGMEM = {/* reversed, 8-bit, poly=0x07 */
 };
 
 SPP::SPP(BTD *p, const char* name, const char* pin) :
-pBtd(p) // Pointer to BTD class instance - mandatory
+BluetoothService(p) // Pointer to BTD class instance - mandatory
 {
         if(pBtd)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
@@ -69,6 +69,7 @@ void SPP::Reset() {
         l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
         l2cap_event_flag = 0;
         sppIndex = 0;
+        creditSent = false;
 }
 
 void SPP::disconnect() {
@@ -397,10 +398,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nRFCOMM Connection is now established\r\n"), 0x80);
 #endif
-                                        waitForLastCommand = false;
-                                        creditSent = false;
-                                        connected = true; // The RFCOMM channel is now established
-                                        sppIndex = 0;
+                                        onInit();
                                 }
 #ifdef EXTRADEBUG
                                 else if(rfcommChannelType != RFCOMM_DISC) {
@@ -430,13 +428,19 @@ void SPP::Run() {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"), 0x80);
 #endif
-                creditSent = false;
-                waitForLastCommand = false;
-                connected = true; // The RFCOMM channel is now established
-                sppIndex = 0;
+                onInit();
         }
         send(); // Send all bytes currently in the buffer
 }
+
+void SPP::onInit() {
+        creditSent = false;
+        waitForLastCommand = false;
+        connected = true; // The RFCOMM channel is now established
+        sppIndex = 0;
+        if(pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+};
 
 void SPP::SDP_task() {
         switch(l2cap_sdp_state) {

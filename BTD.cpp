@@ -511,6 +511,7 @@ void BTD::HCI_event_task() {
                                                 if(remote_name[i] == '\0') // End of string
                                                         break;
                                         }
+                                        // TODO: Altid sæt '\0' i remote name!
                                         hci_set_flag(HCI_FLAG_REMOTE_NAME_COMPLETE);
                                 }
                                 break;
