@@ -188,52 +188,52 @@ uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* Initialize data structures for endpoints of device */
         epInfo[ XBOX_INPUT_PIPE_1 ].epAddr = 0x01; // XBOX 360 report endpoint - poll interval 1ms
-        epInfo[ XBOX_INPUT_PIPE_1 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_INPUT_PIPE_1 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_1 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_1 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE_1 ].bmSndToggle = 0;
         epInfo[ XBOX_INPUT_PIPE_1 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].epAddr = 0x01; // XBOX 360 output endpoint - poll interval 8ms
-        epInfo[ XBOX_OUTPUT_PIPE_1 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_OUTPUT_PIPE_1 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_1 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].bmSndToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_1 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_2 ].epAddr = 0x03; // XBOX 360 report endpoint - poll interval 1ms
-        epInfo[ XBOX_INPUT_PIPE_2 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_INPUT_PIPE_2 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_2 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_2 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE_2 ].bmSndToggle = 0;
         epInfo[ XBOX_INPUT_PIPE_2 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].epAddr = 0x03; // XBOX 360 output endpoint - poll interval 8ms
-        epInfo[ XBOX_OUTPUT_PIPE_2 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_OUTPUT_PIPE_2 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_2 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].bmSndToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_2 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_3 ].epAddr = 0x05; // XBOX 360 report endpoint - poll interval 1ms
-        epInfo[ XBOX_INPUT_PIPE_3 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_INPUT_PIPE_3 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_3 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_3 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE_3 ].bmSndToggle = 0;
         epInfo[ XBOX_INPUT_PIPE_3 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].epAddr = 0x05; // XBOX 360 output endpoint - poll interval 8ms
-        epInfo[ XBOX_OUTPUT_PIPE_3 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_OUTPUT_PIPE_3 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_3 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].bmSndToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_3 ].bmRcvToggle = 0;
 
         epInfo[ XBOX_INPUT_PIPE_4 ].epAddr = 0x07; // XBOX 360 report endpoint - poll interval 1ms
-        epInfo[ XBOX_INPUT_PIPE_4 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_INPUT_PIPE_4 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE_4 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_INPUT_PIPE_4 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE_4 ].bmSndToggle = 0;
         epInfo[ XBOX_INPUT_PIPE_4 ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE_4 ].epAddr = 0x07; // XBOX 360 output endpoint - poll interval 8ms
-        epInfo[ XBOX_OUTPUT_PIPE_4 ].epAttribs = EP_INTERRUPT;
+        epInfo[ XBOX_OUTPUT_PIPE_4 ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE_4 ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ XBOX_OUTPUT_PIPE_4 ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ XBOX_OUTPUT_PIPE_4 ].bmSndToggle = 0;

@@ -20,11 +20,17 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 
 * __Oleg Mazurov, Circuits@Home__ - <mazurov@circuitsathome.com>
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
-	* Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
+    * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-	* Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
+    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
-	* Major contributor to mass storage code
+    * Major contributor to mass storage code
+
+# Donate
+
+Help yourself by helping us support you! Many thousands of hours have been spent developing the USB Host Shield library. Since you find it useful, please consider donating via the button below. Donations will allow us to support you by ensuring hardware that you have can be acquired in order to add support for your microcontroller board.
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=donate@circuitsathome.com&amp;lc=US&amp;item_name=Donate%20to%20the%20USB%20Host%20Library%20project&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="PayPal - The safer, easier way to pay online!" /></a>
 
 # Table of Contents
 
@@ -58,8 +64,8 @@ Now move the "USB\_Host\_Shield\_20" directory to the "libraries" directory.
 The final structure should look like this:
 
 * Arduino/
-	* libraries/
-		* USB\_Host\_Shield\_20/
+    * libraries/
+        * USB\_Host\_Shield\_20/
 
 Now quit the Arduino IDE and reopen it.
 
@@ -89,7 +95,7 @@ Currently the following boards are supported by the library:
 * Arduino Due
     * If you are using the Arduino Due, then you must include the Arduino SPI library like so: ```#include <SPI.h>``` in your .ino file.
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.x)
-	* Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
+    * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
@@ -97,7 +103,7 @@ Currently the following boards are supported by the library:
 The following boards need to be activated manually in [settings.h](settings.h):
 
 * Arduino Mega ADK
-	* If you are using Arduino 1.5.5 or newer there is no need to activate the Arduino Mega ADK manually
+    * If you are using Arduino 1.5.5 or newer there is no need to activate the Arduino Mega ADK manually
 * Black Widdow
 
 Simply set the corresponding value to 1 instead of 0.
