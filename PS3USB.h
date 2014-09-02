@@ -24,9 +24,6 @@
 /* PS3 data taken from descriptors */
 #define EP_MAXPKTSIZE           64 // max size for data via USB
 
-/* Endpoint types */
-#define EP_INTERRUPT            0x03
-
 /* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
 #define PS3_CONTROL_PIPE        0
 #define PS3_OUTPUT_PIPE         1
