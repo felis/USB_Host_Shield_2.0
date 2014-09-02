@@ -83,7 +83,7 @@ const uint32_t WII_PROCONTROLLER_BUTTONS[] PROGMEM = {
 };
 
 WII::WII(BTD *p, bool pair) :
-pBtd(p) // pointer to USB class instance - mandatory
+BluetoothService(p) // Pointer to USB class instance - mandatory
 {
         if(pBtd)
                 pBtd->registerServiceClass(this); // Register it as a Bluetooth service
