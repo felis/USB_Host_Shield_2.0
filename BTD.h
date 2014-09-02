@@ -19,6 +19,7 @@
 #define _btd_h_
 
 #include "Usb.h"
+#include "Hid.h"
 
 //PID and VID of the Sony PS3 devices
 #define PS3_VID                 0x054C  // Sony Corporation
@@ -34,9 +35,6 @@
 
 // Used in control endpoint header for HCI Commands
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
-// Used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT      0x09
 
 /* Bluetooth HCI states for hci_task() */
 #define HCI_INIT_STATE                  0
