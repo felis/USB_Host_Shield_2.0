@@ -207,7 +207,7 @@ private:
         void L2CAP_task(); // L2CAP state machine
 
         /* Variables filled from HCI event management */
-        uint8_t remote_name[30]; // First 30 chars of remote name
+        char remote_name_first; // First letter in remote name
         bool activeConnection; // Used to indicate if it's already has established a connection
 
         /* Variables used by high level L2CAP task */
@@ -215,14 +215,12 @@ private:
 
         uint32_t lastMessageTime; // Variable used to store the millis value of the last message.
 
-        uint32_t timer;
-
         uint32_t ButtonState;
         uint32_t OldButtonState;
         uint32_t ButtonClickState;
 
+        uint32_t timer; // Timer used to limit time between messages and also used to continuously set PS3 Move controller Bulb and rumble values
         uint32_t timerHID; // Timer used see if there has to be a delay before a new HID command
-        uint32_t timerBulbRumble; // used to continuously set PS3 Move controller Bulb and rumble values
 
         uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for L2CAP in data
         uint8_t HIDBuffer[HID_BUFFERSIZE]; // Used to store HID commands
