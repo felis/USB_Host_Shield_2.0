@@ -204,58 +204,7 @@
  */
 #define UHS_ACL_HANDLE_OK(x, y) ((x[0] == (y & 0xff)) && (x[1] == ((y >> 8) | 0x20)))
 #endif
-
-class BTD;
-
-/** All Bluetooth services should inherit this class. */
-class BluetoothService {
-public:
-        BluetoothService(BTD *p) : pBtd(p) {};
-        /**
-         * Used to pass acldata to the Bluetooth service.
-         * @param ACLData Pointer to the incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData) = 0;
-        /** Used to run the different state machines in the Bluetooth service. */
-        virtual void Run() = 0;
-        /** Used to reset the Bluetooth service. */
-        virtual void Reset() = 0;
-        /** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
-        virtual void disconnect() = 0;
-
-        /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit; // TODO: This really belong in a class of it's own as it is repeated several times
-        };
-
-protected:
-        /**
-         * Called when a device is successfully initialized.
-         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
-         * This is useful for instance if you want to set the LEDs in a specific way.
-         */
-        virtual void onInit() = 0;
-
-        // TODO: Implement "UHS_ACL_HANDLE_OK" function
-
-        /** Pointer to function called in onInit(). */
-        void (*pFuncOnInit)(void);
-
-        /** Pointer to BTD instance. */
-        BTD *pBtd;
-
-        /** The HCI Handle for the connection. */
-        uint16_t hci_handle;
-
-        /** L2CAP flags of received Bluetooth events. */
-        uint32_t l2cap_event_flag;
-
-        /** Identifier for L2CAP commands. */
-        uint8_t identifier;
-};
+class BluetoothService;
 
 /**
  * The Bluetooth Dongle class will take care of all the USB communication
@@ -353,25 +302,21 @@ public:
         /**@}*/
 
         /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */
-        void disconnect() {
-                for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
-                        if(btService[i])
-                                btService[i]->disconnect();
-        };
+        void disconnect();
 
         /**
          * Register Bluetooth dongle members/services.
          * @param  pService Pointer to BluetoothService class instance.
          * @return          The service ID on success or -1 on fail.
          */
-        int8_t registerServiceClass(BluetoothService *pService) {
+        int8_t registerBluetoothService(BluetoothService *pService) {
                 for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++) {
                         if(!btService[i]) {
                                 btService[i] = pService;
                                 return i; // Return ID
                         }
                 }
-                return -1; // ErrorregisterServiceClass
+                return -1; // Error registering BluetoothService
         };
 
         /** @name HCI Commands */
@@ -628,4 +573,56 @@ private:
         void setBdaddr(uint8_t* BDADDR);
         void setMoveBdaddr(uint8_t* BDADDR);
 };
+
+/** All Bluetooth services should inherit this class. */
+class BluetoothService {
+public:
+        BluetoothService(BTD *p) : pBtd(p) {
+                if(pBtd)
+                        pBtd->registerBluetoothService(this); // Register it as a Bluetooth service
+        };
+        /**
+         * Used to pass acldata to the Bluetooth service.
+         * @param ACLData Pointer to the incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData) = 0;
+        /** Used to run the different state machines in the Bluetooth service. */
+        virtual void Run() = 0;
+        /** Used to reset the Bluetooth service. */
+        virtual void Reset() = 0;
+        /** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
+        virtual void disconnect() = 0;
+
+        /**
+         * Used to call your own function when the device is successfully initialized.
+         * @param funcOnInit Function to call.
+         */
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit; // TODO: This really belong in a class of it's own as it is repeated several times
+        };
+
+protected:
+        /**
+         * Called when a device is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        virtual void onInit() = 0;
+
+        /** Pointer to function called in onInit(). */
+        void (*pFuncOnInit)(void);
+
+        /** Pointer to BTD instance. */
+        BTD *pBtd;
+
+        /** The HCI Handle for the connection. */
+        uint16_t hci_handle;
+
+        /** L2CAP flags of received Bluetooth events. */
+        uint32_t l2cap_event_flag;
+
+        /** Identifier for L2CAP commands. */
+        uint8_t identifier;
+};
+
 #endif

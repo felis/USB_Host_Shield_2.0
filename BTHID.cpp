@@ -26,9 +26,6 @@ protocolMode(HID_BOOT_PROTOCOL) {
         for(uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;
 
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->pairWithHIDDevice = pair;
         pBtd->btdPin = pin;
 

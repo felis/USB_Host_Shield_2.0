@@ -23,9 +23,6 @@
 PS3BT::PS3BT(BTD *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
 BluetoothService(p) // Pointer to USB class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->my_bdaddr[5] = btadr5; // Change to your dongle's Bluetooth address instead
         pBtd->my_bdaddr[4] = btadr4;
         pBtd->my_bdaddr[3] = btadr3;

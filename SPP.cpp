@@ -45,9 +45,6 @@ const uint8_t rfcomm_crc_table[256] PROGMEM = {/* reversed, 8-bit, poly=0x07 */
 SPP::SPP(BTD *p, const char* name, const char* pin) :
 BluetoothService(p) // Pointer to BTD class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->btdName = name;
         pBtd->btdPin = pin;
 

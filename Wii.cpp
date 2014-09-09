@@ -85,17 +85,14 @@ const uint32_t WII_PROCONTROLLER_BUTTONS[] PROGMEM = {
 WII::WII(BTD *p, bool pair) :
 BluetoothService(p) // Pointer to USB class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->pairWithWii = pair;
 
         HIDBuffer[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
 
         /* Set device cid for the control and intterrupt channelse - LSB */
-        control_dcid[0] = 0x60; //0x0060
+        control_dcid[0] = 0x60; // 0x0060
         control_dcid[1] = 0x00;
-        interrupt_dcid[0] = 0x61; //0x0061
+        interrupt_dcid[0] = 0x61; // 0x0061
         interrupt_dcid[1] = 0x00;
 
         Reset();
