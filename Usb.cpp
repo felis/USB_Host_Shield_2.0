@@ -727,7 +727,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         for(devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if(!devConfig[devConfigIndex]) continue;
                 if(devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if(devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) continue; // If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above
+                if(devConfig[devConfigIndex]->DEVSUBCLASSOK(subklass) && (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass))) continue; // If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above
                 rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
 
                 //printf("ERROR ENUMERATING %2.2x\r\n", rcode);
