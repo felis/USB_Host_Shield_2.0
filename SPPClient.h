@@ -61,7 +61,7 @@ public:
          */
         SPPClient(BTD *p, const char *name = "Arduino", const char *pin = "0000", bool pair = false, uint8_t *addr = NULL);
 
-#if GCC_VERSION > 40700 // Test for GCC > 4.7.0 - then C++11 should be supported
+#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__) // Check if C++11 is supported
         SPPClient(BTD *p, bool pair = false, uint8_t *addr = NULL) : SPPClient(p, "Arduino", "0000", pair, addr) {}; // Use a delegating constructor
 #endif
 
