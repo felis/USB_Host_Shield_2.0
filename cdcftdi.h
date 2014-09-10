@@ -79,6 +79,7 @@ class FTDI;
 class FTDIAsyncOper {
 public:
         virtual uint8_t OnInit(FTDI *pftdi) = 0;
+        virtual uint8_t OnRelease(FTDI *pftdi) = 0;
 };
 
 
@@ -128,6 +129,11 @@ public:
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == FTDI_VID && pid == FTDI_PID);
+        }
+
 };
 
 #endif // __CDCFTDI_H__

@@ -698,17 +698,20 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         // Allocate new address according to device class
         //bAddress = addrPool.AllocAddress(parent, false, port);
 
-        //if (!bAddress)
-        //        return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
         uint16_t vid = udd->idVendor;
         uint16_t pid = udd->idProduct;
         uint8_t klass = udd->bDeviceClass;
-
+        uint8_t subklass = udd->bDeviceSubClass;
         // Attempt to configure if VID/PID or device class matches with a driver
+        // Qualify with subclass too.
+        //
+        // VID/PID & class tests default to false for drivers not yet ported
+        // subclass defaults to true, so you don't have to define it if you don't have to.
+        //
         for(devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if(!devConfig[devConfigIndex]) continue; // no driver
                 if(devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if(devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) {
+                if(devConfig[devConfigIndex]->DEVSUBCLASSOK(subklass) && (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass))) {
                         rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
                         if(rcode != USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED)
                                 break;
@@ -724,7 +727,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         for(devConfigIndex = 0; devConfigIndex < USB_NUMDEVICES; devConfigIndex++) {
                 if(!devConfig[devConfigIndex]) continue;
                 if(devConfig[devConfigIndex]->GetAddress()) continue; // consumed
-                if(devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass)) continue; // If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above
+                if(devConfig[devConfigIndex]->DEVSUBCLASSOK(subklass) && (devConfig[devConfigIndex]->VIDPIDOK(vid, pid) || devConfig[devConfigIndex]->DEVCLASSOK(klass))) continue; // If this is true it means it must have returned USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED above
                 rcode = AttemptConfig(devConfigIndex, parent, port, lowspeed);
 
                 //printf("ERROR ENUMERATING %2.2x\r\n", rcode);
