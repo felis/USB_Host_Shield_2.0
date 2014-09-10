@@ -22,7 +22,7 @@ e-mail   :  support@circuitsathome.com
 #define _Max_LCD_h_
 
 #include "Usb.h"
-#include "Print.h"
+#include <Print.h>
 
 // commands
 #define LCD_CLEARDISPLAY		0x01
