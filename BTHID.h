@@ -37,15 +37,6 @@ public:
         BTHID(BTD *p, bool pair = false, const char *pin = "0000");
 
         /** @name BluetoothService implementation */
-        /**
-         * Used to pass acldata to the services.
-         * @param ACLData Incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state machine. */
-        virtual void Run();
-        /** Use this to reset the service. */
-        virtual void Reset();
         /** Used this to disconnect the devices. */
         virtual void disconnect();
         /**@}*/
@@ -97,15 +88,29 @@ public:
                         pBtd->pairWithHID();
         };
 
-        /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
-        };
-
 protected:
+        /** @name BluetoothService implementation */
+        /**
+         * Used to pass acldata to the services.
+         * @param ACLData Incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData);
+        /** Used to run part of the state machine. */
+        virtual void Run();
+        /** Use this to reset the service. */
+        virtual void Reset();
+        /**
+         * Called when a device is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        virtual void onInit() {
+                if(pFuncOnInit)
+                        pFuncOnInit(); // Call the user function
+                OnInitBTHID();
+        };
+        /**@}*/
+
         /** @name Overridable functions */
         /**
          * Used to parse Bluetooth HID data to any class that inherits this class.
@@ -125,14 +130,7 @@ protected:
         }
         /**@}*/
 
-        /** Pointer to BTD instance */
-        BTD *pBtd;
-
-        /** HCI Handle for connection */
-        uint16_t hci_handle;
-
         /** L2CAP source CID for HID_Control */
-
         uint8_t control_scid[2];
 
         /** L2CAP source CID for HID_Interrupt */
@@ -145,18 +143,6 @@ private:
         void setProtocol();
         uint8_t protocolMode;
 
-        /**
-         * Called when a device is successfully initialized.
-         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
-         * This is useful for instance if you want to set the LEDs in a specific way.
-         */
-        void onInit() {
-                if(pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
-                OnInitBTHID();
-        };
-        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
-
         void L2CAP_task(); // L2CAP state machine
 
         bool activeConnection; // Used to indicate if it already has established a connection
@@ -164,8 +150,6 @@ private:
         /* Variables used for L2CAP communication */
         uint8_t control_dcid[2]; // L2CAP device CID for HID_Control - Always 0x0070
         uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
-        uint8_t identifier; // Identifier for connection
         uint8_t l2cap_state;
-        uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 };
 #endif

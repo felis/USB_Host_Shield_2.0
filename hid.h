@@ -60,9 +60,9 @@ e-mail   :  support@circuitsathome.com
 #define TAG_LOCAL_USAGEMAX                      0x20
 
 /* HID requests */
-#define bmREQ_HIDOUT                            USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define bmREQ_HIDIN                             USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define bmREQ_HIDREPORT                         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_INTERFACE
+#define bmREQ_HID_OUT                           USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+#define bmREQ_HID_IN                            USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+#define bmREQ_HID_REPORT                        USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_STANDARD|USB_SETUP_RECIPIENT_INTERFACE
 
 /* HID constants. Not part of chapter 9 */
 /* Class-Specific Requests */

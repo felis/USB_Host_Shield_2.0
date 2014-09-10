@@ -55,15 +55,6 @@ public:
         WII(BTD *p, bool pair = false);
 
         /** @name BluetoothService implementation */
-        /**
-         * Used to pass acldata to the services.
-         * @param ACLData Incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData);
-        /** Used to run part of the state machine. */
-        virtual void Run();
-        /** Use this to reset the service. */
-        virtual void Reset();
         /** Used this to disconnect any of the controllers. */
         virtual void disconnect();
         /**@}*/
@@ -188,14 +179,6 @@ public:
          */
         uint8_t getWiiState() {
                 return wiiState;
-        };
-
-        /**
-         * Used to call your own function when the controller is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit;
         };
         /**@}*/
 
@@ -392,26 +375,34 @@ public:
         /**@}*/
 #endif
 
-private:
-        BTD *pBtd; // Pointer to BTD instance
-
+protected:
+        /** @name BluetoothService implementation */
+        /**
+         * Used to pass acldata to the services.
+         * @param ACLData Incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData);
+        /** Used to run part of the state machine. */
+        virtual void Run();
+        /** Use this to reset the service. */
+        virtual void Reset();
         /**
          * Called when the controller is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        void onInit();
-        void (*pFuncOnInit)(void); // Pointer to function called in onInit()
+        virtual void onInit();
+        /**@}*/
+
+private:
 
         void L2CAP_task(); // L2CAP state machine
 
         /* Variables filled from HCI event management */
-        uint16_t hci_handle;
         bool activeConnection; // Used to indicate if it's already has established a connection
 
         /* Variables used by high level L2CAP task */
         uint8_t l2cap_state;
-        uint32_t l2cap_event_flag; // L2CAP flags of received Bluetooth events
         uint8_t wii_event_flag; // Used for Wii flags
 
         uint32_t ButtonState;
@@ -432,7 +423,6 @@ private:
         uint8_t control_dcid[2]; // 0x0060
         uint8_t interrupt_scid[2]; // L2CAP source CID for HID_Interrupt
         uint8_t interrupt_dcid[2]; // 0x0061
-        uint8_t identifier; // Identifier for connection
 
         /* HID Commands */
         void HID_Command(uint8_t* data, uint8_t nbytes);
@@ -457,7 +447,7 @@ private:
 
         bool activateNunchuck;
         bool motionValuesReset; // This bool is true when the gyro values has been reset
-        unsigned long timer;
+        uint32_t timer;
 
         uint8_t wiiState; // Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
         uint8_t batteryLevel;

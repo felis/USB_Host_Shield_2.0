@@ -68,6 +68,11 @@ public:
          */
         SPP(BTD *p, const char *name = "Arduino", const char *pin = "0000");
 
+        /** @name BluetoothService implementation */
+        /** Used this to disconnect the virtual serial port. */
+        virtual void disconnect();
+        /**@}*/
+
         /**
          * Used to provide Boolean tests for the class.
          * @return Return true if SPP communication is connected.
@@ -77,20 +82,6 @@ public:
         }
         /** Variable used to indicate if the connection is established. */
         bool connected;
-
-        /** @name BluetoothService implementation */
-        /**
-         * Used to pass acldata to the services.
-         * @param ACLData Incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData);
-        /** Used to establish the connection automatically. */
-        virtual void Run();
-        /** Use this to reset the service. */
-        virtual void Reset();
-        /** Used this to disconnect the virtual serial port. */
-        virtual void disconnect();
-        /**@}*/
 
         /** @name Serial port profile (SPP) Print functions */
         /**
@@ -154,20 +145,33 @@ public:
         void send(void);
         /**@}*/
 
-private:
-        /* Bluetooth dongle library pointer */
-        BTD *pBtd;
+protected:
+        /** @name BluetoothService implementation */
+        /**
+         * Used to pass acldata to the services.
+         * @param ACLData Incoming acldata.
+         */
+        virtual void ACLData(uint8_t* ACLData);
+        /** Used to establish the connection automatically. */
+        virtual void Run();
+        /** Use this to reset the service. */
+        virtual void Reset();
+        /**
+         * Called when a device is successfully initialized.
+         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+         * This is useful for instance if you want to set the LEDs in a specific way.
+         */
+        virtual void onInit();
+        /**@}*/
 
+private:
         /* Set true when a channel is created */
         bool SDPConnected;
         bool RFCOMMConnected;
 
-        uint16_t hci_handle; // The HCI Handle for the connection
-
         /* Variables used by L2CAP state machines */
         uint8_t l2cap_sdp_state;
         uint8_t l2cap_rfcomm_state;
-        uint32_t l2cap_event_flag; // l2cap flags of received Bluetooth events
 
         uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
         uint8_t rfcommbuf[10]; // Buffer for RFCOMM Commands
@@ -177,7 +181,6 @@ private:
         uint8_t sdp_dcid[2]; // 0x0050
         uint8_t rfcomm_scid[2]; // L2CAP source CID for RFCOMM
         uint8_t rfcomm_dcid[2]; // 0x0051
-        uint8_t identifier; // Identifier for command
 
         /* RFCOMM Variables */
         uint8_t rfcommChannel;
@@ -187,7 +190,7 @@ private:
         uint8_t rfcommChannelType;
         uint8_t rfcommPfBit;
 
-        unsigned long timer;
+        uint32_t timer;
         bool waitForLastCommand;
         bool creditSent;
 
