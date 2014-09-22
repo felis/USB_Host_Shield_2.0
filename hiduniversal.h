@@ -100,6 +100,9 @@ public:
 
         // UsbConfigXtracter implementation
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        
+        //Send report - do not mix with SetReport()!
+        uint8_t SndRpt(uint16_t nbytes, uint8_t *dataptr);
 };
 
 #endif // __HIDUNIVERSAL_H__
