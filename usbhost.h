@@ -45,7 +45,7 @@ public:
                 SPI_SS::Set();
                 SPI.begin();
 #if defined(__MIPSEL__)
-                SPI.setClockDivider(2);
+                SPI.setClockDivider(1);
 #else
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif

@@ -133,6 +133,6 @@ e-mail   :  support@circuitsathome.com
 #include <SPI.h> // Use the Arduino SPI library
 #endif
 #if  defined(__PIC32MX__) || defined(__PIC32MZ__)
-#include <../../libraries/SPI/SPI.h> // Hack to use the SPI library
+#include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
 #endif	/* SETTINGS_H */
