@@ -11,6 +11,7 @@ class FTDIAsync : public FTDIAsyncOper
 {
 public:
     virtual uint8_t OnInit(FTDI *pftdi);
+    virtual uint8_t OnRelease(FTDI *pftdi) {};
 };
 
 uint8_t FTDIAsync::OnInit(FTDI *pftdi)
