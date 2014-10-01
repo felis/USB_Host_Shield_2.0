@@ -1,0 +1,15 @@
+{
+  "name": "Arduino-USBHostShield20",
+  "keywords": "usb, hid",
+  "description": "Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/felis/USB_Host_Shield_2.0.git"
+  },
+  "examples":
+  [
+  	"examples/*/*.ino",
+  	"examples/*/*/*.ino"
+  ]
+}
