@@ -1,7 +1,29 @@
 {
-  "name": "Arduino-USBHostShield20",
+  "name": "USB-Host-Shield-20",
   "keywords": "usb, hid",
-  "description": "Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's",
+  "description": "Revision 2.0 of MAX3421E-based USB Host Shield Library",
+  "authors":
+  [
+    {
+      "name": "Oleg Mazurov",
+      "email": "mazurov@circuitsathome.com",
+      "url": "http://www.circuitsathome.com",
+      "maintainer": true
+    },
+    {
+      "name": "Alexei Glushchenko",
+      "email": "alex-gl@mail.ru"
+    },
+    {
+      "name": "Kristian Lauszus",
+      "email": "kristianl@tkjelectronics.com",
+      "url": "http://tkjelectronics.com"
+    },
+    {
+      "name": "Andrew Kroll",
+      "email": "xxxajk@gmail.com"
+    }       
+  ],
   "repository":
   {
     "type": "git",
@@ -11,5 +33,7 @@
   [
   	"examples/*/*.ino",
   	"examples/*/*/*.ino"
-  ]
+  ],
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
 }
