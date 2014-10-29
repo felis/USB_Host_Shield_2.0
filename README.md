@@ -71,7 +71,7 @@ Now quit the Arduino IDE and reopen it.
 
 Now you should be able to go open all the examples codes by navigating to "File>Examples>USB\_Host\_Shield\_20" and then select the example you will like to open.
 
-For more information visit the following site: <http://arduino.cc/en/Guide/Libraries>.
+For more information visit the following sites: <http://arduino.cc/en/Guide/Libraries> and <https://learn.adafruit.com/adafruit-all-about-arduino-libraries-install-use>.
 
 # How to use the library
 
