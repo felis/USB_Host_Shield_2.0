@@ -3,6 +3,7 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 class KbdRptParser : public KeyboardReportParser
@@ -10,11 +11,11 @@ class KbdRptParser : public KeyboardReportParser
         void PrintKey(uint8_t mod, uint8_t key);
 
 protected:
-        virtual void OnControlKeysChanged(uint8_t before, uint8_t after);
+        void OnControlKeysChanged(uint8_t before, uint8_t after);
 
-	virtual void OnKeyDown	(uint8_t mod, uint8_t key);
-	virtual void OnKeyUp	(uint8_t mod, uint8_t key);
-	virtual void OnKeyPressed(uint8_t key);
+	void OnKeyDown	(uint8_t mod, uint8_t key);
+	void OnKeyUp	(uint8_t mod, uint8_t key);
+	void OnKeyPressed(uint8_t key);
 };
 
 void KbdRptParser::PrintKey(uint8_t m, uint8_t key)
@@ -105,7 +106,9 @@ KbdRptParser Prs;
 void setup()
 {
     Serial.begin( 115200 );
-    while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#if !defined(__MIPSEL__)
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
     Serial.println("Start");
 
     if (Usb.Init() == -1)

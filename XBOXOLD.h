@@ -65,17 +65,17 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Release the USB device.
          * @return 0 on success.
          */
-        virtual uint8_t Release();
+        uint8_t Release();
         /**
          * Poll the USB Input endpoins and run the state machines.
          * @return 0 on success.
          */
-        virtual uint8_t Poll();
+        uint8_t Poll();
 
         /**
          * Get the device address.

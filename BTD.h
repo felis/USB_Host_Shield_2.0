@@ -214,13 +214,13 @@ public:
          * Used to pass acldata to the Bluetooth service.
          * @param ACLData Pointer to the incoming acldata.
          */
-        virtual void ACLData(uint8_t* ACLData);
+        virtual void ACLData(uint8_t* ACLData){};
         /** Used to run the different state machines in the Bluetooth service. */
-        virtual void Run();
+        virtual void Run(){};
         /** Used to reset the Bluetooth service. */
-        virtual void Reset();
+        virtual void Reset(){};
         /** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
-        virtual void disconnect();
+        virtual void disconnect(){};
 };
 
 /**
@@ -243,7 +243,7 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Initialize the Bluetooth dongle.
          * @param  parent   Hub number.
@@ -251,17 +251,17 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Release the USB device.
          * @return 0 on success.
          */
-        virtual uint8_t Release();
+        uint8_t Release();
         /**
          * Poll the USB Input endpoints and run the state machines.
          * @return 0 on success.
          */
-        virtual uint8_t Poll();
+        uint8_t Poll();
 
         /**
          * Get the device address.
@@ -315,7 +315,7 @@ public:
          * @param proto Interface Protocol.
          * @param ep    Endpoint Descriptor.
          */
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
         /**@}*/
 
         /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */

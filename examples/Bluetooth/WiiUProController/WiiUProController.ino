@@ -9,6 +9,7 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB Usb;
@@ -21,7 +22,9 @@ WII Wii(&Btd, PAIR); // This will start an inquiry and then pair with your Wiimo
 
 void setup() {
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
