@@ -19,6 +19,8 @@ e-mail   :  support@circuitsathome.com
 
 #include "cdcacm.h"
 
+#define PL2303_COMPAT //uncomment it if you have compatibility problems
+
 #define PL_VID									0x067B
 #define PL_PID									( 0x2303 || 0x0609 )
 
@@ -106,7 +108,8 @@ enum tXO_State {
 
 enum pl2303_type {
         unknown,
-        type_1, /* don't know the difference between type 0 and */
+        type_0,
+		type_1, /* don't know the difference between type 0 and */
         rev_X, /* type 1, until someone from prolific tells us... */
         rev_HX, /* HX version of the pl2303 chip */
         rev_H
@@ -129,6 +132,23 @@ public:
 
         //// UsbConfigXtracter implementation
         //virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+private:
+        /* Prolific proprietary requests */
+        uint8_t vendorRead( uint8_t val_lo, uint8_t val_hi, uint16_t index, uint8_t* buf );
+        uint8_t vendorWrite( uint8_t val_lo, uint8_t val_hi, uint8_t index );
 };
+
+/* vendor read request */
+inline uint8_t PL2303::vendorRead( uint8_t val_lo, uint8_t val_hi, uint16_t index, uint8_t* buf )
+{
+        return( pUsb->ctrlReq(bAddress, 0, VENDOR_READ_REQUEST_TYPE, VENDOR_READ_REQUEST, val_lo, val_hi, index, 1, 1, buf, NULL ));
+}
+
+/* vendor write request */
+inline uint8_t PL2303::vendorWrite( uint8_t val_lo, uint8_t val_hi, uint8_t index )
+{
+        return( pUsb->ctrlReq(bAddress, 0, VENDOR_WRITE_REQUEST_TYPE, VENDOR_WRITE_REQUEST, val_lo, val_hi, index, 0, 0, NULL, NULL ));
+}
 
 #endif // __CDCPROLIFIC_H__
