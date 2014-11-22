@@ -137,7 +137,7 @@ e-mail   :  support@circuitsathome.com
 #define USING_SPI4TEENSY3 0
 #endif
 
-#if defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+#if (defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(RBL_NRF51822)
 #include <SPI.h> // Use the Arduino SPI library for the Arduino Due
 #endif
 

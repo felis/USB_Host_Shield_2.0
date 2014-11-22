@@ -27,9 +27,7 @@ e-mail   :  support@circuitsathome.com
 #include <sys/types.h>
 #endif
 
-#if defined(RBL_NRF51822)
-#include "SPI.H"
-#endif
+
 /* SPI initialization */
 template< typename SPI_CLK, typename SPI_MOSI, typename SPI_MISO, typename SPI_SS > class SPi {
 public:
