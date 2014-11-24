@@ -961,6 +961,58 @@ MAKE_PIN(P78, PIOB, PIO_PB23); // Unconnected
 
 #undef MAKE_PIN
 
+#elif defined(RBL_NRF51822)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+    static void Set() { \
+        nrf_gpio_pin_set(pin); \
+    } \
+    static void Clear() { \
+        nrf_gpio_pin_clear(pin); \
+    } \
+    static void SetDirRead() { \
+        nrf_gpio_cfg_input(pin, NRF_GPIO_PIN_NOPULL); \
+    } \
+    static void SetDirWrite() { \
+        nrf_gpio_cfg_output(pin); \
+    } \
+    static uint8_t IsSet() { \
+        return (uint8_t)nrf_gpio_pin_read(pin); \
+    } \
+};
+
+// See: pin_transform.c in RBL nRF51822 SDK
+MAKE_PIN(P0, Pin_nRF51822_to_Arduino(D0));
+MAKE_PIN(P1, Pin_nRF51822_to_Arduino(D1));
+MAKE_PIN(P2, Pin_nRF51822_to_Arduino(D2));
+MAKE_PIN(P3, Pin_nRF51822_to_Arduino(D3));
+MAKE_PIN(P4, Pin_nRF51822_to_Arduino(D4));
+MAKE_PIN(P5, Pin_nRF51822_to_Arduino(D5));
+MAKE_PIN(P6, Pin_nRF51822_to_Arduino(D6));
+MAKE_PIN(P7, Pin_nRF51822_to_Arduino(D7));
+MAKE_PIN(P8, Pin_nRF51822_to_Arduino(D8));
+MAKE_PIN(P9, Pin_nRF51822_to_Arduino(D9)); // INT
+MAKE_PIN(P10, Pin_nRF51822_to_Arduino(D10)); // SS
+MAKE_PIN(P11, Pin_nRF51822_to_Arduino(D11));
+MAKE_PIN(P12, Pin_nRF51822_to_Arduino(D12));
+MAKE_PIN(P13, Pin_nRF51822_to_Arduino(D13));
+MAKE_PIN(P14, Pin_nRF51822_to_Arduino(D14));
+MAKE_PIN(P15, Pin_nRF51822_to_Arduino(D15));
+MAKE_PIN(P17, Pin_nRF51822_to_Arduino(D17)); // MISO
+MAKE_PIN(P18, Pin_nRF51822_to_Arduino(D18)); // MOSI
+MAKE_PIN(P16, Pin_nRF51822_to_Arduino(D16)); // CLK
+MAKE_PIN(P19, Pin_nRF51822_to_Arduino(D19));
+MAKE_PIN(P20, Pin_nRF51822_to_Arduino(D20));
+MAKE_PIN(P21, Pin_nRF51822_to_Arduino(D21));
+MAKE_PIN(P22, Pin_nRF51822_to_Arduino(D22));
+MAKE_PIN(P23, Pin_nRF51822_to_Arduino(D23));
+MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
+
+#undef MAKE_PIN
+
+
 #else
 #error "Please define board in avrpins.h"
 

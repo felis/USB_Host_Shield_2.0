@@ -99,6 +99,8 @@ Currently the following boards are supported by the library:
 * Balanduino
 * Sanguino
 * Black Widdow
+* RedBearLab nRF51822
+    * If you are using the RedBearLab nRF51822, then you must include the RedBearLab SPI library like so: ```#include <SPI.h>``` in your .ino file.
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
