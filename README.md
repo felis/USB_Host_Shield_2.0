@@ -71,8 +71,6 @@ Now quit the Arduino IDE and reopen it.
 
 Now you should be able to go open all the examples codes by navigating to "File>Examples>USB\_Host\_Shield\_20" and then select the example you will like to open.
 
-Please make sure to include the SPI library like so: ```#include <SPI.h>``` in your .ino file.
-
 For more information visit the following sites: <http://arduino.cc/en/Guide/Libraries> and <https://learn.adafruit.com/adafruit-all-about-arduino-libraries-install-use>.
 
 # How to use the library
@@ -95,12 +93,14 @@ Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
 * Arduino Due
+    * If you are using the Arduino Due, then you must include the Arduino SPI library like so: ```#include <SPI.h>``` in your .ino file.
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.x)
     * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
 * RedBearLab nRF51822
+    * If you are using the RedBearLab nRF51822, then you must include the RedBearLab SPI library like so: ```#include <SPI.h>``` in your .ino file.
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
