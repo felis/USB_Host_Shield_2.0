@@ -56,6 +56,7 @@ get9DOFValues	KEYWORD2
 getStatus	KEYWORD2
 printStatusString	KEYWORD2
 getTemperature	KEYWORD2
+getTrigger	KEYWORD2
 disconnect	KEYWORD2
 
 setAllOff	KEYWORD2
@@ -139,6 +140,9 @@ LeftHatY	LITERAL1
 RightHatX	LITERAL1
 RightHatY	LITERAL1
 
+LeftTrigger	LITERAL1
+RightTrigger	LITERAL1
+
 aX	LITERAL1
 aY	LITERAL1
 aZ	LITERAL1
@@ -192,6 +196,7 @@ RumbleLow	LITERAL1
 ####################################################
 
 XBOXUSB	KEYWORD1
+XBOXONE	KEYWORD1
 XBOXOLD	KEYWORD1
 XBOXRECV	KEYWORD1
 
@@ -207,6 +212,7 @@ buttonChanged	KEYWORD2
 
 XboxReceiverConnected	KEYWORD2
 Xbox360Connected	KEYWORD2
+XboxOneConnected	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)

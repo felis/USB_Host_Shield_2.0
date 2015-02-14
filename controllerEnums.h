@@ -159,6 +159,14 @@ enum AnalogHatEnum {
         RightHatY = 3,
 };
 
+/** Triggers on Xbox One controller. */
+enum TriggerEnum {
+        /** Left trigger */
+        LeftTrigger = 0,
+        /** Right trigger */
+        RightTrigger = 1,
+};
+
 /**
  * Sensors inside the Sixaxis Dualshock 3, Move controller and PS4 controller.
  * <B>Note:</B> that the location is shifted 9 when it's connected via USB on the PS3 controller.
