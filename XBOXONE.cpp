@@ -239,16 +239,16 @@ uint8_t XBOXONE::Poll() {
         uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf);
         if (!rcode) {
-            readReport();
+                readReport();
 #ifdef PRINTREPORT
-            printReport(); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+                printReport(); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox ONE Controller
 #endif
         }
 #ifdef DEBUG_USB_HOST
-		else if (rcode != 0x04) { // not a matter of no update to send
-	        Notify(PSTR("\r\nXbox One Poll Failed, error code: "), 0x80);
-	        NotifyFail(rcode);
-		}
+                else if (rcode != 0x04) { // not a matter of no update to send
+                Notify(PSTR("\r\nXbox One Poll Failed, error code: "), 0x80);
+                NotifyFail(rcode);
+                }
 #endif
         return rcode;
 }
@@ -257,22 +257,22 @@ void XBOXONE::readReport() {
         if(readBuf == NULL)
                 return;
         if(readBuf[0] == 0x07) {
-            // The XBOX button has a seperate message
-            if (readBuf[4] == 1) {
-                ButtonState |= XBOX_BUTTONS[XBOX];
-            }
-            else {
-                ButtonState &= XBOX_BUTTONS[XBOX];
-            }
-            if(ButtonState != OldButtonState) {
-                ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable, but don't include the two trigger buttons L2 and R2
-                OldButtonState = ButtonState;
-            }
+                // The XBOX button has a seperate message
+                if (readBuf[4] == 1) {
+                        ButtonState |= XBOX_BUTTONS[XBOX];
+                }
+                else {
+                        ButtonState &= XBOX_BUTTONS[XBOX];
+                }
+                if(ButtonState != OldButtonState) {
+                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable, but don't include the two trigger buttons L2 and R2
+                        OldButtonState = ButtonState;
+                }
         }
         if(readBuf[0] != 0x20) { // Check if it's the correct report, otherwise return - the controller also sends different status reports
 #ifdef EXTRADEBUG
-            Notify(PSTR("\r\nXbox Poll: "), 0x80);
-            D_PrintHex<uint8_t > (readBuf[0], 0x80); // 0x03 is a heart beat report!
+                Notify(PSTR("\r\nXbox Poll: "), 0x80);
+                D_PrintHex<uint8_t > (readBuf[0], 0x80); // 0x03 is a heart beat report!
 #endif
                 return;
         }
@@ -298,7 +298,7 @@ void XBOXONE::readReport() {
         }
 }
 
-void XBOXONE::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+void XBOXONE::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox ONE Controller
 #ifdef PRINTREPORT
         if(readBuf == NULL)
                 return;
@@ -336,22 +336,22 @@ uint8_t XBOXONE::XboxCommand(uint8_t* data, uint16_t nbytes) {
         Notify(PSTR("\r\nXboxCommand, Return: "), 0x80);
         D_PrintHex<uint8_t > (rcode, 0x80);
 #endif
-		return rcode;
+        return rcode;
 }
 
 void XBOXONE::onInit() {
-		// a short buzz to show the controller is active
-		writeBuf[0] = 0x09;
-		writeBuf[1] = 0x08;
-		writeBuf[2] = 0x00;
-		writeBuf[3] = 0x09;
-		writeBuf[4] = 0x00;
-		writeBuf[5] = 0x0f;
-		writeBuf[6] = 0x04;
-		writeBuf[7] = 0x04;
-		writeBuf[8] = 0x20;
-		writeBuf[9] = 0x20;
-		writeBuf[10] = 0x80;
+        // a short buzz to show the controller is active
+        writeBuf[0] = 0x09;
+        writeBuf[1] = 0x08;
+        writeBuf[2] = 0x00;
+        writeBuf[3] = 0x09;
+        writeBuf[4] = 0x00;
+        writeBuf[5] = 0x0f;
+        writeBuf[6] = 0x04;
+        writeBuf[7] = 0x04;
+        writeBuf[8] = 0x20;
+        writeBuf[9] = 0x20;
+        writeBuf[10] = 0x80;
         XboxCommand(writeBuf, 11);
 
         if(pFuncOnInit)
