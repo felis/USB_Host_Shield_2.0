@@ -40,10 +40,6 @@
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
 
-// Used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT      0x09
-
 #define XBOX_MAX_ENDPOINTS   3
 
 /** This class implements support for a Xbox wired controller via USB. */
