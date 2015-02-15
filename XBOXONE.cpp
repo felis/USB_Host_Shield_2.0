@@ -262,10 +262,10 @@ void XBOXONE::readReport() {
                         ButtonState |= XBOX_BUTTONS[XBOX];
                 }
                 else {
-                        ButtonState &= XBOX_BUTTONS[XBOX];
+                        ButtonState &= ~XBOX_BUTTONS[XBOX];
                 }
                 if(ButtonState != OldButtonState) {
-                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable, but don't include the two trigger buttons L2 and R2
+                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                         OldButtonState = ButtonState;
                 }
         }
@@ -296,7 +296,7 @@ void XBOXONE::readReport() {
                 ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                 OldButtonState = ButtonState;
         }
-
+        // handle click detection for triggers
         if (triggerValue[0] != triggerValueOld[0]) {
             triggerValueOld[0] = triggerValue[0];
             L2Clicked = true;
