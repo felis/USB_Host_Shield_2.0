@@ -281,8 +281,8 @@ void XBOXONE::readReport() {
         // xbox button from before, dpad, abxy, start/back, sync, stick click, shoulder buttons
         ButtonState = xbox | (((uint16_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint16_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint16_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4);
 
-        triggerValue[LeftTrigger] = (uint16_t)(((uint16_t)readBuf[7] << 8) | readBuf[6]);
-        triggerValue[RightTrigger] = (uint16_t)(((uint16_t)readBuf[9] << 8) | readBuf[8]);
+        triggerValue[0] = (uint16_t)(((uint16_t)readBuf[7] << 8) | readBuf[6]);
+        triggerValue[1] = (uint16_t)(((uint16_t)readBuf[9] << 8) | readBuf[8]);
 
         hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[11] << 8) | readBuf[10]);
         hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
@@ -295,6 +295,15 @@ void XBOXONE::readReport() {
         if(ButtonState != OldButtonState) {
                 ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                 OldButtonState = ButtonState;
+        }
+
+        if (triggerValue[0] != triggerValueOld[0]) {
+            triggerValueOld[0] = triggerValue[0];
+            L2Clicked = true;
+        }
+        if (triggerValue[1] != triggerValueOld[1]) {
+            triggerValueOld[1] = triggerValue[1];
+            R2Clicked = true;
         }
 }
 
@@ -310,11 +319,28 @@ void XBOXONE::printReport() { //Uncomment "#define PRINTREPORT" to print the rep
 #endif
 }
 
-uint8_t XBOXONE::getButtonPress(ButtonEnum b) {
+uint16_t XBOXONE::getButtonPress(ButtonEnum b) {
+        if(b == L2) // These are analog buttons
+                return triggerValue[0];
+        else if(b == R2)
+                return triggerValue[1];
         return (bool)(ButtonState & ((uint16_t)pgm_read_word(&XBOX_BUTTONS[(uint8_t)b])));
 }
 
 bool XBOXONE::getButtonClick(ButtonEnum b) {
+        if(b == L2) {
+                if(L2Clicked) {
+                        L2Clicked = false;
+                        return true;
+                }
+                return false;
+        } else if(b == R2) {
+                if(R2Clicked) {
+                        R2Clicked = false;
+                        return true;
+                }
+                return false;
+        }
         uint16_t button = pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
@@ -323,10 +349,6 @@ bool XBOXONE::getButtonClick(ButtonEnum b) {
 
 int16_t XBOXONE::getAnalogHat(AnalogHatEnum a) {
         return hatValue[a];
-}
-
-uint16_t XBOXONE::getTrigger(TriggerEnum a) {
-        return triggerValue[a];
 }
 
 /* Xbox Controller commands */

@@ -42,7 +42,7 @@
 
 #define XBOX_MAX_ENDPOINTS   3
 
-/** This class implements support for a Xbox wired controller via USB. */
+/** This class implements support for a Xbox ONE controller connected via USB. */
 class XBOXONE : public USBDeviceConfig {
 public:
         /**
@@ -107,9 +107,9 @@ public:
          * So you instance if you need to increase a variable once you would use getButtonClick(ButtonEnum b),
          * but if you need to drive a robot forward you would use getButtonPress(ButtonEnum b).
          * @param  b          ::ButtonEnum to read.
-         * @return            getButtonClick(ButtonEnum b) will return a bool, while getButtonPress(ButtonEnum b) will return a byte if reading ::L2 or ::R2.
+         * @return            getButtonClick(ButtonEnum b) will return a bool, while getButtonPress(ButtonEnum b) will return a word if reading ::L2 or ::R2.
          */
-        uint8_t getButtonPress(ButtonEnum b);
+        uint16_t getButtonPress(ButtonEnum b);
         bool getButtonClick(ButtonEnum b);
 
         /**
@@ -118,14 +118,6 @@ public:
          * @return            Returns a signed 16-bit integer.
          */
         int16_t getAnalogHat(AnalogHatEnum a);
-
-        /** @name Xbox Controller functions */
-        /**
-         * Return the analog value from the triggers on the controller.
-         * @param  a          Either ::LeftTrigger, or ::RightTrigger.
-         * @return            Returns an unsigned 16-bit integer.
-         */
-        uint16_t getTrigger(TriggerEnum a);
 
         /**
          * Used to call your own function when the controller is successfully initialized.
@@ -163,6 +155,10 @@ private:
         uint16_t ButtonClickState;
         int16_t hatValue[4];
         int16_t triggerValue[2];
+        int16_t triggerValueOld[2];
+
+        bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
+        bool R2Clicked;
 
         uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
         uint8_t writeBuf[12]; // General purpose buffer for output data

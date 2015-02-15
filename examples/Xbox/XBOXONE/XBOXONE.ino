@@ -47,54 +47,51 @@ void loop() {
       Serial.println();
     }
 
-    if (Xbox.getTrigger(LeftTrigger) > 0 || Xbox.getTrigger(RightTrigger) > 0) {
-      if (Xbox.getTrigger(LeftTrigger) > 0) {
-        Serial.print(F("LeftTrigger: "));
-        Serial.print(Xbox.getTrigger(LeftTrigger));
+    if (Xbox.getButtonPress(L2) > 0 || Xbox.getButtonPress(R2) > 0) {
+      if (Xbox.getButtonPress(L2) > 0) {
+        Serial.print(F("L2: "));
+        Serial.print(Xbox.getButtonPress(L2));
         Serial.print("\t");
       }
-      if (Xbox.getTrigger(RightTrigger) > 0) {
-        Serial.print(F("RightTrigger: "));
-        Serial.print(Xbox.getTrigger(RightTrigger));
+      if (Xbox.getButtonPress(R2) > 0) {
+        Serial.print(F("R2: "));
+        Serial.print(Xbox.getButtonPress(R2));
         Serial.print("\t");
       }
       Serial.println();
     }
 
-    if (Xbox.getButtonClick(UP)) {
+    if (Xbox.getButtonClick(UP))
       Serial.println(F("Up"));
-    }
-    if (Xbox.getButtonClick(DOWN)) {
+    if (Xbox.getButtonClick(DOWN))
       Serial.println(F("Down"));
-    }
-    if (Xbox.getButtonClick(LEFT)) {
+    if (Xbox.getButtonClick(LEFT))
       Serial.println(F("Left"));
-    }
-    if (Xbox.getButtonClick(RIGHT)) {
+    if (Xbox.getButtonClick(RIGHT))
       Serial.println(F("Right"));
-    }
 
-    if (Xbox.getButtonClick(START)) {
+    if (Xbox.getButtonClick(START))
       Serial.println(F("Start"));
-    }
-    if (Xbox.getButtonClick(BACK)) {
+    if (Xbox.getButtonClick(BACK))
       Serial.println(F("Back"));
-    }
-    if (Xbox.getButtonClick(L3))
-      Serial.println(F("L3"));
-    if (Xbox.getButtonClick(R3))
-      Serial.println(F("R3"));
+    if (Xbox.getButtonClick(XBOX))
+      Serial.println(F("Xbox"));
+    if (Xbox.getButtonClick(SYNC))
+      Serial.println(F("Sync"));
 
     if (Xbox.getButtonClick(L1))
       Serial.println(F("L1"));
     if (Xbox.getButtonClick(R1))
       Serial.println(F("R1"));
-    if (Xbox.getButtonClick(XBOX)) {
-      Serial.println(F("Xbox"));
-    }
-    if (Xbox.getButtonClick(SYNC)) {
-      Serial.println(F("Sync"));
-    }
+    if (Xbox.getButtonClick(L2))
+      Serial.println(F("L2"));
+    if (Xbox.getButtonClick(R2))
+      Serial.println(F("R2"));
+    if (Xbox.getButtonClick(L3))
+      Serial.println(F("L3"));
+    if (Xbox.getButtonClick(R3))
+      Serial.println(F("R3"));
+
 
     if (Xbox.getButtonClick(A))
       Serial.println(F("A"));
