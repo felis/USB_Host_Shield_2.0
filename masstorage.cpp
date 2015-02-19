@@ -67,7 +67,7 @@ bool BulkOnly::LUNIsGood(uint8_t lun) {
  * @param lun Logical Unit Number
  * @return cached status of write protect switch
  */
-boolean BulkOnly::WriteProtected(uint8_t lun) {
+bool BulkOnly::WriteProtected(uint8_t lun) {
         return WriteOk[lun];
 }
 
@@ -599,7 +599,7 @@ uint8_t BulkOnly::Release() {
  * @param lun Logical Unit Number
  * @return true if LUN is ready for use.
  */
-boolean BulkOnly::CheckLUN(uint8_t lun) {
+bool BulkOnly::CheckLUN(uint8_t lun) {
         uint8_t rcode;
         Capacity capacity;
         for(uint8_t i = 0; i < 8; i++) capacity.data[i] = 0;
@@ -1020,11 +1020,11 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
         printf("Transfersize %i\r\n", bytes);
         delay(1000);
 
-        boolean callback = (flags & MASS_TRANS_FLG_CALLBACK) == MASS_TRANS_FLG_CALLBACK;
+        bool callback = (flags & MASS_TRANS_FLG_CALLBACK) == MASS_TRANS_FLG_CALLBACK;
 #else
         uint16_t bytes = buf_size;
 #endif
-        boolean write = (pcbw->bmCBWFlags & MASS_CMD_DIR_IN) != MASS_CMD_DIR_IN;
+        bool write = (pcbw->bmCBWFlags & MASS_CMD_DIR_IN) != MASS_CMD_DIR_IN;
         uint8_t ret = 0;
         uint8_t usberr;
         CommandStatusWrapper csw; // up here, we allocate ahead to save cpu cycles.

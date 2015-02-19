@@ -284,7 +284,7 @@ public:
          * @param  klass The device's USB class.
          * @return       Returns true if the device's USB class matches this driver.
          */
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_WIRELESS_CTRL);
         };
 
@@ -295,7 +295,7 @@ public:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
                         return true;
                 if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set

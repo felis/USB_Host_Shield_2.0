@@ -32,7 +32,7 @@ ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
               "123456789"); // Serial Number (optional)
 
 uint32_t timer;
-boolean connected;
+bool connected;
 
 void setup() {
   Serial.begin(115200);

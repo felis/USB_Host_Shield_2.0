@@ -20,7 +20,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 const uint8_t length = 2; // Set the number of instances here
 SPP *SerialBT[length]; // We will use this pointer to store the instances, you can easily make it larger if you like, but it will use a lot of RAM!
 
-boolean firstMessage[length] = { true }; // Set all to true
+bool firstMessage[length] = { true }; // Set all to true
 
 void setup() {
   for (uint8_t i = 0; i < length; i++)

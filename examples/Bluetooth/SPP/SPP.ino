@@ -20,7 +20,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
 //SPP SerialBT(&Btd, "Lauszus's Arduino", "1234"); // You can also set the name and pin like so
 
-boolean firstMessage = true;
+bool firstMessage = true;
 
 void setup() {
   Serial.begin(115200);

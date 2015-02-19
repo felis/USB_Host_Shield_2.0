@@ -16,7 +16,7 @@ USB Usb;
 PS3USB PS3(&Usb); // This will just create the instance
 //PS3USB PS3(&Usb,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
-boolean printAngle;
+bool printAngle;
 uint8_t state = 0;
 
 void setup() {

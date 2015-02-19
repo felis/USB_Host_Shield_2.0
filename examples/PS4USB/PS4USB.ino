@@ -15,7 +15,7 @@
 USB Usb;
 PS4USB PS4(&Usb);
 
-boolean printAngle, printTouch;
+bool printAngle, printTouch;
 uint8_t oldL2Value, oldR2Value;
 
 void setup() {

@@ -99,7 +99,7 @@ public:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && (pid == XBOX_OLD_PID1 || pid == XBOX_OLD_PID2 || pid == XBOX_OLD_PID3 || pid == XBOX_OLD_PID4));
         };
         /**@}*/

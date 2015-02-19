@@ -29,7 +29,7 @@ SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the
 PS3BT PS3(&Btd); // This will just create the instance
 //PS3BT PS3(&Btd, 0x00, 0x15, 0x83, 0x3D, 0x0A, 0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
-boolean firstMessage = true;
+bool firstMessage = true;
 String output = ""; // We will store the data in this string
 
 void setup() {

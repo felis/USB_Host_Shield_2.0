@@ -108,7 +108,7 @@ public:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID));
         };
         /**@}*/

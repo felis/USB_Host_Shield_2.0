@@ -134,7 +134,7 @@ public:
         // UsbConfigXtracter implementation
         void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == FTDI_VID && pid == FTDI_PID);
         }
 

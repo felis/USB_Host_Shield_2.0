@@ -236,11 +236,11 @@ public:
         // Method should be defined here if virtual.
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_HID);
         }
 
-        virtual boolean DEVSUBCLASSOK(uint8_t subklass) {
+        virtual bool DEVSUBCLASSOK(uint8_t subklass) {
                 return (subklass == BOOT_PROTOCOL);
         }
 };

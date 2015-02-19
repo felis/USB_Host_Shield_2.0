@@ -112,7 +112,7 @@ public:
                 return ready;
         };
 
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == ADK_VID && (pid == ADK_PID || pid == ADB_PID));
         };
 

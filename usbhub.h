@@ -200,7 +200,7 @@ public:
                 return bAddress;
         };
 
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == 0x09);
         }
 
