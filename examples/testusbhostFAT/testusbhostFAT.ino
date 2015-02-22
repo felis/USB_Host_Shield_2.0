@@ -80,14 +80,14 @@ USB Usb;
 
 volatile uint8_t current_state = 1;
 volatile uint8_t last_state = 0;
-volatile boolean fatready = false;
-volatile boolean partsready = false;
-volatile boolean notified = false;
-volatile boolean runtest = false;
-volatile boolean usbon = false;
+volatile bool fatready = false;
+volatile bool partsready = false;
+volatile bool notified = false;
+volatile bool runtest = false;
+volatile bool usbon = false;
 volatile uint32_t usbon_time;
-volatile boolean change = false;
-volatile boolean reportlvl = false;
+volatile bool change = false;
+volatile bool reportlvl = false;
 int cpart = 0;
 PCPartition *PT;
 
@@ -178,7 +178,7 @@ extern "C" {
 #endif
 
 void setup() {
-        boolean serr = false;
+        bool serr = false;
         for(int i = 0; i < _VOLUMES; i++) {
                 Fats[i] = NULL;
                 sto[i].private_data = new pvt_t;
@@ -454,14 +454,14 @@ void loop() {
                 }
                 // This is horrible, and needs to be moved elsewhere!
                 for(int B = 0; B < MAX_USB_MS_DRIVERS; B++) {
-                        if(!partsready && (UHS_USB_BulkOnly[B]->GetAddress() != NULL)) {
+                        if(!partsready && (UHS_USB_Storage[B]->GetAddress() != NULL)) {
 
                                 // Build a list.
-                                int ML = UHS_USB_BulkOnly[B]->GetbMaxLUN();
+                                int ML = UHS_USB_Storage[B]->GetbMaxLUN();
                                 //printf("MAXLUN = %i\r\n", ML);
                                 ML++;
                                 for(int i = 0; i < ML; i++) {
-                                        if(UHS_USB_BulkOnly[B]->LUNIsGood(i)) {
+                                        if(UHS_USB_Storage[B]->LUNIsGood(i)) {
                                                 partsready = true;
                                                 ((pvt_t *)(sto[i].private_data))->lun = i;
                                                 ((pvt_t *)(sto[i].private_data))->B = B;
@@ -470,8 +470,8 @@ void loop() {
                                                 sto[i].Status = *UHS_USB_BulkOnly_Status;
                                                 sto[i].Initialize = *UHS_USB_BulkOnly_Initialize;
                                                 sto[i].Commit = *UHS_USB_BulkOnly_Commit;
-                                                sto[i].TotalSectors = UHS_USB_BulkOnly[B]->GetCapacity(i);
-                                                sto[i].SectorSize = UHS_USB_BulkOnly[B]->GetSectorSize(i);
+                                                sto[i].TotalSectors = UHS_USB_Storage[B]->GetCapacity(i);
+                                                sto[i].SectorSize = UHS_USB_Storage[B]->GetSectorSize(i);
                                                 printf_P(PSTR("LUN:\t\t%u\r\n"), i);
                                                 printf_P(PSTR("Total Sectors:\t%08lx\t%lu\r\n"), sto[i].TotalSectors, sto[i].TotalSectors);
                                                 printf_P(PSTR("Sector Size:\t%04x\t\t%u\r\n"), sto[i].SectorSize, sto[i].SectorSize);
@@ -524,7 +524,7 @@ void loop() {
                         if(Fats[0] != NULL) {
                                 struct Pvt * p;
                                 p = ((struct Pvt *)(Fats[0]->storage->private_data));
-                                if(!UHS_USB_BulkOnly[p->B]->LUNIsGood(p->lun)) {
+                                if(!UHS_USB_Storage[p->B]->LUNIsGood(p->lun)) {
                                         // media change
 #if !defined(CORE_TEENSY) && defined(__AVR__)
                                         fadeAmount = 80;

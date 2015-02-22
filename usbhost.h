@@ -40,12 +40,16 @@ public:
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
         }
-#elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
+#elif !defined(SPDR)
         static void init() {
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
                 SPI.begin();
+#if defined(__MIPSEL__)
+                SPI.setClockDivider(1);
+#else
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
+#endif
         }
 #elif defined(RBL_NRF51822)
         static void init() {
@@ -84,6 +88,8 @@ typedef SPi< P13, P11, P12, P10 > spi;
 typedef SPi< P76, P75, P74, P10 > spi;
 #elif defined(RBL_NRF51822)
 typedef SPi< P16, P18, P17, P10 > spi;
+#elif defined(__MIPSEL__)
+typedef SPi< P13, P11, P12, P10 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
@@ -145,7 +151,7 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         spi4teensy3::send(c, 2);
-#elif (defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) ||  defined(RBL_NRF51822)
+#elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
         SPI.transfer(data);
 #else
@@ -169,7 +175,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
         data_p += nbytes;
-#elif (defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) ||  defined(RBL_NRF51822)
+#elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
         while(nbytes) {
                 SPI.transfer(*data_p);
@@ -211,7 +217,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         spi4teensy3::send(reg);
         uint8_t rv = spi4teensy3::receive();
         SPI_SS::Set();
-#elif (defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) ||  defined(RBL_NRF51822)
+#elif !defined(SPDR)
         SPI.transfer(reg);
         uint8_t rv = SPI.transfer(0);
         SPI_SS::Set();
@@ -237,7 +243,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg);
         spi4teensy3::receive(data_p, nbytes);
         data_p += nbytes;
-#elif (defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) ||  defined(RBL_NRF51822)
+#elif !defined(SPDR)
         SPI.transfer(reg);
         while(nbytes) {
             *data_p++ = SPI.transfer(0);

@@ -41,13 +41,13 @@ public:
          * Used to pass acldata to the services.
          * @param ACLData Incoming acldata.
          */
-        virtual void ACLData(uint8_t* ACLData);
+        void ACLData(uint8_t* ACLData);
         /** Used to run part of the state machine. */
-        virtual void Run();
+        void Run();
         /** Use this to reset the service. */
-        virtual void Reset();
+        void Reset();
         /** Used this to disconnect the devices. */
-        virtual void disconnect();
+        void disconnect();
         /**@}*/
 
         /**

@@ -143,14 +143,14 @@ protected:
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
         /**
          * Called when a device is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        virtual uint8_t OnInitSuccessful();
+        uint8_t OnInitSuccessful();
         /**@}*/
 
         /** Used to reset the different buffers to their default values */
@@ -169,7 +169,7 @@ protected:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == PSBUZZ_VID && pid == PSBUZZ_PID);
         };
         /**@}*/

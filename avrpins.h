@@ -1020,4 +1020,49 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #endif // __arm__
 
+#if defined(__MIPSEL__)
+// MIPSEL (MIPS architecture using a little endian byte order)
+
+// MIPS size_t = 4
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+// 0 .. 13 - Digital pins
+MAKE_PIN(P0, 0); // RX
+MAKE_PIN(P1, 1); // TX
+MAKE_PIN(P2, 2); //
+MAKE_PIN(P3, 3); //
+MAKE_PIN(P4, 4); //
+MAKE_PIN(P5, 5); //
+MAKE_PIN(P6, 6); //
+MAKE_PIN(P7, 7); //
+MAKE_PIN(P8, 8); //
+MAKE_PIN(P9, 9); //
+MAKE_PIN(P10, 10); //
+MAKE_PIN(P11, 11); //
+MAKE_PIN(P12, 12); //
+MAKE_PIN(P13, 13); //
+
+#undef MAKE_PIN
+#endif
+
 #endif //_avrpins_h_

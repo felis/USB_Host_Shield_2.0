@@ -7,6 +7,8 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
+#include <SPI.h> // Hack to use the SPI library
 #endif
 
 /* variables */
@@ -23,7 +25,9 @@ USB Usb;
 void setup() {
         laststate = 0;
         Serial.begin(115200);
-        while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#if !defined(__MIPSEL__)
+        while(!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
         E_Notify(PSTR("\r\nCircuits At Home 2011"), 0x80);
         E_Notify(PSTR("\r\nUSB Host Shield Quality Control Routine"), 0x80);
         /* SPI quick test - check revision register */
@@ -31,7 +35,7 @@ void setup() {
         Usb.Init(); // Initializes SPI, we don't care about the return value here
         {
                 uint8_t tmpbyte = Usb.regRd(rREVISION);
-                switch (tmpbyte) {
+                switch(tmpbyte) {
                         case( 0x01): //rev.01
                                 E_Notify(PSTR("01"), 0x80);
                                 break;
@@ -54,11 +58,11 @@ void setup() {
                 uint8_t sample_wr = 0;
                 uint8_t sample_rd = 0;
                 uint8_t gpinpol_copy = Usb.regRd(rGPINPOL);
-                for (uint8_t i = 0; i < 16; i++) {
-                        for (uint16_t j = 0; j < 65535; j++) {
+                for(uint8_t i = 0; i < 16; i++) {
+                        for(uint16_t j = 0; j < 65535; j++) {
                                 Usb.regWr(rGPINPOL, sample_wr);
                                 sample_rd = Usb.regRd(rGPINPOL);
-                                if (sample_rd != sample_wr) {
+                                if(sample_rd != sample_wr) {
                                         E_Notify(PSTR("\r\nTest failed.  "), 0x80);
                                         E_Notify(PSTR("Value written: "), 0x80);
                                         print_hex(sample_wr, 8);
@@ -79,12 +83,12 @@ void setup() {
         {
                 uint8_t tmpbyte;
                 E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
-                for (uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
+                for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
                         Usb.gpioWr(sample_gpio);
                         tmpbyte = Usb.gpioRd();
                         /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
                         tmpbyte = ((tmpbyte * 0x0802LU & 0x22110LU) | (tmpbyte * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
-                        if (sample_gpio != tmpbyte) {
+                        if(sample_gpio != tmpbyte) {
                                 E_Notify(PSTR("\r\nTest failed. Value written: "), 0x80);
                                 print_hex(sample_gpio, 8);
                                 E_Notify(PSTR(" Value read: "), 0x80);
@@ -100,31 +104,31 @@ void setup() {
         {
                 E_Notify(PSTR("\r\nPLL test. 100 chip resets will be performed"), 0x80);
                 /* check current state of the oscillator */
-                if (!(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ)) { //wrong state - should be on
+                if(!(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ)) { //wrong state - should be on
                         E_Notify(PSTR("\r\nCurrent oscillator state unexpected."), 0x80);
                         press_any_key();
                 }
                 /* Restart oscillator */
                 E_Notify(PSTR("\r\nResetting oscillator\r\n"), 0x80);
-                for (uint16_t i = 0; i < 100; i++) {
+                for(uint16_t i = 0; i < 100; i++) {
                         E_Notify(PSTR("\rReset number "), 0x80);
                         Serial.print(i, DEC);
                         Usb.regWr(rUSBCTL, bmCHIPRES); //reset
-                        if (Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) { //wrong state - should be off
+                        if(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) { //wrong state - should be off
                                 E_Notify(PSTR("\r\nCurrent oscillator state unexpected."), 0x80);
                                 halt55();
                         }
                         Usb.regWr(rUSBCTL, 0x00); //release from reset
                         uint16_t j = 0;
-                        for (j = 0; j < 65535; j++) { //tracking off to on time
-                                if (Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) {
+                        for(j = 0; j < 65535; j++) { //tracking off to on time
+                                if(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) {
                                         E_Notify(PSTR(" Time to stabilize - "), 0x80);
                                         Serial.print(j, DEC);
                                         E_Notify(PSTR(" cycles\r\n"), 0x80);
                                         break;
                                 }
                         }//for( uint16_t j = 0; j < 65535; j++
-                        if (j == 0) {
+                        if(j == 0) {
                                 E_Notify(PSTR("PLL failed to stabilize"), 0x80);
                                 press_any_key();
                         }
@@ -132,7 +136,7 @@ void setup() {
 
         }//PLL test
         /* initializing USB stack */
-        if (Usb.Init() == -1) {
+        if(Usb.Init() == -1) {
                 E_Notify(PSTR("\r\nOSCOKIRQ failed to assert"), 0x80);
                 halt55();
         }
@@ -143,10 +147,10 @@ void loop() {
         delay(200);
         Usb.Task();
         usbstate = Usb.getUsbTaskState();
-        if (usbstate != laststate) {
+        if(usbstate != laststate) {
                 laststate = usbstate;
                 /**/
-                switch (usbstate) {
+                switch(usbstate) {
                         case( USB_DETACHED_SUBSTATE_WAIT_FOR_DEVICE):
                                 E_Notify(PSTR("\r\nWaiting for device..."), 0x80);
                                 break;
@@ -166,7 +170,7 @@ void loop() {
                                 E_Notify(PSTR("\r\nGetting device descriptor"), 0x80);
                                 rcode = Usb.getDevDescr(1, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*) & buf);
 
-                                if (rcode) {
+                                if(rcode) {
                                         E_Notify(PSTR("\r\nError reading device descriptor. Error code "), 0x80);
                                         print_hex(rcode, 8);
                                 } else {
@@ -201,7 +205,7 @@ void loop() {
                                         print_hex(buf.bNumConfigurations, 8);
                                         /**/
                                         E_Notify(PSTR("\r\n\nAll tests passed. Press RESET to restart test"), 0x80);
-                                        while (1);
+                                        while(1);
                                 }
                                 break;
                         case( USB_STATE_ERROR):
@@ -221,7 +225,7 @@ void halt55() {
         E_Notify(PSTR("\r\n0x55 pattern is transmitted via SPI"), 0x80);
         E_Notify(PSTR("\r\nPress RESET to restart test"), 0x80);
 
-        while (1) {
+        while(1) {
                 Usb.regWr(0x55, 0x55);
         }
 }
@@ -230,25 +234,25 @@ void halt55() {
 void print_hex(int v, int num_places) {
         int mask = 0, n, num_nibbles, digit;
 
-        for (n = 1; n <= num_places; n++) {
+        for(n = 1; n <= num_places; n++) {
                 mask = (mask << 1) | 0x0001;
         }
         v = v & mask; // truncate v to specified number of places
 
         num_nibbles = num_places / 4;
-        if ((num_places % 4) != 0) {
+        if((num_places % 4) != 0) {
                 ++num_nibbles;
         }
         do {
                 digit = ((v >> (num_nibbles - 1) * 4)) & 0x0f;
                 Serial.print(digit, HEX);
-        } while (--num_nibbles);
+        } while(--num_nibbles);
 }
 
 /* prints "Press any key" and returns when key is pressed */
 void press_any_key() {
         E_Notify(PSTR("\r\nPress any key to continue..."), 0x80);
-        while (Serial.available() <= 0); //wait for input
+        while(Serial.available() <= 0); //wait for input
         Serial.read(); //empty input buffer
         return;
 }

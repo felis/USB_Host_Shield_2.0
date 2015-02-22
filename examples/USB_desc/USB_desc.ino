@@ -4,6 +4,7 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB     Usb;
@@ -49,7 +50,9 @@ void PrintAddress(uint8_t addr)
 void setup()
 {
   Serial.begin( 115200 );
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   Serial.println("Start");
 
   if (Usb.Init() == -1)
@@ -336,7 +339,7 @@ void printunkdescr( uint8_t* descr_ptr )
 
 
 /* Print a string from Program Memory directly to save RAM */
-void printProgStr(const prog_char str[])
+void printProgStr(prog_char str[])
 {
   char c;
   if(!str) return;

@@ -5,13 +5,13 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 class FTDIAsync : public FTDIAsyncOper
 {
 public:
-    virtual uint8_t OnInit(FTDI *pftdi);
-    virtual uint8_t OnRelease(FTDI *pftdi) {};
+    uint8_t OnInit(FTDI *pftdi);
 };
 
 uint8_t FTDIAsync::OnInit(FTDI *pftdi)
@@ -43,7 +43,9 @@ uint32_t next_time;
 void setup()
 {
   Serial.begin( 115200 );
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   Serial.println("Start");
 
   if (Usb.Init() == -1)

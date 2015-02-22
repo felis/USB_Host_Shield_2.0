@@ -9,6 +9,7 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB Usb;
@@ -19,11 +20,13 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
 //SPP SerialBT(&Btd, "Lauszus's Arduino", "1234"); // You can also set the name and pin like so
 
-boolean firstMessage = true;
+bool firstMessage = true;
 
 void setup() {
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
