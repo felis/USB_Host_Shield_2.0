@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Auto detect text files and perform LF normalization
 * text=auto
 * text eol=lf
@@ -22,6 +21,3 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
-=======
-text eol=lf
->>>>>>> acca3c8fe06a3d95806a8656c8a6ddef081cc210
