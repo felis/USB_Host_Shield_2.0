@@ -96,9 +96,9 @@ public:
 
 
         // USBDeviceConfig implementation
-        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
+        uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
 
         virtual uint8_t Poll() {
                 return 0;
@@ -112,12 +112,12 @@ public:
                 return ready;
         };
 
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == ADK_VID && (pid == ADK_PID || pid == ADB_PID));
         };
 
         //UsbConfigXtracter implementation
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 }; //class ADK : public USBDeviceConfig ...
 
 /* get ADK protocol version */

@@ -211,7 +211,7 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Initialize the Bluetooth dongle.
          * @param  parent   Hub number.
@@ -219,17 +219,17 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Release the USB device.
          * @return 0 on success.
          */
-        virtual uint8_t Release();
+        uint8_t Release();
         /**
          * Poll the USB Input endpoints and run the state machines.
          * @return 0 on success.
          */
-        virtual uint8_t Poll();
+        uint8_t Poll();
 
         /**
          * Get the device address.
@@ -252,7 +252,7 @@ public:
          * @param  klass The device's USB class.
          * @return       Returns true if the device's USB class matches this driver.
          */
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_WIRELESS_CTRL);
         };
 
@@ -263,7 +263,7 @@ public:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
                         return true;
                 if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
@@ -283,7 +283,7 @@ public:
          * @param proto Interface Protocol.
          * @param ep    Endpoint Descriptor.
          */
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
         /**@}*/
 
         /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */

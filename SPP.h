@@ -70,7 +70,7 @@ public:
 
         /** @name BluetoothService implementation */
         /** Used this to disconnect the virtual serial port. */
-        virtual void disconnect();
+        void disconnect();
         /**@}*/
 
         /**
@@ -88,22 +88,22 @@ public:
          * Get number of bytes waiting to be read.
          * @return Return the number of bytes ready to be read.
          */
-        virtual int available(void);
+        int available(void);
 
         /** Send out all bytes in the buffer. */
-        virtual void flush(void) {
+        void flush(void) {
                 send();
         };
         /**
          * Used to read the next value in the buffer without advancing to the next one.
          * @return Return the byte. Will return -1 if no bytes are available.
          */
-        virtual int peek(void);
+        int peek(void);
         /**
          * Used to read the buffer.
          * @return Return the byte. Will return -1 if no bytes are available.
          */
-        virtual int read(void);
+        int read(void);
 
 #if defined(ARDUINO) && ARDUINO >=100
         /**
@@ -111,14 +111,14 @@ public:
          * @param  data The byte to write.
          * @return      Return the number of bytes written.
          */
-        virtual size_t write(uint8_t data);
+        size_t write(uint8_t data);
         /**
          * Writes the bytes to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The data array to send.
          * @param  size Size of the data.
          * @return      Return the number of bytes written.
          */
-        virtual size_t write(const uint8_t* data, size_t size);
+        size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
         using Print::write;
 #else
@@ -126,13 +126,13 @@ public:
          * Writes the byte to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param  data The byte to write.
          */
-        virtual void write(uint8_t data);
+        void write(uint8_t data);
         /**
          * Writes the bytes to send to a buffer. The message is send when either send() or after Usb.Task() is called.
          * @param data The data array to send.
          * @param size Size of the data.
          */
-        virtual void write(const uint8_t* data, size_t size);
+        void write(const uint8_t* data, size_t size);
 #endif
 
         /** Discard all the bytes in the buffer. */
@@ -151,17 +151,17 @@ protected:
          * Used to pass acldata to the services.
          * @param ACLData Incoming acldata.
          */
-        virtual void ACLData(uint8_t* ACLData);
+        void ACLData(uint8_t* ACLData);
         /** Used to establish the connection automatically. */
-        virtual void Run();
+        void Run();
         /** Use this to reset the service. */
-        virtual void Reset();
+        void Reset();
         /**
          * Called when a device is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        virtual void onInit();
+        void onInit();
         /**@}*/
 
 private:

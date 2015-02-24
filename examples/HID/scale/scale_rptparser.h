@@ -1,7 +1,7 @@
 #if !defined(__SCALERPTPARSER_H__)
 #define __SCALERPTPARSER_H__
 
-#include <Max_LCD.h>
+#include <max_LCD.h>
 #include <hid.h>
 
 /* Scale status constants */
@@ -19,22 +19,22 @@ struct ScaleEventData
 {
   uint8_t reportID;	//must be 3
   uint8_t status;
-  uint8_t unit;		
+  uint8_t unit;
   int8_t exp;			//scale factor for the weight
   uint16_t weight;	//
 };
 
 class ScaleEvents
 {
-	
+
 	Max_LCD*	pLcd;
-	
+
 	void LcdPrint( const char* str );
-	
+
 public:
-	
+
 	ScaleEvents( Max_LCD* pLCD );
-	
+
 	virtual void OnScaleChanged(const ScaleEventData *evt);
 };
 

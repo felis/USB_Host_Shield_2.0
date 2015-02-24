@@ -1,5 +1,10 @@
 #include <adk.h>
 #include <usbhub.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#include <SPI.h>
+#endif
 
 USB Usb;
 USBHub hub0(&Usb);
@@ -15,9 +20,6 @@ uint8_t  b, b1;
 
 #define  LED1_RED       3
 #define  BUTTON1        2
-
-void setup();
-void loop();
 
 void init_buttons()
 {
@@ -37,9 +39,11 @@ void init_leds()
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#if !defined(__MIPSEL__)
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
 	Serial.println("\r\nADK demo start");
-        
+
         if (Usb.Init() == -1) {
           Serial.println("OSCOKIRQ failed to assert");
         while(1); //halt
@@ -56,17 +60,17 @@ void loop()
   uint8_t rcode;
   uint8_t msg[3] = { 0x00 };
    Usb.Task();
-   
+
    if( adk.isReady() == false ) {
      analogWrite(LED1_RED, 255);
      return;
    }
    uint16_t len = sizeof(msg);
-   
+
    rcode = adk.RcvData(&len, msg);
    if( rcode ) {
      USBTRACE2("Data rcv. :", rcode );
-   } 
+   }
    if(len > 0) {
      USBTRACE("\r\nData Packet.");
     // assumes only one command per packet
@@ -75,10 +79,10 @@ void loop()
         case 0:
           analogWrite(LED1_RED, 255 - msg[2]);
           break;
-      }//switch( msg[1]...  
+      }//switch( msg[1]...
     }//if (msg[0] == 0x2...
    }//if( len > 0...
-   
+
    msg[0] = 0x1;
 
    b = digitalRead(BUTTON1);
@@ -94,5 +98,5 @@ void loop()
     }//if (b != b1...
 
 
-      delay( 10 );       
+      delay( 10 );
 }

@@ -88,10 +88,10 @@ public:
         void command(uint8_t);
 
 #if defined(ARDUINO) && ARDUINO >=100
-        virtual size_t write(uint8_t);
+        size_t write(uint8_t);
         using Print::write;
 #else
-        virtual void write(uint8_t);
+        void write(uint8_t);
 #endif
 
 private:

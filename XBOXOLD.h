@@ -59,17 +59,17 @@ public:
          * @param  lowspeed Speed of the device.
          * @return          0 on success.
          */
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
          * Release the USB device.
          * @return 0 on success.
          */
-        virtual uint8_t Release();
+        uint8_t Release();
         /**
          * Poll the USB Input endpoins and run the state machines.
          * @return 0 on success.
          */
-        virtual uint8_t Poll();
+        uint8_t Poll();
 
         /**
          * Get the device address.
@@ -93,7 +93,7 @@ public:
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
          */
-        virtual boolean VIDPIDOK(uint16_t vid, uint16_t pid) {
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && (pid == XBOX_OLD_PID1 || pid == XBOX_OLD_PID2 || pid == XBOX_OLD_PID3 || pid == XBOX_OLD_PID4));
         };
         /**@}*/

@@ -69,7 +69,7 @@ protected:
         uint16_t PID, VID; // PID and VID of connected device
 
         // HID implementation
-        virtual HIDReportParser* GetReportParser(uint8_t id);
+        HIDReportParser* GetReportParser(uint8_t id);
 
         virtual uint8_t OnInitSuccessful() {
                 return 0;
@@ -83,12 +83,12 @@ public:
         HIDUniversal(USB *p);
 
         // HID implementation
-        virtual bool SetReportParser(uint8_t id, HIDReportParser *prs);
+        bool SetReportParser(uint8_t id, HIDReportParser *prs);
 
         // USBDeviceConfig implementation
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
+        uint8_t Poll();
 
         virtual uint8_t GetAddress() {
                 return bAddress;
@@ -99,7 +99,10 @@ public:
         };
 
         // UsbConfigXtracter implementation
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+        // Send report - do not mix with SetReport()!
+        uint8_t SndRpt(uint16_t nbytes, uint8_t *dataptr);
 };
 
 #endif // __HIDUNIVERSAL_H__

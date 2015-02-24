@@ -24,7 +24,9 @@ class UsbConfigXtracter {
 public:
         //virtual void ConfigXtract(const USB_CONFIGURATION_DESCRIPTOR *conf) = 0;
         //virtual void InterfaceXtract(uint8_t conf, const USB_INTERFACE_DESCRIPTOR *iface) = 0;
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep) = 0;
+
+        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep) {
+        };
 };
 
 #define CP_MASK_COMPARE_CLASS			1
@@ -63,7 +65,7 @@ public:
                 UseOr = true;
         }
         ConfigDescParser(UsbConfigXtracter *xtractor);
-        virtual void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset);
+        void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset);
 };
 
 template <const uint8_t CLASS_ID, const uint8_t SUBCLASS_ID, const uint8_t PROTOCOL_ID, const uint8_t MASK>

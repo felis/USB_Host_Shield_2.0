@@ -42,7 +42,7 @@ public:
 
         /** @name BluetoothService implementation */
         /** Used this to disconnect any of the controllers. */
-        virtual void disconnect();
+        void disconnect();
         /**@}*/
 
         /** @name PS3 Controller functions */
@@ -189,17 +189,17 @@ protected:
          * Used to pass acldata to the services.
          * @param ACLData Incoming acldata.
          */
-        virtual void ACLData(uint8_t* ACLData);
+        void ACLData(uint8_t* ACLData);
         /** Used to run part of the state machine. */
-        virtual void Run();
+        void Run();
         /** Use this to reset the service. */
-        virtual void Reset();
+        void Reset();
         /**
          * Called when the controller is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
-        virtual void onInit();
+        void onInit();
         /**@}*/
 
 private:

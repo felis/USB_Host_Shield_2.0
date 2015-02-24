@@ -71,7 +71,7 @@ Now quit the Arduino IDE and reopen it.
 
 Now you should be able to go open all the examples codes by navigating to "File>Examples>USB\_Host\_Shield\_20" and then select the example you will like to open.
 
-For more information visit the following site: <http://arduino.cc/en/Guide/Libraries>.
+For more information visit the following sites: <http://arduino.cc/en/Guide/Libraries> and <https://learn.adafruit.com/adafruit-all-about-arduino-libraries-install-use>.
 
 # How to use the library
 
@@ -99,6 +99,8 @@ Currently the following boards are supported by the library:
 * Balanduino
 * Sanguino
 * Black Widdow
+* RedBearLab nRF51822
+    * If you are using the RedBearLab nRF51822, then you must include the RedBearLab SPI library like so: ```#include <SPI.h>``` in your .ino file.
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
@@ -282,6 +284,8 @@ More information about the controller can be found at the following sites:
 # Interface modifications
 
 The shield is using SPI for communicating with the MAX3421E USB host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.
+
+Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else!
 
 Furthermore it uses one pin as SS and one INT pin. These are by default located on pin 10 and 9 respectively. They can easily be reconfigured in case you need to use them for something else by cutting the jumper on the shield and then solder a wire from the pad to the new pin.
 

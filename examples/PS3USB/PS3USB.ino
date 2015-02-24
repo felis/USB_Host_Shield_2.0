@@ -8,6 +8,7 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB Usb;
@@ -15,12 +16,14 @@ USB Usb;
 PS3USB PS3(&Usb); // This will just create the instance
 //PS3USB PS3(&Usb,0x00,0x15,0x83,0x3D,0x0A,0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
-boolean printAngle;
+bool printAngle;
 uint8_t state = 0;
 
 void setup() {
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt

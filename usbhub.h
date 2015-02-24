@@ -191,16 +191,16 @@ public:
 
         void PrintHubStatus();
 
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
-        virtual void ResetHubPort(uint8_t port);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
+        uint8_t Poll();
+        void ResetHubPort(uint8_t port);
 
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
 
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == 0x09);
         }
 
