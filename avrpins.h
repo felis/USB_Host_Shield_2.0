@@ -1010,7 +1010,6 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #undef MAKE_PIN
 
-
 #else
 #error "Please define board in avrpins.h"
 
@@ -1066,12 +1065,7 @@ MAKE_PIN(P19, 19); // A5
 
 #undef MAKE_PIN
 
-#else
-#error "Please define board in avrpins.h"
-
-#endif
-
-#if defined(__MIPSEL__)
+#elif defined(__MIPSEL__)
 // MIPSEL (MIPS architecture using a little endian byte order)
 
 // MIPS size_t = 4
@@ -1114,6 +1108,10 @@ MAKE_PIN(P12, 12); //
 MAKE_PIN(P13, 13); //
 
 #undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
 #endif
 
 #endif //_avrpins_h_
