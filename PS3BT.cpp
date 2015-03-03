@@ -21,11 +21,8 @@
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
 PS3BT::PS3BT(BTD *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
-pBtd(p) // pointer to USB class instance - mandatory
+BluetoothService(p) // Pointer to USB class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->my_bdaddr[5] = btadr5; // Change to your dongle's Bluetooth address instead
         pBtd->my_bdaddr[4] = btadr4;
         pBtd->my_bdaddr[3] = btadr3;
@@ -232,8 +229,7 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                                 activeConnection = true;
                                 hci_handle = pBtd->hci_handle; // Store the HCI Handle for the connection
                                 l2cap_state = L2CAP_WAIT;
-                                for(uint8_t i = 0; i < 30; i++)
-                                        remote_name[i] = pBtd->remote_name[i]; // Store the remote name for the connection
+                                remote_name_first = pBtd->remote_name[0]; // Store the first letter in remote name for the connection
 #ifdef DEBUG_USB_HOST
                                 if(pBtd->hci_version < 3) { // Check the HCI Version of the Bluetooth dongle
                                         Notify(PSTR("\r\nYour dongle may not support reading the analog buttons, sensors and status\r\nYour HCI Version is: "), 0x80);
@@ -244,10 +240,10 @@ void PS3BT::ACLData(uint8_t* ACLData) {
                         }
                 }
         }
-        //if((ACLData[0] | (uint16_t)ACLData[1] << 8) == (hci_handle | 0x2000U)) { //acl_handle_ok
-        if(UHS_ACL_HANDLE_OK(ACLData, hci_handle)) { //acl_handle_ok
+
+        if(checkHciHandle(ACLData, hci_handle)) { // acl_handle_ok
                 memcpy(l2capinbuf, ACLData, BULK_MAXPKTSIZE);
-                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { //l2cap_control - Channel ID for ACL-U
+                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
                         if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
@@ -419,7 +415,7 @@ void PS3BT::L2CAP_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHID Interrupt Successfully Configured"), 0x80);
 #endif
-                                if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')
+                                if(remote_name_first == 'M') { // First letter in Motion Controller ('M')
                                         memset(l2capinbuf, 0, BULK_MAXPKTSIZE); // Reset l2cap in buffer as it sometimes read it as a button has been pressed
                                         l2cap_state = TURN_ON_LED;
                                 } else
@@ -470,18 +466,18 @@ void PS3BT::Run() {
 
                 case TURN_ON_LED:
                         if(millis() - timer > 1000) { // loop 1 second before sending the command
-                                if(remote_name[0] == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
+                                if(remote_name_first == 'P') { // First letter in PLAYSTATION(R)3 Controller ('P')
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nDualshock 3 Controller Enabled\r\n"), 0x80);
 #endif
                                         PS3Connected = true;
-                                } else if(remote_name[0] == 'N') { // First letter in Navigation Controller ('N')
+                                } else if(remote_name_first == 'N') { // First letter in Navigation Controller ('N')
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nNavigation Controller Enabled\r\n"), 0x80);
 #endif
                                         PS3NavigationConnected = true;
-                                } else if(remote_name[0] == 'M') { // First letter in Motion Controller ('M')
-                                        timerBulbRumble = millis();
+                                } else if(remote_name_first == 'M') { // First letter in Motion Controller ('M')
+                                        timer = millis();
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nMotion Controller Enabled\r\n"), 0x80);
 #endif
@@ -497,10 +493,10 @@ void PS3BT::Run() {
                         break;
 
                 case L2CAP_DONE:
-                        if(PS3MoveConnected) { // The Bulb and rumble values, has to be send at aproximatly every 5th second for it to stay on
-                                if(millis() - timerBulbRumble > 4000) { // Send at least every 4th second
+                        if(PS3MoveConnected) { // The Bulb and rumble values, has to be send at approximately every 5th second for it to stay on
+                                if(millis() - timer > 4000) { // Send at least every 4th second
                                         HIDMove_Command(HIDMoveBuffer, HID_BUFFERSIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
-                                        timerBulbRumble = millis();
+                                        timer = millis();
                                 }
                         }
                         break;

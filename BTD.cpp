@@ -380,6 +380,12 @@ uint8_t BTD::Poll() {
         return 0;
 }
 
+void BTD::disconnect() {
+        for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
+                if(btService[i])
+                        btService[i]->disconnect();
+};
+
 void BTD::HCI_event_task() {
         uint16_t length = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
         uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &length, hcibuf); // Input on endpoint 1
@@ -511,6 +517,7 @@ void BTD::HCI_event_task() {
                                                 if(remote_name[i] == '\0') // End of string
                                                         break;
                                         }
+                                        // TODO: Altid sæt '\0' i remote name!
                                         hci_set_flag(HCI_FLAG_REMOTE_NAME_COMPLETE);
                                 }
                                 break;

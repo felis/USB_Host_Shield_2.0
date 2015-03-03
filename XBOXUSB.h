@@ -19,6 +19,7 @@
 #define _xboxusb_h_
 
 #include "Usb.h"
+#include "Hid.h"
 #include "xboxEnums.h"
 
 /* Data Xbox 360 taken from descriptors */
@@ -45,10 +46,6 @@
 #define AFTERGLOW_WIRED_PID                     0x0213 // Afterglow wired controller - it uses the same VID as a Gamestop controller
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
-
-// Used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define HID_REQUEST_SET_REPORT      0x09
 
 #define XBOX_MAX_ENDPOINTS   3
 

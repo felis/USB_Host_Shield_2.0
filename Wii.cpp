@@ -83,19 +83,16 @@ const uint32_t WII_PROCONTROLLER_BUTTONS[] PROGMEM = {
 };
 
 WII::WII(BTD *p, bool pair) :
-pBtd(p) // pointer to USB class instance - mandatory
+BluetoothService(p) // Pointer to USB class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->pairWithWii = pair;
 
         HIDBuffer[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
 
         /* Set device cid for the control and intterrupt channelse - LSB */
-        control_dcid[0] = 0x60; //0x0060
+        control_dcid[0] = 0x60; // 0x0060
         control_dcid[1] = 0x00;
-        interrupt_dcid[0] = 0x61; //0x0061
+        interrupt_dcid[0] = 0x61; // 0x0061
         interrupt_dcid[1] = 0x00;
 
         Reset();
@@ -145,9 +142,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                         }
                 }
         }
-        //if((l2capinbuf[0] | (uint16_t)l2capinbuf[1] << 8) == (hci_handle | 0x2000U)) { // acl_handle_ok or it's a new connection
-        if(UHS_ACL_HANDLE_OK(l2capinbuf, hci_handle)) { // acl_handle_ok or it's a new connection
-                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { //l2cap_control - Channel ID for ACL-U
+
+        if(checkHciHandle(l2capinbuf, hci_handle)) { // acl_handle_ok
+                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
                         if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
