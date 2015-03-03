@@ -4,15 +4,11 @@
 // pinout: D[4-7] -> GPOUT[4-7], RS-> GPOUT[2], E ->GPOUT[3]
 
 #include <max_LCD.h>
+
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #include <SPI.h>
-#endif
-
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
-#include <spi4teensy3.h>
 #endif
 
 USB Usb;

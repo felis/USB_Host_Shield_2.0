@@ -5,8 +5,8 @@
 /**/
 #include <usbhub.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #include <SPI.h> // Hack to use the SPI library

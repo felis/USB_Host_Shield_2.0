@@ -1,14 +1,10 @@
 #include <hidboot.h>
 #include <usbhub.h>
+
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #include <SPI.h>
-#endif
-
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
-#include <spi4teensy3.h>
 #endif
 
 class MouseRptParser : public MouseReportParser
