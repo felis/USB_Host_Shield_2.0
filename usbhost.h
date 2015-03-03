@@ -246,7 +246,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
 #endif
         SPI_SS::Clear();
 
-#if !defined(SPDR)
+#if !defined(SPDR) || SPI_HAS_TRANSACTION
         SPI.transfer(reg);
         uint8_t rv = SPI.transfer(0); // Send empty byte
         SPI_SS::Set();
