@@ -56,7 +56,7 @@ class MouseReportParser : public HIDReportParser {
         } prevState;
 
 public:
-        virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
 protected:
 
@@ -144,10 +144,30 @@ public:
                 kbdLockingKeys.bLeds = 0;
         };
 
-        virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
 protected:
-        virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key);
+
+        virtual uint8_t HandleLockingKeys(HID* hid, uint8_t key) {
+                uint8_t old_keys = kbdLockingKeys.bLeds;
+
+                switch(key) {
+                        case UHS_HID_BOOT_KEY_NUM_LOCK:
+                                kbdLockingKeys.kbdLeds.bmNumLock = ~kbdLockingKeys.kbdLeds.bmNumLock;
+                                break;
+                        case UHS_HID_BOOT_KEY_CAPS_LOCK:
+                                kbdLockingKeys.kbdLeds.bmCapsLock = ~kbdLockingKeys.kbdLeds.bmCapsLock;
+                                break;
+                        case UHS_HID_BOOT_KEY_SCROLL_LOCK:
+                                kbdLockingKeys.kbdLeds.bmScrollLock = ~kbdLockingKeys.kbdLeds.bmScrollLock;
+                                break;
+                }
+
+                if(old_keys != kbdLockingKeys.bLeds && hid)
+                        return (hid->SetReport(0, 0/*hid->GetIface()*/, 2, 0, 1, &kbdLockingKeys.bLeds));
+
+                return 0;
+        };
 
         virtual void OnControlKeysChanged(uint8_t before, uint8_t after) {
         };
@@ -204,16 +224,29 @@ public:
         };
 
         // USBDeviceConfig implementation
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
+        uint8_t Poll();
 
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
 
+        virtual bool isReady() {
+                return bPollEnable;
+        };
+
         // UsbConfigXtracter implementation
+        // Method should be defined here if virtual.
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+        virtual bool DEVCLASSOK(uint8_t klass) {
+                return (klass == USB_CLASS_HID);
+        }
+
+        virtual bool DEVSUBCLASSOK(uint8_t subklass) {
+                return (subklass == BOOT_PROTOCOL);
+        }
 };
 
 template <const uint8_t BOOT_PROTOCOL>

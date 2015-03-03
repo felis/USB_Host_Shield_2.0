@@ -157,27 +157,6 @@ void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t 
                 prevState.bInfo[i] = buf[i];
 };
 
-uint8_t KeyboardReportParser::HandleLockingKeys(HID *hid, uint8_t key) {
-        uint8_t old_keys = kbdLockingKeys.bLeds;
-
-        switch (key) {
-                case UHS_HID_BOOT_KEY_NUM_LOCK:
-                        kbdLockingKeys.kbdLeds.bmNumLock = ~kbdLockingKeys.kbdLeds.bmNumLock;
-                        break;
-                case UHS_HID_BOOT_KEY_CAPS_LOCK:
-                        kbdLockingKeys.kbdLeds.bmCapsLock = ~kbdLockingKeys.kbdLeds.bmCapsLock;
-                        break;
-                case UHS_HID_BOOT_KEY_SCROLL_LOCK:
-                        kbdLockingKeys.kbdLeds.bmScrollLock = ~kbdLockingKeys.kbdLeds.bmScrollLock;
-                        break;
-        }
-
-        if (old_keys != kbdLockingKeys.bLeds && hid)
-                return (hid->SetReport(0, 0/*hid->GetIface()*/, 2, 0, 1, &kbdLockingKeys.bLeds));
-
-        return 0;
-}
-
 const uint8_t KeyboardReportParser::numKeys[10] PROGMEM = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
 const uint8_t KeyboardReportParser::symKeysUp[12] PROGMEM = {'_', '+', '{', '}', '|', '~', ':', '"', '~', '<', '>', '?'};
 const uint8_t KeyboardReportParser::symKeysLo[12] PROGMEM = {'-', '=', '[', ']', '\\', ' ', ';', '\'', '`', ',', '.', '/'};
@@ -189,8 +168,8 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         // [a-z]
         if (VALUE_WITHIN(key, 0x04, 0x1d)) {
                 // Upper case letters
-                if ((kbdLockingKeys.kbdLeds.bmCapsLock == 0 && (mod & 2)) ||
-                        (kbdLockingKeys.kbdLeds.bmCapsLock == 1 && (mod & 2) == 0))
+                if ((kbdLockingKeys.kbdLeds.bmCapsLock == 0 && shift) ||
+                        (kbdLockingKeys.kbdLeds.bmCapsLock == 1 && shift == 0))
                         return (key - 4 + 'A');
 
                         // Lower case letters

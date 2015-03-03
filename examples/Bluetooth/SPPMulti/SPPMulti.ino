@@ -7,9 +7,10 @@
 #include <SPP.h>
 #include <usbhub.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy IDE, which only needs to see the include statment in the ino.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB Usb;
@@ -20,14 +21,16 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 const uint8_t length = 2; // Set the number of instances here
 SPP *SerialBT[length]; // We will use this pointer to store the instances, you can easily make it larger if you like, but it will use a lot of RAM!
 
-boolean firstMessage[length] = { true }; // Set all to true
+bool firstMessage[length] = { true }; // Set all to true
 
 void setup() {
   for (uint8_t i = 0; i < length; i++)
     SerialBT[i] = new SPP(&Btd); // This will set the name to the default: "Arduino" and the pin to "0000" for all connections
 
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt

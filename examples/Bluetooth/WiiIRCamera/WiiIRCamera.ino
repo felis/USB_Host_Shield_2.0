@@ -17,6 +17,7 @@ Otherwise, wire up a IR LED yourself.
 #ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
 #include <SPI.h>
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 #ifndef WIICAMERA // Used to check if WIICAMERA is defined
@@ -36,7 +37,9 @@ uint8_t printObjects;
 
 void setup() {
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt

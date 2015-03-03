@@ -507,7 +507,7 @@ public:
                 return bTheLUN; // Active LUN
         }
 
-        boolean WriteProtected(uint8_t lun);
+        bool WriteProtected(uint8_t lun);
         uint8_t MediaCTL(uint8_t lun, uint8_t ctl);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, uint8_t *buf);
         uint8_t Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser *prs);
@@ -519,20 +519,20 @@ public:
         uint16_t GetSectorSize(uint8_t lun);
 
         // USBDeviceConfig implementation
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
 
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
+        uint8_t Release();
+        uint8_t Poll();
 
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
 
         // UsbConfigXtracter implementation
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
-        virtual boolean DEVCLASSOK(uint8_t klass) {
+        virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_MASS_STORAGE);
         }
 
@@ -551,7 +551,7 @@ private:
         uint8_t ReadCapacity10(uint8_t lun, uint8_t *buf);
         void ClearAllEP();
         void CheckMedia();
-        boolean CheckLUN(uint8_t lun);
+        bool CheckLUN(uint8_t lun);
         uint8_t Page3F(uint8_t lun);
         bool IsValidCBW(uint8_t size, uint8_t *pcbw);
         bool IsMeaningfulCBW(uint8_t size, uint8_t *pcbw);
