@@ -127,7 +127,9 @@ class ACM;
 
 class CDCAsyncOper {
 public:
-        virtual uint8_t OnInit(ACM *pacm) = 0;
+
+        virtual uint8_t OnInit(ACM *pacm) {
+        };
         //virtual void OnDataRcvd(ACM *pacm, uint8_t nbytes, uint8_t *dataptr) = 0;
         //virtual void OnDisconnected(ACM *pacm) = 0;
 };
@@ -173,9 +175,9 @@ public:
         uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
         // USBDeviceConfig implementation
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
+        uint8_t Poll();
 
         virtual uint8_t GetAddress() {
                 return bAddress;
@@ -186,7 +188,7 @@ public:
         };
 
         // UsbConfigXtracter implementation
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 };
 
 #endif // __CDCACM_H__

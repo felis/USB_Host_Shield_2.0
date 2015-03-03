@@ -418,3 +418,9 @@ uint8_t HIDUniversal::Poll() {
         }
         return rcode;
 }
+
+
+//Send a report to interrupt out endpoint. This is NOT SetReport() request!
+uint8_t HIDUniversal::SndRpt(uint16_t nbytes, uint8_t *dataptr) {
+        return pUsb->outTransfer(bAddress, epInfo[epInterruptOutIndex].epAddr, nbytes, dataptr);
+}

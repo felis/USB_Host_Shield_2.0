@@ -12,9 +12,10 @@
 
 #include <TinyGPS.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 /* This sample code demonstrates the normal use of a TinyGPS object.
@@ -25,7 +26,7 @@
 class PLAsyncOper : public CDCAsyncOper
 {
 public:
-    virtual uint8_t OnInit(ACM *pacm);
+    uint8_t OnInit(ACM *pacm);
 };
 
 uint8_t PLAsyncOper::OnInit(ACM *pacm)
@@ -69,7 +70,9 @@ void setup()
 {
 
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
 
   Serial.print("Testing TinyGPS library v. "); Serial.println(TinyGPS::library_version());
   Serial.println("by Mikal Hart");

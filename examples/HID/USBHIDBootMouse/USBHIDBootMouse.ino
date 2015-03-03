@@ -1,21 +1,22 @@
 #include <hidboot.h>
 #include <usbhub.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 class MouseRptParser : public MouseReportParser
 {
 protected:
-	virtual void OnMouseMove	(MOUSEINFO *mi);
-	virtual void OnLeftButtonUp	(MOUSEINFO *mi);
-	virtual void OnLeftButtonDown	(MOUSEINFO *mi);
-	virtual void OnRightButtonUp	(MOUSEINFO *mi);
-	virtual void OnRightButtonDown	(MOUSEINFO *mi);
-	virtual void OnMiddleButtonUp	(MOUSEINFO *mi);
-	virtual void OnMiddleButtonDown	(MOUSEINFO *mi);
+	void OnMouseMove	(MOUSEINFO *mi);
+	void OnLeftButtonUp	(MOUSEINFO *mi);
+	void OnLeftButtonDown	(MOUSEINFO *mi);
+	void OnRightButtonUp	(MOUSEINFO *mi);
+	void OnRightButtonDown	(MOUSEINFO *mi);
+	void OnMiddleButtonUp	(MOUSEINFO *mi);
+	void OnMiddleButtonDown	(MOUSEINFO *mi);
 };
 void MouseRptParser::OnMouseMove(MOUSEINFO *mi)
 {
@@ -60,7 +61,9 @@ MouseRptParser                               Prs;
 void setup()
 {
     Serial.begin( 115200 );
+#if !defined(__MIPSEL__)
     while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
     Serial.println("Start");
 
     if (Usb.Init() == -1)

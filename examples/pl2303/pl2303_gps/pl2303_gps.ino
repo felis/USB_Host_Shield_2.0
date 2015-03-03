@@ -6,14 +6,15 @@
 #include <cdcacm.h>
 #include <cdcprolific.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 class PLAsyncOper : public CDCAsyncOper {
 public:
-        virtual uint8_t OnInit(ACM *pacm);
+        uint8_t OnInit(ACM *pacm);
 };
 
 uint8_t PLAsyncOper::OnInit(ACM *pacm) {
@@ -50,7 +51,9 @@ uint32_t read_delay;
 
 void setup() {
         Serial.begin(115200);
-        while(!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#if !defined(__MIPSEL__)
+        while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
         Serial.println("Start");
 
         if(Usb.Init() == -1)

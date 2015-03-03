@@ -78,15 +78,7 @@ e-mail   :  support@circuitsathome.com
 // No user serviceable parts below this line.
 // DO NOT change anything below here unless you are a developer!
 
-#if defined(ARDUINO) && ARDUINO >=100
-#include <Arduino.h>
-#else
-#include <WProgram.h>
-#include <pins_arduino.h>
-#include <avr/pgmspace.h>
-#include <avr/io.h>
-#define F(str) (str)
-#endif
+#include "version_helper.h"
 
 #if defined(__GNUC__) && defined(__AVR__)
 #ifndef GCC_VERSION
@@ -137,8 +129,11 @@ e-mail   :  support@circuitsathome.com
 #define USING_SPI4TEENSY3 0
 #endif
 
-#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(__ARDUINO_X86__) || ARDUINO >= 158) && !USING_SPI4TEENSY3
-#include <SPI.h> // Use the Arduino SPI library for the Arduino Due, Intel Galileo or if the SPI library with transaction is available
+#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(RBL_NRF51822) || defined(__ARDUINO_X86__) || ARDUINO >= 10600) && !USING_SPI4TEENSY3
+#include <SPI.h> // Use the Arduino SPI library for the Arduino Due, RedBearLab nRF51822 or if the SPI library with transaction is available
+#endif
+#if defined(__PIC32MX__) || defined(__PIC32MZ__)
+#include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
 
-#endif  /* SETTINGS_H */
+#endif	/* SETTINGS_H */

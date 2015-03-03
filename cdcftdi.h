@@ -78,7 +78,12 @@ class FTDI;
 
 class FTDIAsyncOper {
 public:
-        virtual uint8_t OnInit(FTDI *pftdi) = 0;
+
+        virtual uint8_t OnInit(FTDI *pftdi) {
+        };
+
+        virtual uint8_t OnRelease(FTDI *pftdi) {
+        };
 };
 
 
@@ -118,16 +123,21 @@ public:
         uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
         // USBDeviceConfig implementation
-        virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        virtual uint8_t Release();
-        virtual uint8_t Poll();
+        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+        uint8_t Release();
+        uint8_t Poll();
 
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
 
         // UsbConfigXtracter implementation
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (vid == FTDI_VID && pid == FTDI_PID);
+        }
+
 };
 
 #endif // __CDCFTDI_H__

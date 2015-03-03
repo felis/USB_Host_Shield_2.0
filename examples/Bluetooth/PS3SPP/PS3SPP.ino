@@ -13,9 +13,10 @@
 #include <SPP.h>
 #include <usbhub.h>
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 USB Usb;
@@ -29,12 +30,14 @@ SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the
 PS3BT PS3(&Btd); // This will just create the instance
 //PS3BT PS3(&Btd, 0x00, 0x15, 0x83, 0x3D, 0x0A, 0x57); // This will also store the bluetooth address - this can be obtained from the dongle when running the sketch
 
-boolean firstMessage = true;
+bool firstMessage = true;
 String output = ""; // We will store the data in this string
 
 void setup() {
   Serial.begin(115200); // This wil lprint the debugging from the libraries
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   if (Usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt

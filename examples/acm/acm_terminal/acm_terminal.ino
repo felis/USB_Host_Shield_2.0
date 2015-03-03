@@ -3,15 +3,16 @@
 
 #include "pgmstrings.h"
 
-#ifdef dobogusinclude // Satisfy the IDE, which needs to see the include statment in the ino too.
-#include <SPI.h>
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 class ACMAsyncOper : public CDCAsyncOper
 {
 public:
-    virtual uint8_t OnInit(ACM *pacm);
+    uint8_t OnInit(ACM *pacm);
 };
 
 uint8_t ACMAsyncOper::OnInit(ACM *pacm)
@@ -48,7 +49,9 @@ ACM           Acm(&Usb, &AsyncOper);
 void setup()
 {
   Serial.begin( 115200 );
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+#endif
   Serial.println("Start");
 
   if (Usb.Init() == -1)
