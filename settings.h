@@ -129,7 +129,7 @@ e-mail   :  support@circuitsathome.com
 #define USING_SPI4TEENSY3 0
 #endif
 
-#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(RBL_NRF51822) || ARDUINO >= 158) && !USING_SPI4TEENSY3
+#if ((defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)) || defined(RBL_NRF51822) || ARDUINO >= 10600) && !USING_SPI4TEENSY3
 #include <SPI.h> // Use the Arduino SPI library for the Arduino Due, RedBearLab nRF51822 or if the SPI library with transaction is available
 #endif
 #if defined(__PIC32MX__) || defined(__PIC32MZ__)
