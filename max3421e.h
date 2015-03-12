@@ -25,11 +25,6 @@ e-mail   :  support@circuitsathome.com
 /* Arduino pin definitions */
 /* pin numbers to port numbers */
 
-
-//#define MAX_INT   9		// Duemielanove
-
-//#define MAX_GPX   8
-
 #define SE0     0
 #define SE1     1
 #define FSHOST  2
@@ -150,7 +145,7 @@ e-mail   :  support@circuitsathome.com
 #define bmFRAMEIRQ      0x40
 #define bmHXFRDNIRQ     0x80
 
-#define rHIEN			0xd0    //26<<3
+#define rHIEN           0xd0    //26<<3
 
 /* HIEN Bits */
 #define bmBUSEVENTIE    0x01
@@ -162,7 +157,7 @@ e-mail   :  support@circuitsathome.com
 #define bmFRAMEIE       0x40
 #define bmHXFRDNIE      0x80
 
-#define rMODE			0xd8    //27<<3
+#define rMODE           0xd8    //27<<3
 
 /* MODE Bits */
 #define bmHOST          0x01

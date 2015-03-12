@@ -20,8 +20,8 @@ e-mail   :  support@circuitsathome.com
 #include "Usb.h"
 #include "hidusagestr.h"
 
-#define MAX_REPORT_PARSERS			2
-#define HID_MAX_HID_CLASS_DESCRIPTORS		5
+#define MAX_REPORT_PARSERS                      2
+#define HID_MAX_HID_CLASS_DESCRIPTORS           5
 
 #define DATA_SIZE_MASK                          0x03
 #define TYPE_MASK                               0x0C
@@ -98,23 +98,23 @@ e-mail   :  support@circuitsathome.com
 #define HID_ITEM_TYPE_LOCAL                     2
 #define HID_ITEM_TYPE_RESERVED                  3
 
-#define HID_LONG_ITEM_PREFIX                    0xfe	// Long item prefix value
+#define HID_LONG_ITEM_PREFIX                    0xfe    // Long item prefix value
 
-#define bmHID_MAIN_ITEM_TAG                     0xfc	// Main item tag mask
+#define bmHID_MAIN_ITEM_TAG                     0xfc    // Main item tag mask
 
-#define bmHID_MAIN_ITEM_INPUT                   0x80	// Main item Input tag value
-#define bmHID_MAIN_ITEM_OUTPUT                  0x90	// Main item Output tag value
-#define bmHID_MAIN_ITEM_FEATURE                 0xb0	// Main item Feature tag value
-#define bmHID_MAIN_ITEM_COLLECTION              0xa0	// Main item Collection tag value
-#define bmHID_MAIN_ITEM_END_COLLECTION          0xce	// Main item End Collection tag value
+#define bmHID_MAIN_ITEM_INPUT                   0x80    // Main item Input tag value
+#define bmHID_MAIN_ITEM_OUTPUT                  0x90    // Main item Output tag value
+#define bmHID_MAIN_ITEM_FEATURE                 0xb0    // Main item Feature tag value
+#define bmHID_MAIN_ITEM_COLLECTION              0xa0    // Main item Collection tag value
+#define bmHID_MAIN_ITEM_END_COLLECTION          0xce    // Main item End Collection tag value
 
-#define HID_MAIN_ITEM_COLLECTION_PHYSICAL	0
-#define HID_MAIN_ITEM_COLLECTION_APPLICATION	1
-#define HID_MAIN_ITEM_COLLECTION_LOGICAL	2
-#define HID_MAIN_ITEM_COLLECTION_REPORT		3
-#define HID_MAIN_ITEM_COLLECTION_NAMED_ARRAY	4
-#define HID_MAIN_ITEM_COLLECTION_USAGE_SWITCH	5
-#define HID_MAIN_ITEM_COLLECTION_USAGE_MODIFIER	6
+#define HID_MAIN_ITEM_COLLECTION_PHYSICAL       0
+#define HID_MAIN_ITEM_COLLECTION_APPLICATION    1
+#define HID_MAIN_ITEM_COLLECTION_LOGICAL        2
+#define HID_MAIN_ITEM_COLLECTION_REPORT         3
+#define HID_MAIN_ITEM_COLLECTION_NAMED_ARRAY    4
+#define HID_MAIN_ITEM_COLLECTION_USAGE_SWITCH   5
+#define HID_MAIN_ITEM_COLLECTION_USAGE_MODIFIER 6
 
 struct HidItemPrefix {
         uint8_t bSize : 2;

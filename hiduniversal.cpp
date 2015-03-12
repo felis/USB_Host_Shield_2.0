@@ -103,7 +103,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t len = 0;
 
         uint8_t num_of_conf; // number of configurations
-        //uint8_t		num_of_intf;	// number of interfaces
+        //uint8_t num_of_intf; // number of interfaces
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
@@ -200,7 +200,7 @@ uint8_t HIDUniversal::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USBTRACE2("NC:", num_of_conf);
 
         for(uint8_t i = 0; i < num_of_conf; i++) {
-                //HexDumper<USBReadParser, uint16_t, uint16_t>		HexDump;
+                //HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
                 ConfigDescParser<USB_CLASS_HID, 0, 0,
                         CP_MASK_COMPARE_CLASS> confDescrParser(this);
 

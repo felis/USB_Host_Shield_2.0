@@ -293,8 +293,8 @@ FailSwAcc:
 #endif
 
         //FailOnInit:
-        //	USBTRACE("OnInit:");
-        //	goto Fail;
+        //        USBTRACE("OnInit:");
+        //        goto Fail;
         //
 SwAttempt:
 #ifdef DEBUG_USB_HOST

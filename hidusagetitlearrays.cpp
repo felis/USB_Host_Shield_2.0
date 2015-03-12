@@ -19,6 +19,8 @@ e-mail   :  support@circuitsathome.com
 
 #include "hidusagestr.h"
 
+// This is here why?
+
 //const char *usagePageTitles0[]	PROGMEM =
 //{
 //	pstrUsagePageGenericDesktopControls	,

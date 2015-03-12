@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 #if !defined(_usb_h_) || defined(MACROS_H)
 #error "Never include macros.h directly; include Usb.h instead"
 #else
-#define	MACROS_H
+#define MACROS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 // HANDY MACROS
@@ -78,5 +78,5 @@ e-mail   :  support@circuitsathome.com
 #define USBTRACE3(s,r,l) (Notify(PSTR(s), l), D_PrintHex((r), l), Notify(PSTR("\r\n"), l))
 
 
-#endif	/* MACROS_H */
+#endif /* MACROS_H */
 

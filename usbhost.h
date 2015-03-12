@@ -445,7 +445,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::IntHandler() {
 //template< typename SPI_SS, typename INTR >
 //uint8_t MAX3421e< SPI_SS, INTR >::GpxHandler()
 //{
-//	uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
+//      uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
 ////    if( GPINIRQ & bmGPINIRQ7 ) {            //vbus overload
 ////        vbusPwr( OFF );                     //attempt powercycle
 ////        delay( 1000 );

@@ -135,4 +135,4 @@ e-mail   :  support@circuitsathome.com
 #if  defined(__PIC32MX__) || defined(__PIC32MZ__)
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
-#endif	/* SETTINGS_H */
+#endif /* SETTINGS_H */

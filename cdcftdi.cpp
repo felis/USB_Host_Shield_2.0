@@ -46,11 +46,11 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        //uint8_t		len = 0;
-        //uint16_t	cd_len = 0;
+        //uint8_t len = 0;
+        //uint16_t cd_len = 0;
 
         uint8_t num_of_conf; // number of configurations
-        //uint8_t		num_of_intf;	// number of interfaces
+        //uint8_t num_of_intf; // number of interfaces
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
@@ -253,13 +253,13 @@ uint8_t FTDI::Poll() {
         uint8_t rcode = 0;
 
         //if (!bPollEnable)
-        //	return 0;
+        //      return 0;
 
         //if (qNextPollTime <= millis())
         //{
-        //	USB_HOST_SERIAL.println(bAddress, HEX);
+        //      USB_HOST_SERIAL.println(bAddress, HEX);
 
-        //	qNextPollTime = millis() + 100;
+        //      qNextPollTime = millis() + 100;
         //}
         return rcode;
 }
