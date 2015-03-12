@@ -197,12 +197,6 @@ void ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::PrintHidDescrip
         Notify(PSTR("\r\nbNumDescriptors:\t"), 0x80);
         PrintHex<uint8_t > (pDesc->bNumDescriptors, 0x80);
 
-        //Notify(PSTR("\r\nbDescrType:\t\t"));
-        //PrintHex<uint8_t>(pDesc->bDescrType);
-        //
-        //Notify(PSTR("\r\nwDescriptorLength:\t"));
-        //PrintHex<uint16_t>(pDesc->wDescriptorLength);
-
         for(uint8_t i = 0; i < pDesc->bNumDescriptors; i++) {
                 HID_CLASS_DESCRIPTOR_LEN_AND_TYPE *pLT = (HID_CLASS_DESCRIPTOR_LEN_AND_TYPE*)&(pDesc->bDescrType);
 
