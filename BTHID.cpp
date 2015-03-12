@@ -21,13 +21,10 @@
 //#define PRINTREPORT // Uncomment to print the report send by the HID device
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
-pBtd(p), // pointer to USB class instance - mandatory
+BluetoothService(p), // Pointer to USB class instance - mandatory
 protocolMode(HID_BOOT_PROTOCOL) {
         for(uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;
-
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
 
         pBtd->pairWithHIDDevice = pair;
         pBtd->btdPin = pin;
@@ -68,8 +65,8 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         }
                 }
         }
-        //if((l2capinbuf[0] | (uint16_t)l2capinbuf[1] << 8) == (hci_handle | 0x2000U)) { // acl_handle_ok or it's a new connection
-        if(UHS_ACL_HANDLE_OK(l2capinbuf, hci_handle)) { // acl_handle_ok or it's a new connection
+
+        if(checkHciHandle(l2capinbuf, hci_handle)) { // acl_handle_ok
                 if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
                         if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST

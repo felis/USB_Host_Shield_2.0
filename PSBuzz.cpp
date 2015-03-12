@@ -78,5 +78,10 @@ void PSBuzz::setLedRaw(bool value, uint8_t controller) {
 
 void PSBuzz::PSBuzz_Command(uint8_t *data, uint16_t nbytes) {
         // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x00), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
+<<<<<<< HEAD
         pUsb->ctrlReq(bAddress, epInfo[0].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
 };
+=======
+        pUsb->ctrlReq(bAddress, epInfo[0].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
+};
+>>>>>>> master

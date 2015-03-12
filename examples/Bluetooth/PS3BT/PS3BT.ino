@@ -121,13 +121,16 @@ void loop() {
         printAngle = !printAngle;
       }
     }
+#if 0 // Set this to 1 in order to see the angle of the controller
     if (printAngle) {
       Serial.print(F("\r\nPitch: "));
       Serial.print(PS3.getAngle(Pitch));
       Serial.print(F("\tRoll: "));
       Serial.print(PS3.getAngle(Roll));
     }
+#endif
   }
+#if 0 // Set this to 1 in order to enable support for the Playstation Move controller
   else if (PS3.PS3MoveConnected) {
     if (PS3.getAnalogButton(T)) {
       Serial.print(F("\r\nT: "));
@@ -180,4 +183,5 @@ void loop() {
       Serial.print(PS3.getTemperature());
     }
   }
+#endif
 }

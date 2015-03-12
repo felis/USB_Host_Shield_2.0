@@ -26,9 +26,6 @@
 /* Data Xbox 360 taken from descriptors */
 #define EP_MAXPKTSIZE       32 // max size for data via USB
 
-/* Endpoint types */
-#define EP_INTERRUPT        0x03
-
 /* Names we give to the 9 Xbox360 pipes */
 #define XBOX_CONTROL_PIPE   0
 #define XBOX_INPUT_PIPE_1   1

@@ -43,11 +43,8 @@ const uint8_t rfcomm_crc_table[256] PROGMEM = {/* reversed, 8-bit, poly=0x07 */
 };
 
 SPP::SPP(BTD *p, const char* name, const char* pin) :
-pBtd(p) // Pointer to BTD class instance - mandatory
+BluetoothService(p) // Pointer to BTD class instance - mandatory
 {
-        if(pBtd)
-                pBtd->registerServiceClass(this); // Register it as a Bluetooth service
-
         pBtd->btdName = name;
         pBtd->btdPin = pin;
 
@@ -69,6 +66,7 @@ void SPP::Reset() {
         l2cap_rfcomm_state = L2CAP_RFCOMM_WAIT;
         l2cap_event_flag = 0;
         sppIndex = 0;
+        creditSent = false;
 }
 
 void SPP::disconnect() {
@@ -97,9 +95,9 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
                         }
                 }
         }
-        //if((l2capinbuf[0] | (uint16_t)l2capinbuf[1] << 8) == (hci_handle | 0x2000U)) { // acl_handle_ok
-        if(UHS_ACL_HANDLE_OK(l2capinbuf, hci_handle)) { // acl_handle_ok
-                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { //l2cap_control - Channel ID for ACL-U
+
+        if(checkHciHandle(l2capinbuf, hci_handle)) { // acl_handle_ok
+                if((l2capinbuf[6] | (l2capinbuf[7] << 8)) == 0x0001U) { // l2cap_control - Channel ID for ACL-U
                         if(l2capinbuf[8] == L2CAP_CMD_COMMAND_REJECT) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nL2CAP Command Rejected - Reason: "), 0x80);
@@ -397,10 +395,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nRFCOMM Connection is now established\r\n"), 0x80);
 #endif
-                                        waitForLastCommand = false;
-                                        creditSent = false;
-                                        connected = true; // The RFCOMM channel is now established
-                                        sppIndex = 0;
+                                        onInit();
                                 }
 #ifdef EXTRADEBUG
                                 else if(rfcommChannelType != RFCOMM_DISC) {
@@ -430,13 +425,19 @@ void SPP::Run() {
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"), 0x80);
 #endif
-                creditSent = false;
-                waitForLastCommand = false;
-                connected = true; // The RFCOMM channel is now established
-                sppIndex = 0;
+                onInit();
         }
         send(); // Send all bytes currently in the buffer
 }
+
+void SPP::onInit() {
+        creditSent = false;
+        waitForLastCommand = false;
+        connected = true; // The RFCOMM channel is now established
+        sppIndex = 0;
+        if(pFuncOnInit)
+                pFuncOnInit(); // Call the user function
+};
 
 void SPP::SDP_task() {
         switch(l2cap_sdp_state) {

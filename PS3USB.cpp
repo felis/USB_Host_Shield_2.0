@@ -152,13 +152,13 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         /* Initialize data structures for endpoints of device */
         epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02; // PS3 output endpoint
-        epInfo[ PS3_OUTPUT_PIPE ].epAttribs = EP_INTERRUPT;
+        epInfo[ PS3_OUTPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = 0;
         epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = 0;
         epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01; // PS3 report endpoint
-        epInfo[ PS3_INPUT_PIPE ].epAttribs = EP_INTERRUPT;
+        epInfo[ PS3_INPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
         epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
         epInfo[ PS3_INPUT_PIPE ].bmSndToggle = 0;

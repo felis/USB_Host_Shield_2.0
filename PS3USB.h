@@ -19,13 +19,11 @@
 #define _ps3usb_h_
 
 #include "Usb.h"
+#include "Hid.h"
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
 #define EP_MAXPKTSIZE           64 // max size for data via USB
-
-/* Endpoint types */
-#define EP_INTERRUPT            0x03
 
 /* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
 #define PS3_CONTROL_PIPE        0
@@ -37,13 +35,6 @@
 #define PS3_PID                 0x0268  // PS3 Controller DualShock 3
 #define PS3NAVIGATION_PID       0x042F  // Navigation controller
 #define PS3MOVE_PID             0x03D5  // Motion controller
-
-// Used in control endpoint header for HID Commands
-#define bmREQ_HID_OUT           USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-#define bmREQ_HID_IN            USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-
-#define HID_REQUEST_GET_REPORT  0x01
-#define HID_REQUEST_SET_REPORT  0x09
 
 #define PS3_MAX_ENDPOINTS       3
 

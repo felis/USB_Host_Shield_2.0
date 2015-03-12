@@ -81,6 +81,7 @@ void loop() {
         Serial.print(F("\r\nB"));
       }
     }
+#if 0 // Set this to 1 in order to see the angle of the controllers
     if (printAngle) {
       Serial.print(F("\r\nPitch: "));
       Serial.print(Wii.getPitch());
@@ -97,7 +98,9 @@ void loop() {
         Serial.print(Wii.getNunchuckRoll());
       }
     }
+#endif
   }
+#if 0 // Set this to 1 if you are using a Nunchuck controller
   if (Wii.nunchuckConnected) {
     if (Wii.getButtonClick(Z))
       Serial.print(F("\r\nZ"));
@@ -110,4 +113,5 @@ void loop() {
       Serial.print(Wii.getAnalogHat(HatY));
     }
   }
+#endif
 }
