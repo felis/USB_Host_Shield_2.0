@@ -672,19 +672,10 @@ public:
 // http://balanduino.net/
 #define P0  Pd0 /* 0  - PD0 */
 #define P1  Pd1 /* 1  - PD1 */
-
-#if BALANDUINO_REVISION < 13
-  #define P2  Pb2 /* 2  - PB2 */
-  #define P3  Pd6 /* 3  - PD6 */
-  #define P4  Pd7 /* 4  - PD7 */
-  #define P5  Pb3 /* 5  - PB3 */
-#else
-  #define P2  Pd2 /* 2  - PD2 */
-  #define P3  Pd3 /* 3  - PD3 */
-  #define P4  Pd6 /* 4  - PD6 */
-  #define P5  Pd7 /* 5  - PD7 */
-#endif
-
+#define P2  Pb2 /* 2  - PB2 */
+#define P3  Pd6 /* 3  - PD6 */
+#define P4  Pd7 /* 4  - PD7 */
+#define P5  Pb3 /* 5  - PB3 */
 #define P6  Pb4 /* 6  - PB4 */
 #define P7  Pa0 /* 7  - PA0 */
 #define P8  Pa1 /* 8  - PA1 */
@@ -694,15 +685,8 @@ public:
 #define P12 Pa5 /* 12 - PA5 */
 #define P13 Pc1 /* 13 - PC1 */
 #define P14 Pc0 /* 14 - PC0 */
-
-#if BALANDUINO_REVISION < 13
-  #define P15 Pd2 /* 15 - PD2 */
-  #define P16 Pd3 /* 16 - PD3 */
-#else
-  #define P15 Pb2 /* 15 - PB2 */
-  #define P16 Pb3 /* 16 - PB2 */
-#endif
-
+#define P15 Pd2 /* 15 - PD2 */
+#define P16 Pd3 /* 16 - PD3 */
 #define P17 Pd4 /* 17 - PD4 */
 #define P18 Pd5 /* 18 - PD5 */
 #define P19 Pc2 /* 19 - PC2 */
@@ -960,58 +944,6 @@ MAKE_PIN(P77, PIOA, PIO_PA28);
 MAKE_PIN(P78, PIOB, PIO_PB23); // Unconnected
 
 #undef MAKE_PIN
-
-#elif defined(RBL_NRF51822)
-
-#define MAKE_PIN(className, pin) \
-class className { \
-public: \
-    static void Set() { \
-        nrf_gpio_pin_set(pin); \
-    } \
-    static void Clear() { \
-        nrf_gpio_pin_clear(pin); \
-    } \
-    static void SetDirRead() { \
-        nrf_gpio_cfg_input(pin, NRF_GPIO_PIN_NOPULL); \
-    } \
-    static void SetDirWrite() { \
-        nrf_gpio_cfg_output(pin); \
-    } \
-    static uint8_t IsSet() { \
-        return (uint8_t)nrf_gpio_pin_read(pin); \
-    } \
-};
-
-// See: pin_transform.c in RBL nRF51822 SDK
-MAKE_PIN(P0, Pin_nRF51822_to_Arduino(D0));
-MAKE_PIN(P1, Pin_nRF51822_to_Arduino(D1));
-MAKE_PIN(P2, Pin_nRF51822_to_Arduino(D2));
-MAKE_PIN(P3, Pin_nRF51822_to_Arduino(D3));
-MAKE_PIN(P4, Pin_nRF51822_to_Arduino(D4));
-MAKE_PIN(P5, Pin_nRF51822_to_Arduino(D5));
-MAKE_PIN(P6, Pin_nRF51822_to_Arduino(D6));
-MAKE_PIN(P7, Pin_nRF51822_to_Arduino(D7));
-MAKE_PIN(P8, Pin_nRF51822_to_Arduino(D8));
-MAKE_PIN(P9, Pin_nRF51822_to_Arduino(D9)); // INT
-MAKE_PIN(P10, Pin_nRF51822_to_Arduino(D10)); // SS
-MAKE_PIN(P11, Pin_nRF51822_to_Arduino(D11));
-MAKE_PIN(P12, Pin_nRF51822_to_Arduino(D12));
-MAKE_PIN(P13, Pin_nRF51822_to_Arduino(D13));
-MAKE_PIN(P14, Pin_nRF51822_to_Arduino(D14));
-MAKE_PIN(P15, Pin_nRF51822_to_Arduino(D15));
-MAKE_PIN(P17, Pin_nRF51822_to_Arduino(D17)); // MISO
-MAKE_PIN(P18, Pin_nRF51822_to_Arduino(D18)); // MOSI
-MAKE_PIN(P16, Pin_nRF51822_to_Arduino(D16)); // CLK
-MAKE_PIN(P19, Pin_nRF51822_to_Arduino(D19));
-MAKE_PIN(P20, Pin_nRF51822_to_Arduino(D20));
-MAKE_PIN(P21, Pin_nRF51822_to_Arduino(D21));
-MAKE_PIN(P22, Pin_nRF51822_to_Arduino(D22));
-MAKE_PIN(P23, Pin_nRF51822_to_Arduino(D23));
-MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
-
-#undef MAKE_PIN
-
 
 #else
 #error "Please define board in avrpins.h"

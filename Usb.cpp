@@ -528,7 +528,7 @@ void USB::Task(void) //USB state machine
 }
 
 uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
-        //uint8_t		buf[12];
+        //uint8_t                buf[12];
         uint8_t rcode;
         UsbDevice *p0 = NULL, *p = NULL;
 
@@ -733,8 +733,8 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
                 //printf("ERROR ENUMERATING %2.2x\r\n", rcode);
                 if(!(rcode == USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED || rcode == USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE)) {
                         // in case of an error dev_index should be reset to 0
-                        //		in order to start from the very beginning the
-                        //		next time the program gets here
+                        //                in order to start from the very beginning the
+                        //                next time the program gets here
                         //if (rcode != USB_DEV_CONFIG_ERROR_DEVICE_INIT_INCOMPLETE)
                         //        devConfigIndex = 0;
                         return rcode;

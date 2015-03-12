@@ -60,17 +60,17 @@ e-mail   :  support@circuitsathome.com
 
 /* USB descriptors  */
 
-#define USB_DESCRIPTOR_DEVICE           0x01    // bDescriptorType for a Device Descriptor.
-#define USB_DESCRIPTOR_CONFIGURATION    0x02    // bDescriptorType for a Configuration Descriptor.
-#define USB_DESCRIPTOR_STRING           0x03    // bDescriptorType for a String Descriptor.
-#define USB_DESCRIPTOR_INTERFACE        0x04    // bDescriptorType for an Interface Descriptor.
-#define USB_DESCRIPTOR_ENDPOINT         0x05    // bDescriptorType for an Endpoint Descriptor.
-#define USB_DESCRIPTOR_DEVICE_QUALIFIER 0x06    // bDescriptorType for a Device Qualifier.
-#define USB_DESCRIPTOR_OTHER_SPEED      0x07    // bDescriptorType for a Other Speed Configuration.
-#define USB_DESCRIPTOR_INTERFACE_POWER  0x08    // bDescriptorType for Interface Power.
-#define USB_DESCRIPTOR_OTG              0x09    // bDescriptorType for an OTG Descriptor.
+#define USB_DESCRIPTOR_DEVICE                   0x01    // bDescriptorType for a Device Descriptor.
+#define USB_DESCRIPTOR_CONFIGURATION            0x02    // bDescriptorType for a Configuration Descriptor.
+#define USB_DESCRIPTOR_STRING                   0x03    // bDescriptorType for a String Descriptor.
+#define USB_DESCRIPTOR_INTERFACE                0x04    // bDescriptorType for an Interface Descriptor.
+#define USB_DESCRIPTOR_ENDPOINT                 0x05    // bDescriptorType for an Endpoint Descriptor.
+#define USB_DESCRIPTOR_DEVICE_QUALIFIER         0x06    // bDescriptorType for a Device Qualifier.
+#define USB_DESCRIPTOR_OTHER_SPEED              0x07    // bDescriptorType for a Other Speed Configuration.
+#define USB_DESCRIPTOR_INTERFACE_POWER          0x08    // bDescriptorType for Interface Power.
+#define USB_DESCRIPTOR_OTG                      0x09    // bDescriptorType for an OTG Descriptor.
 
-#define HID_DESCRIPTOR_HID			0x21
+#define HID_DESCRIPTOR_HID                      0x21
 
 
 

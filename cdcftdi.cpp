@@ -46,11 +46,11 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        //uint8_t		len = 0;
-        //uint16_t	cd_len = 0;
+        //uint8_t len = 0;
+        //uint16_t cd_len = 0;
 
         uint8_t num_of_conf; // number of configurations
-        //uint8_t		num_of_intf;	// number of interfaces
+        //uint8_t num_of_intf; // number of interfaces
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
@@ -253,13 +253,13 @@ uint8_t FTDI::Poll() {
         uint8_t rcode = 0;
 
         //if (!bPollEnable)
-        //	return 0;
+        //      return 0;
 
         //if (qNextPollTime <= millis())
         //{
-        //	USB_HOST_SERIAL.println(bAddress, HEX);
+        //      USB_HOST_SERIAL.println(bAddress, HEX);
 
-        //	qNextPollTime = millis() + 100;
+        //      qNextPollTime = millis() + 100;
         //}
         return rcode;
 }
@@ -324,16 +324,16 @@ uint8_t FTDI::SndData(uint16_t nbytes, uint8_t *dataptr) {
 void FTDI::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
         Notify(PSTR("Endpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
         Notify(PSTR("\r\nType:\t\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
         Notify(PSTR("\r\nAddress:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
         Notify(PSTR("\r\nAttributes:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
         Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
-        PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
+        D_PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
         Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
-        PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
         Notify(PSTR("\r\n"), 0x80);
 }

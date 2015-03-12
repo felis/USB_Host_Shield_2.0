@@ -27,7 +27,6 @@ e-mail   :  support@circuitsathome.com
 #include <sys/types.h>
 #endif
 
-
 /* SPI initialization */
 template< typename SPI_CLK, typename SPI_MOSI, typename SPI_MISO, typename SPI_SS > class SPi {
 public:
@@ -50,13 +49,6 @@ public:
 #else
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
-        }
-#elif defined(RBL_NRF51822)
-        static void init() {
-                SPI_SS::SetDirWrite();
-                SPI_SS::Set();
-                SPI.begin();
-                // SPI.setFrequency(SPI_FREQUENCY_8M);
         }
 #else
         static void init() {
@@ -86,8 +78,6 @@ typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 typedef SPi< P13, P11, P12, P10 > spi;
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 typedef SPi< P76, P75, P74, P10 > spi;
-#elif defined(RBL_NRF51822)
-typedef SPi< P16, P18, P17, P10 > spi;
 #elif defined(__MIPSEL__)
 typedef SPi< P13, P11, P12, P10 > spi;
 #else
@@ -455,7 +445,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::IntHandler() {
 //template< typename SPI_SS, typename INTR >
 //uint8_t MAX3421e< SPI_SS, INTR >::GpxHandler()
 //{
-//	uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
+//      uint8_t GPINIRQ = regRd( rGPINIRQ );          //read GPIN IRQ register
 ////    if( GPINIRQ & bmGPINIRQ7 ) {            //vbus overload
 ////        vbusPwr( OFF );                     //attempt powercycle
 ////        delay( 1000 );

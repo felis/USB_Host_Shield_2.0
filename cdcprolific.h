@@ -45,8 +45,8 @@ e-mail   :  support@circuitsathome.com
 #define DEFAULT_NOTIFY                          0x00
 #define DEFAULT_STATE                           ( PD_S_TX_ENABLE | PD_S_RX_ENABLE | PD_RS232_A_TXO | PD_RS232_A_RXO )
 
-#define	CONTINUE_SEND                           1
-#define	PAUSE_SEND                              2
+#define CONTINUE_SEND                           1
+#define PAUSE_SEND                              2
 
 #define kRxAutoFlow                             ((UInt32)( PD_RS232_A_RFR | PD_RS232_A_DTR | PD_RS232_A_RXO ))
 #define kTxAutoFlow                             ((UInt32)( PD_RS232_A_CTS | PD_RS232_A_DSR | PD_RS232_A_TXO | PD_RS232_A_DCD ))
