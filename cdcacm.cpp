@@ -249,6 +249,7 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 }
 
 uint8_t ACM::Release() {
+        ready = false;
         pUsb->GetAddressPool().FreeAddress(bAddress);
 
         bControlIface = 0;
