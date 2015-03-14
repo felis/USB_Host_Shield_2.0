@@ -398,7 +398,7 @@ void PS3USB::printStatusString() {
 /* Playstation Sixaxis Dualshock and Navigation Controller commands */
 void PS3USB::PS3_Command(uint8_t *data, uint16_t nbytes) {
         // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x01), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x01, 0x02, 0x00, nbytes, nbytes, data, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0x01, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
 
 void PS3USB::setAllOff() {
@@ -470,14 +470,14 @@ void PS3USB::setBdaddr(uint8_t *bdaddr) {
                 buf[i + 2] = bdaddr[5 - i]; // Copy into buffer, has to be written reversed, so it is MSB first
 
         // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
 }
 
 void PS3USB::getBdaddr(uint8_t *bdaddr) {
         uint8_t buf[8];
 
         // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0xF5), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, 0xF5, 0x03, 0x00, 8, 8, buf, NULL);
 
         for(uint8_t i = 0; i < 6; i++)
                 bdaddr[5 - i] = buf[i + 2]; // Copy into buffer reversed, so it is LSB first
@@ -491,7 +491,7 @@ void PS3USB::enable_sixaxis() { // Command used to enable the Dualshock 3 and Na
         cmd_buf[3] = 0x00;
 
         // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0xF4), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data)
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0xF4, 0x03, 0x00, 4, 4, cmd_buf, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0xF4, 0x03, 0x00, 4, 4, cmd_buf, NULL);
 }
 
 /* Playstation Move Controller commands */
@@ -535,14 +535,14 @@ void PS3USB::setMoveBdaddr(uint8_t *bdaddr) {
                 buf[i + 1] = bdaddr[i];
 
         // bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x05), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0x05, 0x03, 0x00, 11, 11, buf, NULL);
 }
 
 void PS3USB::getMoveBdaddr(uint8_t *bdaddr) {
         uint8_t buf[16];
 
         // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0x04), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
-        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0x04, 0x03, 0x00, 16, 16, buf, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, 0x04, 0x03, 0x00, 16, 16, buf, NULL);
 
         for(uint8_t i = 0; i < 6; i++)
                 bdaddr[i] = buf[10 + i];
@@ -553,7 +553,7 @@ void PS3USB::getMoveCalibration(uint8_t *data) {
 
         for(uint8_t i = 0; i < 3; i++) {
                 // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0x10), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
-                pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0x10, 0x03, 0x00, 49, 49, buf, NULL);
+                pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HIDIN, HID_REQUEST_GET_REPORT, 0x10, 0x03, 0x00, 49, 49, buf, NULL);
 
                 for(byte j = 0; j < 49; j++)
                         data[49 * i + j] = buf[j];
