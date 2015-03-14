@@ -315,8 +315,11 @@ See the "Interface modifications" section in the [hardware manual](https://www.c
 ```
 Dualshock 3 Controller Enabled
 
-LeftHatX: 0 LeftHatY: 0 RightHatX: 0    RightHatY: 0
-LeftHatX: 0 LeftHatY: 0 RightHatX: 0    RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
 ```
 
 * This means that your dongle does not support 2.0+EDR, so you will need another dongle. Please see the following [list](https://github.com/felis/USB_Host_Shield_2.0/wiki/Bluetooth-dongles) for tested working dongles.
