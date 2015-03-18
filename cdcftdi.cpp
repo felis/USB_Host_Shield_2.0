@@ -30,9 +30,7 @@ wFTDIType(0) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
-
-                //if (!i)
-                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+                epInfo[i].bmNakPower = (i==epDataInIndex) ? USB_NAK_NOWAIT: USB_NAK_MAX_POWER;
         }
         if(pUsb)
                 pUsb->RegisterDeviceClass(this);
@@ -46,11 +44,8 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
-        //uint8_t len = 0;
-        //uint16_t cd_len = 0;
 
         uint8_t num_of_conf; // number of configurations
-        //uint8_t num_of_intf; // number of interfaces
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 

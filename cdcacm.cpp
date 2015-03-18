@@ -30,21 +30,20 @@ bNumEP(1),
 qNextPollTime(0),
 bPollEnable(false),
 ready(false) {
+        _enhanced_status = enhanced_features(); // Set up features
         for(uint8_t i = 0; i < ACM_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
                 epInfo[i].epAttribs = 0;
-                //epInfo[i].bmNakPower = USB_NAK_NOWAIT;
-                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
+                epInfo[i].bmNakPower = (i == epDataInIndex) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
 
-                //if (!i)
-                epInfo[i].bmNakPower = USB_NAK_MAX_POWER;
         }
         if(pUsb)
                 pUsb->RegisterDeviceClass(this);
 }
 
 uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
@@ -170,6 +169,13 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailSetConfDescr;
 
+        // Set up features status
+        _enhanced_status = enhanced_features();
+        half_duplex(false);
+        autoflowRTS(false);
+        autoflowDSR(false);
+        autoflowXON(false);
+        wide(false); // Always false, because this is only available in custom mode.
         rcode = pAsync->OnInit(this);
 
         if(rcode)

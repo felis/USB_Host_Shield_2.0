@@ -129,11 +129,34 @@ class CDCAsyncOper {
 public:
 
         virtual uint8_t OnInit(ACM *pacm) {
+                return 0;
         };
         //virtual void OnDataRcvd(ACM *pacm, uint8_t nbytes, uint8_t *dataptr) = 0;
         //virtual void OnDisconnected(ACM *pacm) = 0;
 };
 
+/**
+ * This structure is used to report the extended capabilities of the connected device.
+ * It is also used to report the current status.
+ * Regular CDC-ACM reports all as false.
+ */
+typedef struct {
+
+        union {
+                uint8_t tty;
+
+                struct {
+                        bool enhanced : 1; // Do we have the ability to set/clear any features?
+                        // Status and 8th bit in data stream.
+                        // Presence only indicates feature is available, but this isn't used for CDC-ACM.
+                        bool wide : 1;
+                        bool autoflow_RTS : 1; // Has autoflow on RTS/CTS
+                        bool autoflow_DSR : 1; // Has autoflow on DTR/DSR
+                        bool autoflow_XON : 1; // Has autoflow  XON/XOFF
+                        bool half_duplex : 1;  // Has half-duplex capability.
+                } __attribute__((packed));
+        };
+} tty_features;
 
 #define ACM_MAX_ENDPOINTS               4
 
@@ -151,8 +174,9 @@ protected:
         uint8_t bDataIface; // Data interface value
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
-        bool bPollEnable; // poll enable flag
-        bool ready; //device ready indicator
+        volatile bool bPollEnable; // poll enable flag
+        volatile bool ready; //device ready indicator
+        tty_features _enhanced_status; // current status
 
         EpInfo epInfo[ACM_MAX_ENDPOINTS];
 
@@ -170,7 +194,7 @@ public:
         uint8_t SendBreak(uint16_t duration);
         uint8_t GetNotif(uint16_t *bytes_rcvd, uint8_t *dataptr);
 
-        // Methods for recieving and sending data
+        // Methods for receiving and sending data
         uint8_t RcvData(uint16_t *nbytesptr, uint8_t *dataptr);
         uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
@@ -179,12 +203,46 @@ public:
         uint8_t Release();
         uint8_t Poll();
 
+        bool available(void) {
+
+        };
+
         virtual uint8_t GetAddress() {
                 return bAddress;
         };
 
         virtual bool isReady() {
                 return ready;
+        };
+
+        virtual tty_features enhanced_status(void) {
+                return _enhanced_status;
+        };
+
+        virtual tty_features enhanced_features(void) {
+                tty_features rv;
+                rv.enhanced = false;
+                rv.autoflow_RTS = false;
+                rv.autoflow_DSR = false;
+                rv.autoflow_XON = false;
+                rv.half_duplex = false;
+                rv.wide = false;
+                return rv;
+        };
+
+        virtual void autoflowRTS(bool s) {
+        };
+
+        virtual void autoflowDSR(bool s) {
+        };
+
+        virtual void autoflowXON(bool s) {
+        };
+
+        virtual void half_duplex(bool s) {
+        };
+
+        virtual void wide(bool s) {
         };
 
         // UsbConfigXtracter implementation
