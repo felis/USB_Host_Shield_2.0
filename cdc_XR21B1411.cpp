@@ -14,18 +14,20 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#include "cdcprolific.h"
+#include "cdc_XR21B1411.h"
 
-PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
-ACM(p, pasync),
-wPLType(0) {
+XR21B1411::XR21B1411(USB *p, CDCAsyncOper *pasync) :
+ACM(p, pasync) {
+        // Is this needed??
+        _enhanced_status = enhanced_features(); // Set up features
 }
 
-uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t XR21B1411::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
+
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -33,7 +35,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
-        USBTRACE("PL Init\r\n");
+        USBTRACE("XR Init\r\n");
 
         if(bAddress)
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -58,19 +60,13 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->lowspeed = lowspeed;
 
         // Get device descriptor
-        rcode = pUsb->getDevDescr(0, 0, sizeof (USB_DEVICE_DESCRIPTOR), (uint8_t*)buf);
+        rcode = pUsb->getDevDescr(0, 0, constBufSize, (uint8_t*)buf);
 
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
         if(rcode)
                 goto FailGetDevDescr;
-
-        if(udd->idVendor != PL_VID && udd->idProduct != PL_PID)
-                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-
-        // Save type of PL chip
-        wPLType = udd->bcdDevice;
 
         // Allocate new address according to device class
         bAddress = addrPool.AllocAddress(parent, false, port);
@@ -105,6 +101,9 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         num_of_conf = udd->bNumConfigurations;
 
+        if((((udd->idVendor != 0x2890U) || (udd->idProduct != 0x0201U)) && ((udd->idVendor != 0x04e2U) || (udd->idProduct != 0x1411U))))
+                return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
 
@@ -114,15 +113,22 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USBTRACE2("NC:", num_of_conf);
 
         for(uint8_t i = 0; i < num_of_conf; i++) {
-                HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
-                ConfigDescParser < 0xFF, 0, 0, CP_MASK_COMPARE_CLASS> confDescrParser(this);
+                ConfigDescParser< USB_CLASS_COM_AND_CDC_CTRL,
+                        CDC_SUBCLASS_ACM,
+                        CDC_PROTOCOL_ITU_T_V_250,
+                        CP_MASK_COMPARE_CLASS |
+                        CP_MASK_COMPARE_SUBCLASS |
+                        CP_MASK_COMPARE_PROTOCOL > CdcControlParser(this);
 
-                rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
+                ConfigDescParser<USB_CLASS_CDC_DATA, 0, 0,
+                        CP_MASK_COMPARE_CLASS> CdcDataParser(this);
+
+                rcode = pUsb->getConfDescr(bAddress, 0, i, &CdcControlParser);
 
                 if(rcode)
                         goto FailGetConfDescr;
 
-                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                rcode = pUsb->getConfDescr(bAddress, 0, i, &CdcDataParser);
 
                 if(rcode)
                         goto FailGetConfDescr;
@@ -131,7 +137,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         break;
         } // for
 
-        if(bNumEP < 2)
+        if(bNumEP < 4)
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Assign epInfo to epinfo pointer
@@ -145,15 +151,26 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailSetConfDescr;
 
+        // Set up features status
+        _enhanced_status = enhanced_features();
+        half_duplex(false);
+        autoflowRTS(false);
+        autoflowDSR(false);
+        autoflowXON(false);
+        wide(false); // Always false, because this is only available in custom mode.
+
         rcode = pAsync->OnInit(this);
 
         if(rcode)
                 goto FailOnInit;
 
-        USBTRACE("PL configured\r\n");
+        USBTRACE("XR configured\r\n");
+
+        ready = true;
 
         //bPollEnable = true;
-        ready = true;
+
+        //USBTRACE("Poll enabled\r\n");
         return 0;
 
 FailGetDevDescr:
@@ -192,19 +209,3 @@ Fail:
         Release();
         return rcode;
 }
-
-//uint8_t PL::Poll()
-//{
-//      uint8_t rcode = 0;
-//
-//      //if (!bPollEnable)
-//      //      return 0;
-//
-//      //if (qNextPollTime <= millis())
-//      //{
-//      //      USB_HOST_SERIAL.println(bAddress, HEX);
-//
-//      //      qNextPollTime = millis() + 100;
-//      //}
-//      return rcode;
-//}

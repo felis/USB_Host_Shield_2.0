@@ -1,4 +1,6 @@
-/* Copyright (C) 2011 Circuits At Home, LTD. All rights reserved.
+/* Copyright (C) 2015 Andrew J. Kroll
+   and
+   Circuits At Home, LTD. All rights reserved.
 
 This software may be distributed and modified under the terms of the GNU
 General Public License version 2 (GPL2) as published by the Free Software
@@ -14,122 +16,257 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__CDCPROLIFIC_H__)
-#define __CDCPROLIFIC_H__
+#if !defined(__CDC_XR21B1411_H__)
+#define __CDC_XR21B1411_H__
 
 #include "cdcacm.h"
 
-#define PL_VID                                  0x067B
-#define PL_PID                                  ( 0x2303 || 0x0609 )
+#define XR_REG_CUSTOM_DRIVER                    (0x020DU) // DRIVER SELECT
+#define XR_REG_CUSTOM_DRIVER_ACTIVE             (0x0001U) // 0: CDC 1: CUSTOM
 
-//#define PL_PID                                0x0609
+#define XR_REG_ACM_FLOW_CTL                     (0x0216U) // FLOW CONTROL REGISTER CDCACM MODE
+#define XR_REG_FLOW_CTL                         (0x0C06U) // FLOW CONTROL REGISTER CUSTOM MODE
+#define XR_REG_FLOW_CTL_HALF_DPLX               (0x0008U) // 0:FULL DUPLEX 1:HALF DUPLEX
+#define XR_REG_FLOW_CTL_MODE_MASK               (0x0007U) // MODE BITMASK
+#define XR_REG_FLOW_CTL_NONE                    (0x0000U) // NO FLOW CONTROL
+#define XR_REG_FLOW_CTL_HW                      (0x0001U) // HARDWARE FLOW CONTROL
+#define XR_REG_FLOW_CTL_SW                      (0x0002U) // SOFTWARE FLOW CONTROL
+#define XR_REG_FLOW_CTL_MMMRX                   (0x0003U) // MULTIDROP RX UPON ADDRESS MATCH
+#define XR_REG_FLOW_CTL_MMMRXTX                 (0x0004U) // MULTIDROP RX/TX UPON ADDRESS MATCH
 
-#define PROLIFIC_REV_H                          0x0202
-#define PROLIFIC_REV_X                          0x0300
-#define PROLIFIC_REV_HX_CHIP_D                  0x0400
-#define PROLIFIC_REV_1                          0x0001
+#define XR_REG_ACM_GPIO_MODE                    (0x0217U) // GPIO MODE REGISTER IN CDCACM MODE
+#define XR_REG_GPIO_MODE                        (0x0C0CU) // GPIO MODE REGISTER IN CUSTOM MODE
+#define XR_REG_GPIO_MODE_GPIO                   (0x0000U) // ALL GPIO PINS ACM PROGRAMMABLE
+#define XR_REG_GPIO_MODE_FC_RTSCTS              (0x0001U) // AUTO RTSCTS HW FC (GPIO 4/5)
+#define XR_REG_GPIO_MODE_FC_DTRDSR              (0x0002U) // AUTO DTRDSR HW FC (GPIO 2/3)
+#define XR_REG_GPIO_MODE_ATE                    (0x0003U) // AUTO TRANSCEIVER ENABLE DURING TX (GPIO 5)
+#define XR_REG_GPIO_MODE_ATE_ADDRESS            (0x0004U) // AUTO TRANSCEIVER ENABLE ON ADDRESS MATCH (GPIO 5)
 
-#define kXOnChar                                '\x11'
-#define kXOffChar                               '\x13'
+#define XR_REG_ACM_GPIO_DIR                     (0x0218U) // GPIO DIRECTION REGISTER CDCACM MODE, 0:IN 1:OUT
+#define XR_REG_GPIO_DIR                         (0x0C0DU) // GPIO DIRECTION REGISTER CUSTOM MODE, 0:IN 1:OUT
 
-#define SPECIAL_SHIFT                           (5)
-#define SPECIAL_MASK                            ((1<<SPECIAL_SHIFT) - 1)
-#define STATE_ALL                               ( PD_RS232_S_MASK | PD_S_MASK )
-#define FLOW_RX_AUTO                            ( PD_RS232_A_RFR | PD_RS232_A_DTR | PD_RS232_A_RXO )
-#define FLOW_TX_AUTO                            ( PD_RS232_A_CTS | PD_RS232_A_DSR | PD_RS232_A_TXO | PD_RS232_A_DCD )
-#define CAN_BE_AUTO                             ( FLOW_RX_AUTO | FLOW_TX_AUTO )
-#define CAN_NOTIFY                              ( PD_RS232_N_MASK )
-#define EXTERNAL_MASK                           ( PD_S_MASK | (PD_RS232_S_MASK & ~PD_RS232_S_LOOP) )
-#define INTERNAL_DELAY                          ( PD_RS232_S_LOOP )
-#define DEFAULT_AUTO                            ( PD_RS232_A_DTR | PD_RS232_A_RFR | PD_RS232_A_CTS | PD_RS232_A_DSR )
-#define DEFAULT_NOTIFY                          0x00
-#define DEFAULT_STATE                           ( PD_S_TX_ENABLE | PD_S_RX_ENABLE | PD_RS232_A_TXO | PD_RS232_A_RXO )
+#define XR_REG_ACM_GPIO_INT                     (0x0219U) // GPIO PIN CHANGE INTERRUPT ENABLE CDCACM MODE, 0: ENABLED 1: DISABLED
+#define XR_REG_GPIO_INT                         (0x0C11U) // GPIO PIN CHANGE INTERRUPT ENABLE CUSTOM MODE, 0: ENABLED 1: DISABLED
+#define XR_REG_GPIO_MASK                        (0x001FU) // GPIO REGISTERS BITMASK
 
-#define CONTINUE_SEND                           1
-#define PAUSE_SEND                              2
+#define XR_REG_UART_ENABLE                      (0x0C00U) // UART I/O ENABLE REGISTER
+#define XR_REG_UART_ENABLE_RX                   (0x0002U) // 0:DISABLED 1:ENABLED
+#define XR_REG_UART_ENABLE_TX                   (0x0001U) // 0:DISABLED 1:ENABLED
 
-#define kRxAutoFlow                             ((UInt32)( PD_RS232_A_RFR | PD_RS232_A_DTR | PD_RS232_A_RXO ))
-#define kTxAutoFlow                             ((UInt32)( PD_RS232_A_CTS | PD_RS232_A_DSR | PD_RS232_A_TXO | PD_RS232_A_DCD ))
-#define kControl_StateMask                      ((UInt32)( PD_RS232_S_CTS | PD_RS232_S_DSR | PD_RS232_S_CAR | PD_RS232_S_RI  ))
-#define kRxQueueState                           ((UInt32)( PD_S_RXQ_EMPTY | PD_S_RXQ_LOW_WATER | PD_S_RXQ_HIGH_WATER | PD_S_RXQ_FULL ))
-#define kTxQueueState                           ((UInt32)( PD_S_TXQ_EMPTY | PD_S_TXQ_LOW_WATER | PD_S_TXQ_HIGH_WATER | PD_S_TXQ_FULL ))
+#define XR_REG_ERROR_STATUS                     (0x0C09U) // ERROR STATUS REGISTER
+#define XR_REG_ERROR_STATUS_MASK                (0x00F8U) // ERROR STATUS BITMASK
+#define XR_REG_ERROR_STATUS_ERROR               (0x0070U) // ERROR STATUS ERROR BITMASK
+#define XR_REG_ERROR_STATUS_BREAK               (0x0008U) // BREAK HAS BEEN DETECTED
+#define XR_REG_ERROR_STATUS_OVERRUN             (0x0010U) // RX OVERRUN ERROR
+#define XR_REG_ERROR_STATUS_PARITY              (0x0020U) // PARITY ERROR
+#define XR_REG_ERROR_STATUS_FRAME               (0x0040U) // FRAMING ERROR
+#define XR_REG_ERROR_STATUS_BREAK               (0x0080U) // BREAK IS BEING DETECTED
 
-#define kCONTROL_DTR                            0x01
-#define kCONTROL_RTS                            0x02
+#define XR_REG_TX_BREAK                         (0x0C0AU) // TRANSMIT BREAK. 0X0001-0XFFE TIME IN MS, 0X0000 STOP, 0X0FFF BREAK ON
 
-#define kStateTransientMask                     0x74
-#define kBreakError                             0x04
-#define kFrameError                             0x10
-#define kParityError                            0x20
-#define kOverrunError                           0x40
+#define XR_REG_XCVR_EN_DELAY                    (0x0C0BU) // TURN-ARROUND DELAY IN BIT-TIMES 0X0000-0X000F
 
-#define kCTS                                    0x80
-#define kDSR                                    0x02
-#define kRI                                     0x08
-#define kDCD                                    0x01
-#define kHandshakeInMask                        ((UInt32)( PD_RS232_S_CTS | PD_RS232_S_DSR | PD_RS232_S_CAR | PD_RS232_S_RI  ))
+#define XR_REG_GPIO_SET                         (0x0C0EU) // 1:SET GPIO PIN
 
-#define VENDOR_WRITE_REQUEST_TYPE               0x40
-#define VENDOR_WRITE_REQUEST                    0x01
+#define XR_REG_GPIO_CLR                         (0x0C0FU) // 1:CLEAR GPIO PIN
 
-#define VENDOR_READ_REQUEST_TYPE                0xc0
-#define VENDOR_READ_REQUEST                     0x01
+#define XR_REG_GPIO_STATUS                      (0x0C10U) // READ GPIO PINS
 
-// Device Configuration Registers (DCR0, DCR1, DCR2)
-#define SET_DCR0                                0x00
-#define GET_DCR0                                0x80
-#define DCR0_INIT                               0x01
-#define DCR0_INIT_H                             0x41
-#define DCR0_INIT_X                             0x61
+#define XR_REG_CUSTOMISED_INT                   (0x0C12U) // 0:STANDARD 1:CUSTOM SEE DATA SHEET
 
-#define SET_DCR1                                0x01
-#define GET_DCR1                                0x81
-#define DCR1_INIT_H                             0x80
-#define DCR1_INIT_X                             0x00
+#define XR_REG_PIN_PULLUP_ENABLE                (0x0C14U) // 0:DISABLE 1:ENABLE, BITS 0-5:GPIO, 6:RX 7:TX
 
-#define SET_DCR2                                0x02
-#define GET_DCR2                                0x82
-#define DCR2_INIT_H                             0x24
-#define DCR2_INIT_X                             0x44
+#define XR_REG_PIN_PULLDOWN_ENABLE              (0x0C15U) // 0:DISABLE 1:ENABLE, BITS 0-5:GPIO, 6:RX 7:TX
 
-// On-chip Data Buffers:
-#define RESET_DOWNSTREAM_DATA_PIPE              0x08
-#define RESET_UPSTREAM_DATA_PIPE                0x09
+#define XR_REG_LOOPBACK                         (0x0C16U) // 0:DISABLE 1:ENABLE, SEE DATA SHEET
 
+#define XR_REG_RX_FIFO_LATENCY                  (0x0CC2U) // FIFO LATENCY REGISTER
+#define XR_REG_RX_FIFO_LATENCY_ENABLE           (0x0001U) //
 
-#define PL_MAX_ENDPOINTS                        4
+#define XR_REG_WIDE_MODE                        (0x0D02U)
+#define XR_REG_WIDE_MODE_ENABLE                 (0x0001U)
 
-enum tXO_State {
-        kXOnSent = -2,
-        kXOffSent = -1,
-        kXO_Idle = 0,
-        kXOffNeeded = 1,
-        kXOnNeeded = 2
-};
+#define XR_REG_XON_CHAR                         (0x0C07U)
+#define XR_REG_XOFF_CHAR                        (0x0C08U)
 
-enum pl2303_type {
-        unknown,
-        type_1, /* don't know the difference between type 0 and */
-        rev_X, /* type 1, until someone from prolific tells us... */
-        rev_HX, /* HX version of the pl2303 chip */
-        rev_H
-};
+#define XR_REG_TX_FIFO_RESET                    (0x0C80U) // 1: RESET, SELF-CLEARING
+#define XR_REG_TX_FIFO_COUNT                    (0x0C81U) // READ-ONLY
+#define XR_REG_RX_FIFO_RESET                    (0x0CC0U) // 1: RESET, SELF-CLEARING
+#define XR_REG_RX_FIFO_COUNT                    (0x0CC1U) // READ-ONLY
 
+#define XR_WRITE_REQUEST_TYPE                   (0x40U)
 
-class PL2303 : public ACM {
-        uint16_t wPLType; // Type of chip
+#define XR_READ_REQUEST_TYPE                    (0xC0U)
+
+#define XR_MAX_ENDPOINTS                        4
+
+class XR21B1411 : public ACM {
+protected:
 
 public:
-        PL2303(USB *pusb, CDCAsyncOper *pasync);
+        XR21B1411(USB *pusb, CDCAsyncOper *pasync);
 
-        // USBDeviceConfig implementation
+        /**
+         * Used by the USB core to check what this driver support.
+         * @param  vid The device's VID.
+         * @param  pid The device's PID.
+         * @return     Returns true if the device's VID and PID matches this driver.
+         */
+        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
+                return (((vid == 0x2890U) && (pid == 0x0201U)) || ((vid == 0x04e2U) && (pid == 0x1411U)));
+        };
+
         uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        //virtual uint8_t Release();
-        //virtual uint8_t Poll();
-        //virtual uint8_t GetAddress() { return bAddress; };
 
-        //// UsbConfigXtracter implementation
-        //virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        virtual tty_features enhanced_features(void) {
+                tty_features rv;
+                rv.enhanced = true;
+                rv.autoflow_RTS = true;
+                rv.autoflow_DSR = true;
+                rv.autoflow_XON = true;
+                rv.half_duplex = true;
+                rv.wide = true;
+                return rv;
+        };
+
+        uint8_t read_register(uint16_t reg, uint16_t *val) {
+                return (pUsb->ctrlReq(bAddress, 0, XR_READ_REQUEST_TYPE, 1, 0, 0, reg, 2, 2, (uint8_t *)val, NULL));
+        }
+
+        uint8_t write_register(uint16_t reg, uint16_t val) {
+                return (pUsb->ctrlReq(bAddress, 0, XR_WRITE_REQUEST_TYPE, 0, BGRAB0(val), BGRAB1(val), reg, 0, 0, NULL, NULL));
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////
+        // The following methods set the CDC-ACM defaults.
+        ////////////////////////////////////////////////////////////////////////
+
+        virtual void autoflowRTS(bool s) {
+                uint16_t val;
+                uint8_t rval;
+                rval = read_register(XR_REG_ACM_FLOW_CTL, &val);
+                if(!rval) {
+                        if(s) {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                                val |= XR_REG_FLOW_CTL_HW;
+                        } else {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                        }
+                        rval = write_register(XR_REG_ACM_FLOW_CTL, val);
+                        if(!rval) {
+                                rval = write_register(XR_REG_ACM_GPIO_MODE, XR_REG_GPIO_MODE_GPIO);
+                                if(!rval) {
+                                        // ACM commands apply the new settings.
+                                        LINE_CODING LCT;
+                                        rval = GetLineCoding(&LCT);
+                                        if(!rval) {
+                                                rval = SetLineCoding(&LCT);
+                                                if(!rval) {
+                                                        _enhanced_status.autoflow_XON = false;
+                                                        _enhanced_status.autoflow_DSR = false;
+                                                        _enhanced_status.autoflow_RTS = s;
+                                                }
+                                        }
+                                }
+                        }
+                }
+        };
+
+        virtual void autoflowDSR(bool s) {
+                uint16_t val;
+                uint8_t rval;
+                rval = read_register(XR_REG_ACM_FLOW_CTL, &val);
+                if(!rval) {
+                        if(s) {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                                val |= XR_REG_FLOW_CTL_HW;
+                        } else {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                        }
+                        rval = write_register(XR_REG_ACM_FLOW_CTL, val);
+                        if(!rval) {
+                                if(s) {
+                                        rval = write_register(XR_REG_ACM_GPIO_MODE, XR_REG_GPIO_MODE_FC_DTRDSR);
+                                } else {
+                                        rval = write_register(XR_REG_ACM_GPIO_MODE, XR_REG_GPIO_MODE_GPIO);
+                                }
+                                if(!rval) {
+                                        // ACM commands apply the new settings.
+                                        LINE_CODING LCT;
+                                        rval = GetLineCoding(&LCT);
+                                        if(!rval) {
+                                                rval = SetLineCoding(&LCT);
+                                                if(!rval) {
+                                                        _enhanced_status.autoflow_XON = false;
+                                                        _enhanced_status.autoflow_RTS = false;
+                                                        _enhanced_status.autoflow_DSR = s;
+                                                }
+                                        }
+                                }
+                        }
+                }
+        };
+
+        virtual void autoflowXON(bool s) {
+                // NOTE: hardware defaults to the normal XON/XOFF
+                uint16_t val;
+                uint8_t rval;
+                rval = read_register(XR_REG_ACM_FLOW_CTL, &val);
+                if(!rval) {
+                        if(s) {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                                val |= XR_REG_FLOW_CTL_SW;
+                        } else {
+                                val &= XR_REG_FLOW_CTL_HALF_DPLX;
+                        }
+                        rval = write_register(XR_REG_ACM_FLOW_CTL, val);
+                        if(!rval) {
+                                rval = write_register(XR_REG_ACM_GPIO_MODE, XR_REG_GPIO_MODE_GPIO);
+                                if(!rval) {
+                                        // ACM commands apply the new settings.
+                                        LINE_CODING LCT;
+                                        rval = GetLineCoding(&LCT);
+                                        if(!rval) {
+                                                rval = SetLineCoding(&LCT);
+                                                if(!rval) {
+                                                        _enhanced_status.autoflow_RTS = false;
+                                                        _enhanced_status.autoflow_DSR = false;
+                                                        _enhanced_status.autoflow_XON = s;
+                                                }
+                                        }
+                                }
+                        }
+                }
+        };
+
+        virtual void half_duplex(bool s) {
+                uint16_t val;
+                uint8_t rval;
+                rval = read_register(XR_REG_ACM_FLOW_CTL, &val);
+                if(!rval) {
+                        if(s) {
+                                val |= XR_REG_FLOW_CTL_HALF_DPLX;
+                        } else {
+                                val &= XR_REG_FLOW_CTL_MODE_MASK;
+                        }
+                        rval = write_register(XR_REG_ACM_FLOW_CTL, val);
+                        if(!rval) {
+                                // ACM commands apply the new settings.
+                                LINE_CODING LCT;
+                                rval = GetLineCoding(&LCT);
+                                if(!rval) {
+                                        rval = SetLineCoding(&LCT);
+                                        if(!rval) {
+                                                _enhanced_status.half_duplex = s;
+                                        }
+                                }
+                        }
+                }
+        };
+
+
+
 };
 
 #endif // __CDCPROLIFIC_H__
