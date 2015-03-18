@@ -89,10 +89,10 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 #define USB_ERROR_FailGetConfDescr                      0xE3
 #define USB_ERROR_TRANSFER_TIMEOUT                      0xFF
 
-#define USB_XFER_TIMEOUT        10000 //30000    // (5000) USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
-//#define USB_NAK_LIMIT         32000   //NAK limit for a transfer. 0 means NAKs are not counted
+#define USB_XFER_TIMEOUT        5000    // (5000) USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
+//#define USB_NAK_LIMIT         32000   // NAK limit for a transfer. 0 means NAKs are not counted
 #define USB_RETRY_LIMIT         3       // 3 retry limit for a transfer
-#define USB_SETTLE_DELAY        200     //settle delay in milliseconds
+#define USB_SETTLE_DELAY        200     // settle delay in milliseconds
 
 #define USB_NUMDEVICES          16      //number of USB devices
 //#define HUB_MAX_HUBS          7       // maximum number of hubs that can be attached to the host controller
@@ -258,7 +258,7 @@ public:
 
 private:
         void init();
-        uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_limit);
+        uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit);
         uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
         uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data);
         uint8_t AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed);

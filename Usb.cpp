@@ -77,7 +77,7 @@ uint8_t USB::setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr)
         return 0;
 }
 
-uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_limit) {
+uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit) {
         UsbDevice *p = addrPool.GetUsbDevicePtr(addr);
 
         if(!p)
@@ -91,8 +91,8 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t &nak_l
         if(!*ppep)
                 return USB_ERROR_EP_NOT_FOUND_IN_TBL;
 
-        nak_limit = (0x0001UL << (((*ppep)->bmNakPower > USB_NAK_MAX_POWER) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower));
-        nak_limit--;
+        *nak_limit = (0x0001UL << (((*ppep)->bmNakPower > USB_NAK_MAX_POWER) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower));
+        *nak_limit--;
         /*
           USBTRACE2("\r\nAddress: ", addr);
           USBTRACE2(" EP: ", ep);
@@ -132,7 +132,7 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
-        rcode = SetAddress(addr, ep, &pep, nak_limit);
+        rcode = SetAddress(addr, ep, &pep, &nak_limit);
 
         if(rcode)
                 return rcode;
@@ -207,7 +207,7 @@ uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* 
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
-        uint8_t rcode = SetAddress(addr, ep, &pep, nak_limit);
+        uint8_t rcode = SetAddress(addr, ep, &pep, &nak_limit);
 
         if(rcode) {
                 USBTRACE3("(USB::InTransfer) SetAddress Failed ", rcode, 0x81);
@@ -293,7 +293,7 @@ uint8_t USB::outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dat
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
-        uint8_t rcode = SetAddress(addr, ep, &pep, nak_limit);
+        uint8_t rcode = SetAddress(addr, ep, &pep, &nak_limit);
 
         if(rcode)
                 return rcode;
