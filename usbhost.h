@@ -87,14 +87,12 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
-#elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))) || defined(__ARDUINO_X86__)
+#elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))) || defined(__ARDUINO_X86__) || defined(__MIPSEL__)
 typedef SPi< P13, P11, P12, P10 > spi;
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 typedef SPi< P76, P75, P74, P10 > spi;
 #elif defined(RBL_NRF51822)
 typedef SPi< P16, P18, P17, P10 > spi;
-#elif defined(__MIPSEL__)
-typedef SPi< P13, P11, P12, P10 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
