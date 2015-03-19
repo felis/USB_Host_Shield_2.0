@@ -524,4 +524,4 @@ uint8_t MAX3421e< SPI_SS, INTR >::IntHandler() {
 //    return( GPINIRQ );
 //}
 
-#endif //_USBHOST_H_
+#endif // _USBHOST_H_
