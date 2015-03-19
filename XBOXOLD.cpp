@@ -320,7 +320,7 @@ int16_t XBOXOLD::getAnalogHat(AnalogHatEnum a) {
 /* Xbox Controller commands */
 void XBOXOLD::XboxCommand(uint8_t* data, uint16_t nbytes) {
         //bmRequest = Host to device (0x00) | Class (0x20) | Interface (0x01) = 0x21, bRequest = Set Report (0x09), Report ID (0x00), Report Type (Output 0x02), interface (0x00), datalength, datalength, data)
-        pUsb->ctrlReq(bAddress, epInfo[XBOX_CONTROL_PIPE].epAddr, bmREQ_HID_OUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
+        pUsb->ctrlReq(bAddress, epInfo[XBOX_CONTROL_PIPE].epAddr, bmREQ_HIDOUT, HID_REQUEST_SET_REPORT, 0x00, 0x02, 0x00, nbytes, nbytes, data, NULL);
 }
 
 void XBOXOLD::setRumbleOn(uint8_t lValue, uint8_t rValue) {

@@ -22,57 +22,57 @@ e-mail   :  support@circuitsathome.com
 #define bmREQ_FTDI_OUT  0x40
 #define bmREQ_FTDI_IN   0xc0
 
-//#define bmREQ_FTDI_OUT		USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
-//#define bmREQ_FTDI_IN		USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+//#define bmREQ_FTDI_OUT                USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
+//#define bmREQ_FTDI_IN         USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 
-#define FTDI_VID			0x0403  // FTDI VID
-#define FTDI_PID			0x6001  // FTDI PID
+#define FTDI_VID                        0x0403  // FTDI VID
+#define FTDI_PID                        0x6001  // FTDI PID
 
-#define FT232AM				0x0200
-#define FT232BM				0x0400
-#define FT2232				0x0500
-#define FT232R				0x0600
+#define FT232AM                         0x0200
+#define FT232BM                         0x0400
+#define FT2232                          0x0500
+#define FT232R                          0x0600
 
 // Commands
-#define FTDI_SIO_RESET 						0 /* Reset the port */
-#define FTDI_SIO_MODEM_CTRL 				1 /* Set the modem control register */
-#define FTDI_SIO_SET_FLOW_CTRL				2 /* Set flow control register */
-#define FTDI_SIO_SET_BAUD_RATE				3 /* Set baud rate */
-#define FTDI_SIO_SET_DATA					4 /* Set the data characteristics of the port */
-#define FTDI_SIO_GET_MODEM_STATUS			5 /* Retrieve current value of modem status register */
-#define FTDI_SIO_SET_EVENT_CHAR				6 /* Set the event character */
-#define FTDI_SIO_SET_ERROR_CHAR				7 /* Set the error character */
+#define FTDI_SIO_RESET                  0 /* Reset the port */
+#define FTDI_SIO_MODEM_CTRL             1 /* Set the modem control register */
+#define FTDI_SIO_SET_FLOW_CTRL          2 /* Set flow control register */
+#define FTDI_SIO_SET_BAUD_RATE          3 /* Set baud rate */
+#define FTDI_SIO_SET_DATA               4 /* Set the data characteristics of the port */
+#define FTDI_SIO_GET_MODEM_STATUS       5 /* Retrieve current value of modem status register */
+#define FTDI_SIO_SET_EVENT_CHAR         6 /* Set the event character */
+#define FTDI_SIO_SET_ERROR_CHAR         7 /* Set the error character */
 
-#define FTDI_SIO_RESET_SIO					0
-#define FTDI_SIO_RESET_PURGE_RX				1
-#define FTDI_SIO_RESET_PURGE_TX				2
+#define FTDI_SIO_RESET_SIO              0
+#define FTDI_SIO_RESET_PURGE_RX         1
+#define FTDI_SIO_RESET_PURGE_TX         2
 
-#define FTDI_SIO_SET_DATA_PARITY_NONE		(0x0 << 8 )
-#define FTDI_SIO_SET_DATA_PARITY_ODD		(0x1 << 8 )
-#define FTDI_SIO_SET_DATA_PARITY_EVEN		(0x2 << 8 )
-#define FTDI_SIO_SET_DATA_PARITY_MARK		(0x3 << 8 )
-#define FTDI_SIO_SET_DATA_PARITY_SPACE		(0x4 << 8 )
-#define FTDI_SIO_SET_DATA_STOP_BITS_1		(0x0 << 11)
-#define FTDI_SIO_SET_DATA_STOP_BITS_15		(0x1 << 11)
-#define FTDI_SIO_SET_DATA_STOP_BITS_2		(0x2 << 11)
-#define FTDI_SIO_SET_BREAK					(0x1 << 14)
+#define FTDI_SIO_SET_DATA_PARITY_NONE   (0x0 << 8 )
+#define FTDI_SIO_SET_DATA_PARITY_ODD    (0x1 << 8 )
+#define FTDI_SIO_SET_DATA_PARITY_EVEN   (0x2 << 8 )
+#define FTDI_SIO_SET_DATA_PARITY_MARK   (0x3 << 8 )
+#define FTDI_SIO_SET_DATA_PARITY_SPACE  (0x4 << 8 )
+#define FTDI_SIO_SET_DATA_STOP_BITS_1   (0x0 << 11)
+#define FTDI_SIO_SET_DATA_STOP_BITS_15  (0x1 << 11)
+#define FTDI_SIO_SET_DATA_STOP_BITS_2   (0x2 << 11)
+#define FTDI_SIO_SET_BREAK              (0x1 << 14)
 
-#define FTDI_SIO_SET_DTR_MASK				0x1
-#define FTDI_SIO_SET_DTR_HIGH				( 1 | ( FTDI_SIO_SET_DTR_MASK  << 8))
-#define FTDI_SIO_SET_DTR_LOW				( 0 | ( FTDI_SIO_SET_DTR_MASK  << 8))
-#define FTDI_SIO_SET_RTS_MASK				0x2
-#define FTDI_SIO_SET_RTS_HIGH				( 2 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
-#define FTDI_SIO_SET_RTS_LOW				( 0 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
+#define FTDI_SIO_SET_DTR_MASK           0x1
+#define FTDI_SIO_SET_DTR_HIGH           ( 1 | ( FTDI_SIO_SET_DTR_MASK  << 8))
+#define FTDI_SIO_SET_DTR_LOW            ( 0 | ( FTDI_SIO_SET_DTR_MASK  << 8))
+#define FTDI_SIO_SET_RTS_MASK           0x2
+#define FTDI_SIO_SET_RTS_HIGH           ( 2 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
+#define FTDI_SIO_SET_RTS_LOW            ( 0 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
 
-#define FTDI_SIO_DISABLE_FLOW_CTRL			0x0
-#define FTDI_SIO_RTS_CTS_HS					(0x1 << 8)
-#define FTDI_SIO_DTR_DSR_HS					(0x2 << 8)
-#define FTDI_SIO_XON_XOFF_HS				(0x4 << 8)
+#define FTDI_SIO_DISABLE_FLOW_CTRL      0x0
+#define FTDI_SIO_RTS_CTS_HS             (0x1 << 8)
+#define FTDI_SIO_DTR_DSR_HS             (0x2 << 8)
+#define FTDI_SIO_XON_XOFF_HS            (0x4 << 8)
 
-#define FTDI_SIO_CTS_MASK					0x10
-#define FTDI_SIO_DSR_MASK					0x20
-#define FTDI_SIO_RI_MASK					0x40
-#define FTDI_SIO_RLSD_MASK					0x80
+#define FTDI_SIO_CTS_MASK               0x10
+#define FTDI_SIO_DSR_MASK               0x20
+#define FTDI_SIO_RI_MASK                0x40
+#define FTDI_SIO_RLSD_MASK              0x80
 
 class FTDI;
 
@@ -88,8 +88,8 @@ public:
 
 
 // Only single port chips are currently supported by the library,
-//		so only three endpoints are allocated.
-#define FTDI_MAX_ENDPOINTS					3
+//              so only three endpoints are allocated.
+#define FTDI_MAX_ENDPOINTS              3
 
 class FTDI : public USBDeviceConfig, public UsbConfigXtracter {
         static const uint8_t epDataInIndex; // DataIn endpoint index

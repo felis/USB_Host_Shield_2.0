@@ -129,12 +129,12 @@ void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t 
         if (buf[2] == 1)
                 return;
 
-        //KBDINFO	*pki = (KBDINFO*)buf;
+        //KBDINFO       *pki = (KBDINFO*)buf;
 
-	// provide event for changed control key state
-	if (prevState.bInfo[0x00] != buf[0x00]) {
-		OnControlKeysChanged(prevState.bInfo[0x00], buf[0x00]);
-	}
+        // provide event for changed control key state
+        if (prevState.bInfo[0x00] != buf[0x00]) {
+                OnControlKeysChanged(prevState.bInfo[0x00], buf[0x00]);
+        }
 
         for (uint8_t i = 2; i < 8; i++) {
                 bool down = false;
@@ -168,8 +168,8 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         // [a-z]
         if (VALUE_WITHIN(key, 0x04, 0x1d)) {
                 // Upper case letters
-                if ((kbdLockingKeys.kbdLeds.bmCapsLock == 0 && shift) ||
-                        (kbdLockingKeys.kbdLeds.bmCapsLock == 1 && shift == 0))
+                if ((kbdLockingKeys.kbdLeds.bmCapsLock == 0 && (mod & 2)) ||
+                        (kbdLockingKeys.kbdLeds.bmCapsLock == 1 && (mod & 2) == 0))
                         return (key - 4 + 'A');
 
                         // Lower case letters

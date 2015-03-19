@@ -232,10 +232,6 @@ public:
                 return bAddress;
         };
 
-        virtual bool isReady() {
-                return bPollEnable;
-        };
-
         // UsbConfigXtracter implementation
         // Method should be defined here if virtual.
         virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);

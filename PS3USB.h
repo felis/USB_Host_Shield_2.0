@@ -19,7 +19,7 @@
 #define _ps3usb_h_
 
 #include "Usb.h"
-#include "Hid.h"
+#include "hid.h"
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
