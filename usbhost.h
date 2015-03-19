@@ -51,7 +51,11 @@ public:
 #if defined(__MIPSEL__)
                 SPI.setClockDivider(1);
 #elif defined(__ARDUINO_X86__)
-                SPI.setClockDivider(SPI_CLOCK_DIV2); // This will set the SPI frequency to 8MHz - it could be higher, but it is not supported in the API
+                #ifdef SPI_CLOCK_1M // Hack used to check if setClockSpeed is available
+                    SPI.setClockSpeed(12000000); // The MAX3421E can handle up to 26MHz, but in practice this was the maximum that I could reliably use
+                #else
+                    SPI.setClockDivider(SPI_CLOCK_DIV2); // This will set the SPI frequency to 8MHz - it could be higher, but it is not supported in the old API
+                #endif
 #else
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
