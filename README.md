@@ -285,7 +285,7 @@ More information about the controller can be found at the following sites:
 
 The shield is using SPI for communicating with the MAX3421E USB host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.
 
-Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else!
+Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else than SPI communication!
 
 Furthermore it uses one pin as SS and one INT pin. These are by default located on pin 10 and 9 respectively. They can easily be reconfigured in case you need to use them for something else by cutting the jumper on the shield and then solder a wire from the pad to the new pin.
 
