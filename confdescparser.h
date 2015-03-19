@@ -29,10 +29,10 @@ public:
         };
 };
 
-#define CP_MASK_COMPARE_CLASS			1
-#define CP_MASK_COMPARE_SUBCLASS		2
-#define CP_MASK_COMPARE_PROTOCOL		4
-#define CP_MASK_COMPARE_ALL			7
+#define CP_MASK_COMPARE_CLASS                   1
+#define CP_MASK_COMPARE_SUBCLASS                2
+#define CP_MASK_COMPARE_PROTOCOL                4
+#define CP_MASK_COMPARE_ALL                     7
 
 // Configuration Descriptor Parser Class Template
 
@@ -109,10 +109,10 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         stateParseDescr = 2;
                 case 2:
                         // This is a sort of hack. Assuming that two bytes are all ready in the buffer
-                        //	the pointer is positioned two bytes ahead in order for the rest of descriptor
-                        //	to be read right after the size and the type fields.
+                        //      the pointer is positioned two bytes ahead in order for the rest of descriptor
+                        //      to be read right after the size and the type fields.
                         // This should be used carefully. varBuffer should be used directly to handle data
-                        //	in the buffer.
+                        //      in the buffer.
                         theBuffer.pValue = varBuffer + 2;
                         stateParseDescr = 3;
                 case 3:
@@ -165,10 +165,10 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                                                         theXtractor->EndpointXtract(confValue, ifaceNumber, ifaceAltSet, protoValue, (USB_ENDPOINT_DESCRIPTOR*)varBuffer);
                                         break;
                                         //case HID_DESCRIPTOR_HID:
-                                        //	if (!valParser.Parse(pp, pcntdn))
-                                        //		return false;
-                                        //	PrintHidDescriptor((const USB_HID_DESCRIPTOR*)varBuffer);
-                                        //	break;
+                                        //      if (!valParser.Parse(pp, pcntdn))
+                                        //              return false;
+                                        //      PrintHidDescriptor((const USB_HID_DESCRIPTOR*)varBuffer);
+                                        //      break;
                                 default:
                                         if(!theSkipper.Skip(pp, pcntdn, dscrLen - 2))
                                                 return false;
@@ -196,12 +196,6 @@ void ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::PrintHidDescrip
 
         Notify(PSTR("\r\nbNumDescriptors:\t"), 0x80);
         PrintHex<uint8_t > (pDesc->bNumDescriptors, 0x80);
-
-        //Notify(PSTR("\r\nbDescrType:\t\t"));
-        //PrintHex<uint8_t>(pDesc->bDescrType);
-        //
-        //Notify(PSTR("\r\nwDescriptorLength:\t"));
-        //PrintHex<uint16_t>(pDesc->wDescriptorLength);
 
         for(uint8_t i = 0; i < pDesc->bNumDescriptors; i++) {
                 HID_CLASS_DESCRIPTOR_LEN_AND_TYPE *pLT = (HID_CLASS_DESCRIPTOR_LEN_AND_TYPE*)&(pDesc->bDescrType);

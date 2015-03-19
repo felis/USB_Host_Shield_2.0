@@ -253,9 +253,9 @@ uint8_t USBHub::CheckHubStatus() {
         //        rcode = GetHubStatus(1, 0, 1, 4, buf);
         //        if (rcode)
         //        {
-        //        	USB_HOST_SERIAL.print("GetHubStatus Error");
-        //        	USB_HOST_SERIAL.println(rcode, HEX);
-        //        	return rcode;
+        //                USB_HOST_SERIAL.print("GetHubStatus Error");
+        //                USB_HOST_SERIAL.println(rcode, HEX);
+        //                return rcode;
         //        }
         //}
         for(uint8_t port = 1, mask = 0x02; port < 8; mask <<= 1, port++) {

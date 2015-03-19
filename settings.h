@@ -136,4 +136,4 @@ e-mail   :  support@circuitsathome.com
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
 
-#endif	/* SETTINGS_H */
+#endif /* SETTINGS_H */

@@ -19,7 +19,7 @@
 #define _xboxold_h_
 
 #include "Usb.h"
-#include "Hid.h"
+#include "hid.h"
 #include "controllerEnums.h"
 
 /* Data Xbox taken from descriptors */

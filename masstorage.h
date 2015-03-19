@@ -29,35 +29,35 @@ e-mail   :  support@circuitsathome.com
 #define bmREQ_MASSIN        USB_SETUP_DEVICE_TO_HOST|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_INTERFACE
 
 // Mass Storage Subclass Constants
-#define MASS_SUBCLASS_SCSI_NOT_REPORTED 0x00	// De facto use
-#define MASS_SUBCLASS_RBC		0x01
-#define MASS_SUBCLASS_ATAPI		0x02	// MMC-5 (ATAPI)
-#define MASS_SUBCLASS_OBSOLETE1		0x03	// Was QIC-157
-#define MASS_SUBCLASS_UFI		0x04	// Specifies how to interface Floppy Disk Drives to USB
-#define MASS_SUBCLASS_OBSOLETE2		0x05	// Was SFF-8070i
-#define MASS_SUBCLASS_SCSI		0x06	// SCSI Transparent Command Set
-#define MASS_SUBCLASS_LSDFS		0x07	// Specifies how host has to negotiate access before trying SCSI
-#define MASS_SUBCLASS_IEEE1667		0x08
+#define MASS_SUBCLASS_SCSI_NOT_REPORTED 0x00    // De facto use
+#define MASS_SUBCLASS_RBC               0x01
+#define MASS_SUBCLASS_ATAPI             0x02    // MMC-5 (ATAPI)
+#define MASS_SUBCLASS_OBSOLETE1         0x03    // Was QIC-157
+#define MASS_SUBCLASS_UFI               0x04    // Specifies how to interface Floppy Disk Drives to USB
+#define MASS_SUBCLASS_OBSOLETE2         0x05    // Was SFF-8070i
+#define MASS_SUBCLASS_SCSI              0x06    // SCSI Transparent Command Set
+#define MASS_SUBCLASS_LSDFS             0x07    // Specifies how host has to negotiate access before trying SCSI
+#define MASS_SUBCLASS_IEEE1667          0x08
 
 // Mass Storage Class Protocols
-#define MASS_PROTO_CBI			0x00	// CBI (with command completion interrupt)
-#define MASS_PROTO_CBI_NO_INT		0x01	// CBI (without command completion interrupt)
-#define MASS_PROTO_OBSOLETE		0x02
-#define MASS_PROTO_BBB			0x50	// Bulk Only Transport
-#define MASS_PROTO_UAS			0x62
+#define MASS_PROTO_CBI                  0x00    // CBI (with command completion interrupt)
+#define MASS_PROTO_CBI_NO_INT           0x01    // CBI (without command completion interrupt)
+#define MASS_PROTO_OBSOLETE             0x02
+#define MASS_PROTO_BBB                  0x50    // Bulk Only Transport
+#define MASS_PROTO_UAS                  0x62
 
 // Request Codes
-#define MASS_REQ_ADSC			0x00
-#define MASS_REQ_GET			0xFC
-#define MASS_REQ_PUT			0xFD
-#define MASS_REQ_GET_MAX_LUN		0xFE
-#define MASS_REQ_BOMSR			0xFF	// Bulk-Only Mass Storage Reset
+#define MASS_REQ_ADSC                   0x00
+#define MASS_REQ_GET                    0xFC
+#define MASS_REQ_PUT                    0xFD
+#define MASS_REQ_GET_MAX_LUN            0xFE
+#define MASS_REQ_BOMSR                  0xFF    // Bulk-Only Mass Storage Reset
 
-#define MASS_CBW_SIGNATURE		0x43425355
-#define MASS_CSW_SIGNATURE		0x53425355
+#define MASS_CBW_SIGNATURE              0x43425355
+#define MASS_CSW_SIGNATURE              0x53425355
 
 #define MASS_CMD_DIR_OUT                0 // (0 << 7)
-#define MASS_CMD_DIR_IN			0x80 //(1 << 7)
+#define MASS_CMD_DIR_IN                 0x80 //(1 << 7)
 
 /*
  * Reference documents from T10 (http://www.t10.org)
@@ -67,21 +67,21 @@ e-mail   :  support@circuitsathome.com
  */
 
 /* Group 1 commands (CDB's here are should all be 6-bytes) */
-#define SCSI_CMD_TEST_UNIT_READY	0x00
-#define SCSI_CMD_REQUEST_SENSE		0x03
-#define SCSI_CMD_FORMAT_UNIT		0x04
-#define SCSI_CMD_READ_6			0x08
-#define SCSI_CMD_WRITE_6		0x0A
-#define SCSI_CMD_INQUIRY		0x12
+#define SCSI_CMD_TEST_UNIT_READY        0x00
+#define SCSI_CMD_REQUEST_SENSE          0x03
+#define SCSI_CMD_FORMAT_UNIT            0x04
+#define SCSI_CMD_READ_6                 0x08
+#define SCSI_CMD_WRITE_6                0x0A
+#define SCSI_CMD_INQUIRY                0x12
 #define SCSI_CMD_MODE_SELECT_6          0x15
-#define SCSI_CMD_MODE_SENSE_6		0x1A
-#define SCSI_CMD_START_STOP_UNIT	0x1B
+#define SCSI_CMD_MODE_SENSE_6           0x1A
+#define SCSI_CMD_START_STOP_UNIT        0x1B
 #define SCSI_CMD_PREVENT_REMOVAL        0x1E
 /* Group 2 Commands (CDB's here are 10-bytes) */
 #define SCSI_CMD_READ_FORMAT_CAPACITIES 0x23
-#define SCSI_CMD_READ_CAPACITY_10	0x25
-#define SCSI_CMD_READ_10		0x28
-#define SCSI_CMD_WRITE_10		0x2A
+#define SCSI_CMD_READ_CAPACITY_10       0x25
+#define SCSI_CMD_READ_10                0x28
+#define SCSI_CMD_WRITE_10               0x2A
 #define SCSI_CMD_SEEK_10                0x2B
 #define SCSI_CMD_ERASE_10               0x2C
 #define SCSI_CMD_WRITE_AND_VERIFY_10    0x2E
@@ -139,42 +139,42 @@ e-mail   :  support@circuitsathome.com
 #define SCSI_CMD_READ_ALL_SUBCODES      0xDF /* Vendor unique */
 
 /* SCSI error codes */
-#define SCSI_S_NOT_READY		0x02
-#define SCSI_S_MEDIUM_ERROR		0x03
-#define SCSI_S_ILLEGAL_REQUEST		0x05
-#define SCSI_S_UNIT_ATTENTION		0x06
+#define SCSI_S_NOT_READY                0x02
+#define SCSI_S_MEDIUM_ERROR             0x03
+#define SCSI_S_ILLEGAL_REQUEST          0x05
+#define SCSI_S_UNIT_ATTENTION           0x06
 #define SCSI_ASC_LBA_OUT_OF_RANGE       0x21
 #define SCSI_ASC_MEDIA_CHANGED          0x28
 #define SCSI_ASC_MEDIUM_NOT_PRESENT     0x3A
 
 /* USB error codes */
-#define MASS_ERR_SUCCESS		0x00
-#define MASS_ERR_PHASE_ERROR		0x02
-#define MASS_ERR_UNIT_NOT_READY		0x03
-#define MASS_ERR_UNIT_BUSY		0x04
-#define MASS_ERR_STALL			0x05
-#define MASS_ERR_CMD_NOT_SUPPORTED	0x06
-#define MASS_ERR_INVALID_CSW		0x07
-#define MASS_ERR_NO_MEDIA		0x08
+#define MASS_ERR_SUCCESS                0x00
+#define MASS_ERR_PHASE_ERROR            0x02
+#define MASS_ERR_UNIT_NOT_READY         0x03
+#define MASS_ERR_UNIT_BUSY              0x04
+#define MASS_ERR_STALL                  0x05
+#define MASS_ERR_CMD_NOT_SUPPORTED      0x06
+#define MASS_ERR_INVALID_CSW            0x07
+#define MASS_ERR_NO_MEDIA               0x08
 #define MASS_ERR_BAD_LBA                0x09
 #define MASS_ERR_MEDIA_CHANGED          0x0A
 #define MASS_ERR_DEVICE_DISCONNECTED    0x11
-#define MASS_ERR_UNABLE_TO_RECOVER	0x12	// Reset recovery error
-#define MASS_ERR_INVALID_LUN		0x13
-#define MASS_ERR_WRITE_STALL    	0x14
+#define MASS_ERR_UNABLE_TO_RECOVER      0x12    // Reset recovery error
+#define MASS_ERR_INVALID_LUN            0x13
+#define MASS_ERR_WRITE_STALL            0x14
 #define MASS_ERR_READ_NAKS              0x15
 #define MASS_ERR_WRITE_NAKS             0x16
 #define MASS_ERR_WRITE_PROTECTED        0x17
 #define MASS_ERR_NOT_IMPLEMENTED        0xFD
-#define MASS_ERR_GENERAL_SCSI_ERROR	0xFE
-#define MASS_ERR_GENERAL_USB_ERROR	0xFF
-#define MASS_ERR_USER			0xA0	// For subclasses to define their own error codes
+#define MASS_ERR_GENERAL_SCSI_ERROR     0xFE
+#define MASS_ERR_GENERAL_USB_ERROR      0xFF
+#define MASS_ERR_USER                   0xA0    // For subclasses to define their own error codes
 
-#define MASS_TRANS_FLG_CALLBACK         0x01	// Callback is involved
-#define MASS_TRANS_FLG_NO_STALL_CHECK   0x02	// STALL condition is not checked
-#define MASS_TRANS_FLG_NO_PHASE_CHECK   0x04	// PHASE_ERROR is not checked
+#define MASS_TRANS_FLG_CALLBACK         0x01    // Callback is involved
+#define MASS_TRANS_FLG_NO_STALL_CHECK   0x02    // STALL condition is not checked
+#define MASS_TRANS_FLG_NO_PHASE_CHECK   0x04    // PHASE_ERROR is not checked
 
-#define MASS_MAX_ENDPOINTS		3
+#define MASS_MAX_ENDPOINTS              3
 
 struct Capacity {
         uint8_t data[8];

@@ -285,7 +285,7 @@ More information about the controller can be found at the following sites:
 
 The shield is using SPI for communicating with the MAX3421E USB host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.
 
-Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else!
+Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else than SPI communication!
 
 Furthermore it uses one pin as SS and one INT pin. These are by default located on pin 10 and 9 respectively. They can easily be reconfigured in case you need to use them for something else by cutting the jumper on the shield and then solder a wire from the pad to the new pin.
 
@@ -309,3 +309,17 @@ See the "Interface modifications" section in the [hardware manual](https://www.c
 
 * Try to connect a external power supply to the Arduino - this solves the problem in most cases.
 * You can also use a powered hub between the device and the USB Host Shield. You should then include the USB hub library: ```#include <usbhub.h>``` and create the instance like so: ```USBHub Hub1(&Usb);```.
+
+> When I connecting my PS3 controller I get a output like this:
+
+```
+Dualshock 3 Controller Enabled
+
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+LeftHatX: 0 LeftHatY: 0 RightHatX: 0 RightHatY: 0
+```
+
+* This means that your dongle does not support 2.0+EDR, so you will need another dongle. Please see the following [list](https://github.com/felis/USB_Host_Shield_2.0/wiki/Bluetooth-dongles) for tested working dongles.
