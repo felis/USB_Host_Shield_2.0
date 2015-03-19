@@ -121,7 +121,7 @@ void setup() {
                         }
                         Usb.regWr(rUSBCTL, 0x00); //release from reset
                         uint16_t j = 0;
-                        for(j = 0; j < 65535; j++) { //tracking off to on time
+                        for(j = 1; j < 65535; j++) { //tracking off to on time
                                 if(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) {
                                         E_Notify(PSTR(" Time to stabilize - "), 0x80);
                                         Serial.print(j, DEC);
