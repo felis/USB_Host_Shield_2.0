@@ -92,7 +92,7 @@ By default serial debugging is disabled. To turn it on simply change ```ENABLE_U
 Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
-* Arduino Due, Intel Galileo and Intel Galileo 2
+* Arduino Due, Intel Galileo, Intel Galileo 2, and Intel Edison
     * If you are using the Arduino Due, Intel Galileo or Intel Galileo 2, then you must include the Arduino SPI library like so: ```#include <SPI.h>``` in your .ino file.
     * Note that both the Intel Galileo and Intel Galileo 2 use pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, and Teensy 3.x)

@@ -40,7 +40,7 @@ typedef MAX3421e<P20, P19> MAX3421E; // Balanduino
 #elif defined(__ARDUINO_X86__)
 typedef MAX3421e<P3, P2> MAX3421E; // The Intel Galileo and Intel Galileo 2 both support much faster read and write speed at pin 2 and 3
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.) or Teensy 2.0 and 3.0
+typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison or Teensy 2.0 and 3.0
 #endif
 
 /* Common setup data constant combinations  */
