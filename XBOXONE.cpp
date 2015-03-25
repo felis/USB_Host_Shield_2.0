@@ -257,17 +257,11 @@ void XBOXONE::readReport() {
         if(readBuf == NULL)
                 return;
         if(readBuf[0] == 0x07) {
-                // The XBOX button has a seperate message
-                if (readBuf[4] == 1) {
+                // The XBOX button has a separate message
+                if(readBuf[4] == 1)
                         ButtonState |= XBOX_BUTTONS[XBOX];
-                }
-                else {
+                else
                         ButtonState &= ~XBOX_BUTTONS[XBOX];
-                }
-                if(ButtonState != OldButtonState) {
-                        ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
-                        OldButtonState = ButtonState;
-                }
         }
         if(readBuf[0] != 0x20) { // Check if it's the correct report, otherwise return - the controller also sends different status reports
 #ifdef EXTRADEBUG
@@ -277,7 +271,7 @@ void XBOXONE::readReport() {
                 return;
         }
 
-        uint16_t xbox = ButtonState & XBOX_BUTTONS[XBOX]; // since the XBOX button is seperate, save it and add it back in
+        uint16_t xbox = ButtonState & XBOX_BUTTONS[XBOX]; // Since the XBOX button is separate, save it and add it back in
         // xbox button from before, dpad, abxy, start/back, sync, stick click, shoulder buttons
         ButtonState = xbox | (((uint16_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint16_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint16_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4);
 
@@ -296,15 +290,14 @@ void XBOXONE::readReport() {
                 ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
                 OldButtonState = ButtonState;
         }
-        // handle click detection for triggers
-        if (triggerValue[0] != triggerValueOld[0]) {
-            triggerValueOld[0] = triggerValue[0];
+
+        // Handle click detection for triggers
+        if(triggerValue[0] != 0 && triggerValueOld[0] == 0)
             L2Clicked = true;
-        }
-        if (triggerValue[1] != triggerValueOld[1]) {
-            triggerValueOld[1] = triggerValue[1];
+        triggerValueOld[0] = triggerValue[0];
+        if(triggerValue[1] != 0 && triggerValueOld[1] == 0)
             R2Clicked = true;
-        }
+        triggerValueOld[1] = triggerValue[1];
 }
 
 void XBOXONE::printReport() { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox ONE Controller

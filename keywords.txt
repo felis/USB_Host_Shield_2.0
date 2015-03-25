@@ -56,7 +56,6 @@ get9DOFValues	KEYWORD2
 getStatus	KEYWORD2
 printStatusString	KEYWORD2
 getTemperature	KEYWORD2
-getTrigger	KEYWORD2
 disconnect	KEYWORD2
 
 setAllOff	KEYWORD2

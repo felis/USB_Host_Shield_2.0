@@ -154,8 +154,8 @@ private:
         uint16_t OldButtonState;
         uint16_t ButtonClickState;
         int16_t hatValue[4];
-        int16_t triggerValue[2];
-        int16_t triggerValueOld[2];
+        uint16_t triggerValue[2];
+        uint16_t triggerValueOld[2];
 
         bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
         bool R2Clicked;
