@@ -38,9 +38,9 @@
 //#define _FS_TINY 1
 
 //#define _USE_LFN 3
-//#define EXT_RAM_STACK 1
-//#define EXT_RAM_HEAP 1
 //#define _MAX_SS 512
+
+
 /////////////////////////////////////////////////////////////
 // End of Arduino IDE specific information                 //
 /////////////////////////////////////////////////////////////
@@ -48,24 +48,36 @@
 // You can set this to 0 if you are not using a USB hub.
 // It will save a little bit of flash and RAM.
 // Set to 1 if you want to use a hub.
-#define WANT_HUB_TEST 0
+#define WANT_HUB_TEST 1
 
+// this is for XMEM2
+#define EXT_RAM_STACK 1
+#define EXT_RAM_HEAP 1
+#define LOAD_XMEM
+
+#if defined(CORE_TEENSY) && !defined(_AVR_)
+#include <xmem.h>
+#include <spi4teensy3.h>
+#endif
 
 #if defined(__AVR__)
 #include <xmem.h>
-#else
-#include <spi4teensy3.h>
+#include <SPI.h>
+#elif defined(ARDUINO_ARCH_SAM)
+#include <SPI.h>
 #endif
+
 #if WANT_HUB_TEST
 #include <usbhub.h>
 #endif
+#include <Wire.h>
+#define LOAD_RTCLIB
+#include <RTClib.h>
 #include <masstorage.h>
 #include <Storage.h>
 #include <PCpartition/PCPartition.h>
 #include <avr/interrupt.h>
 #include <FAT/FAT.h>
-#include <Wire.h>
-#include <RTClib.h>
 #include <stdio.h>
 #if defined(__AVR__)
 static FILE tty_stdio;
@@ -80,14 +92,14 @@ USB Usb;
 
 volatile uint8_t current_state = 1;
 volatile uint8_t last_state = 0;
-volatile bool fatready = false;
-volatile bool partsready = false;
-volatile bool notified = false;
-volatile bool runtest = false;
-volatile bool usbon = false;
+volatile boolean fatready = false;
+volatile boolean partsready = false;
+volatile boolean notified = false;
+volatile boolean runtest = false;
+volatile boolean usbon = false;
 volatile uint32_t usbon_time;
-volatile bool change = false;
-volatile bool reportlvl = false;
+volatile boolean change = false;
+volatile boolean reportlvl = false;
 int cpart = 0;
 PCPartition *PT;
 
@@ -112,14 +124,15 @@ static uint8_t My_Buff_x[mbxs]; /* File read buffer */
 #define prescale256     ((1 << WGM12) | (1 << CS12))
 #define prescale1024    ((1 << WGM12) | (1 << CS12) | (1 << CS10))
 
-extern "C" unsigned int freeHeap();
-
+extern "C" {
+         extern unsigned int freeHeap();
+}
 static int tty_stderr_putc(char c, FILE *t) {
         USB_HOST_SERIAL.write(c);
         return 0;
 }
 
-static int tty_stderr_flush(FILE *t) {
+static int __attribute__((unused)) tty_stderr_flush(FILE *t) {
         USB_HOST_SERIAL.flush();
         return 0;
 }
@@ -134,14 +147,16 @@ static int tty_std_getc(FILE *t) {
         return Serial.read();
 }
 
-static int tty_std_flush(FILE *t) {
+static int __attribute__((unused)) tty_std_flush(FILE *t) {
         Serial.flush();
         return 0;
 }
 
 #else
+// Supposedly the DUE has stdio already pointing to serial...
+#if !defined(ARDUINO_ARCH_SAM)
+// But newlib needs this...
 extern "C" {
-
         int _write(int fd, const char *ptr, int len) {
                 int j;
                 for(j = 0; j < len; j++) {
@@ -175,10 +190,11 @@ extern "C" {
                 return (fd < 3) ? 1 : 0;
         }
 }
+#endif // !defined(ARDUINO_ARCH_SAM)
 #endif
 
 void setup() {
-        bool serr = false;
+        boolean serr = false;
         for(int i = 0; i < _VOLUMES; i++) {
                 Fats[i] = NULL;
                 sto[i].private_data = new pvt_t;
@@ -186,7 +202,7 @@ void setup() {
         }
         // Set this to higher values to enable more debug information
         // minimum 0x00, maximum 0xff
-        UsbDEBUGlvl = 0x51;
+        UsbDEBUGlvl = 0x81;
 
 #if !defined(CORE_TEENSY) && defined(__AVR__)
         // make LED pin as an output:
@@ -454,14 +470,14 @@ void loop() {
                 }
                 // This is horrible, and needs to be moved elsewhere!
                 for(int B = 0; B < MAX_USB_MS_DRIVERS; B++) {
-                        if(!partsready && (UHS_USB_Storage[B]->GetAddress() != NULL)) {
+                        if((!partsready) && (UHS_USB_BulkOnly[B]->GetAddress())) {
 
                                 // Build a list.
-                                int ML = UHS_USB_Storage[B]->GetbMaxLUN();
+                                int ML = UHS_USB_BulkOnly[B]->GetbMaxLUN();
                                 //printf("MAXLUN = %i\r\n", ML);
                                 ML++;
                                 for(int i = 0; i < ML; i++) {
-                                        if(UHS_USB_Storage[B]->LUNIsGood(i)) {
+                                        if(UHS_USB_BulkOnly[B]->LUNIsGood(i)) {
                                                 partsready = true;
                                                 ((pvt_t *)(sto[i].private_data))->lun = i;
                                                 ((pvt_t *)(sto[i].private_data))->B = B;
@@ -470,8 +486,8 @@ void loop() {
                                                 sto[i].Status = *UHS_USB_BulkOnly_Status;
                                                 sto[i].Initialize = *UHS_USB_BulkOnly_Initialize;
                                                 sto[i].Commit = *UHS_USB_BulkOnly_Commit;
-                                                sto[i].TotalSectors = UHS_USB_Storage[B]->GetCapacity(i);
-                                                sto[i].SectorSize = UHS_USB_Storage[B]->GetSectorSize(i);
+                                                sto[i].TotalSectors = UHS_USB_BulkOnly[B]->GetCapacity(i);
+                                                sto[i].SectorSize = UHS_USB_BulkOnly[B]->GetSectorSize(i);
                                                 printf_P(PSTR("LUN:\t\t%u\r\n"), i);
                                                 printf_P(PSTR("Total Sectors:\t%08lx\t%lu\r\n"), sto[i].TotalSectors, sto[i].TotalSectors);
                                                 printf_P(PSTR("Sector Size:\t%04x\t\t%u\r\n"), sto[i].SectorSize, sto[i].SectorSize);
@@ -524,7 +540,7 @@ void loop() {
                         if(Fats[0] != NULL) {
                                 struct Pvt * p;
                                 p = ((struct Pvt *)(Fats[0]->storage->private_data));
-                                if(!UHS_USB_Storage[p->B]->LUNIsGood(p->lun)) {
+                                if(!UHS_USB_BulkOnly[p->B]->LUNIsGood(p->lun)) {
                                         // media change
 #if !defined(CORE_TEENSY) && defined(__AVR__)
                                         fadeAmount = 80;
@@ -718,4 +734,3 @@ failed:
                 }
         }
 }
-
