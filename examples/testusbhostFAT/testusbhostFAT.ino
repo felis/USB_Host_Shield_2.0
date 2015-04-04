@@ -92,14 +92,14 @@ USB Usb;
 
 volatile uint8_t current_state = 1;
 volatile uint8_t last_state = 0;
-volatile boolean fatready = false;
-volatile boolean partsready = false;
-volatile boolean notified = false;
-volatile boolean runtest = false;
-volatile boolean usbon = false;
+volatile bool fatready = false;
+volatile bool partsready = false;
+volatile bool notified = false;
+volatile bool runtest = false;
+volatile bool usbon = false;
 volatile uint32_t usbon_time;
-volatile boolean change = false;
-volatile boolean reportlvl = false;
+volatile bool change = false;
+volatile bool reportlvl = false;
 int cpart = 0;
 PCPartition *PT;
 
@@ -194,7 +194,7 @@ extern "C" {
 #endif
 
 void setup() {
-        boolean serr = false;
+        bool serr = false;
         for(int i = 0; i < _VOLUMES; i++) {
                 Fats[i] = NULL;
                 sto[i].private_data = new pvt_t;
