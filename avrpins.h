@@ -1026,10 +1026,8 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 #define pinToFastPin(pin) 1 // As far as I can tell all pins can be used as fast pins
 #endif
 
-// Pin 2 and 3 on the Intel Galileo 1 & 2 support a higher rate,
+// Pin 2 and 3 on the Intel Galileo supports a higher rate,
 // so it is recommended to use one of these as the SS pin.
-// I know Intel Galileo 2 support higher rate at some other pins as well,
-// but 2 and 3 are only available on the original Intel Galileo.
 
 #define MAKE_PIN(className, pin) \
 class className { \
