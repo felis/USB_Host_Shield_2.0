@@ -12,7 +12,7 @@ Some information can also be found at: <http://blog.tkjelectronics.dk/>.
 
 The shield can be purchased at the main site: <http://www.circuitsathome.com/products-page/arduino-shields> or from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
 
-![USB Host Shield](http://www.circuitsathome.com/wp/wp-content/uploads/2012/02/UHS_20_main-288x216.jpg)
+![USB Host Shield](http://shop.tkjelectronics.dk/images/USB_Host_Shield1.jpg)
 
 For more information about the hardware see the [Hardware Manual](http://www.circuitsathome.com/usb-host-shield-hardware-manual).
 
