@@ -1,13 +1,15 @@
 var searchData=
 [
+  ['f',['F',['../version__helper_8h.html#a0e3009529aac180ed5f48296d6670d6b',1,'version_helper.h']]],
   ['fastblink',['FASTBLINK',['../xbox_enums_8h.html#abb8a1831f62ea139a2255c67bb24330fae88cfa0f6acd518889cef621446d9d2a',1,'xboxEnums.h']]],
-  ['finger',['finger',['../structtouchpad_x_y.html#a7bd35afa140be3103c8d4819914a3b4c',1,'touchpadXY']]],
+  ['finger',['finger',['../structtouchpad_x_y.html#a9f0f865221d85610df91cf8c3a2f7d41',1,'touchpadXY']]],
   ['flashoff',['flashOff',['../struct_p_s4_output.html#a3f4dcb81acca1475402b93ac851b7be8',1,'PS4Output']]],
   ['flashon',['flashOn',['../struct_p_s4_output.html#a4abdb9a24e512f7f2bad16df28b2fcab',1,'PS4Output']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],
   ['flow_5ftx_5fauto',['FLOW_TX_AUTO',['../cdcprolific_8h.html#ac43d59739a4945979e600bb15df8347c',1,'cdcprolific.h']]],
-  ['flush',['flush',['../class_s_p_p.html#a81c4ed9671652c96df96444a61f64194',1,'SPP']]],
+  ['flush',['flush',['../class_s_p_p.html#a235d75f40a32a5905fd8fedcc37aa350',1,'SPP']]],
   ['foreachusbdevice',['ForEachUsbDevice',['../class_address_pool_impl.html#a09e6dc797f82543eba0879369116182e',1,'AddressPoolImpl::ForEachUsbDevice()'],['../class_u_s_b.html#a8346db8f2219f65257d735834940bc42',1,'USB::ForEachUsbDevice()']]],
+  ['fprintf_5fp',['fprintf_P',['../version__helper_8h.html#affc751c94fd67fe22fb951c83cdb328e',1,'version_helper.h']]],
   ['freeaddress',['FreeAddress',['../class_address_pool.html#a15fde13223dcb1da89305ad229763562',1,'AddressPool::FreeAddress()'],['../class_address_pool_impl.html#a3d59841faa336c359b0736ca45988ce5',1,'AddressPoolImpl::FreeAddress()']]],
   ['fshost',['FSHOST',['../max3421e_8h.html#a8ec45bdb8c5273e99c3ab89349cb43f9',1,'max3421e.h']]],
   ['ft2232',['FT2232',['../cdcftdi_8h.html#a139af590edc937741d109cc0d8150bcb',1,'cdcftdi.h']]],

@@ -52,5 +52,6 @@ var searchData=
   ['sinkparser',['SinkParser',['../class_sink_parser.html#a68caa440ba95a184eb104535f3fffd17',1,'SinkParser']]],
   ['skip',['Skip',['../class_byte_skipper.html#a1ff6b49682f75c6edab2966540f2ede0',1,'ByteSkipper']]],
   ['snddata',['SndData',['../class_a_d_k.html#ac37bde02b6ed1436712d3619afb07c84',1,'ADK::SndData()'],['../class_a_c_m.html#ac96caeb8d657fa76219872ceb4379923',1,'ACM::SndData()'],['../class_f_t_d_i.html#a90309b11a160bad9ceb0b77545b7a240',1,'FTDI::SndData()']]],
+  ['sndrpt',['SndRpt',['../class_h_i_d_universal.html#ac88d9588f4adb6060627c3afca477fe3',1,'HIDUniversal']]],
   ['spp',['SPP',['../class_s_p_p.html#a6842e2b7f66024eecc151e3bdbfc7e94',1,'SPP']]]
 ];

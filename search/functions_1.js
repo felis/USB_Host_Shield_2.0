@@ -2,6 +2,7 @@ var searchData=
 [
   ['begin',['begin',['../class_max___l_c_d.html#ac8ea275f8e9e27fb98ed21100f10fab7',1,'Max_LCD']]],
   ['blink',['blink',['../class_max___l_c_d.html#aa25fa75294a10b24b7359d6886b8f0ab',1,'Max_LCD']]],
+  ['bluetoothservice',['BluetoothService',['../class_bluetooth_service.html#a410c7df1e49328de23a89921c89f9573',1,'BluetoothService']]],
   ['btd',['BTD',['../class_b_t_d.html#a5f07597fe15a2b917cce405fe87f2981',1,'BTD']]],
   ['bthid',['BTHID',['../class_b_t_h_i_d.html#a5ee874513852b83d6a04b991ab892f54',1,'BTHID']]],
   ['bulkonly',['BulkOnly',['../class_bulk_only.html#a530fb250b0a0c92b48bc57e2957ace25',1,'BulkOnly']]],

@@ -1,11 +1,11 @@
 <map id="PS4BT" name="PS4BT">
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="143,253,204,279"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="91,167,213,192"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="231,328,292,353"/>
+<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="200,253,322,279"/>
 <area shape="rect" id="node4" href="$class_b_t_d.html" title="BTD" alt="" coords="237,167,285,192"/>
 <area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,80,133,105"/>
 <area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,80,288,105"/>
 <area shape="rect" id="node7" href="$class_u_s_b.html" title="USB" alt="" coords="312,80,360,105"/>
 <area shape="rect" id="node8" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="292,5,380,31"/>
 <area shape="rect" id="node9" href="$struct_ep_info.html" title="EpInfo" alt="" coords="385,80,445,105"/>
-<area shape="rect" id="node10" href="$class_p_s4_parser.html" title="PS4Parser" alt="" coords="228,253,314,279"/>
+<area shape="rect" id="node10" href="$class_p_s4_parser.html" title="PS4Parser" alt="" coords="316,328,402,353"/>
 </map>

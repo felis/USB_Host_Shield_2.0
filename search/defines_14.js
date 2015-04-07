@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['uhs_5facl_5fhandle_5fok',['UHS_ACL_HANDLE_OK',['../_b_t_d_8h.html#a3aa6623f7fa8839754d3deefa6d60372',1,'BTD.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fcaps_5flock',['UHS_HID_BOOT_KEY_CAPS_LOCK',['../hidboot_8h.html#a85200689879c7520e38541fa8ba29ade',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fenter',['UHS_HID_BOOT_KEY_ENTER',['../hidboot_8h.html#a42f71f6d2b7e4f543826af0234834237',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fnum_5flock',['UHS_HID_BOOT_KEY_NUM_LOCK',['../hidboot_8h.html#abed3f994055e37e80bede60fda7ea056',1,'hidboot.h']]],

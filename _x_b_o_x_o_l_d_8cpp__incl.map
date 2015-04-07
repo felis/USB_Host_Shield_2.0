@@ -1,5 +1,7 @@
 <map id="XBOXOLD.cpp" name="XBOXOLD.cpp">
-<area shape="rect" id="node2" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="42,79,139,104"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="5,152,61,177"/>
-<area shape="rect" id="node4" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="85,152,214,177"/>
+<area shape="rect" id="node2" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="12,79,109,104"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="21,299,77,324"/>
+<area shape="rect" id="node4" href="$hid_8h.html" title="hid.h" alt="" coords="36,152,86,177"/>
+<area shape="rect" id="node6" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="110,152,239,177"/>
+<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="87,225,187,251"/>
 </map>

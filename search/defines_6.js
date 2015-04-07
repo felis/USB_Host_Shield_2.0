@@ -1,7 +1,9 @@
 var searchData=
 [
+  ['f',['F',['../version__helper_8h.html#a0e3009529aac180ed5f48296d6670d6b',1,'version_helper.h']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],
   ['flow_5ftx_5fauto',['FLOW_TX_AUTO',['../cdcprolific_8h.html#ac43d59739a4945979e600bb15df8347c',1,'cdcprolific.h']]],
+  ['fprintf_5fp',['fprintf_P',['../version__helper_8h.html#affc751c94fd67fe22fb951c83cdb328e',1,'version_helper.h']]],
   ['fshost',['FSHOST',['../max3421e_8h.html#a8ec45bdb8c5273e99c3ab89349cb43f9',1,'max3421e.h']]],
   ['ft2232',['FT2232',['../cdcftdi_8h.html#a139af590edc937741d109cc0d8150bcb',1,'cdcftdi.h']]],
   ['ft232am',['FT232AM',['../cdcftdi_8h.html#a15e9dfb0c839422b73f378a35a22cd75',1,'cdcftdi.h']]],

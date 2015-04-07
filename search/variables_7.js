@@ -1,8 +1,25 @@
 var searchData=
 [
-  ['hatvalue',['hatValue',['../struct_p_s4_data.html#aa004cc456c79269dec99a9eed667484d',1,'PS4Data']]],
-  ['hci_5fhandle',['hci_handle',['../class_b_t_d.html#aa3bb6c692701cb33dfad1ea4d68b6f98',1,'BTD::hci_handle()'],['../class_b_t_h_i_d.html#a8e4888359cda09bc7123d971bb9d8dcf',1,'BTHID::hci_handle()']]],
-  ['hci_5fversion',['hci_version',['../class_b_t_d.html#addaddee110af23a3195ad56f631e69ea',1,'BTD']]],
-  ['hidinterfaces',['hidInterfaces',['../class_h_i_d_universal.html#a542ee234ff63c01eb3dff607fb3b0def',1,'HIDUniversal']]],
-  ['hisup',['HISUP',['../struct_inquiry_response.html#a64b542b21ee54739136235785563e036',1,'InquiryResponse']]]
+  ['g',['g',['../struct_p_s4_output.html#afc78d4e2c0aafbf4b0a27db3746ad93c',1,'PS4Output']]],
+  ['gametitles0',['gameTitles0',['../class_report_desc_parser_base.html#a981cacbfad335b19528e59ab2de866e5',1,'ReportDescParserBase']]],
+  ['gametitles1',['gameTitles1',['../class_report_desc_parser_base.html#ac9327d02115b1dd60c79c37d1d11cf41',1,'ReportDescParserBase']]],
+  ['gendesktoptitles0',['genDesktopTitles0',['../class_report_desc_parser_base.html#a3021443d9320135788844c166240149f',1,'ReportDescParserBase']]],
+  ['gendesktoptitles1',['genDesktopTitles1',['../class_report_desc_parser_base.html#a0cca04764c613389545ab02cce068367',1,'ReportDescParserBase']]],
+  ['gendesktoptitles2',['genDesktopTitles2',['../class_report_desc_parser_base.html#a043e24aa742e9257202a2dc80725122c',1,'ReportDescParserBase']]],
+  ['gendesktoptitles3',['genDesktopTitles3',['../class_report_desc_parser_base.html#acef88e30e3582b47deecf615495a3e8d',1,'ReportDescParserBase']]],
+  ['gendesktoptitles4',['genDesktopTitles4',['../class_report_desc_parser_base.html#ae2b1ca00d24f5c3867c90ea49ffa6e0d',1,'ReportDescParserBase']]],
+  ['gendevctrltitles',['genDevCtrlTitles',['../class_report_desc_parser_base.html#a55e8f870eb0006bc3a9ca42e6cabf187',1,'ReportDescParserBase']]],
+  ['green',['green',['../union_p_s_b_u_z_z_buttons.html#a904a64983806580f74480bf06597adca',1,'PSBUZZButtons']]],
+  ['gyropitch',['gyroPitch',['../class_w_i_i.html#af61f57d34b81f2a878f0126a074e3af4',1,'WII']]],
+  ['gyropitchraw',['gyroPitchRaw',['../class_w_i_i.html#a749ea9dd39ba9a5320c5b24ce93bc544',1,'WII']]],
+  ['gyropitchzero',['gyroPitchZero',['../class_w_i_i.html#abbc31ecd4495d70258cfa095e34cb3c3',1,'WII']]],
+  ['gyroroll',['gyroRoll',['../class_w_i_i.html#a2a0e4745bff7cfec644bcebe984c2bc8',1,'WII']]],
+  ['gyrorollraw',['gyroRollRaw',['../class_w_i_i.html#a0784c779ebeae2d459996c35a54ee3b8',1,'WII']]],
+  ['gyrorollzero',['gyroRollZero',['../class_w_i_i.html#a10d91cd5d73bc655be776b44d27004c9',1,'WII']]],
+  ['gyrox',['gyroX',['../struct_p_s4_data.html#a0535a4a38dc250250fbf253e6bea53dc',1,'PS4Data']]],
+  ['gyroy',['gyroY',['../struct_p_s4_data.html#a2c7c9d0313863ab69e7cafdd79b7492c',1,'PS4Data']]],
+  ['gyroyaw',['gyroYaw',['../class_w_i_i.html#a988db5b35cfc3c543f93f49587a50e62',1,'WII']]],
+  ['gyroyawraw',['gyroYawRaw',['../class_w_i_i.html#ab813b65548e827f41a5192fcc34056ea',1,'WII']]],
+  ['gyroyawzero',['gyroYawZero',['../class_w_i_i.html#ad4f0d2456c56414f9b8013b85a1ee7d2',1,'WII']]],
+  ['gyroz',['gyroZ',['../struct_p_s4_data.html#ace15cafba1570d56951e7db7947ba94c',1,'PS4Data']]]
 ];

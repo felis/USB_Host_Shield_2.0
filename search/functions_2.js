@@ -2,6 +2,7 @@ var searchData=
 [
   ['cdb10',['CDB10',['../struct_c_d_b10.html#abd4957a41f650b096987db5963efb674',1,'CDB10::CDB10(uint8_t _Opcode, uint8_t _LUN)'],['../struct_c_d_b10.html#ae6b8b5161b2e7971603589c35a27c586',1,'CDB10::CDB10(uint8_t _Opcode, uint8_t _LUN, uint16_t xflen, uint32_t _LBA)']]],
   ['cdb6',['CDB6',['../struct_c_d_b6.html#ac68515ca26c4eabe62e63b5d722c3962',1,'CDB6::CDB6(uint8_t _Opcode, uint8_t _LUN, uint32_t LBA, uint8_t _AllocationLength, uint8_t _Control)'],['../struct_c_d_b6.html#af878d394767d1278deacb11410b772f4',1,'CDB6::CDB6(uint8_t _Opcode, uint8_t _LUN, uint8_t _AllocationLength, uint8_t _Control)']]],
+  ['checkhcihandle',['checkHciHandle',['../class_bluetooth_service.html#a2a3674a4bb5d409840995eabe07049bd',1,'BluetoothService']]],
   ['clear',['clear',['../class_max___l_c_d.html#a6c70568796774cf2ce912de989f2dbf0',1,'Max_LCD']]],
   ['clearcommfeature',['ClearCommFeature',['../class_a_c_m.html#a74a3484a0f524ddf0e228c17addcebdf',1,'ACM']]],
   ['clearhubfeature',['ClearHubFeature',['../class_u_s_b_hub.html#afc935651055e4ac1e51575218a51de43',1,'USBHub']]],
@@ -14,8 +15,8 @@ var searchData=
   ['configuring',['Configuring',['../class_u_s_b.html#af4008dfc1c2d15c23cf8a7815cc17765',1,'USB']]],
   ['connected',['connected',['../class_p_s4_b_t.html#a08a857b8533e59f6eb872e4c8f727405',1,'PS4BT::connected()'],['../class_p_s4_u_s_b.html#a3dd2b4e19516fb76d9442937102ea97f',1,'PS4USB::connected()'],['../class_p_s_buzz.html#a7c791bf7745baae8359d3dcb1d5b86d3',1,'PSBuzz::connected()']]],
   ['createchar',['createChar',['../class_max___l_c_d.html#a9941a61f5fca781a38f250489245d5e7',1,'Max_LCD']]],
-  ['ctrldata',['ctrlData',['../class_u_s_b.html#a994f9488ac6f91040c42d9b816d202c6',1,'USB']]],
+  ['ctrldata',['ctrlData',['../class_u_s_b.html#a102dab8571035757dd63ed3751993836',1,'USB']]],
   ['ctrlreq',['ctrlReq',['../class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c',1,'USB']]],
-  ['ctrlstatus',['ctrlStatus',['../class_u_s_b.html#ab18915ffbd8a70ac5bd6abc3e0f3c66a',1,'USB']]],
+  ['ctrlstatus',['ctrlStatus',['../class_u_s_b.html#aec793bc1f702174d80bca8c66b8c65e8',1,'USB']]],
   ['cursor',['cursor',['../class_max___l_c_d.html#a5e8b86cd4c8638149d97574c03ded405',1,'Max_LCD']]]
 ];

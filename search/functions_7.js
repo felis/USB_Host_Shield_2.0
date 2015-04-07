@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a486df60a3d29f73e9052d3efb0c38de6',1,'KeyboardReportParser']]],
+  ['half_5fduplex',['half_duplex',['../class_x_r21_b1411.html#afd21365310ef007803886d6367b788d9',1,'XR21B1411::half_duplex()'],['../class_a_c_m.html#aeb60ec7876488be8b15a1ed642ac247c',1,'ACM::half_duplex()']]],
+  ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a392fae2fda91a7d820869e97b3ead444',1,'KeyboardReportParser']]],
   ['hci_5faccept_5fconnection',['hci_accept_connection',['../class_b_t_d.html#a1cb07a155c69bb1fcf45ae030b8947ec',1,'BTD']]],
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],

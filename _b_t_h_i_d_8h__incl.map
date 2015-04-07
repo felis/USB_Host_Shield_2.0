@@ -1,7 +1,7 @@
 <map id="BTHID.h" name="BTHID.h">
-<area shape="rect" id="node2" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="5,152,64,177"/>
-<area shape="rect" id="node4" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="74,79,150,104"/>
+<area shape="rect" id="node2" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="5,79,64,104"/>
+<area shape="rect" id="node6" href="$hidboot_8h.html" title="hidboot.h" alt="" coords="89,79,165,104"/>
 <area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="57,299,114,324"/>
-<area shape="rect" id="node5" href="$hid_8h.html" title="hid.h" alt="" coords="88,152,139,177"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="123,225,224,251"/>
+<area shape="rect" id="node4" href="$hid_8h.html" title="hid.h" alt="" coords="87,152,137,177"/>
+<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="123,225,224,251"/>
 </map>

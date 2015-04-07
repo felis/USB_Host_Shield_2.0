@@ -53,6 +53,8 @@ var searchData=
   ['trigger',['trigger',['../struct_p_s4_data.html#aad2133de0113cee402cda4a8c7e8b6a5',1,'PS4Data']]],
   ['trmtsk',['TrmTsk',['../struct_inquiry_response.html#add4ccc2e5f626d29a24e5f38149a2e76',1,'InquiryResponse']]],
   ['ttthinktime',['TTThinkTime',['../struct_hub_descriptor.html#a00002f5db3d923aa11645bfde3cd650e',1,'HubDescriptor']]],
+  ['tty',['tty',['../structtty__features.html#a98aadb5a86b48f1a32f2378bb9e50e28',1,'tty_features']]],
+  ['tty_5ffeatures',['tty_features',['../structtty__features.html',1,'']]],
   ['turn_5fon_5fled',['TURN_ON_LED',['../_b_t_d_8h.html#a6b3038e881952934873fd533de842670',1,'BTD.h']]],
   ['two',['TWO',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda0e793500a63ffa575b9b712ca3bc9851',1,'controllerEnums.h']]],
   ['txo_5fstate',['tXO_State',['../cdcprolific_8h.html#add931a54ea58b7022eab1911dfd744fb',1,'cdcprolific.h']]],
