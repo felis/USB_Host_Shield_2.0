@@ -192,6 +192,7 @@ RumbleLow	LITERAL1
 ####################################################
 
 XBOXUSB	KEYWORD1
+XBOXONE	KEYWORD1
 XBOXOLD	KEYWORD1
 XBOXRECV	KEYWORD1
 
@@ -207,6 +208,7 @@ buttonChanged	KEYWORD2
 
 XboxReceiverConnected	KEYWORD2
 Xbox360Connected	KEYWORD2
+XboxOneConnected	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
