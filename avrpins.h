@@ -763,9 +763,7 @@ public:
 
 #endif // Arduino pin definitions
 
-#endif // __AVR__
-
-#if defined(__arm__)
+#elif defined(__arm__)
 
 // pointers are 32 bits on ARM
 #define pgm_read_pointer(p) pgm_read_dword(p)
@@ -1017,9 +1015,70 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #endif
 
-#endif // __arm__
+#elif defined(__ARDUINO_X86__) // Intel Galileo, Intel Galileo 2 and Intel Edison
 
-#if defined(__MIPSEL__)
+#include <avr/pgmspace.h>
+
+// Pointers are 32 bits on x86
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#if PLATFORM_ID == 0xE1 // Edison platform id
+#define pinToFastPin(pin) 1 // As far as I can tell all pins can be used as fast pins
+#endif
+
+// Pin 2 and 3 on the Intel Galileo supports a higher rate,
+// so it is recommended to use one of these as the SS pin.
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    fastDigitalWrite(pin, HIGH); \
+  } \
+  static void Clear() { \
+    fastDigitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    if (pinToFastPin(pin)) \
+      pinMode(pin, INPUT_FAST); \
+    else \
+      pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    if (pinToFastPin(pin)) \
+      pinMode(pin, OUTPUT_FAST); \
+    else \
+      pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return fastDigitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4
+MAKE_PIN(P19, 19); // A5
+
+#undef MAKE_PIN
+
+#elif defined(__MIPSEL__)
 // MIPSEL (MIPS architecture using a little endian byte order)
 
 // MIPS size_t = 4
@@ -1062,6 +1121,10 @@ MAKE_PIN(P12, 12); //
 MAKE_PIN(P13, 13); //
 
 #undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
 #endif
 
 #endif //_avrpins_h_

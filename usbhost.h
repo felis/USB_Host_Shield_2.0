@@ -27,7 +27,6 @@ e-mail   :  support@circuitsathome.com
 #include <sys/types.h>
 #endif
 
-
 /* SPI initialization */
 template< typename SPI_CLK, typename SPI_MOSI, typename SPI_MISO, typename SPI_SS > class SPi {
 public:
@@ -51,6 +50,12 @@ public:
                 SPI.begin();
 #if defined(__MIPSEL__)
                 SPI.setClockDivider(1);
+#elif defined(__ARDUINO_X86__)
+                #ifdef SPI_CLOCK_1M // Hack used to check if setClockSpeed is available
+                    SPI.setClockSpeed(12000000); // The MAX3421E can handle up to 26MHz, but in practice this was the maximum that I could reliably use
+                #else
+                    SPI.setClockDivider(SPI_CLOCK_DIV2); // This will set the SPI frequency to 8MHz - it could be higher, but it is not supported in the old API
+                #endif
 #else
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
@@ -86,14 +91,12 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
-#elif defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+#elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))) || defined(__ARDUINO_X86__) || defined(__MIPSEL__)
 typedef SPi< P13, P11, P12, P10 > spi;
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 typedef SPi< P76, P75, P74, P10 > spi;
 #elif defined(RBL_NRF51822)
 typedef SPi< P16, P18, P17, P10 > spi;
-#elif defined(__MIPSEL__)
-typedef SPi< P13, P11, P12, P10 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
@@ -200,6 +203,10 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
         data_p += nbytes;
+#elif defined(__ARDUINO_X86__)
+        SPI.transfer(reg | 0x02);
+        SPI.transferBuffer(data_p, NULL, nbytes);
+        data_p += nbytes;
 #elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
         while(nbytes) {
@@ -288,6 +295,10 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #elif USING_SPI4TEENSY3
         spi4teensy3::send(reg);
         spi4teensy3::receive(data_p, nbytes);
+        data_p += nbytes;
+#elif defined(__ARDUINO_X86__)
+        SPI.transfer(reg);
+        SPI.transferBuffer(NULL, data_p, nbytes);
         data_p += nbytes;
 #elif !defined(SPDR)
         SPI.transfer(reg);
