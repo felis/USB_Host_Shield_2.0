@@ -234,7 +234,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
                 rcode = dispatchPkt(tokIN, pep->epAddr, nak_limit); //IN packet to EP-'endpoint'. Function takes care of NAKS.
                 if(rcode == hrTOGERR) {
                         // yes, we flip it wrong here so that next time it is actually correct!
-                        pep->bmRcvToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 0 : 1;
+                        pep->bmRcvToggle = (regRd(rHRSL) & bmRCVTOGRD) ? 0 : 1;
                         regWr(rHCTL, (pep->bmRcvToggle) ? bmRCVTOG1 : bmRCVTOG0); //set toggle value
                         continue;
                 }
