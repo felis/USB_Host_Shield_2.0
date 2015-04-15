@@ -156,7 +156,9 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
         void PrintHidDescriptor(const USB_HID_DESCRIPTOR *pDesc);
 
-        virtual HIDReportParser* GetReportParser(uint8_t id) {};
+        virtual HIDReportParser* GetReportParser(uint8_t id) {
+                return NULL;
+        };
 
 public:
 
@@ -167,7 +169,9 @@ public:
                 return pUsb;
         };
 
-        virtual bool SetReportParser(uint8_t id, HIDReportParser *prs) {};
+        virtual bool SetReportParser(uint8_t id, HIDReportParser *prs) {
+                return false;
+        };
 
         uint8_t SetProtocol(uint8_t iface, uint8_t protocol);
         uint8_t GetProtocol(uint8_t iface, uint8_t* dataptr);

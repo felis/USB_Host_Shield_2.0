@@ -204,7 +204,7 @@ public:
         uint8_t Poll();
 
         bool available(void) {
-
+                return false;
         };
 
         virtual uint8_t GetAddress() {
