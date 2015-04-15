@@ -108,6 +108,7 @@ void WII::Reset() {
         motionPlusInside = false;
         pBtd->wiiUProController = false;
         wiiUProControllerConnected = false;
+        wiiBalanceBoardConnected = false;
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
 }
@@ -380,6 +381,12 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nWii U Pro Controller connected"), 0x80);
 #endif
                                                                 wiiUProControllerConnected = true;
+                                                        } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x02) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWii Balance Board connected"), 0x80);
+#endif
+                                                                setReportMode(false, 0x32); // Read the Wii Balance Board extension
+                                                                wiiBalanceBoardConnected = true;
                                                         }
 #ifdef DEBUG_USB_HOST
                                                         else {
@@ -414,8 +421,32 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
                                                 break;
-                                        case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
-                                                break;
+                                        case 0x32: { // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+#if 1
+                                                uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                                Notify(PSTR("\r\nLength: "), 0x80);
+                                                D_PrintHex<uint16_t > (length - 2, 0x80);
+                                                Notify(PSTR("\tData: "), 0x80);
+                                                for(uint8_t i = 0; i < length - 2; i++) {
+                                                        D_PrintHex<uint8_t > (l2capinbuf[10 + i], 0x80);
+                                                        Notify(PSTR(" "), 0x80);
+                                                }
+
+                                                uint16_t topRight = (l2capinbuf[13] | l2capinbuf[12] << 8);
+                                                uint16_t botRight = (l2capinbuf[15] | l2capinbuf[14] << 8);
+                                                uint16_t topLeft = (l2capinbuf[17] | l2capinbuf[16] << 8);
+                                                uint16_t botleft = (l2capinbuf[19] | l2capinbuf[18] << 8);
+
+                                                Notify(PSTR("\ttopRight: "), 0x80);
+                                                Notify(topRight, 0x80);
+                                                Notify(PSTR("\tbotRight: "), 0x80);
+                                                Notify(botRight, 0x80);
+                                                Notify(PSTR("\ttopLeft: "), 0x80);
+                                                Notify(topLeft, 0x80);
+                                                Notify(PSTR("\tbotleft: "), 0x80);
+                                                Notify(botleft, 0x80);
+#endif
+                                                } break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
 #ifdef WIICAMERA
                                                 // Read the IR data

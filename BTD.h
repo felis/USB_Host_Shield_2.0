@@ -535,6 +535,8 @@ private:
         uint8_t pollInterval;
         bool bPollEnable;
 
+        bool pairWiiUsingSync; // True if paring was done using the SYNC button.
+        bool checkRemoteName; // Used to check remote device's name before connecting.
         bool incomingPS4; // True if a PS4 controller is connecting
         uint8_t classOfDevice[3]; // Class of device of last device
 

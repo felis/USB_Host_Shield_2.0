@@ -191,6 +191,8 @@ public:
         bool motionPlusConnected;
         /** Variable used to indicate if a Wii U Pro controller is connected. */
         bool wiiUProControllerConnected;
+        /** Variable used to indicate if a Wii Balance Board is connected. */
+        bool wiiBalanceBoardConnected;
         /**@}*/
 
         /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
