@@ -701,7 +701,7 @@ void BTD::HCI_task() {
                         if(pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a Wiimote
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
-                                        Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press the SYNC button if you are using a Wii U Pro Controller or Wii Balance Board"), 0x80);
+                                        Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press the SYNC button if you are using a Wii U Pro Controller or a Wii Balance Board"), 0x80);
                                 else
                                         Notify(PSTR("\r\nPlease enable discovery of your device"), 0x80);
 #endif
