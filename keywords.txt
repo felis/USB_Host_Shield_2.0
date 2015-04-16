@@ -282,6 +282,9 @@ PAIR	KEYWORD2
 statusRequest	KEYWORD2
 getBatteryLevel	KEYWORD2
 getWiiState	KEYWORD2
+getWeight	KEYWORD2
+getTotalWeight	KEYWORD2
+getWeightRaw	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
@@ -300,6 +303,10 @@ ZL	LITERAL1
 ZR	LITERAL1
 HatX	LITERAL1
 HatY	LITERAL1
+TopRight	LITERAL1
+BotRight	LITERAL1
+TopLeft	LITERAL1
+BotLeft	LITERAL1
 
 ####################################################
 # Methods and Functions for the IR Camera

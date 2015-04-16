@@ -344,6 +344,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x21: // Read Memory Data
                                                 if((l2capinbuf[12] & 0x0F) == 0) { // No error
+                                                        uint8_t reportLength = (l2capinbuf[12] >> 4) + 1; // // Bit 4-7 is the length - 1
                                                         // See: http://wiibrew.org/wiki/Wiimote/Extension_Controllers
                                                         if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) {
 #ifdef DEBUG_USB_HOST
@@ -391,7 +392,22 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nWii Balance Board connected"), 0x80);
 #endif
                                                                 setReportMode(false, 0x32); // Read the Wii Balance Board extension
+                                                                wiiBalanceBoardCalibrationComplete = false;
                                                                 wiiBalanceBoardConnected = true;
+                                                        }
+                                                        // Wii Balance Board calibration reports (24 bits in total)
+                                                        else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x24 && reportLength == 16) { // First 16-bit
+                                                                for(uint8_t i = 0; i < 2; i++) {
+                                                                        for(uint8_t j = 0; j < 4; j++)
+                                                                                balanceBoardCal[i][j] = l2capinbuf[16 + 8 * i + 2 * j] | l2capinbuf[15 + 8 * i + 2 * j] << 8;
+                                                                }
+                                                        } else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x34 && reportLength == 8) { // Last 8-bit
+                                                                for(uint8_t j = 0; j < 4; j++)
+                                                                        balanceBoardCal[2][j] = l2capinbuf[16 + 2 * j] | l2capinbuf[15 + 2 * j] << 8;
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWii Balance Board calibrated successfully"), 0x80);
+#endif
+                                                                wiiBalanceBoardCalibrationComplete = true;
                                                         }
 #ifdef DEBUG_USB_HOST
                                                         else {
@@ -399,7 +415,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                                                 D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                                                 Notify(PSTR("\r\nData: "), 0x80);
-                                                                for(uint8_t i = 0; i < ((l2capinbuf[12] >> 4) + 1); i++) { // bit 4-7 is the length-1
+                                                                for(uint8_t i = 0; i < reportLength; i++) {
                                                                         D_PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
                                                                         Notify(PSTR(" "), 0x80);
                                                                 }
@@ -428,10 +444,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
                                                 // See: http://wiibrew.org/wiki/Wii_Balance_Board#Data_Format
-                                                topRight = l2capinbuf[13] | l2capinbuf[12] << 8;
-                                                botRight = l2capinbuf[15] | l2capinbuf[14] << 8;
-                                                topLeft = l2capinbuf[17] | l2capinbuf[16] << 8;
-                                                botleft = l2capinbuf[19] | l2capinbuf[18] << 8;
+                                                balanceBoardRaw[TopRight] = l2capinbuf[13] | l2capinbuf[12] << 8; // Top right
+                                                balanceBoardRaw[BotRight] = l2capinbuf[15] | l2capinbuf[14] << 8; // Bottom right
+                                                balanceBoardRaw[TopLeft] = l2capinbuf[17] | l2capinbuf[16] << 8; // Top left
+                                                balanceBoardRaw[BotLeft] = l2capinbuf[19] | l2capinbuf[18] << 8; // Bottom left
                                                 break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
 #ifdef WIICAMERA
@@ -768,13 +784,21 @@ void WII::Run() {
                                 if(unknownExtensionConnected) // Check if there is a extension is connected to the port
                                         initExtension1();
                                 else
-                                        stateCounter = 399;
+                                        stateCounter = 499;
                         } else if(stateCounter == 200)
                                 initExtension2();
                         else if(stateCounter == 300) {
                                 readExtensionType();
                                 unknownExtensionConnected = false;
                         } else if(stateCounter == 400) {
+                                if(wiiBalanceBoardConnected) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nCalibrating Wii Balance Board"), 0x80);
+#endif
+                                        calibrateWiiBalanceBoard();
+                                } else
+                                        stateCounter = 499;
+                        } else if(stateCounter == 500) {
                                 stateCounter = 0;
                                 l2cap_state = TURN_ON_LED;
                         }
@@ -1045,6 +1069,10 @@ void WII::readCalData() {
 
 void WII::checkMotionPresent() {
         readData(0xA600FA, 6, false);
+}
+
+void WII::calibrateWiiBalanceBoard() {
+        readData(0xA40024, 24, false);
 }
 
 /************************************************************/

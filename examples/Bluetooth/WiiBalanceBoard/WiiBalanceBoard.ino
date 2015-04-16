@@ -34,20 +34,18 @@ void setup() {
 }
 void loop() {
   Usb.Task();
-  if (Wii.wiiBalanceBoardConnected) {
-    Serial.print(F("\r\ntopRight: "));
-    Serial.print(Wii.topRight);
-    Serial.print(F("\tbotRight: "));
-    Serial.print(Wii.botRight);
-    Serial.print(F("\ttopLeft: "));
-    Serial.print(Wii.topLeft);
-    Serial.print(F("\tbotleft: "));
-    Serial.print(Wii.botleft);
-
+  if (Wii.wiiBalanceBoardConnected && Wii.wiiBalanceBoardCalibrationComplete) {
+    Serial.print(F("\r\nWeight: "));
+    for (uint8_t i = 0; i < 4; i++) {
+      Serial.print(Wii.getWeight((BalanceBoardEnum)i));
+      Serial.print(F("\t"));
+    }
+    Serial.print(F("Total Weight: "));
+    Serial.print(Wii.getTotalWeight());
     if (Wii.getButtonClick(A)) {
       Serial.print(F("\r\nA"));
-      Wii.setLedToggle(LED1);
-      //Wii.disconnect();
+      //Wii.setLedToggle(LED1); // The Wii Balance Board has one LED as well
+      Wii.disconnect();
     }
   }
 }

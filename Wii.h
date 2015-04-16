@@ -39,6 +39,14 @@ enum HatEnum {
         HatY = 1,
 };
 
+/** Enum used to read the weight on Wii Balance Board. */
+enum BalanceBoardEnum {
+        TopRight = 0,
+        BotRight = 1,
+        TopLeft = 2,
+        BotLeft = 3,
+};
+
 /**
  * This BluetoothService class implements support for the Wiimote including the Nunchuck and Motion Plus extension.
  *
@@ -263,9 +271,48 @@ public:
         int16_t gyroPitchZero;
         /**@}*/
 
-        /**@{*/
-        /** Wii Balance Board raw values. */
-        uint16_t topRight, botRight, topLeft, botleft;
+        /** @name Wii Balance Board functions */
+
+        /**
+         * Used to get the weight at the specific position on the Wii Balance Board.
+         * @param ::BalanceBoardEnum to read from.
+         * @return Returns the weight in kg.
+         */
+        float getWeight(BalanceBoardEnum pos) {
+                // Based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
+                // calibration[pos][0] is calibration values for 0 kg
+                // calibration[pos][1] is calibration values for 17 kg
+                // calibration[pos][2] is calibration values for 34 kg
+                float val = 0;
+                if(balanceBoardRaw[pos] < balanceBoardCal[0][pos])
+                    return val;
+                else if(balanceBoardRaw[pos] < balanceBoardCal[1][pos])
+                    val = 17 * ((balanceBoardRaw[pos] - balanceBoardCal[0][pos]) / float((balanceBoardCal[1][pos] - balanceBoardCal[0][pos])));
+                else if(balanceBoardRaw[pos] > balanceBoardCal[1][pos])
+                    val = 17 + 17 * ((balanceBoardRaw[pos] - balanceBoardCal[1][pos]) / float((balanceBoardCal[2][pos] - balanceBoardCal[1][pos])));
+
+                return val;
+        };
+
+        /**
+         * Used to get total weight on the Wii Balance Board.
+         * @returnReturns the weight in kg.
+         */
+        float getTotalWeight() {
+                return getWeight(TopRight) + getWeight(BotRight) + getWeight(TopLeft) + getWeight(BotLeft);
+        };
+
+        /**
+         * Used to get the raw reading at the specific position on the Wii Balance Board.
+         * @param ::BalanceBoardEnum to read from.
+         * @return Returns the raw reading.
+         */
+        uint16_t getWeightRaw(BalanceBoardEnum pos) {
+                return balanceBoardRaw[pos];
+        };
+
+        /** Indicates when the calibration of the Wii Balance Board is done. */
+        bool wiiBalanceBoardCalibrationComplete;
         /**@}*/
 
 #ifdef WIICAMERA
@@ -448,6 +495,10 @@ private:
         void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
         void initMotionPlus();
         void activateMotionPlus();
+        void calibrateWiiBalanceBoard();
+
+        uint16_t balanceBoardRaw[4]; // Wii Balance Board raw values
+        uint16_t balanceBoardCal[3][4]; // Wii Balance Board calibration values
 
         double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
         double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
