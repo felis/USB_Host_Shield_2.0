@@ -296,11 +296,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                                                 wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
                                                 batteryLevel = l2capinbuf[15]; // Update battery level
-#ifdef DEBUG_USB_HOST
-                                                if(l2capinbuf[12] & 0x01)
-                                                        Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
-#endif
-                                                if(checkExtension) { // If this is false it means that the user must have called getBatteryLevel()
+
+                                                if(!checkBatteryLevel) { // If this is true it means that the user must have called getBatteryLevel()
                                                         if(l2capinbuf[12] & 0x02) { // Check if a extension is connected
 #ifdef DEBUG_USB_HOST
                                                                 if(!unknownExtensionConnected)
@@ -334,8 +331,16 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 } else
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
                                                         }
-                                                } else
-                                                        checkExtension = true; // Check for extensions by default
+                                                }
+#ifdef DEBUG_USB_HOST
+                                                else
+                                                        Notify(PSTR("\r\nChecking battery level"), 0x80);
+
+                                                if(l2capinbuf[12] & 0x01)
+                                                        Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
+#endif
+
+                                                checkBatteryLevel = false; // Check for extensions by default
                                                 break;
                                         case 0x21: // Read Memory Data
                                                 if((l2capinbuf[12] & 0x0F) == 0) { // No error
@@ -926,7 +931,7 @@ void WII::setLedStatus() {
 }
 
 uint8_t WII::getBatteryLevel() {
-        checkExtension = false; // This is needed so the library knows that the status response is a response to this function
+        checkBatteryLevel = true; // This is needed so the library knows that the status response is a response to this function
         statusRequest(); // This will update the battery level
         return batteryLevel;
 };

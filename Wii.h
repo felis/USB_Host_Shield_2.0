@@ -422,7 +422,7 @@ private:
         uint16_t stateCounter;
         bool unknownExtensionConnected;
         bool extensionConnected;
-        bool checkExtension; // Set to false when getBatteryLevel() is called otherwise if should be true
+        bool checkBatteryLevel; // Set to true when getBatteryLevel() is called otherwise if should be false
         bool motionPlusInside; // True if it's a new Wiimote with the Motion Plus extension build into it
 
         /* L2CAP Channels */
