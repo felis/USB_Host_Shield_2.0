@@ -37,6 +37,8 @@ Help yourself by helping us support you! Many thousands of hours have been spent
 # Table of Contents
 
 * [How to include the library](#how-to-include-the-library)
+    * [Arduino Library Manager](#arduino-library-manager)
+    * [Manual installation](#manual-installation)
 * [How to use the library](#how-to-use-the-library)
     * [Documentation](#documentation)
     * [Enable debugging](#enable-debugging)
@@ -56,6 +58,14 @@ Help yourself by helping us support you! Many thousands of hours have been spent
 * [FAQ](#faq)
 
 # How to include the library
+
+### Arduino Library Manager
+
+First install Arduino IDE version 1.6.2 or newer, then simply use the Arduino Library Manager to install the library.
+
+Please see the following page for instructions: <http://www.arduino.cc/en/Guide/Libraries#toc3>.
+
+### Manual installation
 
 First download the library by clicking on the following link: <https://github.com/felis/USB_Host_Shield_2.0/archive/master.zip>.
 
