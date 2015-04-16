@@ -475,11 +475,11 @@ private:
         void readData(uint32_t offset, uint16_t size, bool EEPROM);
         void readExtensionType();
         void readCalData();
+        void readWiiBalanceBoardCalibration(); // Used by the library to read the Wii Balance Board calibration values
 
         void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
         void initMotionPlus();
         void activateMotionPlus();
-        void calibrateWiiBalanceBoard();
 
         uint16_t wiiBalanceBoardRaw[4]; // Wii Balance Board raw values
         uint16_t wiiBalanceBoardCal[3][4]; // Wii Balance Board calibration values

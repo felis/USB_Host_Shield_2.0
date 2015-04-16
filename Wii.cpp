@@ -264,7 +264,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         else if(wiiUProControllerConnected)
                                                 ButtonState = (uint32_t)(((~l2capinbuf[23]) & 0xFE) | ((uint16_t)(~l2capinbuf[24]) << 8) | ((uint32_t)((~l2capinbuf[25]) & 0x03) << 16));
                                         else if(motionPlusConnected) {
-                                                if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
+                                                if(l2capinbuf[20] & 0x02) // Only update the Wiimote buttons, since the extension bytes are from the Motion Plus
                                                         ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
                                                 else if(nunchuckConnected) // Update if it's a report from the Nunchuck
                                                         ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
@@ -332,10 +332,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
                                                         }
                                                 }
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                                 else
                                                         Notify(PSTR("\r\nChecking battery level"), 0x80);
-
+#endif
+#ifdef DEBUG_USB_HOST
                                                 if(l2capinbuf[12] & 0x01)
                                                         Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
 #endif
@@ -405,7 +406,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 for(uint8_t j = 0; j < 4; j++)
                                                                         wiiBalanceBoardCal[2][j] = l2capinbuf[16 + 2 * j] | l2capinbuf[15 + 2 * j] << 8;
 #ifdef DEBUG_USB_HOST
-                                                                Notify(PSTR("\r\nWii Balance Board calibrated successfully"), 0x80);
+                                                                Notify(PSTR("\r\nWii Balance Board calibration values read successfully"), 0x80);
 #endif
                                                                 wiiBalanceBoardCalibrationComplete = true;
                                                         }
@@ -793,9 +794,9 @@ void WII::Run() {
                         } else if(stateCounter == 400) {
                                 if(wiiBalanceBoardConnected) {
 #ifdef DEBUG_USB_HOST
-                                        Notify(PSTR("\r\nCalibrating Wii Balance Board"), 0x80);
+                                        Notify(PSTR("\r\nReading Wii Balance Board calibration values"), 0x80);
 #endif
-                                        calibrateWiiBalanceBoard();
+                                        readWiiBalanceBoardCalibration();
                                 } else
                                         stateCounter = 499;
                         } else if(stateCounter == 500) {
@@ -1071,7 +1072,7 @@ void WII::checkMotionPresent() {
         readData(0xA600FA, 6, false);
 }
 
-void WII::calibrateWiiBalanceBoard() {
+void WII::readWiiBalanceBoardCalibration() {
         readData(0xA40024, 24, false);
 }
 
