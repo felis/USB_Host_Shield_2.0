@@ -270,6 +270,7 @@ nunchuckConnected	KEYWORD2
 motionPlusConnected	KEYWORD2
 wiiUProControllerConnected	KEYWORD2
 wiiBalanceBoardConnected	KEYWORD2
+wiiBalanceBoardCalibrationComplete	KEYWORD2
 setRumbleToggle	KEYWORD2
 getPitch	KEYWORD2
 getRoll	KEYWORD2
