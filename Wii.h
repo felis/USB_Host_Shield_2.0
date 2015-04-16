@@ -292,7 +292,7 @@ public:
          * @return Returns the raw reading.
          */
         uint16_t getWeightRaw(BalanceBoardEnum pos) {
-                return balanceBoardRaw[pos];
+                return wiiBalanceBoardRaw[pos];
         };
 
         /** Indicates when the calibration of the Wii Balance Board is done. */
@@ -481,8 +481,8 @@ private:
         void activateMotionPlus();
         void calibrateWiiBalanceBoard();
 
-        uint16_t balanceBoardRaw[4]; // Wii Balance Board raw values
-        uint16_t balanceBoardCal[3][4]; // Wii Balance Board calibration values
+        uint16_t wiiBalanceBoardRaw[4]; // Wii Balance Board raw values
+        uint16_t wiiBalanceBoardCal[3][4]; // Wii Balance Board calibration values
 
         double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
         double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected

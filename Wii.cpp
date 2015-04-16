@@ -399,11 +399,11 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                         else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x24 && reportLength == 16) { // First 16-bit
                                                                 for(uint8_t i = 0; i < 2; i++) {
                                                                         for(uint8_t j = 0; j < 4; j++)
-                                                                                balanceBoardCal[i][j] = l2capinbuf[16 + 8 * i + 2 * j] | l2capinbuf[15 + 8 * i + 2 * j] << 8;
+                                                                                wiiBalanceBoardCal[i][j] = l2capinbuf[16 + 8 * i + 2 * j] | l2capinbuf[15 + 8 * i + 2 * j] << 8;
                                                                 }
                                                         } else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x34 && reportLength == 8) { // Last 8-bit
                                                                 for(uint8_t j = 0; j < 4; j++)
-                                                                        balanceBoardCal[2][j] = l2capinbuf[16 + 2 * j] | l2capinbuf[15 + 2 * j] << 8;
+                                                                        wiiBalanceBoardCal[2][j] = l2capinbuf[16 + 2 * j] | l2capinbuf[15 + 2 * j] << 8;
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nWii Balance Board calibrated successfully"), 0x80);
 #endif
@@ -444,10 +444,10 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
                                                 // See: http://wiibrew.org/wiki/Wii_Balance_Board#Data_Format
-                                                balanceBoardRaw[TopRight] = l2capinbuf[13] | l2capinbuf[12] << 8; // Top right
-                                                balanceBoardRaw[BotRight] = l2capinbuf[15] | l2capinbuf[14] << 8; // Bottom right
-                                                balanceBoardRaw[TopLeft] = l2capinbuf[17] | l2capinbuf[16] << 8; // Top left
-                                                balanceBoardRaw[BotLeft] = l2capinbuf[19] | l2capinbuf[18] << 8; // Bottom left
+                                                wiiBalanceBoardRaw[TopRight] = l2capinbuf[13] | l2capinbuf[12] << 8; // Top right
+                                                wiiBalanceBoardRaw[BotRight] = l2capinbuf[15] | l2capinbuf[14] << 8; // Bottom right
+                                                wiiBalanceBoardRaw[TopLeft] = l2capinbuf[17] | l2capinbuf[16] << 8; // Top left
+                                                wiiBalanceBoardRaw[BotLeft] = l2capinbuf[19] | l2capinbuf[18] << 8; // Bottom left
                                                 break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
 #ifdef WIICAMERA
@@ -1133,19 +1133,16 @@ void WII::onInit() {
 /************************************************************/
 
 float WII::getWeight(BalanceBoardEnum pos) {
-        // Based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
-        // calibration[pos][0] is calibration values for 0 kg
-        // calibration[pos][1] is calibration values for 17 kg
-        // calibration[pos][2] is calibration values for 34 kg
-        float val = 0;
-        if(balanceBoardRaw[pos] < balanceBoardCal[0][pos])
-            return val;
-        else if(balanceBoardRaw[pos] < balanceBoardCal[1][pos])
-            val = 17 * ((balanceBoardRaw[pos] - balanceBoardCal[0][pos]) / float((balanceBoardCal[1][pos] - balanceBoardCal[0][pos])));
-        else if(balanceBoardRaw[pos] > balanceBoardCal[1][pos])
-            val = 17 + 17 * ((balanceBoardRaw[pos] - balanceBoardCal[1][pos]) / float((balanceBoardCal[2][pos] - balanceBoardCal[1][pos])));
-
-        return val;
+        // Use interpolating between two points - based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
+        // wiiBalanceBoardCal[pos][0] is calibration values for 0 kg
+        // wiiBalanceBoardCal[pos][1] is calibration values for 17 kg
+        // wiiBalanceBoardCal[pos][2] is calibration values for 34 kg
+        if(wiiBalanceBoardRaw[pos] < wiiBalanceBoardCal[0][pos])
+            return 0.0f; // Below 0 kg
+        else if(wiiBalanceBoardRaw[pos] < wiiBalanceBoardCal[1][pos]) // Between 0 and 17 kg
+            return 17.0f * (float)(wiiBalanceBoardRaw[pos] - wiiBalanceBoardCal[0][pos]) / (float)(wiiBalanceBoardCal[1][pos] - wiiBalanceBoardCal[0][pos]);
+        else // More than 17 kg
+            return 17.0f + 17.0f * (float)(wiiBalanceBoardRaw[pos] - wiiBalanceBoardCal[1][pos]) / (float)(wiiBalanceBoardCal[2][pos] - wiiBalanceBoardCal[1][pos]);
 };
 
 float WII::getTotalWeight() {
