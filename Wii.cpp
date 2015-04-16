@@ -421,32 +421,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
                                                 break;
-                                        case 0x32: { // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
-#if 1
-                                                uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                                Notify(PSTR("\r\nLength: "), 0x80);
-                                                D_PrintHex<uint16_t > (length - 2, 0x80);
-                                                Notify(PSTR("\tData: "), 0x80);
-                                                for(uint8_t i = 0; i < length - 2; i++) {
-                                                        D_PrintHex<uint8_t > (l2capinbuf[10 + i], 0x80);
-                                                        Notify(PSTR(" "), 0x80);
-                                                }
-
-                                                uint16_t topRight = (l2capinbuf[13] | l2capinbuf[12] << 8);
-                                                uint16_t botRight = (l2capinbuf[15] | l2capinbuf[14] << 8);
-                                                uint16_t topLeft = (l2capinbuf[17] | l2capinbuf[16] << 8);
-                                                uint16_t botleft = (l2capinbuf[19] | l2capinbuf[18] << 8);
-
-                                                Notify(PSTR("\ttopRight: "), 0x80);
-                                                Serial.print(topRight);
-                                                Notify(PSTR("\tbotRight: "), 0x80);
-                                                Serial.print(botRight);
-                                                Notify(PSTR("\ttopLeft: "), 0x80);
-                                                Serial.print(topLeft);
-                                                Notify(PSTR("\tbotleft: "), 0x80);
-                                                Serial.print(botleft);
-#endif
-                                                } break;
+                                        case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+                                                // See: http://wiibrew.org/wiki/Wii_Balance_Board#Data_Format
+                                                topRight = l2capinbuf[13] | l2capinbuf[12] << 8;
+                                                botRight = l2capinbuf[15] | l2capinbuf[14] << 8;
+                                                topLeft = l2capinbuf[17] | l2capinbuf[16] << 8;
+                                                botleft = l2capinbuf[19] | l2capinbuf[18] << 8;
+                                                break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
 #ifdef WIICAMERA
                                                 // Read the IR data

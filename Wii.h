@@ -263,6 +263,11 @@ public:
         int16_t gyroPitchZero;
         /**@}*/
 
+        /**@{*/
+        /** Wii Balance Board raw values. */
+        uint16_t topRight, botRight, topLeft, botleft;
+        /**@}*/
+
 #ifdef WIICAMERA
         /** @name Wiimote IR camera functions
          * You will have to set ::ENABLE_WII_IR_CAMERA in settings.h to 1 in order use the IR camera.
