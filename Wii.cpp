@@ -494,6 +494,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
                                                 // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+#if 1 // Set this to 0 if you don't want to use an extension, this reduceds the size of the library a lot!
                                                 if(motionPlusConnected) {
                                                         if(l2capinbuf[20] & 0x02) { // Check if it's a report from the Motion controller or the extension
                                                                 if(motionValuesReset) { // We will only use the values when the gyro value has been set
@@ -597,6 +598,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                         hatValues[LeftHatY] = (l2capinbuf[19] | l2capinbuf[20] << 8);
                                                         hatValues[RightHatY] = (l2capinbuf[21] | l2capinbuf[22] << 8);
                                                 }
+#endif
                                                 break;
 #ifdef DEBUG_USB_HOST
                                         default:
