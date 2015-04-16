@@ -438,13 +438,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 uint16_t botleft = (l2capinbuf[19] | l2capinbuf[18] << 8);
 
                                                 Notify(PSTR("\ttopRight: "), 0x80);
-                                                Notify(topRight, 0x80);
+                                                Serial.print(topRight);
                                                 Notify(PSTR("\tbotRight: "), 0x80);
-                                                Notify(botRight, 0x80);
+                                                Serial.print(botRight);
                                                 Notify(PSTR("\ttopLeft: "), 0x80);
-                                                Notify(topLeft, 0x80);
+                                                Serial.print(topLeft);
                                                 Notify(PSTR("\tbotleft: "), 0x80);
-                                                Notify(botleft, 0x80);
+                                                Serial.print(botleft);
 #endif
                                                 } break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
@@ -452,7 +452,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 // Read the IR data
                                                 IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
                                                 IR_object_y1 = (l2capinbuf[16] | ((uint16_t)(l2capinbuf[17] & 0xC0) << 2)); // y position
-                                                IR_object_s1 = (l2capinbuf[17] & 0x0F); // size value, 0-15
+                                                IR_object_s1 = (l2capinbuf[17] & 0x0F); // Size value, 0-15
 
                                                 IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
                                                 IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
