@@ -880,8 +880,8 @@ void WII::Run() {
 
 /************************************************************/
 /*                    HID Commands                          */
-
 /************************************************************/
+
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
         if(motionPlusInside)
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new Wiimote with the Motion Plus Inside or Wii U Pro controller
@@ -982,8 +982,8 @@ void WII::statusRequest() {
 
 /************************************************************/
 /*                    Memmory Commands                      */
-
 /************************************************************/
+
 void WII::writeData(uint32_t offset, uint8_t size, uint8_t* data) {
         uint8_t cmd_buf[23];
         cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
@@ -1077,7 +1077,6 @@ void WII::calibrateWiiBalanceBoard() {
 
 /************************************************************/
 /*                    WII Commands                          */
-
 /************************************************************/
 
 bool WII::getButtonPress(ButtonEnum b) { // Return true when a button is pressed
@@ -1128,6 +1127,30 @@ void WII::onInit() {
         else
                 setLedStatus();
 }
+
+/************************************************************/
+/*                 Wii Balance Board Commands               */
+/************************************************************/
+
+float WII::getWeight(BalanceBoardEnum pos) {
+        // Based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
+        // calibration[pos][0] is calibration values for 0 kg
+        // calibration[pos][1] is calibration values for 17 kg
+        // calibration[pos][2] is calibration values for 34 kg
+        float val = 0;
+        if(balanceBoardRaw[pos] < balanceBoardCal[0][pos])
+            return val;
+        else if(balanceBoardRaw[pos] < balanceBoardCal[1][pos])
+            val = 17 * ((balanceBoardRaw[pos] - balanceBoardCal[0][pos]) / float((balanceBoardCal[1][pos] - balanceBoardCal[0][pos])));
+        else if(balanceBoardRaw[pos] > balanceBoardCal[1][pos])
+            val = 17 + 17 * ((balanceBoardRaw[pos] - balanceBoardCal[1][pos]) / float((balanceBoardCal[2][pos] - balanceBoardCal[1][pos])));
+
+        return val;
+};
+
+float WII::getTotalWeight() {
+        return getWeight(TopRight) + getWeight(BotRight) + getWeight(TopLeft) + getWeight(BotLeft);
+};
 
 /************************************************************/
 /*       The following functions are for the IR camera      */

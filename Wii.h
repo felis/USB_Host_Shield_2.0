@@ -278,29 +278,13 @@ public:
          * @param ::BalanceBoardEnum to read from.
          * @return Returns the weight in kg.
          */
-        float getWeight(BalanceBoardEnum pos) {
-                // Based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
-                // calibration[pos][0] is calibration values for 0 kg
-                // calibration[pos][1] is calibration values for 17 kg
-                // calibration[pos][2] is calibration values for 34 kg
-                float val = 0;
-                if(balanceBoardRaw[pos] < balanceBoardCal[0][pos])
-                    return val;
-                else if(balanceBoardRaw[pos] < balanceBoardCal[1][pos])
-                    val = 17 * ((balanceBoardRaw[pos] - balanceBoardCal[0][pos]) / float((balanceBoardCal[1][pos] - balanceBoardCal[0][pos])));
-                else if(balanceBoardRaw[pos] > balanceBoardCal[1][pos])
-                    val = 17 + 17 * ((balanceBoardRaw[pos] - balanceBoardCal[1][pos]) / float((balanceBoardCal[2][pos] - balanceBoardCal[1][pos])));
-
-                return val;
-        };
+        float getWeight(BalanceBoardEnum pos);
 
         /**
          * Used to get total weight on the Wii Balance Board.
          * @returnReturns the weight in kg.
          */
-        float getTotalWeight() {
-                return getWeight(TopRight) + getWeight(BotRight) + getWeight(TopLeft) + getWeight(BotLeft);
-        };
+        float getTotalWeight();
 
         /**
          * Used to get the raw reading at the specific position on the Wii Balance Board.
