@@ -30,6 +30,9 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t num_of_conf; // number of configurations
+#ifdef PL2303_COMPAT
+        enum pl2303_type pltype = unknown;
+#endif
 
         AddressPool &addrPool = pUsb->GetAddressPool();
 
@@ -68,6 +71,18 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         if(udd->idVendor != PL_VID && CHECK_PID(udd->idProduct))
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+
+        /* determine chip variant */
+#ifdef PL2303_COMPAT
+        if(udd->bDeviceClass == 0x02 )
+                pltype = type_0;
+        else if(udd->bMaxPacketSize0 == 0x40 )
+                pltype = rev_HX;
+        else if(udd->bDeviceClass == 0x00)
+                pltype = type_1;
+        else if(udd->bDeviceClass == 0xff)
+                pltype = type_1;
+#endif
 
         // Save type of PL chip
         wPLType = udd->bcdDevice;
@@ -145,6 +160,28 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailSetConfDescr;
 
+#ifdef PL2303_COMPAT
+        /* Shamanic dance - sending Prolific init data as-is */
+        vendorRead( 0x84, 0x84, 0, buf );
+        vendorWrite( 0x04, 0x04, 0 );
+        vendorRead( 0x84, 0x84, 0, buf );
+        vendorRead( 0x83, 0x83, 0, buf );
+        vendorRead( 0x84, 0x84, 0, buf );
+        vendorWrite( 0x04, 0x04, 1 );
+        vendorRead( 0x84, 0x84, 0, buf);
+        vendorRead( 0x83, 0x83, 0, buf);
+        vendorWrite( 0, 0, 1 );
+        vendorWrite( 1, 0, 0 );
+        if( pltype == rev_HX ) {
+                vendorWrite( 2, 0, 0x44 );
+                vendorWrite( 0x06, 0x06, 0 ); // From W7 init
+        }
+        else {
+                vendorWrite( 2, 0, 0x24 );
+        }
+        /* Shamanic dance end */
+#endif
+        /* Calling post-init callback */
         rcode = pAsync->OnInit(this);
 
         if(rcode)
