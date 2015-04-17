@@ -66,7 +66,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailGetDevDescr;
 
-        if(udd->idVendor != PL_VID && udd->idProduct != PL_PID)
+        if(udd->idVendor != PL_VID && CHECK_PID(udd->idProduct))
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
 
         // Save type of PL chip

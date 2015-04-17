@@ -20,7 +20,7 @@ e-mail   :  support@circuitsathome.com
 #include "cdcacm.h"
 
 #define PL_VID                                  0x067B
-#define PL_PID                                  ( 0x2303 || 0x0609 )
+#define CHECK_PID(pid)                          ( pid != 0x2303 && pid != 0x0609 )
 
 //#define PL_PID                                0x0609
 
