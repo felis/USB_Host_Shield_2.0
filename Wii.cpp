@@ -332,16 +332,17 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
                                                         }
                                                 }
+                                                else {
 #ifdef EXTRADEBUG
-                                                else
                                                         Notify(PSTR("\r\nChecking battery level"), 0x80);
 #endif
+                                                        checkBatteryLevel = false; // Check for extensions by default
+                                                }
 #ifdef DEBUG_USB_HOST
                                                 if(l2capinbuf[12] & 0x01)
                                                         Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
 #endif
 
-                                                checkBatteryLevel = false; // Check for extensions by default
                                                 break;
                                         case 0x21: // Read Memory Data
                                                 if((l2capinbuf[12] & 0x0F) == 0) { // No error
