@@ -92,7 +92,7 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_l
                 return USB_ERROR_EP_NOT_FOUND_IN_TBL;
 
         *nak_limit = (0x0001UL << (((*ppep)->bmNakPower > USB_NAK_MAX_POWER) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower));
-        *nak_limit--;
+        (*nak_limit)--;
         /*
           USBTRACE2("\r\nAddress: ", addr);
           USBTRACE2(" EP: ", ep);
