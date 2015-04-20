@@ -41,6 +41,7 @@
   [
     "atmelavr",
     "teensy",
-    "atmelsam"
+    "atmelsam",
+    "nordicnrf51"
   ]
 }
