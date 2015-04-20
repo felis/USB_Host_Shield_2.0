@@ -24,8 +24,9 @@
 #include "controllerEnums.h"
 
 /* Wii event flags */
-#define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
-#define WII_FLAG_NUNCHUCK_CONNECTED     0x02
+#define WII_FLAG_MOTION_PLUS_CONNECTED          (1 << 0)
+#define WII_FLAG_NUNCHUCK_CONNECTED             (1 << 1)
+#define WII_FLAG_CALIBRATE_BALANCE_BOARD        (1 << 2)
 
 #define wii_check_flag(flag)  (wii_event_flag & (flag))
 #define wii_set_flag(flag)  (wii_event_flag |= (flag))
@@ -294,9 +295,6 @@ public:
         uint16_t getWeightRaw(BalanceBoardEnum pos) {
                 return wiiBalanceBoardRaw[pos];
         };
-
-        /** Indicates when the calibration of the Wii Balance Board is done. */
-        bool wiiBalanceBoardCalibrationComplete;
         /**@}*/
 
 #ifdef WIICAMERA

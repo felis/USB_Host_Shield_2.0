@@ -34,7 +34,7 @@ void setup() {
 }
 void loop() {
   Usb.Task();
-  if (Wii.wiiBalanceBoardConnected && Wii.wiiBalanceBoardCalibrationComplete) {
+  if (Wii.wiiBalanceBoardConnected) {
     Serial.print(F("\r\nWeight: "));
     for (uint8_t i = 0; i < 4; i++) {
       Serial.print(Wii.getWeight((BalanceBoardEnum)i));

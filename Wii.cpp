@@ -393,8 +393,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nWii Balance Board connected"), 0x80);
 #endif
                                                                 setReportMode(false, 0x32); // Read the Wii Balance Board extension
-                                                                wiiBalanceBoardCalibrationComplete = false;
-                                                                wiiBalanceBoardConnected = true;
+                                                                wii_set_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD);
                                                         }
                                                         // Wii Balance Board calibration reports (24 bits in total)
                                                         else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x24 && reportLength == 16) { // First 16-bit
@@ -408,7 +407,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nWii Balance Board calibration values read successfully"), 0x80);
 #endif
-                                                                wiiBalanceBoardCalibrationComplete = true;
+                                                                wii_clear_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD);
+                                                                wiiBalanceBoardConnected = true;
                                                         }
 #ifdef DEBUG_USB_HOST
                                                         else {
@@ -794,7 +794,7 @@ void WII::Run() {
                                 readExtensionType();
                                 unknownExtensionConnected = false;
                         } else if(stateCounter == 400) {
-                                if(wiiBalanceBoardConnected) {
+                                if(wii_check_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD)) {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nReading Wii Balance Board calibration values"), 0x80);
 #endif
