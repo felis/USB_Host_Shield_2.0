@@ -30,11 +30,7 @@ e-mail   :  support@circuitsathome.com
 /* SPI initialization */
 template< typename SPI_CLK, typename SPI_MOSI, typename SPI_MISO, typename SPI_SS > class SPi {
 public:
-#if SPI_HAS_TRANSACTION
-        static void init() {
-                SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
-        }
-#elif USING_SPI4TEENSY3
+#if USING_SPI4TEENSY3
         static void init() {
                 // spi4teensy3 inits everything for us, except /SS
                 // CLK, MOSI and MISO are hard coded for now.
@@ -42,6 +38,10 @@ public:
                 spi4teensy3::init(); // full speed, cpol 0, cpha 0
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
+        }
+#elif SPI_HAS_TRANSACTION
+        static void init() {
+                SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
         }
 #elif !defined(SPDR)
         static void init() {
@@ -157,16 +157,16 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
 #endif
         SPI_SS::Clear();
 
-#if SPI_HAS_TRANSACTION
-        uint8_t c[2];
-        c[0] = reg | 0x02;
-        c[1] = data;
-        SPI.transfer(c, 2);
-#elif USING_SPI4TEENSY3
+#if USING_SPI4TEENSY3
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
         spi4teensy3::send(c, 2);
+#elif SPI_HAS_TRANSACTION
+        uint8_t c[2];
+        c[0] = reg | 0x02;
+        c[1] = data;
+        SPI.transfer(c, 2);
 #elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
         SPI.transfer(data);
@@ -195,13 +195,13 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
         SPI_SS::Clear();
 
-#if SPI_HAS_TRANSACTION
-        SPI.transfer(reg | 0x02);
-        SPI.transfer(data_p, nbytes);
-        data_p += nbytes;
-#elif USING_SPI4TEENSY3
+#if USING_SPI4TEENSY3
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
+        data_p += nbytes;
+#elif SPI_HAS_TRANSACTION
+        SPI.transfer(reg | 0x02);
+        SPI.transfer(data_p, nbytes);
         data_p += nbytes;
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg | 0x02);
@@ -253,13 +253,13 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
 #endif
         SPI_SS::Clear();
 
-#if !defined(SPDR) || SPI_HAS_TRANSACTION
-        SPI.transfer(reg);
-        uint8_t rv = SPI.transfer(0); // Send empty byte
-        SPI_SS::Set();
-#elif USING_SPI4TEENSY3
+#if USING_SPI4TEENSY3
         spi4teensy3::send(reg);
         uint8_t rv = spi4teensy3::receive();
+        SPI_SS::Set();
+#elif !defined(SPDR) || SPI_HAS_TRANSACTION
+        SPI.transfer(reg);
+        uint8_t rv = SPI.transfer(0); // Send empty byte
         SPI_SS::Set();
 #else
         SPDR = reg;
@@ -287,14 +287,14 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
         SPI_SS::Clear();
 
-#if SPI_HAS_TRANSACTION
+#if USING_SPI4TEENSY3
+        spi4teensy3::send(reg);
+        spi4teensy3::receive(data_p, nbytes);
+        data_p += nbytes;
+#elif SPI_HAS_TRANSACTION
         SPI.transfer(reg);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
         SPI.transfer(data_p, nbytes);
-        data_p += nbytes;
-#elif USING_SPI4TEENSY3
-        spi4teensy3::send(reg);
-        spi4teensy3::receive(data_p, nbytes);
         data_p += nbytes;
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg);
