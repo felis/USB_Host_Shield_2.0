@@ -236,7 +236,7 @@ byte getconfdescr( byte addr, byte conf )
         }//switch( descr_type
     buf_ptr = ( buf_ptr + descr_length );    //advance buffer pointer
   }//while( buf_ptr <=...
-  return( 0 );
+  return ( rcode );
 }
 /* prints hex numbers with leading zeroes */
 // copyright, Peter H Anderson, Baltimore, MD, Nov, '07
