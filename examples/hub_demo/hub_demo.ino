@@ -336,7 +336,7 @@ void printunkdescr( uint8_t* descr_ptr )
 
 
 /* Print a string from Program Memory directly to save RAM */
-void printProgStr(prog_char str[])
+void printProgStr(const char* str)
 {
   char c;
   if(!str) return;
