@@ -24,8 +24,9 @@
 #include "controllerEnums.h"
 
 /* Wii event flags */
-#define WII_FLAG_MOTION_PLUS_CONNECTED  0x01
-#define WII_FLAG_NUNCHUCK_CONNECTED     0x02
+#define WII_FLAG_MOTION_PLUS_CONNECTED          (1 << 0)
+#define WII_FLAG_NUNCHUCK_CONNECTED             (1 << 1)
+#define WII_FLAG_CALIBRATE_BALANCE_BOARD        (1 << 2)
 
 #define wii_check_flag(flag)  (wii_event_flag & (flag))
 #define wii_set_flag(flag)  (wii_event_flag |= (flag))
@@ -37,6 +38,14 @@ enum HatEnum {
         HatX = 0,
         /** Read the y-axis on the Nunchuck joystick. */
         HatY = 1,
+};
+
+/** Enum used to read the weight on Wii Balance Board. */
+enum BalanceBoardEnum {
+        TopRight = 0,
+        BotRight = 1,
+        TopLeft = 2,
+        BotLeft = 3,
 };
 
 /**
@@ -191,6 +200,8 @@ public:
         bool motionPlusConnected;
         /** Variable used to indicate if a Wii U Pro controller is connected. */
         bool wiiUProControllerConnected;
+        /** Variable used to indicate if a Wii Balance Board is connected. */
+        bool wiiBalanceBoardConnected;
         /**@}*/
 
         /* IMU Data, might be usefull if you need to do something more advanced than just calculating the angle */
@@ -259,6 +270,31 @@ public:
         int16_t gyroYawZero;
         int16_t gyroRollZero;
         int16_t gyroPitchZero;
+        /**@}*/
+
+        /** @name Wii Balance Board functions */
+
+        /**
+         * Used to get the weight at the specific position on the Wii Balance Board.
+         * @param ::BalanceBoardEnum to read from.
+         * @return Returns the weight in kg.
+         */
+        float getWeight(BalanceBoardEnum pos);
+
+        /**
+         * Used to get total weight on the Wii Balance Board.
+         * @returnReturns the weight in kg.
+         */
+        float getTotalWeight();
+
+        /**
+         * Used to get the raw reading at the specific position on the Wii Balance Board.
+         * @param ::BalanceBoardEnum to read from.
+         * @return Returns the raw reading.
+         */
+        uint16_t getWeightRaw(BalanceBoardEnum pos) {
+                return wiiBalanceBoardRaw[pos];
+        };
         /**@}*/
 
 #ifdef WIICAMERA
@@ -415,7 +451,7 @@ private:
         uint16_t stateCounter;
         bool unknownExtensionConnected;
         bool extensionConnected;
-        bool checkExtension; // Set to false when getBatteryLevel() is called otherwise if should be true
+        bool checkBatteryLevel; // Set to true when getBatteryLevel() is called otherwise if should be false
         bool motionPlusInside; // True if it's a new Wiimote with the Motion Plus extension build into it
 
         /* L2CAP Channels */
@@ -437,10 +473,14 @@ private:
         void readData(uint32_t offset, uint16_t size, bool EEPROM);
         void readExtensionType();
         void readCalData();
+        void readWiiBalanceBoardCalibration(); // Used by the library to read the Wii Balance Board calibration values
 
         void checkMotionPresent(); // Used to see if a Motion Plus is connected to the Wiimote
         void initMotionPlus();
         void activateMotionPlus();
+
+        uint16_t wiiBalanceBoardRaw[4]; // Wii Balance Board raw values
+        uint16_t wiiBalanceBoardCal[3][4]; // Wii Balance Board calibration values
 
         double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
         double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected

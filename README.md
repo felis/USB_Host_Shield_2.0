@@ -37,6 +37,8 @@ Help yourself by helping us support you! Many thousands of hours have been spent
 # Table of Contents
 
 * [How to include the library](#how-to-include-the-library)
+    * [Arduino Library Manager](#arduino-library-manager)
+    * [Manual installation](#manual-installation)
 * [How to use the library](#how-to-use-the-library)
     * [Documentation](#documentation)
     * [Enable debugging](#enable-debugging)
@@ -56,6 +58,14 @@ Help yourself by helping us support you! Many thousands of hours have been spent
 * [FAQ](#faq)
 
 # How to include the library
+
+### Arduino Library Manager
+
+First install Arduino IDE version 1.6.2 or newer, then simply use the Arduino Library Manager to install the library.
+
+Please see the following page for instructions: <http://www.arduino.cc/en/Guide/Libraries#toc3>.
+
+### Manual installation
 
 First download the library by clicking on the following link: <https://github.com/felis/USB_Host_Shield_2.0/archive/master.zip>.
 
@@ -243,7 +253,7 @@ An Xbox ONE controller is supported via USB in the [XBOXONE](XBOXONE.cpp) class.
 
 ### [Wii library](Wii.cpp)
 
-The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller is also supported via Bluetooth.
+The [Wii](Wii.cpp) library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller and Wii Balance Board are also supported via Bluetooth.
 
 First you have to pair with the controller, this is done automatically by the library if you create the instance like so:
 
@@ -251,7 +261,7 @@ First you have to pair with the controller, this is done automatically by the li
 WII Wii(&Btd, PAIR);
 ```
 
-And then press 1 & 2 at once on the Wiimote or press sync if you are using a Wii U Pro Controller.
+And then press 1 & 2 at once on the Wiimote or the SYNC buttons if you are using a Wii U Pro Controller or a Wii Balance Board.
 
 After that you can simply create the instance like so:
 
@@ -271,13 +281,13 @@ The Wii IR camera can also be used, but you will have to activate the code for i
 
 The [WiiIRCamera.ino](examples/Bluetooth/WiiIRCamera/WiiIRCamera.ino) example shows how it can be used.
 
-
 All the information about the Wii controllers are from these sites:
 
 * <http://wiibrew.org/wiki/Wiimote>
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers>
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck>
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus>
+* <http://wiibrew.org/wiki/Wii_Balance_Board>
 * The old library created by _Tomoyuki Tanaka_: <https://github.com/moyuchin/WiiRemote_on_Arduino> also helped a lot.
 
 ### [PS Buzz Library](PSBuzz.cpp)

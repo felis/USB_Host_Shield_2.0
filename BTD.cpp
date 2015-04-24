@@ -445,11 +445,17 @@ void BTD::HCI_event_task() {
                                                 for(uint8_t j = 0; j < 3; j++)
                                                         classOfDevice[j] = hcibuf[j + 4 + offset];
 
+#ifdef EXTRADEBUG
+                                                Notify(PSTR("\r\nClass of device: "), 0x80);
+                                                D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
+                                                Notify(PSTR(" "), 0x80);
+                                                D_PrintHex<uint8_t > (classOfDevice[1], 0x80);
+                                                Notify(PSTR(" "), 0x80);
+                                                D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
+#endif
+
                                                 if(pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
-                                                        if(classOfDevice[0] & 0x08) // Check if it's the new Wiimote with motion plus inside that was detected
-                                                                motionPlusInside = true;
-                                                        else
-                                                                motionPlusInside = false;
+                                                        checkRemoteName = true; // Check remote name to distinguish between the different controllers
 
                                                         for(uint8_t j = 0; j < 6; j++)
                                                                 disc_bdaddr[j] = hcibuf[j + 3 + 6 * i];
@@ -472,16 +478,6 @@ void BTD::HCI_event_task() {
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                         break;
                                                 }
-#ifdef EXTRADEBUG
-                                                else {
-                                                        Notify(PSTR("\r\nClass of device: "), 0x80);
-                                                        D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
-                                                        Notify(PSTR(" "), 0x80);
-                                                        D_PrintHex<uint8_t > (classOfDevice[1], 0x80);
-                                                        Notify(PSTR(" "), 0x80);
-                                                        D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
-                                                }
-#endif
                                         }
                                 }
                                 break;
@@ -555,7 +551,7 @@ void BTD::HCI_event_task() {
                         case EV_PIN_CODE_REQUEST:
                                 if(pairWithWii) {
 #ifdef DEBUG_USB_HOST
-                                        Notify(PSTR("\r\nPairing with wiimote"), 0x80);
+                                        Notify(PSTR("\r\nPairing with Wiimote"), 0x80);
 #endif
                                         hci_pin_code_request_reply();
                                 } else if(btdPin != NULL) {
@@ -705,7 +701,7 @@ void BTD::HCI_task() {
                         if(pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a Wiimote
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
-                                        Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press sync if you are using a Wii U Pro Controller"), 0x80);
+                                        Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press the SYNC button if you are using a Wii U Pro Controller or a Wii Balance Board"), 0x80);
                                 else
                                         Notify(PSTR("\r\nPlease enable discovery of your device"), 0x80);
 #endif
@@ -736,8 +732,8 @@ void BTD::HCI_task() {
                                 else
                                         Notify(PSTR("device"), 0x80);
 #endif
-                                if(motionPlusInside) {
-                                        hci_remote_name(); // We need to know the name to distinguish between a Wiimote and a Wii U Pro Controller
+                                if(checkRemoteName) {
+                                        hci_remote_name(); // We need to know the name to distinguish between the Wiimote, the new Wiimote with Motion Plus inside, a Wii U Pro Controller and a Wii Balance Board
                                         hci_state = HCI_REMOTE_NAME_STATE;
                                 } else
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
@@ -752,6 +748,7 @@ void BTD::HCI_task() {
                                 else
                                         Notify(PSTR("\r\nConnecting to HID device"), 0x80);
 #endif
+                                checkRemoteName = false;
                                 hci_connect();
                                 hci_state = HCI_CONNECTED_DEVICE_STATE;
                         }
@@ -809,6 +806,9 @@ void BTD::HCI_task() {
 #endif
                                 if(strncmp((const char*)remote_name, "Nintendo", 8) == 0) {
                                         incomingWii = true;
+                                        motionPlusInside = false;
+                                        wiiUProController = false;
+                                        pairWiiUsingSync = false;
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nWiimote is connecting"), 0x80);
 #endif
@@ -821,11 +821,12 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                                 Notify(PSTR(" - Wii U Pro Controller"), 0x80);
 #endif
-                                                motionPlusInside = true;
-                                                wiiUProController = true;
-                                        } else {
-                                                motionPlusInside = false;
-                                                wiiUProController = false;
+                                                wiiUProController = motionPlusInside = pairWiiUsingSync = true;
+                                        } else if(strncmp((const char*)remote_name, "Nintendo RVL-WBC-01", 19) == 0) {
+#ifdef DEBUG_USB_HOST
+                                                Notify(PSTR(" - Wii Balance Board"), 0x80);
+#endif
+                                                pairWiiUsingSync = true;
                                         }
                                 }
                                 if(classOfDevice[2] == 0 && classOfDevice[1] == 0x25 && classOfDevice[0] == 0x08 && strncmp((const char*)remote_name, "Wireless Controller", 19) == 0) {
@@ -834,7 +835,7 @@ void BTD::HCI_task() {
 #endif
                                         incomingPS4 = true;
                                 }
-                                if(pairWithWii && motionPlusInside)
+                                if(pairWithWii && checkRemoteName)
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
                                 else {
                                         hci_accept_connection();
@@ -886,7 +887,7 @@ void BTD::HCI_task() {
                                 memset(l2capinbuf, 0, BULK_MAXPKTSIZE);
 
                                 connectToWii = incomingWii = pairWithWii = false;
-                                connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = false;
+                                connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = checkRemoteName = false;
                                 incomingPS4 = false;
 
                                 hci_state = HCI_SCANNING_STATE;
@@ -1085,9 +1086,9 @@ void BTD::hci_pin_code_request_reply() {
         hcibuf[8] = disc_bdaddr[5];
         if(pairWithWii) {
                 hcibuf[9] = 6; // Pin length is the length of the Bluetooth address
-                if(wiiUProController) {
+                if(pairWiiUsingSync) {
 #ifdef DEBUG_USB_HOST
-                        Notify(PSTR("\r\nParing with Wii U Pro Controller"), 0x80);
+                        Notify(PSTR("\r\nParing with Wii controller via SYNC"), 0x80);
 #endif
                         for(uint8_t i = 0; i < 6; i++)
                                 hcibuf[10 + i] = my_bdaddr[i]; // The pin is the Bluetooth dongles Bluetooth address backwards
