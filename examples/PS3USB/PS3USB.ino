@@ -134,7 +134,7 @@ void loop() {
       PS3.moveSetBulb(Lightblue);
     } else if (state == 6) {
       PS3.moveSetRumble(225);
-      PS3.moveSetBulb(Purble);
+      PS3.moveSetBulb(Purple);
     } else if (state == 7) {
       PS3.moveSetRumble(250);
       PS3.moveSetBulb(White);
