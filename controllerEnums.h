@@ -55,6 +55,7 @@ enum ColorsEnum {
         /** r = 0, g = 255, b = 255 */
         Lightblue = 0xFFFF,
         /** r = 255, g = 0, b = 255 */
+        Purple = 0xFF00FF,
         Purble = 0xFF00FF,
 
         /** r = 255, g = 255, b = 255 */
