@@ -3,13 +3,13 @@ python:
     - "2.7"
 
 env:
-    - PLATFORMIO_CI_SRC=examples/acm/acm_terminal/acm_terminal.ino
+    - PLATFORMIO_CI_SRC=examples/acm/acm_terminal
     - PLATFORMIO_CI_SRC=examples/adk/adk_barcode/adk_barcode.ino
     - PLATFORMIO_CI_SRC=examples/adk/ArduinoBlinkLED/ArduinoBlinkLED.ino
     - PLATFORMIO_CI_SRC=examples/adk/demokit_20/demokit_20.ino
     - PLATFORMIO_CI_SRC=examples/adk/term_test/term_test.ino
     - PLATFORMIO_CI_SRC=examples/adk/term_time/term_time.ino
-    - PLATFORMIO_CI_SRC=examples/Bluetooth/BTHID/BTHID.ino
+    - PLATFORMIO_CI_SRC=examples/Bluetooth/BTHID
     - PLATFORMIO_CI_SRC=examples/Bluetooth/PS3BT/PS3BT.ino
     - PLATFORMIO_CI_SRC=examples/Bluetooth/PS3Multi/PS3Multi.ino
     - PLATFORMIO_CI_SRC=examples/Bluetooth/PS3SPP/PS3SPP.ino
@@ -23,15 +23,15 @@ env:
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiUProController/WiiUProController.ino
     - PLATFORMIO_CI_SRC=examples/board_qc/board_qc.ino
     - PLATFORMIO_CI_SRC=examples/cdc_XR21B1411/XR_terminal/XR_terminal.ino
-    - PLATFORMIO_CI_SRC=examples/ftdi/USBFTDILoopback/USBFTDILoopback.ino
-    - PLATFORMIO_CI_SRC=examples/HID/le3dp/le3dp.ino
-    - PLATFORMIO_CI_SRC=examples/HID/scale/scale.ino
-    - PLATFORMIO_CI_SRC=examples/HID/USBHID_desc/USBHID_desc.ino
+    - PLATFORMIO_CI_SRC=examples/ftdi/USBFTDILoopback
+    - PLATFORMIO_CI_SRC=examples/HID/le3dp
+    - PLATFORMIO_CI_SRC=examples/HID/scale
+    - PLATFORMIO_CI_SRC=examples/HID/USBHID_desc
     - PLATFORMIO_CI_SRC=examples/HID/USBHIDBootKbd/USBHIDBootKbd.ino
     - PLATFORMIO_CI_SRC=examples/HID/USBHIDBootKbdAndMouse/USBHIDBootKbdAndMouse.ino
     - PLATFORMIO_CI_SRC=examples/HID/USBHIDBootMouse/USBHIDBootMouse.ino
-    - PLATFORMIO_CI_SRC=examples/HID/USBHIDJoystick/USBHIDJoystick.ino
-    - PLATFORMIO_CI_SRC=examples/hub_demo/hub_demo.ino
+    - PLATFORMIO_CI_SRC=examples/HID/USBHIDJoystick
+    - PLATFORMIO_CI_SRC=examples/hub_demo
     - PLATFORMIO_CI_SRC=examples/max_LCD/max_LCD.ino
     - PLATFORMIO_CI_SRC=examples/pl2303/pl2303_gprs_terminal/pl2303_gprs_terminal.ino
     - PLATFORMIO_CI_SRC=examples/pl2303/pl2303_gps/pl2303_gps.ino
@@ -40,8 +40,8 @@ env:
     - PLATFORMIO_CI_SRC=examples/PS3USB/PS3USB.ino
     - PLATFORMIO_CI_SRC=examples/PS4USB/PS4USB.ino
     - PLATFORMIO_CI_SRC=examples/PSBuzz/PSBuzz.ino
-    - PLATFORMIO_CI_SRC=examples/testusbhostFAT/testusbhostFAT.ino
-    - PLATFORMIO_CI_SRC=examples/USB_desc/USB_desc.ino
+#    - PLATFORMIO_CI_SRC=examples/testusbhostFAT/testusbhostFAT.ino
+    - PLATFORMIO_CI_SRC=examples/USB_desc
     - PLATFORMIO_CI_SRC=examples/Xbox/XBOXOLD/XBOXOLD.ino
     - PLATFORMIO_CI_SRC=examples/Xbox/XBOXONE/XBOXONE.ino
     - PLATFORMIO_CI_SRC=examples/Xbox/XBOXRECV/XBOXRECV.ino
@@ -49,14 +49,16 @@ env:
 
 install:
     - python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
-    - wget https://github.com/xxxajk/spi4teensy3/archive/master.zip -O /tmp/spi4teensy3.zip
-    - wget https://github.com/xxxajk/xmem2/archive/master.zip -O /tmp/xmem2.zip
-    - wget https://github.com/xxxajk/generic_storage/archive/master.zip -O /tmp/generic_storage.zip
-    - wget https://github.com/xxxajk/RTClib/archive/master.zip -O /tmp/RTClib.zip
-    - unzip /tmp/spi4teensy3.zip -d /tmp
-    - unzip /tmp/xmem2.zip -d /tmp
-    - unzip /tmp/generic_storage.zip -d /tmp
-    - unzip /tmp/RTClib.zip -d /tmp
+
+    # Use PlatformIO from development branch
+    # @TODO remove this line after 2.0.1 release
+    - pip install https://github.com/platformio/platformio/archive/develop.zip
+
+    # Libraries from PlatformIO Library Register
+    # http://platformio.org/#!/lib/show/416/TinyGPS
+    # http://platformio.org/#!/lib/show/417/SPI4Teensy3
+    - platformio lib install 416 417
 
 script:
-    - platformio ci --lib="." --lib="/tmp/spi4teensy3-master" --lib="/tmp/xmem2-master" --lib="/tmp/generic_storage-master" --lib="/tmp/RTClib-master" --board=uno --board=teensy31 --board=due
+    - if [[ $PLATFORMIO_CI_SRC == *"WiiIRCamera"* ]]; then sed -i -- 's/#define ENABLE_WII_IR_CAMERA 0/#define ENABLE_WII_IR_CAMERA 1/g' ./settings.h; fi
+    - platformio ci --board=uno --board=teensy31 --board=due --lib="."
