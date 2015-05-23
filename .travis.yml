@@ -18,7 +18,7 @@ env:
     - PLATFORMIO_CI_SRC=examples/Bluetooth/SPPMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/Wii
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiBalanceBoard
-    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera
+    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera PLATFORMIO_BUILD_FLAGS="-DWIICAMERA"
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiUProController
     - PLATFORMIO_CI_SRC=examples/board_qc
@@ -60,5 +60,4 @@ install:
     - platformio lib install 416 417
 
 script:
-    - if [[ $PLATFORMIO_CI_SRC == *"WiiIRCamera"* ]]; then sed -i -- 's/#define ENABLE_WII_IR_CAMERA 0/#define ENABLE_WII_IR_CAMERA 1/g' ./settings.h; fi
     - platformio ci --board=uno --board=teensy31 --board=due --lib="."
