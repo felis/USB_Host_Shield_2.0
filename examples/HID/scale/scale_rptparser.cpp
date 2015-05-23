@@ -1,4 +1,5 @@
 /* Parser for standard HID scale (usage page 0x8d) data input report (ID 3) */ 
+#include <avr/dtostrf.h>
 #include "scale_rptparser.h"
 
 const char* UNITS[13] = {
