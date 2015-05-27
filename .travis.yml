@@ -50,11 +50,9 @@ env:
 install:
     - python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
 
-    # Use PlatformIO from development branch
-    # @TODO remove this line after 2.0.1 release
-    - pip install https://github.com/platformio/platformio/archive/develop.zip
-
-    # Libraries from PlatformIO Library Register
+    #
+    # Libraries from PlatformIO Library Registry:
+    #
     # http://platformio.org/#!/lib/show/416/TinyGPS
     # http://platformio.org/#!/lib/show/417/SPI4Teensy3
     - platformio lib install 416 417
