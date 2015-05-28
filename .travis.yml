@@ -49,6 +49,10 @@ env:
 
 install:
     - python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
+    
+    # Use PlatformIO from development branch
+    # @TODO remove this line after 2.0.3 release
+    - pip install https://github.com/platformio/platformio/archive/develop.zip    
 
     #
     # Libraries from PlatformIO Library Registry:
