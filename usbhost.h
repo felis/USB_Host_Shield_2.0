@@ -56,7 +56,7 @@ public:
                 #else
                     SPI.setClockDivider(SPI_CLOCK_DIV2); // This will set the SPI frequency to 8MHz - it could be higher, but it is not supported in the old API
                 #endif
-#else
+#elif !defined(RBL_NRF51822)
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
         }
