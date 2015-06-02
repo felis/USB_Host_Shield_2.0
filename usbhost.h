@@ -60,13 +60,6 @@ public:
                 SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
         }
-#elif defined(RBL_NRF51822)
-        static void init() {
-                SPI_SS::SetDirWrite();
-                SPI_SS::Set();
-                SPI.begin();
-                // SPI.setFrequency(SPI_FREQUENCY_8M);
-        }
 #else
         static void init() {
                 //uint8_t tmp;
