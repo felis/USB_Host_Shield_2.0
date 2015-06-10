@@ -32,7 +32,8 @@
 
 // PID and VID of the different devices
 #define XBOX_VID                                0x045E // Microsoft Corporation
-#define MADCATZ_VID                             0x1BAD // For unofficial Mad Catz controllers
+#define MADCATZ_VID                             0x0738 // For unofficial Mad Catz controllers
+#define MADCATZ_VID2                            0x1BAD // For unofficial Mad Catz controllers
 #define JOYTECH_VID                             0x162E // For unofficial Joytech controllers
 #define GAMESTOP_VID                            0x0E6F // Gamestop controller
 
@@ -40,7 +41,8 @@
 #define XBOX_WIRELESS_PID                       0x028F // Wireless controller only support charging
 #define XBOX_WIRELESS_RECEIVER_PID              0x0719 // Microsoft Wireless Gaming Receiver
 #define XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID  0x0291 // Third party Wireless Gaming Receiver
-#define MADCATZ_WIRED_PID                       0xF016 // Mad Catz wired controller
+#define MADCATZ_WIRED_PID                       0x4716 // Mad Catz wired controller
+#define MADCATZ_WIRED_PID2                      0xF016 // Mad Catz wired controller
 #define JOYTECH_WIRED_PID                       0xBEEF // For Joytech wired controller
 #define GAMESTOP_WIRED_PID                      0x0401 // Gamestop wired controller
 #define AFTERGLOW_WIRED_PID                     0x0213 // Afterglow wired controller - it uses the same VID as a Gamestop controller
@@ -101,7 +103,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == MADCATZ_WIRED_PID || pid == GAMESTOP_WIRED_PID || pid == AFTERGLOW_WIRED_PID || pid == JOYTECH_WIRED_PID));
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == MADCATZ_VID2 || vid == JOYTECH_VID || vid == GAMESTOP_VID) && (pid == XBOX_WIRED_PID || pid == MADCATZ_WIRED_PID || pid == MADCATZ_WIRED_PID2 || pid == GAMESTOP_WIRED_PID || pid == AFTERGLOW_WIRED_PID || pid == JOYTECH_WIRED_PID));
         };
         /**@}*/
 
