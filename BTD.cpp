@@ -388,7 +388,7 @@ void BTD::disconnect() {
 
 void BTD::HCI_event_task() {
         uint16_t length = BULK_MAXPKTSIZE; // Request more than 16 bytes anyway, the inTransfer routine will take care of this
-        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &length, hcibuf); // Input on endpoint 1
+        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_EVENT_PIPE ].epAddr, &length, hcibuf, pollInterval); // Input on endpoint 1
 
         if(!rcode || rcode == hrNAK) { // Check for errors
                 switch(hcibuf[0]) { // Switch on event type
@@ -900,7 +900,7 @@ void BTD::HCI_task() {
 
 void BTD::ACL_event_task() {
         uint16_t length = BULK_MAXPKTSIZE;
-        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &length, l2capinbuf); // Input on endpoint 2
+        uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ BTD_DATAIN_PIPE ].epAddr, &length, l2capinbuf, pollInterval); // Input on endpoint 2
 
         if(!rcode) { // Check for errors
                 if(length > 0) { // Check if any data was read
