@@ -245,7 +245,7 @@ public:
         /**/
         uint8_t ctrlData(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, bool direction);
         uint8_t ctrlStatus(uint8_t ep, bool direction, uint16_t nak_limit);
-        uint8_t inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data);
+        uint8_t inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval = 0);
         uint8_t outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data);
         uint8_t dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit);
 
@@ -262,7 +262,7 @@ private:
         void init();
         uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit);
         uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
-        uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data);
+        uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data, uint8_t bInterval = 0);
         uint8_t AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed);
 };
 
