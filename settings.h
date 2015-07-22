@@ -71,6 +71,12 @@ e-mail   :  support@circuitsathome.com
 #define USE_SPI4TEENSY3 1
 #endif
 
+// disabled on the Teensy LC as it is incompatible for now
+#if defined(__MKL26Z64__)
+#undef USE_SPI4TEENSY3
+#define USE_SPI4TEENSY3 0
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // AUTOMATIC Settings
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +129,7 @@ e-mail   :  support@circuitsathome.com
 #define EXT_RAM 0
 #endif
 
-#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__))
 #define USING_SPI4TEENSY3 USE_SPI4TEENSY3
 #else
 #define USING_SPI4TEENSY3 0
