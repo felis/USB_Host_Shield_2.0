@@ -163,11 +163,9 @@ protected:
                                 break;
                 }
 
-                if(old_keys != kbdLockingKeys.bLeds && hid){
-                        uint8_t lockLeds = kbdLockingKeys.bLeds;
+                if(old_keys != kbdLockingKeys.bLeds && hid)
+                        return (hid->SetReport(0, 0/*hid->GetIface()*/, 2, 0, 1, &kbdLockingKeys.bLeds));
 
-                        return (hid->SetReport(0, 0/*hid->GetIface()*/, 2, 0, 1, &lockLeds));
-								}
                 return 0;
         };
 
