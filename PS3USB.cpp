@@ -335,25 +335,23 @@ uint16_t PS3USB::getSensor(SensorEnum a) {
         return ((readBuf[((uint16_t)a) - 9] << 8) | readBuf[((uint16_t)a + 1) - 9]);
 }
 
-double PS3USB::getAngle(AngleEnum a) {
+float PS3USB::getAngle(AngleEnum a) {
         if(PS3Connected) {
-                double accXval;
-                double accYval;
-                double accZval;
+                float accXval, accYval, accZval;
 
                 // Data for the Kionix KXPC4 used in the DualShock 3
-                const double zeroG = 511.5; // 1.65/3.3*1023 (1,65V)
-                accXval = -((double)getSensor(aX) - zeroG);
-                accYval = -((double)getSensor(aY) - zeroG);
-                accZval = -((double)getSensor(aZ) - zeroG);
+                const float zeroG = 511.5f; // 1.65/3.3*1023 (1,65V)
+                accXval = -((float)getSensor(aX) - zeroG);
+                accYval = -((float)getSensor(aY) - zeroG);
+                accZval = -((float)getSensor(aZ) - zeroG);
 
                 // Convert to 360 degrees resolution
                 // atan2 outputs the value of -π to π (radians)
                 // We are then converting it to 0 to 2π and then to degrees
                 if(a == Pitch)
-                        return (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
+                        return (atan2f(accYval, accZval) + PI) * RAD_TO_DEG;
                 else
-                        return (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
+                        return (atan2f(accXval, accZval) + PI) * RAD_TO_DEG;
         } else
                 return 0;
 }

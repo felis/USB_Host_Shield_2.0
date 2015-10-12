@@ -503,9 +503,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         gyroRollRaw = ((l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6)) - gyroRollZero);
                                                                         gyroPitchRaw = ((l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6)) - gyroPitchZero);
 
-                                                                        yawGyroSpeed = (double)gyroYawRaw / ((double)gyroYawZero / yawGyroScale);
-                                                                        rollGyroSpeed = -(double)gyroRollRaw / ((double)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
-                                                                        pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
+                                                                        yawGyroSpeed = (float)gyroYawRaw / ((float)gyroYawZero / yawGyroScale);
+                                                                        rollGyroSpeed = -(float)gyroRollRaw / ((float)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
+                                                                        pitchGyroSpeed = (float)gyroPitchRaw / ((float)gyroPitchZero / pitchGyroScale);
 
                                                                         /* The onboard gyro has two ranges for slow and fast mode */
                                                                         if(!(l2capinbuf[18] & 0x02)) // Check if fast mode is used
@@ -515,12 +515,12 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         if(!(l2capinbuf[19] & 0x02)) // Check if fast mode is used
                                                                                 rollGyroSpeed *= 4.545;
 
-                                                                        compPitch = (0.93 * (compPitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimotePitch()); // Use a complimentary filter to calculate the angle
-                                                                        compRoll = (0.93 * (compRoll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimoteRoll());
+                                                                        compPitch = (0.93f * (compPitch + (pitchGyroSpeed * (float)(micros() - timer) / 1000000.0f)))+(0.07f * getWiimotePitch()); // Use a complimentary filter to calculate the angle
+                                                                        compRoll = (0.93f * (compRoll + (rollGyroSpeed * (float)(micros() - timer) / 1000000.0f)))+(0.07f * getWiimoteRoll());
 
-                                                                        gyroYaw += (yawGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                        gyroRoll += (rollGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                        gyroPitch += (pitchGyroSpeed * ((double)(micros() - timer) / 1000000));
+                                                                        gyroYaw += (yawGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
+                                                                        gyroRoll += (rollGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
+                                                                        gyroPitch += (pitchGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
                                                                         timer = micros();
                                                                         /*
                                                                         // Uncomment these lines to tune the gyro scale variabels

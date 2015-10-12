@@ -82,15 +82,15 @@ int16_t PS3BT::getSensor(SensorEnum a) {
                 return 0;
 }
 
-double PS3BT::getAngle(AngleEnum a) {
-        double accXval, accYval, accZval;
+float PS3BT::getAngle(AngleEnum a) {
+        float accXval, accYval, accZval;
 
         if(PS3Connected) {
                 // Data for the Kionix KXPC4 used in the DualShock 3
-                const double zeroG = 511.5; // 1.65/3.3*1023 (1.65V)
-                accXval = -((double)getSensor(aX) - zeroG);
-                accYval = -((double)getSensor(aY) - zeroG);
-                accZval = -((double)getSensor(aZ) - zeroG);
+                const float zeroG = 511.5f; // 1.65/3.3*1023 (1.65V)
+                accXval = -((float)getSensor(aX) - zeroG);
+                accYval = -((float)getSensor(aY) - zeroG);
+                accZval = -((float)getSensor(aZ) - zeroG);
         } else if(PS3MoveConnected) {
                 // It's a Kionix KXSC4 inside the Motion controller
                 const uint16_t zeroG = 0x8000;
@@ -104,36 +104,36 @@ double PS3BT::getAngle(AngleEnum a) {
         // atan2 outputs the value of -π to π (radians)
         // We are then converting it to 0 to 2π and then to degrees
         if(a == Pitch)
-                return (atan2(accYval, accZval) + PI) * RAD_TO_DEG;
+                return (atan2f(accYval, accZval) + PI) * RAD_TO_DEG;
         else
-                return (atan2(accXval, accZval) + PI) * RAD_TO_DEG;
+                return (atan2f(accXval, accZval) + PI) * RAD_TO_DEG;
 }
 
-double PS3BT::get9DOFValues(SensorEnum a) { // Thanks to Manfred Piendl
+float PS3BT::get9DOFValues(SensorEnum a) { // Thanks to Manfred Piendl
         if(!PS3MoveConnected)
                 return 0;
         int16_t value = getSensor(a);
         if(a == mXmove || a == mYmove || a == mZmove) {
                 if(value > 2047)
                         value -= 0x1000;
-                return (double)value / 3.2; // unit: muT = 10^(-6) Tesla
+                return (float)value / 3.2f; // unit: muT = 10^(-6) Tesla
         } else if(a == aXmove || a == aYmove || a == aZmove) {
                 if(value < 0)
                         value += 0x8000;
                 else
                         value -= 0x8000;
-                return (double)value / 442.0; // unit: m/(s^2)
+                return (float)value / 442.0f; // unit: m/(s^2)
         } else if(a == gXmove || a == gYmove || a == gZmove) {
                 if(value < 0)
                         value += 0x8000;
                 else
                         value -= 0x8000;
                 if(a == gXmove)
-                        return (double)value / 11.6; // unit: deg/s
+                        return (float)value / 11.6f; // unit: deg/s
                 else if(a == gYmove)
-                        return (double)value / 11.2; // unit: deg/s
+                        return (float)value / 11.2f; // unit: deg/s
                 else // gZmove
-                        return (double)value / 9.6; // unit: deg/s
+                        return (float)value / 9.6f; // unit: deg/s
         } else
                 return 0;
 }

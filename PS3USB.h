@@ -177,7 +177,7 @@ public:
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(AngleEnum a);
+        float getAngle(AngleEnum a);
         /**
          * Get the ::StatusEnum from the controller.
          * @param  c The ::StatusEnum you want to read.

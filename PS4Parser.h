@@ -225,11 +225,11 @@ public:
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(AngleEnum a) {
+        float getAngle(AngleEnum a) {
                 if (a == Pitch)
-                        return (atan2(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
                 else
-                        return (atan2(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
         };
 
         /**

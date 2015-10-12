@@ -107,7 +107,7 @@ public:
          * Pitch calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
          * @return Pitch in the range from 0-360.
          */
-        double getPitch() {
+        float getPitch() {
                 if(motionPlusConnected)
                         return compPitch;
                 return getWiimotePitch();
@@ -117,7 +117,7 @@ public:
          * Roll calculated from the Wiimote. A complimentary filter is used if the Motion Plus is connected.
          * @return Roll in the range from 0-360.
          */
-        double getRoll() {
+        float getRoll() {
                 if(motionPlusConnected)
                         return compRoll;
                 return getWiimoteRoll();
@@ -129,7 +129,7 @@ public:
          * <B>NOTE:</B> This angle will drift a lot and is only available if the Motion Plus extension is connected.
          * @return The angle calculated using the gyro.
          */
-        double getYaw() {
+        float getYaw() {
                 return gyroYaw;
         };
 
@@ -209,24 +209,24 @@ public:
         /**@{*/
 
         /** Pitch and roll calculated from the accelerometer inside the Wiimote. */
-        double getWiimotePitch() {
-                return (atan2(accYwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        float getWiimotePitch() {
+                return (atan2f(accYwiimote, accZwiimote) + PI) * RAD_TO_DEG;
         };
 
-        double getWiimoteRoll() {
-                return (atan2(accXwiimote, accZwiimote) + PI) * RAD_TO_DEG;
+        float getWiimoteRoll() {
+                return (atan2f(accXwiimote, accZwiimote) + PI) * RAD_TO_DEG;
         };
         /**@}*/
 
         /**@{*/
 
         /** Pitch and roll calculated from the accelerometer inside the Nunchuck. */
-        double getNunchuckPitch() {
-                return (atan2(accYnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        float getNunchuckPitch() {
+                return (atan2f(accYnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
         };
 
-        double getNunchuckRoll() {
-                return (atan2(accXnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
+        float getNunchuckRoll() {
+                return (atan2f(accXnunchuck, accZnunchuck) + PI) * RAD_TO_DEG;
         };
         /**@}*/
 
@@ -238,17 +238,17 @@ public:
 
         /* Variables for the gyro inside the Motion Plus */
         /** This is the pitch calculated by the gyro - use this to tune WII#pitchGyroScale. */
-        double gyroPitch;
+        float gyroPitch;
         /** This is the roll calculated by the gyro - use this to tune WII#rollGyroScale. */
-        double gyroRoll;
+        float gyroRoll;
         /** This is the yaw calculated by the gyro - use this to tune WII#yawGyroScale. */
-        double gyroYaw;
+        float gyroYaw;
 
         /**@{*/
         /** The speed in deg/s from the gyro. */
-        double pitchGyroSpeed;
-        double rollGyroSpeed;
-        double yawGyroSpeed;
+        float pitchGyroSpeed;
+        float rollGyroSpeed;
+        float yawGyroSpeed;
         /**@}*/
 
         /**@{*/
@@ -482,8 +482,8 @@ private:
         uint16_t wiiBalanceBoardRaw[4]; // Wii Balance Board raw values
         uint16_t wiiBalanceBoardCal[3][4]; // Wii Balance Board calibration values
 
-        double compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
-        double compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        float compPitch; // Fusioned angle using a complimentary filter if the Motion Plus is connected
+        float compRoll; // Fusioned angle using a complimentary filter if the Motion Plus is connected
 
         bool activateNunchuck;
         bool motionValuesReset; // This bool is true when the gyro values has been reset

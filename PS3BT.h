@@ -89,13 +89,13 @@ public:
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(AngleEnum a);
+        float getAngle(AngleEnum a);
         /**
          * Read the sensors inside the Move controller.
          * @param  a ::aXmove, ::aYmove, ::aZmove, ::gXmove, ::gYmove, ::gZmove, ::mXmove, ::mYmove, and ::mXmove.
          * @return   The value in SI units.
          */
-        double get9DOFValues(SensorEnum a);
+        float get9DOFValues(SensorEnum a);
         /**
          * Get the status from the controller.
          * @param  c The ::StatusEnum you want to read.
