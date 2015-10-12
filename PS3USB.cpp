@@ -555,7 +555,7 @@ void PS3USB::getMoveCalibration(uint8_t *data) {
                 // bmRequest = Device to host (0x80) | Class (0x20) | Interface (0x01) = 0xA1, bRequest = Get Report (0x01), Report ID (0x10), Report Type (Feature 0x03), interface (0x00), datalength, datalength, data
                 pUsb->ctrlReq(bAddress, epInfo[PS3_CONTROL_PIPE].epAddr, bmREQ_HID_IN, HID_REQUEST_GET_REPORT, 0x10, 0x03, 0x00, 49, 49, buf, NULL);
 
-                for(byte j = 0; j < 49; j++)
+                for(uint8_t j = 0; j < 49; j++)
                         data[49 * i + j] = buf[j];
         }
 }
