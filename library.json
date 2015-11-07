@@ -42,6 +42,7 @@
     "atmelavr",
     "teensy",
     "atmelsam",
-    "nordicnrf51"
+    "nordicnrf51",
+    "ststm32"
   ]
 }
