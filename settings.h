@@ -142,4 +142,9 @@ e-mail   :  support@circuitsathome.com
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
 
+#ifdef STM32F4
+#include "stm32f4xx_hal.h"
+extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
+#endif
+
 #endif /* SETTINGS_H */

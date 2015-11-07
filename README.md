@@ -116,6 +116,8 @@ Currently the following boards are supported by the library:
 * RedBearLab nRF51822
 * Digilent chipKIT
     * Please see: <http://www.circuitsathome.com/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
+* STM32F4
+    * Currently the [NUCLEO-F446RE](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF262063) is supported featuring the STM32F446. Take a look at the following example code: <https://github.com/Lauszus/Nucleo_F446RE_USBHost>.
 
 The following boards need to be activated manually in [settings.h](settings.h):
 

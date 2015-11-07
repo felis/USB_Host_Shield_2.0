@@ -37,7 +37,7 @@ e-mail   :  support@circuitsathome.com
                             sendbyte(a);    \
                         }
 
-static byte lcdPins; //copy of LCD pins
+static uint8_t lcdPins; //copy of LCD pins
 
 Max_LCD::Max_LCD(USB *pusb) : pUsb(pusb) {
         lcdPins = 0;

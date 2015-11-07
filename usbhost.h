@@ -45,6 +45,11 @@ public:
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
         }
+#elif defined(STM32F4)
+#warning "You need to initialize the SPI interface manually when using the STM32F4 platform"
+        static void init() {
+                // Should be initialized by the user manually for now
+        }
 #elif !defined(SPDR)
         static void init() {
                 SPI_SS::SetDirWrite();
@@ -86,7 +91,7 @@ typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
-#elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__))) || defined(__ARDUINO_X86__) || defined(__MIPSEL__)
+#elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__))) || defined(__ARDUINO_X86__) || defined(__MIPSEL__) || defined(STM32F4)
 typedef SPi< P13, P11, P12, P10 > spi;
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 typedef SPi< P76, P75, P74, P10 > spi;
@@ -162,6 +167,11 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         SPI.transfer(c, 2);
+#elif defined(STM32F4)
+        uint8_t c[2];
+        c[0] = reg | 0x02;
+        c[1] = data;
+        HAL_SPI_Transmit(&SPI_Handle, c, 2, HAL_MAX_DELAY);
 #elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
         SPI.transfer(data);
@@ -201,6 +211,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg | 0x02);
         SPI.transferBuffer(data_p, NULL, nbytes);
+        data_p += nbytes;
+#elif defined(STM32F4)
+        uint8_t data = reg | 0x02;
+        HAL_SPI_Transmit(&SPI_Handle, &data, 1, HAL_MAX_DELAY);
+        HAL_SPI_Transmit(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
 #elif !defined(SPDR)
         SPI.transfer(reg | 0x02);
@@ -252,6 +267,11 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         spi4teensy3::send(reg);
         uint8_t rv = spi4teensy3::receive();
         SPI_SS::Set();
+#elif defined(STM32F4)
+        HAL_SPI_Transmit(&SPI_Handle, &reg, 1, HAL_MAX_DELAY);
+        uint8_t rv = 0;
+        HAL_SPI_Receive(&SPI_Handle, &rv, 1, HAL_MAX_DELAY);
+        SPI_SS::Set();
 #elif !defined(SPDR) || SPI_HAS_TRANSACTION
         SPI.transfer(reg);
         uint8_t rv = SPI.transfer(0); // Send empty byte
@@ -294,6 +314,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg);
         SPI.transferBuffer(NULL, data_p, nbytes);
+        data_p += nbytes;
+#elif defined(STM32F4)
+        HAL_SPI_Transmit(&SPI_Handle, &reg, 1, HAL_MAX_DELAY);
+        memset(data_p, 0, nbytes); // Make sure we send out empty bytes
+        HAL_SPI_Receive(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
 #elif !defined(SPDR)
         SPI.transfer(reg);

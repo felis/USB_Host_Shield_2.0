@@ -1074,6 +1074,62 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #undef MAKE_PIN
 
+#elif defined(STM32F446xx)
+// NUCLEO-F446RE
+
+#define MAKE_PIN(className, port, pin) \
+class className { \
+public: \
+  static void Set() { \
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET); \
+  } \
+  static void Clear() { \
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET); \
+  } \
+  static void SetDirRead() { \
+    static GPIO_InitTypeDef GPIO_InitStruct; \
+    GPIO_InitStruct.Pin = pin; \
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT; \
+    GPIO_InitStruct.Pull = GPIO_NOPULL; \
+    HAL_GPIO_Init(port, &GPIO_InitStruct); \
+  } \
+  static void SetDirWrite() { \
+    static GPIO_InitTypeDef GPIO_InitStruct; \
+    GPIO_InitStruct.Pin = pin; \
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP; \
+    GPIO_InitStruct.Pull = GPIO_NOPULL; \
+    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH; \
+    HAL_GPIO_Init(port, &GPIO_InitStruct); \
+  } \
+  static GPIO_PinState IsSet() { \
+    return HAL_GPIO_ReadPin(port, pin); \
+  } \
+};
+
+MAKE_PIN(P0, GPIOA, GPIO_PIN_3); // D0
+MAKE_PIN(P1, GPIOA, GPIO_PIN_2); // D1
+MAKE_PIN(P2, GPIOA, GPIO_PIN_10); // D2
+MAKE_PIN(P3, GPIOB, GPIO_PIN_3); // D3
+MAKE_PIN(P4, GPIOB, GPIO_PIN_5); // D4
+MAKE_PIN(P5, GPIOB, GPIO_PIN_4); // D5
+MAKE_PIN(P6, GPIOB, GPIO_PIN_10); // D6
+MAKE_PIN(P7, GPIOA, GPIO_PIN_8); // D7
+MAKE_PIN(P8, GPIOA, GPIO_PIN_9); // D8
+MAKE_PIN(P9, GPIOC, GPIO_PIN_7); // D9
+MAKE_PIN(P10, GPIOB, GPIO_PIN_6); // D10
+MAKE_PIN(P11, GPIOA, GPIO_PIN_7); // D11
+MAKE_PIN(P12, GPIOA, GPIO_PIN_6); // D12
+MAKE_PIN(P13, GPIOA, GPIO_PIN_5); // D13
+
+MAKE_PIN(P14, GPIOA, GPIO_PIN_0); // A0
+MAKE_PIN(P15, GPIOA, GPIO_PIN_1); // A1
+MAKE_PIN(P16, GPIOA, GPIO_PIN_4); // A2
+MAKE_PIN(P17, GPIOB, GPIO_PIN_0); // A3
+MAKE_PIN(P18, GPIOC, GPIO_PIN_1); // A4
+MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
+
+#undef MAKE_PIN
+
 #else
 #error "Please define board in avrpins.h"
 
