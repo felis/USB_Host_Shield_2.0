@@ -33,10 +33,14 @@
   },
   "examples":
   [
-  	"examples/*/*.ino",
-  	"examples/*/*/*.ino"
+    "examples/*/*.ino",
+    "examples/*/*/*.ino"
   ],
-  "frameworks": "arduino",
+  "frameworks":
+  [
+    "arduino",
+    "spl"
+  ],
   "platforms":
   [
     "atmelavr",
