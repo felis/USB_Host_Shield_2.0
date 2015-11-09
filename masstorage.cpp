@@ -754,7 +754,7 @@ uint8_t BulkOnly::ModeSense6(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subp
         Notify(PSTR("\r\rModeSense\r\n"), 0x80);
         Notify(PSTR("------------\r\n"), 0x80);
 
-        CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage), len, 0);
+        CDB6_t cdb = CDB6_t(SCSI_CMD_MODE_SENSE_6, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage), len, 0);
         return SCSITransaction6(&cdb, len, pbuf, (uint8_t)MASS_CMD_DIR_IN);
 }
 
