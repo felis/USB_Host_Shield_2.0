@@ -73,11 +73,16 @@ public:
                 protocolMode = mode;
         };
 
+        /**@{*/
         /**
          * Used to set the leds on a keyboard.
-         * @param data See KBDLEDS in hidboot.h
+         * @param data See ::KBDLEDS in hidboot.h
          */
+        void setLeds(struct KBDLEDS data) {
+                setLeds(*((uint8_t*)&data));
+        };
         void setLeds(uint8_t data);
+        /**@}*/
 
         /** True if a device is connected */
         bool connected;
