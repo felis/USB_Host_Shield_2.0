@@ -45,7 +45,8 @@ ready(false) {
         for(uint8_t i = 0; i < ADK_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
+                epInfo[i].bmSndToggle = 0;
+                epInfo[i].bmRcvToggle = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
 

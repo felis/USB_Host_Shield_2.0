@@ -663,7 +663,8 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
 
         epInfo.epAddr = 0;
         epInfo.maxPktSize = 8;
-        epInfo.epAttribs = 0;
+        epInfo.bmSndToggle = 0;
+        epInfo.bmRcvToggle = 0;
         epInfo.bmNakPower = USB_NAK_MAX_POWER;
 
         //delay(2000);
