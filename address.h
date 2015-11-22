@@ -169,7 +169,8 @@ public:
                 thePool[0].epinfo = &dev0ep;
                 dev0ep.epAddr = 0;
                 dev0ep.maxPktSize = 8;
-                dev0ep.epAttribs = 0; //set DATA0/1 toggles to 0
+                dev0ep.bmSndToggle = 0; // Set DATA0/1 toggles to 0
+                dev0ep.bmRcvToggle = 0;
                 dev0ep.bmNakPower = USB_NAK_MAX_POWER;
 
                 InitAllAddresses();
