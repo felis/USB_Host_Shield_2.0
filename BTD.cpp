@@ -101,6 +101,9 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
         }
 
+        if (udd->bDeviceClass == 0x09) // Some dongles have an USB hub inside
+                goto FailHub;
+
         epInfo[0].maxPktSize = udd->bMaxPacketSize0; // Extract Max Packet Size from device descriptor
         epInfo[1].epAddr = udd->bNumConfigurations; // Steal and abuse from epInfo structure to save memory
 
@@ -108,6 +111,15 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         PID = udd->idProduct;
 
         return USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET;
+
+FailHub:
+#ifdef DEBUG_USB_HOST
+        Notify(PSTR("\r\nPlease create a hub instance in your code: \"USBHub Hub1(&Usb);\""), 0x80);
+#endif
+        pUsb->setAddr(bAddress, 0, 0); // Reset address
+        rcode = USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
+        Release();
+        return rcode;
 
 FailGetDevDescr:
 #ifdef DEBUG_USB_HOST
