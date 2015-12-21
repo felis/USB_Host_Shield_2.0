@@ -108,6 +108,7 @@ Currently the following boards are supported by the library:
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
 * Arduino Due, Intel Galileo, Intel Galileo 2, and Intel Edison
     * Note that the Intel Galileo uses pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
+    * Note native USB host is not supported on any of these platforms. You will have to use the shield for now.
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, and Teensy LC)
     * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
