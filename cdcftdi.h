@@ -107,13 +107,14 @@ class FTDI : public USBDeviceConfig, public UsbConfigXtracter {
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
         uint16_t wFTDIType; // Type of FTDI chip
+        uint16_t wIdProduct; // expected PID
 
         EpInfo epInfo[FTDI_MAX_ENDPOINTS];
 
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-        FTDI(USB *pusb, FTDIAsyncOper *pasync);
+        FTDI(USB *pusb, FTDIAsyncOper *pasync, uint16_t idProduct = FTDI_PID);
 
         uint8_t SetBaudRate(uint32_t baud);
         uint8_t SetModemControl(uint16_t control);
