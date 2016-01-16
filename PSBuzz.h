@@ -143,7 +143,7 @@ protected:
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
         /**
          * Called when a device is successfully initialized.

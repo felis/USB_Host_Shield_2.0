@@ -1578,7 +1578,7 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
         E_Notify(PSTR("\r\n"), 0x80);
 }
 
-void UniversalReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+void UniversalReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
         ReportDescParser2 prs(len, buf);
 
         uint8_t ret = hid->GetReportDescr(0, &prs);

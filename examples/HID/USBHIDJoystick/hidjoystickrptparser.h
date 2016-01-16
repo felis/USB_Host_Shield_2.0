@@ -27,7 +27,7 @@ class JoystickReportParser : public HIDReportParser {
 public:
         JoystickReportParser(JoystickEvents *evt);
 
-        virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 };
 
 #endif // __HIDJOYSTICKRPTPARSER_H__

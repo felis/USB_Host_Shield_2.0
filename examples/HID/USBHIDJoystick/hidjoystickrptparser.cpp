@@ -8,7 +8,7 @@ oldButtons(0) {
                 oldPad[i] = 0xD;
 }
 
-void JoystickReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+void JoystickReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
         bool match = true;
 
         // Checking if there are changes in report since the method was last called

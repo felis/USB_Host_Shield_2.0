@@ -14,7 +14,7 @@
 USB Usb;
 USBHub Hub1(&Usb);
 USBHub Hub2(&Usb);
-HIDBoot<HID_PROTOCOL_KEYBOARD> HidKeyboard(&Usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&Usb);
 
 ADK adk(&Usb,"Circuits@Home, ltd.",
             "USB Host Shield",

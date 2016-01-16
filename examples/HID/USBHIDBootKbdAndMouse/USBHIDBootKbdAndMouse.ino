@@ -141,9 +141,9 @@ void KbdRptParser::OnKeyPressed(uint8_t key)
 USB     Usb;
 USBHub     Hub(&Usb);
 
-HIDBoot < HID_PROTOCOL_KEYBOARD | HID_PROTOCOL_MOUSE > HidComposite(&Usb);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    HidKeyboard(&Usb);
-HIDBoot<HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
+HIDBoot < USB_HID_PROTOCOL_KEYBOARD | USB_HID_PROTOCOL_MOUSE > HidComposite(&Usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&Usb);
+HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
 
 //uint32_t next_time;
 

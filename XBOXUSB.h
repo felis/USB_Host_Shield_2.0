@@ -19,7 +19,7 @@
 #define _xboxusb_h_
 
 #include "Usb.h"
-#include "hid.h"
+#include "usbhid.h"
 #include "xboxEnums.h"
 
 /* Data Xbox 360 taken from descriptors */
