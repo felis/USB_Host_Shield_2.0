@@ -67,7 +67,7 @@ public:
 
         /**
          * Set HID protocol mode.
-         * @param mode HID protocol to use. Either HID_BOOT_PROTOCOL or HID_RPT_PROTOCOL.
+         * @param mode HID protocol to use. Either USB_HID_BOOT_PROTOCOL or HID_RPT_PROTOCOL.
          */
         void setProtocolMode(uint8_t mode) {
                 protocolMode = mode;

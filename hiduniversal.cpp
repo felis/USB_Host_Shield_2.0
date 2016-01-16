@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 #include "hiduniversal.h"
 
 HIDUniversal::HIDUniversal(USB *p) :
-HID(p),
+USBHID(p),
 qNextPollTime(0),
 pollInterval(0),
 bPollEnable(false),

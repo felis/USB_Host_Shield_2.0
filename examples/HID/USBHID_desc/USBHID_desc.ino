@@ -1,4 +1,4 @@
-#include <hid.h>
+#include <usbhid.h>
 #include <hiduniversal.h>
 #include <hidescriptorparser.h>
 #include <usbhub.h>

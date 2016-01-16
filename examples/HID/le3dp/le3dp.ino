@@ -1,6 +1,6 @@
 /* Simplified Logitech Extreme 3D Pro Joystick Report Parser */
 
-#include <hid.h>
+#include <usbhid.h>
 #include <hiduniversal.h>
 #include <usbhub.h>
 
