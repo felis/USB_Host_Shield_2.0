@@ -45,7 +45,7 @@ void setup() {
 
   // If "Boot Protocol Mode" does not work, then try "Report Protocol Mode"
   // If that does not work either, then uncomment PRINTREPORT in BTHID.cpp to see the raw report
-  bthid.setProtocolMode(HID_BOOT_PROTOCOL); // Boot Protocol Mode
+  bthid.setProtocolMode(USB_HID_BOOT_PROTOCOL); // Boot Protocol Mode
   //bthid.setProtocolMode(HID_RPT_PROTOCOL); // Report Protocol Mode
 
   Serial.print(F("\r\nHID Bluetooth Library Started"));
