@@ -16,7 +16,7 @@ e-mail   :  support@circuitsathome.com
  */
 #include "hidboot.h"
 
-void MouseReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+void MouseReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
         MOUSEINFO *pmi = (MOUSEINFO*)buf;
         // Future:
         // bool event;
@@ -124,7 +124,7 @@ void MouseReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *bu
 
 };
 
-void KeyboardReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+void KeyboardReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
         // On error - return
         if (buf[2] == 1)
                 return;

@@ -18,10 +18,10 @@ e-mail   :  support@circuitsathome.com
 #if !defined(__HIDUNIVERSAL_H__)
 #define __HIDUNIVERSAL_H__
 
-#include "hid.h"
+#include "usbhid.h"
 //#include "hidescriptorparser.h"
 
-class HIDUniversal : public HID {
+class HIDUniversal : public USBHID {
 
         struct ReportParser {
                 uint8_t rptId;
@@ -75,7 +75,7 @@ protected:
                 return 0;
         };
 
-        virtual void ParseHIDData(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
                 return;
         };
 

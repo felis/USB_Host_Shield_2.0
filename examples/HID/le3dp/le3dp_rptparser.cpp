@@ -4,7 +4,7 @@ JoystickReportParser::JoystickReportParser(JoystickEvents *evt) :
 	joyEvents(evt)
 {}
 
-void JoystickReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
+void JoystickReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
 {
 	bool match = true;
 

@@ -1,7 +1,7 @@
 /* Digital Scale Output. Written for Stamps.com Model 510  */
 /* 5lb Digital Scale; any HID scale with Usage page 0x8d should work */
 
-#include <hid.h>
+#include <usbhid.h>
 #include <hiduniversal.h>
 #include <usbhub.h>
 

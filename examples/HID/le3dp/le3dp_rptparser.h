@@ -1,7 +1,7 @@
 #if !defined(__HIDJOYSTICKRPTPARSER_H__)
 #define __HIDJOYSTICKRPTPARSER_H__
 
-#include <hid.h>
+#include <usbhid.h>
 
 struct GamePadEventData
 {
@@ -36,7 +36,7 @@ class JoystickReportParser : public HIDReportParser
 public:
 	JoystickReportParser(JoystickEvents *evt);
 
-	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+	virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 };
 
 #endif // __HIDJOYSTICKRPTPARSER_H__

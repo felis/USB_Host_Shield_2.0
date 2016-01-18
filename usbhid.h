@@ -14,8 +14,8 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-#if !defined(__HID_H__)
-#define __HID_H__
+#if !defined(__USBHID_H__)
+#define __USBHID_H__
 
 #include "Usb.h"
 #include "hidusagestr.h"
@@ -79,7 +79,7 @@ e-mail   :  support@circuitsathome.com
 #define HID_DESRIPTOR_PHY                       0x23
 
 /* Protocol Selection */
-#define HID_BOOT_PROTOCOL                       0x00
+#define USB_HID_BOOT_PROTOCOL                   0x00
 #define HID_RPT_PROTOCOL                        0x01
 
 /* HID Interface Class Code */
@@ -89,9 +89,9 @@ e-mail   :  support@circuitsathome.com
 #define HID_BOOT_INTF_SUBCLASS                  0x01
 
 /* HID Interface Class Protocol Codes */
-#define HID_PROTOCOL_NONE                       0x00
-#define HID_PROTOCOL_KEYBOARD                   0x01
-#define HID_PROTOCOL_MOUSE                      0x02
+#define USB_HID_PROTOCOL_NONE                       0x00
+#define USB_HID_PROTOCOL_KEYBOARD                   0x01
+#define USB_HID_PROTOCOL_MOUSE                      0x02
 
 #define HID_ITEM_TYPE_MAIN                      0
 #define HID_ITEM_TYPE_GLOBAL                    1
@@ -133,14 +133,14 @@ struct MainItemIOFeature {
         uint8_t bmIsVolatileOrNonVolatile : 1;
 };
 
-class HID;
+class USBHID;
 
 class HIDReportParser {
 public:
-        virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) = 0;
+        virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) = 0;
 };
 
-class HID : public USBDeviceConfig, public UsbConfigXtracter {
+class USBHID : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
         USB *pUsb; // USB class instance pointer
         uint8_t bAddress; // address
@@ -162,7 +162,7 @@ protected:
 
 public:
 
-        HID(USB *pusb) : pUsb(pusb) {
+        USBHID(USB *pusb) : pUsb(pusb) {
         };
 
         const USB* GetUsb() {
@@ -185,4 +185,4 @@ public:
         uint8_t SetReport(uint8_t ep, uint8_t iface, uint8_t report_type, uint8_t report_id, uint16_t nbytes, uint8_t* dataptr);
 };
 
-#endif // __HID_H__
+#endif // __USBHID_H__
