@@ -138,8 +138,8 @@ void KbdRptParser::OnKeyPressed(uint8_t key)
   Serial.println((char)key);
 };
 
-USBHost     usb;
-USBHub     Hub(&usb);
+USBHost usb;
+USBHub  Hub(&usb);
 
 HIDBoot < USB_HID_PROTOCOL_KEYBOARD | USB_HID_PROTOCOL_MOUSE > HidComposite(&usb);
 HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&usb);

@@ -7,7 +7,7 @@
 #include <SPI.h>
 #endif
 
-USBHost     usb;
+USBHost usb;
 USBHub  Hub1(&usb);
 USBHub  Hub2(&usb);
 USBHub  Hub3(&usb);

@@ -27,16 +27,16 @@ void setup()
   Serial.println("Start");
 
   if (usb.Init() == -1)
-      Serial.println("OSC did not start.");
+    Serial.println("OSC did not start.");
 
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Joy))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
+    ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()
 {
-    usb.Task();
+  usb.Task();
 }
 

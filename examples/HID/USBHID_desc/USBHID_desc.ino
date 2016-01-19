@@ -21,31 +21,31 @@ protected:
 
 uint8_t HIDUniversal2::OnInitSuccessful()
 {
-    uint8_t    rcode;
+  uint8_t    rcode;
 
-    HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
-    ReportDescParser                                Rpt;
+  HexDumper<USBReadParser, uint16_t, uint16_t>    Hex;
+  ReportDescParser                                Rpt;
 
-    if ((rcode = GetReportDescr(0, &Hex)))
-        goto FailGetReportDescr1;
+  if ((rcode = GetReportDescr(0, &Hex)))
+    goto FailGetReportDescr1;
 
-    if ((rcode = GetReportDescr(0, &Rpt)))
-	goto FailGetReportDescr2;
+  if ((rcode = GetReportDescr(0, &Rpt)))
+    goto FailGetReportDescr2;
 
-    return 0;
+  return 0;
 
 FailGetReportDescr1:
-    USBTRACE("GetReportDescr1:");
-    goto Fail;
+  USBTRACE("GetReportDescr1:");
+  goto Fail;
 
 FailGetReportDescr2:
-    USBTRACE("GetReportDescr2:");
-    goto Fail;
+  USBTRACE("GetReportDescr2:");
+  goto Fail;
 
 Fail:
-    Serial.println(rcode, HEX);
-    Release();
-    return rcode;
+  Serial.println(rcode, HEX);
+  Release();
+  return rcode;
 }
 
 USBHost usb;
@@ -62,16 +62,16 @@ void setup()
   Serial.println("Start");
 
   if (usb.Init() == -1)
-      Serial.println("OSC did not start.");
+    Serial.println("OSC did not start.");
 
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Uni))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
+    ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()
 {
-    usb.Task();
+  usb.Task();
 }
 
