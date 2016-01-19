@@ -13,7 +13,7 @@
 class HIDUniversal2 : public HIDUniversal
 {
 public:
-    HIDUniversal2(USB *usb) : HIDUniversal(usb) {};
+    HIDUniversal2(USBHost *usb) : HIDUniversal(usb) {};
 
 protected:
     uint8_t OnInitSuccessful();
@@ -48,9 +48,9 @@ Fail:
     return rcode;
 }
 
-USB Usb;
-//USBHub Hub(&Usb);
-HIDUniversal2 Hid(&Usb);
+USBHost usb;
+//USBHub Hub(&usb);
+HIDUniversal2 Hid(&usb);
 UniversalReportParser Uni;
 
 void setup()
@@ -61,7 +61,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
       Serial.println("OSC did not start.");
 
   delay( 200 );
@@ -72,6 +72,6 @@ void setup()
 
 void loop()
 {
-    Usb.Task();
+    usb.Task();
 }
 

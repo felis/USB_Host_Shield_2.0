@@ -10,9 +10,9 @@
 
 #include "hidjoystickrptparser.h"
 
-USB Usb;
-USBHub Hub(&Usb);
-HIDUniversal Hid(&Usb);
+USBHost usb;
+USBHub Hub(&usb);
+HIDUniversal Hid(&usb);
 JoystickEvents JoyEvents;
 JoystickReportParser Joy(&JoyEvents);
 
@@ -23,7 +23,7 @@ void setup() {
 #endif
         Serial.println("Start");
 
-        if (Usb.Init() == -1)
+        if (usb.Init() == -1)
                 Serial.println("OSC did not start.");
 
         delay(200);
@@ -33,6 +33,6 @@ void setup() {
 }
 
 void loop() {
-        Usb.Task();
+        usb.Task();
 }
 

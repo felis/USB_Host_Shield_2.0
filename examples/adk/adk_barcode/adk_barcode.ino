@@ -11,13 +11,13 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-USBHub Hub1(&Usb);
-USBHub Hub2(&Usb);
-HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&Usb);
+USBHost usb;
+USBHub Hub1(&usb);
+USBHub Hub2(&usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&usb);
 
-ADK adk(&Usb,"Circuits@Home, ltd.",
-            "USB Host Shield",
+ADK adk(&usb,"Circuits@Home, ltd.",
+            "USBHost Host Shield",
             "Arduino Terminal for Android",
             "1.0",
             "http://www.circuitsathome.com",
@@ -75,10 +75,10 @@ void setup()
 #endif
   Serial.println("\r\nADK demo start");
 
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.println("OSCOKIRQ failed to assert");
     while(1); //halt
-  }//if (Usb.Init() == -1...
+  }//if (usb.Init() == -1...
 
   HidKeyboard.SetReportParser(0, (HIDReportParser*)&Prs);
 
@@ -87,5 +87,5 @@ void setup()
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 }

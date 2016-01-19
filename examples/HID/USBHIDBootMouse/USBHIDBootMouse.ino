@@ -50,9 +50,9 @@ void MouseRptParser::OnMiddleButtonDown	(MOUSEINFO *mi)
     Serial.println("M Butt Dn");
 };
 
-USB     Usb;
-USBHub     Hub(&Usb);
-HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
+USBHost     usb;
+USBHub     Hub(&usb);
+HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&usb);
 
 uint32_t next_time;
 
@@ -66,7 +66,7 @@ void setup()
 #endif
     Serial.println("Start");
 
-    if (Usb.Init() == -1)
+    if (usb.Init() == -1)
         Serial.println("OSC did not start.");
 
     delay( 200 );
@@ -78,6 +78,6 @@ void setup()
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 }
 

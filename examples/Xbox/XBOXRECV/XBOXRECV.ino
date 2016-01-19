@@ -13,22 +13,22 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-XBOXRECV Xbox(&Usb);
+USBHost usb;
+XBOXRECV Xbox(&usb);
 
 void setup() {
   Serial.begin(115200);
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
   Serial.print(F("\r\nXbox Wireless Receiver Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
   if (Xbox.XboxReceiverConnected) {
     for (uint8_t i = 0; i < 4; i++) {
       if (Xbox.Xbox360Connected[i]) {

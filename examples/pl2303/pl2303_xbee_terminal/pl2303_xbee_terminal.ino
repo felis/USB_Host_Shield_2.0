@@ -44,10 +44,10 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm)
 
     return rcode;
 }
-USB     Usb;
-//USBHub     Hub(&Usb);
+USBHost     usb;
+//USBHub     Hub(&usb);
 PLAsyncOper  AsyncOper;
-PL2303       Pl(&Usb, &AsyncOper);
+PL2303       Pl(&usb, &AsyncOper);
 
 void setup()
 {
@@ -57,7 +57,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
       Serial.println("OSCOKIRQ failed to assert");
 
   delay( 200 );
@@ -65,9 +65,9 @@ void setup()
 
 void loop()
 {
-    Usb.Task();
+    usb.Task();
 
-    if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
+    if( usb.getUsbTaskState() == USB_STATE_RUNNING )
     {
        uint8_t rcode;
 
@@ -111,7 +111,7 @@ void loop()
               }
             }
         delay(10);
-    }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING..
+    }//if( usb.getUsbTaskState() == USB_STATE_RUNNING..
 }
 
 

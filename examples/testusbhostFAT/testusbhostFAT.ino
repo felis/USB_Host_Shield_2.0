@@ -88,7 +88,7 @@ volatile int brightness = 0; // how bright the LED is
 volatile int fadeAmount = 80; // how many points to fade the LED by
 #endif
 
-USB Usb;
+USBHost usb;
 
 volatile uint8_t current_state = 1;
 volatile uint8_t last_state = 0;
@@ -297,7 +297,7 @@ void setup() {
         // Besides, it is easier to initialize stuff...
 #if WANT_HUB_TEST
         for(int i = 0; i < MAX_HUBS; i++) {
-                Hubs[i] = new USBHub(&Usb);
+                Hubs[i] = new USBHub(&usb);
 #if defined(__AVR__)
                 printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
 #endif
@@ -306,7 +306,7 @@ void setup() {
         // Initialize generic storage. This must be done before USB starts.
         Init_Generic_Storage();
 
-        while(Usb.Init(1000) == -1) {
+        while(usb.Init(1000) == -1) {
                 printf_P(PSTR("No USB HOST Shield?\r\n"));
                 Notify(PSTR("OSC did not start."), 0x40);
         }
@@ -429,15 +429,15 @@ void loop() {
         if(change) {
                 change = false;
                 if(usbon) {
-                        Usb.vbusPower(vbus_on);
+                        usb.vbusPower(vbus_on);
                         printf_P(PSTR("VBUS on\r\n"));
                 } else {
-                        Usb.vbusPower(vbus_off);
+                        usb.vbusPower(vbus_off);
                         usbon_time = millis() + 2000;
                 }
         }
-        Usb.Task();
-        current_state = Usb.getUsbTaskState();
+        usb.Task();
+        current_state = usb.getUsbTaskState();
         if(current_state != last_state) {
                 if(UsbDEBUGlvl > 0x50)
                         printf_P(PSTR("USB state = %x\r\n"), current_state);

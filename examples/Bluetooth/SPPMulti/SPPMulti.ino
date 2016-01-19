@@ -13,10 +13,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
 
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 
 const uint8_t length = 2; // Set the number of instances here
 SPP *SerialBT[length]; // We will use this pointer to store the instances, you can easily make it larger if you like, but it will use a lot of RAM!
@@ -31,7 +31,7 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt
   }
@@ -39,7 +39,7 @@ void setup() {
 }
 
 void loop() {
-  Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
+  usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
 
   for (uint8_t i = 0; i < length; i++) {
     if (SerialBT[i]->connected) {

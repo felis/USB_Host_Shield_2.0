@@ -19,10 +19,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
 
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instances of the bluetooth services in two ways */
 SPP SerialBT(&Btd); // This will set the name to the defaults: "Arduino" and the pin to "0000"
@@ -38,7 +38,7 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
@@ -46,7 +46,7 @@ void setup() {
   output.reserve(200); // Reserve 200 bytes for the output string
 }
 void loop() {
-  Usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
+  usb.Task(); // The SPP data is actually not send until this is called, one could call SerialBT.send() directly as well
 
   if (SerialBT.connected) {
     if (firstMessage) {

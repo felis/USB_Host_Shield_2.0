@@ -13,10 +13,10 @@
 #include <SPI.h>
 #endif
 
-USB                                             Usb;
-USBHub                                          Hub(&Usb);
-HIDUniversal                                    Hid(&Usb);
-Max_LCD                                       LCD(&Usb);
+USBHost                                             usb;
+USBHub                                          Hub(&usb);
+HIDUniversal                                    Hid(&usb);
+Max_LCD                                       LCD(&usb);
 ScaleEvents                                  ScaleEvents(&LCD);
 ScaleReportParser                            Scale(&ScaleEvents);
 
@@ -28,7 +28,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
       Serial.println("OSC did not start.");
 
     // set up the LCD's number of rows and columns:
@@ -46,6 +46,6 @@ void setup()
 
 void loop()
 {
-    Usb.Task();
+    usb.Task();
 }
 
