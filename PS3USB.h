@@ -50,12 +50,12 @@ class PS3USB : public USBDeviceConfig {
 public:
         /**
          * Constructor for the PS3USB class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          * @param  btadr5,btadr4,btadr3,btadr2,btadr1,btadr0
          * Pass your dongles Bluetooth address into the constructor,
          * so you are able to pair the controller with a Bluetooth dongle.
          */
-        PS3USB(USB *pUsb, uint8_t btadr5 = 0, uint8_t btadr4 = 0, uint8_t btadr3 = 0, uint8_t btadr2 = 0, uint8_t btadr1 = 0, uint8_t btadr0 = 0);
+        PS3USB(USBHost *pUsb, uint8_t btadr5 = 0, uint8_t btadr4 = 0, uint8_t btadr3 = 0, uint8_t btadr2 = 0, uint8_t btadr1 = 0, uint8_t btadr0 = 0);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -264,8 +264,8 @@ public:
         bool PS3NavigationConnected;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */

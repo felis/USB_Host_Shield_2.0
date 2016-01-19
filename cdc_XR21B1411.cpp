@@ -16,7 +16,7 @@ e-mail   :  support@circuitsathome.com
  */
 #include "cdc_XR21B1411.h"
 
-XR21B1411::XR21B1411(USB *p, CDCAsyncOper *pasync) :
+XR21B1411::XR21B1411(USBHost *p, CDCAsyncOper *pasync) :
 ACM(p, pasync) {
         // Is this needed??
         _enhanced_status = enhanced_features(); // Set up features
@@ -29,7 +29,7 @@ uint8_t XR21B1411::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
 
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t num_of_conf; // number of configurations
 

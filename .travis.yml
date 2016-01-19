@@ -64,4 +64,4 @@ install:
     - platformio lib install 416 417
 
 script:
-    - platformio ci --board=uno --board=teensy31 --board=due --lib="."
+    - platformio ci --board=uno --board=teensy31 --board=due --board=zero --lib="."

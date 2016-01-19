@@ -56,9 +56,9 @@ class XBOXRECV : public USBDeviceConfig {
 public:
         /**
          * Constructor for the XBOXRECV class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          */
-        XBOXRECV(USB *pUsb);
+        XBOXRECV(USBHost *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -231,8 +231,8 @@ public:
         uint8_t Xbox360Connected[4];
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */

@@ -70,7 +70,7 @@ protected:
         static const uint8_t epDataOutIndex; // DataOUT endpoint index
 
         /* mandatory members */
-        USB *pUsb;
+        USBHost *pUsb;
         uint8_t bAddress;
         uint8_t bConfNum; // configuration number
 
@@ -83,7 +83,7 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-        ADK(USB *pUsb, const char* manufacturer,
+        ADK(USBHost *pUsb, const char* manufacturer,
                 const char* model,
                 const char* description,
                 const char* version,

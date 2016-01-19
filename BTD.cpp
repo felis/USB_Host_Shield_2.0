@@ -24,12 +24,12 @@ const uint8_t BTD::BTD_EVENT_PIPE = 1;
 const uint8_t BTD::BTD_DATAIN_PIPE = 2;
 const uint8_t BTD::BTD_DATAOUT_PIPE = 3;
 
-BTD::BTD(USB *p) :
+BTD::BTD(USBHost *p) :
 connectToWii(false),
 pairWithWii(false),
 connectToHIDDevice(false),
 pairWithHIDDevice(false),
-pUsb(p), // Pointer to USB class instance - mandatory
+pUsb(p), // Pointer to USBHost class instance - mandatory
 bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
 qNextPollTime(0), // Reset NextPollTime
@@ -50,7 +50,7 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[constBufSize];
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
 
         Initialize(); // Set all variables, endpoint structs etc. to default values
@@ -140,7 +140,7 @@ uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nBTD Init"), 0x80);
 #endif
-        UsbDevice *p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
+        UsbDeviceDefinition *p = addrPool.GetUsbDevicePtr(bAddress); // Get pointer to assigned address record
 
         if(!p) {
 #ifdef DEBUG_USB_HOST

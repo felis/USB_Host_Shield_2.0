@@ -20,7 +20,7 @@ const uint8_t ACM::epDataInIndex = 1;
 const uint8_t ACM::epDataOutIndex = 2;
 const uint8_t ACM::epInterruptInIndex = 3;
 
-ACM::ACM(USB *p, CDCAsyncOper *pasync) :
+ACM::ACM(USBHost *p, CDCAsyncOper *pasync) :
 pUsb(p),
 pAsync(pasync),
 bAddress(0),
@@ -51,7 +51,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
 
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t num_of_conf; // number of configurations
 

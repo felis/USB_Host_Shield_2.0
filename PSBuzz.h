@@ -44,9 +44,9 @@ class PSBuzz : public HIDUniversal {
 public:
         /**
          * Constructor for the PSBuzz class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        PSBuzz(USB *p) :
+        PSBuzz(USBHost *p) :
         HIDUniversal(p) {
                 Reset();
         };

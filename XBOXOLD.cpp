@@ -44,8 +44,8 @@ const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
         3, // Y
 };
 
-XBOXOLD::XBOXOLD(USB *p) :
-pUsb(p), // pointer to USB class instance - mandatory
+XBOXOLD::XBOXOLD(USBHost *p) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
@@ -64,7 +64,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint16_t PID;
         uint16_t VID;

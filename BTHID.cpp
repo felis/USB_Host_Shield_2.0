@@ -21,7 +21,7 @@
 //#define PRINTREPORT // Uncomment to print the report send by the HID device
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
-BluetoothService(p), // Pointer to USB class instance - mandatory
+BluetoothService(p), // Pointer to BTD class instance - mandatory
 protocolMode(USB_HID_BOOT_PROTOCOL) {
         for(uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;

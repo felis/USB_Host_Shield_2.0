@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 
 bool USBHub::bResetInitiated = false;
 
-USBHub::USBHub(USB *p) :
+USBHub::USBHub(USBHost *p) :
 pUsb(p),
 bAddress(0),
 bNbrPorts(0),
@@ -47,7 +47,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         HubDescriptor* hd = reinterpret_cast<HubDescriptor*>(buf);
         USB_CONFIGURATION_DESCRIPTOR * ucd = reinterpret_cast<USB_CONFIGURATION_DESCRIPTOR*>(buf);
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t len = 0;
         uint16_t cd_len = 0;

@@ -22,27 +22,27 @@ static uint8_t usb_error = 0;
 static uint8_t usb_task_state;
 
 /* constructor */
-USB::USB() : bmHubPre(0) {
+USBHost::USBHost() : bmHubPre(0) {
         usb_task_state = USB_DETACHED_SUBSTATE_INITIALIZE; //set up state machine
         init();
 }
 
 /* Initialize data structures */
-void USB::init() {
+void USBHost::init() {
         //devConfigIndex = 0;
         bmHubPre = 0;
 }
 
-uint8_t USB::getUsbTaskState(void) {
+uint8_t USBHost::getUsbTaskState(void) {
         return ( usb_task_state);
 }
 
-void USB::setUsbTaskState(uint8_t state) {
+void USBHost::setUsbTaskState(uint8_t state) {
         usb_task_state = state;
 }
 
-EpInfo* USB::getEpInfoEntry(uint8_t addr, uint8_t ep) {
-        UsbDevice *p = addrPool.GetUsbDevicePtr(addr);
+EpInfo* USBHost::getEpInfoEntry(uint8_t addr, uint8_t ep) {
+        UsbDeviceDefinition *p = addrPool.GetUsbDevicePtr(addr);
 
         if(!p || !p->epinfo)
                 return NULL;
@@ -61,11 +61,11 @@ EpInfo* USB::getEpInfoEntry(uint8_t addr, uint8_t ep) {
 /* set device table entry */
 
 /* each device is different and has different number of endpoints. This function plugs endpoint record structure, defined in application, to devtable */
-uint8_t USB::setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr) {
+uint8_t USBHost::setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr) {
         if(!eprecord_ptr)
                 return USB_ERROR_INVALID_ARGUMENT;
 
-        UsbDevice *p = addrPool.GetUsbDevicePtr(addr);
+        UsbDeviceDefinition *p = addrPool.GetUsbDevicePtr(addr);
 
         if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
@@ -77,8 +77,8 @@ uint8_t USB::setEpInfoEntry(uint8_t addr, uint8_t epcount, EpInfo* eprecord_ptr)
         return 0;
 }
 
-uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit) {
-        UsbDevice *p = addrPool.GetUsbDevicePtr(addr);
+uint8_t USBHost::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit) {
+        UsbDeviceDefinition *p = addrPool.GetUsbDevicePtr(addr);
 
         if(!p)
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
@@ -123,7 +123,7 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_l
 /* 00       =   success         */
 
 /* 01-0f    =   non-zero HRSLT  */
-uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi,
+uint8_t USBHost::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bRequest, uint8_t wValLo, uint8_t wValHi,
         uint16_t wInd, uint16_t total, uint16_t nbytes, uint8_t* dataptr, USBReadParser *p) {
         bool direction = false; //request direction, IN or OUT
         uint8_t rcode;
@@ -203,22 +203,22 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
 
 /* rcode 0 if no errors. rcode 01-0f is relayed from dispatchPkt(). Rcode f0 means RCVDAVIRQ error,
             fe USB xfer timeout */
-uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
+uint8_t USBHost::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
         uint8_t rcode = SetAddress(addr, ep, &pep, &nak_limit);
 
         if(rcode) {
-                USBTRACE3("(USB::InTransfer) SetAddress Failed ", rcode, 0x81);
-                USBTRACE3("(USB::InTransfer) addr requested ", addr, 0x81);
-                USBTRACE3("(USB::InTransfer) ep requested ", ep, 0x81);
+                USBTRACE3("(USBHost::InTransfer) SetAddress Failed ", rcode, 0x81);
+                USBTRACE3("(USBHost::InTransfer) addr requested ", addr, 0x81);
+                USBTRACE3("(USBHost::InTransfer) ep requested ", ep, 0x81);
                 return rcode;
         }
         return InTransfer(pep, nak_limit, nbytesptr, data, bInterval);
 }
 
-uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
+uint8_t USBHost::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
         uint8_t rcode = 0;
         uint8_t pktsize;
 
@@ -290,7 +290,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
 /* Handles NAK bug per Maxim Application Note 4000 for single buffer transfer   */
 
 /* rcode 0 if no errors. rcode 01-0f is relayed from HRSL                       */
-uint8_t USB::outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data) {
+uint8_t USBHost::outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data) {
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
@@ -302,7 +302,7 @@ uint8_t USB::outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dat
         return OutTransfer(pep, nak_limit, nbytes, data);
 }
 
-uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data) {
+uint8_t USBHost::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data) {
         uint8_t rcode = hrSUCCESS, retry_count;
         uint8_t *data_p = data; //local copy of the data pointer
         uint16_t bytes_tosend, nak_count;
@@ -374,7 +374,7 @@ breakout:
 /* If bus timeout, re-sends up to USB_RETRY_LIMIT times                                             */
 
 /* return codes 0x00-0x0f are HRSLT( 0x00 being success ), 0xff means timeout                       */
-uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
+uint8_t USBHost::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
         unsigned long timeout = millis() + USB_XFER_TIMEOUT;
         uint8_t tmpdata;
         uint8_t rcode = hrSUCCESS;
@@ -422,7 +422,7 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
 }
 
 /* USB main task. Performs enumeration/cleanup */
-void USB::Task(void) //USB state machine
+void USBHost::Task(void) //USB state machine
 {
         uint8_t rcode;
         uint8_t tmpdata;
@@ -528,10 +528,10 @@ void USB::Task(void) //USB state machine
         } // switch( usb_task_state )
 }
 
-uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t USBHost::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
         //uint8_t                buf[12];
         uint8_t rcode;
-        UsbDevice *p0 = NULL, *p = NULL;
+        UsbDeviceDefinition *p0 = NULL, *p = NULL;
 
         // Get pointer to pseudo device with address 0 assigned
         p0 = addrPool.GetUsbDevicePtr(0);
@@ -568,7 +568,7 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 };
 
-uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t USBHost::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
         //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
         uint8_t retries = 0;
 
@@ -650,14 +650,14 @@ again:
  * 8: if we get here, no driver likes the device plugged in, so exit failure.
  *
  */
-uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t USBHost::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         //uint8_t bAddress = 0;
         //printf("Configuring: parent = %i, port = %i\r\n", parent, port);
         uint8_t devConfigIndex;
         uint8_t rcode = 0;
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         USB_DEVICE_DESCRIPTOR *udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR *>(buf);
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         EpInfo epInfo;
 
@@ -748,7 +748,7 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
         return rcode;
 }
 
-uint8_t USB::ReleaseDevice(uint8_t addr) {
+uint8_t USBHost::ReleaseDevice(uint8_t addr) {
         if(!addr)
                 return 0;
 
@@ -763,18 +763,18 @@ uint8_t USB::ReleaseDevice(uint8_t addr) {
 #if 1 //!defined(USB_METHODS_INLINE)
 //get device descriptor
 
-uint8_t USB::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
+uint8_t USBHost::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 //get configuration descriptor
 
-uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
+uint8_t USBHost::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, nbytes, dataptr, NULL));
 }
 
 /* Requests Configuration Descriptor. Sends two Get Conf Descr requests. The first one gets the total length of all descriptors, then the second one requests this
  total length. The length of the first request can be shorter ( 4 bytes ), however, there are devices which won't work unless this length is set to 9 */
-uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p) {
+uint8_t USBHost::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser *p) {
         const uint8_t bufSize = 64;
         uint8_t buf[bufSize];
         USB_CONFIGURATION_DESCRIPTOR *ucd = reinterpret_cast<USB_CONFIGURATION_DESCRIPTOR *>(buf);
@@ -793,12 +793,12 @@ uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser 
 
 //get string descriptor
 
-uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, uint16_t langid, uint8_t* dataptr) {
+uint8_t USBHost::getStrDescr(uint8_t addr, uint8_t ep, uint16_t ns, uint8_t index, uint16_t langid, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, ns, ns, dataptr, NULL));
 }
 //set address
 
-uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
+uint8_t USBHost::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
         uint8_t rcode = ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL);
         //delay(2); //per USB 2.0 sect.9.2.6.3
         delay(300); // Older spec says you should wait at least 200ms
@@ -807,7 +807,7 @@ uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
 }
 //set configuration
 
-uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
+uint8_t USBHost::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
         return ( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, 0x0000, NULL, NULL));
 }
 

@@ -47,9 +47,9 @@ class XBOXONE : public USBDeviceConfig {
 public:
         /**
          * Constructor for the XBOXONE class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          */
-        XBOXONE(USB *pUsb);
+        XBOXONE(USBHost *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -132,8 +132,8 @@ public:
         bool XboxOneConnected;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */

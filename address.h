@@ -72,7 +72,7 @@ struct UsbDeviceAddress {
 #define bmUSB_DEV_ADDR_PARENT           0x38
 #define bmUSB_DEV_ADDR_HUB              0x40
 
-struct UsbDevice {
+struct UsbDeviceDefinition {
         EpInfo *epinfo; // endpoint info pointer
         UsbDeviceAddress address;
         uint8_t epcount; // number of endpoints
@@ -82,12 +82,12 @@ struct UsbDevice {
 
 class AddressPool {
 public:
-        virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) = 0;
+        virtual UsbDeviceDefinition* GetUsbDevicePtr(uint8_t addr) = 0;
         virtual uint8_t AllocAddress(uint8_t parent, bool is_hub = false, uint8_t port = 0) = 0;
         virtual void FreeAddress(uint8_t addr) = 0;
 };
 
-typedef void (*UsbDeviceHandleFunc)(UsbDevice *pdev);
+typedef void (*UsbDeviceHandleFunc)(UsbDeviceDefinition *pdev);
 
 #define ADDR_ERROR_INVALID_INDEX                0xFF
 #define ADDR_ERROR_INVALID_ADDRESS              0xFF
@@ -99,7 +99,7 @@ class AddressPoolImpl : public AddressPool {
         uint8_t hubCounter; // hub counter is kept
         // in order to avoid hub address duplication
 
-        UsbDevice thePool[MAX_DEVICES_ALLOWED];
+        UsbDeviceDefinition thePool[MAX_DEVICES_ALLOWED];
 
         // Initializes address pool entry
 
@@ -178,7 +178,7 @@ public:
 
         // Returns a pointer to a specified address entry
 
-        virtual UsbDevice* GetUsbDevicePtr(uint8_t addr) {
+        virtual UsbDeviceDefinition* GetUsbDevicePtr(uint8_t addr) {
                 if(!addr)
                         return thePool;
 

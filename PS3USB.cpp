@@ -20,8 +20,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
-PS3USB::PS3USB(USB *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
-pUsb(p), // pointer to USB class instance - mandatory
+PS3USB::PS3USB(USBHost *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) // don't start polling before dongle is connected
 {
@@ -48,7 +48,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[sizeof (USB_DEVICE_DESCRIPTOR)];
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint16_t PID;
         uint16_t VID;
