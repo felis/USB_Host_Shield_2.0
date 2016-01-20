@@ -165,10 +165,10 @@ void setup()
 
   //next_time = millis() + 5000;
 
-  HidComposite.SetReportParser(0, (HIDReportParser*)&KbdPrs);
-  HidComposite.SetReportParser(1, (HIDReportParser*)&MousePrs);
-  HidKeyboard.SetReportParser(0, (HIDReportParser*)&KbdPrs);
-  HidMouse.SetReportParser(0, (HIDReportParser*)&MousePrs);
+  HidComposite.SetReportParser(0, &KbdPrs);
+  HidComposite.SetReportParser(1, &MousePrs);
+  HidKeyboard.SetReportParser(0, &KbdPrs);
+  HidMouse.SetReportParser(0, &MousePrs);
 }
 
 void loop()

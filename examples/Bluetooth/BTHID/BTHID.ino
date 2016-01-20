@@ -40,8 +40,8 @@ void setup() {
     while (1); // Halt
   }
 
-  bthid.SetReportParser(KEYBOARD_PARSER_ID, (HIDReportParser*)&keyboardPrs);
-  bthid.SetReportParser(MOUSE_PARSER_ID, (HIDReportParser*)&mousePrs);
+  bthid.SetReportParser(KEYBOARD_PARSER_ID, &keyboardPrs);
+  bthid.SetReportParser(MOUSE_PARSER_ID, &mousePrs);
 
   // If "Boot Protocol Mode" does not work, then try "Report Protocol Mode"
   // If that does not work either, then uncomment PRINTREPORT in BTHID.cpp to see the raw report

@@ -119,7 +119,7 @@ void setup()
 
   next_time = millis() + 5000;
 
-  HidKeyboard.SetReportParser(0, (HIDReportParser*)&Prs);
+  HidKeyboard.SetReportParser(0, &Prs);
 }
 
 void loop()
