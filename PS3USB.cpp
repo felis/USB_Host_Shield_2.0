@@ -408,12 +408,13 @@ void PS3USB::setAllOff() {
 }
 
 void PS3USB::setRumbleOff() {
-        writeBuf[1] = 0x00;
-        writeBuf[2] = 0x00; // Low mode off
-        writeBuf[3] = 0x00;
-        writeBuf[4] = 0x00; // High mode off
-
-        PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+        uint8_t rumbleBuf[EP_MAXPKTSIZE];
+        memcpy(rumbleBuf, writeBuf, EP_MAXPKTSIZE);
+        rumbleBuf[1] = 0x00;
+        rumbleBuf[2] = 0x00; // Low mode off
+        rumbleBuf[3] = 0x00;
+        rumbleBuf[4] = 0x00; // High mode off
+        PS3_Command(rumbleBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
 void PS3USB::setRumbleOn(RumbleEnum mode) {
@@ -428,11 +429,13 @@ void PS3USB::setRumbleOn(RumbleEnum mode) {
 }
 
 void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
-        writeBuf[1] = rightDuration;
-        writeBuf[2] = rightPower;
-        writeBuf[3] = leftDuration;
-        writeBuf[4] = leftPower;
-        PS3_Command(writeBuf, PS3_REPORT_BUFFER_SIZE);
+        uint8_t rumbleBuf[EP_MAXPKTSIZE];
+        memcpy(rumbleBuf, writeBuf, EP_MAXPKTSIZE);
+        rumbleBuf[1] = rightDuration;
+        rumbleBuf[2] = rightPower;
+        rumbleBuf[3] = leftDuration;
+        rumbleBuf[4] = leftPower;
+        PS3_Command(rumbleBuf, PS3_REPORT_BUFFER_SIZE);
 }
 
 void PS3USB::setLedRaw(uint8_t value) {

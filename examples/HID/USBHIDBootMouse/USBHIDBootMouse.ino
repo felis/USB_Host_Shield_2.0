@@ -73,7 +73,7 @@ void setup()
 
   next_time = millis() + 5000;
 
-  HidMouse.SetReportParser(0, (HIDReportParser*)&Prs);
+  HidMouse.SetReportParser(0, &Prs);
 }
 
 void loop()

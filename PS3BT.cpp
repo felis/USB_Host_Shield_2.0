@@ -528,12 +528,13 @@ void PS3BT::setAllOff() {
 }
 
 void PS3BT::setRumbleOff() {
-        HIDBuffer[3] = 0x00;
-        HIDBuffer[4] = 0x00;
-        HIDBuffer[5] = 0x00;
-        HIDBuffer[6] = 0x00;
-
-        HID_Command(HIDBuffer, HID_BUFFERSIZE);
+        uint8_t rumbleBuf[HID_BUFFERSIZE];
+        memcpy(rumbleBuf, HIDBuffer, HID_BUFFERSIZE);
+        rumbleBuf[3] = 0x00;
+        rumbleBuf[4] = 0x00;
+        rumbleBuf[5] = 0x00;
+        rumbleBuf[6] = 0x00;
+        HID_Command(rumbleBuf, HID_BUFFERSIZE);
 }
 
 void PS3BT::setRumbleOn(RumbleEnum mode) {
@@ -546,11 +547,13 @@ void PS3BT::setRumbleOn(RumbleEnum mode) {
 }
 
 void PS3BT::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
-        HIDBuffer[3] = rightDuration;
-        HIDBuffer[4] = rightPower;
-        HIDBuffer[5] = leftDuration;
-        HIDBuffer[6] = leftPower;
-        HID_Command(HIDBuffer, HID_BUFFERSIZE);
+        uint8_t rumbleBuf[HID_BUFFERSIZE];
+        memcpy(rumbleBuf, HIDBuffer, HID_BUFFERSIZE);
+        rumbleBuf[3] = rightDuration;
+        rumbleBuf[4] = rightPower;
+        rumbleBuf[5] = leftDuration;
+        rumbleBuf[6] = leftPower;
+        HID_Command(rumbleBuf, HID_BUFFERSIZE);
 }
 
 void PS3BT::setLedRaw(uint8_t value) {

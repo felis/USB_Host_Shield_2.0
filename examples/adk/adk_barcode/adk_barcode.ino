@@ -80,7 +80,7 @@ void setup()
     while (1); //halt
   }//if (usb.Init() == -1...
 
-  HidKeyboard.SetReportParser(0, (HIDReportParser*)&Prs);
+  HidKeyboard.SetReportParser(0, &Prs);
 
   delay( 200 );
 }
