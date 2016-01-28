@@ -362,9 +362,9 @@ bool PS3USB::getStatus(StatusEnum c) {
 }
 
 void PS3USB::printStatusString() {
-        char statusOutput[100]; // Max string length plus null character
+        char statusOutput[102]; // Max string length plus null character
         if(PS3Connected || PS3NavigationConnected) {
-                strcpy_P(statusOutput, PSTR("\nConnectionStatus: "));
+                strcpy_P(statusOutput, PSTR("\r\nConnectionStatus: "));
 
                 if(getStatus(Plugged)) strcat_P(statusOutput, PSTR("Plugged"));
                 else if(getStatus(Unplugged)) strcat_P(statusOutput, PSTR("Unplugged"));
@@ -389,7 +389,7 @@ void PS3USB::printStatusString() {
                 else if(getStatus(Bluetooth)) strcat_P(statusOutput, PSTR("Bluetooth - Rumble is off"));
                 else strcat_P(statusOutput, PSTR("Error"));
         } else
-                strcpy_P(statusOutput, PSTR("Error"));
+                strcpy_P(statusOutput, PSTR("\r\nError"));
 
         USB_HOST_SERIAL.write(statusOutput);
 }
