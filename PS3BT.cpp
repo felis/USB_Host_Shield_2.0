@@ -160,7 +160,7 @@ bool PS3BT::getStatus(StatusEnum c) {
 void PS3BT::printStatusString() {
         char statusOutput[100]; // Max string length plus null character
         if(PS3Connected || PS3NavigationConnected) {
-                strcpy_P(statusOutput, PSTR("ConnectionStatus: "));
+                strcpy_P(statusOutput, PSTR("\nConnectionStatus: "));
 
                 if(getStatus(Plugged)) strcat_P(statusOutput, PSTR("Plugged"));
                 else if(getStatus(Unplugged)) strcat_P(statusOutput, PSTR("Unplugged"));
