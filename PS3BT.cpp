@@ -150,7 +150,7 @@ String PS3BT::getTemperature() {
 
                 return output;
         } else
-                return "\r\nError";
+                return "Error";
 }
 
 bool PS3BT::getStatus(StatusEnum c) {
