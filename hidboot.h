@@ -210,6 +210,7 @@ class HIDBoot : public USBHID //public USBDeviceConfig, public UsbConfigXtracter
         uint32_t qNextPollTime; // next poll time
         bool bPollEnable; // poll enable flag
         uint8_t bInterval; // largest interval
+        bool bRptProtoEnable; // Report Protocol enable flag
 
         void Initialize();
 
@@ -218,7 +219,7 @@ class HIDBoot : public USBHID //public USBDeviceConfig, public UsbConfigXtracter
         };
 
 public:
-        HIDBoot(USB *p);
+        HIDBoot(USB *p, bool bRptProtoEnable=false);
 
         virtual bool SetReportParser(uint8_t id, HIDReportParser *prs) {
                 pRptParser[id] = prs;
@@ -252,10 +253,11 @@ public:
 };
 
 template <const uint8_t BOOT_PROTOCOL>
-HIDBoot<BOOT_PROTOCOL>::HIDBoot(USB *p) :
+HIDBoot<BOOT_PROTOCOL>::HIDBoot(USB *p, bool bRptProtoEnable) :
 USBHID(p),
 qNextPollTime(0),
-bPollEnable(false) {
+bPollEnable(false),
+bRptProtoEnable(bRptProtoEnable) {
         Initialize();
 
         for(int i = 0; i < epMUL(BOOT_PROTOCOL); i++) {
@@ -456,7 +458,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         // Yes, mouse wants SetProtocol and SetIdle too!
         for(uint8_t i = 0; i < epMUL(BOOT_PROTOCOL); i++) {
                 USBTRACE2("\r\nInterface:", i);
-                rcode = SetProtocol(i, USB_HID_BOOT_PROTOCOL);
+                rcode = SetProtocol(i, bRptProtoEnable ? HID_RPT_PROTOCOL : HID_BOOT_PROTOCOL);
                 if(rcode) goto FailSetProtocol;
                 USBTRACE2("PROTOCOL SET HID_BOOT rcode:", rcode);
                 rcode = SetIdle(i, 0, 0);
