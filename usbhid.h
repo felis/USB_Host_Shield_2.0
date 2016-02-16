@@ -120,7 +120,7 @@ struct HidItemPrefix {
         uint8_t bSize : 2;
         uint8_t bType : 2;
         uint8_t bTag : 4;
-};
+} __attribute__((packed));
 
 struct MainItemIOFeature {
         uint8_t bmIsConstantOrData : 1;
@@ -131,7 +131,7 @@ struct MainItemIOFeature {
         uint8_t bmIsNoPreferedOrPrefered : 1;
         uint8_t bmIsNullOrNoNull : 1;
         uint8_t bmIsVolatileOrNonVolatile : 1;
-};
+} __attribute__((packed));
 
 class USBHID;
 
@@ -142,7 +142,7 @@ public:
 
 class USBHID : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
-        USB *pUsb; // USB class instance pointer
+        USBHost *pUsb; // USBHost class instance pointer
         uint8_t bAddress; // address
 
 protected:
@@ -162,10 +162,10 @@ protected:
 
 public:
 
-        USBHID(USB *pusb) : pUsb(pusb) {
+        USBHID(USBHost *pusb) : pUsb(pusb) {
         };
 
-        const USB* GetUsb() {
+        const USBHost* GetUsb() {
                 return pUsb;
         };
 

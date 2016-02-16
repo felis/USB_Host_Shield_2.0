@@ -10,74 +10,74 @@
 class MouseRptParser : public MouseReportParser
 {
 protected:
-	void OnMouseMove	(MOUSEINFO *mi);
-	void OnLeftButtonUp	(MOUSEINFO *mi);
-	void OnLeftButtonDown	(MOUSEINFO *mi);
-	void OnRightButtonUp	(MOUSEINFO *mi);
-	void OnRightButtonDown	(MOUSEINFO *mi);
-	void OnMiddleButtonUp	(MOUSEINFO *mi);
-	void OnMiddleButtonDown	(MOUSEINFO *mi);
+    void OnMouseMove	(MOUSEINFO *mi);
+    void OnLeftButtonUp	(MOUSEINFO *mi);
+    void OnLeftButtonDown	(MOUSEINFO *mi);
+    void OnRightButtonUp	(MOUSEINFO *mi);
+    void OnRightButtonDown	(MOUSEINFO *mi);
+    void OnMiddleButtonUp	(MOUSEINFO *mi);
+    void OnMiddleButtonDown	(MOUSEINFO *mi);
 };
 void MouseRptParser::OnMouseMove(MOUSEINFO *mi)
 {
-    Serial.print("dx=");
-    Serial.print(mi->dX, DEC);
-    Serial.print(" dy=");
-    Serial.println(mi->dY, DEC);
+  Serial.print("dx=");
+  Serial.print(mi->dX, DEC);
+  Serial.print(" dy=");
+  Serial.println(mi->dY, DEC);
 };
 void MouseRptParser::OnLeftButtonUp	(MOUSEINFO *mi)
 {
-    Serial.println("L Butt Up");
+  Serial.println("L Butt Up");
 };
 void MouseRptParser::OnLeftButtonDown	(MOUSEINFO *mi)
 {
-    Serial.println("L Butt Dn");
+  Serial.println("L Butt Dn");
 };
 void MouseRptParser::OnRightButtonUp	(MOUSEINFO *mi)
 {
-    Serial.println("R Butt Up");
+  Serial.println("R Butt Up");
 };
 void MouseRptParser::OnRightButtonDown	(MOUSEINFO *mi)
 {
-    Serial.println("R Butt Dn");
+  Serial.println("R Butt Dn");
 };
 void MouseRptParser::OnMiddleButtonUp	(MOUSEINFO *mi)
 {
-    Serial.println("M Butt Up");
+  Serial.println("M Butt Up");
 };
 void MouseRptParser::OnMiddleButtonDown	(MOUSEINFO *mi)
 {
-    Serial.println("M Butt Dn");
+  Serial.println("M Butt Dn");
 };
 
-USB     Usb;
-USBHub     Hub(&Usb);
-HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
+USBHost usb;
+USBHub Hub(&usb);
+HIDBoot<USB_HID_PROTOCOL_MOUSE> HidMouse(&usb);
 
 uint32_t next_time;
 
-MouseRptParser                               Prs;
+MouseRptParser Prs;
 
 void setup()
 {
-    Serial.begin( 115200 );
+  Serial.begin( 115200 );
 #if !defined(__MIPSEL__)
-    while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+  while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-    Serial.println("Start");
+  Serial.println("Start");
 
-    if (Usb.Init() == -1)
-        Serial.println("OSC did not start.");
+  if (usb.Init() == -1)
+    Serial.println("OSC did not start.");
 
-    delay( 200 );
+  delay( 200 );
 
-    next_time = millis() + 5000;
+  next_time = millis() + 5000;
 
-    HidMouse.SetReportParser(0, &Prs);
+  HidMouse.SetReportParser(0, &Prs);
 }
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 }
 

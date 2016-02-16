@@ -39,7 +39,7 @@ e-mail   :  support@circuitsathome.com
 
 static uint8_t lcdPins; //copy of LCD pins
 
-Max_LCD::Max_LCD(USB *pusb) : pUsb(pusb) {
+Max_LCD::Max_LCD(USBHost *pusb) : pUsb(pusb) {
         lcdPins = 0;
 }
 

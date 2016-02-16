@@ -7,10 +7,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
+USBHost usb;
 
-ADK adk(&Usb,"Circuits@Home, ltd.",
-            "USB Host Shield",
+ADK adk(&usb,"Circuits@Home, ltd.",
+            "USBHost Host Shield",
             "Arduino Terminal for Android",
             "1.0",
             "http://www.circuitsathome.com",
@@ -24,10 +24,10 @@ void setup()
 #endif
 	Serial.println("\r\nADK demo start");
 
-        if (Usb.Init() == -1) {
+        if (usb.Init() == -1) {
           Serial.println("OSCOKIRQ failed to assert");
         while(1); //halt
-        }//if (Usb.Init() == -1...
+        }//if (usb.Init() == -1...
 }
 
 void loop()
@@ -36,7 +36,7 @@ void loop()
   const char* sec_ela = " seconds elapsed\r";
   uint8_t rcode;
 
-   Usb.Task();
+   usb.Task();
    if( adk.isReady() == false ) {
      return;
    }

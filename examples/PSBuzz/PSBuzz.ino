@@ -12,15 +12,15 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-PSBuzz Buzz(&Usb);
+USBHost usb;
+PSBuzz Buzz(&usb);
 
 void setup() {
   Serial.begin(115200);
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt
   }
@@ -28,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-  Usb.Task();
+  usb.Task();
 
   if (Buzz.connected()) {
     for (uint8_t i = 0; i < 4; i++) {

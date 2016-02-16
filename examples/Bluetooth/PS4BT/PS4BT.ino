@@ -13,9 +13,9 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 
 /* You can create the instance of the PS4BT class in two ways */
 // This will start an inquiry and then pair with the PS4 controller - you only have to do this once
@@ -33,14 +33,14 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt
   }
   Serial.print(F("\r\nPS4 Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
 
   if (PS4.connected()) {
     if (PS4.getAnalogHat(LeftHatX) > 137 || PS4.getAnalogHat(LeftHatX) < 117 || PS4.getAnalogHat(LeftHatY) > 137 || PS4.getAnalogHat(LeftHatY) < 117 || PS4.getAnalogHat(RightHatX) > 137 || PS4.getAnalogHat(RightHatX) < 117 || PS4.getAnalogHat(RightHatY) > 137 || PS4.getAnalogHat(RightHatY) < 117) {

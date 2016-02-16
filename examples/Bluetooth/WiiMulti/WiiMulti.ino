@@ -14,10 +14,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
 
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 WII *Wii[2]; // We will use this pointer to store the two instance, you can easily make it larger if you like, but it will use a lot of RAM!
 const uint8_t length = sizeof(Wii) / sizeof(Wii[0]); // Get the lenght of the array
 bool printAngle[length];
@@ -33,14 +33,14 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
   Serial.print(F("\r\nWiimote Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
 
   for (uint8_t i = 0; i < length; i++) {
     if (Wii[i]->wiimoteConnected) {

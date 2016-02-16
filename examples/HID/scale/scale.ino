@@ -13,12 +13,12 @@
 #include <SPI.h>
 #endif
 
-USB                                             Usb;
-USBHub                                          Hub(&Usb);
-HIDUniversal                                    Hid(&Usb);
-Max_LCD                                       LCD(&Usb);
-ScaleEvents                                  ScaleEvents(&LCD);
-ScaleReportParser                            Scale(&ScaleEvents);
+USBHost           usb;
+USBHub            Hub(&usb);
+HIDUniversal      Hid(&usb);
+Max_LCD           LCD(&usb);
+ScaleEvents       ScaleEvents(&LCD);
+ScaleReportParser Scale(&ScaleEvents);
 
 void setup()
 {
@@ -28,24 +28,24 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
-      Serial.println("OSC did not start.");
+  if (usb.Init() == -1)
+    Serial.println("OSC did not start.");
 
-    // set up the LCD's number of rows and columns:
-    LCD.begin(16, 2);
-    LCD.clear();
-    LCD.home();
-    LCD.setCursor(0,0);
-    LCD.write('R');
+  // set up the LCD's number of rows and columns:
+  LCD.begin(16, 2);
+  LCD.clear();
+  LCD.home();
+  LCD.setCursor(0, 0);
+  LCD.write('R');
 
   delay( 200 );
 
   if (!Hid.SetReportParser(0, &Scale))
-      ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
+    ErrorMessage<uint8_t>(PSTR("SetReportParser"), 1  );
 }
 
 void loop()
 {
-    Usb.Task();
+  usb.Task();
 }
 

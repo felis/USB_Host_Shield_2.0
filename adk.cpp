@@ -22,7 +22,7 @@ e-mail   :  support@circuitsathome.com
 const uint8_t ADK::epDataInIndex = 1;
 const uint8_t ADK::epDataOutIndex = 2;
 
-ADK::ADK(USB *p, const char* manufacturer,
+ADK::ADK(USBHost *p, const char* manufacturer,
         const char* model,
         const char* description,
         const char* version,
@@ -36,7 +36,7 @@ description(description),
 version(version),
 uri(uri),
 serial(serial),
-pUsb(p), //pointer to USB class instance - mandatory
+pUsb(p), //pointer to USBHost class instance - mandatory
 bAddress(0), //device address - mandatory
 bConfNum(0), //configuration number
 bNumEP(1), //if config descriptor needs to be parsed
@@ -66,7 +66,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
         uint8_t num_of_conf; // number of configurations
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
 
         // get memory address of USB device address pool

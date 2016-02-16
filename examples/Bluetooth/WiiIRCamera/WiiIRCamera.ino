@@ -24,10 +24,10 @@ Otherwise, wire up a IR LED yourself.
 #error "Please set ENABLE_WII_IR_CAMERA to 1 in settings.h"
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
 
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 WII Wii(&Btd, PAIR); // This will start an inquiry and then pair with your Wiimote - you only have to do this once
 //WII Wii(&Btd); // After the Wiimote pairs once with the line of code above, you can simply create the instance like so and re upload and then press any button on the Wiimote
@@ -40,7 +40,7 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
@@ -48,7 +48,7 @@ void setup() {
 }
 
 void loop() {
-  Usb.Task();
+  usb.Task();
   if (Wii.wiimoteConnected) {
     if (Wii.getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
       Serial.print(F("\r\nHOME"));

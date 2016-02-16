@@ -32,9 +32,9 @@ class PS4USB : public HIDUniversal, public PS4Parser {
 public:
         /**
          * Constructor for the PS4USB class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        PS4USB(USB *p) :
+        PS4USB(USBHost *p) :
         HIDUniversal(p) {
                 PS4Parser::Reset();
         };

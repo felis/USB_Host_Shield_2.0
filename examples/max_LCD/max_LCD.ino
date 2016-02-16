@@ -11,8 +11,8 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-Max_LCD lcd(&Usb);
+USBHost usb;
+Max_LCD lcd(&usb);
 
 void setup() {
   // Set up the LCD's number of columns and rows:

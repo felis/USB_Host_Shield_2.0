@@ -34,10 +34,10 @@ uint8_t FTDIAsync::OnInit(FTDI *pftdi)
     return rcode;
 }
 
-USB              Usb;
-//USBHub         Hub(&Usb);
+USBHost              usb;
+//USBHub         Hub(&usb);
 FTDIAsync        FtdiAsync;
-FTDI             Ftdi(&Usb, &FtdiAsync);
+FTDI             Ftdi(&usb, &FtdiAsync);
 
 uint32_t next_time;
 
@@ -49,7 +49,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
       Serial.println("OSC did not start.");
 
   delay( 200 );
@@ -59,9 +59,9 @@ void setup()
 
 void loop()
 {
-    Usb.Task();
+    usb.Task();
 
-    if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
+    if( usb.getUsbTaskState() == USB_STATE_RUNNING )
     {
         uint8_t  rcode;
         char strbuf[] = "DEADBEEF";

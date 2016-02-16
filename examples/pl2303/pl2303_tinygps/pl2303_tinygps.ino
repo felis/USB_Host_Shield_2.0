@@ -56,10 +56,10 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm)
     return rcode;
 }
 
-USB     Usb;
-//USBHub     Hub(&Usb);
+USBHost     usb;
+//USBHub     Hub(&usb);
 PLAsyncOper  AsyncOper;
-PL2303       Pl(&Usb, &AsyncOper);
+PL2303       Pl(&usb, &AsyncOper);
 TinyGPS gps;
 
 void gpsdump(TinyGPS &gps);
@@ -80,7 +80,7 @@ void setup()
   Serial.print("Sizeof(gpsobject) = "); Serial.println(sizeof(TinyGPS));
   Serial.println();
   /* USB Initialization */
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
       Serial.println("OSCOKIRQ failed to assert");
   }
 
@@ -89,7 +89,7 @@ void setup()
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 
   if( Pl.isReady()) {
 
@@ -110,7 +110,7 @@ void loop()
       Serial.println("-------------");
       Serial.println();
     }//if( newdata...
-  }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING...
+  }//if( usb.getUsbTaskState() == USB_STATE_RUNNING...
 }
 
 void printFloat(double number, int digits)

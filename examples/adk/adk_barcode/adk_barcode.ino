@@ -11,49 +11,49 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-USBHub Hub1(&Usb);
-USBHub Hub2(&Usb);
-HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&Usb);
+USBHost usb;
+USBHub  Hub1(&usb);
+USBHub  Hub2(&usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&usb);
 
-ADK adk(&Usb,"Circuits@Home, ltd.",
-            "USB Host Shield",
-            "Arduino Terminal for Android",
-            "1.0",
-            "http://www.circuitsathome.com",
-            "0000000000000001");
+ADK adk(&usb, "Circuits@Home, ltd.",
+              "USBHost Host Shield",
+              "Arduino Terminal for Android",
+              "1.0",
+              "http://www.circuitsathome.com",
+              "0000000000000001");
 
 
 class KbdRptParser : public KeyboardReportParser
 {
 
 protected:
-	void OnKeyDown	(uint8_t mod, uint8_t key);
-	void OnKeyPressed(uint8_t key);
+    void OnKeyDown(uint8_t mod, uint8_t key);
+    void OnKeyPressed(uint8_t key);
 };
 
 void KbdRptParser::OnKeyDown(uint8_t mod, uint8_t key)
 {
-    uint8_t c = OemToAscii(mod, key);
+  uint8_t c = OemToAscii(mod, key);
 
-    if (c)
-        OnKeyPressed(c);
+  if (c)
+    OnKeyPressed(c);
 }
 
 /* what to do when symbol arrives */
 void KbdRptParser::OnKeyPressed(uint8_t key)
 {
-const char* new_line = "\n";
-uint8_t rcode;
-uint8_t keylcl;
+  const char* new_line = "\n";
+  uint8_t rcode;
+  uint8_t keylcl;
 
- if( adk.isReady() == false ) {
-   return;
- }
+  if ( adk.isReady() == false ) {
+    return;
+  }
 
   keylcl = key;
 
-  if( keylcl == 0x13 ) {
+  if ( keylcl == 0x13 ) {
     rcode = adk.SndData( strlen( new_line ), (uint8_t *)new_line );
   }
   else {
@@ -75,10 +75,10 @@ void setup()
 #endif
   Serial.println("\r\nADK demo start");
 
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.println("OSCOKIRQ failed to assert");
-    while(1); //halt
-  }//if (Usb.Init() == -1...
+    while (1); //halt
+  }//if (usb.Init() == -1...
 
   HidKeyboard.SetReportParser(0, &Prs);
 
@@ -87,5 +87,5 @@ void setup()
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 }

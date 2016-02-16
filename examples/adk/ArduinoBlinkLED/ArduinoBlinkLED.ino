@@ -23,8 +23,8 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
+USBHost usb;
+ADK adk(&usb, "TKJElectronics", // Manufacturer Name
               "ArduinoBlinkLED", // Model Name
               "Example sketch for the USB Host Shield", // Description (user-visible string)
               "1.0", // Version
@@ -39,7 +39,7 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print("\r\nOSCOKIRQ failed to assert");
     while (1); // halt
   }
@@ -48,7 +48,7 @@ void setup() {
 }
 
 void loop() {
-  Usb.Task();
+  usb.Task();
 
   if (adk.isReady()) {
     if (!connected) {

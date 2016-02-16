@@ -13,10 +13,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
+USBHost usb;
+//USBHub Hub1(&usb); // Some dongles have a hub inside
 
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+BTD Btd(&usb); // You have to create the Bluetooth Dongle instance like so
 /* You can create the instance of the class in two ways */
 WII Wii(&Btd, PAIR); // This will start an inquiry and then pair with your Wii Balance Board - you only have to do this once
 //WII Wii(&Btd); // After that you can simply create the instance like so and then press the power button on the Wii Balance Board
@@ -26,14 +26,14 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
   Serial.print(F("\r\nWii Balance Board Bluetooth Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
   if (Wii.wiiBalanceBoardConnected) {
     Serial.print(F("\r\nWeight: "));
     for (uint8_t i = 0; i < 4; i++) {

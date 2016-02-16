@@ -16,7 +16,7 @@ e-mail   :  support@circuitsathome.com
  */
 #include "cdcprolific.h"
 
-PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
+PL2303::PL2303(USBHost *p, CDCAsyncOper *pasync) :
 ACM(p, pasync),
 wPLType(0) {
 }
@@ -27,7 +27,7 @@ uint8_t PL2303::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint8_t buf[constBufSize];
         USB_DEVICE_DESCRIPTOR * udd = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
         uint8_t rcode;
-        UsbDevice *p = NULL;
+        UsbDeviceDefinition *p = NULL;
         EpInfo *oldep_ptr = NULL;
         uint8_t num_of_conf; // number of configurations
 #ifdef PL2303_COMPAT

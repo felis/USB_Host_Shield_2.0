@@ -104,7 +104,7 @@ class XR21B1411 : public ACM {
 protected:
 
 public:
-        XR21B1411(USB *pusb, CDCAsyncOper *pasync);
+        XR21B1411(USBHost *pusb, CDCAsyncOper *pasync);
 
         /**
          * Used by the USB core to check what this driver support.

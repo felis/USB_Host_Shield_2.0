@@ -199,9 +199,9 @@ class BTD : public USBDeviceConfig, public UsbConfigXtracter {
 public:
         /**
          * Constructor for the BTD class.
-         * @param  p   Pointer to USB class instance.
+         * @param  p   Pointer to USBHost class instance.
          */
-        BTD(USB *p);
+        BTD(USBHost *p);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -497,8 +497,8 @@ public:
         };
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */

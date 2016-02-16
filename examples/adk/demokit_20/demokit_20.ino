@@ -7,10 +7,10 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-USBHub hub0(&Usb);
-USBHub hub1(&Usb);
-ADK adk(&Usb,"Google, Inc.",
+USBHost usb;
+USBHub hub0(&usb);
+USBHub hub1(&usb);
+ADK adk(&usb,"Google, Inc.",
             "DemoKit",
             "DemoKit Arduino Board",
             "1.0",
@@ -45,10 +45,10 @@ void setup()
 #endif
 	Serial.println("\r\nADK demo start");
 
-        if (Usb.Init() == -1) {
+        if (usb.Init() == -1) {
           Serial.println("OSCOKIRQ failed to assert");
         while(1); //halt
-        }//if (Usb.Init() == -1...
+        }//if (usb.Init() == -1...
 
 
 	init_leds();
@@ -60,7 +60,7 @@ void loop()
 {
   uint8_t rcode;
   uint8_t msg[3] = { 0x00 };
-   Usb.Task();
+   usb.Task();
 
    if( adk.isReady() == false ) {
      analogWrite(LED1_RED, 255);

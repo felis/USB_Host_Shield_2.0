@@ -138,12 +138,12 @@ void KbdRptParser::OnKeyPressed(uint8_t key)
   Serial.println((char)key);
 };
 
-USB     Usb;
-USBHub     Hub(&Usb);
+USBHost usb;
+USBHub  Hub(&usb);
 
-HIDBoot < USB_HID_PROTOCOL_KEYBOARD | USB_HID_PROTOCOL_MOUSE > HidComposite(&Usb);
-HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&Usb);
-HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
+HIDBoot < USB_HID_PROTOCOL_KEYBOARD | USB_HID_PROTOCOL_MOUSE > HidComposite(&usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&usb);
+HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&usb);
 
 //uint32_t next_time;
 
@@ -158,7 +158,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
     Serial.println("OSC did not start.");
 
   delay( 200 );
@@ -173,6 +173,6 @@ void setup()
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 }
 

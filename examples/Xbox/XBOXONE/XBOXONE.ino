@@ -11,20 +11,22 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-XBOXONE Xbox(&Usb);
+USBHost usb;
+XBOXONE Xbox(&usb);
 
 void setup() {
   Serial.begin(115200);
+#if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
-  if (Usb.Init() == -1) {
+#endif
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
   Serial.print(F("\r\nXBOX USB Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
   if (Xbox.XboxOneConnected) {
     if (Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500 || Xbox.getAnalogHat(LeftHatY) > 7500 || Xbox.getAnalogHat(LeftHatY) < -7500 || Xbox.getAnalogHat(RightHatX) > 7500 || Xbox.getAnalogHat(RightHatX) < -7500 || Xbox.getAnalogHat(RightHatY) > 7500 || Xbox.getAnalogHat(RightHatY) < -7500) {
       if (Xbox.getAnalogHat(LeftHatX) > 7500 || Xbox.getAnalogHat(LeftHatX) < -7500) {

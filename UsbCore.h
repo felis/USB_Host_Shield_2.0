@@ -194,13 +194,13 @@ public:
         virtual void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) = 0;
 };
 
-class USB : public MAX3421E {
+class USBHost : public MAX3421E {
         AddressPoolImpl<USB_NUMDEVICES> addrPool;
         USBDeviceConfig* devConfig[USB_NUMDEVICES];
         uint8_t bmHubPre;
 
 public:
-        USB(void);
+        USBHost(void);
 
         void SetHubPreMask() {
                 bmHubPre |= bmHUBPRE;
@@ -269,27 +269,27 @@ private:
 #if 0 //defined(USB_METHODS_INLINE)
 //get device descriptor
 
-inline uint8_t USB::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
+inline uint8_t USBHost::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
 }
 //get configuration descriptor
 
-inline uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
+inline uint8_t USBHost::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
 }
 //get string descriptor
 
-inline uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
+inline uint8_t USBHost::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
 }
 //set address
 
-inline uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
+inline uint8_t USBHost::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
         return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
 }
 //set configuration
 
-inline uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
+inline uint8_t USBHost::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
         return ( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
 }
 

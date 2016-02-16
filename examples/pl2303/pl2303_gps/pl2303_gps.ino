@@ -42,10 +42,10 @@ uint8_t PLAsyncOper::OnInit(ACM *pacm) {
         return rcode;
 }
 
-USB Usb;
-USBHub Hub(&Usb);
+USBHost usb;
+USBHub Hub(&usb);
 PLAsyncOper AsyncOper;
-PL2303 Pl(&Usb, &AsyncOper);
+PL2303 Pl(&usb, &AsyncOper);
 uint32_t read_delay;
 #define READ_DELAY 100
 
@@ -56,7 +56,7 @@ void setup() {
 #endif
         Serial.println("Start");
 
-        if(Usb.Init() == -1)
+        if(usb.Init() == -1)
                 Serial.println("OSCOKIRQ failed to assert");
 
         delay(200);
@@ -67,7 +67,7 @@ void loop() {
         uint8_t buf[64]; //serial buffer equals Max.packet size of bulk-IN endpoint
         uint16_t rcvd = 64;
 
-        Usb.Task();
+        usb.Task();
 
         if(Pl.isReady()) {
                 /* reading the GPS */
@@ -82,7 +82,7 @@ void loop() {
                                 }//for( uint16_t i=0; i < rcvd; i++...
                         }//if( rcvd
                 }//if( read_delay > millis()...
-        }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING..
+        }//if( usb.getUsbTaskState() == USB_STATE_RUNNING..
 }
 
 

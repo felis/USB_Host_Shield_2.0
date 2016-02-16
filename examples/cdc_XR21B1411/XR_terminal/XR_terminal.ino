@@ -38,9 +38,9 @@ uint8_t ACMAsyncOper::OnInit(ACM *pacm)
     return rcode;
 }
 
-USB     Usb;
+USBHost     usb;
 ACMAsyncOper  AsyncOper;
-XR21B1411     Acm(&Usb, &AsyncOper);
+XR21B1411     Acm(&usb, &AsyncOper);
 
 void setup() {
         Serial.begin( 115200 );
@@ -49,11 +49,11 @@ void setup() {
 #endif
         Serial.println("\r\n\r\nStart");
 
-        if (Usb.Init() == -1) Serial.println("OSCOKIRQ failed to assert");
+        if (usb.Init() == -1) Serial.println("OSCOKIRQ failed to assert");
 }
 
 void loop() {
-        Usb.Task();
+        usb.Task();
         if( Acm.isReady()) {
                 uint8_t rcode;
                 uint8_t  buf[1];

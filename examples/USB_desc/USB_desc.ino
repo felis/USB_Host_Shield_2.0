@@ -8,18 +8,18 @@
 #include <SPI.h>
 #endif
 
-USB     Usb;
-//USBHub  Hub1(&Usb);
-//USBHub  Hub2(&Usb);
-//USBHub  Hub3(&Usb);
-//USBHub  Hub4(&Usb);
-//USBHub  Hub5(&Usb);
-//USBHub  Hub6(&Usb);
-//USBHub  Hub7(&Usb);
+USBHost     usb;
+//USBHub  Hub1(&usb);
+//USBHub  Hub2(&usb);
+//USBHub  Hub3(&usb);
+//USBHub  Hub4(&usb);
+//USBHub  Hub5(&usb);
+//USBHub  Hub6(&usb);
+//USBHub  Hub7(&usb);
 
 uint32_t next_time;
 
-void PrintAllAddresses(UsbDevice *pdev)
+void PrintAllAddresses(UsbDeviceDefinition *pdev)
 {
   UsbDeviceAddress adr;
   adr.devAddress = pdev->address.devAddress;
@@ -56,7 +56,7 @@ void setup()
 #endif
   Serial.println("Start");
 
-  if (Usb.Init() == -1)
+  if (usb.Init() == -1)
     Serial.println("OSC did not start.");
 
   delay( 200 );
@@ -91,7 +91,7 @@ void PrintDescriptors(uint8_t addr)
   }
 }
 
-void PrintAllDescriptors(UsbDevice *pdev)
+void PrintAllDescriptors(UsbDeviceDefinition *pdev)
 {
   Serial.println("\r\n");
   print_hex(pdev->address.devAddress, 8);
@@ -101,14 +101,14 @@ void PrintAllDescriptors(UsbDevice *pdev)
 
 void loop()
 {
-  Usb.Task();
+  usb.Task();
 
-  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
+  if ( usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     //if (millis() >= next_time)
     {
-      Usb.ForEachUsbDevice(&PrintAllDescriptors);
-      Usb.ForEachUsbDevice(&PrintAllAddresses);
+      usb.ForEachUsbDevice(&PrintAllDescriptors);
+      usb.ForEachUsbDevice(&PrintAllAddresses);
 
       while ( 1 );                          //stop
     }
@@ -119,7 +119,7 @@ byte getdevdescr( byte addr, byte &num_conf )
 {
   USB_DEVICE_DESCRIPTOR buf;
   byte rcode;
-  rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
+  rcode = usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
   if ( rcode ) {
     return ( rcode );
   }
@@ -199,7 +199,7 @@ void printhubdescr(uint8_t *descrptr, uint8_t addr)
     print_hex(descrptr[i], 8);
 
   //for (uint8_t i=1; i<=pHub->bNbrPorts; i++)
-  //    PrintHubPortStatus(&Usb, addr, i, 1);
+  //    PrintHubPortStatus(&usb, addr, i, 1);
 }
 
 byte getconfdescr( byte addr, byte conf )
@@ -210,14 +210,14 @@ byte getconfdescr( byte addr, byte conf )
   byte descr_length;
   byte descr_type;
   unsigned int total_length;
-  rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
+  rcode = usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
   LOBYTE( total_length ) = buf[ 2 ];
   HIBYTE( total_length ) = buf[ 3 ];
   if ( total_length > 256 ) {   //check if total length is larger than buffer
     printProgStr(Conf_Trunc_str);
     total_length = 256;
   }
-  rcode = Usb.getConfDescr( addr, 0, total_length, conf, buf ); //get the whole descriptor
+  rcode = usb.getConfDescr( addr, 0, total_length, conf, buf ); //get the whole descriptor
   while ( buf_ptr < buf + total_length ) { //parsing descriptors
     descr_length = *( buf_ptr );
     descr_type = *( buf_ptr + 1 );

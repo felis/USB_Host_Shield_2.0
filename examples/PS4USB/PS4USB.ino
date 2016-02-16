@@ -12,8 +12,8 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-PS4USB PS4(&Usb);
+USBHost usb;
+PS4USB PS4(&usb);
 
 bool printAngle, printTouch;
 uint8_t oldL2Value, oldR2Value;
@@ -23,7 +23,7 @@ void setup() {
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt
   }
@@ -31,7 +31,7 @@ void setup() {
 }
 
 void loop() {
-  Usb.Task();
+  usb.Task();
 
   if (PS4.connected()) {
     if (PS4.getAnalogHat(LeftHatX) > 137 || PS4.getAnalogHat(LeftHatX) < 117 || PS4.getAnalogHat(LeftHatY) > 137 || PS4.getAnalogHat(LeftHatY) < 117 || PS4.getAnalogHat(RightHatX) > 137 || PS4.getAnalogHat(RightHatX) < 117 || PS4.getAnalogHat(RightHatY) > 137 || PS4.getAnalogHat(RightHatY) < 117) {

@@ -13,23 +13,23 @@
 #include <SPI.h>
 #endif
 
-USB Usb;
-USBHub  Hub1(&Usb); // The controller has a built in hub, so this instance is needed
-XBOXOLD Xbox(&Usb);
+USBHost usb;
+USBHub  Hub1(&usb); // The controller has a built in hub, so this instance is needed
+XBOXOLD Xbox(&usb);
 
 void setup() {
   Serial.begin(115200);
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-  if (Usb.Init() == -1) {
+  if (usb.Init() == -1) {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // halt
   }
   Serial.print(F("\r\nXBOX Library Started"));
 }
 void loop() {
-  Usb.Task();
+  usb.Task();
   if (Xbox.XboxConnected) {
     if (Xbox.getButtonPress(BLACK) || Xbox.getButtonPress(WHITE)) {
       Serial.print("BLACK: ");
