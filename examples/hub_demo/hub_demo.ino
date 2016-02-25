@@ -19,7 +19,7 @@ void PrintAllAddresses(UsbDevice *pdev)
 {
   UsbDeviceAddress adr;
   adr.devAddress = pdev->address.devAddress;
-  Serial.print("\r\nAddr:");
+  Serial.print("Addr:");
   Serial.print(adr.devAddress, HEX);
   Serial.print("(");
   Serial.print(adr.bmHub, HEX);
@@ -92,6 +92,7 @@ void PrintAllDescriptors(UsbDevice *pdev)
   Serial.println("\r\n");
   print_hex(pdev->address.devAddress, 8);
   Serial.println("\r\n--");
+  getallstrdescr(pdev->address.devAddress);
   PrintDescriptors( pdev->address.devAddress );
 }
 
@@ -238,6 +239,83 @@ byte getconfdescr( byte addr, byte conf )
   }//while( buf_ptr <=...
   return ( rcode );
 }
+
+// function to get all string descriptors
+byte getallstrdescr(uint8_t addr)
+{ 
+  byte rcode;
+  Usb.Task();
+  if( Usb.getUsbTaskState() >= 0x80 ) {  // state configuring or higher
+    USB_DEVICE_DESCRIPTOR buf; 
+    rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
+    if ( rcode ) {
+      return ( rcode );
+    }
+    Serial.println("String Descriptors:");
+    if( buf.iManufacturer > 0 ) {
+      Serial.print("Manufacturer:\t\t");
+      rcode = getstrdescr( addr, buf.iManufacturer );   // get manufacturer string
+      if( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+    if( buf.iProduct > 0 ) {
+      Serial.print("Product:\t\t");
+      rcode = getstrdescr( addr, buf.iProduct );        // get product string
+      if( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+    if( buf.iSerialNumber > 0 ) {
+      Serial.print("Serial:\t\t\t");
+      rcode = getstrdescr( addr, buf.iSerialNumber );   // get serial string
+      if( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+  }
+}
+
+//  function to get single string description
+unsigned int getstrdescr( unsigned int addr, byte idx )
+{
+ byte buf[ 66 ];
+ unsigned int rcode;
+ byte length;
+ byte i;
+ unsigned short langid;
+ rcode = Usb.getStrDescr( addr, 0, 1, 0, 0, buf );  //get language table length
+ if( rcode ) {
+   Serial.println("Error retrieving LangID table length");
+   return( rcode );
+ }
+ length = buf[ 0 ];      //length is the first byte
+ rcode = Usb.getStrDescr( addr, 0, length, 0, 0, buf );  //get language table
+ if( rcode ) {
+   Serial.print("Error retrieving LangID table ");
+   return( rcode );
+ }
+ langid = word(buf[3], buf[2]); 
+ rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
+ if( rcode ) {
+   Serial.print("Error retrieving string length ");
+   return( rcode );
+ }
+ length = buf[ 0 ];
+ rcode = Usb.getStrDescr( addr, 0, length, idx, langid, buf );
+ if( rcode ) {
+   Serial.print("Error retrieving string ");
+   return( rcode );
+ }
+ for( i = 2; i < length; i+=2 ) {
+   Serial.print((char) buf[i]);
+ }
+ return( rcode );
+}
+
 /* prints hex numbers with leading zeroes */
 // copyright, Peter H Anderson, Baltimore, MD, Nov, '07
 // source: http://www.phanderson.com/arduino/arduino_display.html
