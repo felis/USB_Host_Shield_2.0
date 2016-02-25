@@ -67,6 +67,7 @@ public:
                 return HIDUniversal::isReady() && HIDUniversal::VID == STEELSERIES_VID && HIDUniversal::PID == STEELSERIES_SRWS1_PID;
         };
         void setLeds(uint16_t leds);
+        SRWS1Data srws1Data;
 
 private:
         void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf); // Called by the HIDUniversal library
@@ -76,7 +77,6 @@ private:
                 setLeds(0);
                 return 0;
         };
-        SRWS1Data srws1Data;
 };
 
 #endif

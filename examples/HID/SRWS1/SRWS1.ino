@@ -26,12 +26,12 @@ void loop() {
   Usb.Task();
 
   if (srw1.connected()) {
-#if 1 // Set to 1 in order to show a crazy strobe light effect
+#if 0 // Set to 1 in order to show a crazy strobe light effect
     static uint32_t timer;
     if (millis() - timer > 12) {
       timer = millis(); // Reset timer
-      static uint16_t leds = 0;
 
+      static uint16_t leds = 0;
       /*D_PrintHex<uint16_t > (leds, 0x80);
       Serial.println();*/
       srw1.setLeds(leds); // Update LEDs
@@ -41,16 +41,18 @@ void loop() {
         leds <<= 1;
         if (leds == 0x8000) // All are actually turned off, as there is only 15 LEDs
           dirUp = false; // If we have reached the end i.e. all LEDs are off, then change direction
-        if (!(leds & 0x8000)) // If last bit is not set set the lowest bit
+        else if (!(leds & 0x8000)) // If last bit is not set set the lowest bit
           leds |= 1; // Set lowest bit
       } else {
         leds >>= 1;
         if (leds == 0) // Check if all LEDs are off
           dirUp = true; // If all LEDs are off, then repeat the sequence
-        if (!(leds & 0x1)) // If last bit is not set set the lowest bit
+        else if (!(leds & 0x1)) // If last bit is not set set the lowest bit
           leds |= 1 << 15; // Set top bit
       }
     }
+#else
+    srw1.setLeds(1 << map(srw1.srws1Data.tilt, -1800, 1800, 0, 14)); // Turn on a LED according to tilt value
 #endif
   }
 }
