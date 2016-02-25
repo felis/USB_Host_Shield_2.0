@@ -93,7 +93,6 @@ void PrintAllDescriptors(UsbDevice *pdev)
   print_hex(pdev->address.devAddress, 8);
   Serial.println("\r\n--");
   getallstrdescr(pdev->address.devAddress);
-  //Serial.print("\r\n");
   PrintDescriptors( pdev->address.devAddress );
 }
 
