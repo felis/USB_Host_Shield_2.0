@@ -60,14 +60,14 @@ void setup()
   next_time = millis() + 10000;
 }
 
-byte getdevdescr( byte addr, byte &num_conf );
+uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf );
 
 void PrintDescriptors(uint8_t addr)
 {
   uint8_t rcode = 0;
-  byte num_conf = 0;
+  uint8_t num_conf = 0;
 
-  rcode = getdevdescr( (byte)addr, num_conf );
+  rcode = getdevdescr( (uint8_t)addr, num_conf );
   if ( rcode )
   {
     printProgStr(Gen_Error_str);
@@ -112,11 +112,11 @@ void loop()
   }
 }
 
-byte getdevdescr( byte addr, byte &num_conf )
+uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf )
 {
   USB_DEVICE_DESCRIPTOR buf;
-  byte rcode;
-  rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
+  uint8_t rcode;
+  rcode = Usb.getDevDescr( addr, 0, DEV_DESCR_LEN, ( uint8_t *)&buf );
   if ( rcode ) {
     return ( rcode );
   }
@@ -199,13 +199,13 @@ void printhubdescr(uint8_t *descrptr, uint8_t addr)
   //    PrintHubPortStatus(&Usb, addr, i, 1);
 }
 
-byte getconfdescr( byte addr, byte conf )
+uint8_t getconfdescr( uint8_t addr, uint8_t conf )
 {
   uint8_t buf[ BUFSIZE ];
   uint8_t* buf_ptr = buf;
-  byte rcode;
-  byte descr_length;
-  byte descr_type;
+  uint8_t rcode;
+  uint8_t descr_length;
+  uint8_t descr_type;
   unsigned int total_length;
   rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
   LOBYTE( total_length ) = buf[ 2 ];
@@ -241,37 +241,37 @@ byte getconfdescr( byte addr, byte conf )
 }
 
 // function to get all string descriptors
-byte getallstrdescr(uint8_t addr)
-{ 
-  byte rcode;
+uint8_t getallstrdescr(uint8_t addr)
+{
+  uint8_t rcode;
   Usb.Task();
-  if( Usb.getUsbTaskState() >= 0x80 ) {  // state configuring or higher
-    USB_DEVICE_DESCRIPTOR buf; 
-    rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
+  if ( Usb.getUsbTaskState() >= USB_STATE_CONFIGURING ) { // state configuring or higher
+    USB_DEVICE_DESCRIPTOR buf;
+    rcode = Usb.getDevDescr( addr, 0, DEV_DESCR_LEN, ( uint8_t *)&buf );
     if ( rcode ) {
       return ( rcode );
     }
     Serial.println("String Descriptors:");
-    if( buf.iManufacturer > 0 ) {
+    if ( buf.iManufacturer > 0 ) {
       Serial.print("Manufacturer:\t\t");
       rcode = getstrdescr( addr, buf.iManufacturer );   // get manufacturer string
-      if( rcode ) {
+      if ( rcode ) {
         Serial.println( rcode, HEX );
       }
       Serial.print("\r\n");
     }
-    if( buf.iProduct > 0 ) {
+    if ( buf.iProduct > 0 ) {
       Serial.print("Product:\t\t");
       rcode = getstrdescr( addr, buf.iProduct );        // get product string
-      if( rcode ) {
+      if ( rcode ) {
         Serial.println( rcode, HEX );
       }
       Serial.print("\r\n");
     }
-    if( buf.iSerialNumber > 0 ) {
+    if ( buf.iSerialNumber > 0 ) {
       Serial.print("Serial:\t\t\t");
       rcode = getstrdescr( addr, buf.iSerialNumber );   // get serial string
-      if( rcode ) {
+      if ( rcode ) {
         Serial.println( rcode, HEX );
       }
       Serial.print("\r\n");
@@ -280,40 +280,40 @@ byte getallstrdescr(uint8_t addr)
 }
 
 //  function to get single string description
-unsigned int getstrdescr( unsigned int addr, byte idx )
+unsigned int getstrdescr( unsigned int addr, uint8_t idx )
 {
- byte buf[ 66 ];
- unsigned int rcode;
- byte length;
- byte i;
- unsigned short langid;
- rcode = Usb.getStrDescr( addr, 0, 1, 0, 0, buf );  //get language table length
- if( rcode ) {
-   Serial.println("Error retrieving LangID table length");
-   return( rcode );
- }
- length = buf[ 0 ];      //length is the first byte
- rcode = Usb.getStrDescr( addr, 0, length, 0, 0, buf );  //get language table
- if( rcode ) {
-   Serial.print("Error retrieving LangID table ");
-   return( rcode );
- }
- langid = word(buf[3], buf[2]); 
- rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
- if( rcode ) {
-   Serial.print("Error retrieving string length ");
-   return( rcode );
- }
- length = buf[ 0 ];
- rcode = Usb.getStrDescr( addr, 0, length, idx, langid, buf );
- if( rcode ) {
-   Serial.print("Error retrieving string ");
-   return( rcode );
- }
- for( i = 2; i < length; i+=2 ) {
-   Serial.print((char) buf[i]);
- }
- return( rcode );
+  uint8_t buf[ 66 ];
+  unsigned int rcode;
+  uint8_t length;
+  uint8_t i;
+  unsigned short langid;
+  rcode = Usb.getStrDescr( addr, 0, 1, 0, 0, buf );  //get language table length
+  if ( rcode ) {
+    Serial.println("Error retrieving LangID table length");
+    return ( rcode );
+  }
+  length = buf[ 0 ];      //length is the first byte
+  rcode = Usb.getStrDescr( addr, 0, length, 0, 0, buf );  //get language table
+  if ( rcode ) {
+    Serial.print("Error retrieving LangID table ");
+    return ( rcode );
+  }
+  langid = word(buf[3], buf[2]);
+  rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
+  if ( rcode ) {
+    Serial.print("Error retrieving string length ");
+    return ( rcode );
+  }
+  length = buf[ 0 ];
+  rcode = Usb.getStrDescr( addr, 0, length, idx, langid, buf );
+  if ( rcode ) {
+    Serial.print("Error retrieving string ");
+    return ( rcode );
+  }
+  for ( i = 2; i < length; i += 2 ) {
+    Serial.print((char) buf[i]);
+  }
+  return ( rcode );
 }
 
 /* prints hex numbers with leading zeroes */
@@ -397,8 +397,8 @@ void printepdescr( uint8_t* descr_ptr )
 /*function to print unknown descriptor */
 void printunkdescr( uint8_t* descr_ptr )
 {
-  byte length = *descr_ptr;
-  byte i;
+  uint8_t length = *descr_ptr;
+  uint8_t i;
   printProgStr(Unk_Header_str);
   printProgStr(Unk_Length_str);
   print_hex( *descr_ptr, 8 );
