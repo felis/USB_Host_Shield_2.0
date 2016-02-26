@@ -17,18 +17,6 @@
 
 #include "SRWS1.h"
 
-enum DPADEnum {
-        DPAD_UP = 0x0,
-        DPAD_UP_RIGHT = 0x1,
-        DPAD_RIGHT = 0x2,
-        DPAD_RIGHT_DOWN = 0x3,
-        DPAD_DOWN = 0x4,
-        DPAD_DOWN_LEFT = 0x5,
-        DPAD_LEFT = 0x6,
-        DPAD_LEFT_UP = 0x7,
-        DPAD_OFF = 0xF,
-};
-
 void SRWS1::ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
         if (HIDUniversal::VID != STEELSERIES_VID || HIDUniversal::PID != STEELSERIES_SRWS1_PID) // Make sure the right device is actually connected
                 return;
@@ -40,9 +28,15 @@ void SRWS1::ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
                         Notify(PSTR(" "), 0x80);
                 }
         }
-#else
+#endif
         memcpy(&srws1Data, buf, min(len, sizeof(srws1Data)));
 
+        static SRWS1DataButtons oldButtonState;
+        if (srws1Data.btn.val != oldButtonState.val) { // Check if anything has changed
+                buttonClickState.val = srws1Data.btn.val & ~oldButtonState.val; // Update click state variable
+                oldButtonState.val = srws1Data.btn.val;
+        }
+#if 0
         if (srws1Data.leftTrigger) {
                 Serial.print(F("L2: "));
                 Serial.println(srws1Data.leftTrigger);
@@ -73,21 +67,6 @@ void SRWS1::ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
         if (srws1Data.btn.launchControl) Serial.println(F("Launch Control"));
         if (srws1Data.btn.speedLimiter) Serial.println(F("Speed Limiter"));
         if (srws1Data.btn.rightGear) Serial.println(F("Right gear"));
-
-        static SRWS1DataButtons buttonClickState, oldButtonState;
-        if (srws1Data.btn.val != oldButtonState.val) { // Check if anything has changed
-                buttonClickState.val = srws1Data.btn.val & ~oldButtonState.val; // Update click state variable
-                oldButtonState.val = srws1Data.btn.val;
-        }
-
-        if (buttonClickState.lights) {
-                buttonClickState.lights = 0; // Clear event
-                static uint16_t leds = 0;
-                leds = leds << 1 | 1;
-                if (leds == 0xFFFF)
-                        leds = 0; // Clear LEDs variable
-                setLeds(leds); // Note: disable the strobe light effect
-        }
 
         if (srws1Data.assists) Serial.println(srws1Data.assists);
         if (srws1Data.steeringSensitivity) Serial.println(srws1Data.steeringSensitivity);

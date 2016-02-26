@@ -23,6 +23,18 @@
 #define STEELSERIES_VID       0x1038
 #define STEELSERIES_SRWS1_PID 0x1410
 
+enum DPADEnum {
+        DPAD_UP = 0x0,
+        DPAD_UP_RIGHT = 0x1,
+        DPAD_RIGHT = 0x2,
+        DPAD_RIGHT_DOWN = 0x3,
+        DPAD_DOWN = 0x4,
+        DPAD_DOWN_LEFT = 0x5,
+        DPAD_LEFT = 0x6,
+        DPAD_LEFT_UP = 0x7,
+        DPAD_OFF = 0xF,
+};
+
 union SRWS1DataButtons {
         struct {
                 uint8_t dpad : 4;
@@ -68,6 +80,7 @@ public:
         };
         void setLeds(uint16_t leds);
         SRWS1Data srws1Data;
+        SRWS1DataButtons buttonClickState;
 
 private:
         void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf); // Called by the HIDUniversal library
