@@ -68,18 +68,15 @@ void PrintDescriptors(uint8_t addr)
   uint8_t num_conf = 0;
 
   rcode = getdevdescr( (uint8_t)addr, num_conf );
-  if ( rcode )
-  {
+  if ( rcode ) {
     printProgStr(Gen_Error_str);
     print_hex( rcode, 8 );
   }
   Serial.print("\r\n");
 
-  for (int i = 0; i < num_conf; i++)
-  {
+  for (int i = 0; i < num_conf; i++) {
     rcode = getconfdescr( addr, i );                 // get configuration descriptor
-    if ( rcode )
-    {
+    if ( rcode ) {
       printProgStr(Gen_Error_str);
       print_hex(rcode, 8);
     }
@@ -100,10 +97,8 @@ void loop()
 {
   Usb.Task();
 
-  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-  {
-    if ((millis() - next_time) >= 0L)
-    {
+  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING ) {
+    if ((millis() - next_time) >= 0L) {
       Usb.ForEachUsbDevice(&PrintAllDescriptors);
       Usb.ForEachUsbDevice(&PrintAllAddresses);
 
@@ -282,7 +277,7 @@ uint8_t getallstrdescr(uint8_t addr)
 //  function to get single string description
 unsigned int getstrdescr( unsigned int addr, uint8_t idx )
 {
-  uint8_t buf[ 66 ];
+  uint8_t buf[ 256 ];
   unsigned int rcode;
   uint8_t length;
   uint8_t i;
@@ -310,7 +305,7 @@ unsigned int getstrdescr( unsigned int addr, uint8_t idx )
     Serial.print("Error retrieving string ");
     return ( rcode );
   }
-  for ( i = 2; i < length; i += 2 ) {
+  for ( i = 2; i < length; i += 2 ) {   //string is UTF-16LE encoded
     Serial.print((char) buf[i]);
   }
   return ( rcode );
@@ -338,6 +333,7 @@ void print_hex(int v, int num_places)
   }
   while (--num_nibbles);
 }
+
 /* function to print configuration descriptor */
 void printconfdescr( uint8_t* descr_ptr )
 {
@@ -357,6 +353,7 @@ void printconfdescr( uint8_t* descr_ptr )
   print_hex( conf_ptr->bMaxPower, 8 );
   return;
 }
+
 /* function to print interface descriptor */
 void printintfdescr( uint8_t* descr_ptr )
 {
@@ -378,6 +375,7 @@ void printintfdescr( uint8_t* descr_ptr )
   print_hex( intf_ptr->iInterface, 8 );
   return;
 }
+
 /* function to print endpoint descriptor */
 void printepdescr( uint8_t* descr_ptr )
 {
@@ -394,6 +392,7 @@ void printepdescr( uint8_t* descr_ptr )
 
   return;
 }
+
 /*function to print unknown descriptor */
 void printunkdescr( uint8_t* descr_ptr )
 {
