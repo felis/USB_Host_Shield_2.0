@@ -80,26 +80,26 @@ void setup() {
         /* GPIO test */
         /* in order to simplify board layout, GPIN pins on text fixture are connected to GPOUT */
         /* in reverse order, i.e, GPIN0 is connected to GPOUT7, GPIN1 to GPOUT6, etc. */
-        {
-                uint8_t tmpbyte;
-                E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
-                for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
-                        Usb.gpioWr(sample_gpio);
-                        tmpbyte = Usb.gpioRd();
-                        /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
-                        tmpbyte = ((tmpbyte * 0x0802LU & 0x22110LU) | (tmpbyte * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
-                        if(sample_gpio != tmpbyte) {
-                                E_Notify(PSTR("\r\nTest failed. Value written: "), 0x80);
-                                print_hex(sample_gpio, 8);
-                                E_Notify(PSTR(" Value read: "), 0x80);
-                                print_hex(tmpbyte, 8);
-                                E_Notify(PSTR(" "), 0x80);
-                                press_any_key();
-                                break;
-                        }//if( sample_gpio != tmpbyte...
-                }//for( uint8_t sample_gpio...
-                E_Notify(PSTR("\r\nGPIO test passed."), 0x80);
-        }//GPIO test
+        //{
+        //       uint8_t tmpbyte;
+        //        E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
+        //        for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
+        //                Usb.gpioWr(sample_gpio);
+        //                tmpbyte = Usb.gpioRd();
+        //                /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
+        //                tmpbyte = ((tmpbyte * 0x0802LU & 0x22110LU) | (tmpbyte * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
+        //                if(sample_gpio != tmpbyte) {
+        //                        E_Notify(PSTR("\r\nTest failed. Value written: "), 0x80);
+        //                        print_hex(sample_gpio, 8);
+        //                        E_Notify(PSTR(" Value read: "), 0x80);
+        //                        print_hex(tmpbyte, 8);
+        //                        E_Notify(PSTR(" "), 0x80);
+        //                        press_any_key();
+        //                        break;
+        //                }//if( sample_gpio != tmpbyte...
+        //        }//for( uint8_t sample_gpio...
+        //        E_Notify(PSTR("\r\nGPIO test passed."), 0x80);
+        //}//GPIO test
         /* PLL test. Stops/starts MAX3421E oscillator several times */
         {
                 E_Notify(PSTR("\r\nPLL test. 100 chip resets will be performed"), 0x80);

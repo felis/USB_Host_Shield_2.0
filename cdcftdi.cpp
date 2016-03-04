@@ -51,15 +51,17 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("FTDI Init\r\n");
 
-        if(bAddress)
+        if(bAddress) {
+        USBTRACE("FTDI CLASS IN USE??\r\n");
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
-
+                }
         // Get pointer to pseudo device with address 0 assigned
         p = addrPool.GetUsbDevicePtr(0);
 
-        if(!p)
+        if(!p) {
+        USBTRACE("FTDI NO ADDRESS??\r\n");
                 return USB_ERROR_ADDRESS_NOT_FOUND_IN_POOL;
-
+                }
         if(!p->epinfo) {
                 USBTRACE("epinfo\r\n");
                 return USB_ERROR_EPINFO_IS_NULL;
@@ -79,11 +81,16 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if(rcode)
+        if(rcode) {
+        
                 goto FailGetDevDescr;
-        if(udd->idVendor != FTDI_VID || udd->idProduct != FTDI_PID)
+                }
+        if(udd->idVendor != FTDI_VID && udd->idProduct != FTDI_PID) {
+        USBTRACE("FTDI NO SUPPORT??\r\n");
+        Serial.println(udd->idVendor, HEX);
+        Serial.println(udd->idProduct, HEX);
                 return USB_DEV_CONFIG_ERROR_DEVICE_NOT_SUPPORTED;
-
+}
         // Save type of FTDI chip
         wFTDIType = udd->bcdDevice;
 

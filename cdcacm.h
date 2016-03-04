@@ -162,10 +162,6 @@ typedef struct {
 
 class ACM : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
-        static const uint8_t epDataInIndex; // DataIn endpoint index
-        static const uint8_t epDataOutIndex; // DataOUT endpoint index
-        static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
-
         USB *pUsb;
         CDCAsyncOper *pAsync;
         uint8_t bAddress;
@@ -178,11 +174,14 @@ protected:
         volatile bool ready; //device ready indicator
         tty_features _enhanced_status; // current status
 
-        EpInfo epInfo[ACM_MAX_ENDPOINTS];
-
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
+        static const uint8_t epDataInIndex; // DataIn endpoint index
+        static const uint8_t epDataOutIndex; // DataOUT endpoint index
+        static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
+        EpInfo epInfo[ACM_MAX_ENDPOINTS];
+
         ACM(USB *pusb, CDCAsyncOper *pasync);
 
         uint8_t SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);

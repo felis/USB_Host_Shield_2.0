@@ -269,12 +269,11 @@ uint8_t ACM::Release() {
 }
 
 uint8_t ACM::Poll() {
-        uint8_t rcode = 0;
-
-        if(!bPollEnable)
-                return 0;
-
-        return rcode;
+        //uint8_t rcode = 0;
+        //if(!bPollEnable)
+        //        return 0;
+        //return rcode;
+        return 0;
 }
 
 uint8_t ACM::RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr) {

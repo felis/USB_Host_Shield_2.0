@@ -137,6 +137,10 @@ public:
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
                 return (vid == FTDI_VID && pid == FTDI_PID);
         }
+        virtual bool isReady() {
+                return bPollEnable;
+        };
+
 
 };
 
