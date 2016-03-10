@@ -13,7 +13,7 @@ public:
   HIDSelector(USB *p) : HIDComposite(p) {};
 
 protected:
-  void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf); // Called by the HIDComposite library
+  void ParseHIDData(USBHID *hid, uint8_t ep, bool is_rpt_id, uint8_t len, uint8_t *buf); // Called by the HIDComposite library
   bool SelectInterface(uint8_t iface, uint8_t proto);
 };
 
@@ -25,7 +25,7 @@ bool HIDSelector::SelectInterface(uint8_t iface, uint8_t proto)
   return false;
 }
 
-void HIDSelector::ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+void HIDSelector::ParseHIDData(USBHID *hid, uint8_t ep, bool is_rpt_id, uint8_t len, uint8_t *buf) {
 #if 1
         if (len && buf)  {
                 Notify(PSTR("\r\n"), 0x80);
@@ -65,4 +65,3 @@ void loop()
 {
   Usb.Task();
 }
-

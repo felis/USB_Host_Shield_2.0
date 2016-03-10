@@ -72,7 +72,7 @@ protected:
                 return 0;
         };
 
-        virtual void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(USBHID *hid, uint8_t ep, bool is_rpt_id, uint8_t len, uint8_t *buf) {
                 return;
         };
 
