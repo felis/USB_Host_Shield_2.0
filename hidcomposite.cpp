@@ -399,7 +399,7 @@ uint8_t HIDComposite::Poll() {
 
 						Notify(PSTR("\r\n"), 0x80);
 #endif
-						ParseHIDData(this, bHasReportId, epInfo[index].epAddr, (uint8_t)read, buf);
+						ParseHIDData(this, epInfo[index].epAddr, bHasReportId, (uint8_t)read, buf);
 
 						HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 
