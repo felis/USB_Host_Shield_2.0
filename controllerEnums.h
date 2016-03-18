@@ -26,11 +26,12 @@
 /** Enum used to turn on the LEDs on the different controllers. */
 enum LEDEnum {
         OFF = 0,
+#ifndef RBL_NRF51822
         LED1 = 1,
         LED2 = 2,
         LED3 = 3,
         LED4 = 4,
-
+#endif
         LED5 = 5,
         LED6 = 6,
         LED7 = 7,

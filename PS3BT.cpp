@@ -629,6 +629,6 @@ void PS3BT::onInit() {
                 if(PS3MoveConnected)
                         moveSetBulb(Red);
                 else // Dualshock 3 or Navigation controller
-                        setLedOn(LED1);
+                        setLedOn(static_cast<LEDEnum>(LED1));
         }
 }

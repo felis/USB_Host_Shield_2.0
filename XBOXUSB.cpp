@@ -358,5 +358,5 @@ void XBOXUSB::onInit() {
         if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
         else
-                setLedOn(LED1);
+                setLedOn(static_cast<LEDEnum>(LED1));
 }
