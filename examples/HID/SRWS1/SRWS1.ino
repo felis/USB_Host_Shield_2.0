@@ -41,13 +41,13 @@ void loop() {
         leds <<= 1;
         if (leds == 0x8000) // All are actually turned off, as there is only 15 LEDs
           dirUp = false; // If we have reached the end i.e. all LEDs are off, then change direction
-        else if (!(leds & 0x8000)) // If last bit is not set set the lowest bit
+        else if (!(leds & 0x8000)) // If last bit is not set, then set the lowest bit
           leds |= 1; // Set lowest bit
       } else {
         leds >>= 1;
         if (leds == 0) // Check if all LEDs are off
           dirUp = true; // If all LEDs are off, then repeat the sequence
-        else if (!(leds & 0x1)) // If last bit is not set set the lowest bit
+        else if (!(leds & 0x1)) // If last bit is not set, then set the top bit
           leds |= 1 << 15; // Set top bit
       }
     }
