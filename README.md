@@ -55,6 +55,7 @@ Help yourself by helping us support you! Many thousands of hours have been spent
         * [Xbox ONE Library](#xbox-one-library)
     * [Wii library](#wii-library)
     * [PS Buzz Library](#ps-buzz-library)
+    * [HID Libraries](#hid-libraries)
 * [Interface modifications](#interface-modifications)
 * [FAQ](#faq)
 
@@ -306,6 +307,10 @@ More information about the controller can be found at the following sites:
 
 * http://www.developerfusion.com/article/84338/making-usb-c-friendly/
 * https://github.com/torvalds/linux/blob/master/drivers/hid/hid-sony.c
+
+### HID Libraries
+
+HID devices are also supported by the library. However these require you to write your own driver. A few example are provided in the [examples/HID](examples/HID) directory. Including an example for the [SteelSeries SRW-S1 Steering Wheel](examples/HID/SRWS1/SRWS1.ino).
 
 # Interface modifications
 
