@@ -572,13 +572,13 @@ void XBOXRECV::onInit(uint8_t controller) {
         else {
                 LEDEnum led;
                 if(controller == 0)
-                        led = LED1;
+                        led = static_cast<LEDEnum>(LED1);
                 else if(controller == 1)
-                        led = LED2;
+                        led = static_cast<LEDEnum>(LED2);
                 else if(controller == 2)
-                        led = LED3;
+                        led = static_cast<LEDEnum>(LED3);
                 else
-                        led = LED4;
+                        led = static_cast<LEDEnum>(LED4);
                 setLedOn(led, controller);
         }
 }
