@@ -7,6 +7,7 @@
 #include <SPI.h>
 #endif
 
+// Override HIDComposite to be able to select which interface we want to hook into
 class HIDSelector : public HIDComposite
 {
 public:
@@ -17,6 +18,7 @@ protected:
   bool SelectInterface(uint8_t iface, uint8_t proto);
 };
 
+// Return true for the interface we want to hook into
 bool HIDSelector::SelectInterface(uint8_t iface, uint8_t proto)
 {
   if(proto != 0)
@@ -25,6 +27,7 @@ bool HIDSelector::SelectInterface(uint8_t iface, uint8_t proto)
   return false;
 }
 
+// Will be called for all HID data received from the USB interface
 void HIDSelector::ParseHIDData(USBHID *hid, uint8_t ep, bool is_rpt_id, uint8_t len, uint8_t *buf) {
 #if 1
         if (len && buf)  {

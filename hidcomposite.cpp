@@ -227,15 +227,15 @@ uint8_t HIDComposite::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailSetConfDescr;
 
-		USBTRACE2("NumIface:", bNumIface);
-			
+        USBTRACE2("NumIface:", bNumIface);
+
         for(uint8_t i = 0; i < bNumIface; i++) {
                 if(hidInterfaces[i].epIndex[epInterruptInIndex] == 0)
                         continue;
 
-				USBTRACE2("SetIdle:", hidInterfaces[i].bmInterface);
+                USBTRACE2("SetIdle:", hidInterfaces[i].bmInterface);
 
-				rcode = SetIdle(hidInterfaces[i].bmInterface, 0, 0);
+                rcode = SetIdle(hidInterfaces[i].bmInterface, 0, 0);
 
                 if(rcode && rcode != hrSTALL)
                         goto FailSetIdle;
@@ -314,29 +314,29 @@ void HIDComposite::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
         }
 
         if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
-			index = epInterruptInIndex;
+            index = epInterruptInIndex;
         else
-			index = epInterruptOutIndex;
+            index = epInterruptOutIndex;
 
-		if(!SelectInterface(iface, proto))
-			index = 0;
-		
+        if(!SelectInterface(iface, proto))
+            index = 0;
+
         if(index) {
-			// Fill in the endpoint info structure
-			epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
-			epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-			epInfo[bNumEP].bmSndToggle = 0;
-			epInfo[bNumEP].bmRcvToggle = 0;
-			epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
+            // Fill in the endpoint info structure
+            epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
+            epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+            epInfo[bNumEP].bmSndToggle = 0;
+            epInfo[bNumEP].bmRcvToggle = 0;
+            epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
 
-			// Fill in the endpoint index list
-			piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
+            // Fill in the endpoint index list
+            piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
 
-			if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
-					pollInterval = pep->bInterval;
+            if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+                    pollInterval = pep->bInterval;
 
-			bNumEP++;
-		}
+            bNumEP++;
+        }
 }
 
 uint8_t HIDComposite::Release() {
@@ -367,10 +367,10 @@ uint8_t HIDComposite::Poll() {
 
                 for(uint8_t i = 0; i < bNumIface; i++) {
                         uint8_t index = hidInterfaces[i].epIndex[epInterruptInIndex];
-						
-						if (index == 0)
-							continue;
-						
+
+                        if (index == 0)
+                            continue;
+
                         uint16_t read = (uint16_t)epInfo[index].maxPktSize;
 
                         ZeroMemory(constBuffLen, buf);
@@ -382,30 +382,30 @@ uint8_t HIDComposite::Poll() {
                                         USBTRACE3("(hidcomposite.h) Poll:", rcode, 0x81);
                                 continue;
                         }
-						
-						if(read == 0)
-							continue;
+
+                        if(read == 0)
+                            continue;
 
                         if(read > constBuffLen)
                                 read = constBuffLen;
 
 #if 0
-						Notify(PSTR("\r\nBuf: "), 0x80);
+                        Notify(PSTR("\r\nBuf: "), 0x80);
 
-						for(uint8_t i = 0; i < read; i++) {
-								D_PrintHex<uint8_t > (buf[i], 0x80);
-								Notify(PSTR(" "), 0x80);
-						}
+                        for(uint8_t i = 0; i < read; i++) {
+                                D_PrintHex<uint8_t > (buf[i], 0x80);
+                                Notify(PSTR(" "), 0x80);
+                        }
 
-						Notify(PSTR("\r\n"), 0x80);
+                        Notify(PSTR("\r\n"), 0x80);
 #endif
-						ParseHIDData(this, epInfo[index].epAddr, bHasReportId, (uint8_t)read, buf);
+                        ParseHIDData(this, epInfo[index].epAddr, bHasReportId, (uint8_t)read, buf);
 
-						HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
+                        HIDReportParser *prs = GetReportParser(((bHasReportId) ? *buf : 0));
 
-						if(prs)
-								prs->Parse(this, bHasReportId, (uint8_t)read, buf);
-					}
+                        if(prs)
+                                prs->Parse(this, bHasReportId, (uint8_t)read, buf);
+                    }
 
         }
         return rcode;

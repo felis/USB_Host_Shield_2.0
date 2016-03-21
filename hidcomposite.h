@@ -101,8 +101,8 @@ public:
         // Send report - do not mix with SetReport()!
         uint8_t SndRpt(uint16_t nbytes, uint8_t *dataptr);
 
-		// Returns true if we should listen on an interface, false if not
-		virtual bool SelectInterface(uint8_t iface, uint8_t proto) = 0;
+        // Returns true if we should listen on an interface, false if not
+        virtual bool SelectInterface(uint8_t iface, uint8_t proto) = 0;
 };
 
 #endif // __HIDCOMPOSITE_H__
