@@ -28,33 +28,34 @@ void loop() {
   Usb.Task();
 
   if (srw1.connected()) {
-#if 0 // Set to 1 in order to show a crazy strobe light effect
-    static uint32_t timer;
-    if (millis() - timer > 12) {
-      timer = millis(); // Reset timer
+    if (printTilt) { // Show tilt angle using the LEDs
+      srw1.setLeds(1 << map(srw1.srws1Data.tilt, -1800, 1800, 0, 14)); // Turn on a LED according to tilt value
+      Serial.println(srw1.srws1Data.tilt);
+    } else { // Show strobe light effect
+      static uint32_t timer;
+      if (millis() - timer > 12) {
+        timer = millis(); // Reset timer
 
-      static uint16_t leds = 0;
-      //PrintHex<uint16_t > (leds, 0x80); Serial.println();
-      srw1.setLeds(leds); // Update LEDs
+        static uint16_t leds = 0;
+        //PrintHex<uint16_t > (leds, 0x80); Serial.println();
+        srw1.setLeds(leds); // Update LEDs
 
-      static bool dirUp = true;
-      if (dirUp) {
-        leds <<= 1;
-        if (leds == 0x8000) // All are actually turned off, as there is only 15 LEDs
-          dirUp = false; // If we have reached the end i.e. all LEDs are off, then change direction
-        else if (!(leds & 0x8000)) // If last bit is not set, then set the lowest bit
-          leds |= 1; // Set lowest bit
-      } else {
-        leds >>= 1;
-        if (leds == 0) // Check if all LEDs are off
-          dirUp = true; // If all LEDs are off, then repeat the sequence
-        else if (!(leds & 0x1)) // If last bit is not set, then set the top bit
-          leds |= 1 << 15; // Set top bit
+        static bool dirUp = true;
+        if (dirUp) {
+          leds <<= 1;
+          if (leds == 0x8000) // All are actually turned off, as there is only 15 LEDs
+            dirUp = false; // If we have reached the end i.e. all LEDs are off, then change direction
+          else if (!(leds & 0x8000)) // If last bit is not set, then set the lowest bit
+            leds |= 1; // Set lowest bit
+        } else {
+          leds >>= 1;
+          if (leds == 0) // Check if all LEDs are off
+            dirUp = true; // If all LEDs are off, then repeat the sequence
+          else if (!(leds & 0x1)) // If last bit is not set, then set the top bit
+            leds |= 1 << 15; // Set top bit
+        }
       }
     }
-#else
-    srw1.setLeds(1 << map(srw1.srws1Data.tilt, -1800, 1800, 0, 14)); // Turn on a LED according to tilt value
-#endif
 
     if (srw1.srws1Data.leftTrigger) {
       Serial.print(F("L2: "));
@@ -68,7 +69,7 @@ void loop() {
     if (srw1.buttonClickState.select) {
       srw1.buttonClickState.select = 0; // Clear event
       Serial.println(F("Select"));
-      printTilt = !printTilt; // Print tilt value
+      printTilt = !printTilt; // Print tilt value & show it using the LEDs as well
     }
 
     if (srw1.buttonClickState.back) {
@@ -174,9 +175,6 @@ void loop() {
         Serial.println();
         break;
     }
-
-    if (printTilt)
-      Serial.println(srw1.srws1Data.tilt);
   }
 }
 
