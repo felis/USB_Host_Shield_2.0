@@ -28,6 +28,8 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
     * Major contributor to mass storage code
 * __guruthree__
     * [Xbox ONE](#xbox-one-library) controller support
+* __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
+    * Developer of the [MIDI](#midi-library) library
 
 # Donate
 
@@ -56,6 +58,7 @@ Help yourself by helping us support you! Many thousands of hours have been spent
     * [Wii library](#wii-library)
     * [PS Buzz Library](#ps-buzz-library)
     * [HID Libraries](#hid-libraries)
+    * [MIDI Library](#midi-library)
 * [Interface modifications](#interface-modifications)
 * [FAQ](#faq)
 
@@ -311,6 +314,16 @@ More information about the controller can be found at the following sites:
 ### HID Libraries
 
 HID devices are also supported by the library. However these require you to write your own driver. A few example are provided in the [examples/HID](examples/HID) directory. Including an example for the [SteelSeries SRW-S1 Steering Wheel](examples/HID/SRWS1/SRWS1.ino).
+
+### [MIDI Library](usbh_midi.cpp)
+
+The library support MIDI devices.  
+You can convert USB MIDI keyboard to legacy serial MIDI.
+
+* [USB_MIDI_converter.ino](USBH_MIDI/USB_MIDI_converter) 
+* [USB_MIDI_converter_multi.ino](USBH_MIDI/USB_MIDI_converter_multi) 
+
+For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
 
 # Interface modifications
 
