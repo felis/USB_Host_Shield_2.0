@@ -74,7 +74,7 @@ void PrintDescriptors(uint8_t addr)
   }
   Serial.print("\r\n");
 
-  for (int i = 0; i < num_conf; i++) {
+  for (uint8_t i = 0; i < num_conf; i++) {
     rcode = getconfdescr( addr, i );                 // get configuration descriptor
     if ( rcode ) {
       printProgStr(Gen_Error_str);
@@ -201,7 +201,7 @@ uint8_t getconfdescr( uint8_t addr, uint8_t conf )
   uint8_t rcode;
   uint8_t descr_length;
   uint8_t descr_type;
-  unsigned int total_length;
+  uint16_t total_length;
   rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
   LOBYTE( total_length ) = buf[ 2 ];
   HIBYTE( total_length ) = buf[ 3 ];
@@ -275,13 +275,13 @@ uint8_t getallstrdescr(uint8_t addr)
 }
 
 //  function to get single string description
-unsigned int getstrdescr( unsigned int addr, uint8_t idx )
+uint8_t getstrdescr( uint8_t addr, uint8_t idx )
 {
   uint8_t buf[ 256 ];
-  unsigned int rcode;
+  uint8_t rcode;
   uint8_t length;
   uint8_t i;
-  unsigned short langid;
+  uint16_t langid;
   rcode = Usb.getStrDescr( addr, 0, 1, 0, 0, buf );  //get language table length
   if ( rcode ) {
     Serial.println("Error retrieving LangID table length");
@@ -293,7 +293,7 @@ unsigned int getstrdescr( unsigned int addr, uint8_t idx )
     Serial.print("Error retrieving LangID table ");
     return ( rcode );
   }
-  langid = word(buf[3], buf[2]);
+  langid = (buf[3] << 8) | buf[2];
   rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
   if ( rcode ) {
     Serial.print("Error retrieving string length ");
@@ -410,7 +410,6 @@ void printunkdescr( uint8_t* descr_ptr )
     descr_ptr++;
   }
 }
-
 
 /* Print a string from Program Memory directly to save RAM */
 void printProgStr(const char* str)
