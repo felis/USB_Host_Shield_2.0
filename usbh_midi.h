@@ -61,7 +61,7 @@ protected:
 
         void parseConfigDescr(byte addr, byte conf);
         unsigned int countSysExDataSize(uint8_t *dataptr);
-#ifdef DEBUG
+#ifdef DEBUG_USB_HOST
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
 #endif
 public:
