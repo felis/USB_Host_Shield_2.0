@@ -24,7 +24,7 @@ env:
     - PLATFORMIO_CI_SRC=examples/Bluetooth/SPPMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/Wii
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiBalanceBoard
-    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera PLATFORMIO_BUILD_FLAGS="-DWIICAMERA"
+    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiUProController
     - PLATFORMIO_CI_SRC=examples/board_qc
@@ -55,6 +55,7 @@ env:
 
 install:
     - pip install -U platformio
+    - export PLATFORMIO_BUILD_FLAGS="-DDEBUG_USB_HOST -DWIICAMERA"
 
     #
     # Libraries from PlatformIO Library Registry:
