@@ -26,7 +26,7 @@
 
 #include "usbh_midi.h"
 //////////////////////////
-// MIDI MESAGES 
+// MIDI MESAGES
 // midi.org/techspecs/
 //////////////////////////
 // STATUS BYTES
@@ -148,7 +148,7 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
-        if( rcode ){ 
+        if( rcode ){
                 goto FailGetDevDescr;
         }
 
@@ -159,7 +159,7 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         }
 
         // Extract Max Packet Size from device descriptor
-        epInfo[0].maxPktSize = udd->bMaxPacketSize0; 
+        epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
         // Assign new address to the device
         rcode = pUsb->setAddr( 0, 0, bAddress );
@@ -171,7 +171,7 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         }//if (rcode...
 #ifdef DEBUG_USB_HOST
         USBTRACE2("Addr:", bAddress);
-#endif  
+#endif
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -252,7 +252,7 @@ void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
         rcode = pUsb->getConfDescr( addr, 0, 4, conf, buf );
         if( rcode ){
                 return;
-        }  
+        }
         total_length = buf[2] | ((int)buf[3] << 8);
         if( total_length > DESC_BUFF_SIZE ) {    //check if total length is larger than buffer
                 total_length = DESC_BUFF_SIZE;
@@ -265,7 +265,7 @@ void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
         }
 
         //parsing descriptors
-        while( buf_ptr < buf + total_length ) {  
+        while( buf_ptr < buf + total_length ) {
                 descr_length = *( buf_ptr );
                 descr_type   = *( buf_ptr + 1 );
                 switch( descr_type ) {
@@ -301,7 +301,7 @@ void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
                         break;
                   default:
                         break;
-                }//switch( descr_type  
+                }//switch( descr_type
                 buf_ptr += descr_length;    //advance buffer pointer
         }//while( buf_ptr <=...
 }
@@ -310,7 +310,7 @@ void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
 uint8_t USBH_MIDI::Release()
 {
         pUsb->GetAddressPool().FreeAddress(bAddress);
-        bNumEP       = 1;		//must have to be reset to 1	
+        bNumEP       = 1;               //must have to be reset to 1
         bAddress     = 0;
         bPollEnable  = false;
         readPtr      = 0;
@@ -322,7 +322,7 @@ uint8_t USBH_MIDI::RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr)
 {
         *bytes_rcvd = (uint16_t)epInfo[epDataInIndex].maxPktSize;
         uint8_t  r = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
-        
+
         if( *bytes_rcvd < (MIDI_EVENT_PACKET_SIZE-4)){
                 dataptr[*bytes_rcvd]     = '\0';
                 dataptr[(*bytes_rcvd)+1] = '\0';
@@ -384,7 +384,7 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, byte nCable)
 
         buf[0] = (nCable << 4) | (msg >> 4);
         if( msg < 0xf0 ) msg = msg & 0xf0;
-  
+
 
         //Building USB-MIDI Event Packets
         buf[1] = dataptr[0];
@@ -497,7 +497,7 @@ unsigned int USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
         {
                 dataptr++;
                 c++;
-                
+
                 //Limiter (upto 256 bytes)
                 if(c > 256){
                         c = 0;

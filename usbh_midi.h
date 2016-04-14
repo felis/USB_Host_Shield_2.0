@@ -40,10 +40,10 @@ private:
         uint8_t lookupMsgSize(uint8_t midiMsg);
 
 protected:
-        static const uint8_t	epDataInIndex;          // DataIn endpoint index(MIDI)
-        static const uint8_t	epDataOutIndex;         // DataOUT endpoint index(MIDI)
-        static const uint8_t	epDataInIndexVSP;       // DataIn endpoint index(Vendor Specific Protocl)
-        static const uint8_t	epDataOutIndexVSP;      // DataOUT endpoint index(Vendor Specific Protocl)
+        static const uint8_t    epDataInIndex;          // DataIn endpoint index(MIDI)
+        static const uint8_t    epDataOutIndex;         // DataOUT endpoint index(MIDI)
+        static const uint8_t    epDataInIndexVSP;       // DataIn endpoint index(Vendor Specific Protocl)
+        static const uint8_t    epDataOutIndexVSP;      // DataOUT endpoint index(Vendor Specific Protocl)
 
         boolean isMidiFound;
 
