@@ -420,20 +420,20 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, byte nCable)
 #ifdef DEBUG_USB_HOST
 void USBH_MIDI::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 {
-        Notify(PSTR("Endpoint descriptor:"));
-        Notify(PSTR("\r\nLength:\t\t"));
-        PrintHex<uint8_t>(ep_ptr->bLength);
-        Notify(PSTR("\r\nType:\t\t"));
-        PrintHex<uint8_t>(ep_ptr->bDescriptorType);
-        Notify(PSTR("\r\nAddress:\t"));
-        PrintHex<uint8_t>(ep_ptr->bEndpointAddress);
-        Notify(PSTR("\r\nAttributes:\t"));
-        PrintHex<uint8_t>(ep_ptr->bmAttributes);
-        Notify(PSTR("\r\nMaxPktSize:\t"));
-        PrintHex<uint16_t>(ep_ptr->wMaxPacketSize);
-        Notify(PSTR("\r\nPoll Intrv:\t"));
-        PrintHex<uint8_t>(ep_ptr->bInterval);
-        Notify(PSTR("\r\n"));
+        Notify(PSTR("Endpoint descriptor:"), 0x80);
+        Notify(PSTR("\r\nLength:\t\t"), 0x80);
+        PrintHex<uint8_t>(ep_ptr->bLength, 0x80);
+        Notify(PSTR("\r\nType:\t\t"), 0x80);
+        PrintHex<uint8_t>(ep_ptr->bDescriptorType, 0x80);
+        Notify(PSTR("\r\nAddress:\t"), 0x80);
+        PrintHex<uint8_t>(ep_ptr->bEndpointAddress, 0x80);
+        Notify(PSTR("\r\nAttributes:\t"), 0x80);
+        PrintHex<uint8_t>(ep_ptr->bmAttributes, 0x80);
+        Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
+        PrintHex<uint16_t>(ep_ptr->wMaxPacketSize, 0x80);
+        Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
+        PrintHex<uint8_t>(ep_ptr->bInterval, 0x80);
+        Notify(PSTR("\r\n"), 0x80);
 }
 #endif
 
