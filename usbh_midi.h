@@ -75,7 +75,7 @@ public:
         // backward compatibility functions
         inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr){ return RecvData(bytes_rcvd, dataptr); };
         inline uint8_t RcvData(uint8_t *outBuf){ return RecvData(outBuf); };
-        
+
         // USBDeviceConfig implementation
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
