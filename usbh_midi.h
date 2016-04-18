@@ -45,14 +45,14 @@ protected:
         static const uint8_t    epDataInIndexVSP;       // DataIn endpoint index(Vendor Specific Protocl)
         static const uint8_t    epDataOutIndexVSP;      // DataOUT endpoint index(Vendor Specific Protocl)
 
-        boolean isMidiFound;
-
         /* mandatory members */
         USB      *pUsb;
         uint8_t  bAddress;
         uint8_t  bConfNum;    // configuration number
         uint8_t  bNumEP;      // total number of EP in the configuration
         bool     bPollEnable;
+
+        bool isMidiFound;
         /* Endpoint data structure */
         EpInfo  epInfo[MIDI_MAX_ENDPOINTS];
         /* MIDI Event packet buffer */
@@ -79,7 +79,6 @@ public:
         // USBDeviceConfig implementation
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
-        virtual uint8_t Poll(){}; //not implemented
         virtual uint8_t GetAddress() { return bAddress; };
 };
 
