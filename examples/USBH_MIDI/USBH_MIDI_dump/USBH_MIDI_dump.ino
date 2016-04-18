@@ -36,7 +36,7 @@ void setup()
   Serial.begin(115200);
 
   if (Usb.Init() == -1) {
-    while(1); //halt
+    while (1); //halt
   }//if (Usb.Init() == -1...
   delay( 200 );
 }
@@ -47,7 +47,7 @@ void loop()
 
   Usb.Task();
   t1 = micros();
-  if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
+  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
@@ -58,41 +58,41 @@ void loop()
 // Poll USB MIDI Controler and send to serial MIDI
 void MIDI_poll()
 {
-    char buf[20];
-    uint8_t bufMidi[64];
-    uint16_t  rcvd;
+  char buf[20];
+  uint8_t bufMidi[64];
+  uint16_t  rcvd;
 
-    if(Midi.vid != vid || Midi.pid != pid){
-      sprintf(buf, "VID:%04X, PID:%04X", Midi.vid, Midi.pid);
-      Serial.println(buf);
-      vid = Midi.vid;
-      pid = Midi.pid;
+  if (Midi.vid != vid || Midi.pid != pid) {
+    sprintf(buf, "VID:%04X, PID:%04X", Midi.vid, Midi.pid);
+    Serial.println(buf);
+    vid = Midi.vid;
+    pid = Midi.pid;
+  }
+  if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
+    sprintf(buf, "%08X: ", millis());
+    Serial.print(buf);
+    Serial.print(rcvd);
+    Serial.print(':');
+    for (int i = 0; i < 64; i++) {
+      sprintf(buf, " %02X", bufMidi[i]);
+      Serial.print(buf);
     }
-    if(Midi.RecvData( &rcvd,  bufMidi) == 0 ){
-        sprintf(buf, "%08X: ", millis());
-        Serial.print(buf);
-        Serial.print(rcvd);
-        Serial.print(':');
-        for(int i=0; i<64; i++){
-          sprintf(buf, " %02X", bufMidi[i]);
-          Serial.print(buf);
-        }
-        Serial.println("");
-    }
+    Serial.println("");
+  }
 }
 
 // Delay time (max 16383 us)
 void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
 {
-    unsigned long t3;
+  unsigned long t3;
 
-    if( t1 > t2 ){
-      t3 = (4294967295 - t1 + t2);
-    }else{
-      t3 = t2 - t1;
-    }
+  if ( t1 > t2 ) {
+    t3 = (4294967295 - t1 + t2);
+  } else {
+    t3 = t2 - t1;
+  }
 
-    if( t3 < delayTime ){
-      delayMicroseconds(delayTime - t3);
-    }
+  if ( t3 < delayTime ) {
+    delayMicroseconds(delayTime - t3);
+  }
 }

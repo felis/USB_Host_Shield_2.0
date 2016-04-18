@@ -24,13 +24,13 @@ void noteOn(uint8_t note);
 void noteOff(uint8_t note);
 
 uint16_t pid, vid;
-uint8_t exdata[] ={
-  0xf0, 0x43, 0x79, 0x09, 0x00, 0x50, 0x10, 
-  'k',' ','o',',',    //Ko
-  'N','\\',',',       //N
-  'J',' ', 'i', ',',  //Ni
-  't','S',' ','i',',',//Chi
-  'w',' ','a',        //Wa
+uint8_t exdata[] = {
+  0xf0, 0x43, 0x79, 0x09, 0x00, 0x50, 0x10,
+  'k', ' ', 'o', ',', //Ko
+  'N', '\\', ',',     //N
+  'J', ' ', 'i', ',', //Ni
+  't', 'S', ' ', 'i', ',', //Chi
+  'w', ' ', 'a',      //Wa
   0x00, 0xf7
 };
 
@@ -40,7 +40,7 @@ void setup()
   Serial.begin(115200);
 
   if (Usb.Init() == -1) {
-    while(1); //halt
+    while (1); //halt
   }//if (Usb.Init() == -1...
   delay( 200 );
 }
@@ -48,7 +48,7 @@ void setup()
 void loop()
 {
   Usb.Task();
-  if( Usb.getUsbTaskState() == USB_STATE_RUNNING )
+  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
     noteOn(0x3f);
@@ -61,15 +61,15 @@ void loop()
 // Poll USB MIDI Controler
 void MIDI_poll()
 {
-    byte inBuf[ 3 ];
-    
-    //first call?
-    if(Midi.vid != vid || Midi.pid != pid){
-      vid = Midi.vid; pid = Midi.pid;
-      Midi.SendSysEx(exdata, sizeof(exdata));
-      delay(500);
-    }
-    uint8_t size = Midi.RecvData(inBuf);
+  byte inBuf[ 3 ];
+
+  //first call?
+  if (Midi.vid != vid || Midi.pid != pid) {
+    vid = Midi.vid; pid = Midi.pid;
+    Midi.SendSysEx(exdata, sizeof(exdata));
+    delay(500);
+  }
+  uint8_t size = Midi.RecvData(inBuf);
 }
 
 //note On
