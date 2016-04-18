@@ -293,7 +293,7 @@ uint8_t getstrdescr( uint8_t addr, uint8_t idx )
     Serial.print("Error retrieving LangID table ");
     return ( rcode );
   }
-  langid = makeWord(buf[3], buf[2]);
+  langid = (buf[3] << 8) | buf[2];
   rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
   if ( rcode ) {
     Serial.print("Error retrieving string length ");
@@ -418,10 +418,4 @@ void printProgStr(const char* str)
   if (!str) return;
   while ((c = pgm_read_byte(str++)))
     Serial.print(c);
-}
-
-/* Create a word from 2 bytes */
-uint16_t makeWord( uint8_t h, uint8_t l )
-{
-  return (h << 8) | l ;
 }
