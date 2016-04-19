@@ -276,21 +276,21 @@ public:
 
         /**
          * Used to get the weight at the specific position on the Wii Balance Board.
-         * @param ::BalanceBoardEnum to read from.
-         * @return Returns the weight in kg.
+         * @param  pos ::BalanceBoardEnum to read from.
+         * @return     Returns the weight in kg.
          */
         float getWeight(BalanceBoardEnum pos);
 
         /**
          * Used to get total weight on the Wii Balance Board.
-         * @returnReturns the weight in kg.
+         * @return Returns the weight in kg.
          */
         float getTotalWeight();
 
         /**
          * Used to get the raw reading at the specific position on the Wii Balance Board.
-         * @param ::BalanceBoardEnum to read from.
-         * @return Returns the raw reading.
+         * @param  pos ::BalanceBoardEnum to read from.
+         * @return     Returns the raw reading.
          */
         uint16_t getWeightRaw(BalanceBoardEnum pos) {
                 return wiiBalanceBoardRaw[pos];
