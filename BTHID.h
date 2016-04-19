@@ -87,7 +87,7 @@ public:
         /** True if a device is connected */
         bool connected;
 
-        /** Call this to start the paring sequence with a device */
+        /** Call this to start the pairing sequence with a device */
         void pair(void) {
                 if(pBtd)
                         pBtd->pairWithHID();

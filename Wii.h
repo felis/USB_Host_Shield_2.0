@@ -85,7 +85,7 @@ public:
 
         /** @name Wii Controller functions */
 
-        /** Call this to start the paring sequence with a controller */
+        /** Call this to start the pairing sequence with a controller */
         void pair(void) {
                 if(pBtd)
                         pBtd->pairWithWiimote();

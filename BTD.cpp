@@ -589,7 +589,7 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_AUTHENTICATION_COMPLETE:
-                                if(!hcibuf[2]) { // Check if paring was successful
+                                if(!hcibuf[2]) { // Check if pairing was successful
                                         if(pairWithWii && !connectToWii) {
 #ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nPairing successful with Wiimote"), 0x80);
@@ -603,7 +603,7 @@ void BTD::HCI_event_task() {
                                         }
                                 } else {
 #ifdef DEBUG_USB_HOST
-                                        Notify(PSTR("\r\nParing Failed: "), 0x80);
+                                        Notify(PSTR("\r\nPairing Failed: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[2], 0x80);
 #endif
                                         hci_disconnect(hci_handle);
@@ -1110,7 +1110,7 @@ void BTD::hci_pin_code_request_reply() {
                 hcibuf[9] = 6; // Pin length is the length of the Bluetooth address
                 if(pairWiiUsingSync) {
 #ifdef DEBUG_USB_HOST
-                        Notify(PSTR("\r\nParing with Wii controller via SYNC"), 0x80);
+                        Notify(PSTR("\r\nPairing with Wii controller via SYNC"), 0x80);
 #endif
                         for(uint8_t i = 0; i < 6; i++)
                                 hcibuf[10 + i] = my_bdaddr[i]; // The pin is the Bluetooth dongles Bluetooth address backwards
