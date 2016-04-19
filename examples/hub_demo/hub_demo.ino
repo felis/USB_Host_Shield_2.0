@@ -19,7 +19,7 @@ void PrintAllAddresses(UsbDevice *pdev)
 {
   UsbDeviceAddress adr;
   adr.devAddress = pdev->address.devAddress;
-  Serial.print("\r\nAddr:");
+  Serial.print("Addr:");
   Serial.print(adr.devAddress, HEX);
   Serial.print("(");
   Serial.print(adr.bmHub, HEX);
@@ -60,26 +60,21 @@ void setup()
   next_time = millis() + 10000;
 }
 
-byte getdevdescr( byte addr, byte &num_conf );
-
 void PrintDescriptors(uint8_t addr)
 {
   uint8_t rcode = 0;
-  byte num_conf = 0;
+  uint8_t num_conf = 0;
 
-  rcode = getdevdescr( (byte)addr, num_conf );
-  if ( rcode )
-  {
+  rcode = getdevdescr( (uint8_t)addr, num_conf );
+  if ( rcode ) {
     printProgStr(Gen_Error_str);
     print_hex( rcode, 8 );
   }
   Serial.print("\r\n");
 
-  for (int i = 0; i < num_conf; i++)
-  {
+  for (uint8_t i = 0; i < num_conf; i++) {
     rcode = getconfdescr( addr, i );                 // get configuration descriptor
-    if ( rcode )
-    {
+    if ( rcode ) {
       printProgStr(Gen_Error_str);
       print_hex(rcode, 8);
     }
@@ -92,6 +87,7 @@ void PrintAllDescriptors(UsbDevice *pdev)
   Serial.println("\r\n");
   print_hex(pdev->address.devAddress, 8);
   Serial.println("\r\n--");
+  getallstrdescr(pdev->address.devAddress);
   PrintDescriptors( pdev->address.devAddress );
 }
 
@@ -99,10 +95,8 @@ void loop()
 {
   Usb.Task();
 
-  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-  {
-    if ((millis() - next_time) >= 0L)
-    {
+  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING ) {
+    if ((millis() - next_time) >= 0L) {
       Usb.ForEachUsbDevice(&PrintAllDescriptors);
       Usb.ForEachUsbDevice(&PrintAllAddresses);
 
@@ -111,11 +105,11 @@ void loop()
   }
 }
 
-byte getdevdescr( byte addr, byte &num_conf )
+uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf )
 {
   USB_DEVICE_DESCRIPTOR buf;
-  byte rcode;
-  rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
+  uint8_t rcode;
+  rcode = Usb.getDevDescr( addr, 0, DEV_DESCR_LEN, ( uint8_t *)&buf );
   if ( rcode ) {
     return ( rcode );
   }
@@ -198,14 +192,14 @@ void printhubdescr(uint8_t *descrptr, uint8_t addr)
   //    PrintHubPortStatus(&Usb, addr, i, 1);
 }
 
-byte getconfdescr( byte addr, byte conf )
+uint8_t getconfdescr( uint8_t addr, uint8_t conf )
 {
   uint8_t buf[ BUFSIZE ];
   uint8_t* buf_ptr = buf;
-  byte rcode;
-  byte descr_length;
-  byte descr_type;
-  unsigned int total_length;
+  uint8_t rcode;
+  uint8_t descr_length;
+  uint8_t descr_type;
+  uint16_t total_length;
   rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
   LOBYTE( total_length ) = buf[ 2 ];
   HIBYTE( total_length ) = buf[ 3 ];
@@ -238,6 +232,84 @@ byte getconfdescr( byte addr, byte conf )
   }//while( buf_ptr <=...
   return ( rcode );
 }
+
+// function to get all string descriptors
+uint8_t getallstrdescr(uint8_t addr)
+{
+  uint8_t rcode = 0;
+  Usb.Task();
+  if ( Usb.getUsbTaskState() >= USB_STATE_CONFIGURING ) { // state configuring or higher
+    USB_DEVICE_DESCRIPTOR buf;
+    rcode = Usb.getDevDescr( addr, 0, DEV_DESCR_LEN, ( uint8_t *)&buf );
+    if ( rcode ) {
+      return ( rcode );
+    }
+    Serial.println("String Descriptors:");
+    if ( buf.iManufacturer > 0 ) {
+      Serial.print("Manufacturer:\t\t");
+      rcode = getstrdescr( addr, buf.iManufacturer );   // get manufacturer string
+      if ( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+    if ( buf.iProduct > 0 ) {
+      Serial.print("Product:\t\t");
+      rcode = getstrdescr( addr, buf.iProduct );        // get product string
+      if ( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+    if ( buf.iSerialNumber > 0 ) {
+      Serial.print("Serial:\t\t\t");
+      rcode = getstrdescr( addr, buf.iSerialNumber );   // get serial string
+      if ( rcode ) {
+        Serial.println( rcode, HEX );
+      }
+      Serial.print("\r\n");
+    }
+  }
+  return rcode;
+}
+
+//  function to get single string description
+uint8_t getstrdescr( uint8_t addr, uint8_t idx )
+{
+  uint8_t buf[ 256 ];
+  uint8_t rcode;
+  uint8_t length;
+  uint8_t i;
+  uint16_t langid;
+  rcode = Usb.getStrDescr( addr, 0, 1, 0, 0, buf );  //get language table length
+  if ( rcode ) {
+    Serial.println("Error retrieving LangID table length");
+    return ( rcode );
+  }
+  length = buf[ 0 ];      //length is the first byte
+  rcode = Usb.getStrDescr( addr, 0, length, 0, 0, buf );  //get language table
+  if ( rcode ) {
+    Serial.print("Error retrieving LangID table ");
+    return ( rcode );
+  }
+  langid = (buf[3] << 8) | buf[2];
+  rcode = Usb.getStrDescr( addr, 0, 1, idx, langid, buf );
+  if ( rcode ) {
+    Serial.print("Error retrieving string length ");
+    return ( rcode );
+  }
+  length = buf[ 0 ];
+  rcode = Usb.getStrDescr( addr, 0, length, idx, langid, buf );
+  if ( rcode ) {
+    Serial.print("Error retrieving string ");
+    return ( rcode );
+  }
+  for ( i = 2; i < length; i += 2 ) {   //string is UTF-16LE encoded
+    Serial.print((char) buf[i]);
+  }
+  return ( rcode );
+}
+
 /* prints hex numbers with leading zeroes */
 // copyright, Peter H Anderson, Baltimore, MD, Nov, '07
 // source: http://www.phanderson.com/arduino/arduino_display.html
@@ -260,6 +332,7 @@ void print_hex(int v, int num_places)
   }
   while (--num_nibbles);
 }
+
 /* function to print configuration descriptor */
 void printconfdescr( uint8_t* descr_ptr )
 {
@@ -279,6 +352,7 @@ void printconfdescr( uint8_t* descr_ptr )
   print_hex( conf_ptr->bMaxPower, 8 );
   return;
 }
+
 /* function to print interface descriptor */
 void printintfdescr( uint8_t* descr_ptr )
 {
@@ -300,6 +374,7 @@ void printintfdescr( uint8_t* descr_ptr )
   print_hex( intf_ptr->iInterface, 8 );
   return;
 }
+
 /* function to print endpoint descriptor */
 void printepdescr( uint8_t* descr_ptr )
 {
@@ -316,11 +391,12 @@ void printepdescr( uint8_t* descr_ptr )
 
   return;
 }
+
 /*function to print unknown descriptor */
 void printunkdescr( uint8_t* descr_ptr )
 {
-  byte length = *descr_ptr;
-  byte i;
+  uint8_t length = *descr_ptr;
+  uint8_t i;
   printProgStr(Unk_Header_str);
   printProgStr(Unk_Length_str);
   print_hex( *descr_ptr, 8 );
@@ -333,7 +409,6 @@ void printunkdescr( uint8_t* descr_ptr )
     descr_ptr++;
   }
 }
-
 
 /* Print a string from Program Memory directly to save RAM */
 void printProgStr(const char* str)
