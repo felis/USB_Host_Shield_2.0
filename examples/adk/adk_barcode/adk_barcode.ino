@@ -55,9 +55,17 @@ uint8_t keylcl;
 
   if( keylcl == 0x13 ) {
     rcode = adk.SndData( strlen( new_line ), (uint8_t *)new_line );
+    if (rcode && rcode != hrNAK) {
+      Serial.print(F("\r\nData send: "));
+      Serial.print(rcode, HEX);
+    }
   }
   else {
     rcode = adk.SndData( 1, &keylcl );
+    if (rcode && rcode != hrNAK) {
+      Serial.print(F("\r\nData send: "));
+      Serial.print(rcode, HEX);
+    }
   }
 
   Serial.print((char) keylcl );
