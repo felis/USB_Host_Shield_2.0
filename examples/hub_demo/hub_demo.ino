@@ -60,8 +60,6 @@ void setup()
   next_time = millis() + 10000;
 }
 
-uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf );
-
 void PrintDescriptors(uint8_t addr)
 {
   uint8_t rcode = 0;
@@ -238,7 +236,7 @@ uint8_t getconfdescr( uint8_t addr, uint8_t conf )
 // function to get all string descriptors
 uint8_t getallstrdescr(uint8_t addr)
 {
-  uint8_t rcode;
+  uint8_t rcode = 0;
   Usb.Task();
   if ( Usb.getUsbTaskState() >= USB_STATE_CONFIGURING ) { // state configuring or higher
     USB_DEVICE_DESCRIPTOR buf;
@@ -272,6 +270,7 @@ uint8_t getallstrdescr(uint8_t addr)
       Serial.print("\r\n");
     }
   }
+  return rcode;
 }
 
 //  function to get single string description
