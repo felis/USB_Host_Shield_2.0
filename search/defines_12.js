@@ -79,7 +79,7 @@ var searchData=
   ['sdp_5fservice_5fsearch_5fattribute_5fresponse_5fpdu',['SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU',['../_s_p_p_8h.html#a42a6f00a3828a932bae1509c813b5c98',1,'SPP.h']]],
   ['se0',['SE0',['../max3421e_8h.html#a3cb02fdd2d36f8a755c4b1946a0b0063',1,'max3421e.h']]],
   ['se1',['SE1',['../max3421e_8h.html#a5c3d7b0a5b0933cfc0183cd36ea91f16',1,'max3421e.h']]],
-  ['sendlcdpins',['SENDlcdPins',['../max___l_c_d_8cpp.html#ab9142420ababc8fe568edee4796183ba',1,'max_LCD.cpp']]],
+  ['sendlcdpins',['SENDlcdPins',['../max___l_c_d_8cpp.html#a8b1b918f6a2c50b113737fe4a8e493ed',1,'max_LCD.cpp']]],
   ['serial_5fstate',['SERIAL_STATE',['../cdcacm_8h.html#a8e278dbd137d5d873d24e1647be9d4e6',1,'cdcacm.h']]],
   ['serialport_5fuuid',['SERIALPORT_UUID',['../_s_p_p_8h.html#a677a1fc4883355f7fad87551cc003c1b',1,'SPP.h']]],
   ['set_5fdcr0',['SET_DCR0',['../cdcprolific_8h.html#a0301d2726a35e10b2e05965cca3a4d3d',1,'cdcprolific.h']]],

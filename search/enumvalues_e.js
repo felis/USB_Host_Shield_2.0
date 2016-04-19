@@ -4,7 +4,7 @@ var searchData=
   ['r1',['R1',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaf8d87ff07efe24755164f550526f4dac',1,'controllerEnums.h']]],
   ['r2',['R2',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda629d7b403cea5f826352f3aefb9a6d6a',1,'controllerEnums.h']]],
   ['r3',['R3',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaad0b4725f69a34fed2c914517bcd9baa',1,'controllerEnums.h']]],
-  ['red',['RED',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaf80f9a890089d211842d59625e561f88',1,'RED():&#160;controllerEnums.h'],['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ad3163c1fcda01965b692ec2c3122b743',1,'Red():&#160;controllerEnums.h']]],
+  ['red',['Red',['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ad3163c1fcda01965b692ec2c3122b743',1,'Red():&#160;controllerEnums.h'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaf80f9a890089d211842d59625e561f88',1,'RED():&#160;controllerEnums.h']]],
   ['rev_5fh',['rev_H',['../cdcprolific_8h.html#a6003f43ffe2391c0c31ea48f6b772627a470a1f7e2c7dc1770a57096718f625d4',1,'cdcprolific.h']]],
   ['rev_5fhx',['rev_HX',['../cdcprolific_8h.html#a6003f43ffe2391c0c31ea48f6b772627a6035ccdf4905b89a274404ba50766fd7',1,'cdcprolific.h']]],
   ['rev_5fx',['rev_X',['../cdcprolific_8h.html#a6003f43ffe2391c0c31ea48f6b772627ae3ab850ab73c2f8a25d1fcd8a3336ada',1,'cdcprolific.h']]],

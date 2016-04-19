@@ -2,7 +2,7 @@ var searchData=
 [
   ['f',['F',['../version__helper_8h.html#a0e3009529aac180ed5f48296d6670d6b',1,'version_helper.h']]],
   ['fastblink',['FASTBLINK',['../xbox_enums_8h.html#abb8a1831f62ea139a2255c67bb24330fae88cfa0f6acd518889cef621446d9d2a',1,'xboxEnums.h']]],
-  ['finger',['finger',['../structtouchpad_x_y.html#a9f0f865221d85610df91cf8c3a2f7d41',1,'touchpadXY']]],
+  ['finger',['finger',['../structtouchpad_x_y.html#a9dbd96203cca402c085f3c605b1b10a5',1,'touchpadXY']]],
   ['flashoff',['flashOff',['../struct_p_s4_output.html#a3f4dcb81acca1475402b93ac851b7be8',1,'PS4Output']]],
   ['flashon',['flashOn',['../struct_p_s4_output.html#a4abdb9a24e512f7f2bad16df28b2fcab',1,'PS4Output']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],
@@ -16,7 +16,7 @@ var searchData=
   ['ft232am',['FT232AM',['../cdcftdi_8h.html#a15e9dfb0c839422b73f378a35a22cd75',1,'cdcftdi.h']]],
   ['ft232bm',['FT232BM',['../cdcftdi_8h.html#a7e3f04e312bdfc37076d1650f3860147',1,'cdcftdi.h']]],
   ['ft232r',['FT232R',['../cdcftdi_8h.html#abc93995e54d77a8f602ff23b72cda110',1,'cdcftdi.h']]],
-  ['ftdi',['FTDI',['../class_f_t_d_i.html',1,'FTDI'],['../class_f_t_d_i.html#ae517a5435ada4145998aa7b07e78adb3',1,'FTDI::FTDI()']]],
+  ['ftdi',['FTDI',['../class_f_t_d_i.html',1,'FTDI'],['../class_f_t_d_i.html#af36414f3137edd44ec007978db2ea712',1,'FTDI::FTDI()']]],
   ['ftdi_5fmax_5fendpoints',['FTDI_MAX_ENDPOINTS',['../cdcftdi_8h.html#a9d25344c78c7608f2e49de9767abd0d9',1,'cdcftdi.h']]],
   ['ftdi_5fpid',['FTDI_PID',['../cdcftdi_8h.html#a38bbee602455b866024aa7a03c6cefb7',1,'cdcftdi.h']]],
   ['ftdi_5fsio_5fcts_5fmask',['FTDI_SIO_CTS_MASK',['../cdcftdi_8h.html#a91bed54fb7aa0e99449effed2e330822',1,'cdcftdi.h']]],

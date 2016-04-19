@@ -1,7 +1,7 @@
 <map id="Wii.h" name="Wii.h">
 <area shape="rect" id="node2" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="5,79,64,104"/>
 <area shape="rect" id="node6" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="88,79,217,104"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="27,299,83,324"/>
-<area shape="rect" id="node4" href="$hid_8h.html" title="hid.h" alt="" coords="42,152,92,177"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="93,225,193,251"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="21,299,78,324"/>
+<area shape="rect" id="node4" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="36,152,108,177"/>
+<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="87,225,188,251"/>
 </map>

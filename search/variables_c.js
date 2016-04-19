@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['maxepperinterface',['maxEpPerInterface',['../class_h_i_d.html#acd92969682030cd5cac310dd7746c7c7',1,'HID']]],
-  ['maxhidinterfaces',['maxHidInterfaces',['../class_h_i_d.html#afe5186f46ac7b580bb3dc289e3f237b2',1,'HID']]],
+  ['maxepperinterface',['maxEpPerInterface',['../class_u_s_b_h_i_d.html#a7cd9a3226f72cc965dcac27c3bd25ed9',1,'USBHID']]],
+  ['maxhidinterfaces',['maxHidInterfaces',['../class_u_s_b_h_i_d.html#a6a47b8c02d90076852e079acfb62ae46',1,'USBHID']]],
   ['maxpktsize',['maxPktSize',['../struct_ep_info.html#aa2ca775b63736df4008e88da7dd4dddb',1,'EpInfo']]],
   ['mchngr',['MCHNGR',['../struct_inquiry_response.html#ac4236ae883e8948bc73e91b6ad091ba8',1,'InquiryResponse']]],
   ['medinstrtitles0',['medInstrTitles0',['../class_report_desc_parser_base.html#a3d8d0fa8512f718e8b574e4d9e8a775f',1,'ReportDescParserBase']]],

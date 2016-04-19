@@ -9,4 +9,4 @@ It is generated using [Doxygen](http://www.stack.nl/~dimitri/doxygen/) and hoste
 
 In order to build the documentation you will need the [Doxyfile](Doxyfile) and [imageStyle.css](imageStyle.css) file.
 
-Since there is a bug in Doxygen you will need to add \ in front of the @-sign in [Circuits@Home](https://github.com/felis/USB_Host_Shield_2.0#developed-by) in the [README.md](https://github.com/felis/USB_Host_Shield_2.0#developed-by) file.
+Since there is a bug in Doxygen you will need to add \ in front of the @-sign in [Circuits@Home](https://github.com/felis/USB_Host_Shield_2.0#developed-by) and @YuuichiAkagawa in the [README.md](https://github.com/felis/USB_Host_Shield_2.0#developed-by) file.

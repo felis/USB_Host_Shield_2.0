@@ -1,8 +1,0 @@
-<map id="HID" name="HID">
-<area shape="rect" id="node4" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="5,152,219,177"/>
-<area shape="rect" id="node5" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="244,152,344,177"/>
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="63,5,191,31"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="215,5,345,31"/>
-<area shape="rect" id="node6" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="209,225,283,251"/>
-<area shape="rect" id="node7" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="307,225,376,251"/>
-</map>

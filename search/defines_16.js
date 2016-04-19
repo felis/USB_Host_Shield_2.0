@@ -6,6 +6,7 @@ var searchData=
   ['wii_5fcheck_5fflag',['wii_check_flag',['../_wii_8h.html#ac551aee34d131e9407d9e0ede81e9cbe',1,'Wii.h']]],
   ['wii_5fcheck_5fmotion_5fplus_5fstate',['WII_CHECK_MOTION_PLUS_STATE',['../_b_t_d_8h.html#a11b0db0910ac44ec8b090647d6a71088',1,'BTD.h']]],
   ['wii_5fclear_5fflag',['wii_clear_flag',['../_wii_8h.html#ac88349598e4482a310450e34af9b7ce3',1,'Wii.h']]],
+  ['wii_5fflag_5fcalibrate_5fbalance_5fboard',['WII_FLAG_CALIBRATE_BALANCE_BOARD',['../_wii_8h.html#a927532cef823ea48fac1b90fb200f229',1,'Wii.h']]],
   ['wii_5fflag_5fmotion_5fplus_5fconnected',['WII_FLAG_MOTION_PLUS_CONNECTED',['../_wii_8h.html#a34631633d4557244dc8eda52e8505acd',1,'Wii.h']]],
   ['wii_5fflag_5fnunchuck_5fconnected',['WII_FLAG_NUNCHUCK_CONNECTED',['../_wii_8h.html#ae0ff99c8862a05df8877329982e1ef61',1,'Wii.h']]],
   ['wii_5finit_5fmotion_5fplus_5fstate',['WII_INIT_MOTION_PLUS_STATE',['../_b_t_d_8h.html#acdcb0586ca7e9d357279bf4fba8b5257',1,'BTD.h']]],

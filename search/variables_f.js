@@ -7,9 +7,9 @@ var searchData=
   ['peripheralqualifier',['PeripheralQualifier',['../struct_inquiry_response.html#a8e8f2cb6b5a0d1ed2c300155bf2b3faa',1,'InquiryResponse']]],
   ['pfunconinit',['pFuncOnInit',['../class_bluetooth_service.html#a321393d44ce59213fa1c7498c247d5ff',1,'BluetoothService']]],
   ['pfusage',['pfUsage',['../class_report_desc_parser_base.html#a22006cbf92a3d4008695e53d7f6e2452',1,'ReportDescParserBase']]],
-  ['pid',['PID',['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal']]],
+  ['pid',['PID',['../class_h_i_d_composite.html#a1402689fc7e633723fca2b6b175c2a18',1,'HIDComposite::PID()'],['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal::PID()'],['../class_u_s_b_h___m_i_d_i.html#aaf7ec77f0d8cefff1316ae049747e2a7',1,'USBH_MIDI::pid()']]],
   ['pitchgyroscale',['pitchGyroScale',['../class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a',1,'WII']]],
-  ['pitchgyrospeed',['pitchGyroSpeed',['../class_w_i_i.html#acfb290a86aa9a65dd4ae84d02e3c6ded',1,'WII']]],
+  ['pitchgyrospeed',['pitchGyroSpeed',['../class_w_i_i.html#aa47478ccdfe009dabb7c21232e07bfd5',1,'WII']]],
   ['portindicatorssupported',['PortIndicatorsSupported',['../struct_hub_descriptor.html#a6478c259c7397e89d50b42f6f3d4f4e4',1,'HubDescriptor']]],
   ['prevstate',['prevState',['../class_keyboard_report_parser.html#a3591fcc056c59914f83e21601fa3d5c5',1,'KeyboardReportParser']]],
   ['productid',['ProductID',['../struct_inquiry_response.html#a02c12d5c3f7b9e821c6f28dc827f5629',1,'InquiryResponse']]],
@@ -881,6 +881,6 @@ var searchData=
   ['pstrusagez',['pstrUsageZ',['../hidusagestr_8h.html#aa6666e78833b73f3aa9fa6f352e8e249',1,'hidusagestr.h']]],
   ['pstrusagezoomadjust',['pstrUsageZoomAdjust',['../hidusagestr_8h.html#a10597b8bd55a97cb35ce76f596e8993b',1,'hidusagestr.h']]],
   ['pstrusagezoomselect',['pstrUsageZoomSelect',['../hidusagestr_8h.html#af3651830fbdaf1afa6eb6c26c46306ec',1,'hidusagestr.h']]],
-  ['pusb',['pUsb',['../class_a_d_k.html#ab28e3a19569c27f3ed5362e9800065c1',1,'ADK::pUsb()'],['../class_b_t_d.html#a4bcd1d622a6455ee3d0cccc4408700a1',1,'BTD::pUsb()'],['../class_a_c_m.html#ae403b0129d7beda921de9d9586b597f7',1,'ACM::pUsb()'],['../class_h_i_d.html#a1583e665c2b930e8683c10dc271f013f',1,'HID::pUsb()'],['../class_bulk_only.html#a6b4ae384eea3aacd8bf916439621973a',1,'BulkOnly::pUsb()'],['../class_p_s3_u_s_b.html#aa1873f41ae0da7c4568cfb7517560c48',1,'PS3USB::pUsb()'],['../class_x_b_o_x_o_l_d.html#a2b4d7d994ab6f5e1d1344d4162e9f5fb',1,'XBOXOLD::pUsb()'],['../class_x_b_o_x_o_n_e.html#a5b4e45cdd8695439d9772f55bb8ece6f',1,'XBOXONE::pUsb()'],['../class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8',1,'XBOXRECV::pUsb()'],['../class_x_b_o_x_u_s_b.html#a9c701658d4f63b5407cbcd5b78d8eb18',1,'XBOXUSB::pUsb()']]],
+  ['pusb',['pUsb',['../class_a_d_k.html#ab28e3a19569c27f3ed5362e9800065c1',1,'ADK::pUsb()'],['../class_b_t_d.html#a4bcd1d622a6455ee3d0cccc4408700a1',1,'BTD::pUsb()'],['../class_a_c_m.html#ae403b0129d7beda921de9d9586b597f7',1,'ACM::pUsb()'],['../class_bulk_only.html#a6b4ae384eea3aacd8bf916439621973a',1,'BulkOnly::pUsb()'],['../class_p_s3_u_s_b.html#aa1873f41ae0da7c4568cfb7517560c48',1,'PS3USB::pUsb()'],['../class_u_s_b_h___m_i_d_i.html#af0c14d1bc7f60e8191b07bcca0c20c84',1,'USBH_MIDI::pUsb()'],['../class_u_s_b_h_i_d.html#abb120ee1258c49b4af0fbd59ae6903f5',1,'USBHID::pUsb()'],['../class_x_b_o_x_o_l_d.html#a2b4d7d994ab6f5e1d1344d4162e9f5fb',1,'XBOXOLD::pUsb()'],['../class_x_b_o_x_o_n_e.html#a5b4e45cdd8695439d9772f55bb8ece6f',1,'XBOXONE::pUsb()'],['../class_x_b_o_x_r_e_c_v.html#a53047c86c8c2f625916af62238d50fc8',1,'XBOXRECV::pUsb()'],['../class_x_b_o_x_u_s_b.html#a9c701658d4f63b5407cbcd5b78d8eb18',1,'XBOXUSB::pUsb()']]],
   ['pvalue',['pValue',['../struct_multi_value_buffer.html#a3b5ab6facf7b6b872029ed3be0de4c1e',1,'MultiValueBuffer']]]
 ];

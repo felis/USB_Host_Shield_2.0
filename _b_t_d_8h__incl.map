@@ -1,5 +1,5 @@
 <map id="BTD.h" name="BTD.h">
-<area shape="rect" id="node2" href="$_usb_8h.html" title="Usb.h" alt="" coords="27,225,83,251"/>
-<area shape="rect" id="node3" href="$hid_8h.html" title="hid.h" alt="" coords="42,79,92,104"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="93,152,193,177"/>
+<area shape="rect" id="node2" href="$_usb_8h.html" title="Usb.h" alt="" coords="21,225,78,251"/>
+<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="36,79,108,104"/>
+<area shape="rect" id="node4" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="87,152,188,177"/>
 </map>

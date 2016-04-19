@@ -1,7 +1,7 @@
 var searchData=
 [
   ['half_5fduplex',['half_duplex',['../class_x_r21_b1411.html#afd21365310ef007803886d6367b788d9',1,'XR21B1411::half_duplex()'],['../class_a_c_m.html#aeb60ec7876488be8b15a1ed642ac247c',1,'ACM::half_duplex()']]],
-  ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#a392fae2fda91a7d820869e97b3ead444',1,'KeyboardReportParser']]],
+  ['handlelockingkeys',['HandleLockingKeys',['../class_keyboard_report_parser.html#afde38237f909416f77e81a5b5df8da7d',1,'KeyboardReportParser']]],
   ['hci_5faccept_5fconnection',['hci_accept_connection',['../class_b_t_d.html#a1cb07a155c69bb1fcf45ae030b8947ec',1,'BTD']]],
   ['hci_5fauthentication_5frequest',['hci_authentication_request',['../class_b_t_d.html#addd07c18c725a324a05792a83026d36d',1,'BTD']]],
   ['hci_5fcommand',['HCI_Command',['../class_b_t_d.html#af11ad71d20783d46fe42dd405d10dfda',1,'BTD']]],
@@ -21,8 +21,8 @@ var searchData=
   ['hci_5fwrite_5fscan_5fdisable',['hci_write_scan_disable',['../class_b_t_d.html#aff59ab45d917406141ae0c9c79047f08',1,'BTD']]],
   ['hci_5fwrite_5fscan_5fenable',['hci_write_scan_enable',['../class_b_t_d.html#a7dd7faaec1d3d9a1d8159cc2a4190977',1,'BTD']]],
   ['hexdumper',['HexDumper',['../class_hex_dumper.html#a94f38f5aff5066f0e1a82fcb896f5337',1,'HexDumper']]],
-  ['hid',['HID',['../class_h_i_d.html#acea6b13146dc6fb351a912382ce806fd',1,'HID']]],
-  ['hidboot',['HIDBoot',['../class_h_i_d_boot.html#a2730c81f6e7ae6aaafa671f55a07620e',1,'HIDBoot']]],
+  ['hidboot',['HIDBoot',['../class_h_i_d_boot.html#adf4a72a406850563dcd802cff1baeddc',1,'HIDBoot']]],
+  ['hidcomposite',['HIDComposite',['../class_h_i_d_composite.html#ab95d41d88cdcbb8c7e988f411c0ce860',1,'HIDComposite']]],
   ['hiduniversal',['HIDUniversal',['../class_h_i_d_universal.html#abdbac688c7e4b682055cebd82e13a595',1,'HIDUniversal']]],
   ['home',['home',['../class_max___l_c_d.html#ab98bf9ee1a2bc7705e2fc425ef26b13b',1,'Max_LCD']]]
 ];

@@ -11,6 +11,8 @@ var searchData=
   ['usbdevice',['UsbDevice',['../struct_usb_device.html',1,'']]],
   ['usbdeviceaddress',['UsbDeviceAddress',['../struct_usb_device_address.html',1,'']]],
   ['usbdeviceconfig',['USBDeviceConfig',['../class_u_s_b_device_config.html',1,'']]],
+  ['usbh_5fmidi',['USBH_MIDI',['../class_u_s_b_h___m_i_d_i.html',1,'']]],
+  ['usbhid',['USBHID',['../class_u_s_b_h_i_d.html',1,'']]],
   ['usbhub',['USBHub',['../class_u_s_b_hub.html',1,'']]],
   ['usbreadparser',['USBReadParser',['../class_u_s_b_read_parser.html',1,'']]]
 ];
