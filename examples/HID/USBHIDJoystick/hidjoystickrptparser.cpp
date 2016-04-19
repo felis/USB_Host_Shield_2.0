@@ -43,11 +43,12 @@ void JoystickReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8
                 for (uint8_t i = 0; i < 0x0C; i++) {
                         uint16_t mask = (0x0001 << i);
 
-                        if (((mask & changes) > 0) && joyEvents)
+                        if (((mask & changes) > 0) && joyEvents) {
                                 if ((buttons & mask) > 0)
                                         joyEvents->OnButtonDn(i + 1);
                                 else
                                         joyEvents->OnButtonUp(i + 1);
+                        }
                 }
                 oldButtons = buttons;
         }
