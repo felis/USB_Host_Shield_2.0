@@ -69,7 +69,7 @@ void MIDI_poll()
     Midi.SendSysEx(exdata, sizeof(exdata));
     delay(500);
   }
-  uint8_t size = Midi.RecvData(inBuf);
+  Midi.RecvData(inBuf);
 }
 
 //note On

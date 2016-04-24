@@ -43,10 +43,10 @@ void setup()
 
 void loop()
 {
-  unsigned long t1;
+  //unsigned long t1;
 
   Usb.Task();
-  t1 = micros();
+  //t1 = micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
@@ -69,7 +69,7 @@ void MIDI_poll()
     pid = Midi.pid;
   }
   if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
-    sprintf(buf, "%08X: ", millis());
+    sprintf(buf, "%08lX: ", millis());
     Serial.print(buf);
     Serial.print(rcvd);
     Serial.print(':');

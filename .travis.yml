@@ -68,9 +68,10 @@ install:
     #
     # Libraries from PlatformIO Library Registry:
     #
-    # http://platformio.org/#!/lib/show/416/TinyGPS
-    # http://platformio.org/#!/lib/show/417/SPI4Teensy3
-    - platformio lib install 416 417
+    # http://platformio.org/lib/show/62/MIDI
+    # http://platformio.org/lib/show/416/TinyGPS
+    # http://platformio.org/lib/show/417/SPI4Teensy3
+    - platformio lib install 62 416 417
 
 script:
     - platformio ci --board=uno --board=teensy31 --board=due --lib="."
