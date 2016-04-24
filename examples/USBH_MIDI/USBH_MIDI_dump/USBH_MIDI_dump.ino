@@ -87,7 +87,7 @@ void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
   unsigned long t3;
 
   if ( t1 > t2 ) {
-    t3 = (4294967295 - t1 + t2);
+    t3 = (0xFFFFFFFF - t1 + t2);
   } else {
     t3 = t2 - t1;
   }

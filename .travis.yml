@@ -51,7 +51,7 @@ env:
     - PLATFORMIO_CI_SRC=examples/PSBuzz
     # - PLATFORMIO_CI_SRC=examples/testusbhostFAT
     - PLATFORMIO_CI_SRC=examples/USB_desc
-    - PLATFORMIO_CI_SRC=examples/USBH_MIDI/bidrectional_converter
+    - PLATFORMIO_CI_SRC=examples/USBH_MIDI/bidrectional_converter PLATFORMIO_CI_EXTRA_ARGS="-Wno-error -Wno-parentheses"
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/eVY1_sample
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/USB_MIDI_converter
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/USB_MIDI_converter_multi
@@ -74,4 +74,4 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --board=uno --board=teensy31 --board=due --lib="."
+    - platformio ci --board=uno --board=teensy31 --board=due --lib="." $PLATFORMIO_CI_EXTRA_ARGS
