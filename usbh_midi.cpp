@@ -263,18 +263,12 @@ void USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
                 return;
         }
 
-#ifdef DEBUG_USB_HOST
-        uint8_t bNumInt;
-#endif
         //parsing descriptors
         while( buf_ptr < buf + total_length ) {
                 descr_length = *( buf_ptr );
                 descr_type   = *( buf_ptr + 1 );
                 switch( descr_type ) {
                   case USB_DESCRIPTOR_CONFIGURATION :
-#ifdef DEBUG_USB_HOST
-                        bNumInt = buf_ptr[4];
-#endif
                         bConfNum = buf_ptr[5];
                         break;
                   case  USB_DESCRIPTOR_INTERFACE :
