@@ -116,11 +116,10 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         EpInfo     *oldep_ptr = NULL;
         uint8_t    num_of_conf;  // number of configurations
 
+        USBTRACE("\rMIDI Init\r\n");
         // get memory address of USB device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
-#ifdef DEBUG_USB_HOST
-        USBTRACE("\rMIDI Init\r\n");
-#endif
+
         // check if address has already been assigned to an instance
         if (bAddress) {
                 return USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE;
@@ -169,9 +168,8 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
                 bAddress = 0;
                 return rcode;
         }//if (rcode...
-#ifdef DEBUG_USB_HOST
         USBTRACE2("Addr:", bAddress);
-#endif
+
         p->lowspeed = false;
 
         //get pointer to assigned address record
@@ -186,27 +184,29 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, 1, epInfo);
         if (rcode) {
-#ifdef DEBUG_USB_HOST
                 USBTRACE("setEpInfoEntry failed");
-#endif
                 goto FailSetDevTblEntry;
         }
-#ifdef DEBUG_USB_HOST
-        USBTRACE2("NC:", num_of_conf);
-#endif
+
+        USBTRACE("VID:"), D_PrintHex(vid, 0x80);
+        USBTRACE(" PID:"), D_PrintHex(pid, 0x80);
+        USBTRACE2(" #Conf:", num_of_conf);
+
         for (uint8_t i=0; i<num_of_conf; i++) {
                 parseConfigDescr(bAddress, i);
                 if (bNumEP > 1)
                         break;
         } // for
-#ifdef DEBUG_USB_HOST
-        USBTRACE2("NumEP:", bNumEP);
-#endif
-        if( bConfNum == 0 ){  //Device not found.
+
+        USBTRACE2("\r\nNumEP:", bNumEP);
+
+        if( bNumEP < 3 ){  //Device not found.
+                rcode = 0xff;
                 goto FailGetConfDescr;
         }
 
-        if( !isMidiFound ){ //MIDI Device not found. Try first Bulk transfer device
+        if( !isMidiFound ){ //MIDI Device not found. Try last Bulk transfer device
+                USBTRACE("MIDI not found. Attempts bulk device\r\n");
                 epInfo[epDataInIndex].epAddr      = epInfo[epDataInIndexVSP].epAddr;
                 epInfo[epDataInIndex].maxPktSize  = epInfo[epDataInIndexVSP].maxPktSize;
                 epInfo[epDataOutIndex].epAddr     = epInfo[epDataOutIndexVSP].epAddr;
@@ -215,18 +215,17 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
         // Assign epInfo to epinfo pointer
         rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
-#ifdef DEBUG_USB_HOST
         USBTRACE2("Conf:", bConfNum);
-#endif
+        USBTRACE2("EPin :", (uint8_t)(epInfo[epDataInIndex].epAddr + 0x80));
+        USBTRACE2("EPout:", epInfo[epDataOutIndex].epAddr);
+
         // Set Configuration Value
         rcode = pUsb->setConf(bAddress, 0, bConfNum);
         if (rcode) {
                 goto FailSetConfDescr;
         }
-#ifdef DEBUG_USB_HOST
-        USBTRACE("Init done.");
-#endif
         bPollEnable = true;
+        USBTRACE("Init done.\r\n");
         return 0;
 FailGetDevDescr:
 FailSetDevTblEntry:
@@ -237,13 +236,13 @@ FailSetConfDescr:
 }
 
 /* get and parse config descriptor */
-void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
+void USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
 {
         uint8_t buf[ DESC_BUFF_SIZE ];
         uint8_t* buf_ptr = buf;
-        byte rcode;
-        byte descr_length;
-        byte descr_type;
+        uint8_t rcode;
+        uint8_t descr_length;
+        uint8_t descr_type;
         unsigned int total_length;
         USB_ENDPOINT_DESCRIPTOR *epDesc;
         boolean isMidi = false;
@@ -264,27 +263,43 @@ void USBH_MIDI::parseConfigDescr( byte addr, byte conf )
                 return;
         }
 
+#ifdef DEBUG_USB_HOST
+        uint8_t bNumInt;
+#endif
         //parsing descriptors
         while( buf_ptr < buf + total_length ) {
                 descr_length = *( buf_ptr );
                 descr_type   = *( buf_ptr + 1 );
                 switch( descr_type ) {
                   case USB_DESCRIPTOR_CONFIGURATION :
+#ifdef DEBUG_USB_HOST
+                        bNumInt = buf_ptr[4];
+#endif
                         bConfNum = buf_ptr[5];
                         break;
                   case  USB_DESCRIPTOR_INTERFACE :
+                        USBTRACE("\r\nConf:"), D_PrintHex(bConfNum, 0x80);
+                        USBTRACE(" Int:"), D_PrintHex(buf_ptr[2], 0x80);
+                        USBTRACE(" Alt:"), D_PrintHex(buf_ptr[3], 0x80);
+                        USBTRACE(" EPs:"), D_PrintHex(buf_ptr[4], 0x80);
+                        USBTRACE(" IntCl:"), D_PrintHex(buf_ptr[5], 0x80);
+                        USBTRACE(" IntSubCl:"), D_PrintHex(buf_ptr[6], 0x80);
+                        USBTRACE("\r\n");
+
                         if( buf_ptr[5] == USB_CLASS_AUDIO && buf_ptr[6] == USB_SUBCLASS_MIDISTREAMING ) {  //p[5]; bInterfaceClass = 1(Audio), p[6]; bInterfaceSubClass = 3(MIDI Streaming)
                                 isMidiFound = true; //MIDI device found.
                                 isMidi      = true;
+                                USBTRACE("MIDI Device\r\n");
                         }else{
-#ifdef DEBUG_USB_HOST
-                                USBTRACE("No MIDI Device\n");
-#endif
                                 isMidi = false;
+                                USBTRACE("No MIDI Device\r\n");
                         }
                         break;
                   case USB_DESCRIPTOR_ENDPOINT :
                         epDesc = (USB_ENDPOINT_DESCRIPTOR *)buf_ptr;
+                        USBTRACE("-EPAddr:"), D_PrintHex(epDesc->bEndpointAddress, 0x80);
+                        USBTRACE(" bmAttr:"), D_PrintHex(epDesc->bmAttributes, 0x80);
+                        USBTRACE2(" MaxPktSz:", (uint8_t)epDesc->wMaxPacketSize);
                         if ((epDesc->bmAttributes & 0x02) == 2) {//bulk
                                 uint8_t index;
                                 if( isMidi )
@@ -333,7 +348,7 @@ uint8_t USBH_MIDI::RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr)
 /* Receive data from MIDI device */
 uint8_t USBH_MIDI::RecvData(uint8_t *outBuf)
 {
-        byte rcode = 0;     //return code
+        uint8_t rcode = 0;     //return code
         uint16_t  rcvd;
 
         if( bPollEnable == false ) return false;
@@ -370,10 +385,10 @@ RecvData_return_from_buffer:
 }
 
 /* Send data to MIDI device */
-uint8_t USBH_MIDI::SendData(uint8_t *dataptr, byte nCable)
+uint8_t USBH_MIDI::SendData(uint8_t *dataptr, uint8_t nCable)
 {
-        byte buf[4];
-        byte msg;
+        uint8_t buf[4];
+        uint8_t msg;
 
         msg = dataptr[0];
         // SysEx long message ?
@@ -407,7 +422,7 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, byte nCable)
                 buf[3] = 0;
                 break;
 
-          //1 bytes message
+          //1 byte message
           case 1 :
           default :
                 buf[2] = 0;
@@ -420,20 +435,13 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, byte nCable)
 #ifdef DEBUG_USB_HOST
 void USBH_MIDI::PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr )
 {
-        Notify(PSTR("Endpoint descriptor:"), 0x80);
-        Notify(PSTR("\r\nLength:\t\t"), 0x80);
-        PrintHex<uint8_t>(ep_ptr->bLength, 0x80);
-        Notify(PSTR("\r\nType:\t\t"), 0x80);
-        PrintHex<uint8_t>(ep_ptr->bDescriptorType, 0x80);
-        Notify(PSTR("\r\nAddress:\t"), 0x80);
-        PrintHex<uint8_t>(ep_ptr->bEndpointAddress, 0x80);
-        Notify(PSTR("\r\nAttributes:\t"), 0x80);
-        PrintHex<uint8_t>(ep_ptr->bmAttributes, 0x80);
-        Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
-        PrintHex<uint16_t>(ep_ptr->wMaxPacketSize, 0x80);
-        Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
-        PrintHex<uint8_t>(ep_ptr->bInterval, 0x80);
-        Notify(PSTR("\r\n"), 0x80);
+        USBTRACE("Endpoint descriptor:\r\n");
+        USBTRACE2(" Length:\t", ep_ptr->bLength);
+        USBTRACE2(" Type:\t\t", ep_ptr->bDescriptorType);
+        USBTRACE2(" Address:\t", ep_ptr->bEndpointAddress);
+        USBTRACE2(" Attributes:\t", ep_ptr->bmAttributes);
+        USBTRACE2(" MaxPktSize:\t", ep_ptr->wMaxPacketSize);
+        USBTRACE2(" Poll Intrv:\t", ep_ptr->bInterval);
 }
 #endif
 
@@ -465,7 +473,7 @@ uint8_t USBH_MIDI::lookupMsgSize(uint8_t midiMsg)
                 msgSize = 2;
                 break;
 
-          //1 bytes messages
+          //1 byte messages
           case 0xf8 : //system realtime message
           case 0xf9 : //system realtime message
           case 0xfa : //system realtime message
@@ -508,43 +516,121 @@ unsigned int USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
 }
 
 /* Send SysEx message to MIDI device */
-uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, unsigned int datasize, byte nCable)
+uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, unsigned int datasize, uint8_t nCable)
 {
-        byte buf[4];
+        uint8_t buf[64];
         uint8_t rc;
         unsigned int n = datasize;
+        unsigned int pktSize = (n*10/3+7)/10*4;   //Calculate total USB MIDI packet size
+        uint8_t wptr = 0;
+        uint8_t maxpkt = epInfo[epDataInIndex].maxPktSize;
+
+        USBTRACE("SendSysEx:\r\t");
+        USBTRACE2(" Length:\t", datasize);
+        USBTRACE2(" Total pktSize:\t", pktSize);
 
         while(n > 0) {
                 //Byte 0
-                buf[0] = (nCable << 4) | 0x4;           //x4 SysEx starts or continues
+                buf[wptr] = (nCable << 4) | 0x4;             //x4 SysEx starts or continues
 
                 switch ( n ) {
-                  case 1 :
-                        buf[0] = (nCable << 4) | 0x5;   //x5 SysEx ends with following single byte.
-                        buf[1] = *(dataptr++);
-                        buf[2] = 0x00;
-                        buf[3] = 0x00;
+                    case 1 :
+                        buf[wptr++] = (nCable << 4) | 0x5;   //x5 SysEx ends with following single byte.
+                        buf[wptr++] = *(dataptr++);
+                        buf[wptr++] = 0x00;
+                        buf[wptr++] = 0x00;
                         n = n - 1;
                         break;
-                  case 2 :
-                        buf[0] = (nCable << 4) | 0x6;   //x6 SysEx ends with following two bytes.
-                        buf[1] = *(dataptr++);
-                        buf[2] = *(dataptr++);
-                        buf[3] = 0x00;
+                    case 2 :
+                        buf[wptr++] = (nCable << 4) | 0x6;   //x6 SysEx ends with following two bytes.
+                        buf[wptr++] = *(dataptr++);
+                        buf[wptr++] = *(dataptr++);
+                        buf[wptr++] = 0x00;
                         n = n - 2;
                         break;
-                  case 3 :
-                        buf[0] = (nCable << 4) | 0x7;   //x7 SysEx ends with following three bytes.
-                  default :
-                        buf[1] = *(dataptr++);
-                        buf[2] = *(dataptr++);
-                        buf[3] = *(dataptr++);
+                    case 3 :
+                        buf[wptr]   = (nCable << 4) | 0x7;   //x7 SysEx ends with following three bytes.
+                    default :
+                        wptr++;
+                        buf[wptr++] = *(dataptr++);
+                        buf[wptr++] = *(dataptr++);
+                        buf[wptr++] = *(dataptr++);
                         n = n - 3;
                         break;
                 }
-                rc = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, 4, buf);
-                if(rc != 0)
-                 break;
+
+                if( wptr >= maxpkt || n == 0 ){ //Reach a maxPktSize or data end.
+                        USBTRACE2(" wptr:\t", wptr);
+                        if( (rc = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, wptr, buf)) != 0 ){
+                                break;
+                        }
+                        wptr = 0;  //rewind data pointer
+                }
+        }
+        return(rc);
+}
+
+/* Send raw data to MIDI device */
+uint8_t USBH_MIDI::SendRawData(uint16_t bytes_send, uint8_t *dataptr)
+{
+        return pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, bytes_send, dataptr);
+
+}
+
+//
+// System Exclusive packet data management class
+//
+MidiSysEx::MidiSysEx()
+{
+        clear();
+}
+
+void MidiSysEx::clear()
+{
+        pos = 0;
+        buf[0] = 0;
+}
+
+MidiSysEx::Status MidiSysEx::set(uint8_t *p)
+{
+        MidiSysEx::Status rc = MidiSysEx::ok;
+        uint8_t cin = *(p) & 0x0f;
+
+        //SysEx message?
+        if( (cin & 0xc) != 4 ) return MidiSysEx::nonsysex;
+
+        switch(cin) {
+            case 4:
+            case 7:
+                if( pos+2 < MIDI_EVENT_PACKET_SIZE ) {
+                        buf[pos++] = *(p+1);
+                        buf[pos++] = *(p+2);
+                        buf[pos++] = *(p+3);
+                }else{
+                        rc = MidiSysEx::overflow;
+                }
+                break;
+            case 5:
+                if( pos+1 < MIDI_EVENT_PACKET_SIZE ) {
+                        buf[pos++] = *(p+1);
+                        buf[pos++] = *(p+2);
+                }else{
+                        rc = MidiSysEx::overflow;
+                }
+                break;
+            case 6:
+                if( pos < MIDI_EVENT_PACKET_SIZE ) {
+                        buf[pos++] = *(p+1);
+                }else{
+                        rc = MidiSysEx::overflow;
+                }
+                break;
+            default:
+                break;
+        }
+        //SysEx end?
+        if((cin & 0x3) != 0) {
+                rc = MidiSysEx::done;
         }
         return(rc);
 }

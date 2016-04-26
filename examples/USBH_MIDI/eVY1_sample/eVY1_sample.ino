@@ -61,7 +61,7 @@ void loop()
 // Poll USB MIDI Controler
 void MIDI_poll()
 {
-  byte inBuf[ 3 ];
+  uint8_t inBuf[ 3 ];
 
   //first call?
   if (Midi.vid != vid || Midi.pid != pid) {

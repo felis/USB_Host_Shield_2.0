@@ -66,7 +66,7 @@ void loop()
 // Poll USB MIDI Controler and send to serial MIDI
 void MIDI_poll()
 {
-  byte outBuf[ 3 ];
+  uint8_t outBuf[ 3 ];
   uint8_t size;
 
   do {
