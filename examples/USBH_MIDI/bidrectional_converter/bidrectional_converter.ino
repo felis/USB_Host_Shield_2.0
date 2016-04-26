@@ -51,7 +51,7 @@ void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
 #ifdef USBH_MIDI_SYSEX_ENABLE
 MidiSysEx sysExData;
 //SysEx:
-void handle_sysex( byte* sysexmsg, uint16_t sizeofsysex) {
+void handle_sysex( byte* sysexmsg, unsigned sizeofsysex) {
   Midi.SendSysEx(sysexmsg, sizeofsysex);
 }
 #endif
