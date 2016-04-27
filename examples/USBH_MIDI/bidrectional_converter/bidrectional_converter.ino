@@ -40,15 +40,28 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 //////////////////////////
 
 USB Usb;
-USBH_MIDI  Midi(&Usb);
+USBH_MIDI Midi(&Usb);
 
 void MIDI_poll();
 void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
 
+//If you want handle System Exclusive message, enable this #define otherwise comment out it.
+#define USBH_MIDI_SYSEX_ENABLE
+
+#ifdef USBH_MIDI_SYSEX_ENABLE
+MidiSysEx sysExData;
+//SysEx:
+void handle_sysex( byte* sysexmsg, unsigned sizeofsysex) {
+  Midi.SendSysEx(sysexmsg, sizeofsysex);
+}
+#endif
+
 void setup()
 {
   MIDI.begin(MIDI_CHANNEL_OMNI);
-
+#ifdef USBH_MIDI_SYSEX_ENABLE
+  MIDI.setHandleSystemExclusive(handle_sysex);
+#endif
   if (Usb.Init() == -1) {
     while (1); //halt
   }//if (Usb.Init() == -1...
@@ -67,13 +80,17 @@ void loop()
     MIDI_poll();
     if (MIDI.read()) {
       msg[0] = MIDI.getType();
-      if ( msg[0] == 0xf0 ) { //SysEX
-        //TODO
-        //SysEx implementation is not yet.
-      } else {
-        msg[1] = MIDI.getData1();
-        msg[2] = MIDI.getData2();
-        Midi.SendData(msg, 0);
+      switch (msg[0]) {
+        case midi::ActiveSensing :
+          break;
+        case midi::SystemExclusive :
+          //SysEx is handled by event.
+          break;
+        default :
+          msg[1] = MIDI.getData1();
+          msg[2] = MIDI.getData2();
+          Midi.SendData(msg, 0);
+          break;
       }
     }
   }
@@ -84,13 +101,53 @@ void loop()
 // Poll USB MIDI Controler and send to serial MIDI
 void MIDI_poll()
 {
-  byte outBuf[ 3 ];
   uint8_t size;
+#ifdef USBH_MIDI_SYSEX_ENABLE
+  uint8_t recvBuf[MIDI_EVENT_PACKET_SIZE];
+  uint8_t rcode = 0;     //return code
+  uint16_t  rcvd;
+  uint8_t   readPtr = 0;
 
-  if ( (size = Midi.RecvData(outBuf)) > 0 ) {
-    //MIDI Output
-    _MIDI_SERIAL_PORT.write(outBuf, size);
+  rcode = Midi.RecvData( &rcvd, recvBuf);
+
+  //data check
+  if (rcode != 0) return;
+  if ( recvBuf[0] == 0 && recvBuf[1] == 0 && recvBuf[2] == 0 && recvBuf[3] == 0 ) {
+    return ;
   }
+
+  uint8_t *p = recvBuf;
+  while (readPtr < MIDI_EVENT_PACKET_SIZE)  {
+    if (*p == 0 && *(p + 1) == 0) break; //data end
+    MidiSysEx::Status rc = sysExData.set(p);
+    switch (rc) {
+      case MidiSysEx::nonsysex :  //No SysEx message send data to Serial MIDI
+        p++;
+        size = Midi.lookupMsgSize(*p);
+        _MIDI_SERIAL_PORT.write(p, size);
+        p += 3;
+        break;
+      case MidiSysEx::done :      //SysEx end. send data to Serial MIDI
+        _MIDI_SERIAL_PORT.write(sysExData.get(), sysExData.getSize());
+        /* FALLTHROUGH */
+      case MidiSysEx::overflow :  //SysEx buffer over. ignore and flush buffer.
+        sysExData.clear();
+        /* FALLTHROUGH */
+      default:
+        p += 4;
+        break;
+    }
+    readPtr += 4;
+  }
+#else
+  uint8_t outBuf[ 3 ];
+  do {
+    if ( (size = Midi.RecvData(outBuf)) > 0 ) {
+      //MIDI Output
+      _MIDI_SERIAL_PORT.write(outBuf, size);
+    }
+  } while (size > 0);
+#endif
 }
 
 // Delay time (max 16383 us)

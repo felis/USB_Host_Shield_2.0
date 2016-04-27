@@ -26,6 +26,7 @@
 
 #if !defined(_USBH_MIDI_H_)
 #define _USBH_MIDI_H_
+//#define DEBUG_USB_HOST
 #include "Usb.h"
 
 #define MIDI_MAX_ENDPOINTS 5 //endpoint 0, bulk_IN(MIDI), bulk_OUT(MIDI), bulk_IN(VSP), bulk_OUT(VSP)
@@ -36,9 +37,6 @@ class USBH_MIDI;
 
 class USBH_MIDI : public USBDeviceConfig
 {
-private:
-        uint8_t lookupMsgSize(uint8_t midiMsg);
-
 protected:
         static const uint8_t    epDataInIndex;          // DataIn endpoint index(MIDI)
         static const uint8_t    epDataOutIndex;         // DataOUT endpoint index(MIDI)
@@ -59,7 +57,7 @@ protected:
         uint8_t recvBuf[MIDI_EVENT_PACKET_SIZE];
         uint8_t readPtr;
 
-        void parseConfigDescr(byte addr, byte conf);
+        void parseConfigDescr(uint8_t addr, uint8_t conf);
         unsigned int countSysExDataSize(uint8_t *dataptr);
 #ifdef DEBUG_USB_HOST
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
@@ -70,8 +68,10 @@ public:
         // Methods for recieving and sending data
         uint8_t RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
         uint8_t RecvData(uint8_t *outBuf);
-        uint8_t SendData(uint8_t *dataptr, byte nCable=0);
-        uint8_t SendSysEx(uint8_t *dataptr, unsigned int datasize, byte nCable=0);
+        uint8_t SendData(uint8_t *dataptr, uint8_t nCable=0);
+        uint8_t lookupMsgSize(uint8_t midiMsg);
+        uint8_t SendSysEx(uint8_t *dataptr, unsigned int datasize, uint8_t nCable=0);
+        uint8_t SendRawData(uint16_t bytes_send, uint8_t *dataptr);
         // backward compatibility functions
         inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr){ return RecvData(bytes_rcvd, dataptr); };
         inline uint8_t RcvData(uint8_t *outBuf){ return RecvData(outBuf); };
@@ -80,6 +80,28 @@ public:
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         virtual uint8_t Release();
         virtual uint8_t GetAddress() { return bAddress; };
+};
+
+//
+// System Exclusive packet data management class
+//
+class MidiSysEx {
+private:
+        uint8_t pos;
+        uint8_t buf[MIDI_EVENT_PACKET_SIZE];
+public:
+        typedef enum {
+                nonsysex = 0,
+                ok       = 1,
+                done     = 0xfe,
+                overflow = 0xff
+        } Status;
+
+        MidiSysEx();
+        void clear();
+        MidiSysEx::Status set(uint8_t *p);
+        inline uint8_t *get(){return buf;};
+        inline uint8_t getSize(){return pos;};
 };
 
 #endif //_USBH_MIDI_H_

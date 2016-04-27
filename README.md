@@ -320,8 +320,8 @@ HID devices are also supported by the library. However these require you to writ
 The library support MIDI devices.  
 You can convert USB MIDI keyboard to legacy serial MIDI.
 
-* [USB_MIDI_converter.ino](USBH_MIDI/USB_MIDI_converter) 
-* [USB_MIDI_converter_multi.ino](USBH_MIDI/USB_MIDI_converter_multi) 
+* [USB_MIDI_converter.ino](examples/USBH_MIDI/USB_MIDI_converter/USB_MIDI_converter.ino) 
+* [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino) 
 
 For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
 
