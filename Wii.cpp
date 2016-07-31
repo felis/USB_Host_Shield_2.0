@@ -327,9 +327,16 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         nunchuckConnected = false; // It must be the Nunchuck controller then
                                                                         wii_clear_flag(WII_FLAG_NUNCHUCK_CONNECTED);
                                                                         onInit();
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
-                                                                } else
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+#ifdef WIICAMERA
+                                                                        if(!isIRCameraEnabled()) // We still want to read from the IR camera, so do not change the report mode
+#endif
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                } else {
+#ifdef WIICAMERA
+                                                                        if(!isIRCameraEnabled()) // We still want to read from the IR camera, so do not change the report mode
+#endif
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                }
                                                         }
                                                 }
                                                 else {
@@ -965,6 +972,10 @@ uint8_t WII::getBatteryLevel() {
 };
 
 void WII::setReportMode(bool continuous, uint8_t mode) {
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nReport mode was changed to: "), 0x80);
+        D_PrintHex<uint8_t > (mode, 0x80);
+#endif
         uint8_t cmd_buf[4];
         cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
         cmd_buf[1] = 0x12;
