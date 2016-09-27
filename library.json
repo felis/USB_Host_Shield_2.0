@@ -31,6 +31,8 @@
     "type": "git",
     "url": "https://github.com/felis/USB_Host_Shield_2.0.git"
   },
+  "version": "1.2.1",
+  "license": "GPL-2.0",
   "examples":
   [
     "examples/*/*.ino",
