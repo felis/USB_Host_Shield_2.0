@@ -142,6 +142,7 @@ e-mail   :  support@circuitsathome.com
 #include <nrf_gpio.h>
 #include <SPI_Master.h>
 #define SPI SPI_Master
+#define MFK_CASTUINT8T (uint8_t) // RBLs return type for sizeof needs casting to uint8_t
 #endif
 #if defined(__PIC32MX__) || defined(__PIC32MZ__)
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
@@ -169,6 +170,11 @@ extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #ifdef tokOUTHS
 #undef tokOUTHS
 #endif
+#endif
+
+// Set defaults
+#ifndef MFK_CASTUINT8T
+#define MFK_CASTUINT8T
 #endif
 
 #endif /* SETTINGS_H */
