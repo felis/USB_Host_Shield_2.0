@@ -84,7 +84,7 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 #endif
 
                 if (buf[0] == 0x01) // Check report ID
-                        memcpy(&ps4Data, buf + 1, min((uint8_t)(len - 1), sizeof(ps4Data)));
+                        memcpy(&ps4Data, buf + 1, min((uint8_t)(len - 1), MFK_CASTUINT8T sizeof(ps4Data)));
                 else if (buf[0] == 0x11) { // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
                         if (len < 4) {
 #ifdef DEBUG_USB_HOST
@@ -93,7 +93,7 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 #endif
                                 return;
                         }
-                        memcpy(&ps4Data, buf + 3, min((uint8_t)(len - 3), sizeof(ps4Data)));
+                        memcpy(&ps4Data, buf + 3, min((uint8_t)(len - 3), MFK_CASTUINT8T sizeof(ps4Data)));
                 } else {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nUnknown report id: "), 0x80);

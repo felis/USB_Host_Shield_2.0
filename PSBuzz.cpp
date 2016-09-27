@@ -29,7 +29,7 @@ void PSBuzz::ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf
                         Notify(PSTR(" "), 0x80);
                 }
 #endif
-                memcpy(&psbuzzButtons, buf + 2, min((uint8_t)(len - 2), sizeof(psbuzzButtons)));
+                memcpy(&psbuzzButtons, buf + 2, min((uint8_t)(len - 2), MFK_CASTUINT8T sizeof(psbuzzButtons)));
 
                 if (psbuzzButtons.val != oldButtonState.val) { // Check if anything has changed
                         buttonClickState.val = psbuzzButtons.val & ~oldButtonState.val; // Update click state variable
