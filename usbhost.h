@@ -85,7 +85,19 @@ public:
 };
 
 /* SPI pin definitions. see avrpins.h   */
-#if defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#if defined(PIN_SPI_SCK) && defined(PIN_SPI_MOSI) && defined(PIN_SPI_MISO) && defined(PIN_SPI_SS)
+// Use pin defines: https://github.com/arduino/Arduino/pull/4814
+// Based on: https://www.mikeash.com/pyblog/friday-qa-2015-03-20-preprocessor-abuse-and-optional-parentheses.html
+#define NOTHING_EXTRACT
+#define EXTRACT(...) EXTRACT __VA_ARGS__
+#define PASTE(x, ...) x ## __VA_ARGS__
+#define EVALUATING_PASTE(x, ...) PASTE(x, __VA_ARGS__)
+#define UNPAREN(x) EVALUATING_PASTE(NOTHING_, EXTRACT x)
+#define APPEND_PIN(pin) P ## pin // Appends the pin to 'P', e.g. 1 becomes P1
+#define MAKE_PIN(x) EVALUATING_PASTE(APPEND_, PIN(UNPAREN(x)))
+typedef SPi< MAKE_PIN(PIN_SPI_SCK), MAKE_PIN(PIN_SPI_MOSI), MAKE_PIN(PIN_SPI_MISO), MAKE_PIN(PIN_SPI_SS) > spi;
+#undef MAKE_PIN
+#elif defined(__AVR_ATmega1280__) || (__AVR_ATmega2560__) || defined(__AVR_ATmega32U4__) || defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
 typedef SPi< Pb1, Pb2, Pb3, Pb0 > spi;
 #elif  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
 typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
