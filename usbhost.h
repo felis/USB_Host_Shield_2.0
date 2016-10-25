@@ -168,7 +168,11 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
+#ifdef ESP8266
+        SPI.writeBytes(c, 2);
+#else
         SPI.transfer(c, 2);
+#endif
 #elif defined(STM32F4)
         uint8_t c[2];
         c[0] = reg | 0x02;
@@ -208,7 +212,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         data_p += nbytes;
 #elif defined(SPI_HAS_TRANSACTION)
         SPI.transfer(reg | 0x02);
+#ifdef ESP8266
+        SPI.writeBytes(data_p, nbytes);
+#else
         SPI.transfer(data_p, nbytes);
+#endif
         data_p += nbytes;
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg | 0x02);
@@ -311,7 +319,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #elif defined(SPI_HAS_TRANSACTION)
         SPI.transfer(reg);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
+#ifdef ESP8266
+        SPI.writeBytes(data_p, nbytes);
+#else
         SPI.transfer(data_p, nbytes);
+#endif
         data_p += nbytes;
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg);
