@@ -39,7 +39,7 @@ public:
                 SPI_SS::SetDirWrite();
                 SPI_SS::Set();
         }
-#elif SPI_HAS_TRANSACTION
+#elif defined(SPI_HAS_TRANSACTION)
         static void init() {
                 SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
                 SPI_SS::SetDirWrite();
@@ -154,7 +154,7 @@ MAX3421e< SPI_SS, INTR >::MAX3421e() {
 template< typename SPI_SS, typename INTR >
 void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         XMEM_ACQUIRE_SPI();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.beginTransaction(SPISettings(26000000, MSBFIRST, SPI_MODE0)); // The MAX3421E can handle up to 26MHz, use MSB First and SPI mode 0
 #endif
         SPI_SS::Clear();
@@ -164,7 +164,7 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         spi4teensy3::send(c, 2);
-#elif SPI_HAS_TRANSACTION
+#elif defined(SPI_HAS_TRANSACTION)
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
@@ -185,7 +185,7 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
 #endif
 
         SPI_SS::Set();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.endTransaction();
 #endif
         XMEM_RELEASE_SPI();
@@ -197,7 +197,7 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
 template< typename SPI_SS, typename INTR >
 uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         XMEM_ACQUIRE_SPI();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.beginTransaction(SPISettings(26000000, MSBFIRST, SPI_MODE0)); // The MAX3421E can handle up to 26MHz, use MSB First and SPI mode 0
 #endif
         SPI_SS::Clear();
@@ -206,7 +206,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
         data_p += nbytes;
-#elif SPI_HAS_TRANSACTION
+#elif defined(SPI_HAS_TRANSACTION)
         SPI.transfer(reg | 0x02);
         SPI.transfer(data_p, nbytes);
         data_p += nbytes;
@@ -238,7 +238,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
 
         SPI_SS::Set();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.endTransaction();
 #endif
         XMEM_RELEASE_SPI();
@@ -260,7 +260,7 @@ void MAX3421e< SPI_SS, INTR >::gpioWr(uint8_t data) {
 template< typename SPI_SS, typename INTR >
 uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         XMEM_ACQUIRE_SPI();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.beginTransaction(SPISettings(26000000, MSBFIRST, SPI_MODE0)); // The MAX3421E can handle up to 26MHz, use MSB First and SPI mode 0
 #endif
         SPI_SS::Clear();
@@ -274,7 +274,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         uint8_t rv = 0;
         HAL_SPI_Receive(&SPI_Handle, &rv, 1, HAL_MAX_DELAY);
         SPI_SS::Set();
-#elif !defined(SPDR) || SPI_HAS_TRANSACTION
+#elif !defined(SPDR) || defined(SPI_HAS_TRANSACTION)
         SPI.transfer(reg);
         uint8_t rv = SPI.transfer(0); // Send empty byte
         SPI_SS::Set();
@@ -287,7 +287,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         uint8_t rv = SPDR;
 #endif
 
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.endTransaction();
 #endif
         XMEM_RELEASE_SPI();
@@ -299,7 +299,7 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
 template< typename SPI_SS, typename INTR >
 uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* data_p) {
         XMEM_ACQUIRE_SPI();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.beginTransaction(SPISettings(26000000, MSBFIRST, SPI_MODE0)); // The MAX3421E can handle up to 26MHz, use MSB First and SPI mode 0
 #endif
         SPI_SS::Clear();
@@ -308,7 +308,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg);
         spi4teensy3::receive(data_p, nbytes);
         data_p += nbytes;
-#elif SPI_HAS_TRANSACTION
+#elif defined(SPI_HAS_TRANSACTION)
         SPI.transfer(reg);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
         SPI.transfer(data_p, nbytes);
@@ -350,7 +350,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 #endif
 
         SPI_SS::Set();
-#if SPI_HAS_TRANSACTION
+#if defined(SPI_HAS_TRANSACTION)
         SPI.endTransaction();
 #endif
         XMEM_RELEASE_SPI();
