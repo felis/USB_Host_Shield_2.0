@@ -123,6 +123,7 @@ Currently the following boards are supported by the library:
     * Please see: <http://www.circuitsathome.com/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
     * Currently the [NUCLEO-F446RE](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF262063) is supported featuring the STM32F446. Take a look at the following example code: <https://github.com/Lauszus/Nucleo_F446RE_USBHost>.
+* ESP8266 is supported using the [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
@@ -317,11 +318,11 @@ HID devices are also supported by the library. However these require you to writ
 
 ### [MIDI Library](usbh_midi.cpp)
 
-The library support MIDI devices.  
+The library support MIDI devices.
 You can convert USB MIDI keyboard to legacy serial MIDI.
 
-* [USB_MIDI_converter.ino](examples/USBH_MIDI/USB_MIDI_converter/USB_MIDI_converter.ino) 
-* [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino) 
+* [USB_MIDI_converter.ino](examples/USBH_MIDI/USB_MIDI_converter/USB_MIDI_converter.ino)
+* [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino)
 
 For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
 
