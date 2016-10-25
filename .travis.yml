@@ -74,4 +74,4 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --board=uno --board=teensy31 --board=due --lib="."
+    - platformio ci --board=uno --board=teensy31 --board=due --board=esp12e --board=nodemcu --lib="."

@@ -97,6 +97,8 @@ typedef SPi< P13, P11, P12, P10 > spi;
 typedef SPi< P76, P75, P74, P10 > spi;
 #elif defined(RBL_NRF51822)
 typedef SPi< P16, P18, P17, P10 > spi;
+#elif defined(ESP8266)
+typedef SPi< P14, P13, P12, P15 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
