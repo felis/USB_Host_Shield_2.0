@@ -63,7 +63,7 @@ env:
 
 install:
     - pip install -U platformio
-    - export PLATFORMIO_BUILD_FLAGS="-DDEBUG_USB_HOST -DWIICAMERA -Wall -Werror -Wno-strict-aliasing"
+    - export PLATFORMIO_BUILD_FLAGS="-DDEBUG_USB_HOST -DWIICAMERA -Wall -Werror -Wno-strict-aliasing -Wno-unused-function"
 
     #
     # Libraries from PlatformIO Library Registry:
