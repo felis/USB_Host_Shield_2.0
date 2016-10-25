@@ -177,4 +177,16 @@ extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #define MFK_CASTUINT8T
 #endif
 
+// Workaround issue: https://github.com/esp8266/Arduino/issues/2078
+#ifdef ESP8266
+#undef PROGMEM
+#define PROGMEM
+#undef PSTR
+#define PSTR(s) (s)
+#undef pgm_read_byte
+#define pgm_read_byte(addr) (*reinterpret_cast<const uint8_t*>(addr))
+#undef pgm_read_word
+#define pgm_read_word(addr) (*reinterpret_cast<const uint16_t*>(addr))
+#endif
+
 #endif /* SETTINGS_H */
