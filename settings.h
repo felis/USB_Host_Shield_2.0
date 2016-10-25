@@ -189,4 +189,8 @@ extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #define pgm_read_word(addr) (*reinterpret_cast<const uint16_t*>(addr))
 #endif
 
+#ifdef ARDUINO_ESP8266_WIFIO
+#error "This board is currently not supported"
+#endif
+
 #endif /* SETTINGS_H */
