@@ -332,11 +332,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         SPI.transfer(reg);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
 #ifdef ESP8266
-        SPI.writeBytes(data_p, nbytes);
+        SPI.transferBytes(data_p, data_p, nbytes);
 #else
         SPI.transfer(data_p, nbytes);
-#endif
         data_p += nbytes;
+#endif
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg);
         SPI.transferBuffer(NULL, data_p, nbytes);
