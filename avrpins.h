@@ -1268,23 +1268,18 @@ public: \
 
 // Pinout for ESP-12 module
 // 0 .. 16 - Digital pins
+// GPIO 6 to 11 and 16 are not usable in this library.
+
 MAKE_PIN(P0, 0);
 MAKE_PIN(P1, 1); // TX0
 MAKE_PIN(P2, 2); // TX1
 MAKE_PIN(P3, 3); // RX0
 MAKE_PIN(P4, 4); // SDA
 MAKE_PIN(P5, 5); // SCL
-MAKE_PIN(P6, 6);
-MAKE_PIN(P7, 7);
-MAKE_PIN(P8, 8);
-MAKE_PIN(P9, 9);
-MAKE_PIN(P10, 10);
-MAKE_PIN(P11, 11);
 MAKE_PIN(P12, 12); // MISO
 MAKE_PIN(P13, 13); // MOSI
 MAKE_PIN(P14, 14); // SCK
 MAKE_PIN(P15, 15); // SS
-MAKE_PIN(P16, 16);
 
 #undef MAKE_PIN
 
