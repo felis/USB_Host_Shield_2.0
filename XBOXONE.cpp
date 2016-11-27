@@ -260,9 +260,9 @@ void XBOXONE::readReport() {
         if(readBuf[0] == 0x07) {
                 // The XBOX button has a separate message
                 if(readBuf[4] == 1)
-                        ButtonState |= XBOX_BUTTONS[XBOX];
+                        ButtonState |= pgm_read_word(&XBOX_BUTTONS[XBOX]);
                 else
-                        ButtonState &= ~XBOX_BUTTONS[XBOX];
+                        ButtonState &= ~pgm_read_word(&XBOX_BUTTONS[XBOX]);
         }
         if(readBuf[0] != 0x20) { // Check if it's the correct report, otherwise return - the controller also sends different status reports
 #ifdef EXTRADEBUG
@@ -272,7 +272,7 @@ void XBOXONE::readReport() {
                 return;
         }
 
-        uint16_t xbox = ButtonState & XBOX_BUTTONS[XBOX]; // Since the XBOX button is separate, save it and add it back in
+        uint16_t xbox = ButtonState & pgm_read_word(&XBOX_BUTTONS[XBOX]); // Since the XBOX button is separate, save it and add it back in
         // xbox button from before, dpad, abxy, start/back, sync, stick click, shoulder buttons
         ButtonState = xbox | (((uint16_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint16_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint16_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4);
 
