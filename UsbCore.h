@@ -42,7 +42,7 @@ typedef MAX3421e<P3, P2> MAX3421E; // The Intel Galileo supports much faster rea
 #elif defined(ESP8266)
 typedef MAX3421e<P15, P0> MAX3421E; // ESP8266 boards
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison, Intel Galileo 2 or Teensy 2.0 and 3.0
+typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison, Intel Galileo 2 or Teensy 2.0 and 3.x
 #endif
 
 /* Common setup data constant combinations  */
