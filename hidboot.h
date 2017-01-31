@@ -286,6 +286,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         const uint8_t constBufSize = sizeof (USB_DEVICE_DESCRIPTOR);
 
         uint8_t buf[constBufSize];
+        USB_DEVICE_DESCRIPTOR* device;
         uint8_t rcode;
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
@@ -330,6 +331,8 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         if(!rcode)
                 len = (buf[0] > constBufSize) ? constBufSize : buf[0];
 
+        device = reinterpret_cast<USB_DEVICE_DESCRIPTOR*>(buf);
+
         if(rcode) {
                 // Restore p->epinfo
                 p->epinfo = oldep_ptr;
@@ -347,7 +350,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
         // Extract Max Packet Size from the device descriptor
-        epInfo[0].maxPktSize = (uint8_t)((USB_DEVICE_DESCRIPTOR*)buf)->bMaxPacketSize0;
+        epInfo[0].maxPktSize = (uint8_t)(device->bMaxPacketSize0);
 
         // Assign new address to the device
         rcode = pUsb->setAddr(0, 0, bAddress);
@@ -378,7 +381,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
         if(rcode)
                 goto FailGetDevDescr;
 
-        num_of_conf = ((USB_DEVICE_DESCRIPTOR*)buf)->bNumConfigurations;
+        num_of_conf = device->bNumConfigurations;
 
         USBTRACE2("NC:", num_of_conf);
 
