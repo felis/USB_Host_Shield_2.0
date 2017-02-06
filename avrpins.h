@@ -1167,6 +1167,58 @@ MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
 
 #endif
 
+#elif defined(__ARDUINO_ARC__)
+
+#include <avr/pgmspace.h>
+// Pointers are 32 bits on arc
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3); //PWM
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5); //PWM
+MAKE_PIN(P6, 6); //PWM
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9); //PWM
+
+MAKE_PIN(P10, 10); //SPI SS
+MAKE_PIN(P11, 11); //SPI MOSI
+MAKE_PIN(P12, 12); //SPI MISO
+MAKE_PIN(P13, 13); //SPI SCK / BUILTIN LED
+
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4 SDA
+MAKE_PIN(P19, 19); // A5 SCL
+MAKE_PIN(P20, 20); // ATN
+
+#undef MAKE_PIN
+
 #elif defined(__ARDUINO_X86__) // Intel Galileo, Intel Galileo 2 and Intel Edison
 
 #include <avr/pgmspace.h>
