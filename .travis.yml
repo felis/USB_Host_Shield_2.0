@@ -74,4 +74,4 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --board=uno --board=due --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --lib="."
+    - platformio ci --board=uno --board=genuino101 --board=due --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --lib="."
