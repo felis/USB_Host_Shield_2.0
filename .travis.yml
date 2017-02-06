@@ -74,6 +74,4 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --board=uno --board=due --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --lib="."
-    - export PLATFORMIO_BUILD_FLAGS="$PLATFORMIO_BUILD_FLAGS -DCLOCK_SPEED=32 -Wno-error" # Workaround https://github.com/felis/USB_Host_Shield_2.0/pull/284
-    - platformio ci --board=genuino101 --lib="."
+    - platformio ci --board=uno --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --lib="."
