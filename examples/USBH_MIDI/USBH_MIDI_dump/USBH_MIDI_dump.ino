@@ -69,7 +69,11 @@ void MIDI_poll()
     pid = Midi.pid;
   }
   if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
+#ifdef __ARDUINO_ARC__
+    sprintf(buf, "%016llX: ", millis()); // millis() is 64-bits on the Arduino/Genuino 101
+#else
     sprintf(buf, "%08lX: ", millis());
+#endif
     Serial.print(buf);
     Serial.print(rcvd);
     Serial.print(':');
