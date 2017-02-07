@@ -119,16 +119,13 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         switch(dscrType) {
                                 case USB_DESCRIPTOR_INTERFACE:
                                         isGoodInterface = false;
+                                        break;
                                 case USB_DESCRIPTOR_CONFIGURATION:
-                                        theBuffer.valueSize = sizeof (USB_CONFIGURATION_DESCRIPTOR) - 2;
-                                        break;
                                 case USB_DESCRIPTOR_ENDPOINT:
-                                        theBuffer.valueSize = sizeof (USB_ENDPOINT_DESCRIPTOR) - 2;
-                                        break;
                                 case HID_DESCRIPTOR_HID:
-                                        theBuffer.valueSize = dscrLen - 2;
                                         break;
                         }
+                        theBuffer.valueSize = dscrLen - 2;
                         valParser.Initialize(&theBuffer);
                         stateParseDescr = 4;
                 case 4:
