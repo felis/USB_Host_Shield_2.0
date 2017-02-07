@@ -46,6 +46,7 @@
   "platforms":
   [
     "atmelavr",
+    "intel_arc32",
     "teensy",
     "atmelsam",
     "nordicnrf51",
