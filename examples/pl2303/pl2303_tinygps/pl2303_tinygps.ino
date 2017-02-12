@@ -64,7 +64,7 @@ TinyGPS gps;
 
 void gpsdump(TinyGPS &gps);
 bool feedgps();
-void printFloat(double f, int digits = 2);
+void printFloat(double f, int16_t digits = 2);
 
 void setup()
 {
@@ -113,7 +113,7 @@ void loop()
   }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING...
 }
 
-void printFloat(double number, int digits)
+void printFloat(double number, int16_t digits)
 {
   // Handle negative numbers
   if (number < 0.0)
@@ -153,8 +153,8 @@ void gpsdump(TinyGPS &gps)
   int32_t lat, lon;
   float flat, flon;
   uint32_t age, date, time, chars;
-  int year;
-  byte month, day, hour, minute, second, hundredths;
+  int16_t year;
+  uint8_t month, day, hour, minute, second, hundredths;
   uint16_t sentences, failed;
 
   gps.get_position(&lat, &lon, &age);
@@ -175,7 +175,7 @@ void gpsdump(TinyGPS &gps)
 
   feedgps();
 
-  gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
+  gps.crack_datetime((int*)&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
   Serial.print("Date: "); Serial.print(static_cast<int>(month)); Serial.print("/"); Serial.print(static_cast<int>(day)); Serial.print("/"); Serial.print(year);
   Serial.print("  Time: "); Serial.print(static_cast<int>(hour)); Serial.print(":"); Serial.print(static_cast<int>(minute)); Serial.print(":"); Serial.print(static_cast<int>(second)); Serial.print("."); Serial.print(static_cast<int>(hundredths));
   Serial.print("  Fix age: ");  Serial.print(age); Serial.println("ms.");
@@ -189,7 +189,7 @@ void gpsdump(TinyGPS &gps)
 
   feedgps();
 
-  gps.stats(&chars, &sentences, &failed);
+  gps.stats(&chars, (unsigned short*)&sentences, (unsigned short*)&failed);
   Serial.print("Stats: characters: "); Serial.print(chars); Serial.print(" sentences: "); Serial.print(sentences); Serial.print(" failed checksum: "); Serial.println(failed);
 }
 
