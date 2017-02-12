@@ -426,7 +426,7 @@ void USB::Task(void) //USB state machine
 {
         uint8_t rcode;
         uint8_t tmpdata;
-        static unsigned long delay = 0;
+        static uint32_t delay = 0;
         //USB_DEVICE_DESCRIPTOR buf;
         bool lowspeed = false;
 

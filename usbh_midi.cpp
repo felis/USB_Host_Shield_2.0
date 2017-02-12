@@ -243,9 +243,9 @@ void USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
         uint8_t rcode;
         uint8_t descr_length;
         uint8_t descr_type;
-        unsigned int total_length;
+        uint16_t total_length;
         USB_ENDPOINT_DESCRIPTOR *epDesc;
-        boolean isMidi = false;
+        bool isMidi = false;
 
         // get configuration descriptor (get descriptor size only)
         rcode = pUsb->getConfDescr( addr, 0, 4, conf, buf );
@@ -486,9 +486,9 @@ uint8_t USBH_MIDI::lookupMsgSize(uint8_t midiMsg)
 }
 
 /* SysEx data size counter */
-unsigned int USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
+uint16_t USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
 {
-        unsigned int c = 1;
+        uint16_t c = 1;
 
         if( *dataptr != 0xf0 ){ //not SysEx
                 return 0;
@@ -510,12 +510,12 @@ unsigned int USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
 }
 
 /* Send SysEx message to MIDI device */
-uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, unsigned int datasize, uint8_t nCable)
+uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable)
 {
         uint8_t buf[64];
         uint8_t rc;
-        unsigned int n = datasize;
-        unsigned int pktSize = (n*10/3+7)/10*4;   //Calculate total USB MIDI packet size
+        uint16_t n = datasize;
+        uint16_t pktSize = (n*10/3+7)/10*4;   //Calculate total USB MIDI packet size
         uint8_t wptr = 0;
         uint8_t maxpkt = epInfo[epDataInIndex].maxPktSize;
 

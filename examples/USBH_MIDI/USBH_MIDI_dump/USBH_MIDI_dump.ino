@@ -24,7 +24,7 @@ USB Usb;
 USBH_MIDI  Midi(&Usb);
 
 void MIDI_poll();
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
 
 boolean bFirst;
 uint16_t pid, vid;
@@ -77,9 +77,9 @@ void MIDI_poll()
 }
 
 // Delay time (max 16383 us)
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
 {
-  unsigned long t3;
+  uint32_t t3;
 
   if ( t1 > t2 ) {
     t3 = (0xFFFFFFFF - t1 + t2);

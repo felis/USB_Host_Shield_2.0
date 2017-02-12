@@ -58,7 +58,7 @@ protected:
         uint8_t readPtr;
 
         void parseConfigDescr(uint8_t addr, uint8_t conf);
-        unsigned int countSysExDataSize(uint8_t *dataptr);
+        uint16_t countSysExDataSize(uint8_t *dataptr);
 #ifdef DEBUG_USB_HOST
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
 #endif
@@ -70,7 +70,7 @@ public:
         uint8_t RecvData(uint8_t *outBuf);
         uint8_t SendData(uint8_t *dataptr, uint8_t nCable=0);
         uint8_t lookupMsgSize(uint8_t midiMsg);
-        uint8_t SendSysEx(uint8_t *dataptr, unsigned int datasize, uint8_t nCable=0);
+        uint8_t SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable=0);
         uint8_t SendRawData(uint16_t bytes_send, uint8_t *dataptr);
         // backward compatibility functions
         inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr){ return RecvData(bytes_rcvd, dataptr); };

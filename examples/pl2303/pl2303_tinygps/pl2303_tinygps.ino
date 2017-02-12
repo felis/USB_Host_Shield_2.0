@@ -130,7 +130,7 @@ void printFloat(double number, int digits)
   number += rounding;
 
   // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
+  uint32_t int_part = (uint32_t)number;
   double remainder = number - (double)int_part;
   Serial.print(int_part);
 
@@ -150,12 +150,12 @@ void printFloat(double number, int digits)
 
 void gpsdump(TinyGPS &gps)
 {
-  long lat, lon;
+  int32_t lat, lon;
   float flat, flon;
-  unsigned long age, date, time, chars;
+  uint32_t age, date, time, chars;
   int year;
   byte month, day, hour, minute, second, hundredths;
-  unsigned short sentences, failed;
+  uint16_t sentences, failed;
 
   gps.get_position(&lat, &lon, &age);
   Serial.print("Lat/Long(10^-5 deg): "); Serial.print(lat); Serial.print(", "); Serial.print(lon);
