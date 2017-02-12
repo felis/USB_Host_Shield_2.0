@@ -57,7 +57,7 @@ void setup()
 
   delay( 200 );
 
-  next_time = millis() + 10000;
+  next_time = (uint32_t)millis() + 10000;
 }
 
 void PrintDescriptors(uint8_t addr)
@@ -96,7 +96,7 @@ void loop()
   Usb.Task();
 
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING ) {
-    if ((int32_t)(millis() - next_time) >= 0L) {
+    if ((int32_t)((uint32_t)millis() - next_time) >= 0L) {
       Usb.ForEachUsbDevice(&PrintAllDescriptors);
       Usb.ForEachUsbDevice(&PrintAllAddresses);
 

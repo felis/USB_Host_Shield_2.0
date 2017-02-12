@@ -43,16 +43,11 @@ void setup()
 
 void loop()
 {
-  //unsigned long t1;
-
   Usb.Task();
-  //t1 = micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
-  //delay(1ms)
-  //doDelay(t1, micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
@@ -69,11 +64,7 @@ void MIDI_poll()
     pid = Midi.pid;
   }
   if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
-#ifdef __ARDUINO_ARC__
-    sprintf(buf, "%016llX: ", millis()); // millis() is 64-bits on the Arduino/Genuino 101
-#else
-    sprintf(buf, "%08lX: ", millis());
-#endif
+    sprintf(buf, "%08lX: ", (uint32_t)millis());
     Serial.print(buf);
     Serial.print(rcvd);
     Serial.print(':');

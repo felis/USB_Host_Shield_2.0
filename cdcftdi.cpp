@@ -261,11 +261,11 @@ uint8_t FTDI::Poll() {
         //if (!bPollEnable)
         //      return 0;
 
-        //if (qNextPollTime <= millis())
+        //if (qNextPollTime <= (uint32_t)millis())
         //{
         //      USB_HOST_SERIAL.println(bAddress, HEX);
 
-        //      qNextPollTime = millis() + 100;
+        //      qNextPollTime = (uint32_t)millis() + 100;
         //}
         return rcode;
 }

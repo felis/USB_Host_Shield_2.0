@@ -54,8 +54,6 @@ USB     Usb;
 USBHub     Hub(&Usb);
 HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
 
-uint32_t next_time;
-
 MouseRptParser                               Prs;
 
 void setup()
@@ -70,8 +68,6 @@ void setup()
         Serial.println("OSC did not start.");
 
     delay( 200 );
-
-    next_time = millis() + 5000;
 
     HidMouse.SetReportParser(0, &Prs);
 }

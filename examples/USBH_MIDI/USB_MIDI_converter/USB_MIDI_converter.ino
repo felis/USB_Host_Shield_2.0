@@ -49,16 +49,13 @@ void setup()
 
 void loop()
 {
-  unsigned long t1;
-
   Usb.Task();
-  t1 = micros();
+  uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
-  //delay(1ms)
-  doDelay(t1, micros(), 1000);
+  doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI

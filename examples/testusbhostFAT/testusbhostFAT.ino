@@ -284,7 +284,7 @@ void setup() {
         analogWrite(LED_BUILTIN, 0);
         delay(500);
 
-        LEDnext_time = millis() + 1;
+        LEDnext_time = (uint32_t)millis() + 1;
 #if EXT_RAM
         printf_P(PSTR("Total EXT RAM banks %i\r\n"), xmem::getTotalBanks());
 #endif
@@ -321,10 +321,10 @@ void setup() {
         TIMSK3 |= (1 << OCIE1A);
         sei();
 
-        HEAPnext_time = millis() + 10000;
+        HEAPnext_time = (uint32_t)millis() + 10000;
 #endif
 #if defined(__AVR__)
-        HEAPnext_time = millis() + 10000;
+        HEAPnext_time = (uint32_t)millis() + 10000;
 #endif
 }
 
@@ -371,8 +371,8 @@ void serialEvent() {
 // ALL teensy versions LACK PWM ON LED
 
 ISR(TIMER3_COMPA_vect) {
-        if((int32_t)(millis() - LEDnext_time) >= 0L) {
-                LEDnext_time = millis() + 30;
+        if((int32_t)((uint32_t)millis() - LEDnext_time) >= 0L) {
+                LEDnext_time = (uint32_t)millis() + 30;
 
                 // set the brightness of LED
                 analogWrite(LED_BUILTIN, brightness);
@@ -407,11 +407,11 @@ void loop() {
 
 #if defined(__AVR__)
         // Print a heap status report about every 10 seconds.
-        if((int32_t)(millis() - HEAPnext_time) >= 0L) {
+        if((int32_t)((uint32_t)millis() - HEAPnext_time) >= 0L) {
                 if(UsbDEBUGlvl > 0x50) {
                         printf_P(PSTR("Available heap: %u Bytes\r\n"), freeHeap());
                 }
-                HEAPnext_time = millis() + 10000;
+                HEAPnext_time = (uint32_t)millis() + 10000;
         }
         TCCR3B = 0;
 #endif
@@ -421,7 +421,7 @@ void loop() {
 #endif
         // Horrid! This sort of thing really belongs in an ISR, not here!
         // We also will be needing to test each hub port, we don't do this yet!
-        if(!change && !usbon && (int32_t)(millis() - usbon_time) >= 0L) {
+        if(!change && !usbon && (int32_t)((uint32_t)millis() - usbon_time) >= 0L) {
                 change = true;
                 usbon = true;
         }
@@ -433,7 +433,7 @@ void loop() {
                         printf_P(PSTR("VBUS on\r\n"));
                 } else {
                         Usb.vbusPower(vbus_off);
-                        usbon_time = millis() + 2000;
+                        usbon_time = (uint32_t)millis() + 2000;
                 }
         }
         Usb.Task();
@@ -700,27 +700,27 @@ out:
                                 if(rc) goto failed;
                                 for(bw = 0; bw < mbxs; bw++) My_Buff_x[bw] = bw & 0xff;
                                 fflush(stdout);
-                                start = millis();
-                                while(start == millis());
+                                start = (uint32_t)millis();
+                                while(start == (uint32_t)millis());
                                 for(ii = 10485760LU / mbxs; ii > 0LU; ii--) {
                                         rc = f_write(&My_File_Object_x, My_Buff_x, mbxs, &bw);
                                         if(rc || !bw) goto failed;
                                 }
                                 rc = f_close(&My_File_Object_x);
                                 if(rc) goto failed;
-                                end = millis();
+                                end = (uint32_t)millis();
                                 wt = (end - start) - 1;
                                 printf_P(PSTR("Time to write 10485760 bytes: %lu ms (%lu sec) \r\n"), wt, (500 + wt) / 1000UL);
                                 rc = f_open(&My_File_Object_x, "0:/10MB.bin", FA_READ);
                                 fflush(stdout);
-                                start = millis();
-                                while(start == millis());
+                                start = (uint32_t)millis();
+                                while(start == (uint32_t)millis());
                                 if(rc) goto failed;
                                 for(;;) {
                                         rc = f_read(&My_File_Object_x, My_Buff_x, mbxs, &bw); /* Read a chunk of file */
                                         if(rc || !bw) break; /* Error or end of file */
                                 }
-                                end = millis();
+                                end = (uint32_t)millis();
                                 if(rc) goto failed;
                                 rc = f_close(&My_File_Object_x);
                                 if(rc) goto failed;

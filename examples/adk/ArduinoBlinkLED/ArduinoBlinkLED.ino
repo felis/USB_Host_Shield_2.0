@@ -68,8 +68,8 @@ void loop() {
       digitalWrite(LED, msg[0] ? HIGH : LOW);
     }
 
-    if ((int32_t)(millis() - timer) >= 1000) { // Send data every 1s
-      timer = millis();
+    if ((int32_t)((uint32_t)millis() - timer) >= 1000) { // Send data every 1s
+      timer = (uint32_t)millis();
       rcode = adk.SndData(sizeof(timer), (uint8_t*)&timer);
       if (rcode && rcode != hrNAK) {
         Serial.print(F("\r\nData send: "));
