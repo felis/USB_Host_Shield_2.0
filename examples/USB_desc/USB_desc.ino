@@ -17,8 +17,6 @@ USB     Usb;
 //USBHub  Hub6(&Usb);
 //USBHub  Hub7(&Usb);
 
-uint32_t next_time;
-
 void PrintAllAddresses(UsbDevice *pdev)
 {
   UsbDeviceAddress adr;
@@ -60,8 +58,6 @@ void setup()
     Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  next_time = millis() + 10000;
 }
 
 byte getdevdescr( byte addr, byte &num_conf );
@@ -105,13 +101,10 @@ void loop()
 
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
-    //if (millis() >= next_time)
-    {
-      Usb.ForEachUsbDevice(&PrintAllDescriptors);
-      Usb.ForEachUsbDevice(&PrintAllAddresses);
+    Usb.ForEachUsbDevice(&PrintAllDescriptors);
+    Usb.ForEachUsbDevice(&PrintAllAddresses);
 
-      while ( 1 );                          //stop
-    }
+    while ( 1 );                          //stop
   }
 }
 

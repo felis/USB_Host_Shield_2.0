@@ -276,14 +276,14 @@ uint8_t PS3USB::Poll() {
         if(PS3Connected || PS3NavigationConnected) {
                 uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
                 pUsb->inTransfer(bAddress, epInfo[ PS3_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
-                if(millis() - timer > 100) { // Loop 100ms before processing data
+                if((int32_t)(millis() - timer) > 100) { // Loop 100ms before processing data
                         readReport();
 #ifdef PRINTREPORT
                         printReport(); // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
 #endif
                 }
         } else if(PS3MoveConnected) { // One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB
-                if(millis() - timer > 4000) { // Send at least every 4th second
+                if((int32_t)(millis() - timer) > 4000) { // Send at least every 4th second
                         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
                         timer = millis();
                 }

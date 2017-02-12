@@ -545,7 +545,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         Notify(wiimotePitch, 0x80);
                                                                          */
                                                                 } else {
-                                                                        if((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
+                                                                        if((int32_t)(micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
 #ifdef DEBUG_USB_HOST
                                                                                 Notify(PSTR("\r\nThe gyro values has been reset"), 0x80);
 #endif
@@ -698,7 +698,7 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((long)(millis() - timer) >= 0L)) {
+                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((int32_t)(millis() - timer) >= 0L)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -723,7 +723,7 @@ void WII::L2CAP_task() {
 }
 
 void WII::Run() {
-        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((long)(millis() - timer) >= 0L))
+        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((int32_t)(millis() - timer) >= 0L))
                 L2CAP_task(); // Call the rest of the disconnection routine after we have waited long enough
 
         switch(l2cap_state) {

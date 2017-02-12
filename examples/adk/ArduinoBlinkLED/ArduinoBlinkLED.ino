@@ -68,7 +68,7 @@ void loop() {
       digitalWrite(LED, msg[0] ? HIGH : LOW);
     }
 
-    if (millis() - timer >= 1000) { // Send data every 1s
+    if ((int32_t)(millis() - timer) >= 1000) { // Send data every 1s
       timer = millis();
       rcode = adk.SndData(sizeof(timer), (uint8_t*)&timer);
       if (rcode && rcode != hrNAK) {

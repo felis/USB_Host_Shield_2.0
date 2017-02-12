@@ -232,7 +232,7 @@ uint8_t USBHub::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if(((long)(millis() - qNextPollTime) >= 0L)) {
+        if(((int32_t)(millis() - qNextPollTime) >= 0L)) {
                 rcode = CheckHubStatus();
                 qNextPollTime = millis() + 100;
         }

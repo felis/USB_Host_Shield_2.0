@@ -94,10 +94,10 @@ void loop()
   if( Pl.isReady()) {
 
     bool newdata = false;
-    unsigned long start = millis();
+    uint32_t start = millis();
 
     // Every 5 seconds we print an update
-    while (millis() - start < 5000) {
+    while ((int32_t)(millis() - start) < 5000) {
       if( feedgps()) {
         newdata = true;
       }

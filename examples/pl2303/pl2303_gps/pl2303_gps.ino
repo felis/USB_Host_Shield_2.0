@@ -71,7 +71,7 @@ void loop() {
 
         if(Pl.isReady()) {
                 /* reading the GPS */
-                if((long)(millis() - read_delay) >= 0L) {
+                if((int32_t)(millis() - read_delay) >= 0L) {
                         read_delay += READ_DELAY;
                         rcode = Pl.RcvData(&rcvd, buf);
                         if(rcode && rcode != hrNAK)

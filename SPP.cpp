@@ -421,7 +421,7 @@ void SPP::ACLData(uint8_t* l2capinbuf) {
 }
 
 void SPP::Run() {
-        if(waitForLastCommand && (millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
+        if(waitForLastCommand && (int32_t)(millis() - timer) > 100) { // We will only wait 100ms and see if the UIH Remote Port Negotiation Command is send, as some deviced don't send it
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nRFCOMM Connection is now established - Automatic\r\n"), 0x80);
 #endif

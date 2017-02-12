@@ -673,7 +673,7 @@ uint8_t BulkOnly::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if((long)(millis() - qNextPollTime) >= 0L) {
+        if((int32_t)(millis() - qNextPollTime) >= 0L) {
                 CheckMedia();
         }
         //rcode = 0;

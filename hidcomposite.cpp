@@ -360,7 +360,7 @@ uint8_t HIDComposite::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if((long)(millis() - qNextPollTime) >= 0L) {
+        if((int32_t)(millis() - qNextPollTime) >= 0L) {
                 qNextPollTime = millis() + pollInterval;
 
                 uint8_t buf[constBuffLen];
