@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI to Legacy Serial MIDI converter
- * Copyright (C) 2012-2016 Yuuichi Akagawa
+ * Copyright (C) 2012-2017 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -35,7 +35,7 @@ USB Usb;
 USBH_MIDI  Midi(&Usb);
 
 void MIDI_poll();
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
 
 void setup()
 {
@@ -49,16 +49,14 @@ void setup()
 
 void loop()
 {
-  unsigned long t1;
-
   Usb.Task();
-  t1 = micros();
+  uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
   //delay(1ms)
-  doDelay(t1, micros(), 1000);
+  doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
@@ -76,9 +74,9 @@ void MIDI_poll()
 }
 
 // Delay time (max 16383 us)
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
 {
-  unsigned long t3;
+  uint32_t t3;
 
   if ( t1 > t2 ) {
     t3 = (0xFFFFFFFF - t1 + t2);

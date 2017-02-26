@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI class driver for USB Host Shield 2.0 Library
- * Copyright (c) 2012-2016 Yuuichi Akagawa
+ * Copyright (c) 2012-2017 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -33,6 +33,7 @@
 #define USB_SUBCLASS_MIDISTREAMING 3
 #define DESC_BUFF_SIZE        256
 #define MIDI_EVENT_PACKET_SIZE 64
+#define MIDI_MAX_SYSEX_SIZE   256
 class USBH_MIDI;
 
 class USBH_MIDI : public USBDeviceConfig
@@ -57,8 +58,8 @@ protected:
         uint8_t recvBuf[MIDI_EVENT_PACKET_SIZE];
         uint8_t readPtr;
 
-        void parseConfigDescr(uint8_t addr, uint8_t conf);
-        unsigned int countSysExDataSize(uint8_t *dataptr);
+        uint8_t parseConfigDescr(uint8_t addr, uint8_t conf);
+        uint16_t countSysExDataSize(uint8_t *dataptr);
 #ifdef DEBUG_USB_HOST
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
 #endif
@@ -67,10 +68,12 @@ public:
         USBH_MIDI(USB *p);
         // Methods for recieving and sending data
         uint8_t RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
-        uint8_t RecvData(uint8_t *outBuf);
+        uint8_t RecvData(uint8_t *outBuf, bool isRaw=false);
+        uint8_t RecvRawData(uint8_t *outBuf);
         uint8_t SendData(uint8_t *dataptr, uint8_t nCable=0);
-        uint8_t lookupMsgSize(uint8_t midiMsg);
-        uint8_t SendSysEx(uint8_t *dataptr, unsigned int datasize, uint8_t nCable=0);
+        uint8_t lookupMsgSize(uint8_t midiMsg, uint8_t cin=0);
+        uint8_t SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable=0);
+        uint8_t extractSysExData(uint8_t *p, uint8_t *buf);
         uint8_t SendRawData(uint16_t bytes_send, uint8_t *dataptr);
         // backward compatibility functions
         inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr){ return RecvData(bytes_rcvd, dataptr); };
@@ -81,27 +84,4 @@ public:
         virtual uint8_t Release();
         virtual uint8_t GetAddress() { return bAddress; };
 };
-
-//
-// System Exclusive packet data management class
-//
-class MidiSysEx {
-private:
-        uint8_t pos;
-        uint8_t buf[MIDI_EVENT_PACKET_SIZE];
-public:
-        typedef enum {
-                nonsysex = 0,
-                ok       = 1,
-                done     = 0xfe,
-                overflow = 0xff
-        } Status;
-
-        MidiSysEx();
-        void clear();
-        MidiSysEx::Status set(uint8_t *p);
-        inline uint8_t *get(){return buf;};
-        inline uint8_t getSize(){return pos;};
-};
-
 #endif //_USBH_MIDI_H_
