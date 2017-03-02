@@ -24,6 +24,7 @@ bool printAngle[length];
 bool oldControllerState[length];
 
 void setup() {
+  void (*onInit)(void); 
   for (uint8_t i = 0; i < length; i++) {
     Wii[i] = new WII(&Btd); // You will have to pair each controller with the dongle before you can define the instances like so, just add PAIR as the second argument
     Wii[i]->attachOnInit(onInit); // onInit() is called upon a new connection - you can call the function whatever you like
