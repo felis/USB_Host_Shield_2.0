@@ -29,7 +29,7 @@ e-mail   :  support@circuitsathome.com
 
 // Support for these boards needs to be manually activated in settings.h or in a makefile
 #if !defined(BOARD_MEGA_ADK) && defined(__AVR_ATmega2560__) && (USE_UHS_MEGA_ADK || defined(ARDUINO_AVR_ADK))
-#define BOARD_MEGA_ADK
+//#define BOARD_MEGA_ADK
 #elif !defined(BOARD_BLACK_WIDDOW) && USE_UHS_BLACK_WIDDOW
 #define BOARD_BLACK_WIDDOW
 #endif
