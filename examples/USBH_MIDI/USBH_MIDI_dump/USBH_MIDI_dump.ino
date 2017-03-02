@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI dump utility
- * Copyright (C) 2013-2016 Yuuichi Akagawa
+ * Copyright (C) 2013-2017 Yuuichi Akagawa
  *
  * for use with USB Host Shield 2.0 from Circuitsathome.com
  * https://github.com/felis/USB_Host_Shield_2.0
@@ -44,10 +44,13 @@ void setup()
 void loop()
 {
   Usb.Task();
+  //uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
+  //delay(1ms)
+  //doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI

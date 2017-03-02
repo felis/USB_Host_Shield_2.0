@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI to Legacy Serial MIDI converter
- * Copyright (C) 2012-2016 Yuuichi Akagawa
+ * Copyright (C) 2012-2017 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -55,6 +55,7 @@ void loop()
   {
     MIDI_poll();
   }
+  //delay(1ms)
   doDelay(t1, (uint32_t)micros(), 1000);
 }
 
