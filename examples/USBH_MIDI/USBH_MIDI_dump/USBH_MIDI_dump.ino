@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI dump utility
- * Copyright (C) 2013-2016 Yuuichi Akagawa
+ * Copyright (C) 2013-2017 Yuuichi Akagawa
  *
  * for use with USB Host Shield 2.0 from Circuitsathome.com
  * https://github.com/felis/USB_Host_Shield_2.0
@@ -24,7 +24,7 @@ USB Usb;
 USBH_MIDI  Midi(&Usb);
 
 void MIDI_poll();
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
 
 boolean bFirst;
 uint16_t pid, vid;
@@ -46,13 +46,13 @@ void loop()
   //unsigned long t1;
 
   Usb.Task();
-  //t1 = micros();
+  //uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();
   }
   //delay(1ms)
-  //doDelay(t1, micros(), 1000);
+  //doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
@@ -69,11 +69,7 @@ void MIDI_poll()
     pid = Midi.pid;
   }
   if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
-#ifdef __ARDUINO_ARC__
-    sprintf(buf, "%016llX: ", millis()); // millis() is 64-bits on the Arduino/Genuino 101
-#else
-    sprintf(buf, "%08lX: ", millis());
-#endif
+    sprintf(buf, "%08lX: ", (uint32_t)millis());
     Serial.print(buf);
     Serial.print(rcvd);
     Serial.print(':');
@@ -86,9 +82,9 @@ void MIDI_poll()
 }
 
 // Delay time (max 16383 us)
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
 {
-  unsigned long t3;
+  uint32_t t3;
 
   if ( t1 > t2 ) {
     t3 = (0xFFFFFFFF - t1 + t2);

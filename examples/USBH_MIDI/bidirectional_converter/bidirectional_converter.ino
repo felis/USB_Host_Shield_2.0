@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * Legacy Serial MIDI and USB Host bidirectional converter
- * Copyright (C) 2013-2016 Yuuichi Akagawa
+ * Copyright (C) 2013-2017 Yuuichi Akagawa
  *
  * for use with Arduino MIDI library
  * https://github.com/FortySevenEffects/arduino_midi_library/
@@ -43,13 +43,12 @@ USB Usb;
 USBH_MIDI Midi(&Usb);
 
 void MIDI_poll();
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime);
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
 
 //If you want handle System Exclusive message, enable this #define otherwise comment out it.
 #define USBH_MIDI_SYSEX_ENABLE
 
 #ifdef USBH_MIDI_SYSEX_ENABLE
-MidiSysEx sysExData;
 //SysEx:
 void handle_sysex( byte* sysexmsg, unsigned sizeofsysex) {
   Midi.SendSysEx(sysexmsg, sizeofsysex);
@@ -70,7 +69,7 @@ void setup()
 
 void loop()
 {
-  unsigned long t1;
+  uint32_t t1;
   uint8_t msg[4];
 
   Usb.Task();
@@ -95,7 +94,7 @@ void loop()
     }
   }
   //delay(1ms)
-  doDelay(t1, micros(), 1000);
+  doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
@@ -119,28 +118,22 @@ void MIDI_poll()
   uint8_t *p = recvBuf;
   while (readPtr < MIDI_EVENT_PACKET_SIZE)  {
     if (*p == 0 && *(p + 1) == 0) break; //data end
-    MidiSysEx::Status rc = sysExData.set(p);
-    switch (rc) {
-      case MidiSysEx::nonsysex :  //No SysEx message send data to Serial MIDI
-        p++;
-        size = Midi.lookupMsgSize(*p);
-        _MIDI_SERIAL_PORT.write(p, size);
-        p += 3;
-        break;
-      case MidiSysEx::done :      //SysEx end. send data to Serial MIDI
-        _MIDI_SERIAL_PORT.write(sysExData.get(), sysExData.getSize());
-        /* FALLTHROUGH */
-      case MidiSysEx::overflow :  //SysEx buffer over. ignore and flush buffer.
-        sysExData.clear();
-        /* FALLTHROUGH */
-      default:
-        p += 4;
-        break;
+
+    uint8_t outbuf[3];
+    uint8_t rc = Midi.extractSysExData(p, outbuf);
+    if ( rc == 0 ) {
+      p++;
+      size = Midi.lookupMsgSize(*p);
+      _MIDI_SERIAL_PORT.write(p, size);
+      p += 3;
+    } else {
+      _MIDI_SERIAL_PORT.write(outbuf, rc);
+      p += 4;
     }
     readPtr += 4;
   }
 #else
-  uint8_t outBuf[ 3 ];
+  uint8_t outBuf[3];
   do {
     if ( (size = Midi.RecvData(outBuf)) > 0 ) {
       //MIDI Output
@@ -151,9 +144,9 @@ void MIDI_poll()
 }
 
 // Delay time (max 16383 us)
-void doDelay(unsigned long t1, unsigned long t2, unsigned long delayTime)
+void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
 {
-  unsigned long t3;
+  uint32_t t3;
 
   if ( t1 > t2 ) {
     t3 = (0xFFFFFFFF - t1 + t2);
