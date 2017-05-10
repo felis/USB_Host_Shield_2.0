@@ -21,8 +21,9 @@
 #include "hiduniversal.h"
 #include "PS4Parser.h"
 
-#define PS4_VID 0x054C // Sony Corporation
-#define PS4_PID 0x05C4 // PS4 Controller
+#define PS4_VID         0x054C // Sony Corporation
+#define PS4_PID         0x05C4 // PS4 Controller
+#define PS4_PID_SLIM    0x09CC // PS4 Slim Controller
 
 /**
  * This class implements support for the PS4 controller via USB.
@@ -44,7 +45,7 @@ public:
          * @return Returns true if it is connected.
          */
         bool connected() {
-                return HIDUniversal::isReady() && HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID;
+                return HIDUniversal::isReady() && HIDUniversal::VID == PS4_VID && (HIDUniversal::PID == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM);
         };
 
         /**
@@ -65,7 +66,7 @@ protected:
          * @param buf       Pointer to the data buffer.
          */
         virtual void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
-                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID)
+                if (HIDUniversal::VID == PS4_VID && (HIDUniversal::PID == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM))
                         PS4Parser::Parse(len, buf);
         };
 
@@ -75,7 +76,7 @@ protected:
          * This is useful for instance if you want to set the LEDs in a specific way.
          */
         virtual uint8_t OnInitSuccessful() {
-                if (HIDUniversal::VID == PS4_VID && HIDUniversal::PID == PS4_PID) {
+                if (HIDUniversal::VID == PS4_VID && (HIDUniversal::PID == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM)) {
                         PS4Parser::Reset();
                         if (pFuncOnInit)
                                 pFuncOnInit(); // Call the user function
@@ -120,7 +121,7 @@ protected:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return (vid == PS4_VID && pid == PS4_PID);
+                return (vid == PS4_VID && (pid == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM));
         };
         /**@}*/
 
