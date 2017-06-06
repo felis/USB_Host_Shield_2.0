@@ -150,12 +150,12 @@ void printFloat(double number, int16_t digits)
 
 void gpsdump(TinyGPS &gps)
 {
-  int32_t lat, lon;
+  long lat, lon;
   float flat, flon;
-  uint32_t age, date, time, chars;
-  int16_t year;
+  unsigned long age, date, time, chars;
+  int year;
   uint8_t month, day, hour, minute, second, hundredths;
-  uint16_t sentences, failed;
+  unsigned short sentences, failed;
 
   gps.get_position(&lat, &lon, &age);
   Serial.print("Lat/Long(10^-5 deg): "); Serial.print(lat); Serial.print(", "); Serial.print(lon);
@@ -175,7 +175,7 @@ void gpsdump(TinyGPS &gps)
 
   feedgps();
 
-  gps.crack_datetime((int*)&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
+  gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
   Serial.print("Date: "); Serial.print(static_cast<int>(month)); Serial.print("/"); Serial.print(static_cast<int>(day)); Serial.print("/"); Serial.print(year);
   Serial.print("  Time: "); Serial.print(static_cast<int>(hour)); Serial.print(":"); Serial.print(static_cast<int>(minute)); Serial.print(":"); Serial.print(static_cast<int>(second)); Serial.print("."); Serial.print(static_cast<int>(hundredths));
   Serial.print("  Fix age: ");  Serial.print(age); Serial.println("ms.");
@@ -189,7 +189,7 @@ void gpsdump(TinyGPS &gps)
 
   feedgps();
 
-  gps.stats(&chars, (unsigned short*)&sentences, (unsigned short*)&failed);
+  gps.stats(&chars, &sentences, &failed);
   Serial.print("Stats: characters: "); Serial.print(chars); Serial.print(" sentences: "); Serial.print(sentences); Serial.print(" failed checksum: "); Serial.println(failed);
 }
 
