@@ -261,11 +261,11 @@ uint8_t FTDI::Poll() {
         //if (!bPollEnable)
         //      return 0;
 
-        //if (qNextPollTime <= millis())
+        //if (qNextPollTime <= (uint32_t)millis())
         //{
         //      USB_HOST_SERIAL.println(bAddress, HEX);
 
-        //      qNextPollTime = millis() + 100;
+        //      qNextPollTime = (uint32_t)millis() + 100;
         //}
         return rcode;
 }
@@ -290,8 +290,8 @@ uint8_t FTDI::SetBaudRate(uint32_t baud) {
                         if(divisor3 != 0) baud_value |= 0x8000; // 0.25
                 if(baud_value == 1) baud_value = 0; /* special case for maximum baud rate */
         } else {
-                static const unsigned char divfrac [8] = {0, 3, 2, 0, 1, 1, 2, 3};
-                static const unsigned char divindex[8] = {0, 0, 0, 1, 0, 1, 1, 1};
+                static const uint8_t divfrac [8] = {0, 3, 2, 0, 1, 1, 2, 3};
+                static const uint8_t divindex[8] = {0, 0, 0, 1, 0, 1, 1, 1};
 
                 baud_value = divisor3 >> 3;
                 baud_value |= divfrac [divisor3 & 0x7] << 14;

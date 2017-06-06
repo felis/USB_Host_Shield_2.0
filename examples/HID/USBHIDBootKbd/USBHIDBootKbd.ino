@@ -100,8 +100,6 @@ USB     Usb;
 //USBHub     Hub(&Usb);
 HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&Usb);
 
-uint32_t next_time;
-
 KbdRptParser Prs;
 
 void setup()
@@ -116,8 +114,6 @@ void setup()
     Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  next_time = millis() + 5000;
 
   HidKeyboard.SetReportParser(0, &Prs);
 }

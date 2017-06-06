@@ -17,8 +17,6 @@ USB     Usb;
 //USBHub  Hub6(&Usb);
 //USBHub  Hub7(&Usb);
 
-uint32_t next_time;
-
 void PrintAllAddresses(UsbDevice *pdev)
 {
   UsbDeviceAddress adr;
@@ -60,18 +58,16 @@ void setup()
     Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  next_time = millis() + 10000;
 }
 
-byte getdevdescr( byte addr, byte &num_conf );
+uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf );
 
 void PrintDescriptors(uint8_t addr)
 {
   uint8_t rcode = 0;
-  byte num_conf = 0;
+  uint8_t num_conf = 0;
 
-  rcode = getdevdescr( (byte)addr, num_conf );
+  rcode = getdevdescr( (uint8_t)addr, num_conf );
   if ( rcode )
   {
     printProgStr(Gen_Error_str);
@@ -105,20 +101,17 @@ void loop()
 
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
-    //if (millis() >= next_time)
-    {
-      Usb.ForEachUsbDevice(&PrintAllDescriptors);
-      Usb.ForEachUsbDevice(&PrintAllAddresses);
+    Usb.ForEachUsbDevice(&PrintAllDescriptors);
+    Usb.ForEachUsbDevice(&PrintAllAddresses);
 
-      while ( 1 );                          //stop
-    }
+    while ( 1 );                          //stop
   }
 }
 
-byte getdevdescr( byte addr, byte &num_conf )
+uint8_t getdevdescr( uint8_t addr, uint8_t &num_conf )
 {
   USB_DEVICE_DESCRIPTOR buf;
-  byte rcode;
+  uint8_t rcode;
   rcode = Usb.getDevDescr( addr, 0, 0x12, ( uint8_t *)&buf );
   if ( rcode ) {
     return ( rcode );
@@ -202,14 +195,14 @@ void printhubdescr(uint8_t *descrptr, uint8_t addr)
   //    PrintHubPortStatus(&Usb, addr, i, 1);
 }
 
-byte getconfdescr( byte addr, byte conf )
+uint8_t getconfdescr( uint8_t addr, uint8_t conf )
 {
   uint8_t buf[ BUFSIZE ];
   uint8_t* buf_ptr = buf;
-  byte rcode;
-  byte descr_length;
-  byte descr_type;
-  unsigned int total_length;
+  uint8_t rcode;
+  uint8_t descr_length;
+  uint8_t descr_type;
+  uint16_t total_length;
   rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
   LOBYTE( total_length ) = buf[ 2 ];
   HIBYTE( total_length ) = buf[ 3 ];
@@ -323,8 +316,8 @@ void printepdescr( uint8_t* descr_ptr )
 /*function to print unknown descriptor */
 void printunkdescr( uint8_t* descr_ptr )
 {
-  byte length = *descr_ptr;
-  byte i;
+  uint8_t length = *descr_ptr;
+  uint8_t i;
   printProgStr(Unk_Header_str);
   printProgStr(Unk_Length_str);
   print_hex( *descr_ptr, 8 );

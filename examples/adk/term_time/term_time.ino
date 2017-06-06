@@ -41,7 +41,7 @@ void loop()
     return;
   }
 
-  ultoa( millis() / 1000, (char *)buf, 10 );
+  ultoa((uint32_t)millis() / 1000, (char *)buf, 10 );
 
   rcode = adk.SndData( strlen((char *)buf), buf );
   if (rcode && rcode != hrNAK) {

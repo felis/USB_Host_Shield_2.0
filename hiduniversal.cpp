@@ -372,8 +372,8 @@ uint8_t HIDUniversal::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if((long)(millis() - qNextPollTime) >= 0L) {
-                qNextPollTime = millis() + pollInterval;
+        if((int32_t)((uint32_t)millis() - qNextPollTime) >= 0L) {
+                qNextPollTime = (uint32_t)millis() + pollInterval;
 
                 uint8_t buf[constBuffLen];
 

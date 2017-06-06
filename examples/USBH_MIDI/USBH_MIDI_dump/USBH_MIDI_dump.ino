@@ -43,8 +43,6 @@ void setup()
 
 void loop()
 {
-  //unsigned long t1;
-
   Usb.Task();
   //uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )

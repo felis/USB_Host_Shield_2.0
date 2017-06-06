@@ -33,8 +33,8 @@ void loop() {
       Serial.println(srw1.srws1Data.tilt);
     } else { // Show strobe light effect
       static uint32_t timer;
-      if (millis() - timer > 12) {
-        timer = millis(); // Reset timer
+      if ((int32_t)((uint32_t)millis() - timer) > 12) {
+        timer = (uint32_t)millis(); // Reset timer
 
         static uint16_t leds = 0;
         //PrintHex<uint16_t > (leds, 0x80); Serial.println();

@@ -69,11 +69,10 @@ void setup()
 
 void loop()
 {
-  uint32_t t1;
   uint8_t msg[4];
 
   Usb.Task();
-  t1 = micros();
+  uint32_t t1 = (uint32_t)micros();
   if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
   {
     MIDI_poll();

@@ -39,8 +39,6 @@ USB              Usb;
 FTDIAsync        FtdiAsync;
 FTDI             Ftdi(&Usb, &FtdiAsync);
 
-uint32_t next_time;
-
 void setup()
 {
   Serial.begin( 115200 );
@@ -53,8 +51,6 @@ void setup()
       Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  next_time = millis() + 5000;
 }
 
 void loop()
