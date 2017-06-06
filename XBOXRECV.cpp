@@ -293,8 +293,8 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {
         if(!bPollEnable)
                 return 0;
-        if(!checkStatusTimer || ((millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
-                checkStatusTimer = millis();
+        if(!checkStatusTimer || ((int32_t)((uint32_t)millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
+                checkStatusTimer = (uint32_t)millis();
                 checkStatus();
         }
 

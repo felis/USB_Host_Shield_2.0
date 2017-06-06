@@ -121,9 +121,9 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
 #endif
                         initExtension1(); // This will disable the Motion Plus extension
                 }
-                timer = millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
+                timer = (uint32_t)millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
         } else
-                timer = millis(); // Don't wait
+                timer = (uint32_t)millis(); // Don't wait
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
         pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
@@ -522,13 +522,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         if(!(l2capinbuf[19] & 0x02)) // Check if fast mode is used
                                                                                 rollGyroSpeed *= 4.545;
 
-                                                                        compPitch = (0.93f * (compPitch + (pitchGyroSpeed * (float)(micros() - timer) / 1000000.0f)))+(0.07f * getWiimotePitch()); // Use a complimentary filter to calculate the angle
-                                                                        compRoll = (0.93f * (compRoll + (rollGyroSpeed * (float)(micros() - timer) / 1000000.0f)))+(0.07f * getWiimoteRoll());
+                                                                        compPitch = (0.93f * (compPitch + (pitchGyroSpeed * (float)((uint32_t)micros() - timer) / 1000000.0f)))+(0.07f * getWiimotePitch()); // Use a complimentary filter to calculate the angle
+                                                                        compRoll = (0.93f * (compRoll + (rollGyroSpeed * (float)((uint32_t)micros() - timer) / 1000000.0f)))+(0.07f * getWiimoteRoll());
 
-                                                                        gyroYaw += (yawGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
-                                                                        gyroRoll += (rollGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
-                                                                        gyroPitch += (pitchGyroSpeed * ((float)(micros() - timer) / 1000000.0f));
-                                                                        timer = micros();
+                                                                        gyroYaw += (yawGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        gyroRoll += (rollGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        gyroPitch += (pitchGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        timer = (uint32_t)micros();
                                                                         /*
                                                                         // Uncomment these lines to tune the gyro scale variabels
                                                                         Notify(PSTR("\r\ngyroYaw: "), 0x80);
@@ -545,7 +545,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         Notify(wiimotePitch, 0x80);
                                                                          */
                                                                 } else {
-                                                                        if((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
+                                                                        if((int32_t)((uint32_t)micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
 #ifdef DEBUG_USB_HOST
                                                                                 Notify(PSTR("\r\nThe gyro values has been reset"), 0x80);
 #endif
@@ -562,7 +562,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                                 gyroPitch = 0;
 
                                                                                 motionValuesReset = true;
-                                                                                timer = micros();
+                                                                                timer = (uint32_t)micros();
                                                                         }
                                                                 }
                                                         } else {
@@ -698,7 +698,7 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((long)(millis() - timer) >= 0L)) {
+                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((int32_t)((uint32_t)millis() - timer) >= 0L)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -723,7 +723,7 @@ void WII::L2CAP_task() {
 }
 
 void WII::Run() {
-        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((long)(millis() - timer) >= 0L))
+        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((int32_t)((uint32_t)millis() - timer) >= 0L))
                 L2CAP_task(); // Call the rest of the disconnection routine after we have waited long enough
 
         switch(l2cap_state) {
@@ -765,7 +765,7 @@ void WII::Run() {
                         if(wii_check_flag(WII_FLAG_MOTION_PLUS_CONNECTED)) {
                                 stateCounter = 0;
                                 l2cap_state = WII_INIT_MOTION_PLUS_STATE;
-                                timer = micros();
+                                timer = (uint32_t)micros();
 
                                 if(unknownExtensionConnected) {
 #ifdef DEBUG_USB_HOST

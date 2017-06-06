@@ -145,8 +145,6 @@ HIDBoot < USB_HID_PROTOCOL_KEYBOARD | USB_HID_PROTOCOL_MOUSE > HidComposite(&Usb
 HIDBoot<USB_HID_PROTOCOL_KEYBOARD>    HidKeyboard(&Usb);
 HIDBoot<USB_HID_PROTOCOL_MOUSE>    HidMouse(&Usb);
 
-//uint32_t next_time;
-
 KbdRptParser KbdPrs;
 MouseRptParser MousePrs;
 
@@ -162,8 +160,6 @@ void setup()
     Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  //next_time = millis() + 5000;
 
   HidComposite.SetReportParser(0, &KbdPrs);
   HidComposite.SetReportParser(1, &MousePrs);

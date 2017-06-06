@@ -384,8 +384,8 @@ uint8_t BTD::Release() {
 uint8_t BTD::Poll() {
         if(!bPollEnable)
                 return 0;
-        if((long)(millis() - qNextPollTime) >= 0L) { // Don't poll if shorter than polling interval
-                qNextPollTime = millis() + pollInterval; // Set new poll time
+        if((int32_t)((uint32_t)millis() - qNextPollTime) >= 0L) { // Don't poll if shorter than polling interval
+                qNextPollTime = (uint32_t)millis() + pollInterval; // Set new poll time
                 HCI_event_task(); // Poll the HCI event pipe
                 HCI_task(); // HCI state machine
                 ACL_event_task(); // Poll the ACL input pipe too

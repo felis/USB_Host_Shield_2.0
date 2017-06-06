@@ -659,7 +659,7 @@ void BulkOnly::CheckMedia() {
         }
         printf("\r\n");
 #endif
-        qNextPollTime = millis() + 2000;
+        qNextPollTime = (uint32_t)millis() + 2000;
 }
 
 /**
@@ -673,7 +673,7 @@ uint8_t BulkOnly::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if((long)(millis() - qNextPollTime) >= 0L) {
+        if((int32_t)((uint32_t)millis() - qNextPollTime) >= 0L) {
                 CheckMedia();
         }
         //rcode = 0;

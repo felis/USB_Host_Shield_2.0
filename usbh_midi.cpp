@@ -116,7 +116,7 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
 
         USBTRACE("\rMIDI Init\r\n");
 
-        //for reconnect 
+        //for reconnect
         for(uint8_t i=epDataInIndex; i<=epDataOutIndex; i++) {
                 epInfo[i].epAddr      = (i==epDataInIndex) ? 0x81 : 0x01;
                 epInfo[i].maxPktSize  = 0;
@@ -253,7 +253,7 @@ uint8_t USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
         uint8_t rcode;
         uint8_t descr_length;
         uint8_t descr_type;
-        unsigned int total_length;
+        uint16_t total_length;
         USB_ENDPOINT_DESCRIPTOR *epDesc;
         bool isMidi = false;
 
@@ -515,7 +515,7 @@ uint8_t USBH_MIDI::lookupMsgSize(uint8_t midiMsg, uint8_t cin)
 /* SysEx data size counter */
 uint16_t USBH_MIDI::countSysExDataSize(uint8_t *dataptr)
 {
-        unsigned int c = 1;
+        uint16_t c = 1;
 
         if( *dataptr != 0xf0 ){ //not SysEx
                 return 0;
