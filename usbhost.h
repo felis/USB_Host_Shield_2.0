@@ -177,12 +177,15 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[1] = data;
         spi4teensy3::send(c, 2);
 #elif defined(SPI_HAS_TRANSACTION)
+#ifdef ESP8266
+        uint32_t c[2]; // The data needs to be aligned to 32-bit
+        c[0] = reg | 0x02;
+        c[1] = data;
+        SPI.writeBytes(c, 2);
+#else
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
-#ifdef ESP8266
-        SPI.writeBytes(c, 2);
-#else
         SPI.transfer(c, 2);
 #endif
 #elif defined(STM32F4)
@@ -222,13 +225,9 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg | 0x02);
         spi4teensy3::send(data_p, nbytes);
         data_p += nbytes;
-#elif defined(SPI_HAS_TRANSACTION)
+#elif defined(SPI_HAS_TRANSACTION) && !defined(ESP8266)
         SPI.transfer(reg | 0x02);
-#ifdef ESP8266
-        SPI.writeBytes(data_p, nbytes);
-#else
         SPI.transfer(data_p, nbytes);
-#endif
         data_p += nbytes;
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg | 0x02);
@@ -239,7 +238,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         HAL_SPI_Transmit(&SPI_Handle, &data, 1, HAL_MAX_DELAY);
         HAL_SPI_Transmit(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
-#elif !defined(SPDR)
+#elif !defined(SPDR) // ESP8266
         SPI.transfer(reg | 0x02);
         while(nbytes) {
                 SPI.transfer(*data_p);
@@ -328,15 +327,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         spi4teensy3::send(reg);
         spi4teensy3::receive(data_p, nbytes);
         data_p += nbytes;
-#elif defined(SPI_HAS_TRANSACTION)
+#elif defined(SPI_HAS_TRANSACTION) && !defined(ESP8266)
         SPI.transfer(reg);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
-#ifdef ESP8266
-        SPI.transferBytes(data_p, data_p, nbytes);
-#else
         SPI.transfer(data_p, nbytes);
         data_p += nbytes;
-#endif
 #elif defined(__ARDUINO_X86__)
         SPI.transfer(reg);
         SPI.transferBuffer(NULL, data_p, nbytes);
@@ -346,7 +341,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
         HAL_SPI_Receive(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
-#elif !defined(SPDR)
+#elif !defined(SPDR) // ESP8266
         SPI.transfer(reg);
         while(nbytes) {
             *data_p++ = SPI.transfer(0);
