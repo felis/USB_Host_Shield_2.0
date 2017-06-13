@@ -176,24 +176,17 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         spi4teensy3::send(c, 2);
-#elif defined(SPI_HAS_TRANSACTION)
-#ifdef ESP8266
-        uint32_t c[2]; // The data needs to be aligned to 32-bit
-        c[0] = reg | 0x02;
-        c[1] = data;
-        SPI.writeBytes((uint8_t*)c, 2);
-#else
+#elif defined(SPI_HAS_TRANSACTION) && !defined(ESP8266)
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
         SPI.transfer(c, 2);
-#endif
 #elif defined(STM32F4)
         uint8_t c[2];
         c[0] = reg | 0x02;
         c[1] = data;
         HAL_SPI_Transmit(&SPI_Handle, c, 2, HAL_MAX_DELAY);
-#elif !defined(SPDR)
+#elif !defined(SPDR) // ESP8266
         SPI.transfer(reg | 0x02);
         SPI.transfer(data);
 #else
