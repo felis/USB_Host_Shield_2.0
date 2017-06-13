@@ -181,7 +181,7 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         uint32_t c[2]; // The data needs to be aligned to 32-bit
         c[0] = reg | 0x02;
         c[1] = data;
-        SPI.writeBytes(c, 2);
+        SPI.writeBytes((uint8_t*)c, 2);
 #else
         uint8_t c[2];
         c[0] = reg | 0x02;
