@@ -124,7 +124,7 @@ Currently the following boards are supported by the library:
 * STM32F4
     * Currently the [NUCLEO-F446RE](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF262063) is supported featuring the STM32F446. Take a look at the following example code: <https://github.com/Lauszus/Nucleo_F446RE_USBHost>.
 * ESP8266 is supported using the [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
-    * Note it uses pin 15 and 0 for SS and INT respectively
+    * Note it uses pin 15 and 5 for SS and INT respectively
     * Also please be aware that:
       * GPIO16 is **NOT** usable, as it will be used for some other purposes. For example, reset the SoC itself from sleep mode.
       * GPIO6 to 11 is also **NOT** usable, as they are used to connect SPI flash chip and it is used for storing the executable binary content.
