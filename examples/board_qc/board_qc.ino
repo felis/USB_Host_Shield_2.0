@@ -88,6 +88,9 @@ void setup() {
                 uint8_t tmpbyte;
                 E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
                 for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         Usb.gpioWr(sample_gpio);
                         tmpbyte = Usb.gpioRd();
                         /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
@@ -115,6 +118,9 @@ void setup() {
                 /* Restart oscillator */
                 E_Notify(PSTR("\r\nResetting oscillator\r\n"), 0x80);
                 for(uint16_t i = 0; i < 100; i++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         E_Notify(PSTR("\rReset number "), 0x80);
                         Serial.print(i, DEC);
                         Usb.regWr(rUSBCTL, bmCHIPRES); //reset
