@@ -104,7 +104,11 @@ void loop()
     Usb.ForEachUsbDevice(&PrintAllDescriptors);
     Usb.ForEachUsbDevice(&PrintAllAddresses);
 
-    while ( 1 );                          //stop
+    while ( 1 ) { // stop
+#ifdef ESP8266
+        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+    }
   }
 }
 

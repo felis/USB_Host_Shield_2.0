@@ -1326,6 +1326,47 @@ MAKE_PIN(P13, 13); //
 
 #undef MAKE_PIN
 
+#elif defined(ESP8266)
+
+#define pgm_read_pointer(p) pgm_read_ptr(p)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+// Pinout for ESP-12 module
+// 0 .. 16 - Digital pins
+// GPIO 6 to 11 and 16 are not usable in this library.
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1); // TX0
+MAKE_PIN(P2, 2); // TX1
+MAKE_PIN(P3, 3); // RX0
+MAKE_PIN(P4, 4); // SDA
+MAKE_PIN(P5, 5); // SCL
+MAKE_PIN(P12, 12); // MISO
+MAKE_PIN(P13, 13); // MOSI
+MAKE_PIN(P14, 14); // SCK
+MAKE_PIN(P15, 15); // SS
+
+#undef MAKE_PIN
+
 #else
 #error "Please define board in avrpins.h"
 

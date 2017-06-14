@@ -60,6 +60,9 @@ void setup() {
                 uint8_t sample_rd = 0;
                 uint8_t gpinpol_copy = Usb.regRd(rGPINPOL);
                 for(uint8_t i = 0; i < 16; i++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         for(uint16_t j = 0; j < 65535; j++) {
                                 Usb.regWr(rGPINPOL, sample_wr);
                                 sample_rd = Usb.regRd(rGPINPOL);
@@ -85,6 +88,9 @@ void setup() {
                 uint8_t tmpbyte;
                 E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
                 for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         Usb.gpioWr(sample_gpio);
                         tmpbyte = Usb.gpioRd();
                         /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
@@ -112,6 +118,9 @@ void setup() {
                 /* Restart oscillator */
                 E_Notify(PSTR("\r\nResetting oscillator\r\n"), 0x80);
                 for(uint16_t i = 0; i < 100; i++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         E_Notify(PSTR("\rReset number "), 0x80);
                         Serial.print(i, DEC);
                         Usb.regWr(rUSBCTL, bmCHIPRES); //reset
@@ -206,7 +215,11 @@ void loop() {
                                         print_hex(buf.bNumConfigurations, 8);
                                         /**/
                                         E_Notify(PSTR("\r\n\nAll tests passed. Press RESET to restart test"), 0x80);
-                                        while(1);
+                                        while(1) {
+#ifdef ESP8266
+                                                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+                                        }
                                 }
                                 break;
                         case( USB_STATE_ERROR):
@@ -228,6 +241,9 @@ void halt55() {
 
         while(1) {
                 Usb.regWr(0x55, 0x55);
+#ifdef ESP8266
+                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
         }
 }
 
@@ -253,7 +269,11 @@ void print_hex(int v, int num_places) {
 /* prints "Press any key" and returns when key is pressed */
 void press_any_key() {
         E_Notify(PSTR("\r\nPress any key to continue..."), 0x80);
-        while(Serial.available() <= 0); //wait for input
+        while(Serial.available() <= 0) { // wait for input
+#ifdef ESP8266
+                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+        }
         Serial.read(); //empty input buffer
         return;
 }

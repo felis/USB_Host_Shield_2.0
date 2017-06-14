@@ -67,7 +67,8 @@ void MIDI_poll()
     pid = Midi.pid;
   }
   if (Midi.RecvData( &rcvd,  bufMidi) == 0 ) {
-    sprintf(buf, "%08lX: ", (uint32_t)millis());
+    uint32_t time = (uint32_t)millis();
+    sprintf(buf, "%04X%04X: ", (uint16_t)(time >> 16), (uint16_t)(time & 0xFFFF)); // Split variable to prevent warnings on the ESP8266 platform
     Serial.print(buf);
     Serial.print(rcvd);
     Serial.print(':');

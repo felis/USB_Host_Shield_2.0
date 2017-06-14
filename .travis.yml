@@ -25,7 +25,7 @@ env:
     - PLATFORMIO_CI_SRC=examples/Bluetooth/SPPMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/Wii
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiBalanceBoard
-    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera
+    - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera PLATFORMIO_BUILD_FLAGS="-DWIICAMERA"
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiMulti
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiUProController
     - PLATFORMIO_CI_SRC=examples/board_qc
@@ -63,7 +63,7 @@ env:
 
 install:
     - pip install -U platformio
-    - export PLATFORMIO_BUILD_FLAGS="-DDEBUG_USB_HOST -DWIICAMERA -Wall -Werror"
+    - export PLATFORMIO_BUILD_FLAGS="$PLATFORMIO_BUILD_FLAGS -DDEBUG_USB_HOST -Wall -Werror"
 
     #
     # Libraries from PlatformIO Library Registry:
@@ -74,4 +74,5 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --board=uno --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --lib="."
+    - platformio ci --lib="." --board=uno --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc
+    - platformio ci --lib="." --board=esp12e --board=nodemcu --project-option="build_flags=-Wno-unused-function" # Workaround https://github.com/esp8266/Arduino/pull/2881
