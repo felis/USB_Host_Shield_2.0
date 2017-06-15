@@ -36,7 +36,8 @@
 
 // PID and VID of the different devices
 #define XBOX_VID                                0x045E // Microsoft Corporation
-#define XBOX_ONE_PID                            0x02D1 // Microsoft One Wired controller
+#define XBOX_ONE_PID1                           0x02D1 // Microsoft One Wired controller
+#define XBOX_ONE_PID2                           0x02DD // Microsoft One Wired controller
 
 #define XBOX_REPORT_BUFFER_SIZE 14 // Size of the input report buffer
 
@@ -94,7 +95,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return (vid == XBOX_VID && pid == XBOX_ONE_PID);
+                return (vid == XBOX_VID && (pid == XBOX_ONE_PID1 || pid == XBOX_ONE_PID2));
         };
         /**@}*/
 

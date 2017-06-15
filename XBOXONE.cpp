@@ -179,7 +179,10 @@ uint8_t XBOXONE::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         // initialize the controller for input
         writeBuf[0] = 0x05;
         writeBuf[1] = 0x20;
-        rcode = XboxCommand(writeBuf, 2);
+        writeBuf[2] = 0x00;
+        writeBuf[3] = 0x01;
+        writeBuf[4] = 0x00;
+        rcode = XboxCommand(writeBuf, 5);
         if (rcode)
                 goto Fail;
 
