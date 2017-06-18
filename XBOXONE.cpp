@@ -266,6 +266,11 @@ void XBOXONE::readReport() {
                         ButtonState |= pgm_read_word(&XBOX_BUTTONS[XBOX]);
                 else
                         ButtonState &= ~pgm_read_word(&XBOX_BUTTONS[XBOX]);
+
+                if(ButtonState != OldButtonState) {
+                    ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
+                    OldButtonState = ButtonState;
+                }
         }
         if(readBuf[0] != 0x20) { // Check if it's the correct report, otherwise return - the controller also sends different status reports
 #ifdef EXTRADEBUG
