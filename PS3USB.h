@@ -19,7 +19,7 @@
 #define _ps3usb_h_
 
 #include "Usb.h"
-#include "hid.h"
+#include "usbhid.h"
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
@@ -177,7 +177,7 @@ public:
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(AngleEnum a);
+        float getAngle(AngleEnum a);
         /**
          * Get the ::StatusEnum from the controller.
          * @param  c The ::StatusEnum you want to read.

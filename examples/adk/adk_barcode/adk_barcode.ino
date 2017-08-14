@@ -4,16 +4,17 @@
 #include <adk.h>
 #include <hidboot.h>
 #include <usbhub.h>
+
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 USB Usb;
 USBHub Hub1(&Usb);
 USBHub Hub2(&Usb);
-HIDBoot<HID_PROTOCOL_KEYBOARD> Keyboard(&Usb);
+HIDBoot<USB_HID_PROTOCOL_KEYBOARD> HidKeyboard(&Usb);
 
 ADK adk(&Usb,"Circuits@Home, ltd.",
             "USB Host Shield",
@@ -54,9 +55,17 @@ uint8_t keylcl;
 
   if( keylcl == 0x13 ) {
     rcode = adk.SndData( strlen( new_line ), (uint8_t *)new_line );
+    if (rcode && rcode != hrNAK) {
+      Serial.print(F("\r\nData send: "));
+      Serial.print(rcode, HEX);
+    }
   }
   else {
     rcode = adk.SndData( 1, &keylcl );
+    if (rcode && rcode != hrNAK) {
+      Serial.print(F("\r\nData send: "));
+      Serial.print(rcode, HEX);
+    }
   }
 
   Serial.print((char) keylcl );
@@ -79,7 +88,7 @@ void setup()
     while(1); //halt
   }//if (Usb.Init() == -1...
 
-  Keyboard.SetReportParser(0, (HIDReportParser*)&Prs);
+  HidKeyboard.SetReportParser(0, &Prs);
 
   delay( 200 );
 }

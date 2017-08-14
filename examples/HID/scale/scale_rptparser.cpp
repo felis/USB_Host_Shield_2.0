@@ -1,4 +1,7 @@
 /* Parser for standard HID scale (usage page 0x8d) data input report (ID 3) */ 
+#ifdef ARDUINO_SAM_DUE
+#include <avr/dtostrf.h>
+#endif
 #include "scale_rptparser.h"
 
 const char* UNITS[13] = {
@@ -21,7 +24,7 @@ ScaleReportParser::ScaleReportParser(ScaleEvents *evt) :
 	scaleEvents(evt)
 {}
 
-void ScaleReportParser::Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
+void ScaleReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf)
 {
 	bool match = true;
 

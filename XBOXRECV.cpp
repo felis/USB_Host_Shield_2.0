@@ -29,7 +29,8 @@ bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
+                epInfo[i].bmSndToggle = 0;
+                epInfo[i].bmRcvToggle = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
@@ -292,8 +293,8 @@ uint8_t XBOXRECV::Release() {
 uint8_t XBOXRECV::Poll() {
         if(!bPollEnable)
                 return 0;
-        if(!checkStatusTimer || ((millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
-                checkStatusTimer = millis();
+        if(!checkStatusTimer || ((int32_t)((uint32_t)millis() - checkStatusTimer) > 3000)) { // Run checkStatus every 3 seconds
+                checkStatusTimer = (uint32_t)millis();
                 checkStatus();
         }
 
@@ -571,13 +572,13 @@ void XBOXRECV::onInit(uint8_t controller) {
         else {
                 LEDEnum led;
                 if(controller == 0)
-                        led = LED1;
+                        led = static_cast<LEDEnum>(LED1);
                 else if(controller == 1)
-                        led = LED2;
+                        led = static_cast<LEDEnum>(LED2);
                 else if(controller == 2)
-                        led = LED3;
+                        led = static_cast<LEDEnum>(LED3);
                 else
-                        led = LED4;
+                        led = static_cast<LEDEnum>(LED4);
                 setLedOn(led, controller);
         }
 }

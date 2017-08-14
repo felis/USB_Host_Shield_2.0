@@ -120,18 +120,6 @@ struct PS4Output {
         bool reportChanged; // The data is send when data is received from the controller
 } __attribute__((packed));
 
-enum DPADEnum {
-        DPAD_UP = 0x0,
-        DPAD_UP_RIGHT = 0x1,
-        DPAD_RIGHT = 0x2,
-        DPAD_RIGHT_DOWN = 0x3,
-        DPAD_DOWN = 0x4,
-        DPAD_DOWN_LEFT = 0x5,
-        DPAD_LEFT = 0x6,
-        DPAD_LEFT_UP = 0x7,
-        DPAD_OFF = 0x8,
-};
-
 /** This class parses all the data sent by the PS4 controller */
 class PS4Parser {
 public:
@@ -225,11 +213,11 @@ public:
          * @param  a Either ::Pitch or ::Roll.
          * @return   Return the angle in the range of 0-360.
          */
-        double getAngle(AngleEnum a) {
+        float getAngle(AngleEnum a) {
                 if (a == Pitch)
-                        return (atan2(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(ps4Data.accY, ps4Data.accZ) + PI) * RAD_TO_DEG;
                 else
-                        return (atan2(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(ps4Data.accX, ps4Data.accZ) + PI) * RAD_TO_DEG;
         };
 
         /**
@@ -366,29 +354,7 @@ protected:
         void Parse(uint8_t len, uint8_t *buf);
 
         /** Used to reset the different buffers to their default values */
-        void Reset() {
-                uint8_t i;
-                for (i = 0; i < sizeof(ps4Data.hatValue); i++)
-                        ps4Data.hatValue[i] = 127; // Center value
-                ps4Data.btn.val = 0;
-                oldButtonState.val = 0;
-                for (i = 0; i < sizeof(ps4Data.trigger); i++)
-                        ps4Data.trigger[i] = 0;
-                for (i = 0; i < sizeof(ps4Data.xy)/sizeof(ps4Data.xy[0]); i++) {
-                        for (uint8_t j = 0; j < sizeof(ps4Data.xy[0].finger)/sizeof(ps4Data.xy[0].finger[0]); j++)
-                                ps4Data.xy[i].finger[j].touching = 1; // The bit is cleared if the finger is touching the touchpad
-                }
-
-                ps4Data.btn.dpad = DPAD_OFF;
-                oldButtonState.dpad = DPAD_OFF;
-                buttonClickState.dpad = 0;
-                oldDpad = 0;
-
-                ps4Output.bigRumble = ps4Output.smallRumble = 0;
-                ps4Output.r = ps4Output.g = ps4Output.b = 0;
-                ps4Output.flashOn = ps4Output.flashOff = 0;
-                ps4Output.reportChanged = false;
-        };
+        void Reset();
 
         /**
          * Send the output to the PS4 controller. This is implemented in PS4BT.h and PS4USB.h.

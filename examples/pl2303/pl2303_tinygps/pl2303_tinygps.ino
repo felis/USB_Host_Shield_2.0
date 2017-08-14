@@ -11,11 +11,12 @@
 #include <cdcprolific.h>
 
 #include <TinyGPS.h>
-// Satisfy IDE, which only needs to see the include statment in the ino.
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 /* This sample code demonstrates the normal use of a TinyGPS object.
     Modified to be used with USB Host Shield Library r2.0
@@ -63,7 +64,7 @@ TinyGPS gps;
 
 void gpsdump(TinyGPS &gps);
 bool feedgps();
-void printFloat(double f, int digits = 2);
+void printFloat(double f, int16_t digits = 2);
 
 void setup()
 {
@@ -93,10 +94,10 @@ void loop()
   if( Pl.isReady()) {
 
     bool newdata = false;
-    unsigned long start = millis();
+    uint32_t start = (uint32_t)millis();
 
     // Every 5 seconds we print an update
-    while (millis() - start < 5000) {
+    while ((int32_t)((uint32_t)millis() - start) < 5000) {
       if( feedgps()) {
         newdata = true;
       }
@@ -112,7 +113,7 @@ void loop()
   }//if( Usb.getUsbTaskState() == USB_STATE_RUNNING...
 }
 
-void printFloat(double number, int digits)
+void printFloat(double number, int16_t digits)
 {
   // Handle negative numbers
   if (number < 0.0)
@@ -129,7 +130,7 @@ void printFloat(double number, int digits)
   number += rounding;
 
   // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
+  uint32_t int_part = (uint32_t)number;
   double remainder = number - (double)int_part;
   Serial.print(int_part);
 
@@ -153,7 +154,7 @@ void gpsdump(TinyGPS &gps)
   float flat, flon;
   unsigned long age, date, time, chars;
   int year;
-  byte month, day, hour, minute, second, hundredths;
+  uint8_t month, day, hour, minute, second, hundredths;
   unsigned short sentences, failed;
 
   gps.get_position(&lat, &lon, &age);

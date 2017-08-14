@@ -92,7 +92,7 @@ uint8_t USB::SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_l
                 return USB_ERROR_EP_NOT_FOUND_IN_TBL;
 
         *nak_limit = (0x0001UL << (((*ppep)->bmNakPower > USB_NAK_MAX_POWER) ? USB_NAK_MAX_POWER : (*ppep)->bmNakPower));
-        *nak_limit--;
+        (*nak_limit)--;
         /*
           USBTRACE2("\r\nAddress: ", addr);
           USBTRACE2(" EP: ", ep);
@@ -203,7 +203,7 @@ uint8_t USB::ctrlReq(uint8_t addr, uint8_t ep, uint8_t bmReqType, uint8_t bReque
 
 /* rcode 0 if no errors. rcode 01-0f is relayed from dispatchPkt(). Rcode f0 means RCVDAVIRQ error,
             fe USB xfer timeout */
-uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data) {
+uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
         EpInfo *pep = NULL;
         uint16_t nak_limit = 0;
 
@@ -215,10 +215,10 @@ uint8_t USB::inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* 
                 USBTRACE3("(USB::InTransfer) ep requested ", ep, 0x81);
                 return rcode;
         }
-        return InTransfer(pep, nak_limit, nbytesptr, data);
+        return InTransfer(pep, nak_limit, nbytesptr, data, bInterval);
 }
 
-uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data) {
+uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval /*= 0*/) {
         uint8_t rcode = 0;
         uint8_t pktsize;
 
@@ -234,7 +234,7 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
                 rcode = dispatchPkt(tokIN, pep->epAddr, nak_limit); //IN packet to EP-'endpoint'. Function takes care of NAKS.
                 if(rcode == hrTOGERR) {
                         // yes, we flip it wrong here so that next time it is actually correct!
-                        pep->bmRcvToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 0 : 1;
+                        pep->bmRcvToggle = (regRd(rHRSL) & bmRCVTOGRD) ? 0 : 1;
                         regWr(rHCTL, (pep->bmRcvToggle) ? bmRCVTOG1 : bmRCVTOG0); //set toggle value
                         continue;
                 }
@@ -280,7 +280,8 @@ uint8_t USB::InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, ui
                         //printf("\r\n");
                         rcode = 0;
                         break;
-                } // if
+                } else if(bInterval > 0)
+                        delay(bInterval); // Delay according to polling interval
         } //while( 1 )
         return ( rcode);
 }
@@ -312,7 +313,7 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
         if(maxpktsize < 1 || maxpktsize > 64)
                 return USB_ERROR_INVALID_MAX_PKT_SIZE;
 
-        unsigned long timeout = millis() + USB_XFER_TIMEOUT;
+        uint32_t timeout = (uint32_t)millis() + USB_XFER_TIMEOUT;
 
         regWr(rHCTL, (pep->bmSndToggle) ? bmSNDTOG1 : bmSNDTOG0); //set toggle value
 
@@ -327,7 +328,7 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                 regWr(rHIRQ, bmHXFRDNIRQ); //clear IRQ
                 rcode = (regRd(rHRSL) & 0x0f);
 
-                while(rcode && ((long)(millis() - timeout) < 0L)) {
+                while(rcode && ((int32_t)((uint32_t)millis() - timeout) < 0L)) {
                         switch(rcode) {
                                 case hrNAK:
                                         nak_count++;
@@ -374,17 +375,17 @@ breakout:
 
 /* return codes 0x00-0x0f are HRSLT( 0x00 being success ), 0xff means timeout                       */
 uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
-        unsigned long timeout = millis() + USB_XFER_TIMEOUT;
+        uint32_t timeout = (uint32_t)millis() + USB_XFER_TIMEOUT;
         uint8_t tmpdata;
         uint8_t rcode = hrSUCCESS;
         uint8_t retry_count = 0;
         uint16_t nak_count = 0;
 
-        while((long)(millis() - timeout) < 0L) {
+        while((int32_t)((uint32_t)millis() - timeout) < 0L) {
                 regWr(rHXFR, (token | ep)); //launch the transfer
                 rcode = USB_ERROR_TRANSFER_TIMEOUT;
 
-                while((long)(millis() - timeout) < 0L) //wait for transfer completion
+                while((int32_t)((uint32_t)millis() - timeout) < 0L) //wait for transfer completion
                 {
                         tmpdata = regRd(rHIRQ);
 
@@ -425,7 +426,7 @@ void USB::Task(void) //USB state machine
 {
         uint8_t rcode;
         uint8_t tmpdata;
-        static unsigned long delay = 0;
+        static uint32_t delay = 0;
         //USB_DEVICE_DESCRIPTOR buf;
         bool lowspeed = false;
 
@@ -450,7 +451,7 @@ void USB::Task(void) //USB state machine
                         //intentional fallthrough
                 case FSHOST: //attached
                         if((usb_task_state & USB_STATE_MASK) == USB_STATE_DETACHED) {
-                                delay = millis() + USB_SETTLE_DELAY;
+                                delay = (uint32_t)millis() + USB_SETTLE_DELAY;
                                 usb_task_state = USB_ATTACHED_SUBSTATE_SETTLE;
                         }
                         break;
@@ -475,7 +476,7 @@ void USB::Task(void) //USB state machine
                 case USB_DETACHED_SUBSTATE_ILLEGAL: //just sit here
                         break;
                 case USB_ATTACHED_SUBSTATE_SETTLE: //settle time for just attached device
-                        if((long)(millis() - delay) >= 0L)
+                        if((int32_t)((uint32_t)millis() - delay) >= 0L)
                                 usb_task_state = USB_ATTACHED_SUBSTATE_RESET_DEVICE;
                         else break; // don't fall through
                 case USB_ATTACHED_SUBSTATE_RESET_DEVICE:
@@ -487,22 +488,22 @@ void USB::Task(void) //USB state machine
                                 tmpdata = regRd(rMODE) | bmSOFKAENAB; //start SOF generation
                                 regWr(rMODE, tmpdata);
                                 usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_SOF;
-                                //delay = millis() + 20; //20ms wait after reset per USB spec
+                                //delay = (uint32_t)millis() + 20; //20ms wait after reset per USB spec
                         }
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_SOF: //todo: change check order
                         if(regRd(rHIRQ) & bmFRAMEIRQ) {
                                 //when first SOF received _and_ 20ms has passed we can continue
                                 /*
-                                if (delay < millis()) //20ms passed
+                                if (delay < (uint32_t)millis()) //20ms passed
                                         usb_task_state = USB_STATE_CONFIGURING;
                                  */
                                 usb_task_state = USB_ATTACHED_SUBSTATE_WAIT_RESET;
-                                delay = millis() + 20;
+                                delay = (uint32_t)millis() + 20;
                         }
                         break;
                 case USB_ATTACHED_SUBSTATE_WAIT_RESET:
-                        if((long)(millis() - delay) >= 0L) usb_task_state = USB_STATE_CONFIGURING;
+                        if((int32_t)((uint32_t)millis() - delay) >= 0L) usb_task_state = USB_STATE_CONFIGURING;
                         else break; // don't fall through
                 case USB_STATE_CONFIGURING:
 
@@ -662,7 +663,8 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
 
         epInfo.epAddr = 0;
         epInfo.maxPktSize = 8;
-        epInfo.epAttribs = 0;
+        epInfo.bmSndToggle = 0;
+        epInfo.bmRcvToggle = 0;
         epInfo.bmNakPower = USB_NAK_MAX_POWER;
 
         //delay(2000);

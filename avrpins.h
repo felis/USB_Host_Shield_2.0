@@ -763,14 +763,12 @@ public:
 
 #endif // Arduino pin definitions
 
-#endif // __AVR__
-
-#if defined(__arm__)
+#elif defined(__arm__)
 
 // pointers are 32 bits on ARM
 #define pgm_read_pointer(p) pgm_read_dword(p)
 
-#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__))
 
 #include "core_pins.h"
 #include "avr_emulation.h"
@@ -834,6 +832,102 @@ MAKE_PIN(P30, CORE_PIN30_PORTREG, CORE_PIN30_BIT, CORE_PIN30_CONFIG);
 MAKE_PIN(P31, CORE_PIN31_PORTREG, CORE_PIN31_BIT, CORE_PIN31_CONFIG);
 MAKE_PIN(P32, CORE_PIN32_PORTREG, CORE_PIN32_BIT, CORE_PIN32_CONFIG);
 MAKE_PIN(P33, CORE_PIN33_PORTREG, CORE_PIN33_BIT, CORE_PIN33_CONFIG);
+#if defined(__MK64FX512__) || defined(__MK66FX1M0__)
+MAKE_PIN(P34, CORE_PIN34_PORTREG, CORE_PIN34_BIT, CORE_PIN34_CONFIG);
+MAKE_PIN(P35, CORE_PIN35_PORTREG, CORE_PIN35_BIT, CORE_PIN35_CONFIG);
+MAKE_PIN(P36, CORE_PIN36_PORTREG, CORE_PIN36_BIT, CORE_PIN36_CONFIG);
+MAKE_PIN(P37, CORE_PIN37_PORTREG, CORE_PIN37_BIT, CORE_PIN37_CONFIG);
+MAKE_PIN(P38, CORE_PIN38_PORTREG, CORE_PIN38_BIT, CORE_PIN38_CONFIG);
+MAKE_PIN(P39, CORE_PIN39_PORTREG, CORE_PIN39_BIT, CORE_PIN39_CONFIG);
+MAKE_PIN(P40, CORE_PIN40_PORTREG, CORE_PIN40_BIT, CORE_PIN40_CONFIG);
+MAKE_PIN(P41, CORE_PIN41_PORTREG, CORE_PIN41_BIT, CORE_PIN41_CONFIG);
+MAKE_PIN(P42, CORE_PIN42_PORTREG, CORE_PIN42_BIT, CORE_PIN42_CONFIG);
+MAKE_PIN(P43, CORE_PIN43_PORTREG, CORE_PIN43_BIT, CORE_PIN43_CONFIG);
+MAKE_PIN(P44, CORE_PIN44_PORTREG, CORE_PIN44_BIT, CORE_PIN44_CONFIG);
+MAKE_PIN(P45, CORE_PIN45_PORTREG, CORE_PIN45_BIT, CORE_PIN45_CONFIG);
+MAKE_PIN(P46, CORE_PIN46_PORTREG, CORE_PIN46_BIT, CORE_PIN46_CONFIG);
+MAKE_PIN(P47, CORE_PIN47_PORTREG, CORE_PIN47_BIT, CORE_PIN47_CONFIG);
+MAKE_PIN(P48, CORE_PIN48_PORTREG, CORE_PIN48_BIT, CORE_PIN48_CONFIG);
+MAKE_PIN(P49, CORE_PIN49_PORTREG, CORE_PIN49_BIT, CORE_PIN49_CONFIG);
+MAKE_PIN(P50, CORE_PIN50_PORTREG, CORE_PIN50_BIT, CORE_PIN50_CONFIG);
+MAKE_PIN(P51, CORE_PIN51_PORTREG, CORE_PIN51_BIT, CORE_PIN51_CONFIG);
+MAKE_PIN(P52, CORE_PIN52_PORTREG, CORE_PIN52_BIT, CORE_PIN52_CONFIG);
+MAKE_PIN(P53, CORE_PIN53_PORTREG, CORE_PIN53_BIT, CORE_PIN53_CONFIG);
+MAKE_PIN(P54, CORE_PIN54_PORTREG, CORE_PIN54_BIT, CORE_PIN54_CONFIG);
+MAKE_PIN(P55, CORE_PIN55_PORTREG, CORE_PIN55_BIT, CORE_PIN55_CONFIG);
+MAKE_PIN(P56, CORE_PIN56_PORTREG, CORE_PIN56_BIT, CORE_PIN56_CONFIG);
+MAKE_PIN(P57, CORE_PIN57_PORTREG, CORE_PIN57_BIT, CORE_PIN57_CONFIG);
+MAKE_PIN(P58, CORE_PIN58_PORTREG, CORE_PIN58_BIT, CORE_PIN58_CONFIG);
+MAKE_PIN(P59, CORE_PIN59_PORTREG, CORE_PIN59_BIT, CORE_PIN59_CONFIG);
+MAKE_PIN(P60, CORE_PIN60_PORTREG, CORE_PIN60_BIT, CORE_PIN60_CONFIG);
+MAKE_PIN(P61, CORE_PIN61_PORTREG, CORE_PIN61_BIT, CORE_PIN61_CONFIG);
+MAKE_PIN(P62, CORE_PIN62_PORTREG, CORE_PIN62_BIT, CORE_PIN62_CONFIG);
+MAKE_PIN(P63, CORE_PIN63_PORTREG, CORE_PIN63_BIT, CORE_PIN63_CONFIG);
+#endif
+
+#undef MAKE_PIN
+
+#elif defined(CORE_TEENSY) && (defined(__MKL26Z64__))
+
+// we could get lower level by making these macros work properly.
+// for now just use the semi optimised version, it costs a lookup in the pin pgm table per op
+// but for now it will do.
+//#define GPIO_BITBAND_ADDR(reg, bit) (((volatile uint8_t *)&(reg) + ((bit) >> 3)))
+//#define GPIO_BITBAND_MASK(reg, bit) (1<<((bit) & 7))
+//#define GPIO_BITBAND_PTR(reg, bit) ((volatile uint8_t *)GPIO_BITBAND_ADDR((reg), (bit)))
+
+#include "core_pins.h"
+#include "avr_emulation.h"
+
+#define MAKE_PIN(className, baseReg, pinNum, configReg) \
+class className { \
+public: \
+  static void Set() { \
+    *portSetRegister(pinNum) = digitalPinToBitMask(pinNum); \
+  } \
+  static void Clear() { \
+    *portClearRegister(pinNum) = digitalPinToBitMask(pinNum); \
+  } \
+  static void SetDirRead() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *portModeRegister(pinNum) &= ~digitalPinToBitMask(pinNum); \
+  } \
+  static void SetDirWrite() { \
+    configReg = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1); \
+    *portModeRegister(pinNum) |= digitalPinToBitMask(pinNum); \
+  } \
+  static uint8_t IsSet() { \
+    return (*portInputRegister(pinNum) & digitalPinToBitMask(pinNum)) ? 1 : 0; \
+  } \
+};
+
+MAKE_PIN(P0, CORE_PIN0_PORTREG, 0, CORE_PIN0_CONFIG);
+MAKE_PIN(P1, CORE_PIN1_PORTREG, 1, CORE_PIN1_CONFIG);
+MAKE_PIN(P2, CORE_PIN2_PORTREG, 2, CORE_PIN2_CONFIG);
+MAKE_PIN(P3, CORE_PIN3_PORTREG, 3, CORE_PIN3_CONFIG);
+MAKE_PIN(P4, CORE_PIN4_PORTREG, 4, CORE_PIN4_CONFIG);
+MAKE_PIN(P5, CORE_PIN5_PORTREG, 5, CORE_PIN5_CONFIG);
+MAKE_PIN(P6, CORE_PIN6_PORTREG, 6, CORE_PIN6_CONFIG);
+MAKE_PIN(P7, CORE_PIN7_PORTREG, 7, CORE_PIN7_CONFIG);
+MAKE_PIN(P8, CORE_PIN8_PORTREG, 8, CORE_PIN8_CONFIG);
+MAKE_PIN(P9, CORE_PIN9_PORTREG, 9, CORE_PIN9_CONFIG);
+MAKE_PIN(P10, CORE_PIN10_PORTREG, 10, CORE_PIN10_CONFIG);
+MAKE_PIN(P11, CORE_PIN11_PORTREG, 11, CORE_PIN11_CONFIG);
+MAKE_PIN(P12, CORE_PIN12_PORTREG, 12, CORE_PIN12_CONFIG);
+MAKE_PIN(P13, CORE_PIN13_PORTREG, 13, CORE_PIN13_CONFIG);
+MAKE_PIN(P14, CORE_PIN14_PORTREG, 14, CORE_PIN14_CONFIG);
+MAKE_PIN(P15, CORE_PIN15_PORTREG, 15, CORE_PIN15_CONFIG);
+MAKE_PIN(P16, CORE_PIN16_PORTREG, 16, CORE_PIN16_CONFIG);
+MAKE_PIN(P17, CORE_PIN17_PORTREG, 17, CORE_PIN17_CONFIG);
+MAKE_PIN(P18, CORE_PIN18_PORTREG, 18, CORE_PIN18_CONFIG);
+MAKE_PIN(P19, CORE_PIN19_PORTREG, 19, CORE_PIN19_CONFIG);
+MAKE_PIN(P20, CORE_PIN20_PORTREG, 20, CORE_PIN20_CONFIG);
+MAKE_PIN(P21, CORE_PIN21_PORTREG, 21, CORE_PIN21_CONFIG);
+MAKE_PIN(P22, CORE_PIN22_PORTREG, 22, CORE_PIN22_CONFIG);
+MAKE_PIN(P23, CORE_PIN23_PORTREG, 23, CORE_PIN23_CONFIG);
+MAKE_PIN(P24, CORE_PIN24_PORTREG, 24, CORE_PIN24_CONFIG);
+MAKE_PIN(P25, CORE_PIN25_PORTREG, 25, CORE_PIN25_CONFIG);
+MAKE_PIN(P26, CORE_PIN26_PORTREG, 26, CORE_PIN26_CONFIG);
 
 #undef MAKE_PIN
 
@@ -1012,14 +1106,183 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #undef MAKE_PIN
 
+#elif defined(STM32F446xx)
+// NUCLEO-F446RE
+
+#define MAKE_PIN(className, port, pin) \
+class className { \
+public: \
+  static void Set() { \
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET); \
+  } \
+  static void Clear() { \
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET); \
+  } \
+  static void SetDirRead() { \
+    static GPIO_InitTypeDef GPIO_InitStruct; \
+    GPIO_InitStruct.Pin = pin; \
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT; \
+    GPIO_InitStruct.Pull = GPIO_NOPULL; \
+    HAL_GPIO_Init(port, &GPIO_InitStruct); \
+  } \
+  static void SetDirWrite() { \
+    static GPIO_InitTypeDef GPIO_InitStruct; \
+    GPIO_InitStruct.Pin = pin; \
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP; \
+    GPIO_InitStruct.Pull = GPIO_NOPULL; \
+    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH; \
+    HAL_GPIO_Init(port, &GPIO_InitStruct); \
+  } \
+  static GPIO_PinState IsSet() { \
+    return HAL_GPIO_ReadPin(port, pin); \
+  } \
+};
+
+MAKE_PIN(P0, GPIOA, GPIO_PIN_3); // D0
+MAKE_PIN(P1, GPIOA, GPIO_PIN_2); // D1
+MAKE_PIN(P2, GPIOA, GPIO_PIN_10); // D2
+MAKE_PIN(P3, GPIOB, GPIO_PIN_3); // D3
+MAKE_PIN(P4, GPIOB, GPIO_PIN_5); // D4
+MAKE_PIN(P5, GPIOB, GPIO_PIN_4); // D5
+MAKE_PIN(P6, GPIOB, GPIO_PIN_10); // D6
+MAKE_PIN(P7, GPIOA, GPIO_PIN_8); // D7
+MAKE_PIN(P8, GPIOA, GPIO_PIN_9); // D8
+MAKE_PIN(P9, GPIOC, GPIO_PIN_7); // D9
+MAKE_PIN(P10, GPIOB, GPIO_PIN_6); // D10
+MAKE_PIN(P11, GPIOA, GPIO_PIN_7); // D11
+MAKE_PIN(P12, GPIOA, GPIO_PIN_6); // D12
+MAKE_PIN(P13, GPIOA, GPIO_PIN_5); // D13
+
+MAKE_PIN(P14, GPIOA, GPIO_PIN_0); // A0
+MAKE_PIN(P15, GPIOA, GPIO_PIN_1); // A1
+MAKE_PIN(P16, GPIOA, GPIO_PIN_4); // A2
+MAKE_PIN(P17, GPIOB, GPIO_PIN_0); // A3
+MAKE_PIN(P18, GPIOC, GPIO_PIN_1); // A4
+MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
+
+#undef MAKE_PIN
+
 #else
 #error "Please define board in avrpins.h"
 
 #endif
 
-#endif // __arm__
+#elif defined(__ARDUINO_ARC__)
 
-#if defined(__MIPSEL__)
+#include <avr/pgmspace.h>
+// Pointers are 32 bits on arc
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3); //PWM
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5); //PWM
+MAKE_PIN(P6, 6); //PWM
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9); //PWM
+
+MAKE_PIN(P10, 10); //SPI SS
+MAKE_PIN(P11, 11); //SPI MOSI
+MAKE_PIN(P12, 12); //SPI MISO
+MAKE_PIN(P13, 13); //SPI SCK / BUILTIN LED
+
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4 SDA
+MAKE_PIN(P19, 19); // A5 SCL
+MAKE_PIN(P20, 20); // ATN
+
+#undef MAKE_PIN
+
+#elif defined(__ARDUINO_X86__) // Intel Galileo, Intel Galileo 2 and Intel Edison
+
+#include <avr/pgmspace.h>
+
+// Pointers are 32 bits on x86
+#define pgm_read_pointer(p) pgm_read_dword(p)
+
+#if PLATFORM_ID == 0xE1 // Edison platform id
+#define pinToFastPin(pin) 1 // As far as I can tell all pins can be used as fast pins
+#endif
+
+// Pin 2 and 3 on the Intel Galileo supports a higher rate,
+// so it is recommended to use one of these as the SS pin.
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    fastDigitalWrite(pin, HIGH); \
+  } \
+  static void Clear() { \
+    fastDigitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    if (pinToFastPin(pin)) \
+      pinMode(pin, INPUT_FAST); \
+    else \
+      pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    if (pinToFastPin(pin)) \
+      pinMode(pin, OUTPUT_FAST); \
+    else \
+      pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return fastDigitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4
+MAKE_PIN(P19, 19); // A5
+
+#undef MAKE_PIN
+
+#elif defined(__MIPSEL__)
 // MIPSEL (MIPS architecture using a little endian byte order)
 
 // MIPS size_t = 4
@@ -1062,6 +1325,51 @@ MAKE_PIN(P12, 12); //
 MAKE_PIN(P13, 13); //
 
 #undef MAKE_PIN
+
+#elif defined(ESP8266)
+
+#define pgm_read_pointer(p) pgm_read_ptr(p)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+// Pinout for ESP-12 module
+// 0 .. 16 - Digital pins
+// GPIO 6 to 11 and 16 are not usable in this library.
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1); // TX0
+MAKE_PIN(P2, 2); // TX1
+MAKE_PIN(P3, 3); // RX0
+MAKE_PIN(P4, 4); // SDA
+MAKE_PIN(P5, 5); // SCL
+MAKE_PIN(P12, 12); // MISO
+MAKE_PIN(P13, 13); // MOSI
+MAKE_PIN(P14, 14); // SCK
+MAKE_PIN(P15, 15); // SS
+
+#undef MAKE_PIN
+
+#else
+#error "Please define board in avrpins.h"
+
 #endif
 
 #endif //_avrpins_h_

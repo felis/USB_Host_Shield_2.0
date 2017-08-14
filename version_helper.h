@@ -53,34 +53,6 @@ e-mail   :  support@circuitsathome.com
 #define _SFR_BYTE(n) (n)
 #endif
 
-#ifndef prog_void
-typedef void prog_void;
-#endif
-#ifndef prog_char
-typedef char prog_char;
-#endif
-#ifndef prog_uchar
-typedef unsigned char prog_uchar;
-#endif
-#ifndef prog_int8_t
-typedef int8_t prog_int8_t;
-#endif
-#ifndef prog_uint8_t
-typedef uint8_t prog_uint8_t;
-#endif
-#ifndef prog_int16_t
-typedef int16_t prog_int16_t;
-#endif
-#ifndef prog_uint16_t
-typedef uint16_t prog_uint16_t;
-#endif
-#ifndef prog_int32_t
-typedef int32_t prog_int32_t;
-#endif
-#ifndef prog_uint32_t
-typedef uint32_t prog_uint32_t;
-#endif
-
 #ifndef memchr_P
 #define memchr_P(str, c, len) memchr((str), (c), (len))
 #endif

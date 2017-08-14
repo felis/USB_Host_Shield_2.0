@@ -555,7 +555,8 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
                 // Fill in the endpoint info structure
                 epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-                epInfo[index].epAttribs = 0;
+                epInfo[index].bmSndToggle = 0;
+                epInfo[index].bmRcvToggle = 0;
 
                 bNumEP++;
 
@@ -574,7 +575,8 @@ void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t 
         // Fill in the endpoint info structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
         epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-        epInfo[index].epAttribs = 0;
+        epInfo[index].bmSndToggle = 0;
+        epInfo[index].bmRcvToggle = 0;
 
         bNumEP++;
 
@@ -657,7 +659,7 @@ void BulkOnly::CheckMedia() {
         }
         printf("\r\n");
 #endif
-        qNextPollTime = millis() + 2000;
+        qNextPollTime = (uint32_t)millis() + 2000;
 }
 
 /**
@@ -671,7 +673,7 @@ uint8_t BulkOnly::Poll() {
         if(!bPollEnable)
                 return 0;
 
-        if((long)(millis() - qNextPollTime) >= 0L) {
+        if((int32_t)((uint32_t)millis() - qNextPollTime) >= 0L) {
                 CheckMedia();
         }
         //rcode = 0;
@@ -754,7 +756,7 @@ uint8_t BulkOnly::ModeSense6(uint8_t lun, uint8_t pc, uint8_t page, uint8_t subp
         Notify(PSTR("\r\rModeSense\r\n"), 0x80);
         Notify(PSTR("------------\r\n"), 0x80);
 
-        CDB6_t cdb = CDB6_t(SCSI_CMD_TEST_UNIT_READY, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage), len, 0);
+        CDB6_t cdb = CDB6_t(SCSI_CMD_MODE_SENSE_6, lun, (uint32_t)((((pc << 6) | page) << 8) | subpage), len, 0);
         return SCSITransaction6(&cdb, len, pbuf, (uint8_t)MASS_CMD_DIR_IN);
 }
 
@@ -850,7 +852,6 @@ uint8_t BulkOnly::ClearEpHalt(uint8_t index) {
         }
         epInfo[index].bmSndToggle = 0;
         epInfo[index].bmRcvToggle = 0;
-        // epAttribs = 0;
         return 0;
 }
 
@@ -890,8 +891,8 @@ void BulkOnly::ClearAllEP() {
         for(uint8_t i = 0; i < MASS_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
-
+                epInfo[i].bmSndToggle = 0;
+                epInfo[i].bmRcvToggle = 0;
                 epInfo[i].bmNakPower = USB_NAK_DEFAULT;
         }
 

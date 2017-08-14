@@ -5,11 +5,12 @@
 /* CDC support */
 #include <cdcacm.h>
 #include <cdcprolific.h>
-// Satisfy IDE, which only needs to see the include statment in the ino.
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 class PLAsyncOper : public CDCAsyncOper {
 public:
@@ -70,7 +71,7 @@ void loop() {
 
         if(Pl.isReady()) {
                 /* reading the GPS */
-                if((long)(millis() - read_delay) >= 0L) {
+                if((int32_t)((uint32_t)millis() - read_delay) >= 0L) {
                         read_delay += READ_DELAY;
                         rcode = Pl.RcvData(&rcvd, buf);
                         if(rcode && rcode != hrNAK)

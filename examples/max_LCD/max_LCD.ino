@@ -4,11 +4,12 @@
 // pinout: D[4-7] -> GPOUT[4-7], RS-> GPOUT[2], E ->GPOUT[3]
 
 #include <max_LCD.h>
+
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 USB Usb;
 Max_LCD lcd(&Usb);
@@ -24,5 +25,5 @@ void loop() {
   // Set the cursor to column 0, line 1 (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);
   // Print the number of seconds since reset:
-  lcd.print(millis() / 1000);
+  lcd.print((uint32_t)millis() / 1000);
 }

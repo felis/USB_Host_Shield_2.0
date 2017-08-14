@@ -17,6 +17,18 @@
 
 #include "PS4Parser.h"
 
+enum DPADEnum {
+        DPAD_UP = 0x0,
+        DPAD_UP_RIGHT = 0x1,
+        DPAD_RIGHT = 0x2,
+        DPAD_RIGHT_DOWN = 0x3,
+        DPAD_DOWN = 0x4,
+        DPAD_DOWN_LEFT = 0x5,
+        DPAD_LEFT = 0x6,
+        DPAD_LEFT_UP = 0x7,
+        DPAD_OFF = 0x8,
+};
+
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the PS4 Controller
 
@@ -62,7 +74,7 @@ uint8_t PS4Parser::getAnalogHat(AnalogHatEnum a) {
 }
 
 void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
-        if (len > 0 && buf)  {
+        if (len > 1 && buf)  {
 #ifdef PRINTREPORT
                 Notify(PSTR("\r\n"), 0x80);
                 for (uint8_t i = 0; i < len; i++) {
@@ -72,10 +84,17 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 #endif
 
                 if (buf[0] == 0x01) // Check report ID
-                        memcpy(&ps4Data, buf + 1, min(len - 1, sizeof(ps4Data)));
-                else if (buf[0] == 0x11) // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
-                        memcpy(&ps4Data, buf + 3, min(len - 3, sizeof(ps4Data)));
-                else {
+                        memcpy(&ps4Data, buf + 1, min((uint8_t)(len - 1), MFK_CASTUINT8T sizeof(ps4Data)));
+                else if (buf[0] == 0x11) { // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
+                        if (len < 4) {
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nReport is too short: "), 0x80);
+                                D_PrintHex<uint8_t > (len, 0x80);
+#endif
+                                return;
+                        }
+                        memcpy(&ps4Data, buf + 3, min((uint8_t)(len - 3), MFK_CASTUINT8T sizeof(ps4Data)));
+                } else {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nUnknown report id: "), 0x80);
                         D_PrintHex<uint8_t > (buf[0], 0x80);
@@ -107,3 +126,28 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
         if (ps4Output.reportChanged)
                 sendOutputReport(&ps4Output); // Send output report
 }
+
+void PS4Parser::Reset() {
+        uint8_t i;
+        for (i = 0; i < sizeof(ps4Data.hatValue); i++)
+                ps4Data.hatValue[i] = 127; // Center value
+        ps4Data.btn.val = 0;
+        oldButtonState.val = 0;
+        for (i = 0; i < sizeof(ps4Data.trigger); i++)
+                ps4Data.trigger[i] = 0;
+        for (i = 0; i < sizeof(ps4Data.xy)/sizeof(ps4Data.xy[0]); i++) {
+                for (uint8_t j = 0; j < sizeof(ps4Data.xy[0].finger)/sizeof(ps4Data.xy[0].finger[0]); j++)
+                        ps4Data.xy[i].finger[j].touching = 1; // The bit is cleared if the finger is touching the touchpad
+        }
+
+        ps4Data.btn.dpad = DPAD_OFF;
+        oldButtonState.dpad = DPAD_OFF;
+        buttonClickState.dpad = 0;
+        oldDpad = 0;
+
+        ps4Output.bigRumble = ps4Output.smallRumble = 0;
+        ps4Output.r = ps4Output.g = ps4Output.b = 0;
+        ps4Output.flashOn = ps4Output.flashOff = 0;
+        ps4Output.reportChanged = false;
+};
+

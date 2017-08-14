@@ -5,11 +5,12 @@
  */
 
 #include <PS3USB.h>
-// Satisfy IDE, which only needs to see the include statment in the ino.
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 USB Usb;
 /* You can create the instance of the class in two ways */
@@ -133,7 +134,7 @@ void loop() {
       PS3.moveSetBulb(Lightblue);
     } else if (state == 6) {
       PS3.moveSetRumble(225);
-      PS3.moveSetBulb(Purble);
+      PS3.moveSetBulb(Purple);
     } else if (state == 7) {
       PS3.moveSetRumble(250);
       PS3.moveSetBulb(White);

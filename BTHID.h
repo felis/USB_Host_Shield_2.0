@@ -67,22 +67,27 @@ public:
 
         /**
          * Set HID protocol mode.
-         * @param mode HID protocol to use. Either HID_BOOT_PROTOCOL or HID_RPT_PROTOCOL.
+         * @param mode HID protocol to use. Either USB_HID_BOOT_PROTOCOL or HID_RPT_PROTOCOL.
          */
         void setProtocolMode(uint8_t mode) {
                 protocolMode = mode;
         };
 
+        /**@{*/
         /**
          * Used to set the leds on a keyboard.
-         * @param data See KBDLEDS in hidboot.h
+         * @param data See ::KBDLEDS in hidboot.h
          */
+        void setLeds(struct KBDLEDS data) {
+                setLeds(*((uint8_t*)&data));
+        };
         void setLeds(uint8_t data);
+        /**@}*/
 
         /** True if a device is connected */
         bool connected;
 
-        /** Call this to start the paring sequence with a device */
+        /** Call this to start the pairing sequence with a device */
         void pair(void) {
                 if(pBtd)
                         pBtd->pairWithHID();

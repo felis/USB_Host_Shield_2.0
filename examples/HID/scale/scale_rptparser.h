@@ -2,7 +2,7 @@
 #define __SCALERPTPARSER_H__
 
 #include <max_LCD.h>
-#include <hid.h>
+#include <usbhid.h>
 
 /* Scale status constants */
 #define REPORT_FAULT 0x01
@@ -49,7 +49,7 @@ class ScaleReportParser : public HIDReportParser
 public:
 	ScaleReportParser(ScaleEvents *evt);
 
-	virtual void Parse(HID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+	virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 };
 
 #endif // __SCALERPTPARSER_H__

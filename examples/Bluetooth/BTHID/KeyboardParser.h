@@ -3,7 +3,7 @@
 
 class KbdRptParser : public KeyboardReportParser {
   protected:
-    virtual uint8_t HandleLockingKeys(HID *hid, uint8_t key);
+    virtual uint8_t HandleLockingKeys(USBHID *hid, uint8_t key);
     virtual void OnControlKeysChanged(uint8_t before, uint8_t after);
     virtual void OnKeyDown(uint8_t mod, uint8_t key);
     virtual void OnKeyUp(uint8_t mod, uint8_t key);
@@ -13,7 +13,7 @@ class KbdRptParser : public KeyboardReportParser {
     void PrintKey(uint8_t mod, uint8_t key);
 };
 
-uint8_t KbdRptParser::HandleLockingKeys(HID *hid, uint8_t key) {
+uint8_t KbdRptParser::HandleLockingKeys(USBHID *hid, uint8_t key) {
   uint8_t old_keys = kbdLockingKeys.bLeds;
 
   switch (key) {

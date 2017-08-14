@@ -108,6 +108,7 @@ void WII::Reset() {
         motionPlusInside = false;
         pBtd->wiiUProController = false;
         wiiUProControllerConnected = false;
+        wiiBalanceBoardConnected = false;
         l2cap_event_flag = 0; // Reset flags
         l2cap_state = L2CAP_WAIT;
 }
@@ -120,9 +121,9 @@ void WII::disconnect() { // Use this void to disconnect any of the controllers
 #endif
                         initExtension1(); // This will disable the Motion Plus extension
                 }
-                timer = millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
+                timer = (uint32_t)millis() + 1000; // We have to wait for the message before the rest of the channels can be deactivated
         } else
-                timer = millis(); // Don't wait
+                timer = (uint32_t)millis(); // Don't wait
         // First the HID interrupt channel has to be disconnected, then the HID control channel and finally the HCI connection
         pBtd->l2cap_disconnection_request(hci_handle, ++identifier, interrupt_scid, interrupt_dcid);
         Reset();
@@ -263,7 +264,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         else if(wiiUProControllerConnected)
                                                 ButtonState = (uint32_t)(((~l2capinbuf[23]) & 0xFE) | ((uint16_t)(~l2capinbuf[24]) << 8) | ((uint32_t)((~l2capinbuf[25]) & 0x03) << 16));
                                         else if(motionPlusConnected) {
-                                                if(l2capinbuf[20] & 0x02) // Only update the wiimote buttons, since the extension bytes are from the Motion Plus
+                                                if(l2capinbuf[20] & 0x02) // Only update the Wiimote buttons, since the extension bytes are from the Motion Plus
                                                         ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)(ButtonState & 0xFFFF0000)));
                                                 else if(nunchuckConnected) // Update if it's a report from the Nunchuck
                                                         ButtonState = (uint32_t)((l2capinbuf[10] & 0x1F) | ((uint16_t)(l2capinbuf[11] & 0x9F) << 8) | ((uint32_t)((~l2capinbuf[20]) & 0x0C) << 14));
@@ -295,11 +296,8 @@ void WII::ACLData(uint8_t* l2capinbuf) {
 #endif
                                                 wiiState = l2capinbuf[12]; // (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)
                                                 batteryLevel = l2capinbuf[15]; // Update battery level
-#ifdef DEBUG_USB_HOST
-                                                if(l2capinbuf[12] & 0x01)
-                                                        Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
-#endif
-                                                if(checkExtension) { // If this is false it means that the user must have called getBatteryLevel()
+
+                                                if(!checkBatteryLevel) { // If this is true it means that the user must have called getBatteryLevel()
                                                         if(l2capinbuf[12] & 0x02) { // Check if a extension is connected
 #ifdef DEBUG_USB_HOST
                                                                 if(!unknownExtensionConnected)
@@ -329,15 +327,33 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         nunchuckConnected = false; // It must be the Nunchuck controller then
                                                                         wii_clear_flag(WII_FLAG_NUNCHUCK_CONNECTED);
                                                                         onInit();
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
-                                                                } else
-                                                                        setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+#ifdef WIICAMERA
+                                                                        if(!isIRCameraEnabled()) // We still want to read from the IR camera, so do not change the report mode
+#endif
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                } else {
+#ifdef WIICAMERA
+                                                                        if(!isIRCameraEnabled()) // We still want to read from the IR camera, so do not change the report mode
+#endif
+                                                                                setReportMode(false, 0x31); // If there is no extension connected we will read the buttons and accelerometer
+                                                                }
                                                         }
-                                                } else
-                                                        checkExtension = true; // Check for extensions by default
+                                                }
+                                                else {
+#ifdef EXTRADEBUG
+                                                        Notify(PSTR("\r\nChecking battery level"), 0x80);
+#endif
+                                                        checkBatteryLevel = false; // Check for extensions by default
+                                                }
+#ifdef DEBUG_USB_HOST
+                                                if(l2capinbuf[12] & 0x01)
+                                                        Notify(PSTR("\r\nWARNING: Battery is nearly empty"), 0x80);
+#endif
+
                                                 break;
                                         case 0x21: // Read Memory Data
                                                 if((l2capinbuf[12] & 0x0F) == 0) { // No error
+                                                        uint8_t reportLength = (l2capinbuf[12] >> 4) + 1; // // Bit 4-7 is the length - 1
                                                         // See: http://wiibrew.org/wiki/Wiimote/Extension_Controllers
                                                         if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x00 && l2capinbuf[20] == 0x00) {
 #ifdef DEBUG_USB_HOST
@@ -380,6 +396,27 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 Notify(PSTR("\r\nWii U Pro Controller connected"), 0x80);
 #endif
                                                                 wiiUProControllerConnected = true;
+                                                        } else if(l2capinbuf[16] == 0x00 && l2capinbuf[17] == 0xA4 && l2capinbuf[18] == 0x20 && l2capinbuf[19] == 0x04 && l2capinbuf[20] == 0x02) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWii Balance Board connected"), 0x80);
+#endif
+                                                                setReportMode(false, 0x32); // Read the Wii Balance Board extension
+                                                                wii_set_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD);
+                                                        }
+                                                        // Wii Balance Board calibration reports (24 bits in total)
+                                                        else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x24 && reportLength == 16) { // First 16-bit
+                                                                for(uint8_t i = 0; i < 2; i++) {
+                                                                        for(uint8_t j = 0; j < 4; j++)
+                                                                                wiiBalanceBoardCal[i][j] = l2capinbuf[16 + 8 * i + 2 * j] | l2capinbuf[15 + 8 * i + 2 * j] << 8;
+                                                                }
+                                                        } else if(l2capinbuf[13] == 0x00 && l2capinbuf[14] == 0x34 && reportLength == 8) { // Last 8-bit
+                                                                for(uint8_t j = 0; j < 4; j++)
+                                                                        wiiBalanceBoardCal[2][j] = l2capinbuf[16 + 2 * j] | l2capinbuf[15 + 2 * j] << 8;
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nWii Balance Board calibration values read successfully"), 0x80);
+#endif
+                                                                wii_clear_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD);
+                                                                wiiBalanceBoardConnected = true;
                                                         }
 #ifdef DEBUG_USB_HOST
                                                         else {
@@ -387,7 +424,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                 D_PrintHex<uint8_t > (l2capinbuf[13], 0x80);
                                                                 D_PrintHex<uint8_t > (l2capinbuf[14], 0x80);
                                                                 Notify(PSTR("\r\nData: "), 0x80);
-                                                                for(uint8_t i = 0; i < ((l2capinbuf[12] >> 4) + 1); i++) { // bit 4-7 is the length-1
+                                                                for(uint8_t i = 0; i < reportLength; i++) {
                                                                         D_PrintHex<uint8_t > (l2capinbuf[15 + i], 0x80);
                                                                         Notify(PSTR(" "), 0x80);
                                                                 }
@@ -415,13 +452,18 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                         case 0x31: // Core Buttons and Accelerometer - (a1) 31 BB BB AA AA AA
                                                 break;
                                         case 0x32: // Core Buttons with 8 Extension bytes - (a1) 32 BB BB EE EE EE EE EE EE EE EE
+                                                // See: http://wiibrew.org/wiki/Wii_Balance_Board#Data_Format
+                                                wiiBalanceBoardRaw[TopRight] = l2capinbuf[13] | l2capinbuf[12] << 8; // Top right
+                                                wiiBalanceBoardRaw[BotRight] = l2capinbuf[15] | l2capinbuf[14] << 8; // Bottom right
+                                                wiiBalanceBoardRaw[TopLeft] = l2capinbuf[17] | l2capinbuf[16] << 8; // Top left
+                                                wiiBalanceBoardRaw[BotLeft] = l2capinbuf[19] | l2capinbuf[18] << 8; // Bottom left
                                                 break;
                                         case 0x33: // Core Buttons with Accelerometer and 12 IR bytes - (a1) 33 BB BB AA AA AA II II II II II II II II II II II II
 #ifdef WIICAMERA
                                                 // Read the IR data
                                                 IR_object_x1 = (l2capinbuf[15] | ((uint16_t)(l2capinbuf[17] & 0x30) << 4)); // x position
                                                 IR_object_y1 = (l2capinbuf[16] | ((uint16_t)(l2capinbuf[17] & 0xC0) << 2)); // y position
-                                                IR_object_s1 = (l2capinbuf[17] & 0x0F); // size value, 0-15
+                                                IR_object_s1 = (l2capinbuf[17] & 0x0F); // Size value, 0-15
 
                                                 IR_object_x2 = (l2capinbuf[18] | ((uint16_t)(l2capinbuf[20] & 0x30) << 4));
                                                 IR_object_y2 = (l2capinbuf[19] | ((uint16_t)(l2capinbuf[20] & 0xC0) << 2));
@@ -460,6 +502,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                 break;
                                         case 0x35: // Core Buttons and Accelerometer with 16 Extension Bytes
                                                 // (a1) 35 BB BB AA AA AA EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE EE
+#if 1 // Set this to 0 if you don't want to use an extension, this reduceds the size of the library a lot!
                                                 if(motionPlusConnected) {
                                                         if(l2capinbuf[20] & 0x02) { // Check if it's a report from the Motion controller or the extension
                                                                 if(motionValuesReset) { // We will only use the values when the gyro value has been set
@@ -467,9 +510,9 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         gyroRollRaw = ((l2capinbuf[16] | ((l2capinbuf[19] & 0xFC) << 6)) - gyroRollZero);
                                                                         gyroPitchRaw = ((l2capinbuf[17] | ((l2capinbuf[20] & 0xFC) << 6)) - gyroPitchZero);
 
-                                                                        yawGyroSpeed = (double)gyroYawRaw / ((double)gyroYawZero / yawGyroScale);
-                                                                        rollGyroSpeed = -(double)gyroRollRaw / ((double)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
-                                                                        pitchGyroSpeed = (double)gyroPitchRaw / ((double)gyroPitchZero / pitchGyroScale);
+                                                                        yawGyroSpeed = (float)gyroYawRaw / ((float)gyroYawZero / yawGyroScale);
+                                                                        rollGyroSpeed = -(float)gyroRollRaw / ((float)gyroRollZero / rollGyroScale); // We invert these values so they will fit the acc values
+                                                                        pitchGyroSpeed = (float)gyroPitchRaw / ((float)gyroPitchZero / pitchGyroScale);
 
                                                                         /* The onboard gyro has two ranges for slow and fast mode */
                                                                         if(!(l2capinbuf[18] & 0x02)) // Check if fast mode is used
@@ -479,13 +522,13 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         if(!(l2capinbuf[19] & 0x02)) // Check if fast mode is used
                                                                                 rollGyroSpeed *= 4.545;
 
-                                                                        compPitch = (0.93 * (compPitch + (pitchGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimotePitch()); // Use a complimentary filter to calculate the angle
-                                                                        compRoll = (0.93 * (compRoll + (rollGyroSpeed * (double)(micros() - timer) / 1000000)))+(0.07 * getWiimoteRoll());
+                                                                        compPitch = (0.93f * (compPitch + (pitchGyroSpeed * (float)((uint32_t)micros() - timer) / 1000000.0f)))+(0.07f * getWiimotePitch()); // Use a complimentary filter to calculate the angle
+                                                                        compRoll = (0.93f * (compRoll + (rollGyroSpeed * (float)((uint32_t)micros() - timer) / 1000000.0f)))+(0.07f * getWiimoteRoll());
 
-                                                                        gyroYaw += (yawGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                        gyroRoll += (rollGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                        gyroPitch += (pitchGyroSpeed * ((double)(micros() - timer) / 1000000));
-                                                                        timer = micros();
+                                                                        gyroYaw += (yawGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        gyroRoll += (rollGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        gyroPitch += (pitchGyroSpeed * ((float)((uint32_t)micros() - timer) / 1000000.0f));
+                                                                        timer = (uint32_t)micros();
                                                                         /*
                                                                         // Uncomment these lines to tune the gyro scale variabels
                                                                         Notify(PSTR("\r\ngyroYaw: "), 0x80);
@@ -502,7 +545,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                         Notify(wiimotePitch, 0x80);
                                                                          */
                                                                 } else {
-                                                                        if((micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
+                                                                        if((int32_t)((uint32_t)micros() - timer) > 1000000) { // Loop for 1 sec before resetting the values
 #ifdef DEBUG_USB_HOST
                                                                                 Notify(PSTR("\r\nThe gyro values has been reset"), 0x80);
 #endif
@@ -519,7 +562,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                                                 gyroPitch = 0;
 
                                                                                 motionValuesReset = true;
-                                                                                timer = micros();
+                                                                                timer = (uint32_t)micros();
                                                                         }
                                                                 }
                                                         } else {
@@ -563,6 +606,7 @@ void WII::ACLData(uint8_t* l2capinbuf) {
                                                         hatValues[LeftHatY] = (l2capinbuf[19] | l2capinbuf[20] << 8);
                                                         hatValues[RightHatY] = (l2capinbuf[21] | l2capinbuf[22] << 8);
                                                 }
+#endif
                                                 break;
 #ifdef DEBUG_USB_HOST
                                         default:
@@ -654,7 +698,7 @@ void WII::L2CAP_task() {
                         /* The next states are in run() */
 
                 case L2CAP_INTERRUPT_DISCONNECT:
-                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((long)(millis() - timer) >= 0L)) {
+                        if(l2cap_check_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE) && ((int32_t)((uint32_t)millis() - timer) >= 0L)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nDisconnected Interrupt Channel"), 0x80);
 #endif
@@ -679,7 +723,7 @@ void WII::L2CAP_task() {
 }
 
 void WII::Run() {
-        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((long)(millis() - timer) >= 0L))
+        if(l2cap_state == L2CAP_INTERRUPT_DISCONNECT && ((int32_t)((uint32_t)millis() - timer) >= 0L))
                 L2CAP_task(); // Call the rest of the disconnection routine after we have waited long enough
 
         switch(l2cap_state) {
@@ -721,7 +765,7 @@ void WII::Run() {
                         if(wii_check_flag(WII_FLAG_MOTION_PLUS_CONNECTED)) {
                                 stateCounter = 0;
                                 l2cap_state = WII_INIT_MOTION_PLUS_STATE;
-                                timer = micros();
+                                timer = (uint32_t)micros();
 
                                 if(unknownExtensionConnected) {
 #ifdef DEBUG_USB_HOST
@@ -751,13 +795,21 @@ void WII::Run() {
                                 if(unknownExtensionConnected) // Check if there is a extension is connected to the port
                                         initExtension1();
                                 else
-                                        stateCounter = 399;
+                                        stateCounter = 499;
                         } else if(stateCounter == 200)
                                 initExtension2();
                         else if(stateCounter == 300) {
                                 readExtensionType();
                                 unknownExtensionConnected = false;
                         } else if(stateCounter == 400) {
+                                if(wii_check_flag(WII_FLAG_CALIBRATE_BALANCE_BOARD)) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nReading Wii Balance Board calibration values"), 0x80);
+#endif
+                                        readWiiBalanceBoardCalibration();
+                                } else
+                                        stateCounter = 499;
+                        } else if(stateCounter == 500) {
                                 stateCounter = 0;
                                 l2cap_state = TURN_ON_LED;
                         }
@@ -839,8 +891,8 @@ void WII::Run() {
 
 /************************************************************/
 /*                    HID Commands                          */
-
 /************************************************************/
+
 void WII::HID_Command(uint8_t* data, uint8_t nbytes) {
         if(motionPlusInside)
                 pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]); // It's the new Wiimote with the Motion Plus Inside or Wii U Pro controller
@@ -914,12 +966,16 @@ void WII::setLedStatus() {
 }
 
 uint8_t WII::getBatteryLevel() {
-        checkExtension = false; // This is needed so the library knows that the status response is a response to this function
+        checkBatteryLevel = true; // This is needed so the library knows that the status response is a response to this function
         statusRequest(); // This will update the battery level
         return batteryLevel;
 };
 
 void WII::setReportMode(bool continuous, uint8_t mode) {
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nReport mode was changed to: "), 0x80);
+        D_PrintHex<uint8_t > (mode, 0x80);
+#endif
         uint8_t cmd_buf[4];
         cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
         cmd_buf[1] = 0x12;
@@ -941,8 +997,8 @@ void WII::statusRequest() {
 
 /************************************************************/
 /*                    Memmory Commands                      */
-
 /************************************************************/
+
 void WII::writeData(uint32_t offset, uint8_t size, uint8_t* data) {
         uint8_t cmd_buf[23];
         cmd_buf[0] = 0xA2; // HID BT DATA_request (0xA0) | Report Type (Output 0x02)
@@ -1030,9 +1086,12 @@ void WII::checkMotionPresent() {
         readData(0xA600FA, 6, false);
 }
 
+void WII::readWiiBalanceBoardCalibration() {
+        readData(0xA40024, 24, false);
+}
+
 /************************************************************/
 /*                    WII Commands                          */
-
 /************************************************************/
 
 bool WII::getButtonPress(ButtonEnum b) { // Return true when a button is pressed
@@ -1083,6 +1142,27 @@ void WII::onInit() {
         else
                 setLedStatus();
 }
+
+/************************************************************/
+/*                 Wii Balance Board Commands               */
+/************************************************************/
+
+float WII::getWeight(BalanceBoardEnum pos) {
+        // Use interpolating between two points - based on: https://github.com/skorokithakis/gr8w8upd8m8/blob/master/gr8w8upd8m8.py
+        // wiiBalanceBoardCal[pos][0] is calibration values for 0 kg
+        // wiiBalanceBoardCal[pos][1] is calibration values for 17 kg
+        // wiiBalanceBoardCal[pos][2] is calibration values for 34 kg
+        if(wiiBalanceBoardRaw[pos] < wiiBalanceBoardCal[0][pos])
+            return 0.0f; // Below 0 kg
+        else if(wiiBalanceBoardRaw[pos] < wiiBalanceBoardCal[1][pos]) // Between 0 and 17 kg
+            return 17.0f * (float)(wiiBalanceBoardRaw[pos] - wiiBalanceBoardCal[0][pos]) / (float)(wiiBalanceBoardCal[1][pos] - wiiBalanceBoardCal[0][pos]);
+        else // More than 17 kg
+            return 17.0f + 17.0f * (float)(wiiBalanceBoardRaw[pos] - wiiBalanceBoardCal[1][pos]) / (float)(wiiBalanceBoardCal[2][pos] - wiiBalanceBoardCal[1][pos]);
+};
+
+float WII::getTotalWeight() {
+        return getWeight(TopRight) + getWeight(BotRight) + getWeight(TopLeft) + getWeight(BotLeft);
+};
 
 /************************************************************/
 /*       The following functions are for the IR camera      */

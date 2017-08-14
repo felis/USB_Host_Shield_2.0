@@ -4,12 +4,13 @@
 /* otherwise press any key after getting GPIO error to complete the test */
 /**/
 #include <usbhub.h>
-// Satisfy IDE, which only needs to see the include statment in the ino.
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
-#include <SPI.h> // Hack to use the SPI library
 #endif
+#include <SPI.h> // Hack to use the SPI library
 
 /* variables */
 uint8_t rcode;
@@ -59,6 +60,9 @@ void setup() {
                 uint8_t sample_rd = 0;
                 uint8_t gpinpol_copy = Usb.regRd(rGPINPOL);
                 for(uint8_t i = 0; i < 16; i++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         for(uint16_t j = 0; j < 65535; j++) {
                                 Usb.regWr(rGPINPOL, sample_wr);
                                 sample_rd = Usb.regRd(rGPINPOL);
@@ -80,26 +84,29 @@ void setup() {
         /* GPIO test */
         /* in order to simplify board layout, GPIN pins on text fixture are connected to GPOUT */
         /* in reverse order, i.e, GPIN0 is connected to GPOUT7, GPIN1 to GPOUT6, etc. */
-        //{
-        //       uint8_t tmpbyte;
-        //        E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
-        //        for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
-        //                Usb.gpioWr(sample_gpio);
-        //                tmpbyte = Usb.gpioRd();
-        //                /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
-        //                tmpbyte = ((tmpbyte * 0x0802LU & 0x22110LU) | (tmpbyte * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
-        //                if(sample_gpio != tmpbyte) {
-        //                        E_Notify(PSTR("\r\nTest failed. Value written: "), 0x80);
-        //                        print_hex(sample_gpio, 8);
-        //                        E_Notify(PSTR(" Value read: "), 0x80);
-        //                        print_hex(tmpbyte, 8);
-        //                        E_Notify(PSTR(" "), 0x80);
-        //                        press_any_key();
-        //                        break;
-        //                }//if( sample_gpio != tmpbyte...
-        //        }//for( uint8_t sample_gpio...
-        //        E_Notify(PSTR("\r\nGPIO test passed."), 0x80);
-        //}//GPIO test
+        {
+                uint8_t tmpbyte;
+                E_Notify(PSTR("\r\nGPIO test. Connect GPIN0 to GPOUT7, GPIN1 to GPOUT6, and so on"), 0x80);
+                for(uint8_t sample_gpio = 0; sample_gpio < 255; sample_gpio++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+                        Usb.gpioWr(sample_gpio);
+                        tmpbyte = Usb.gpioRd();
+                        /* bit reversing code copied vetbatim from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
+                        tmpbyte = ((tmpbyte * 0x0802LU & 0x22110LU) | (tmpbyte * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
+                        if(sample_gpio != tmpbyte) {
+                                E_Notify(PSTR("\r\nTest failed. Value written: "), 0x80);
+                                print_hex(sample_gpio, 8);
+                                E_Notify(PSTR(" Value read: "), 0x80);
+                                print_hex(tmpbyte, 8);
+                                E_Notify(PSTR(" "), 0x80);
+                                press_any_key();
+                                break;
+                        }//if( sample_gpio != tmpbyte...
+                }//for( uint8_t sample_gpio...
+                E_Notify(PSTR("\r\nGPIO test passed."), 0x80);
+        }//GPIO test
         /* PLL test. Stops/starts MAX3421E oscillator several times */
         {
                 E_Notify(PSTR("\r\nPLL test. 100 chip resets will be performed"), 0x80);
@@ -111,6 +118,9 @@ void setup() {
                 /* Restart oscillator */
                 E_Notify(PSTR("\r\nResetting oscillator\r\n"), 0x80);
                 for(uint16_t i = 0; i < 100; i++) {
+#ifdef ESP8266
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         E_Notify(PSTR("\rReset number "), 0x80);
                         Serial.print(i, DEC);
                         Usb.regWr(rUSBCTL, bmCHIPRES); //reset
@@ -120,7 +130,7 @@ void setup() {
                         }
                         Usb.regWr(rUSBCTL, 0x00); //release from reset
                         uint16_t j = 0;
-                        for(j = 0; j < 65535; j++) { //tracking off to on time
+                        for(j = 1; j < 65535; j++) { //tracking off to on time
                                 if(Usb.regRd(rUSBIRQ) & bmOSCOKIRQ) {
                                         E_Notify(PSTR(" Time to stabilize - "), 0x80);
                                         Serial.print(j, DEC);
@@ -205,7 +215,11 @@ void loop() {
                                         print_hex(buf.bNumConfigurations, 8);
                                         /**/
                                         E_Notify(PSTR("\r\n\nAll tests passed. Press RESET to restart test"), 0x80);
-                                        while(1);
+                                        while(1) {
+#ifdef ESP8266
+                                                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+                                        }
                                 }
                                 break;
                         case( USB_STATE_ERROR):
@@ -227,6 +241,9 @@ void halt55() {
 
         while(1) {
                 Usb.regWr(0x55, 0x55);
+#ifdef ESP8266
+                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
         }
 }
 
@@ -252,7 +269,11 @@ void print_hex(int v, int num_places) {
 /* prints "Press any key" and returns when key is pressed */
 void press_any_key() {
         E_Notify(PSTR("\r\nPress any key to continue..."), 0x80);
-        while(Serial.available() <= 0); //wait for input
+        while(Serial.available() <= 0) { // wait for input
+#ifdef ESP8266
+                yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
+        }
         Serial.read(); //empty input buffer
         return;
 }

@@ -27,7 +27,8 @@ bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
                 epInfo[i].maxPktSize = (i) ? 0 : 8;
-                epInfo[i].epAttribs = 0;
+                epInfo[i].bmSndToggle = 0;
+                epInfo[i].bmRcvToggle = 0;
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
@@ -357,5 +358,5 @@ void XBOXUSB::onInit() {
         if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
         else
-                setLedOn(LED1);
+                setLedOn(static_cast<LEDEnum>(LED1));
 }

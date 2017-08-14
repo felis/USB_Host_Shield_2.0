@@ -2,11 +2,12 @@
 #include <usbhub.h>
 
 #include "pgmstrings.h"
-// Satisfy IDE, which only needs to see the include statment in the ino.
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 class FTDIAsync : public FTDIAsyncOper
 {
@@ -38,8 +39,6 @@ USB              Usb;
 FTDIAsync        FtdiAsync;
 FTDI             Ftdi(&Usb, &FtdiAsync);
 
-uint32_t next_time;
-
 void setup()
 {
   Serial.begin( 115200 );
@@ -52,8 +51,6 @@ void setup()
       Serial.println("OSC did not start.");
 
   delay( 200 );
-
-  next_time = millis() + 5000;
 }
 
 void loop()

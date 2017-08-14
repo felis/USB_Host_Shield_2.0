@@ -20,8 +20,8 @@
 // Satisfy IDE, which only needs to see the include statment in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 USB Usb;
 ADK adk(&Usb, "TKJElectronics", // Manufacturer Name
@@ -68,8 +68,8 @@ void loop() {
       digitalWrite(LED, msg[0] ? HIGH : LOW);
     }
 
-    if (millis() - timer >= 1000) { // Send data every 1s
-      timer = millis();
+    if ((int32_t)((uint32_t)millis() - timer) >= 1000) { // Send data every 1s
+      timer = (uint32_t)millis();
       rcode = adk.SndData(sizeof(timer), (uint8_t*)&timer);
       if (rcode && rcode != hrNAK) {
         Serial.print(F("\r\nData send: "));
