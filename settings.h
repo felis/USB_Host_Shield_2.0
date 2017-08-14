@@ -123,7 +123,7 @@ e-mail   :  support@circuitsathome.com
 #define EXT_RAM 0
 #endif
 
-#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK66FX1M0__))
 #define USING_SPI4TEENSY3 USE_SPI4TEENSY3
 #else
 #define USING_SPI4TEENSY3 0

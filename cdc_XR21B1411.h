@@ -60,7 +60,7 @@ e-mail   :  support@circuitsathome.com
 #define XR_REG_ERROR_STATUS_OVERRUN             (0x0010U) // RX OVERRUN ERROR
 #define XR_REG_ERROR_STATUS_PARITY              (0x0020U) // PARITY ERROR
 #define XR_REG_ERROR_STATUS_FRAME               (0x0040U) // FRAMING ERROR
-#define XR_REG_ERROR_STATUS_BREAK               (0x0080U) // BREAK IS BEING DETECTED
+#define XR_REG_ERROR_STATUS_BREAKING            (0x0080U) // BREAK IS BEING DETECTED
 
 #define XR_REG_TX_BREAK                         (0x0C0AU) // TRANSMIT BREAK. 0X0001-0XFFE TIME IN MS, 0X0000 STOP, 0X0FFF BREAK ON
 
