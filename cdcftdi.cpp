@@ -84,8 +84,8 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         p->epinfo = oldep_ptr;
 
         if(rcode) {
-        
                 goto FailGetDevDescr;
+        }
         if(udd->idVendor != FTDI_VID || udd->idProduct != wIdProduct)
         {
                 USBTRACE("FTDI Init: Product not supported\r\n");
