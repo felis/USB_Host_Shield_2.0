@@ -17,8 +17,8 @@ Otherwise, wire up a IR LED yourself.
 // Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 #ifndef WIICAMERA // Used to check if WIICAMERA is defined
 #error "Please set ENABLE_WII_IR_CAMERA to 1 in settings.h"

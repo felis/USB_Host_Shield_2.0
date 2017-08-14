@@ -4,8 +4,8 @@
 // Satisfy the IDE, which needs to see the include statment in the ino too.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
-#include <SPI.h>
 #endif
+#include <SPI.h>
 
 // Override HIDComposite to be able to select which interface we want to hook into
 class HIDSelector : public HIDComposite

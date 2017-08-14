@@ -9,8 +9,8 @@
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
-#include <SPI.h> // Hack to use the SPI library
 #endif
+#include <SPI.h> // Hack to use the SPI library
 
 /* variables */
 uint8_t rcode;

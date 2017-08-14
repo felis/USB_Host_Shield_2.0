@@ -58,11 +58,11 @@
 #if defined(CORE_TEENSY) && !defined(_AVR_)
 #include <xmem.h>
 #include <spi4teensy3.h>
+#include <SPI.h>
 #endif
 
 #if defined(__AVR__)
 #include <xmem.h>
-#include <SPI.h>
 #elif defined(ARDUINO_ARCH_SAM)
 #include <SPI.h>
 #endif
