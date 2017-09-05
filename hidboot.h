@@ -546,7 +546,7 @@ void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t
         bConfNum = conf;
         bIfaceNum = iface;
 
-        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) {
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT && (pep->bEndpointAddress & 0x80) == 0x80) {
                 if(pep->bInterval > bInterval) bInterval = pep->bInterval;
 
                 // Fill in the endpoint info structure

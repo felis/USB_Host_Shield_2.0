@@ -313,29 +313,27 @@ void HIDComposite::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 bNumIface++;
         }
 
-        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
-            index = epInterruptInIndex;
-        else
-            index = epInterruptOutIndex;
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT)
+                index = (pep->bEndpointAddress & 0x80) == 0x80 ? epInterruptInIndex : epInterruptOutIndex;
 
         if(!SelectInterface(iface, proto))
-            index = 0;
+                index = 0;
 
         if(index) {
-            // Fill in the endpoint info structure
-            epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
-            epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
-            epInfo[bNumEP].bmSndToggle = 0;
-            epInfo[bNumEP].bmRcvToggle = 0;
-            epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
+                // Fill in the endpoint info structure
+                epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
+                epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+                epInfo[bNumEP].bmSndToggle = 0;
+                epInfo[bNumEP].bmRcvToggle = 0;
+                epInfo[bNumEP].bmNakPower = USB_NAK_NOWAIT;
 
-            // Fill in the endpoint index list
-            piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
+                // Fill in the endpoint index list
+                piface->epIndex[index] = bNumEP; //(pep->bEndpointAddress & 0x0F);
 
-            if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
-                    pollInterval = pep->bInterval;
+                if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+                        pollInterval = pep->bInterval;
 
-            bNumEP++;
+                bNumEP++;
         }
 }
 
