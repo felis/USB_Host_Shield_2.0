@@ -237,10 +237,9 @@ void ACM::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
 
         uint8_t index;
 
-        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80)
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT && (pep->bEndpointAddress & 0x80) == 0x80)
                 index = epInterruptInIndex;
-        else
-                if((pep->bmAttributes & 0x02) == 2)
+        else if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK)
                 index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
         else
                 return;

@@ -304,7 +304,7 @@ uint8_t USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
                         USBTRACE("-EPAddr:"), D_PrintHex(epDesc->bEndpointAddress, 0x80);
                         USBTRACE(" bmAttr:"), D_PrintHex(epDesc->bmAttributes, 0x80);
                         USBTRACE2(" MaxPktSz:", (uint8_t)epDesc->wMaxPacketSize);
-                        if ((epDesc->bmAttributes & 0x02) == 2) {//bulk
+                        if ((epDesc->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK) {//bulk
                                 uint8_t index;
                                 if( isMidi )
                                         index = ((epDesc->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
