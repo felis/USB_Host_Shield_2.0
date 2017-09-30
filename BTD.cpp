@@ -418,7 +418,14 @@ void BTD::HCI_event_task() {
                                 break;
 
                         case EV_COMMAND_STATUS:
-                                if(hcibuf[2]) { // Show status on serial if not OK
+                                if(hcibuf[2] == 0x0B) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nHCI Attempting Re-Connect"), 0x80);
+#endif
+
+                                        delay(50);
+                                        hci_connect();
+                                } else if(hcibuf[2]) { // Show status on serial if not OK
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nHCI Command Failed: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[2], 0x80);
