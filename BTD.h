@@ -68,6 +68,10 @@
 #define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
 #define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
 
+
+#define HCI_COMMAND(...) {uint8_t buf[]={__VA_ARGS__}; HCI_Command(buf, sizeof(buf));}
+
+
 /* Macros for HCI event flag tests */
 #define hci_check_flag(flag) (hci_event_flag & (flag))
 #define hci_set_flag(flag) (hci_event_flag |= (flag))
@@ -159,6 +163,8 @@
 #define l2cap_set_flag(flag) (l2cap_event_flag |= (flag))
 #define l2cap_clear_flag(flag) (l2cap_event_flag &= ~(flag))
 
+#define L2CAP_COMMAND(handle, ...) {uint8_t buf[]={__VA_ARGS__}; L2CAP_Command(handle, buf, sizeof(buf));}
+
 /* L2CAP signaling commands */
 #define L2CAP_CMD_COMMAND_REJECT        0x01
 #define L2CAP_CMD_CONNECTION_REQUEST    0x02
@@ -191,431 +197,536 @@
 
 class BluetoothService;
 
+
+
+
+
+
+
+
 /**
  * The Bluetooth Dongle class will take care of all the USB communication
  * and then pass the data to the BluetoothService classes.
  */
 class BTD : public USBDeviceConfig, public UsbConfigXtracter {
 public:
-        /**
-         * Constructor for the BTD class.
-         * @param  p   Pointer to USB class instance.
-         */
-        BTD(USB *p);
+	/**
+	 * Constructor for the BTD class.
+	 * @param  p   Pointer to USB class instance.
+	 */
+	BTD(USB *p);
 
-        /** @name USBDeviceConfig implementation */
-        /**
-         * Address assignment and basic initialization is done here.
-         * @param  parent   Hub number.
-         * @param  port     Port number on the hub.
-         * @param  lowspeed Speed of the device.
-         * @return          0 on success.
-         */
-        uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
-        /**
-         * Initialize the Bluetooth dongle.
-         * @param  parent   Hub number.
-         * @param  port     Port number on the hub.
-         * @param  lowspeed Speed of the device.
-         * @return          0 on success.
-         */
-        uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
-        /**
-         * Release the USB device.
-         * @return 0 on success.
-         */
-        uint8_t Release();
-        /**
-         * Poll the USB Input endpoints and run the state machines.
-         * @return 0 on success.
-         */
-        uint8_t Poll();
+	/** @name USBDeviceConfig implementation */
+	/**
+	 * Address assignment and basic initialization is done here.
+	 * @param  parent   Hub number.
+	 * @param  port     Port number on the hub.
+	 * @param  lowspeed Speed of the device.
+	 * @return          0 on success.
+	 */
+	uint8_t ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed);
+	/**
+	 * Initialize the Bluetooth dongle.
+	 * @param  parent   Hub number.
+	 * @param  port     Port number on the hub.
+	 * @param  lowspeed Speed of the device.
+	 * @return          0 on success.
+	 */
+	uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
+	/**
+	 * Release the USB device.
+	 * @return 0 on success.
+	 */
+	uint8_t Release();
+	/**
+	 * Poll the USB Input endpoints and run the state machines.
+	 * @return 0 on success.
+	 */
+	uint8_t Poll();
 
-        /**
-         * Get the device address.
-         * @return The device address.
-         */
-        virtual uint8_t GetAddress() {
-                return bAddress;
-        };
+	/**
+	 * Get the device address.
+	 * @return The device address.
+	 */
+	virtual uint8_t GetAddress() {
+		return bAddress;
+	};
 
-        /**
-         * Used to check if the dongle has been initialized.
-         * @return True if it's ready.
-         */
-        virtual bool isReady() {
-                return bPollEnable;
-        };
+	/**
+	 * Used to check if the dongle has been initialized.
+	 * @return True if it's ready.
+	 */
+	virtual bool isReady() {
+		return bPollEnable;
+	};
 
-        /**
-         * Used by the USB core to check what this driver support.
-         * @param  klass The device's USB class.
-         * @return       Returns true if the device's USB class matches this driver.
-         */
-        virtual bool DEVCLASSOK(uint8_t klass) {
-                return (klass == USB_CLASS_WIRELESS_CTRL);
-        };
+	/**
+	 * Used by the USB core to check what this driver support.
+	 * @param  klass The device's USB class.
+	 * @return       Returns true if the device's USB class matches this driver.
+	 */
+	virtual bool DEVCLASSOK(uint8_t klass) {
+		return (klass == USB_CLASS_WIRELESS_CTRL);
+	};
 
-        /**
-         * Used by the USB core to check what this driver support.
-         * Used to set the Bluetooth address into the PS3 controllers.
-         * @param  vid The device's VID.
-         * @param  pid The device's PID.
-         * @return     Returns true if the device's VID and PID matches this driver.
-         */
-        virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
-                        return true;
-                if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
-                        if(vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
-                                return true;
-                }
-                return false;
-        };
-        /**@}*/
+	/**
+	 * Used by the USB core to check what this driver support.
+	 * Used to set the Bluetooth address into the PS3 controllers.
+	 * @param  vid The device's VID.
+	 * @param  pid The device's PID.
+	 * @return     Returns true if the device's VID and PID matches this driver.
+	 */
+	virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
+		if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
+			return true;
+		if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
+			if(vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
+				return true;
+		}
+		return false;
+	};
+	/**@}*/
 
-        /** @name UsbConfigXtracter implementation */
-        /**
-         * UsbConfigXtracter implementation, used to extract endpoint information.
-         * @param conf  Configuration value.
-         * @param iface Interface number.
-         * @param alt   Alternate setting.
-         * @param proto Interface Protocol.
-         * @param ep    Endpoint Descriptor.
-         */
-        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
-        /**@}*/
+	/** @name UsbConfigXtracter implementation */
+	/**
+	 * UsbConfigXtracter implementation, used to extract endpoint information.
+	 * @param conf  Configuration value.
+	 * @param iface Interface number.
+	 * @param alt   Alternate setting.
+	 * @param proto Interface Protocol.
+	 * @param ep    Endpoint Descriptor.
+	 */
+	void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+	/**@}*/
 
-        /** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */
-        void disconnect();
+	/** Disconnects both the L2CAP Channel and the HCI Connection for all Bluetooth services. */
+	void disconnect();
 
-        /**
-         * Register Bluetooth dongle members/services.
-         * @param  pService Pointer to BluetoothService class instance.
-         * @return          The service ID on success or -1 on fail.
-         */
-        int8_t registerBluetoothService(BluetoothService *pService) {
-                for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++) {
-                        if(!btService[i]) {
-                                btService[i] = pService;
-                                return i; // Return ID
-                        }
-                }
-                return -1; // Error registering BluetoothService
-        };
+	/**
+	 * Register Bluetooth dongle members/services.
+	 * @param  pService Pointer to BluetoothService class instance.
+	 * @return          The service ID on success or -1 on fail.
+	 */
+	int8_t registerBluetoothService(BluetoothService *pService) {
+		for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++) {
+			if(!btService[i]) {
+				btService[i] = pService;
+				return i; // Return ID
+			}
+		}
+		return -1; // Error registering BluetoothService
+	};
 
-        /** @name HCI Commands */
-        /**
-         * Used to send a HCI Command.
-         * @param data   Data to send.
-         * @param nbytes Number of bytes to send.
-         */
-        void HCI_Command(uint8_t* data, uint16_t nbytes);
-        /** Reset the Bluetooth dongle. */
-        void hci_reset();
-        /** Read the Bluetooth address of the dongle. */
-        void hci_read_bdaddr();
-        /** Read the HCI Version of the Bluetooth dongle. */
-        void hci_read_local_version_information();
-        /**
-         * Set the local name of the Bluetooth dongle.
-         * @param name Desired name.
-         */
-        void hci_set_local_name(const char* name);
-        /** Enable visibility to other Bluetooth devices. */
-        void hci_write_scan_enable();
-        /** Disable visibility to other Bluetooth devices. */
-        void hci_write_scan_disable();
-        /** Read the remote devices name. */
-        void hci_remote_name();
-        /** Accept the connection with the Bluetooth device. */
-        void hci_accept_connection();
-        /**
-         * Disconnect the HCI connection.
-         * @param handle The HCI Handle for the connection.
-         */
-        void hci_disconnect(uint16_t handle);
-        /**
-         * Respond with the pin for the connection.
-         * The pin is automatically set for the Wii library,
-         * but can be customized for the SPP library.
-         */
-        void hci_pin_code_request_reply();
-        /** Respons when no pin was set. */
-        void hci_pin_code_negative_request_reply();
-        /**
-         * Command is used to reply to a Link Key Request event from the BR/EDR Controller
-         * if the Host does not have a stored Link Key for the connection.
-         */
-        void hci_link_key_request_negative_reply();
-        /** Used to try to authenticate with the remote device. */
-        void hci_authentication_request();
-        /** Start a HCI inquiry. */
-        void hci_inquiry();
-        /** Cancel a HCI inquiry. */
-        void hci_inquiry_cancel();
-        /** Connect to last device communicated with. */
-        void hci_connect();
-        /**
-         * Connect to device.
-         * @param bdaddr Bluetooth address of the device.
-         */
-        void hci_connect(uint8_t *bdaddr);
-        /** Used to a set the class of the device. */
-        void hci_write_class_of_device();
-        /**@}*/
 
-        /** @name L2CAP Commands */
-        /**
-         * Used to send L2CAP Commands.
-         * @param handle      HCI Handle.
-         * @param data        Data to send.
-         * @param nbytes      Number of bytes to send.
-         * @param channelLow,channelHigh  Low and high byte of channel to send to.
-         * If argument is omitted then the Standard L2CAP header: Channel ID (0x01) for ACL-U will be used.
-         */
-        void L2CAP_Command(uint16_t handle, uint8_t* data, uint8_t nbytes, uint8_t channelLow = 0x01, uint8_t channelHigh = 0x00);
-        /**
-         * L2CAP Connection Request.
-         * @param handle HCI handle.
-         * @param rxid   Identifier.
-         * @param scid   Source Channel Identifier.
-         * @param psm    Protocol/Service Multiplexer - see: https://www.bluetooth.org/Technical/AssignedNumbers/logical_link.htm.
-         */
-        void l2cap_connection_request(uint16_t handle, uint8_t rxid, uint8_t* scid, uint16_t psm);
-        /**
-         * L2CAP Connection Response.
-         * @param handle HCI handle.
-         * @param rxid   Identifier.
-         * @param dcid   Destination Channel Identifier.
-         * @param scid   Source Channel Identifier.
-         * @param result Result - First send ::PENDING and then ::SUCCESSFUL.
-         */
-        void l2cap_connection_response(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid, uint8_t result);
-        /**
-         * L2CAP Config Request.
-         * @param handle HCI Handle.
-         * @param rxid   Identifier.
-         * @param dcid   Destination Channel Identifier.
-         */
-        void l2cap_config_request(uint16_t handle, uint8_t rxid, uint8_t* dcid);
-        /**
-         * L2CAP Config Response.
-         * @param handle HCI Handle.
-         * @param rxid   Identifier.
-         * @param scid   Source Channel Identifier.
-         */
-        void l2cap_config_response(uint16_t handle, uint8_t rxid, uint8_t* scid);
-        /**
-         * L2CAP Disconnection Request.
-         * @param handle HCI Handle.
-         * @param rxid   Identifier.
-         * @param dcid   Device Channel Identifier.
-         * @param scid   Source Channel Identifier.
-         */
-        void l2cap_disconnection_request(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid);
-        /**
-         * L2CAP Disconnection Response.
-         * @param handle HCI Handle.
-         * @param rxid   Identifier.
-         * @param dcid   Device Channel Identifier.
-         * @param scid   Source Channel Identifier.
-         */
-        void l2cap_disconnection_response(uint16_t handle, uint8_t rxid, uint8_t* dcid, uint8_t* scid);
-        /**
-         * L2CAP Information Response.
-         * @param handle       HCI Handle.
-         * @param rxid         Identifier.
-         * @param infoTypeLow,infoTypeHigh  Infotype.
-         */
-        void l2cap_information_response(uint16_t handle, uint8_t rxid, uint8_t infoTypeLow, uint8_t infoTypeHigh);
-        /**@}*/
+	int8_t bluetoothServiceId(BluetoothService *pService) {
+		for(int8_t i = 0; i < BTD_NUM_SERVICES; i++) {
+			if (pService == btService[i]) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
-        /** Use this to see if it is waiting for a incoming connection. */
-        bool waitingForConnection;
-        /** This is used by the service to know when to store the device information. */
-        bool l2capConnectionClaimed;
-        /** This is used by the SPP library to claim the current SDP incoming request. */
-        bool sdpConnectionClaimed;
-        /** This is used by the SPP library to claim the current RFCOMM incoming request. */
-        bool rfcommConnectionClaimed;
+	/** @name HCI Commands */
+	/**
+	 * Used to send a HCI Command.
+	 * @param data   Data to send.
+	 * @param nbytes Number of bytes to send.
+	 */
+	void HCI_Command(uint8_t* data, uint16_t nbytes);
+	/** Reset the Bluetooth dongle. */
+	void hci_reset();
+	/** Read the Bluetooth address of the dongle. */
+	void hci_read_bdaddr();
+	/** Read the HCI Version of the Bluetooth dongle. */
+	void hci_read_local_version_information();
+	/**
+	 * Set the local name of the Bluetooth dongle.
+	 * @param name Desired name.
+	 */
+	void hci_set_local_name(const char* name);
+	/** Enable visibility to other Bluetooth devices. */
+	void hci_write_scan_enable();
+	/** Disable visibility to other Bluetooth devices. */
+	void hci_write_scan_disable();
+	/** Read the remote devices name. */
+	void hci_remote_name();
+	/** Accept the connection with the Bluetooth device. */
+	void hci_accept_connection();
+	/**
+	 * Disconnect the HCI connection.
+	 * @param handle The HCI Handle for the connection.
+	 */
+	void hci_disconnect(uint16_t handle);
+	/**
+	 * Respond with the pin for the connection.
+	 * The pin is automatically set for the Wii library,
+	 * but can be customized for the SPP library.
+	 */
+	void hci_pin_code_request_reply();
+	/** Respons when no pin was set. */
+	void hci_pin_code_negative_request_reply();
+	/**
+	 * Command is used to reply to a Link Key Request event from the BR/EDR Controller
+	 * if the Host does not have a stored Link Key for the connection.
+	 */
+	void hci_link_key_request_negative_reply();
+	/** Used to try to authenticate with the remote device. */
+	void hci_authentication_request();
+	/** Start a HCI inquiry. */
+	void hci_inquiry(bool general=false);
+	/** Cancel a HCI inquiry. */
+	void hci_inquiry_cancel();
 
-        /** The name you wish to make the dongle show up as. It is set automatically by the SPP library. */
-        const char* btdName;
-        /** The pin you wish to make the dongle use for authentication. It is set automatically by the SPP and BTHID library. */
-        const char* btdPin;
 
-        /** The bluetooth dongles Bluetooth address. */
-        uint8_t my_bdaddr[6];
-        /** HCI handle for the last connection. */
-        uint16_t hci_handle;
-        /** Last incoming devices Bluetooth address. */
-        uint8_t disc_bdaddr[6];
-        /** First 30 chars of last remote name. */
-        char remote_name[30];
-        /**
-         * The supported HCI Version read from the Bluetooth dongle.
-         * Used by the PS3BT library to check the HCI Version of the Bluetooth dongle,
-         * it should be at least 3 to work properly with the library.
-         */
-        uint8_t hci_version;
 
-        /** Call this function to pair with a Wiimote */
-        void pairWithWiimote() {
-                pairWithWii = true;
-                hci_state = HCI_CHECK_DEVICE_SERVICE;
-        };
-        /** Used to only send the ACL data to the Wiimote. */
-        bool connectToWii;
-        /** True if a Wiimote is connecting. */
-        bool incomingWii;
-        /** True when it should pair with a Wiimote. */
-        bool pairWithWii;
-        /** True if it's the new Wiimote with the Motion Plus Inside or a Wii U Pro Controller. */
-        bool motionPlusInside;
-        /** True if it's a Wii U Pro Controller. */
-        bool wiiUProController;
 
-        /** Call this function to pair with a HID device */
-        void pairWithHID() {
-                waitingForConnection = false;
-                pairWithHIDDevice = true;
-                hci_state = HCI_CHECK_DEVICE_SERVICE;
-        };
-        /** Used to only send the ACL data to the HID device. */
-        bool connectToHIDDevice;
-        /** True if a HID device is connecting. */
-        bool incomingHIDDevice;
-        /** True when it should pair with a device like a mouse or keyboard. */
-        bool pairWithHIDDevice;
+	/**
+	 * Connect to device.
+	 * @param bdaddr Bluetooth address of the device.
+	 */
+	void hci_connect(uint8_t *bdaddr);
+	INLINE void hci_connect() { hci_connect(last_bdaddr); }
 
-        /**
-         * Read the poll interval taken from the endpoint descriptors.
-         * @return The poll interval in ms.
-         */
-        uint8_t readPollInterval() {
-                return pollInterval;
-        };
+
+	/** Used to a set the class of the device. */
+	void hci_write_class_of_device();
+
+
+
+
+
+
+	/** @name L2CAP Commands */
+	void l2cap_raw(uint16_t handle, uint16_t channel = 0x0001);
+
+
+
+
+	/**
+	 * Used to send L2CAP Commands.
+	 * @param handle      HCI Handle.
+	 * @param data        Data to send.
+	 * @param nbytes      Number of bytes to send.
+	 * @param channelLow,channelHigh  Low and high byte of channel to send to.
+	 * If argument is omitted then the Standard L2CAP header: Channel ID (0x01) for ACL-U will be used.
+	 */
+	void L2CAP_Command(uint16_t handle, const void* data, uint8_t nbytes, uint16_t channel = 0x0001);
+
+
+
+
+	/**
+	 * L2CAP Connection Request.
+	 * @param handle HCI handle.
+	 * @param rxid   Identifier.
+	 * @param scid   Source Channel Identifier.
+	 * @param psm    Protocol/Service Multiplexer - see: https://www.bluetooth.org/Technical/AssignedNumbers/logical_link.htm.
+	 */
+	void l2cap_connection_request(uint16_t handle, uint8_t rxid, uint16_t scid, uint16_t psm);
+
+
+
+
+	/**
+	 * L2CAP Connection Response.
+	 * @param handle HCI handle.
+	 * @param rxid   Identifier.
+	 * @param dcid   Destination Channel Identifier.
+	 * @param scid   Source Channel Identifier.
+	 * @param result Result - First send ::PENDING and then ::SUCCESSFUL.
+	 */
+	void l2cap_connection_response(uint16_t handle, uint8_t rxid, uint16_t dcid, uint16_t scid, uint8_t result);
+
+
+
+
+	/**
+	 * L2CAP Config Request.
+	 * @param handle HCI Handle.
+	 * @param rxid   Identifier.
+	 * @param dcid   Destination Channel Identifier.
+	 */
+	void l2cap_config_request(uint16_t handle, uint8_t rxid, uint16_t dcid);
+
+
+
+
+	/**
+	 * L2CAP Config Response.
+	 * @param handle HCI Handle.
+	 * @param rxid   Identifier.
+	 * @param scid   Source Channel Identifier.
+	 */
+	void l2cap_config_response(uint16_t handle, uint8_t rxid, uint16_t scid);
+
+
+
+
+	/**
+	 * L2CAP Disconnection Request.
+	 * @param handle HCI Handle.
+	 * @param rxid   Identifier.
+	 * @param dcid   Device Channel Identifier.
+	 * @param scid   Source Channel Identifier.
+	 */
+	void l2cap_disconnection_request(uint16_t handle, uint8_t rxid, uint16_b dcid, uint16_b scid);
+
+
+
+
+	/**
+	 * L2CAP Disconnection Response.
+	 * @param handle HCI Handle.
+	 * @param rxid   Identifier.
+	 * @param dcid   Device Channel Identifier.
+	 * @param scid   Source Channel Identifier.
+	 */
+	void l2cap_disconnection_response(uint16_t handle, uint8_t rxid, uint16_b dcid, uint16_b scid);
+
+
+
+
+	/**
+	 * L2CAP Information Response.
+	 * @param handle       HCI Handle.
+	 * @param rxid         Identifier.
+	 * @param infoTypeLow,infoTypeHigh  Infotype.
+	 */
+	void l2cap_information_response(uint16_t handle, uint8_t rxid, uint8_t infoTypeLow, uint8_t infoTypeHigh);
+
+
+
+
+
+
+	/** Use this to see if it is waiting for a incoming connection. */
+	bool waitingForConnection;
+
+
+	/** This is used by the service to know when to store the device information. */
+	bool l2capConnectionClaimed;
+
+
+	/** This is used by the SPP library to claim the current SDP incoming request. */
+	bool sdpConnectionClaimed;
+
+
+	/** This is used by the SPP library to claim the current RFCOMM incoming request. */
+	bool rfcommConnectionClaimed;
+
+
+	/** The bluetooth dongles Bluetooth address. */
+	uint8_t my_bdaddr[6];
+
+
+	/** HCI handle for the last connection. */
+	uint16_t hci_handle;
+
+
+	/** Last incoming devices Bluetooth address. */
+	uint8_t last_bdaddr[6];
+
+
+	/** First 30 chars of last remote name. */
+	char remote_name[30];
+
+
+	/**
+	 * The supported HCI Version read from the Bluetooth dongle.
+	 * Used by the PS3BT library to check the HCI Version of the Bluetooth dongle,
+	 * it should be at least 3 to work properly with the library.
+	 */
+	uint8_t hci_version;
+
+
+
+	/** Call this function to pair with a Wiimote */
+	INLINE void pairWithWiiRemote(bool pair=true) {
+		waitingForConnection	= false;
+		pairWithWii				= pair;
+		hci_state				= HCI_CHECK_DEVICE_SERVICE;
+		Notify("\r\nHCI_CHECK_DEVICE_SERVICE");
+	};
+
+
+	/** Used to only send the ACL data to the Wiimote. */
+	bool connectToWii;
+
+
+	/** True if a Wiimote is connecting. */
+	bool incomingWii;
+
+
+	/** True when it should pair with a Wiimote. */
+	bool pairWithWii;
+
+
+	/** True if it's the new Wiimote with the Motion Plus Inside or a Wii U Pro Controller. */
+	bool motionPlusInside;
+
+
+	/** True if it's a Wii U Pro Controller. */
+	bool wiiUProController;
+
+
+
+	INLINE uint8_t state() { return hci_state; }
+
+
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
-        /** Device address. */
-        uint8_t bAddress;
-        /** Endpoint info structure. */
-        EpInfo epInfo[BTD_MAX_ENDPOINTS];
 
-        /** Configuration number. */
-        uint8_t bConfNum;
-        /** Total number of endpoints in the configuration. */
-        uint8_t bNumEP;
-        /** Next poll time based on poll interval taken from the USB descriptor. */
-        uint32_t qNextPollTime;
+	/** Pointer to USB class instance. */
+	USB *pUsb;
 
-        /** Bluetooth dongle control endpoint. */
-        static const uint8_t BTD_CONTROL_PIPE;
-        /** HCI event endpoint index. */
-        static const uint8_t BTD_EVENT_PIPE;
-        /** ACL In endpoint index. */
-        static const uint8_t BTD_DATAIN_PIPE;
-        /** ACL Out endpoint index. */
-        static const uint8_t BTD_DATAOUT_PIPE;
 
-        /**
-         * Used to print the USB Endpoint Descriptor.
-         * @param ep_ptr Pointer to USB Endpoint Descriptor.
-         */
-        void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+	/** Device address. */
+	uint8_t bAddress;
+
+
+	/** Endpoint info structure. */
+	EpInfo epInfo[BTD_MAX_ENDPOINTS];
+
+
+	/** Configuration number. */
+	uint8_t bConfNum;
+
+	/** Total number of endpoints in the configuration. */
+	uint8_t bNumEP;
+
+	/** Bluetooth dongle control endpoint. */
+	static const uint8_t BTD_CONTROL_PIPE;
+
+	/** HCI event endpoint index. */
+	static const uint8_t BTD_EVENT_PIPE;
+
+	/** ACL In endpoint index. */
+	static const uint8_t BTD_DATAIN_PIPE;
+
+	/** ACL Out endpoint index. */
+	static const uint8_t BTD_DATAOUT_PIPE;
+
+	/**
+	 * Used to print the USB Endpoint Descriptor.
+	 * @param ep_ptr Pointer to USB Endpoint Descriptor.
+	 */
+	void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 private:
-        void Initialize(); // Set all variables, endpoint structs etc. to default values
-        BluetoothService *btService[BTD_NUM_SERVICES];
+	void Initialize(); // Set all variables, endpoint structs etc. to default values
+	BluetoothService *btService[BTD_NUM_SERVICES];
 
-        uint16_t PID, VID; // PID and VID of device connected
+	uint16_t PID, VID; // PID and VID of device connected
 
-        uint8_t pollInterval;
-        bool bPollEnable;
+	uint32_t pollInterval;
+	elapsedMillis qNextPollTime;
+	bool bPollEnable;
 
-        bool pairWiiUsingSync; // True if pairing was done using the Wii SYNC button.
-        bool checkRemoteName; // Used to check remote device's name before connecting.
-        bool incomingPS4; // True if a PS4 controller is connecting
-        uint8_t classOfDevice[3]; // Class of device of last device
+	bool checkRemoteName; // Used to check remote device's name before connecting.
+	uint8_t classOfDevice[3]; // Class of device of last device
 
-        /* Variables used by high level HCI task */
-        uint8_t hci_state; // Current state of Bluetooth HCI connection
-        uint16_t hci_counter; // Counter used for Bluetooth HCI reset loops
-        uint16_t hci_num_reset_loops; // This value indicate how many times it should read before trying to reset
-        uint16_t hci_event_flag; // HCI flags of received Bluetooth events
-        uint8_t inquiry_counter;
+	/* Variables used by high level HCI task */
+	uint8_t hci_state; // Current state of Bluetooth HCI connection
+	uint16_t hci_counter; // Counter used for Bluetooth HCI reset loops
+	uint16_t hci_num_reset_loops; // This value indicate how many times it should read before trying to reset
+	uint16_t hci_event_flag; // HCI flags of received Bluetooth events
+	uint8_t inquiry_counter;
 
-        uint8_t hcibuf[BULK_MAXPKTSIZE]; // General purpose buffer for HCI data
-        uint8_t l2capinbuf[BULK_MAXPKTSIZE]; // General purpose buffer for L2CAP in data
-        uint8_t l2capoutbuf[14]; // General purpose buffer for L2CAP out data
+	uint8_t hcibuf_in[BULK_MAXPKTSIZE]; // General purpose buffer for HCI data
+	uint8_t hcibuf_out[BULK_MAXPKTSIZE]; // General purpose buffer for HCI data
 
-        /* State machines */
-        void HCI_event_task(); // Poll the HCI event pipe
-        void HCI_task(); // HCI state machine
-        void ACL_event_task(); // ACL input pipe
 
-        /* Used to set the Bluetooth Address internally to the PS3 Controllers */
-        void setBdaddr(uint8_t* BDADDR);
-        void setMoveBdaddr(uint8_t* BDADDR);
+	//L2CAP input buffer
+	union PACKED {
+		uint8_t l2c_in_raw[sizeof(L2CAP_S)];
+		L2CAP_S l2c_in;
+	};
+
+
+	//L2CAP output buffer
+	union PACKED {
+		uint8_t l2c_out_raw[sizeof(L2CAP_S)];
+		L2CAP_S l2c_out;
+	};
+
+
+	/* State machines */
+	void HCI_event_task(); // Poll the HCI event pipe
+	void HCI_task(); // HCI state machine
+	void ACL_event_task(); // ACL input pipe
+
+	/* Used to set the Bluetooth Address internally to the PS3 Controllers */
 };
+
+
+
+
+
+
 
 /** All Bluetooth services should inherit this class. */
 class BluetoothService {
 public:
-        BluetoothService(BTD *p) : pBtd(p) {
-                if(pBtd)
-                        pBtd->registerBluetoothService(this); // Register it as a Bluetooth service
-        };
-        /**
-         * Used to pass acldata to the Bluetooth service.
-         * @param ACLData Pointer to the incoming acldata.
-         */
-        virtual void ACLData(uint8_t* ACLData) = 0;
-        /** Used to run the different state machines in the Bluetooth service. */
-        virtual void Run() = 0;
-        /** Used to reset the Bluetooth service. */
-        virtual void Reset() = 0;
-        /** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
-        virtual void disconnect() = 0;
+	BluetoothService(BTD *p) : pBtd(p) {
+		Reset();
+		// Register it as a Bluetooth service
+		player = pBtd->registerBluetoothService(this);
+	};
 
-        /**
-         * Used to call your own function when the device is successfully initialized.
-         * @param funcOnInit Function to call.
-         */
-        void attachOnInit(void (*funcOnInit)(void)) {
-                pFuncOnInit = funcOnInit; // TODO: This really belong in a class of it's own as it is repeated several times
-        };
+
+	/**
+	 * Used to pass acldata to the Bluetooth service.
+	 * @param ACLData Pointer to the incoming acldata.
+	 */
+	virtual void ACLData(const uint8_t* ACLData) = 0;
+
+
+	/** Used to run the different state machines in the Bluetooth service. */
+	virtual void Run() = 0;
+
+
+	/** Used to reset the Bluetooth service. */
+	virtual void Reset() {
+		hci_handle			= 0;
+		l2cap_event_flag	= 0;
+		identifier			= 0;
+	}
+
+
+	/** Used to disconnect both the L2CAP Channel and the HCI Connection for the Bluetooth service. */
+	virtual void disconnect() = 0;
+
 
 protected:
-        /**
-         * Called when a device is successfully initialized.
-         * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
-         * This is useful for instance if you want to set the LEDs in a specific way.
-         */
-        virtual void onInit() = 0;
+	/**
+	 * Called when a device is successfully initialized.
+	 * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.
+	 * This is useful for instance if you want to set the LEDs in a specific way.
+	 */
+	virtual void onInit() = 0;
 
-        /** Used to check if the incoming L2CAP data matches the HCI Handle */
-        bool checkHciHandle(uint8_t *buf, uint16_t handle) {
-                return (buf[0] == (handle & 0xFF)) && (buf[1] == ((handle >> 8) | 0x20));
-        }
+	/** Used to check if the incoming L2CAP data matches the HCI Handle */
+	INLINE bool checkHciHandle(const L2CAP_S* l2c, uint16_t handle) {
+		return l2c->hci_handle == (handle | 0x2000);
+	}
 
-        /** Pointer to function called in onInit(). */
-        void (*pFuncOnInit)(void);
+	uint8_t player;
 
-        /** Pointer to BTD instance. */
-        BTD *pBtd;
+	/** Pointer to BTD instance. */
+	BTD *pBtd;
 
-        /** The HCI Handle for the connection. */
-        uint16_t hci_handle;
+	/** The HCI Handle for the connection. */
+	uint16_t hci_handle;
 
-        /** L2CAP flags of received Bluetooth events. */
-        uint32_t l2cap_event_flag;
+	/** L2CAP flags of received Bluetooth events. */
+	uint32_t l2cap_event_flag;
 
-        /** Identifier for L2CAP commands. */
-        uint8_t identifier;
+	/** Identifier for L2CAP commands. */
+	uint8_t identifier;
 };
+
+
+
 
 #endif

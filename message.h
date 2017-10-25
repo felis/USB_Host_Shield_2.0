@@ -21,10 +21,10 @@ e-mail   :  support@circuitsathome.com
 
 extern int UsbDEBUGlvl;
 
-void E_Notify(char const * msg, int lvl);
-void E_Notify(uint8_t b, int lvl);
-void E_NotifyStr(char const * msg, int lvl);
-void E_Notifyc(char c, int lvl);
+void E_Notify(char const * msg, int lvl=-1);
+void E_Notify(uint8_t b, int lvl=-1);
+void E_NotifyStr(char const * msg, int lvl=-1);
+void E_Notifyc(char c, int lvl=-1);
 
 #ifdef DEBUG_USB_HOST
 #define Notify E_Notify

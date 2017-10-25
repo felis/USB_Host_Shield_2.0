@@ -24,9 +24,17 @@ bool printAngle[length];
 bool oldControllerState[length];
 
 void setup() {
+  delay(100);
+  pinMode(7, OUTPUT);
+  digitalWrite(7, LOW);
+  delay(100);
+  digitalWrite(7, HIGH);
+  delay(100);
+
+
   for (uint8_t i = 0; i < length; i++) {
     Wii[i] = new WII(&Btd); // You will have to pair each controller with the dongle before you can define the instances like so, just add PAIR as the second argument
-    Wii[i]->attachOnInit(onInit); // onInit() is called upon a new connection - you can call the function whatever you like
+//    Wii[i]->attachOnInit(onInit); // onInit() is called upon a new connection - you can call the function whatever you like
   }
 
   Serial.begin(115200);
@@ -86,11 +94,11 @@ void loop() {
           Serial.print(F("\r\nA"));
         }
         if (Wii[i]->getButtonClick(B)) {
-          Wii[i]->setRumbleToggle();
+//          Wii[i]->setRumbleToggle();
           Serial.print(F("\r\nB"));
         }
       }
-      if (printAngle[i]) {
+/*      if (printAngle[i]) {
         Serial.print(F("\r\nPitch: "));
         Serial.print(Wii[i]->getPitch());
         Serial.print(F("\tRoll: "));
@@ -105,9 +113,9 @@ void loop() {
           Serial.print(F("\tNunchuck Roll: "));
           Serial.print(Wii[i]->getNunchuckRoll());
         }
-      }
+      }*/
     }
-    if (Wii[i]->nunchuckConnected) {
+/*    if (Wii[i]->nunchuckConnected) {
       if (Wii[i]->getButtonClick(Z))
         Serial.print(F("\r\nZ"));
       if (Wii[i]->getButtonClick(C))
@@ -118,10 +126,10 @@ void loop() {
         Serial.print(F("\tHatY: "));
         Serial.print(Wii[i]->getAnalogHat(HatY));
       }
-    }
+    }*/
   }
 }
-
+/*
 void onInit() {
   for (uint8_t i = 0; i < length; i++) {
     if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
@@ -130,3 +138,4 @@ void onInit() {
     }
   }
 }
+*/

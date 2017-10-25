@@ -25,6 +25,7 @@ e-mail   :  support@circuitsathome.com
 
 // None of these should ever be included by a driver, or a user's sketch.
 #include "settings.h"
+#include "binary.h"
 #include "printhex.h"
 #include "message.h"
 #include "hexdump.h"
@@ -37,5 +38,6 @@ e-mail   :  support@circuitsathome.com
 #include "UsbCore.h"
 #include "parsetools.h"
 #include "confdescparser.h"
+#include "l2cap_struct.h"
 
 #endif //_usb_h_
