@@ -15,16 +15,46 @@ Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
+
+void DEBUG_LOG(const char *text);
+void DEBUG_LOG(const uint8_t *bytes, uint16_t count, uint8_t mode);
+
+
+
+
+#ifndef INLINE
+#define INLINE		inline __attribute__ ((always_inline))
+#endif
+
+
+
+#ifndef PACKED
+#define PACKED		__attribute__ ((packed))
+#endif
+
+
+
+
 #ifndef USB_HOST_SHIELD_SETTINGS_H
 #define USB_HOST_SHIELD_SETTINGS_H
 #include "macros.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// SPI Configuration
+////////////////////////////////////////////////////////////////////////////////
+#ifdef TEENSYDUINO
+#define USB_SPI SPI1
+#else
+#define USB_SPI SPI
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEBUGGING
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Set this to 1 to activate serial debugging */
-#define ENABLE_UHS_DEBUGGING 0
+//#define ENABLE_UHS_DEBUGGING 1
+//#define EXTRADEBUG
 
 /* This can be used to select which serial port to use for debugging if
  * multiple serial ports are available.

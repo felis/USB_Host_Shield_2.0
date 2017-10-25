@@ -42,7 +42,7 @@ typedef MAX3421e<P3, P2> MAX3421E; // The Intel Galileo supports much faster rea
 #elif defined(ESP8266)
 typedef MAX3421e<P15, P5> MAX3421E; // ESP8266 boards
 #else
-typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison, Intel Galileo 2 or Teensy 2.0 and 3.x
+typedef MAX3421e<P6, P2> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison, Intel Galileo 2 or Teensy 2.0 and 3.x
 #endif
 
 /* Common setup data constant combinations  */
@@ -248,7 +248,7 @@ public:
         uint8_t ctrlData(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr, bool direction);
         uint8_t ctrlStatus(uint8_t ep, bool direction, uint16_t nak_limit);
         uint8_t inTransfer(uint8_t addr, uint8_t ep, uint16_t *nbytesptr, uint8_t* data, uint8_t bInterval = 0);
-        uint8_t outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* data);
+        uint8_t outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, const uint8_t* data);
         uint8_t dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit);
 
         void Task(void);
@@ -263,7 +263,7 @@ public:
 private:
         void init();
         uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit);
-        uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
+        uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, const uint8_t *data);
         uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data, uint8_t bInterval = 0);
         uint8_t AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed);
 };
