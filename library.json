@@ -51,6 +51,7 @@
     "atmelsam",
     "nordicnrf51",
     "ststm32",
-    "espressif8266"
+    "espressif8266",
+    "espressif32"
   ]
 }
