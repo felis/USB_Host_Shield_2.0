@@ -45,28 +45,30 @@
 #define HCI_SET_NAME_STATE              5
 #define HCI_CHECK_DEVICE_SERVICE        6
 
-#define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a device
+#define HCI_INQUIRY_STATE               7 // These four states are only used if it should pair and connect to a device
 #define HCI_CONNECT_DEVICE_STATE        8
-#define HCI_CONNECTED_DEVICE_STATE      9
+#define HCI_RETRY_CONNECT_STATE         9
+#define HCI_CONNECTED_DEVICE_STATE      10
 
-#define HCI_SCANNING_STATE              10
-#define HCI_CONNECT_IN_STATE            11
-#define HCI_REMOTE_NAME_STATE           12
-#define HCI_CONNECTED_STATE             13
-#define HCI_DISABLE_SCAN_STATE          14
-#define HCI_DONE_STATE                  15
-#define HCI_DISCONNECT_STATE            16
+#define HCI_SCANNING_STATE              11
+#define HCI_CONNECT_IN_STATE            12
+#define HCI_REMOTE_NAME_STATE           13
+#define HCI_CONNECTED_STATE             14
+#define HCI_DISABLE_SCAN_STATE          15
+#define HCI_DONE_STATE                  16
+#define HCI_DISCONNECT_STATE            17
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
-#define HCI_FLAG_CONNECT_COMPLETE       (1UL << 1)
-#define HCI_FLAG_DISCONNECT_COMPLETE    (1UL << 2)
-#define HCI_FLAG_REMOTE_NAME_COMPLETE   (1UL << 3)
-#define HCI_FLAG_INCOMING_REQUEST       (1UL << 4)
-#define HCI_FLAG_READ_BDADDR            (1UL << 5)
-#define HCI_FLAG_READ_VERSION           (1UL << 6)
-#define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
-#define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
+#define HCI_FLAG_CMD_FAILED             (1UL << 1)
+#define HCI_FLAG_CONNECT_COMPLETE       (1UL << 2)
+#define HCI_FLAG_DISCONNECT_COMPLETE    (1UL << 3)
+#define HCI_FLAG_REMOTE_NAME_COMPLETE   (1UL << 4)
+#define HCI_FLAG_INCOMING_REQUEST       (1UL << 5)
+#define HCI_FLAG_READ_BDADDR            (1UL << 6)
+#define HCI_FLAG_READ_VERSION           (1UL << 7)
+#define HCI_FLAG_DEVICE_FOUND           (1UL << 8)
+#define HCI_FLAG_CONNECT_EVENT          (1UL << 9)
 
 /* Macros for HCI event flag tests */
 #define hci_check_flag(flag) (hci_event_flag & (flag))

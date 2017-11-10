@@ -423,6 +423,7 @@ void BTD::HCI_event_task() {
                                         Notify(PSTR("\r\nHCI Command Failed: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[2], 0x80);
 #endif
+                                        hci_set_flag(HCI_FLAG_CMD_FAILED);
                                 }
                                 break;
 
@@ -774,6 +775,15 @@ void BTD::HCI_task() {
                         }
                         break;
 
+                case HCI_RETRY_CONNECT_STATE:
+                    hci_counter++;
+                    if(hci_counter > 100) { // Wait until we have looped 100 times before trying to re-connect
+                                hci_counter = 0;
+                                hci_connect(); // Try to connect one more time
+                                hci_state = HCI_CONNECTED_DEVICE_STATE;
+                    }
+                    break;
+
                 case HCI_CONNECTED_DEVICE_STATE:
                         if(hci_check_flag(HCI_FLAG_CONNECT_EVENT)) {
                                 if(hci_check_flag(HCI_FLAG_CONNECT_COMPLETE)) {
@@ -789,9 +799,10 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nTrying to connect one more time..."), 0x80);
 #endif
-                                        hci_connect(); // Try to connect one more time
+                                        hci_state = HCI_RETRY_CONNECT_STATE; // Try to connect one more time
                                 }
-                        }
+                        } else if(hci_check_flag(HCI_FLAG_CMD_FAILED))
+                            hci_state = HCI_RETRY_CONNECT_STATE; // Try to connect one more time
                         break;
 
                 case HCI_SCANNING_STATE:
@@ -946,7 +957,7 @@ void BTD::ACL_event_task() {
 
 /************************************************************/
 void BTD::HCI_Command(uint8_t* data, uint16_t nbytes) {
-        hci_clear_flag(HCI_FLAG_CMD_COMPLETE);
+        hci_clear_flag(HCI_FLAG_CMD_COMPLETE | HCI_FLAG_CMD_FAILED);
         pUsb->ctrlReq(bAddress, epInfo[ BTD_CONTROL_PIPE ].epAddr, bmREQ_HCI_OUT, 0x00, 0x00, 0x00, 0x00, nbytes, nbytes, data, NULL);
 }
 
