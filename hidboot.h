@@ -60,25 +60,25 @@ public:
 
 protected:
 
-        virtual void OnMouseMove(MOUSEINFO *mi) {
+        virtual void OnMouseMove(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnLeftButtonUp(MOUSEINFO *mi) {
+        virtual void OnLeftButtonUp(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnLeftButtonDown(MOUSEINFO *mi) {
+        virtual void OnLeftButtonDown(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnRightButtonUp(MOUSEINFO *mi) {
+        virtual void OnRightButtonUp(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnRightButtonDown(MOUSEINFO *mi) {
+        virtual void OnRightButtonDown(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnMiddleButtonUp(MOUSEINFO *mi) {
+        virtual void OnMiddleButtonUp(MOUSEINFO *mi __attribute__((unused))) {
         };
 
-        virtual void OnMiddleButtonDown(MOUSEINFO *mi) {
+        virtual void OnMiddleButtonDown(MOUSEINFO *mi __attribute__((unused))) {
         };
 };
 
@@ -171,13 +171,13 @@ protected:
                 return 0;
         };
 
-        virtual void OnControlKeysChanged(uint8_t before, uint8_t after) {
+        virtual void OnControlKeysChanged(uint8_t before __attribute__((unused)), uint8_t after __attribute__((unused))) {
         };
 
-        virtual void OnKeyDown(uint8_t mod, uint8_t key) {
+        virtual void OnKeyDown(uint8_t mod __attribute__((unused)), uint8_t key __attribute__((unused))) {
         };
 
-        virtual void OnKeyUp(uint8_t mod, uint8_t key) {
+        virtual void OnKeyUp(uint8_t mod __attribute__((unused)), uint8_t key __attribute__((unused))) {
         };
 
         virtual const uint8_t *getNumKeys() {

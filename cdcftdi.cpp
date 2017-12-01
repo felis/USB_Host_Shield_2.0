@@ -220,7 +220,7 @@ Fail:
         return rcode;
 }
 
-void FTDI::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
+void FTDI::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR *pep) {
         ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
         ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
         ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);

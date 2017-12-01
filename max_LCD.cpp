@@ -51,7 +51,7 @@ void Max_LCD::init() {
         begin(16, 1);
 }
 
-void Max_LCD::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+void Max_LCD::begin(uint8_t cols __attribute__((unused)), uint8_t lines, uint8_t dotsize) {
         if(lines > 1) {
                 _displayfunction |= LCD_2LINE;
         }

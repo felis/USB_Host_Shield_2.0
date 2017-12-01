@@ -66,7 +66,7 @@ void ErrorMessage(uint8_t level, char const * msg, ERROR_TYPE rcode = 0) {
 }
 
 template <class ERROR_TYPE>
-void ErrorMessage(char const * msg, ERROR_TYPE rcode = 0) {
+void ErrorMessage(char const * msg __attribute__((unused)), ERROR_TYPE rcode __attribute__((unused)) = 0) {
 #ifdef DEBUG_USB_HOST
         Notify(msg, 0x80);
         Notify(PSTR(": "), 0x80);

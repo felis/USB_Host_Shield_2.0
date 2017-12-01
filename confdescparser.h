@@ -25,7 +25,7 @@ public:
         //virtual void ConfigXtract(const USB_CONFIGURATION_DESCRIPTOR *conf) = 0;
         //virtual void InterfaceXtract(uint8_t conf, const USB_INTERFACE_DESCRIPTOR *iface) = 0;
 
-        virtual void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep) {
+        virtual void EndpointXtract(uint8_t conf __attribute__((unused)), uint8_t iface __attribute__((unused)), uint8_t alt __attribute__((unused)), uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR *ep __attribute__((unused))) {
         };
 };
 
@@ -81,7 +81,7 @@ UseOr(false) {
 };
 
 template <const uint8_t CLASS_ID, const uint8_t SUBCLASS_ID, const uint8_t PROTOCOL_ID, const uint8_t MASK>
-void ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) {
+void ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset __attribute__((unused))) {
         uint16_t cntdn = (uint16_t)len;
         uint8_t *p = (uint8_t*)pbuf;
 

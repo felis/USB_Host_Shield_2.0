@@ -135,7 +135,7 @@ Fail:
         return rcode;
 };
 
-uint8_t XBOXRECV::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t XBOXRECV::Init(uint8_t parent __attribute__((unused)), uint8_t port __attribute__((unused)), bool lowspeed) {
         uint8_t rcode;
 
         AddressPool &addrPool = pUsb->GetAddressPool();
@@ -392,7 +392,7 @@ void XBOXRECV::readReport(uint8_t controller) {
         }
 }
 
-void XBOXRECV::printReport(uint8_t controller, uint8_t nBytes) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
+void XBOXRECV::printReport(uint8_t controller __attribute__((unused)), uint8_t nBytes __attribute__((unused))) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox 360 Controller
 #ifdef PRINTREPORT
         if(readBuf == NULL)
                 return;

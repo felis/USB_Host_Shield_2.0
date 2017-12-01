@@ -280,7 +280,7 @@ void XBOXOLD::readReport() {
         }
 }
 
-void XBOXOLD::printReport(uint16_t length) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
+void XBOXOLD::printReport(uint16_t length __attribute__((unused))) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #ifdef PRINTREPORT
         if(readBuf == NULL)
                 return;

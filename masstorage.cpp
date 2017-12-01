@@ -323,7 +323,7 @@ FailGetDevDescr:
  * @param lowspeed true if device is low speed
  * @return 0 for success
  */
-uint8_t BulkOnly::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t BulkOnly::Init(uint8_t parent __attribute__((unused)), uint8_t port __attribute__((unused)), bool lowspeed) {
         uint8_t rcode;
         uint8_t num_of_conf = epInfo[1].epAddr; // number of configurations
         epInfo[1].epAddr = 0;
@@ -540,7 +540,7 @@ Fail:
  * @param proto
  * @param pep
  */
-void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR * pep) {
+void BulkOnly::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR * pep) {
         ErrorMessage<uint8_t > (PSTR("Conf.Val"), conf);
         ErrorMessage<uint8_t > (PSTR("Iface Num"), iface);
         ErrorMessage<uint8_t > (PSTR("Alt.Set"), alt);
@@ -1238,7 +1238,7 @@ void BulkOnly::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR * ep_ptr) {
 ////////////////////////////////////////////////////////////////////////////////
 
 /* We won't be needing this... */
-uint8_t BulkOnly::Read(uint8_t lun, uint32_t addr, uint16_t bsize, uint8_t blocks, USBReadParser * prs) {
+uint8_t BulkOnly::Read(uint8_t lun __attribute__((unused)), uint32_t addr __attribute__((unused)), uint16_t bsize __attribute__((unused)), uint8_t blocks __attribute__((unused)), USBReadParser * prs __attribute__((unused))) {
 #if MS_WANT_PARSER
         if(!LUNOk[lun]) return MASS_ERR_NO_MEDIA;
         Notify(PSTR("\r\nRead (With parser)\r\n"), 0x80);

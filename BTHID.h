@@ -122,7 +122,7 @@ protected:
          * @param len The length of the incoming data.
          * @param buf Pointer to the data buffer.
          */
-        virtual void ParseBTHIDData(uint8_t len, uint8_t *buf) {
+        virtual void ParseBTHIDData(uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
                 return;
         };
         /** Called when a device is connected */

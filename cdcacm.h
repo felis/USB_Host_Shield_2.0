@@ -128,7 +128,7 @@ class ACM;
 class CDCAsyncOper {
 public:
 
-        virtual uint8_t OnInit(ACM *pacm) {
+        virtual uint8_t OnInit(ACM *pacm __attribute__((unused))) {
                 return 0;
         };
         //virtual void OnDataRcvd(ACM *pacm, uint8_t nbytes, uint8_t *dataptr) = 0;
@@ -229,19 +229,19 @@ public:
                 return rv;
         };
 
-        virtual void autoflowRTS(bool s) {
+        virtual void autoflowRTS(bool s __attribute__((unused))) {
         };
 
-        virtual void autoflowDSR(bool s) {
+        virtual void autoflowDSR(bool s __attribute__((unused))) {
         };
 
-        virtual void autoflowXON(bool s) {
+        virtual void autoflowXON(bool s __attribute__((unused))) {
         };
 
-        virtual void half_duplex(bool s) {
+        virtual void half_duplex(bool s __attribute__((unused))) {
         };
 
-        virtual void wide(bool s) {
+        virtual void wide(bool s __attribute__((unused))) {
         };
 
         // UsbConfigXtracter implementation

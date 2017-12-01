@@ -375,7 +375,7 @@ uint8_t USBHub::PortStatusChange(uint8_t port, HubEvent &evt) {
         return 0;
 }
 
-void PrintHubPortStatus(USBHub *hubptr, uint8_t addr, uint8_t port, bool print_changes) {
+void PrintHubPortStatus(USBHub *hubptr, uint8_t addr __attribute__((unused)), uint8_t port, bool print_changes) {
         uint8_t rcode = 0;
         HubEvent evt;
 

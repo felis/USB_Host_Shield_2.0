@@ -131,7 +131,7 @@ FailGetDevDescr:
         return rcode;
 };
 
-uint8_t BTD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
+uint8_t BTD::Init(uint8_t parent __attribute__((unused)), uint8_t port __attribute__((unused)), bool lowspeed) {
         uint8_t rcode;
         uint8_t num_of_conf = epInfo[1].epAddr; // Number of configurations
         epInfo[1].epAddr = 0;
@@ -324,7 +324,7 @@ void BTD::Initialize() {
 }
 
 /* Extracts interrupt-IN, bulk-IN, bulk-OUT endpoint information from config descriptor */
-void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
+void BTD::EndpointXtract(uint8_t conf, uint8_t iface __attribute__((unused)), uint8_t alt, uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR *pep) {
         //ErrorMessage<uint8_t>(PSTR("Conf.Val"),conf);
         //ErrorMessage<uint8_t>(PSTR("Iface Num"),iface);
         //ErrorMessage<uint8_t>(PSTR("Alt.Set"),alt);
@@ -356,7 +356,7 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto
         bNumEP++;
 }
 
-void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
+void BTD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr __attribute__((unused))) {
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nEndpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);

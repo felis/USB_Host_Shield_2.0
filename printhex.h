@@ -66,7 +66,7 @@ void PrintHex2(Print *prn, T val) {
         prn->print((T)val, HEX);
 }
 
-template <class T> void D_PrintHex(T val, int lvl) {
+template <class T> void D_PrintHex(T val __attribute__((unused)), int lvl __attribute__((unused))) {
 #ifdef DEBUG_USB_HOST
         PrintHex<T > (val, lvl);
 #endif

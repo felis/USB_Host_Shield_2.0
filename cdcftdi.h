@@ -79,11 +79,11 @@ class FTDI;
 class FTDIAsyncOper {
 public:
 
-        virtual uint8_t OnInit(FTDI *pftdi) {
+        virtual uint8_t OnInit(FTDI *pftdi __attribute__((unused))) {
                 return 0;
         };
 
-        virtual uint8_t OnRelease(FTDI *pftdi) {
+        virtual uint8_t OnRelease(FTDI *pftdi __attribute__((unused))) {
                 return 0;
         };
 };

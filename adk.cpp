@@ -309,7 +309,7 @@ Fail:
 }
 
 /* Extracts bulk-IN and bulk-OUT endpoint information from config descriptor */
-void ADK::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
+void ADK::EndpointXtract(uint8_t conf, uint8_t iface __attribute__((unused)), uint8_t alt __attribute__((unused)), uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR *pep) {
         //ErrorMessage<uint8_t>(PSTR("Conf.Val"), conf);
         //ErrorMessage<uint8_t>(PSTR("Iface Num"), iface);
         //ErrorMessage<uint8_t>(PSTR("Alt.Set"), alt);
