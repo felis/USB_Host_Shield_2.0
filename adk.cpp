@@ -321,7 +321,7 @@ void ADK::EndpointXtract(uint8_t conf, uint8_t iface __attribute__((unused)), ui
 
         bConfNum = conf;
 
-        if((pep->bmAttributes & 0x02) == 2) {
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK) {
                 uint8_t index = ((pep->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
                 // Fill in the endpoint info structure
                 epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);

@@ -335,15 +335,13 @@ void BTD::EndpointXtract(uint8_t conf, uint8_t iface __attribute__((unused)), ui
         bConfNum = conf;
         uint8_t index;
 
-        if((pep->bmAttributes & 0x03) == 3 && (pep->bEndpointAddress & 0x80) == 0x80) { // Interrupt In endpoint found
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT && (pep->bEndpointAddress & 0x80) == 0x80) { // Interrupt In endpoint found
                 index = BTD_EVENT_PIPE;
                 epInfo[index].bmNakPower = USB_NAK_NOWAIT;
-        } else {
-                if((pep->bmAttributes & 0x02) == 2) // Bulk endpoint found
-                        index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
-                else
-                        return;
-        }
+        } else if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK) // Bulk endpoint found
+                index = ((pep->bEndpointAddress & 0x80) == 0x80) ? BTD_DATAIN_PIPE : BTD_DATAOUT_PIPE;
+        else
+            return;
 
         // Fill the rest of endpoint data structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
