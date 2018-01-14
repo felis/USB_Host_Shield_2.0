@@ -74,5 +74,4 @@ install:
     - platformio lib install 62 416 417
 
 script:
-    - platformio ci --lib="." --board=uno --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc
-    - platformio ci --lib="." --board=esp12e --board=nodemcu --board=esp32dev --project-option="build_flags=-Wno-unused-function" # Workaround https://github.com/esp8266/Arduino/pull/2881
+    - platformio ci --lib="." --board=uno --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
