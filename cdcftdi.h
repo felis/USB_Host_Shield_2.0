@@ -105,7 +105,8 @@ class FTDI : public USBDeviceConfig, public UsbConfigXtracter {
         uint8_t bNumIface; // number of interfaces in the configuration
         uint8_t bNumEP; // total number of EP in the configuration
         uint32_t qNextPollTime; // next poll time
-        bool bPollEnable; // poll enable flag
+        volatile bool bPollEnable; // poll enable flag
+        volatile bool ready; //device ready indicator
         uint16_t wFTDIType; // Type of FTDI chip
         uint16_t wIdProduct; // expected PID
 
@@ -141,9 +142,8 @@ public:
                 return (vid == FTDI_VID && pid == FTDI_PID);
         }
         virtual bool isReady() {
-                return bPollEnable;
+                return ready;
         };
-
 
 };
 

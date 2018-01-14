@@ -382,11 +382,17 @@ uint8_t USB::dispatchPkt(uint8_t token, uint8_t ep, uint16_t nak_limit) {
         uint16_t nak_count = 0;
 
         while((int32_t)((uint32_t)millis() - timeout) < 0L) {
+#if defined(ESP8266) || defined(ESP32)
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                 regWr(rHXFR, (token | ep)); //launch the transfer
                 rcode = USB_ERROR_TRANSFER_TIMEOUT;
 
                 while((int32_t)((uint32_t)millis() - timeout) < 0L) //wait for transfer completion
                 {
+#if defined(ESP8266) || defined(ESP32)
+                        yield(); // needed in order to reset the watchdog timer on the ESP8266
+#endif
                         tmpdata = regRd(rHIRQ);
 
                         if(tmpdata & bmHXFRDNIRQ) {
