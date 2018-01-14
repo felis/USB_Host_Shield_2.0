@@ -156,6 +156,10 @@ e-mail   :  support@circuitsathome.com
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
 
+#if defined(ESP8266) || defined(ESP32)
+#define MFK_CASTUINT8T (uint8_t) // ESP return type for sizeof needs casting to uint8_t
+#endif
+
 #ifdef STM32F4
 #include "stm32f4xx_hal.h"
 extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
