@@ -142,13 +142,13 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         USBTRACE2("NC:", num_of_conf);
 
         for(uint8_t i = 0; i < num_of_conf; i++) {
-                HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
                 ConfigDescParser < 0xFF, 0xFF, 0xFF, CP_MASK_COMPARE_ALL> confDescrParser(this);
 
-                rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
-
-                if(rcode)
-                        goto FailGetConfDescr;
+                // This interferes with serial output, and should be opt-in for debugging.
+                //HexDumper<USBReadParser, uint16_t, uint16_t> HexDump;
+                //rcode = pUsb->getConfDescr(bAddress, 0, i, &HexDump);
+                //if(rcode)
+                //        goto FailGetConfDescr;
 
                 rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
 
