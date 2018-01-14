@@ -1328,8 +1328,6 @@ MAKE_PIN(P13, 13); //
 
 #elif defined(ESP8266) || defined(ESP32)
 
-#define pgm_read_pointer(p) pgm_read_ptr(p)
-
 #define MAKE_PIN(className, pin) \
 class className { \
 public: \
@@ -1417,6 +1415,12 @@ MAKE_PIN(P17, 17); // INT
 #endif
 
 #undef MAKE_PIN
+
+// pgm_read_ptr is not defined in the ESP32, so we have to undef the diffinition from version_helper.h
+#ifdef pgm_read_pointer
+#undef pgm_read_pointer
+#endif
+#define pgm_read_pointer(p) pgm_read_ptr(p)
 
 #else
 #error "Please define board in avrpins.h"
