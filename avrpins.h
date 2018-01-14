@@ -1328,6 +1328,7 @@ MAKE_PIN(P13, 13); //
 
 #elif defined(ESP8266) || defined(ESP32)
 
+#define pgm_read_pointer(p) pgm_read_ptr(p)
 
 #define MAKE_PIN(className, pin) \
 class className { \
@@ -1351,8 +1352,6 @@ public: \
 
 #if defined(ESP8266)
 
-#define pgm_read_pointer(p) pgm_read_ptr(p)
-
 // Pinout for ESP-12 module
 // 0 .. 16 - Digital pins
 // GPIO 6 to 11 and 16 are not usable in this library.
@@ -1369,6 +1368,37 @@ MAKE_PIN(P14, 14); // SCK
 MAKE_PIN(P15, 15); // SS
 
 #elif defined(ESP32)
+
+// Workaround strict-aliasing warnings
+#ifdef pgm_read_word
+#undef pgm_read_word
+#endif
+#ifdef pgm_read_dword
+#undef pgm_read_dword
+#endif
+#ifdef  pgm_read_float
+#undef pgm_read_float
+#endif
+#ifdef  pgm_read_ptr
+#undef pgm_read_ptr
+#endif
+
+#define pgm_read_word(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned short *)(_addr); \
+})
+#define pgm_read_dword(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned long *)(_addr); \
+})
+#define pgm_read_float(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const float *)(_addr); \
+})
+#define pgm_read_ptr(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(void * const *)(_addr); \
+})
 
 // Pinout for ESP32 dev module
 
