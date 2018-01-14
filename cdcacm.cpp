@@ -278,39 +278,84 @@ uint8_t ACM::Poll() {
 }
 
 uint8_t ACM::RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr) {
-        return pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
+        uint8_t rv;
+        rv = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::SndData(uint16_t nbytes, uint8_t *dataptr) {
-        return pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, nbytes, dataptr);
+        uint8_t rv;
+        rv = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, nbytes, dataptr);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, nbytes, nbytes, dataptr, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, nbytes, nbytes, dataptr, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::GetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, nbytes, nbytes, dataptr, NULL));
+        uint8_t rv;
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, nbytes, nbytes, dataptr, NULL));
 }
 
 uint8_t ACM::ClearCommFeature(uint16_t fid) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_CLEAR_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, 0, 0, NULL, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_CLEAR_COMM_FEATURE, (fid & 0xff), (fid >> 8), bControlIface, 0, 0, NULL, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::SetLineCoding(const LINE_CODING *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::GetLineCoding(LINE_CODING *dataptr) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCIN, CDC_GET_LINE_CODING, 0x00, 0x00, bControlIface, sizeof (LINE_CODING), sizeof (LINE_CODING), (uint8_t*)dataptr, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::SetControlLineState(uint8_t state) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_CONTROL_LINE_STATE, state, 0, bControlIface, 0, 0, NULL, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SET_CONTROL_LINE_STATE, state, 0, bControlIface, 0, 0, NULL, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t ACM::SendBreak(uint16_t duration) {
-        return ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SEND_BREAK, (duration & 0xff), (duration >> 8), bControlIface, 0, 0, NULL, NULL));
+        uint8_t rv;
+        rv = ( pUsb->ctrlReq(bAddress, 0, bmREQ_CDCOUT, CDC_SEND_BREAK, (duration & 0xff), (duration >> 8), bControlIface, 0, 0, NULL, NULL));
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 void ACM::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {

@@ -182,7 +182,7 @@ uint8_t FTDI::Init(uint8_t parent, uint8_t port, bool lowspeed) {
 
         USBTRACE("FTDI configured\r\n");
 
-        bPollEnable = true;
+        ready = true;
         return 0;
 
 FailGetDevDescr:
@@ -254,6 +254,7 @@ uint8_t FTDI::Release() {
         bNumEP = 1;
         qNextPollTime = 0;
         bPollEnable = false;
+        ready = false;
         return pAsync->OnRelease(this);
 }
 
@@ -275,7 +276,7 @@ uint8_t FTDI::Poll() {
 uint8_t FTDI::SetBaudRate(uint32_t baud) {
         uint16_t baud_value, baud_index = 0;
         uint32_t divisor3;
-
+        uint8_t rv = 0;
         divisor3 = 48000000 / 2 / baud; // divisor shifted 3 bits to the left
 
         if(wFTDIType == FT232AM) {
@@ -306,27 +307,56 @@ uint8_t FTDI::SetBaudRate(uint32_t baud) {
         }
         USBTRACE2("baud_value:", baud_value);
         USBTRACE2("baud_index:", baud_index);
-        return pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_BAUD_RATE, baud_value & 0xff, baud_value >> 8, baud_index, 0, 0, NULL, NULL);
+        rv = pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_BAUD_RATE, baud_value & 0xff, baud_value >> 8, baud_index, 0, 0, NULL, NULL);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t FTDI::SetModemControl(uint16_t signal) {
-        return pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_MODEM_CTRL, signal & 0xff, signal >> 8, 0, 0, 0, NULL, NULL);
+        uint8_t rv;
+        rv = pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_MODEM_CTRL, signal & 0xff, signal >> 8, 0, 0, 0, NULL, NULL);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t FTDI::SetFlowControl(uint8_t protocol, uint8_t xon, uint8_t xoff) {
-        return pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_FLOW_CTRL, xon, xoff, protocol << 8, 0, 0, NULL, NULL);
+        uint8_t rv;
+        rv = pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_FLOW_CTRL, xon, xoff, protocol << 8, 0, 0, NULL, NULL);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t FTDI::SetData(uint16_t databm) {
-        return pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_DATA, databm & 0xff, databm >> 8, 0, 0, 0, NULL, NULL);
+        uint8_t rv;
+        rv = pUsb->ctrlReq(bAddress, 0, bmREQ_FTDI_OUT, FTDI_SIO_SET_DATA, databm & 0xff, databm >> 8, 0, 0, 0, NULL, NULL);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t FTDI::RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr) {
-        return pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
+        uint8_t rv;
+        rv = pUsb->inTransfer(bAddress, epInfo[epDataInIndex].epAddr, bytes_rcvd, dataptr);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 uint8_t FTDI::SndData(uint16_t nbytes, uint8_t *dataptr) {
-        return pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, nbytes, dataptr);
+        uint8_t rv;
+        rv = pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, nbytes, dataptr);
+        if(rv && rv != hrNAK) {
+                Release();
+        }
+        return rv;
 }
 
 void FTDI::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr) {
