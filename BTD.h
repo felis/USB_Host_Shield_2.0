@@ -27,8 +27,11 @@
 #define PS3NAVIGATION_PID       0x042F  // Navigation controller
 #define PS3MOVE_PID             0x03D5  // Motion controller
 
-#define IOGEAR_GBU521_VID       0x0A5C // The IOGEAR GBU521 dongle does not presents itself correctly, so we have to check for it manually
+// These dongles do not present themselves correctly, so we have to check for them manually
+#define IOGEAR_GBU521_VID       0x0A5C
 #define IOGEAR_GBU521_PID       0x21E8
+#define BELKIN_F8T065BF_VID     0x050D
+#define BELKIN_F8T065BF_PID     0x065A
 
 /* Bluetooth dongle data taken from descriptors */
 #define BULK_MAXPKTSIZE         64 // Max size for ACL data
@@ -264,7 +267,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                if(vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID)
+                if((vid == IOGEAR_GBU521_VID && pid == IOGEAR_GBU521_PID) || (vid == BELKIN_F8T065BF_VID && pid == BELKIN_F8T065BF_PID))
                         return true;
                 if(my_bdaddr[0] != 0x00 || my_bdaddr[1] != 0x00 || my_bdaddr[2] != 0x00 || my_bdaddr[3] != 0x00 || my_bdaddr[4] != 0x00 || my_bdaddr[5] != 0x00) { // Check if Bluetooth address is set
                         if(vid == PS3_VID && (pid == PS3_PID || pid == PS3NAVIGATION_PID || pid == PS3MOVE_PID))
