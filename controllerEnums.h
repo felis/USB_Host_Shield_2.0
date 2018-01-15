@@ -18,6 +18,10 @@
 #ifndef _controllerenums_h
 #define _controllerenums_h
 
+#if defined(ESP32)
+#undef PS
+#endif
+
 /**
  * This header file is used to store different enums for the controllers,
  * This is necessary so all the different libraries can be used at once.
