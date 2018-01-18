@@ -66,6 +66,11 @@ protected:
 public:
         uint16_t pid, vid;
         USBH_MIDI(USB *p);
+        operator bool(){
+          return (pUsb->getUsbTaskState()==USB_STATE_RUNNING && isMidiFound);
+        }
+        uint16_t idVendor(){return vid;}
+        uint16_t idProduct(){return pid;}
         // Methods for recieving and sending data
         uint8_t RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
         uint8_t RecvData(uint8_t *outBuf, bool isRaw=false);
