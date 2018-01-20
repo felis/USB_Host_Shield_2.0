@@ -720,6 +720,44 @@ public:
 #define P31 Pa7 /* 31 - PA7 */
 // Balanduino
 
+#elif defined(ARDUINO_AVR_UNO_PRO) && defined(__AVR_ATmega1284P__)
+// UNO*Pro pin numbers
+// Homepage: http://www.hobbytronics.co.uk/arduino-uno-pro
+// Pin Reference: http://www.hobbytronics.co.uk/download/uno_pro/pins_arduino.h
+#define P0  Pd0
+#define P1  Pd1
+#define P2  Pb2
+#define P3  Pb3
+#define P4  Pb0
+#define P5  Pb1
+#define P6  Pd2
+#define P7  Pd3
+#define P8  Pd5
+#define P9  Pd6
+#define P10 Pb4
+#define P11 Pb5
+#define P12 Pb6
+#define P13 Pb7
+#define P14 Pa7
+#define P15 Pa6
+#define P16 Pa5
+#define P17 Pa4
+#define P18 Pa3
+#define P19 Pa2
+#define P20 Pa1
+#define P21 Pa0
+#define P22 Pc0
+#define P23 Pc1
+#define P24 Pc2
+#define P25 Pc3
+#define P26 Pc4
+#define P27 Pc5
+#define P28 Pc6
+#define P29 Pc7
+#define P30 Pd4
+#define P31 Pd7
+// UNO*Pro
+
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 // Sanguino pin numbers
 // Homepage: http://sanguino.cc/hardware
