@@ -43,8 +43,6 @@ typedef MAX3421e<P3, P2> MAX3421E; // The Intel Galileo supports much faster rea
 typedef MAX3421e<P15, P5> MAX3421E; // ESP8266 boards
 #elif defined(ESP32)
 typedef MAX3421e<P5, P17> MAX3421E; // ESP32 boards
-#elif defined(ARDUINO_AVR_UNO_PRO)
-typedef MAX3421e<Pb4, Pd6> MAX3421E; // UNO*Pro Upgrade for Arduino UNO
 #else
 typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega, 2560, Leonardo, Due etc.), Intel Edison, Intel Galileo 2 or Teensy 2.0 and 3.x
 #endif
