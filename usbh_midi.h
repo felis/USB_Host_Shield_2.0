@@ -66,6 +66,9 @@ protected:
 public:
         uint16_t pid, vid;
         USBH_MIDI(USB *p);
+        operator bool() { return (pUsb->getUsbTaskState()==USB_STATE_RUNNING && isMidiFound); }
+        uint16_t idVendor() { return vid; }
+        uint16_t idProduct() { return pid; }
         // Methods for recieving and sending data
         uint8_t RecvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
         uint8_t RecvData(uint8_t *outBuf, bool isRaw=false);
@@ -76,8 +79,8 @@ public:
         uint8_t extractSysExData(uint8_t *p, uint8_t *buf);
         uint8_t SendRawData(uint16_t bytes_send, uint8_t *dataptr);
         // backward compatibility functions
-        inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr){ return RecvData(bytes_rcvd, dataptr); };
-        inline uint8_t RcvData(uint8_t *outBuf){ return RecvData(outBuf); };
+        inline uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr) { return RecvData(bytes_rcvd, dataptr); };
+        inline uint8_t RcvData(uint8_t *outBuf) { return RecvData(outBuf); };
 
         // USBDeviceConfig implementation
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
