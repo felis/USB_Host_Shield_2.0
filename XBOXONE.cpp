@@ -410,22 +410,69 @@ uint8_t XBOXONE::XboxCommand(uint8_t* data, uint16_t nbytes) {
         return rcode;
 }
 
+// The Xbox One packets are described at: https://github.com/quantus/xbox-one-controller-protocol
 void XBOXONE::onInit() {
         // A short buzz to show the controller is active
         uint8_t writeBuf[11];
+
+        // Activate rumble
         writeBuf[0] = 0x09;
-        writeBuf[1] = 0x08;
-        writeBuf[2] = 0x00;
-        writeBuf[3] = 0x09;
-        writeBuf[4] = 0x00;
-        writeBuf[5] = 0x0f;
-        writeBuf[6] = 0x04;
-        writeBuf[7] = 0x04;
-        writeBuf[8] = 0x20;
-        writeBuf[9] = 0x20;
-        writeBuf[10] = 0x80;
+        writeBuf[1] = 0x08; // 0x20 bit and all bits of 0x07 prevents rumble effect
+        writeBuf[2] = 0x00; // This may have something to do with how many times effect is played
+
+        // Single rumble effect
+        writeBuf[3] = 0x09; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = 0x04; // lT force
+        writeBuf[7] = 0x04; // rT force
+        writeBuf[8] = 0x20; // L force
+        writeBuf[9] = 0x20; // R force
+        writeBuf[10] = 0x80; // Length of pulse
         XboxCommand(writeBuf, 11);
 
         if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
+}
+
+void XBOXONE::setRumbleOff() {
+        uint8_t writeBuf[12];
+
+        // Activate rumble
+        writeBuf[0] = 0x09;
+        writeBuf[1] = 0x08; // 0x20 bit and all bits of 0x07 prevents rumble effect
+        writeBuf[2] = 0x00; // This may have something to do with how many times effect is played
+
+        // Continuous rumble effect
+        writeBuf[3] = 0x08; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = 0x00; // lT force
+        writeBuf[7] = 0x00; // rT force
+        writeBuf[8] = 0x00; // L force
+        writeBuf[9] = 0x00; // R force
+        writeBuf[10] = 0x00; // Length of pulse
+        writeBuf[11] = 0x00; // Period between pulses
+        XboxCommand(writeBuf, 12);
+}
+
+void XBOXONE::setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor) {
+        uint8_t writeBuf[12];
+
+        // Activate rumble
+        writeBuf[0] = 0x09;
+        writeBuf[1] = 0x08; // 0x20 bit and all bits of 0x07 prevents rumble effect
+        writeBuf[2] = 0x00; // This may have something to do with how many times effect is played
+
+        // Continuous rumble effect
+        writeBuf[3] = 0x08; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = leftTrigger; // lT force
+        writeBuf[7] = rightTrigger; // rT force
+        writeBuf[8] = leftMotor; // L force
+        writeBuf[9] = rightMotor; // R force
+        writeBuf[10] = 0x80; // Length of pulse
+        writeBuf[11] = 0x00; // Period between pulses
+        XboxCommand(writeBuf, 12);
 }

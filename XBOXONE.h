@@ -156,6 +156,18 @@ public:
         void attachOnInit(void (*funcOnInit)(void)) {
                 pFuncOnInit = funcOnInit;
         };
+
+        /** Used to set the rumble off. */
+        void setRumbleOff();
+
+        /**
+         * Used to turn on rumble continuously.
+         * @param leftTrigger  Left trigger force.
+         * @param rightTrigger Right trigger force.
+         * @param leftMotor    Left motor force.
+         * @param rightMotor   Right motor force.
+         */
+        void setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor);
         /**@}*/
 
         /** True if a Xbox ONE controller is connected. */
