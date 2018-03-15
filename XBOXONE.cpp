@@ -179,10 +179,11 @@ uint8_t XBOXONE::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         delay(200); // let things settle
 
         // Initialize the controller for input
+        cmdCounter = 0; // Reset the counter used when sending out the commands
         uint8_t writeBuf[5];
         writeBuf[0] = 0x05;
         writeBuf[1] = 0x20;
-        writeBuf[2] = 0x00;
+        // Byte 2 is set in "XboxCommand"
         writeBuf[3] = 0x01;
         writeBuf[4] = 0x00;
         rcode = XboxCommand(writeBuf, 5);
@@ -402,6 +403,7 @@ int16_t XBOXONE::getAnalogHat(AnalogHatEnum a) {
 
 /* Xbox Controller commands */
 uint8_t XBOXONE::XboxCommand(uint8_t* data, uint16_t nbytes) {
+        data[2] = cmdCounter++; // Increment the output command counter
         uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_ONE_OUTPUT_PIPE ].epAddr, nbytes, data);
 #ifdef DEBUG_USB_HOST
         Notify(PSTR("\r\nXboxCommand, Return: "), 0x80);
@@ -410,22 +412,73 @@ uint8_t XBOXONE::XboxCommand(uint8_t* data, uint16_t nbytes) {
         return rcode;
 }
 
+// The Xbox One packets are described at: https://github.com/quantus/xbox-one-controller-protocol
 void XBOXONE::onInit() {
         // A short buzz to show the controller is active
-        uint8_t writeBuf[11];
+        uint8_t writeBuf[13];
+
+        // Activate rumble
         writeBuf[0] = 0x09;
-        writeBuf[1] = 0x08;
-        writeBuf[2] = 0x00;
-        writeBuf[3] = 0x09;
-        writeBuf[4] = 0x00;
-        writeBuf[5] = 0x0f;
-        writeBuf[6] = 0x04;
-        writeBuf[7] = 0x04;
-        writeBuf[8] = 0x20;
-        writeBuf[9] = 0x20;
-        writeBuf[10] = 0x80;
-        XboxCommand(writeBuf, 11);
+        writeBuf[1] = 0x00;
+        // Byte 2 is set in "XboxCommand"
+
+        // Single rumble effect
+        writeBuf[3] = 0x09; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = 0x04; // lT force
+        writeBuf[7] = 0x04; // rT force
+        writeBuf[8] = 0x20; // L force
+        writeBuf[9] = 0x20; // R force
+        writeBuf[10] = 0x80; // Length of pulse
+        writeBuf[11] = 0x00; // Off period
+        writeBuf[12] = 0x00; // Repeat count
+        XboxCommand(writeBuf, 13);
 
         if(pFuncOnInit)
                 pFuncOnInit(); // Call the user function
+}
+
+void XBOXONE::setRumbleOff() {
+        uint8_t writeBuf[13];
+
+        // Activate rumble
+        writeBuf[0] = 0x09;
+        writeBuf[1] = 0x00;
+        // Byte 2 is set in "XboxCommand"
+
+        // Continuous rumble effect
+        writeBuf[3] = 0x09; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = 0x00; // lT force
+        writeBuf[7] = 0x00; // rT force
+        writeBuf[8] = 0x00; // L force
+        writeBuf[9] = 0x00; // R force
+        writeBuf[10] = 0x00; // On period
+        writeBuf[11] = 0x00; // Off period
+        writeBuf[12] = 0x00; // Repeat count
+        XboxCommand(writeBuf, 13);
+}
+
+void XBOXONE::setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor) {
+        uint8_t writeBuf[13];
+
+        // Activate rumble
+        writeBuf[0] = 0x09;
+        writeBuf[1] = 0x00;
+        // Byte 2 is set in "XboxCommand"
+
+        // Continuous rumble effect
+        writeBuf[3] = 0x09; // Substructure (what substructure rest of this packet has)
+        writeBuf[4] = 0x00; // Mode
+        writeBuf[5] = 0x0F; // Rumble mask (what motors are activated) (0000 lT rT L R)
+        writeBuf[6] = leftTrigger; // lT force
+        writeBuf[7] = rightTrigger; // rT force
+        writeBuf[8] = leftMotor; // L force
+        writeBuf[9] = rightMotor; // R force
+        writeBuf[10] = 0xFF; // On period
+        writeBuf[11] = 0x00; // Off period
+        writeBuf[12] = 0xFF; // Repeat count
+        XboxCommand(writeBuf, 13);
 }

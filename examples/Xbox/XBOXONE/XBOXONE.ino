@@ -63,6 +63,19 @@ void loop() {
       Serial.println();
     }
 
+    // Set rumble effect
+    static uint16_t oldL2Value, oldR2Value;
+    if (Xbox.getButtonPress(L2) != oldL2Value || Xbox.getButtonPress(R2) != oldR2Value) {
+      oldL2Value = Xbox.getButtonPress(L2);
+      oldR2Value = Xbox.getButtonPress(R2);
+      uint8_t leftRumble = map(oldL2Value, 0, 1023, 0, 255); // Map the trigger values into a byte
+      uint8_t rightRumble = map(oldR2Value, 0, 1023, 0, 255);
+      if (leftRumble > 0 || rightRumble > 0)
+        Xbox.setRumbleOn(leftRumble, rightRumble, leftRumble, rightRumble);
+      else
+        Xbox.setRumbleOff();
+    }
+
     if (Xbox.getButtonClick(UP))
       Serial.println(F("Up"));
     if (Xbox.getButtonClick(DOWN))
