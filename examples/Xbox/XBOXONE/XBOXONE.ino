@@ -68,8 +68,8 @@ void loop() {
     if (Xbox.getButtonPress(L2) != oldL2Value || Xbox.getButtonPress(R2) != oldR2Value) {
       oldL2Value = Xbox.getButtonPress(L2);
       oldR2Value = Xbox.getButtonPress(R2);
-      uint8_t leftRumble = map(oldL2Value, 0, 65535, 0, 255); // Map the trigger values into a byte
-      uint8_t rightRumble = map(oldR2Value, 0, 65535, 0, 255);
+      uint8_t leftRumble = map(oldL2Value, 0, 1023, 0, 255); // Map the trigger values into a byte
+      uint8_t rightRumble = map(oldR2Value, 0, 1023, 0, 255);
       if (leftRumble > 0 || rightRumble > 0)
         Xbox.setRumbleOn(leftRumble, rightRumble, leftRumble, rightRumble);
       else
