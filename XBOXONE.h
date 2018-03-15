@@ -229,6 +229,7 @@ private:
         bool R2Clicked;
 
         uint8_t readBuf[XBOX_ONE_EP_MAXPKTSIZE]; // General purpose buffer for input data
+        uint8_t cmdCounter;
 
         void readReport(); // Used to read the incoming data
 
