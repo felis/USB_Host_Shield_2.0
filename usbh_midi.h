@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI class driver for USB Host Shield 2.0 Library
- * Copyright (c) 2012-2017 Yuuichi Akagawa
+ * Copyright (c) 2012-2018 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -50,8 +50,9 @@ protected:
         uint8_t  bConfNum;    // configuration number
         uint8_t  bNumEP;      // total number of EP in the configuration
         bool     bPollEnable;
-
-        bool isMidiFound;
+        bool     isMidiFound;
+        uint16_t pid, vid;    // ProductID, VendorID
+        uint8_t  bTransferTypeMask;
         /* Endpoint data structure */
         EpInfo  epInfo[MIDI_MAX_ENDPOINTS];
         /* MIDI Event packet buffer */
@@ -60,13 +61,14 @@ protected:
 
         uint8_t parseConfigDescr(uint8_t addr, uint8_t conf);
         uint16_t countSysExDataSize(uint8_t *dataptr);
+        void setupDeviceSpecific();
 #ifdef DEBUG_USB_HOST
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
 #endif
 public:
-        uint16_t pid, vid;
         USBH_MIDI(USB *p);
-        operator bool() { return (pUsb->getUsbTaskState()==USB_STATE_RUNNING && isMidiFound); }
+        // Misc functions
+        operator bool() { return (pUsb->getUsbTaskState()==USB_STATE_RUNNING); }
         uint16_t idVendor() { return vid; }
         uint16_t idProduct() { return pid; }
         // Methods for recieving and sending data

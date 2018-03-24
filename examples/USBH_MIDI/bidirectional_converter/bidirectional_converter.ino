@@ -43,7 +43,6 @@ USB Usb;
 USBH_MIDI Midi(&Usb);
 
 void MIDI_poll();
-void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
 
 //If you want handle System Exclusive message, enable this #define otherwise comment out it.
 #define USBH_MIDI_SYSEX_ENABLE
@@ -58,6 +57,7 @@ void handle_sysex( byte* sysexmsg, unsigned sizeofsysex) {
 void setup()
 {
   MIDI.begin(MIDI_CHANNEL_OMNI);
+  MIDI.turnThruOff();
 #ifdef USBH_MIDI_SYSEX_ENABLE
   MIDI.setHandleSystemExclusive(handle_sysex);
 #endif
@@ -72,9 +72,7 @@ void loop()
   uint8_t msg[4];
 
   Usb.Task();
-  uint32_t t1 = (uint32_t)micros();
-  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-  {
+  if ( Midi ) {
     MIDI_poll();
     if (MIDI.read()) {
       msg[0] = MIDI.getType();
@@ -92,8 +90,6 @@ void loop()
       }
     }
   }
-  //delay(1ms)
-  doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
@@ -140,20 +136,4 @@ void MIDI_poll()
     }
   } while (size > 0);
 #endif
-}
-
-// Delay time (max 16383 us)
-void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
-{
-  uint32_t t3;
-
-  if ( t1 > t2 ) {
-    t3 = (0xFFFFFFFF - t1 + t2);
-  } else {
-    t3 = t2 - t1;
-  }
-
-  if ( t3 < delayTime ) {
-    delayMicroseconds(delayTime - t3);
-  }
 }
