@@ -53,28 +53,24 @@ void loop()
 {
   Usb.Task();
   uint32_t t1 = (uint32_t)micros();
-  if ( Usb.getUsbTaskState() == USB_STATE_RUNNING )
-  {
-    MIDI_poll();
+  if ( Midi1 ) {
+    MIDI_poll(Midi1);
+  }
+  if ( Midi2 ) {
+    MIDI_poll(Midi2);
   }
   //delay(1ms)
   doDelay(t1, (uint32_t)micros(), 1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
-void MIDI_poll()
+void MIDI_poll(USBH_MIDI &Midi)
 {
   uint8_t outBuf[ 3 ];
   uint8_t size;
 
   do {
-    if ( (size = Midi1.RecvData(outBuf)) > 0 ) {
-      //MIDI Output
-      _MIDI_SERIAL_PORT.write(outBuf, size);
-    }
-  } while (size > 0);
-  do {
-    if ( (size = Midi2.RecvData(outBuf)) > 0 ) {
+    if ( (size = Midi.RecvData(outBuf)) > 0 ) {
       //MIDI Output
       _MIDI_SERIAL_PORT.write(outBuf, size);
     }
@@ -86,12 +82,7 @@ void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime)
 {
   uint32_t t3;
 
-  if ( t1 > t2 ) {
-    t3 = (0xFFFFFFFF - t1 + t2);
-  } else {
-    t3 = t2 - t1;
-  }
-
+  t3 = t2 - t1;
   if ( t3 < delayTime ) {
     delayMicroseconds(delayTime - t3);
   }

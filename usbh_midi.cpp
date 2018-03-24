@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI class driver for USB Host Shield 2.0 Library
- * Copyright (c) 2012-2017 Yuuichi Akagawa
+ * Copyright (c) 2012-2018 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -199,6 +199,10 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         USBTRACE(" PID:"), D_PrintHex(pid, 0x80);
         USBTRACE2(" #Conf:", num_of_conf);
 
+        //Setup for well known vendor/device specific configuration
+        bTransferTypeMask = bmUSB_TRANSFER_TYPE;
+        setupDeviceSpecific();
+
         isMidiFound  = false;
         for (uint8_t i=0; i<num_of_conf; i++) {
                 rcode = parseConfigDescr(bAddress, i);
@@ -304,7 +308,7 @@ uint8_t USBH_MIDI::parseConfigDescr( uint8_t addr, uint8_t conf )
                         USBTRACE("-EPAddr:"), D_PrintHex(epDesc->bEndpointAddress, 0x80);
                         USBTRACE(" bmAttr:"), D_PrintHex(epDesc->bmAttributes, 0x80);
                         USBTRACE2(" MaxPktSz:", (uint8_t)epDesc->wMaxPacketSize);
-                        if ((epDesc->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_BULK) {//bulk
+                        if ((epDesc->bmAttributes & bTransferTypeMask) == USB_TRANSFER_TYPE_BULK) {//bulk
                                 uint8_t index;
                                 if( isMidi )
                                         index = ((epDesc->bEndpointAddress & 0x80) == 0x80) ? epDataInIndex : epDataOutIndex;
@@ -335,6 +339,18 @@ uint8_t USBH_MIDI::Release()
         bPollEnable  = false;
         readPtr      = 0;
         return 0;
+}
+
+/* Setup for well known vendor/device specific configuration */
+void USBH_MIDI::setupDeviceSpecific()
+{
+        // Novation
+        if( vid == 0x1235 ) {
+                // LaunchPad's endpoint attirbute is interrupt (0x20:S, 0x36:Mini, 0x51:Pro, 0x69:MK2)
+                if(pid == 0x20 || pid == 0x36 || pid == 0x51 || pid == 0x69 ) {
+                        bTransferTypeMask = 2;
+                }
+        }
 }
 
 /* Receive data from MIDI device */
