@@ -82,9 +82,9 @@ getX	KEYWORD2
 getY	KEYWORD2
 getTouchCounter	KEYWORD2
 
-getUsbStatus    KEYWORD2
-getAudioStatus  KEYWORD2
-getMicStatus    KEYWORD2
+getUsbStatus	KEYWORD2
+getAudioStatus	KEYWORD2
+getMicStatus	KEYWORD2
 
 ####################################################
 # Constants and enums (LITERAL1)
