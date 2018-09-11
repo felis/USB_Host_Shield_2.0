@@ -147,8 +147,7 @@ public:
          * Used to get the analog value from button presses.
          * @param  b The ::ButtonEnum to read.
          * The supported buttons are:
-         * ::UP, ::RIGHT, ::DOWN, ::LEFT, ::L1, ::L2, ::R1, ::R2,
-         * ::TRIANGLE, ::CIRCLE, ::CROSS, ::SQUARE, and ::T.
+         * ::L2 and ::R2.
          * @return   Analog value in the range of 0-255.
          */
         uint8_t getAnalogButton(ButtonEnum b);
