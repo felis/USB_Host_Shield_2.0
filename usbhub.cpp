@@ -21,6 +21,7 @@ bool USBHub::bResetInitiated = false;
 USBHub::USBHub(USB *p) :
 pUsb(p),
 bAddress(0),
+bPortAddress(0),
 bNbrPorts(0),
 //bInitState(0),
 qNextPollTime(0),
@@ -104,6 +105,14 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(!bAddress)
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
 
+        {
+                UsbDeviceAddress a;
+                a.devAddress = bAddress;
+                a.bmHub = 0;
+                a.bmAddress = port ? : 1;
+                bPortAddress = a.devAddress;
+        }
+
         // Extract Max Packet Size from the device descriptor
         epInfo[0].maxPktSize = udd->bMaxPacketSize0;
 
@@ -115,6 +124,7 @@ uint8_t USBHub::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 p->epinfo = oldep_ptr;
                 addrPool.FreeAddress(bAddress);
                 bAddress = 0;
+                bPortAddress = 0;
                 return rcode;
         }
 
@@ -214,12 +224,22 @@ Fail:
 }
 
 uint8_t USBHub::Release() {
+        UsbDeviceAddress a;
+        a.devAddress = 0;
+        a.bmHub = 0;
+        a.bmParent = bAddress;
+        for (uint8_t j = 1; j <= bNbrPorts; j++) {
+                a.bmAddress = j;
+                pUsb->ReleaseDevice(a.devAddress);
+        }
+
         pUsb->GetAddressPool().FreeAddress(bAddress);
 
         if(bAddress == 0x41)
                 pUsb->SetHubPreMask();
 
         bAddress = 0;
+        bPortAddress = 0;
         bNbrPorts = 0;
         qNextPollTime = 0;
         bPollEnable = false;
