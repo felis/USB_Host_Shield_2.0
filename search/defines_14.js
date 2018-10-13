@@ -98,6 +98,7 @@ var searchData=
   ['usb_5fsetup_5ftype_5fclass',['USB_SETUP_TYPE_CLASS',['../usb__ch9_8h.html#acf3fd30992e9fe01f1bac9aaa7fea61b',1,'usb_ch9.h']]],
   ['usb_5fsetup_5ftype_5fstandard',['USB_SETUP_TYPE_STANDARD',['../usb__ch9_8h.html#a3b51a35acaa76cafbb987c07186a7868',1,'usb_ch9.h']]],
   ['usb_5fsetup_5ftype_5fvendor',['USB_SETUP_TYPE_VENDOR',['../usb__ch9_8h.html#a876bdd74d8bfb072121b9643556271ba',1,'usb_ch9.h']]],
+  ['usb_5fspi',['USB_SPI',['../settings_8h.html#a00c696e002848a253c812ca2f4509f04',1,'settings.h']]],
   ['usb_5fstate_5faddressing',['USB_STATE_ADDRESSING',['../_usb_core_8h.html#a474a95baaeb99abd17538c2a1364bf96',1,'UsbCore.h']]],
   ['usb_5fstate_5fconfiguring',['USB_STATE_CONFIGURING',['../_usb_core_8h.html#aac8c844e6a20f42298d70e4438a029e5',1,'UsbCore.h']]],
   ['usb_5fstate_5fdetached',['USB_STATE_DETACHED',['../_usb_core_8h.html#ae7fd7c5bb6dc87f44724dde2ad57df87',1,'UsbCore.h']]],

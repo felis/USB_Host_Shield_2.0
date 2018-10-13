@@ -7,7 +7,7 @@ var searchData=
   ['peripheralqualifier',['PeripheralQualifier',['../struct_inquiry_response.html#a8e8f2cb6b5a0d1ed2c300155bf2b3faa',1,'InquiryResponse']]],
   ['pfunconinit',['pFuncOnInit',['../class_bluetooth_service.html#a321393d44ce59213fa1c7498c247d5ff',1,'BluetoothService']]],
   ['pfusage',['pfUsage',['../class_report_desc_parser_base.html#a22006cbf92a3d4008695e53d7f6e2452',1,'ReportDescParserBase']]],
-  ['pid',['PID',['../class_h_i_d_composite.html#a1402689fc7e633723fca2b6b175c2a18',1,'HIDComposite::PID()'],['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal::PID()'],['../class_u_s_b_h___m_i_d_i.html#aaf7ec77f0d8cefff1316ae049747e2a7',1,'USBH_MIDI::pid()']]],
+  ['pid',['pid',['../class_u_s_b_h___m_i_d_i.html#aaf7ec77f0d8cefff1316ae049747e2a7',1,'USBH_MIDI::pid()'],['../class_h_i_d_composite.html#a1402689fc7e633723fca2b6b175c2a18',1,'HIDComposite::PID()'],['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal::PID()']]],
   ['pitchgyroscale',['pitchGyroScale',['../class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a',1,'WII']]],
   ['pitchgyrospeed',['pitchGyroSpeed',['../class_w_i_i.html#aa47478ccdfe009dabb7c21232e07bfd5',1,'WII']]],
   ['portindicatorssupported',['PortIndicatorsSupported',['../struct_hub_descriptor.html#a6478c259c7397e89d50b42f6f3d4f4e4',1,'HubDescriptor']]],

@@ -12,7 +12,7 @@ var searchData=
   ['bcdusb',['bcdUSB',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#a621148cd71148fb15e136010480a34ac',1,'USB_DEVICE_DESCRIPTOR']]],
   ['bcharformat',['bCharFormat',['../struct_l_i_n_e___c_o_d_i_n_g.html#ae2c35eef8f7e35b5f2a3464225477d3c',1,'LINE_CODING']]],
   ['bconfigurationvalue',['bConfigurationValue',['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#a568d08f2ae98670a707489645a67746b',1,'USB_CONFIGURATION_DESCRIPTOR']]],
-  ['bconfnum',['bConfNum',['../class_a_d_k.html#ae8fcc6a6fccab61116cea10dd1f17738',1,'ADK::bConfNum()'],['../class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2',1,'BTD::bConfNum()'],['../class_a_c_m.html#af1a17c2d77625599da12b26cb0c90d39',1,'ACM::bConfNum()'],['../class_bulk_only.html#ab54f472ec9cd39abdb9f90867943d162',1,'BulkOnly::bConfNum()'],['../class_u_s_b_h___m_i_d_i.html#a441bf3b7bcd3ad8ca4e18f68fd03404c',1,'USBH_MIDI::bConfNum()']]],
+  ['bconfnum',['bConfNum',['../class_a_d_k.html#ae8fcc6a6fccab61116cea10dd1f17738',1,'ADK::bConfNum()'],['../class_b_t_d.html#a10c34527ae90e95791ac48ac7d1154a2',1,'BTD::bConfNum()'],['../class_a_c_m.html#af1a17c2d77625599da12b26cb0c90d39',1,'ACM::bConfNum()'],['../class_bulk_only.html#ab54f472ec9cd39abdb9f90867943d162',1,'BulkOnly::bConfNum()'],['../class_u_s_b_h___m_i_d_i.html#a441bf3b7bcd3ad8ca4e18f68fd03404c',1,'USBH_MIDI::bConfNum()'],['../class_x_b_o_x_o_n_e.html#ac6c75dcd5dfd5a9685a049f9bb8cb93f',1,'XBOXONE::bConfNum()']]],
   ['bcontroliface',['bControlIface',['../class_a_c_m.html#a5512d9e8c8c59371f16018fe8ce46b19',1,'ACM']]],
   ['bcountrycode',['bCountryCode',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a340e5f812dbf7fe8caa13a1541a51f42',1,'USB_HID_DESCRIPTOR']]],
   ['bcswstatus',['bCSWStatus',['../struct_command_status_wrapper.html#a7170ed5bc0e2bbe04758e687beef4487',1,'CommandStatusWrapper']]],
@@ -99,7 +99,7 @@ var searchData=
   ['bnumconfigurations',['bNumConfigurations',['../struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html#ab1b8db3992e0dceb2ba86f3bab1e5bca',1,'USB_DEVICE_DESCRIPTOR']]],
   ['bnumdescriptors',['bNumDescriptors',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a05f827473d2eb4e67d1f99bc317b1eba',1,'USB_HID_DESCRIPTOR']]],
   ['bnumendpoints',['bNumEndpoints',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a3268bc05bb0147e19f97e50e702fc141',1,'USB_INTERFACE_DESCRIPTOR']]],
-  ['bnumep',['bNumEP',['../class_a_d_k.html#adf969d306da15baecd5c59bbb568053e',1,'ADK::bNumEP()'],['../class_b_t_d.html#a893dd35932821cddda7e482a1904af66',1,'BTD::bNumEP()'],['../class_a_c_m.html#a058b4d4a088a002fcde4fb2b75e33f93',1,'ACM::bNumEP()'],['../class_bulk_only.html#a6cb56ebd0307845321340919e2b35952',1,'BulkOnly::bNumEP()'],['../class_u_s_b_h___m_i_d_i.html#ab8b2dd096df7159ce8a09a19812307ca',1,'USBH_MIDI::bNumEP()']]],
+  ['bnumep',['bNumEP',['../class_a_d_k.html#adf969d306da15baecd5c59bbb568053e',1,'ADK::bNumEP()'],['../class_b_t_d.html#a893dd35932821cddda7e482a1904af66',1,'BTD::bNumEP()'],['../class_a_c_m.html#a058b4d4a088a002fcde4fb2b75e33f93',1,'ACM::bNumEP()'],['../class_bulk_only.html#a6cb56ebd0307845321340919e2b35952',1,'BulkOnly::bNumEP()'],['../class_u_s_b_h___m_i_d_i.html#ab8b2dd096df7159ce8a09a19812307ca',1,'USBH_MIDI::bNumEP()'],['../class_x_b_o_x_o_n_e.html#a958f262ed66dd5bf0ad7dfd54a369659',1,'XBOXONE::bNumEP()']]],
   ['bnuminterfaces',['bNumInterfaces',['../struct_u_s_b___c_o_n_f_i_g_u_r_a_t_i_o_n___d_e_s_c_r_i_p_t_o_r.html#abd647927a872ac856c9f5aaf624bb99f',1,'USB_CONFIGURATION_DESCRIPTOR']]],
   ['bnumringerpatterns',['bNumRingerPatterns',['../struct_t_e_l___r_i_n_g_e_r___f_u_n_c___d_e_s_c_r.html#aca65dc577a0dbc13972da9ab26e25918',1,'TEL_RINGER_FUNC_DESCR']]],
   ['bparitytype',['bParityType',['../struct_l_i_n_e___c_o_d_i_n_g.html#ad14985344c9e31a210999dfa0b4ccc42',1,'LINE_CODING']]],
@@ -121,5 +121,6 @@ var searchData=
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
   ['bthelun',['bTheLUN',['../class_bulk_only.html#a24c051d401f5f1a9ce65c1bc25ab02dd',1,'BulkOnly']]],
   ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a92ce392e7a31f155fbdf0fa0c8a5c83e',1,'PSBUZZButtons::btn()']]],
+  ['btransfertypemask',['bTransferTypeMask',['../class_u_s_b_h___m_i_d_i.html#a16cc26804628e2ea32513b4cce1aa7c3',1,'USBH_MIDI']]],
   ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]]
 ];

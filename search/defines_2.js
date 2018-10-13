@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['belkin_5ff8t065bf_5fpid',['BELKIN_F8T065BF_PID',['../_b_t_d_8h.html#ad142141f4e7685e31dce306128eaad5f',1,'BTD.h']]],
+  ['belkin_5ff8t065bf_5fvid',['BELKIN_F8T065BF_VID',['../_b_t_d_8h.html#a576e49b56b3cfb9d70b22bac8fe6796f',1,'BTD.h']]],
   ['bgrab0',['BGRAB0',['../macros_8h.html#a773ca2920fd4808c94e6645a7a8d63d1',1,'macros.h']]],
   ['bgrab1',['BGRAB1',['../macros_8h.html#a483a8ceb644d44744abff34f61cc5442',1,'macros.h']]],
   ['bgrab2',['BGRAB2',['../macros_8h.html#a49c9ebd69fbb93bd97f9051f592390c6',1,'macros.h']]],

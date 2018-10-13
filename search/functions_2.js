@@ -14,7 +14,7 @@ var searchData=
   ['configuredevice',['ConfigureDevice',['../class_a_d_k.html#a14f24ca8246c5b6126a5aa72cf6ee120',1,'ADK::ConfigureDevice()'],['../class_b_t_d.html#a4f1808a49e9aca397ba829fac16dc5c3',1,'BTD::ConfigureDevice()'],['../class_bulk_only.html#aa8fe167a7af12dce9964fa5a430c53ea',1,'BulkOnly::ConfigureDevice()'],['../class_u_s_b_device_config.html#aef77a1e62f78c04a1aad53e8795ec89e',1,'USBDeviceConfig::ConfigureDevice()'],['../class_x_b_o_x_r_e_c_v.html#a3dd42b9a1351f172fc6e39df2fe99398',1,'XBOXRECV::ConfigureDevice()']]],
   ['configuring',['Configuring',['../class_u_s_b.html#af4008dfc1c2d15c23cf8a7815cc17765',1,'USB']]],
   ['connected',['connected',['../class_p_s4_b_t.html#a08a857b8533e59f6eb872e4c8f727405',1,'PS4BT::connected()'],['../class_p_s4_u_s_b.html#a3dd2b4e19516fb76d9442937102ea97f',1,'PS4USB::connected()'],['../class_p_s_buzz.html#a7c791bf7745baae8359d3dcb1d5b86d3',1,'PSBuzz::connected()']]],
-  ['countsysexdatasize',['countSysExDataSize',['../class_u_s_b_h___m_i_d_i.html#afbb9e1d8440fb282c129ae26bff8d575',1,'USBH_MIDI']]],
+  ['countsysexdatasize',['countSysExDataSize',['../class_u_s_b_h___m_i_d_i.html#ab3b9ea78a331449802e4ce5a5a9c7f18',1,'USBH_MIDI']]],
   ['createchar',['createChar',['../class_max___l_c_d.html#a9941a61f5fca781a38f250489245d5e7',1,'Max_LCD']]],
   ['ctrldata',['ctrlData',['../class_u_s_b.html#a102dab8571035757dd63ed3751993836',1,'USB']]],
   ['ctrlreq',['ctrlReq',['../class_u_s_b.html#a636695a5c3d35cd6b9e31c54edfacd7c',1,'USB']]],

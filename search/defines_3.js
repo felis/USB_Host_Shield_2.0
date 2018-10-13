@@ -44,7 +44,7 @@ var searchData=
   ['cdc_5fsubclass_5fobex',['CDC_SUBCLASS_OBEX',['../cdcacm_8h.html#ab1094071380f381e0b8b88d240aedd03',1,'cdcacm.h']]],
   ['cdc_5fsubclass_5ftcm',['CDC_SUBCLASS_TCM',['../cdcacm_8h.html#a8e66107828e9b10a8b37823cb4436209',1,'cdcacm.h']]],
   ['cdc_5fsubclass_5fwireless_5fhandset',['CDC_SUBCLASS_WIRELESS_HANDSET',['../cdcacm_8h.html#ad331bb2702e65696ca33c2d933ab2d73',1,'cdcacm.h']]],
-  ['check_5fpid',['CHECK_PID',['../cdcprolific_8h.html#acbcf4352865e074958a6ed3a5ba3f1cd',1,'cdcprolific.h']]],
+  ['check_5fpid',['CHECK_PID',['../cdcprolific_8h.html#af1a8fea671253f8bb7f124ad159f415a',1,'cdcprolific.h']]],
   ['clr_5fe',['CLR_E',['../max___l_c_d_8cpp.html#a2382451f16ea0f18bf54dba5c7cfb471',1,'max_LCD.cpp']]],
   ['clr_5frs',['CLR_RS',['../max___l_c_d_8cpp.html#af60058c58ef619d81e5779d74324041e',1,'max_LCD.cpp']]],
   ['conf_5fdescr_5flen',['CONF_DESCR_LEN',['../usb__ch9_8h.html#a7256578391c91b980eec63daa6e87b6b',1,'usb_ch9.h']]],

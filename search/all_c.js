@@ -121,6 +121,7 @@ var searchData=
   ['linked',['Linked',['../struct_inquiry_response.html#ac0ee71a9c07b0c1fd9ff09461a81fa0e',1,'InquiryResponse']]],
   ['lockmedia',['LockMedia',['../class_bulk_only.html#ae7561d686d0b1374b5f9937d6ec8a035',1,'BulkOnly']]],
   ['logpwrswitchmode',['LogPwrSwitchMode',['../struct_hub_descriptor.html#a68084f6fd86bff9598573ac845be6fe3',1,'HubDescriptor']]],
+  ['lookupmsgsize',['lookupMsgSize',['../class_u_s_b_h___m_i_d_i.html#a8218ae22033b7d2120df75cfe696070e',1,'USBH_MIDI']]],
   ['low',['Low',['../_p_s3_enums_8h.html#add5c7a32e8138b44244caf07232161aea7a352a3dd2accc1dd65a4538c3754ee8',1,'PS3Enums.h']]],
   ['lowspeed',['lowspeed',['../struct_usb_device.html#a86a815577ad7883437d3ca72b32b8e8a',1,'UsbDevice']]],
   ['lshost',['LSHOST',['../max3421e_8h.html#aa05ee2be883f4b96948e18b0d55ab5c2',1,'max3421e.h']]],

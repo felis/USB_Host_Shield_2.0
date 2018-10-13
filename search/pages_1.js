@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wiicamerareadme',['WiiCameraReadme',['../md__Users_Lauszus_Github_USB_Host_Shield_2_0_WiiCameraReadme.html',1,'']]]
+  ['wiicamerareadme',['WiiCameraReadme',['../md___users_lauszus__github__u_s_b__host__shield_2_0__wii_camera_readme.html',1,'']]]
 ];

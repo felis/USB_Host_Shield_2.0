@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['watingforconnection',['watingForConnection',['../class_b_t_d.html#aa7735da01865bab01b569ee836173737',1,'BTD']]],
+  ['waitingforconnection',['waitingForConnection',['../class_b_t_d.html#a93a522edb2974185c7567b8f83860424',1,'BTD']]],
   ['wdescriptorlength',['wDescriptorLength',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a0b160c43f6a6132c0debabd6ef171950',1,'USB_HID_DESCRIPTOR::wDescriptorLength()'],['../struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html#a98251c1867caf1651f6e926952189201',1,'HID_CLASS_DESCRIPTOR_LEN_AND_TYPE::wDescriptorLength()']]],
   ['wide',['wide',['../structtty__features.html#af97f813b49e81e0f89435a07525b3321',1,'tty_features']]],
   ['widebus16bit',['WideBus16Bit',['../struct_inquiry_response.html#a39a63fd0fd92c50370af9aefe93c13cf',1,'InquiryResponse']]],

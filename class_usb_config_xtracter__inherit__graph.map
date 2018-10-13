@@ -5,6 +5,7 @@
 <area shape="rect" id="node7" href="$class_bulk_only.html" title="BulkOnly" alt="" coords="316,79,391,104"/>
 <area shape="rect" id="node8" href="$class_f_t_d_i.html" title="FTDI" alt="" coords="415,79,466,104"/>
 <area shape="rect" id="node9" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="490,79,562,104"/>
+<area shape="rect" id="node15" href="$class_x_b_o_x_o_n_e.html" title="XBOXONE" alt="" coords="586,79,673,104"/>
 <area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="5,152,73,177"/>
 <area shape="rect" id="node4" href="$class_x_r21_b1411.html" title="XR21B1411" alt="" coords="97,152,189,177"/>
 <area shape="rect" id="node10" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="233,152,447,177"/>

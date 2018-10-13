@@ -4,7 +4,7 @@ var searchData=
   ['enable_5fuhs_5fdebugging',['ENABLE_UHS_DEBUGGING',['../settings_8h.html#a678b7105847680b596d1b4f9c0b5841c',1,'settings.h']]],
   ['enable_5fwii_5fir_5fcamera',['ENABLE_WII_IR_CAMERA',['../settings_8h.html#a251a8e974ddd0680dbcefaa3a4ae9ae8',1,'settings.h']]],
   ['ep_5fdescr_5flen',['EP_DESCR_LEN',['../usb__ch9_8h.html#a83547c94285cfb215336a3c44aeea1b9',1,'usb_ch9.h']]],
-  ['ep_5fmaxpktsize',['EP_MAXPKTSIZE',['../_p_s3_u_s_b_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;PS3USB.h'],['../_x_b_o_x_o_l_d_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXOLD.h'],['../_x_b_o_x_o_n_e_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXONE.h'],['../_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXUSB.h']]],
+  ['ep_5fmaxpktsize',['EP_MAXPKTSIZE',['../_p_s3_u_s_b_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;PS3USB.h'],['../_x_b_o_x_o_l_d_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXOLD.h'],['../_x_b_o_x_r_e_c_v_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXRECV.h'],['../_x_b_o_x_u_s_b_8h.html#abcb805b13bfd36145e252b0633bbcfc0',1,'EP_MAXPKTSIZE():&#160;XBOXUSB.h']]],
   ['epmul',['epMUL',['../hidboot_8h.html#abbd1564d789b53fcf08fa5c4d9b0121d',1,'hidboot.h']]],
   ['ev_5fauthentication_5fcomplete',['EV_AUTHENTICATION_COMPLETE',['../_b_t_d_8h.html#a68b8f78a0e0da80434afb1e6d40eacf4',1,'BTD.h']]],
   ['ev_5fchange_5fconnection_5flink',['EV_CHANGE_CONNECTION_LINK',['../_b_t_d_8h.html#a3e107e9d07793ca5cfaeea8b2181d4a4',1,'BTD.h']]],

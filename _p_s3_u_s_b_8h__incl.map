@@ -1,7 +1,7 @@
 <map id="PS3USB.h" name="PS3USB.h">
 <area shape="rect" id="node2" href="$_usb_8h.html" title="Usb.h" alt="" coords="5,225,61,251"/>
-<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="44,79,116,104"/>
-<area shape="rect" id="node5" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="187,79,286,104"/>
+<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="52,79,124,104"/>
+<area shape="rect" id="node5" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="179,79,278,104"/>
 <area shape="rect" id="node4" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="71,152,172,177"/>
 <area shape="rect" id="node6" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="196,152,324,177"/>
 </map>

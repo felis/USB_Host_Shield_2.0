@@ -15,6 +15,6 @@ var searchData=
   ['onrelease',['OnRelease',['../class_f_t_d_i_async_oper.html#a3993597b080c11c8d1d18dd8017a8f82',1,'FTDIAsyncOper']]],
   ['onrightbuttondown',['OnRightButtonDown',['../class_mouse_report_parser.html#a6884349e6b2de0cbfedf3e1a77c23870',1,'MouseReportParser']]],
   ['onrightbuttonup',['OnRightButtonUp',['../class_mouse_report_parser.html#a1bdfee565073cd8b77cbeb9e184c174f',1,'MouseReportParser']]],
-  ['operator_20bool',['operator bool',['../class_s_p_p.html#ac90f0765c478bd624cee3b8d493d8432',1,'SPP']]],
+  ['operator_20bool',['operator bool',['../class_s_p_p.html#ac90f0765c478bd624cee3b8d493d8432',1,'SPP::operator bool()'],['../class_u_s_b_h___m_i_d_i.html#aeac79d834709ecc079551df2e16a7ffe',1,'USBH_MIDI::operator bool()']]],
   ['outtransfer',['outTransfer',['../class_u_s_b.html#affbc018973a588995457d535b0ac7ee7',1,'USB']]]
 ];
