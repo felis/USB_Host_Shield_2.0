@@ -11,6 +11,9 @@ cache:
 addons:
     apt:
         packages:
+            # We need GraphViz to draw figures and graphs
+            - graphviz
+            # Doxygen is used for generating the documentation
             - doxygen
 
 # Generated using: find examples -type f -name "*.ino" | rev | cut -d/ -f2- | rev | sed 's/^/    - PLATFORMIO_CI_SRC=/' > tmp.yml
@@ -87,6 +90,7 @@ before_deploy:
     - sed -i 's/Circuits@/Circuits\\@/' README.md
     - sed -i 's/@YuuichiAkagawa/\\@YuuichiAkagawa/' README.md
     - doxygen doc/Doxyfile
+    - touch doc/html/.nojekyll
 
 deploy:
     provider: pages

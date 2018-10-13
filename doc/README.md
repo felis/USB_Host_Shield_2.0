@@ -8,4 +8,4 @@ __________
 
 The documenation is automatically build using [Travis](https://travis-ci.com/) and hosted using [Github Pages](https://help.github.com/categories/github-pages-basics/).
 
-The library documentation can be found at the following link: <https://felis.github.io/USB_Host_Shield_2.0/>.
+The library documentation is generated using [Doxygen](http://www.stack.nl/~dimitri/doxygen/) and can be found at the following link: <https://felis.github.io/USB_Host_Shield_2.0/>.
