@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_h_i_d_report_parser.html" title="HIDReportParser" alt="" coords="5,55,129,80"/>
-<area shape="rect" id="node2" href="$class_keyboard_report_parser.html" title="KeyboardReportParser" alt="" coords="177,5,335,31"/>
-<area shape="rect" id="node3" href="$class_mouse_report_parser.html" title="MouseReportParser" alt="" coords="185,55,326,80"/>
-<area shape="rect" id="node4" href="$class_universal_report_parser.html" title="UniversalReportParser" alt="" coords="178,104,334,129"/>
-</map>

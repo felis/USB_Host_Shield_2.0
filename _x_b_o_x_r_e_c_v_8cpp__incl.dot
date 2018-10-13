@@ -1,0 +1,14 @@
+digraph "XBOXRECV.cpp"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="XBOXRECV.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="XBOXRECV.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_x_b_o_x_r_e_c_v_8h.html"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Usb.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_usb_8h.html"];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="xboxEnums.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$xbox_enums_8h.html"];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="controllerEnums.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$controller_enums_8h.html"];
+}

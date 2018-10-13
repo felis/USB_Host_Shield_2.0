@@ -1,0 +1,14 @@
+digraph "ACM"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="ACM",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="USBDeviceConfig",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_u_s_b_device_config.html"];
+  Node3 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="UsbConfigXtracter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_usb_config_xtracter.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PL2303",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_p_l2303.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="XR21B1411",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_x_r21_b1411.html"];
+}

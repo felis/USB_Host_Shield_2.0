@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="HID_CLASS_DESCRIPTOR\l_LEN_AND_TYPE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html"];
+}

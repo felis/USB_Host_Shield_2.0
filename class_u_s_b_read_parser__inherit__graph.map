@@ -1,6 +1,0 @@
-<map id="USBReadParser" name="USBReadParser">
-<area shape="rect" id="node2" href="$class_config_desc_parser.html" title="ConfigDescParser\&lt; CLASS\l_ID, SUBCLASS_ID, PROTOCOL\l_ID, MASK \&gt;" alt="" coords="5,79,229,131"/>
-<area shape="rect" id="node3" href="$class_report_desc_parser_base.html" title="ReportDescParserBase" alt="" coords="252,92,414,117"/>
-<area shape="rect" id="node4" href="$class_report_desc_parser.html" title="ReportDescParser" alt="" coords="188,179,319,204"/>
-<area shape="rect" id="node5" href="$class_report_desc_parser2.html" title="ReportDescParser2" alt="" coords="342,179,481,204"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="HIDUniversal" name="HIDUniversal">
-<area shape="rect" id="node2" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="187,167,259,192"/>
-<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,80,133,105"/>
-<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,80,288,105"/>
-<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="312,80,360,105"/>
-<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="292,5,380,31"/>
-<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="282,167,342,192"/>
-</map>

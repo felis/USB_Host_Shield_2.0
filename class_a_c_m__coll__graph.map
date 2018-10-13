@@ -1,9 +1,0 @@
-<map id="ACM" name="ACM">
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,80,133,105"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="158,80,288,105"/>
-<area shape="rect" id="node4" href="$class_c_d_c_async_oper.html" title="CDCAsyncOper" alt="" coords="311,80,427,105"/>
-<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="452,80,500,105"/>
-<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="432,5,520,31"/>
-<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="525,80,585,105"/>
-<area shape="rect" id="node8" href="$structtty__features.html" title="tty_features" alt="" coords="609,80,700,105"/>
-</map>

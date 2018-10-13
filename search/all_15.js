@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['usb_20host_20library_20rev_2e2_2e0',['USB Host Library Rev.2.0',['../index.html',1,'']]],
   ['uhs_5fhid_5fboot_5fkey_5fcaps_5flock',['UHS_HID_BOOT_KEY_CAPS_LOCK',['../hidboot_8h.html#a85200689879c7520e38541fa8ba29ade',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fenter',['UHS_HID_BOOT_KEY_ENTER',['../hidboot_8h.html#a42f71f6d2b7e4f543826af0234834237',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fnum_5flock',['UHS_HID_BOOT_KEY_NUM_LOCK',['../hidboot_8h.html#abed3f994055e37e80bede60fda7ea056',1,'hidboot.h']]],
@@ -14,7 +13,7 @@ var searchData=
   ['unplugged',['Unplugged',['../_p_s3_enums_8h.html#add5c7a32e8138b44244caf07232161aeae37160f3a65bb54a91fb5efb4f971924',1,'PS3Enums.h']]],
   ['unused',['unused',['../struct_b_a_s_i_c_c_d_b.html#a2c6031f3dde94acd5d03c80db213c534',1,'BASICCDB']]],
   ['up',['UP',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdaba595d8bca8bc5e67c37c0a9d89becfa',1,'controllerEnums.h']]],
-  ['usagepagefunc',['UsagePageFunc',['../class_report_desc_parser_base.html#a78d8ff957af6bc4b8244ac03c587061b',1,'ReportDescParserBase']]],
+  ['usagepagefunc',['UsagePageFunc',['../class_report_desc_parser_base.html#aeb139df01922910be7558b3c3a893db2',1,'ReportDescParserBase']]],
   ['usagepagefunctions',['usagePageFunctions',['../class_report_desc_parser_base.html#af91679187bb24d185979b3ec045c215b',1,'ReportDescParserBase']]],
   ['usagepagetitles0',['usagePageTitles0',['../class_report_desc_parser_base.html#a7f723a8b7bddd061aee7f0af06aeae08',1,'ReportDescParserBase']]],
   ['usagepagetitles1',['usagePageTitles1',['../class_report_desc_parser_base.html#ae6dadd42986663f261aac948d24911a6',1,'ReportDescParserBase']]],
@@ -143,7 +142,7 @@ var searchData=
   ['usbdevice',['UsbDevice',['../struct_usb_device.html',1,'']]],
   ['usbdeviceaddress',['UsbDeviceAddress',['../struct_usb_device_address.html',1,'']]],
   ['usbdeviceconfig',['USBDeviceConfig',['../class_u_s_b_device_config.html',1,'']]],
-  ['usbdevicehandlefunc',['UsbDeviceHandleFunc',['../address_8h.html#ae95131d8d03796566b00a312faa8360a',1,'address.h']]],
+  ['usbdevicehandlefunc',['UsbDeviceHandleFunc',['../address_8h.html#a90edb051235924cb5280032df397f393',1,'address.h']]],
   ['usbh_5fmidi',['USBH_MIDI',['../class_u_s_b_h___m_i_d_i.html',1,'USBH_MIDI'],['../class_u_s_b_h___m_i_d_i.html#a7dbec24b0f8fe85c713f3de55fba9f83',1,'USBH_MIDI::USBH_MIDI()']]],
   ['usbh_5fmidi_2ecpp',['usbh_midi.cpp',['../usbh__midi_8cpp.html',1,'']]],
   ['usbh_5fmidi_2eh',['usbh_midi.h',['../usbh__midi_8h.html',1,'']]],
