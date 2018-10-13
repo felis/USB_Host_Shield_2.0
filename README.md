@@ -95,7 +95,7 @@ For more information visit the following sites: <http://arduino.cc/en/Guide/Libr
 
 ### Documentation
 
-Documentation for the library can be found at the following link: <http://felis.github.com/USB_Host_Shield_2.0/>.
+Documentation for the library can be found at the following link: <https://felis.github.io/USB_Host_Shield_2.0/>.
 
 ### Enable debugging
 
