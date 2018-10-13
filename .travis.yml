@@ -8,6 +8,11 @@ cache:
     directories:
         - "~/.platformio"
 
+addons:
+    apt:
+        packages:
+            - doxygen
+
 # Generated using: find examples -type f -name "*.ino" | rev | cut -d/ -f2- | rev | sed 's/^/    - PLATFORMIO_CI_SRC=/' > tmp.yml
 env:
     - PLATFORMIO_CI_SRC=examples/acm/acm_terminal
@@ -76,3 +81,18 @@ install:
 script:
     - if [[ -z "$SKIP_UNO" ]]; then UNO="--board=uno"; fi
     - platformio ci --lib="." $UNO --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
+
+before_deploy:
+    # Fix errors in the Doxygen Markdown parser and generate the docs
+    - sed -i 's/Circuits@/Circuits\\@/' README.md
+    - sed -i 's/@YuuichiAkagawa/\\@YuuichiAkagawa/' README.md
+    - doxygen doc/Doxyfile
+
+deploy:
+    provider: pages
+    github-token: $GITHUB_TOKEN
+    local_dir: doc/html
+    skip_cleanup: true
+    keep-history: true
+    on:
+        branch: master
