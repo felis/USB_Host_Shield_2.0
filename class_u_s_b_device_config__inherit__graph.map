@@ -1,0 +1,22 @@
+<map id="USBDeviceConfig" name="USBDeviceConfig">
+<area shape="rect" id="node2" href="$class_a_c_m.html" title="ACM" alt="" coords="65,80,116,107"/>
+<area shape="rect" id="node5" href="$class_a_d_k.html" title="ADK" alt="" coords="141,80,192,107"/>
+<area shape="rect" id="node6" href="$class_b_t_d.html" title="BTD" alt="" coords="217,80,265,107"/>
+<area shape="rect" id="node7" href="$class_bulk_only.html" title="BulkOnly" alt="" coords="291,80,364,107"/>
+<area shape="rect" id="node8" href="$class_f_t_d_i.html" title="FTDI" alt="" coords="390,80,441,107"/>
+<area shape="rect" id="node9" href="$class_p_s3_u_s_b.html" title="PS3USB" alt="" coords="467,80,540,107"/>
+<area shape="rect" id="node10" href="$class_u_s_b_h___m_i_d_i.html" title="USBH_MIDI" alt="" coords="565,80,661,107"/>
+<area shape="rect" id="node11" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="685,80,759,107"/>
+<area shape="rect" id="node17" href="$class_u_s_b_hub.html" title="USBHub" alt="" coords="784,80,857,107"/>
+<area shape="rect" id="node18" href="$class_x_b_o_x_o_l_d.html" title="XBOXOLD" alt="" coords="883,80,969,107"/>
+<area shape="rect" id="node19" href="$class_x_b_o_x_o_n_e.html" title="XBOXONE" alt="" coords="995,80,1083,107"/>
+<area shape="rect" id="node20" href="$class_x_b_o_x_r_e_c_v.html" title="XBOXRECV" alt="" coords="1107,80,1204,107"/>
+<area shape="rect" id="node21" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="1229,80,1315,107"/>
+<area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="5,155,72,181"/>
+<area shape="rect" id="node4" href="$class_x_r21_b1411.html" title="XR21B1411" alt="" coords="97,155,188,181"/>
+<area shape="rect" id="node12" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="429,155,643,181"/>
+<area shape="rect" id="node13" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="668,155,777,181"/>
+<area shape="rect" id="node14" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="801,155,903,181"/>
+<area shape="rect" id="node15" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="765,229,839,256"/>
+<area shape="rect" id="node16" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="865,229,935,256"/>
+</map>

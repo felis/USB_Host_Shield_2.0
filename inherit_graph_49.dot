@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="USB_HID_DESCRIPTOR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html"];
-}

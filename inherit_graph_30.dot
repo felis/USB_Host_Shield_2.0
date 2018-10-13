@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="MODIFIERKEYS",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_m_o_d_i_f_i_e_r_k_e_y_s.html"];
-}
