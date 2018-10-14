@@ -90,6 +90,7 @@ var searchData=
   ['gety',['getY',['../class_p_s4_parser.html#a9972eeb87f2ed4a96dcdccf2dabbbc5a',1,'PS4Parser']]],
   ['getyaw',['getYaw',['../class_w_i_i.html#ad8c2d7acc64b32272de0ec9c1675e1fa',1,'WII']]],
   ['gpiord',['gpioRd',['../class_m_a_x3421e.html#aac5d00653f8fb1cb61d9d7509acb8e00',1,'MAX3421e']]],
+  ['gpiordoutput',['gpioRdOutput',['../class_m_a_x3421e.html#aeef352a1518ea20bf7d1925c671c2c46',1,'MAX3421e']]],
   ['gpiowr',['gpioWr',['../class_m_a_x3421e.html#afccded4a32cdc2a811f7437d3b489336',1,'MAX3421e']]],
   ['gpx_5fbusact',['GPX_BUSACT',['../max3421e_8h.html#aaab0be06b205a6e6f308ca709c762d32',1,'max3421e.h']]],
   ['gpx_5foperate',['GPX_OPERATE',['../max3421e_8h.html#a0f6b05e67d0f8bbd1a392e877a16edff',1,'max3421e.h']]],

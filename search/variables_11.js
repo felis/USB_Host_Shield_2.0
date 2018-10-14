@@ -1,7 +1,7 @@
 var searchData=
 [
   ['r',['r',['../struct_p_s4_output.html#a76a85e749899e2e6cb135a6ec6acabb3',1,'PS4Output']]],
-  ['r1',['r1',['../union_p_s4_buttons.html#aba0cb76ee82bd0ebe9872aa7bcbffac6',1,'PS4Buttons::r1()'],['../struct_inquiry_response.html#a72abbdbd399647227ea05cb1cec32b2d',1,'InquiryResponse::R1()']]],
+  ['r1',['R1',['../struct_inquiry_response.html#a72abbdbd399647227ea05cb1cec32b2d',1,'InquiryResponse::R1()'],['../union_p_s4_buttons.html#aba0cb76ee82bd0ebe9872aa7bcbffac6',1,'PS4Buttons::r1()']]],
   ['r2',['r2',['../union_p_s4_buttons.html#a416642ff357b1313825fe94e0491b60e',1,'PS4Buttons::r2()'],['../struct_inquiry_response.html#aa635575deb7f984d27142ee2071af5b3',1,'InquiryResponse::R2()']]],
   ['r3',['r3',['../union_p_s4_buttons.html#a09805f3bcc362c410d7897792599d61d',1,'PS4Buttons']]],
   ['readptr',['readPtr',['../class_u_s_b_h___m_i_d_i.html#aad25eeebfe8741afa7a242ec398c846e',1,'USBH_MIDI']]],
