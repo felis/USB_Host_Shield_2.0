@@ -140,6 +140,7 @@ public:
         uint8_t regRd(uint8_t reg);
         uint8_t* bytesRd(uint8_t reg, uint8_t nbytes, uint8_t* data_p);
         uint8_t gpioRd();
+        uint8_t gpioRdOutput();
         uint16_t reset();
         int8_t Init();
         int8_t Init(int mseconds);
@@ -379,6 +380,9 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
 }
 /* GPIO read. See gpioWr for explanation */
 
+/** @brief  Reads the current GPI input values
+*   @retval uint8_t Bitwise value of all 8 GPI inputs
+*/
 /* GPIN pins are in high nibbles of IOPINS1, IOPINS2    */
 template< typename SPI_SS, typename INTR >
 uint8_t MAX3421e< SPI_SS, INTR >::gpioRd() {
@@ -387,6 +391,19 @@ uint8_t MAX3421e< SPI_SS, INTR >::gpioRd() {
         gpin &= 0xf0; //clean lower nibble
         gpin |= (regRd(rIOPINS1) >> 4); //shift low bits and OR with upper from previous operation.
         return ( gpin);
+}
+
+/** @brief  Reads the current GPI output values
+*   @retval uint8_t Bitwise value of all 8 GPI outputs
+*/
+/* GPOUT pins are in low nibbles of IOPINS1, IOPINS2    */
+template< typename SPI_SS, typename INTR >
+uint8_t MAX3421e< SPI_SS, INTR >::gpioRdOutput() {
+        uint8_t gpout = 0;
+        gpout = regRd(rIOPINS1); //pins 0-3
+        gpout &= 0x0f; //clean upper nibble
+        gpout |= (regRd(rIOPINS2) << 4); //shift high bits and OR with lower from previous operation.
+        return ( gpout);
 }
 
 /* reset MAX3421E. Returns number of cycles it took for PLL to stabilize after reset
