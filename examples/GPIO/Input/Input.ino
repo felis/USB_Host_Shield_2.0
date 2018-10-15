@@ -12,10 +12,9 @@
 #define OUTPUT_PIN 0
 
 USB Usb; // Create an UHS2 interface object
-UHS2_GPIO GPIO(&Usb); // Create a GPIO object
+UHS2_GPIO Gpio(&Usb); // Create a GPIO object
 
-void setup()
-{
+void setup() {
   Serial.begin( 115200 );
 #if !defined(__MIPSEL__)
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
@@ -28,11 +27,10 @@ void setup()
   delay( 200 );
 }
 
-void loop()
-{
+void loop() {
   // Get the value of input, set value of output
-  int nValue = GPIO.digitalRead(INPUT_PIN);
+  int nValue = Gpio.digitalRead(INPUT_PIN);
   nValue = (nValue ? LOW : HIGH);
-  GPIO.digitalWrite(OUTPUT_PIN, nValue);
+  Gpio.digitalWrite(OUTPUT_PIN, nValue);
 }
 
