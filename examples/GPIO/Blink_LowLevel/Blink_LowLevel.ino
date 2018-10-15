@@ -28,13 +28,13 @@ void setup()
 
 void loop()
 {
-  //Get the current output value, toggle then wait half a second
+  // Get the current output value, toggle then wait half a second
   uint8_t nGPO = Usb.gpioRdOutput();
-  uint8_t nValue = ((nGPO & 0x01) == 0x01)?0:1;
-  nGPO &= 0xFE; //clear bit 0
+  uint8_t nValue = ((nGPO & 0x01) == 0x01) ? 0 : 1;
+  nGPO &= 0xFE; // Clear bit 0
   nGPO |= nValue;
   Usb.gpioWr(nGPO);
-  Serial.print(nValue?"+":"."); //Debug to show what the output should be doing
+  Serial.print(nValue ? "+" : "."); // Debug to show what the output should be doing
   delay(500);
 }
 

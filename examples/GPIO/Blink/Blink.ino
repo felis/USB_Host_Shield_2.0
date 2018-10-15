@@ -11,8 +11,8 @@
 
 #define OUTPUT_PIN 0
 
-USB Usb; //Create an UHS2 interface object
-UHS2_GPIO GPIO(&Usb); //Create a GPIO object
+USB Usb; // Create an UHS2 interface object
+UHS2_GPIO GPIO(&Usb); // Create a GPIO object
 
 void setup()
 {
@@ -30,11 +30,11 @@ void setup()
 
 void loop()
 {
-  //Get the current output value, toggle then wait half a second
+  // Get the current output value, toggle then wait half a second
   int nValue = GPIO.digitalReadOutput(OUTPUT_PIN);
-  nValue = (nValue?0:1);
+  nValue = (nValue ? 0 : 1);
   GPIO.digitalWrite(OUTPUT_PIN, nValue);
-  Serial.print(nValue?"+":"."); //Debug to show what the output should be doing
+  Serial.print(nValue ? "+" : "."); // Debug to show what the output should be doing
   delay(500);
 }
 

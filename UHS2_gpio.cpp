@@ -38,14 +38,14 @@ UHS2_GPIO::UHS2_GPIO(USB *pUsb) : m_pUsb(pUsb)
 *   @param  val Value to set the pin to (zero value will clear output, non-zero value will assert output)
 */
 void UHS2_GPIO::digitalWrite(uint8_t pin, uint8_t val) {
-    if(pin > 7)
-        return;
-    uint8_t nValue = m_pUsb->gpioRdOutput();
-    uint8_t nMask = 1 << pin;
-    nValue &= (~nMask);
-    if(val)
-        nValue |= (nMask);
-    m_pUsb->gpioWr(nValue);
+        if(pin > 7)
+                return;
+        uint8_t nValue = m_pUsb->gpioRdOutput();
+        uint8_t nMask = 1 << pin;
+        nValue &= (~nMask);
+        if(val)
+                nValue |= (nMask);
+        m_pUsb->gpioWr(nValue);
 }
 
 /** @brief  Read the value from a GPIO input pin
@@ -53,11 +53,11 @@ void UHS2_GPIO::digitalWrite(uint8_t pin, uint8_t val) {
 *   @retval int Value of GPIO input (-1 on fail)
 */
 int UHS2_GPIO::digitalRead(uint8_t pin) {
-    if(pin > 7)
-        return -1;
-    uint8_t nMask = 1 << pin;
-    uint8_t nValue = m_pUsb->gpioRd();
-    return ((nValue & nMask)?1:0);
+        if(pin > 7)
+                return -1;
+        uint8_t nMask = 1 << pin;
+        uint8_t nValue = m_pUsb->gpioRd();
+        return ((nValue & nMask)?1:0);
 }
 
 /** @brief  Read the value from a GPIO output pin
@@ -66,9 +66,9 @@ int UHS2_GPIO::digitalRead(uint8_t pin) {
 *   @note   Value of MAX3421E output register, i.e. what the device has been set to, not the physical value on the pin
 */
 int UHS2_GPIO::digitalReadOutput(uint8_t pin) {
-    if(pin > 7)
-        return -1;
-    uint8_t nMask = 1 << pin;
-    uint8_t nValue = m_pUsb->gpioRdOutput();
-    return ((nValue & nMask)?1:0);
+        if(pin > 7)
+                return -1;
+        uint8_t nMask = 1 << pin;
+        uint8_t nValue = m_pUsb->gpioRdOutput();
+        return ((nValue & nMask)?1:0);
 }

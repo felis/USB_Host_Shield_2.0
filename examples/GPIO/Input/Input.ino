@@ -11,8 +11,8 @@
 #define INPUT_PIN 0
 #define OUTPUT_PIN 0
 
-USB Usb; //Create an UHS2 interface object
-UHS2_GPIO GPIO(&Usb); //Create a GPIO object
+USB Usb; // Create an UHS2 interface object
+UHS2_GPIO GPIO(&Usb); // Create a GPIO object
 
 void setup()
 {
@@ -30,9 +30,9 @@ void setup()
 
 void loop()
 {
-  //Get the value of input, set value of output
+  // Get the value of input, set value of output
   int nValue = GPIO.digitalRead(INPUT_PIN);
-  nValue = (nValue?0:1);
+  nValue = (nValue ? LOW : HIGH);
   GPIO.digitalWrite(OUTPUT_PIN, nValue);
 }
 
