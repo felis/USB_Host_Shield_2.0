@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['uhs2_5fgpio',['UHS2_GPIO',['../class_u_h_s2___g_p_i_o.html',1,'UHS2_GPIO'],['../class_u_h_s2___g_p_i_o.html#a17ed93e6b9a8e81df410ade377bf6413',1,'UHS2_GPIO::UHS2_GPIO()']]],
+  ['uhs2_5fgpio_2ecpp',['UHS2_gpio.cpp',['../_u_h_s2__gpio_8cpp.html',1,'']]],
+  ['uhs2_5fgpio_2eh',['UHS2_gpio.h',['../_u_h_s2__gpio_8h.html',1,'']]],
   ['uhs_5fhid_5fboot_5fkey_5fcaps_5flock',['UHS_HID_BOOT_KEY_CAPS_LOCK',['../hidboot_8h.html#a85200689879c7520e38541fa8ba29ade',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fenter',['UHS_HID_BOOT_KEY_ENTER',['../hidboot_8h.html#a42f71f6d2b7e4f543826af0234834237',1,'hidboot.h']]],
   ['uhs_5fhid_5fboot_5fkey_5fnum_5flock',['UHS_HID_BOOT_KEY_NUM_LOCK',['../hidboot_8h.html#abed3f994055e37e80bede60fda7ea056',1,'hidboot.h']]],
