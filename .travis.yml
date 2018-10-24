@@ -39,6 +39,9 @@ env:
     - PLATFORMIO_CI_SRC=examples/board_qc
     - PLATFORMIO_CI_SRC=examples/cdc_XR21B1411/XR_terminal
     - PLATFORMIO_CI_SRC=examples/ftdi/USBFTDILoopback
+    - PLATFORMIO_CI_SRC=examples/GPIO/Blink
+    - PLATFORMIO_CI_SRC=examples/GPIO/Blink_LowLevel
+    - PLATFORMIO_CI_SRC=examples/GPIO/Input
     - PLATFORMIO_CI_SRC=examples/HID/le3dp
     - PLATFORMIO_CI_SRC=examples/HID/scale
     - PLATFORMIO_CI_SRC=examples/HID/SRWS1
