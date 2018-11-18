@@ -34,14 +34,16 @@ e-mail   :  support@circuitsathome.com
 #define FT232R                          0x0600
 
 // Commands
-#define FTDI_SIO_RESET                  0 /* Reset the port */
-#define FTDI_SIO_MODEM_CTRL             1 /* Set the modem control register */
-#define FTDI_SIO_SET_FLOW_CTRL          2 /* Set flow control register */
-#define FTDI_SIO_SET_BAUD_RATE          3 /* Set baud rate */
-#define FTDI_SIO_SET_DATA               4 /* Set the data characteristics of the port */
-#define FTDI_SIO_GET_MODEM_STATUS       5 /* Retrieve current value of modem status register */
-#define FTDI_SIO_SET_EVENT_CHAR         6 /* Set the event character */
-#define FTDI_SIO_SET_ERROR_CHAR         7 /* Set the error character */
+#define FTDI_SIO_RESET                  0  /* Reset the port */
+#define FTDI_SIO_MODEM_CTRL             1  /* Set the modem control register */
+#define FTDI_SIO_SET_FLOW_CTRL          2  /* Set flow control register */
+#define FTDI_SIO_SET_BAUD_RATE          3  /* Set baud rate */
+#define FTDI_SIO_SET_DATA               4  /* Set the data characteristics of the port */
+#define FTDI_SIO_GET_MODEM_STATUS       5  /* Retrieve current value of modem status register */
+#define FTDI_SIO_SET_EVENT_CHAR         6  /* Set the event character */
+#define FTDI_SIO_SET_ERROR_CHAR         7  /* Set the error character */
+#define FTDI_SIO_SET_LATENCY_TIMER      9  /* Set the latency timer */
+#define FTDI_SIO_GET_LATENCY_TIMER      10 /* Get the latency timer */
 
 #define FTDI_SIO_RESET_SIO              0
 #define FTDI_SIO_RESET_PURGE_RX         1
@@ -64,7 +66,7 @@ e-mail   :  support@circuitsathome.com
 #define FTDI_SIO_SET_RTS_HIGH           ( 2 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
 #define FTDI_SIO_SET_RTS_LOW            ( 0 | ( FTDI_SIO_SET_RTS_MASK << 8 ))
 
-#define FTDI_SIO_DISABLE_FLOW_CTRL      0x0
+  #define FTDI_SIO_DISABLE_FLOW_CTRL      0x0
 #define FTDI_SIO_RTS_CTS_HS             (0x1 << 8)
 #define FTDI_SIO_DTR_DSR_HS             (0x2 << 8)
 #define FTDI_SIO_XON_XOFF_HS            (0x4 << 8)
@@ -121,8 +123,10 @@ public:
         uint8_t SetModemControl(uint16_t control);
         uint8_t SetFlowControl(uint8_t protocol, uint8_t xon = 0x11, uint8_t xoff = 0x13);
         uint8_t SetData(uint16_t databm);
+        uint8_t SetLatency(uint8_t l);
+        uint8_t GetLatency(uint8_t *l);
 
-        // Methods for recieving and sending data
+        // Methods for receiving and sending data
         uint8_t RcvData(uint16_t *bytes_rcvd, uint8_t *dataptr);
         uint8_t SndData(uint16_t nbytes, uint8_t *dataptr);
 
@@ -139,7 +143,7 @@ public:
         void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
 
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return (vid == FTDI_VID && pid == wIdProduct);
+                return (vid == FTDI_VID && pid == FTDI_PID);
         }
         virtual bool isReady() {
                 return ready;
