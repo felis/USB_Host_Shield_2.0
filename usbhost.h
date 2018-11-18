@@ -242,6 +242,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         HAL_SPI_Transmit(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
 #elif !defined(SPDR) // ESP8266, ESP32
+        yield();
         USB_SPI.transfer(reg | 0x02);
         while(nbytes) {
                 USB_SPI.transfer(*data_p);
@@ -345,6 +346,7 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         HAL_SPI_Receive(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
         data_p += nbytes;
 #elif !defined(SPDR) // ESP8266, ESP32
+        yield();
         USB_SPI.transfer(reg);
         while(nbytes) {
             *data_p++ = USB_SPI.transfer(0);
