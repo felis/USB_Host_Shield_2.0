@@ -119,6 +119,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7c107efeff2d46cb711cadd0a6c31636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d7c305729fe4bbc746fa0569261a71"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_t_d_i.html#ab7d7c305729fe4bbc746fa0569261a71">SetData</a> (uint16_t databm)</td></tr>
 <tr class="separator:ab7d7c305729fe4bbc746fa0569261a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97b64a4ff782525411423b2f311d85d7"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_t_d_i.html#a97b64a4ff782525411423b2f311d85d7">SetLatency</a> (uint8_t l)</td></tr>
+<tr class="separator:a97b64a4ff782525411423b2f311d85d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62374382f16e1c557812fe5a50414d49"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_t_d_i.html#a62374382f16e1c557812fe5a50414d49">GetLatency</a> (uint8_t *l)</td></tr>
+<tr class="separator:a62374382f16e1c557812fe5a50414d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa367ae72fbfda931cae8ec751e9dc434"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_t_d_i.html#aa367ae72fbfda931cae8ec751e9dc434">RcvData</a> (uint16_t *bytes_rcvd, uint8_t *dataptr)</td></tr>
 <tr class="separator:aa367ae72fbfda931cae8ec751e9dc434"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90309b11a160bad9ceb0b77545b7a240"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_t_d_i.html#a90309b11a160bad9ceb0b77545b7a240">SndData</a> (uint16_t nbytes, uint8_t *dataptr)</td></tr>
@@ -149,7 +153,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00096">96</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00098">98</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af36414f3137edd44ec007978db2ea712"></a>
 <div class="memitem">
@@ -200,7 +204,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00276">276</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00293">293</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -218,7 +222,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00316">316</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00353">353</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -252,7 +256,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00324">324</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00361">361</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +274,43 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00332">332</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00369">369</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a97b64a4ff782525411423b2f311d85d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::SetLatency </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00335">335</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a62374382f16e1c557812fe5a50414d49"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t FTDI::GetLatency </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00345">345</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -298,7 +338,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00340">340</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00377">377</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -326,7 +366,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00348">348</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00385">385</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -397,7 +437,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a61e301efedae55c6ac12c6cce154e432">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00250">250</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00267">267</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -424,7 +464,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a893ea73deab98be837c257201e7da25a">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00261">261</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00278">278</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,7 +491,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a2bfde6c290d32888a6f4e97fa1e222f1">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00134">134</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00138">138</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
 
 </div>
 </div>
@@ -507,7 +547,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_usb_config_xtracter.html#a7717ea27bb756568e0deb544d8331370">UsbConfigXtracter</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00223">223</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8cpp_source.html#l00237">237</a> of file <a class="el" href="cdcftdi_8cpp_source.html">cdcftdi.cpp</a>.</p>
 
 </div>
 </div>
@@ -545,7 +585,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#af920743379d8c133dda4335d11601141">USBDeviceConfig</a>.</p>
 
-<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00141">141</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00145">145</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
 
 </div>
 </div>
@@ -570,7 +610,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00144">144</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
+<p>Definition at line <a class="el" href="cdcftdi_8h_source.html#l00148">148</a> of file <a class="el" href="cdcftdi_8h_source.html">cdcftdi.h</a>.</p>
 
 </div>
 </div>

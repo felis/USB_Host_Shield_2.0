@@ -35,7 +35,7 @@ var searchData=
   ['pgm_5fread_5fword',['pgm_read_word',['../version__helper_8h.html#a910fb5f01313d339d3b835d45e1e5ad0',1,'version_helper.h']]],
   ['pgm_5fread_5fword_5ffar',['pgm_read_word_far',['../version__helper_8h.html#a3aaf70e2e58f5749ccbcd36032b1d1b3',1,'version_helper.h']]],
   ['pgm_5fread_5fword_5fnear',['pgm_read_word_near',['../version__helper_8h.html#a515a845ea5139d8cf1c7f09ad6dad243',1,'version_helper.h']]],
-  ['pid',['PID',['../class_h_i_d_composite.html#a1402689fc7e633723fca2b6b175c2a18',1,'HIDComposite::PID()'],['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal::PID()'],['../class_u_s_b_h___m_i_d_i.html#aaf7ec77f0d8cefff1316ae049747e2a7',1,'USBH_MIDI::pid()']]],
+  ['pid',['pid',['../class_u_s_b_h___m_i_d_i.html#aaf7ec77f0d8cefff1316ae049747e2a7',1,'USBH_MIDI::pid()'],['../class_h_i_d_composite.html#a1402689fc7e633723fca2b6b175c2a18',1,'HIDComposite::PID()'],['../class_h_i_d_universal.html#abc609e49d66fa6260e7cdcd2c4ff0a5a',1,'HIDUniversal::PID()']]],
   ['pitch',['Pitch',['../controller_enums_8h.html#a7c7824a10a9ffa8fea85602fcf4d84e6ae3a34b760fa4a6854f28852e91d8bb47',1,'controllerEnums.h']]],
   ['pitchgyroscale',['pitchGyroScale',['../class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a',1,'WII']]],
   ['pitchgyrospeed',['pitchGyroSpeed',['../class_w_i_i.html#aa47478ccdfe009dabb7c21232e07bfd5',1,'WII']]],

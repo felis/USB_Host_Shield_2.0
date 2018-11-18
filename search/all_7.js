@@ -51,6 +51,7 @@ var searchData=
   ['getiry4',['getIRy4',['../class_w_i_i.html#a759837b933f63ce7c3235639be29250a',1,'WII']]],
   ['getlastmessagetime',['getLastMessageTime',['../class_p_s3_b_t.html#ad5b6bba68b85614f6a1b2ddeb2a3f191',1,'PS3BT']]],
   ['getlastusberror',['GetLastUsbError',['../class_bulk_only.html#abe1e768a46e751e6792164334c973b44',1,'BulkOnly']]],
+  ['getlatency',['GetLatency',['../class_f_t_d_i.html#a62374382f16e1c557812fe5a50414d49',1,'FTDI']]],
   ['getlinecoding',['GetLineCoding',['../class_a_c_m.html#a9d922317b25a7ae086a6fe79984ab8d1',1,'ACM']]],
   ['getmicstatus',['getMicStatus',['../class_p_s4_parser.html#ad032eb66359df0d6fb15e9a3cabdaece',1,'PS4Parser']]],
   ['getmovebdaddr',['getMoveBdaddr',['../class_p_s3_u_s_b.html#a6c722086999db05d8abf5f1f26c19f77',1,'PS3USB']]],

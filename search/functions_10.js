@@ -27,6 +27,7 @@ var searchData=
   ['sethubfeature',['SetHubFeature',['../class_u_s_b_hub.html#a933658683f6590cd40ff97d08095f5a2',1,'USBHub']]],
   ['sethubpremask',['SetHubPreMask',['../class_u_s_b.html#aedcc6c06badd14b6fd3b0dda94269ad4',1,'USB']]],
   ['setidle',['SetIdle',['../class_u_s_b_h_i_d.html#aefe5089655e55bd8f32c796818778d75',1,'USBHID']]],
+  ['setlatency',['SetLatency',['../class_f_t_d_i.html#a97b64a4ff782525411423b2f311d85d7',1,'FTDI']]],
   ['setled',['setLed',['../class_p_s4_parser.html#a3f709524b0303086591d81bd238e62e8',1,'PS4Parser::setLed(uint8_t r, uint8_t g, uint8_t b)'],['../class_p_s4_parser.html#a58e7a4746ee4e1fc5ceea44f64ffc3f2',1,'PS4Parser::setLed(ColorsEnum color)']]],
   ['setledblink',['setLedBlink',['../class_x_b_o_x_r_e_c_v.html#a0bff2ed2e08cfbd657b5731ae1abec68',1,'XBOXRECV::setLedBlink()'],['../class_x_b_o_x_u_s_b.html#a402136e2c5ab3a006c0111903459eb35',1,'XBOXUSB::setLedBlink()']]],
   ['setledflash',['setLedFlash',['../class_p_s4_parser.html#a26342dea530bf09e2ac8df847c1874fc',1,'PS4Parser']]],
