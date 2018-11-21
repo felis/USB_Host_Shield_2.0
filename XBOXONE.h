@@ -44,6 +44,7 @@
 #define XBOX_ONE_PID2                           0x02DD // Microsoft X-Box One pad (Firmware 2015)
 #define XBOX_ONE_PID3                           0x02E3 // Microsoft X-Box One Elite pad
 #define XBOX_ONE_PID4                           0x02EA // Microsoft X-Box One S pad
+#define XBOX_ONE_PID13                          0x0B0A // Microsoft X-Box One Adaptive Controller
 
 // Unofficial controllers
 #define XBOX_VID2                               0x0738 // Mad Catz
@@ -124,7 +125,7 @@ public:
                 return ((vid == XBOX_VID1 || vid == XBOX_VID2 || vid == XBOX_VID3 || vid == XBOX_VID4 || vid == XBOX_VID5 || vid == XBOX_VID6) &&
                     (pid == XBOX_ONE_PID1 || pid == XBOX_ONE_PID2 || pid == XBOX_ONE_PID3 || pid == XBOX_ONE_PID4 ||
                         pid == XBOX_ONE_PID5 || pid == XBOX_ONE_PID6 || pid == XBOX_ONE_PID7 || pid == XBOX_ONE_PID8 ||
-                        pid == XBOX_ONE_PID9 || pid == XBOX_ONE_PID10 || pid == XBOX_ONE_PID11 || pid == XBOX_ONE_PID12));
+                        pid == XBOX_ONE_PID9 || pid == XBOX_ONE_PID10 || pid == XBOX_ONE_PID11 || pid == XBOX_ONE_PID12 || pid == XBOX_ONE_PID13));
         };
         /**@}*/
 
