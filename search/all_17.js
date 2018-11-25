@@ -3,7 +3,7 @@ var searchData=
   ['wiicamerareadme',['WiiCameraReadme',['../md__wii_camera_readme.html',1,'']]],
   ['waitingforconnection',['waitingForConnection',['../class_b_t_d.html#a93a522edb2974185c7567b8f83860424',1,'BTD']]],
   ['wdescriptorlength',['wDescriptorLength',['../struct_u_s_b___h_i_d___d_e_s_c_r_i_p_t_o_r.html#a0b160c43f6a6132c0debabd6ef171950',1,'USB_HID_DESCRIPTOR::wDescriptorLength()'],['../struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html#a98251c1867caf1651f6e926952189201',1,'HID_CLASS_DESCRIPTOR_LEN_AND_TYPE::wDescriptorLength()']]],
-  ['white',['WHITE',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda283fc479650da98250635b9c3c0e7e50',1,'WHITE():&#160;controllerEnums.h'],['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ab548046646b36c12aa6ba841de500094',1,'White():&#160;controllerEnums.h']]],
+  ['white',['White',['../controller_enums_8h.html#aac6fa7b0395b95cc528deaad0ce884a2ab548046646b36c12aa6ba841de500094',1,'White():&#160;controllerEnums.h'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda283fc479650da98250635b9c3c0e7e50',1,'WHITE():&#160;controllerEnums.h']]],
   ['wi_5fprotocol_5fbt',['WI_PROTOCOL_BT',['../_b_t_d_8h.html#a05903a9351c5ced6b8be27b2869e62af',1,'BTD.h']]],
   ['wi_5fsubclass_5frf',['WI_SUBCLASS_RF',['../_b_t_d_8h.html#a177fe269ddb7979d99b76d52bc281551',1,'BTD.h']]],
   ['wide',['wide',['../structtty__features.html#af97f813b49e81e0f89435a07525b3321',1,'tty_features::wide()'],['../class_a_c_m.html#ab171c6eefd542e7d4a7ce555d2f2f389',1,'ACM::wide()']]],
