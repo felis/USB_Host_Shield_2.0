@@ -990,12 +990,14 @@ const char * const ReportDescParserBase::medInstrTitles4[] PROGMEM = {
         pstrUsageSoftControlAdjust
 };
 
-void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset __attribute__((unused))) {
+void ReportDescParserBase::Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) {
         uint16_t cntdn = (uint16_t)len;
         uint8_t *p = (uint8_t*)pbuf;
 
-
-        totalSize = 0;
+        // If offset is set, parsing is in progress.
+        if(offset == 0) {
+                totalSize = 0;
+        }
 
         while(cntdn) {
                 //USB_HOST_SERIAL.println("");
@@ -1198,8 +1200,6 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                 case (TYPE_MAIN | TAG_MAIN_OUTPUT):
                                 case (TYPE_MAIN | TAG_MAIN_FEATURE):
                                         totalSize += (uint16_t)rptSize * (uint16_t)rptCount;
-                                        rptSize = 0;
-                                        rptCount = 0;
                                         E_Notify(PSTR("("), 0x80);
                                         PrintBin<uint8_t > (data, 0x80);
                                         E_Notify(PSTR(")"), 0x80);
@@ -1490,8 +1490,6 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                                         break;
                                 case (TYPE_MAIN | TAG_MAIN_OUTPUT):
                                 case (TYPE_MAIN | TAG_MAIN_FEATURE):
-                                        rptSize = 0;
-                                        rptCount = 0;
                                         useMin = 0;
                                         useMax = 0;
                                         break;
@@ -1500,8 +1498,6 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
 
                                         totalSize += (uint16_t)rptSize * (uint16_t)rptCount;
 
-                                        rptSize = 0;
-                                        rptCount = 0;
                                         useMin = 0;
                                         useMax = 0;
                                         break;
