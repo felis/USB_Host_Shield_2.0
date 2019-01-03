@@ -1510,18 +1510,11 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
 
 void ReportDescParser2::OnInputItem(uint8_t itm) {
         uint8_t byte_offset = (totalSize >> 3); // calculate offset to the next unhandled byte i = (int)(totalCount / 8);
-        uint32_t tmp = (byte_offset << 3);
-        uint8_t bit_offset = totalSize - tmp; // number of bits in the current byte already handled
         uint8_t *p = pBuf + byte_offset; // current byte pointer
-
-        if(bit_offset)
-                *p >>= bit_offset;
 
         uint8_t usage = useMin;
 
         bool print_usemin_usemax = ((useMin < useMax) && ((itm & 3) == 2) && pfUsage) ? true : false;
-
-        uint8_t bits_of_byte = 8;
 
         // for each field in field array defined by rptCount
         for(uint8_t field = 0; field < rptCount; field++, usage++) {
@@ -1543,30 +1536,27 @@ void ReportDescParser2::OnInputItem(uint8_t itm) {
                 // bits_to_copy         - number of bits to copy to result buffer
 
                 // for each bit in a field
-                for(uint8_t bits_left = rptSize, bits_to_copy = 0; bits_left;
+                for(uint8_t bits_left = rptSize, bits_to_copy = 0, index = 0; bits_left;
                         bits_left -= bits_to_copy) {
-                        bits_to_copy = (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
-
-                        result.dwResult <<= bits_to_copy; // Result buffer is shifted by the number of bits to be copied into it
-
                         uint8_t val = *p;
-
                         val >>= (8 - bits_of_byte); // Shift by the number of bits already processed
 
-                        mask = 0;
+                        bits_to_copy = (bits_left > bits_of_byte) ? bits_of_byte : bits_left;
 
+                        mask = 0;
                         for(uint8_t j = bits_to_copy; j; j--) {
                                 mask <<= 1;
                                 mask |= 1;
                         }
 
-                        result.bResult[0] = (result.bResult[0] | (val & mask));
+                        result.bResult[index] = (result.bResult[index] | (val & mask));
 
                         bits_of_byte -= bits_to_copy;
 
                         if(bits_of_byte < 1) {
                                 bits_of_byte = 8;
                                 p++;
+                                index++;
                         }
                 }
                 PrintByteValue(result.dwResult);
