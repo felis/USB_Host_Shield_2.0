@@ -160,7 +160,7 @@ void KeyboardReportParser::Parse(USBHID *hid, bool is_rpt_id __attribute__((unus
 const uint8_t KeyboardReportParser::numKeys[10] PROGMEM = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
 const uint8_t KeyboardReportParser::symKeysUp[12] PROGMEM = {'_', '+', '{', '}', '|', '~', ':', '"', '~', '<', '>', '?'};
 const uint8_t KeyboardReportParser::symKeysLo[12] PROGMEM = {'-', '=', '[', ']', '\\', ' ', ';', '\'', '`', ',', '.', '/'};
-const uint8_t KeyboardReportParser::padKeys[5] PROGMEM = {'/', '*', '-', '+', 0x13};
+const uint8_t KeyboardReportParser::padKeys[5] PROGMEM = {'/', '*', '-', '+', '\r'};
 
 uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         uint8_t shift = (mod & 0x22);
@@ -192,7 +192,7 @@ uint8_t KeyboardReportParser::OemToAscii(uint8_t mod, uint8_t key) {
         else {
                 switch(key) {
                         case UHS_HID_BOOT_KEY_SPACE: return (0x20);
-                        case UHS_HID_BOOT_KEY_ENTER: return (0x13);
+                        case UHS_HID_BOOT_KEY_ENTER: return ('\r'); // Carriage return (0x0D)
                         case UHS_HID_BOOT_KEY_ZERO2: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '0': 0);
                         case UHS_HID_BOOT_KEY_PERIOD: return ((kbdLockingKeys.kbdLeds.bmNumLock == 1) ? '.': 0);
                 }
