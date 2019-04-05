@@ -118,7 +118,7 @@ e-mail   :  support@circuitsathome.com
 #define strncat_P(a, b, n) strncat((a), (b), (n))
 #endif
 #ifndef strncpy_P
-#define strncpy_P(a, b, n) strncmp((a), (b), (n))
+#define strncpy_P(a, b, n) strncpy((a), (b), (n))
 #endif
 #ifndef strpbrk_P
 #define strpbrk_P(str, chrs) strpbrk((str), (chrs))
