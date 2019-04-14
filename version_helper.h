@@ -157,16 +157,6 @@ e-mail   :  support@circuitsathome.com
 #define fprintf_P(s, ...) ((s), __VA_ARGS__)
 #endif
 
-#ifdef ESP8266
-// Workaround the following issue: https://github.com/esp8266/Arduino/pull/5735
-#undef pgm_read_ptr_aligned
-#ifdef __cplusplus
-#define pgm_read_ptr_aligned(addr) (*reinterpret_cast<const void* const*>(addr))
-#else
-#define pgm_read_ptr_aligned(addr) (*(const void* const*)(addr))
-#endif
-#endif
-
 #ifndef pgm_read_byte
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #endif

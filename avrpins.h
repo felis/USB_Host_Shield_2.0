@@ -1395,6 +1395,26 @@ public: \
 
 #if defined(ESP8266)
 
+// Workaround the following issue: https://github.com/esp8266/Arduino/pull/5735
+#undef pgm_read_ptr_aligned
+#ifdef __cplusplus
+#define pgm_read_ptr_aligned(addr) (*reinterpret_cast<const void* const*>(addr))
+#else
+#define pgm_read_ptr_aligned(addr) (*(const void* const*)(addr))
+#endif
+
+#undef pgm_read_ptr
+#if PGM_READ_UNALIGNED
+#define pgm_read_ptr(p) pgm_read_ptr_unaligned(p)
+#else
+#define pgm_read_ptr(p) pgm_read_ptr_aligned(p)
+#endif
+
+#ifdef pgm_read_pointer
+#undef pgm_read_pointer
+#endif
+#define pgm_read_pointer(p) pgm_read_ptr(p)
+
 // Pinout for ESP-12 module
 // 0 .. 16 - Digital pins
 // GPIO 6 to 11 and 16 are not usable in this library.
