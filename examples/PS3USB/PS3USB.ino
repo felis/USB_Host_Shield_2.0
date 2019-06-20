@@ -60,7 +60,7 @@ void loop() {
       Serial.print(F("\r\nPS"));
 
     if (PS3.getButtonClick(TRIANGLE))
-      Serial.print(F("\r\nTraingle"));
+      Serial.print(F("\r\nTriangle"));
     if (PS3.getButtonClick(CIRCLE))
       Serial.print(F("\r\nCircle"));
     if (PS3.getButtonClick(CROSS))

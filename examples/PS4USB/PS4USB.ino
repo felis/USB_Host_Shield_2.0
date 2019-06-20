@@ -59,7 +59,7 @@ void loop() {
     if (PS4.getButtonClick(PS))
       Serial.print(F("\r\nPS"));
     if (PS4.getButtonClick(TRIANGLE)) {
-      Serial.print(F("\r\nTraingle"));
+      Serial.print(F("\r\nTriangle"));
       PS4.setRumbleOn(RumbleLow);
     }
     if (PS4.getButtonClick(CIRCLE)) {

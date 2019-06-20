@@ -67,7 +67,7 @@ void loop() {
     }
     else {
       if (PS3.getButtonClick(TRIANGLE)) {
-        Serial.print(F("\r\nTraingle"));
+        Serial.print(F("\r\nTriangle"));
         PS3.setRumbleOn(RumbleLow);
       }
       if (PS3.getButtonClick(CIRCLE)) {

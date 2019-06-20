@@ -98,7 +98,7 @@ void loop() {
     }
     else {
       if (PS3.getButtonClick(TRIANGLE))
-        output += " - Traingle";
+        output += " - Triangle";
       if (PS3.getButtonClick(CIRCLE))
         output += " - Circle";
       if (PS3.getButtonClick(CROSS))
