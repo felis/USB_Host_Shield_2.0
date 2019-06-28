@@ -334,6 +334,7 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                 retry_count = 0;
                 nak_count = 0;
                 bytes_tosend = (bytes_left >= maxpktsize) ? maxpktsize : bytes_left;
+                uint8_t save_byte = *data_p;
                 bytesWr(rSNDFIFO, bytes_tosend, data_p); //filling output FIFO
                 regWr(rSNDBC, bytes_tosend); //set number of bytes
                 regWr(rHXFR, (tokOUT | pep->epAddr)); //dispatch packet
@@ -373,7 +374,7 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
 
                         /* process NAK according to Host out NAK bug */
                         regWr(rSNDBC, 0);
-                        regWr(rSNDFIFO, *data_p);
+                        regWr(rSNDFIFO, save_byte);
                         regWr(rSNDBC, bytes_tosend);
                         regWr(rHXFR, (tokOUT | pep->epAddr)); //dispatch packet
                         while(!(regRd(rHIRQ) & bmHXFRDNIRQ)){
