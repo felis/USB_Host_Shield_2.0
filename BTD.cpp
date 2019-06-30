@@ -17,7 +17,7 @@
 
 #include "BTD.h"
 // To enable serial debugging see "settings.h"
-//#define EXTRADEBUG // Uncomment to get even more debugging data
+#define EXTRADEBUG // Uncomment to get even more debugging data
 
 const uint8_t BTD::BTD_CONTROL_PIPE = 0;
 const uint8_t BTD::BTD_EVENT_PIPE = 1;
@@ -408,7 +408,46 @@ void BTD::HCI_event_task() {
                                         hci_set_flag(HCI_FLAG_CMD_COMPLETE); // Set command complete flag
                                         if((hcibuf[3] == 0x01) && (hcibuf[4] == 0x10)) { // Parameters from read local version information
                                                 hci_version = hcibuf[6]; // Used to check if it supports 2.0+EDR - see http://www.bluetooth.org/Technical/AssignedNumbers/hci.htm
+#ifdef EXTRADEBUG
+                                                if(!hci_check_flag(HCI_FLAG_READ_VERSION)) {
+                                                        Notify(PSTR("\r\nHCI version: "), 0x80);
+                                                        D_PrintHex<uint8_t > (hci_version, 0x80);
+                                                }
+#endif
                                                 hci_set_flag(HCI_FLAG_READ_VERSION);
+                                        } else if((hcibuf[3] == 0x04) && (hcibuf[4] == 0x10)) { // Parameters from read local extended features
+                                                if(!hci_check_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES)) {
+#ifdef EXTRADEBUG
+                                                        Notify(PSTR("\r\nPage number: "), 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[6], 0x80);
+                                                        Notify(PSTR("\r\nMaximum page number: "), 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[7], 0x80);
+                                                        Notify(PSTR("\r\nExtended LMP features:"), 0x80);
+                                                        for(uint8_t i = 0; i < 8; i++) {
+                                                                Notify(PSTR(" "), 0x80);
+                                                                D_PrintHex<uint8_t > (hcibuf[8 + i], 0x80);
+                                                        }
+#endif
+#ifdef DEBUG_USB_HOST
+                                                        if(hcibuf[6] == 0) { // Page 0
+                                                                Notify(PSTR("\r\nLocal "), 0x80);
+                                                                if(hcibuf[8 + 6] & (1U << 3))
+                                                                        Notify(PSTR("supports"), 0x80);
+                                                                else
+                                                                        Notify(PSTR("does NOT support"), 0x80);
+                                                                Notify(PSTR(" secure simple paring (controller support)"), 0x80);
+                                                        } else if(hcibuf[6] == 1) { // Page 1
+                                                                Notify(PSTR("\r\nLocal "), 0x80);
+                                                                if(hcibuf[8 + 0] & (1U << 0))
+                                                                        Notify(PSTR("supports"), 0x80);
+                                                                else
+                                                                        Notify(PSTR("does NOT support"), 0x80);
+                                                                Notify(PSTR(" secure simple paring (host support)"), 0x80);
+                                                        }
+#endif
+                                                }
+
+                                                hci_set_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES);
                                         } else if((hcibuf[3] == 0x09) && (hcibuf[4] == 0x10)) { // Parameters from read local bluetooth address
                                                 for(uint8_t i = 0; i < 6; i++)
                                                         my_bdaddr[i] = hcibuf[6 + i];
@@ -446,7 +485,7 @@ void BTD::HCI_event_task() {
 
                         case EV_INQUIRY_RESULT:
                                 if(hcibuf[2]) { // Check that there is more than zero responses
-#ifdef EXTRADEBUG
+#if defined(EXTRADEBUG) && 0
                                         Notify(PSTR("\r\nNumber of responses: "), 0x80);
                                         Notify(hcibuf[2], 0x80);
 #endif
@@ -456,7 +495,7 @@ void BTD::HCI_event_task() {
                                                 for(uint8_t j = 0; j < 3; j++)
                                                         classOfDevice[j] = hcibuf[j + 4 + offset];
 
-#ifdef EXTRADEBUG
+#if defined(EXTRADEBUG) && 0
                                                 Notify(PSTR("\r\nClass of device: "), 0x80);
                                                 D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
                                                 Notify(PSTR(" "), 0x80);
@@ -465,7 +504,7 @@ void BTD::HCI_event_task() {
                                                 D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
 #endif
 
-                                                if(pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
+                                                if(pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] == 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
                                                         checkRemoteName = true; // Check remote name to distinguish between the different controllers
 
                                                         for(uint8_t j = 0; j < 6; j++)
@@ -473,8 +512,10 @@ void BTD::HCI_event_task() {
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                         break;
-                                                } else if(pairWithHIDDevice && (classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+                                                } else if(pairWithHIDDevice && (classOfDevice[1] & 0x0F) == 0x05 && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
 #ifdef DEBUG_USB_HOST
+                                                        checkRemoteName = true; // Used to print name in the serial monitor if serial debugging is enabled
+
                                                         if(classOfDevice[0] & 0x80)
                                                                 Notify(PSTR("\r\nMouse found"), 0x80);
                                                         if(classOfDevice[0] & 0x40)
@@ -524,7 +565,7 @@ void BTD::HCI_event_task() {
                                                 if(remote_name[i] == '\0') // End of string
                                                         break;
                                         }
-                                        // TODO: Altid sæt '\0' i remote name!
+                                        // TODO: Always set '\0' in remote name!
                                         hci_set_flag(HCI_FLAG_REMOTE_NAME_COMPLETE);
                                 }
                                 break;
@@ -536,7 +577,7 @@ void BTD::HCI_event_task() {
                                 for(uint8_t i = 0; i < 3; i++)
                                         classOfDevice[i] = hcibuf[i + 8];
 
-                                if((classOfDevice[1] & 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad
+                                if((classOfDevice[1] & 0x0F) == 0x05 && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad
 #ifdef DEBUG_USB_HOST
                                         if(classOfDevice[0] & 0x80)
                                                 Notify(PSTR("\r\nMouse is connecting"), 0x80);
@@ -608,18 +649,84 @@ void BTD::HCI_event_task() {
                                         hci_state = HCI_DISCONNECT_STATE;
                                 }
                                 break;
+
+                        case EV_READ_REMOTE_EXTENDED_FEATURES_COMPLETE:
+                                if(!hcibuf[2]) { // Check if connected OK
+                                        if(!hci_check_flag(HCI_FLAG_REMOTE_EXTENDED_FEATURES)) {
+#ifdef EXTRADEBUG
+                                                Notify(PSTR("\r\nPage number: "), 0x80);
+                                                D_PrintHex<uint8_t > (hcibuf[5], 0x80);
+                                                Notify(PSTR("\r\nMaximum page number: "), 0x80);
+                                                D_PrintHex<uint8_t > (hcibuf[6], 0x80);
+                                                Notify(PSTR("\r\nExtended LMP features:"), 0x80);
+                                                for(uint8_t i = 0; i < 8; i++) {
+                                                        Notify(PSTR(" "), 0x80);
+                                                        D_PrintHex<uint8_t > (hcibuf[7 + i], 0x80);
+                                                }
+#endif
+#ifdef DEBUG_USB_HOST
+                                                if(hcibuf[5] == 0) { // Page 0
+                                                        Notify(PSTR("\r\nRemote "), 0x80);
+                                                        if(hcibuf[7 + 6] & (1U << 3))
+                                                                Notify(PSTR("supports"), 0x80);
+                                                        else
+                                                                Notify(PSTR("does NOT support"), 0x80);
+                                                        Notify(PSTR(" secure simple paring (controller support)"), 0x80);
+                                                } else if(hcibuf[5] == 1) { // Page 1
+                                                        Notify(PSTR("\r\nRemote "), 0x80);
+                                                        if(hcibuf[7 + 0] & (1U << 0))
+                                                                Notify(PSTR("supports"), 0x80);
+                                                        else
+                                                                Notify(PSTR("\r\ndoes NOT support"), 0x80);
+                                                        Notify(PSTR(" secure simple paring (host support)"), 0x80);
+                                                }
+#endif
+                                        }
+                                        hci_set_flag(HCI_FLAG_REMOTE_EXTENDED_FEATURES);
+                                } else {
+                                        hci_state = HCI_CHECK_DEVICE_SERVICE;
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nFailed to read remote extended featues: "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[2], 0x80);
+#endif
+                                }
+                                break;
+
+                        case EV_USER_CONFIRMATION_REQUEST:
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nUser confirmation Request: "), 0x80);
+#endif
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nNumeric value: "), 0x80);
+                                for(uint8_t i = 0; i < 4; i++) {
+                                        Notify(PSTR(" "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[8 + i], 0x80);
+                                }
+#endif
+
+                                hci_user_confirmation_request_reply();
+                                hci_state = HCI_SCANNING_STATE;
+                                break;
+
                                 /* We will just ignore the following events */
+                        case EV_MAX_SLOTS_CHANGE:
+                                break;
                         case EV_NUM_COMPLETE_PKT:
                         case EV_ROLE_CHANGED:
                         case EV_PAGE_SCAN_REP_MODE:
                         case EV_LOOPBACK_COMMAND:
                         case EV_DATA_BUFFER_OVERFLOW:
                         case EV_CHANGE_CONNECTION_LINK:
-                        case EV_MAX_SLOTS_CHANGE:
                         case EV_QOS_SETUP_COMPLETE:
                         case EV_LINK_KEY_NOTIFICATION:
                         case EV_ENCRYPTION_CHANGE:
                         case EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE:
+#ifdef EXTRADEBUG
+                                if(hcibuf[0] != 0x00) {
+                                        Notify(PSTR("\r\nIgnore HCI Event: "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[0], 0x80);
+                                }
+#endif
                                 break;
 #ifdef EXTRADEBUG
                         default:
@@ -699,6 +806,14 @@ void BTD::HCI_task() {
 
                 case HCI_LOCAL_VERSION_STATE: // The local version is used by the PS3BT class
                         if(hci_check_flag(HCI_FLAG_READ_VERSION)) {
+                                hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
+                                //hci_read_local_extended_features(1); // Read page 1
+                                hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
+                        }
+                        break;
+
+                case HCI_LOCAL_EXTENDED_FEATURES_STATE:
+                        if(hci_check_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES)) {
                                 if(btdName != NULL) {
                                         hci_set_local_name(btdName);
                                         hci_state = HCI_SET_NAME_STATE;
@@ -783,14 +898,22 @@ void BTD::HCI_task() {
                                         else
                                                 Notify(PSTR("\r\nConnected to HID device"), 0x80);
 #endif
-                                        hci_authentication_request(); // This will start the pairing with the Wiimote
-                                        hci_state = HCI_SCANNING_STATE;
+                                        hci_read_remote_extended_features(0); // "Requests the normal LMP features as returned by the HCI_Read_Remote_Supported_Features command"
+                                        //hci_read_remote_extended_features(1); // Read page 1
+                                        hci_state = HCI_REMOTE_EXTENDED_FEATURES_STATE;
                                 } else {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nTrying to connect one more time..."), 0x80);
 #endif
                                         hci_connect(); // Try to connect one more time
                                 }
+                        }
+                        break;
+
+                case HCI_REMOTE_EXTENDED_FEATURES_STATE:
+                        if(hci_check_flag(HCI_FLAG_REMOTE_EXTENDED_FEATURES)) {
+                                hci_authentication_request();
+                                hci_state = HCI_SCANNING_STATE;
                         }
                         break;
 
@@ -855,7 +978,7 @@ void BTD::HCI_task() {
 #endif
                                         incomingPS4 = true;
                                 }
-                                if(pairWithWii && checkRemoteName)
+                                if((pairWithWii || pairWithHIDDevice) && checkRemoteName)
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
                                 else {
                                         hci_accept_connection();
@@ -999,6 +1122,16 @@ void BTD::hci_read_local_version_information() {
         HCI_Command(hcibuf, 3);
 }
 
+void BTD::hci_read_local_extended_features(uint8_t page_number) {
+        hci_clear_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES);
+        hcibuf[0] = 0x04; // HCI OCF = 4
+        hcibuf[1] = 0x04 << 2; // HCI OGF = 4
+        hcibuf[2] = 0x01; // parameter length = 1
+        hcibuf[3] = page_number;
+
+        HCI_Command(hcibuf, 4);
+}
+
 void BTD::hci_accept_connection() {
         hci_clear_flag(HCI_FLAG_CONNECT_COMPLETE);
         hcibuf[0] = 0x09; // HCI OCF = 9
@@ -1032,6 +1165,18 @@ void BTD::hci_remote_name() {
         hcibuf[12] = 0x00; // Clock offset - high byte
 
         HCI_Command(hcibuf, 13);
+}
+
+void BTD::hci_read_remote_extended_features(uint8_t page_number) {
+        hci_clear_flag(HCI_FLAG_REMOTE_EXTENDED_FEATURES);
+        hcibuf[0] = 0x1C; // HCI OCF = 1C
+        hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+        hcibuf[2] = 0x03; // parameter length = 3
+        hcibuf[3] = (uint8_t)(hci_handle & 0xFF); //connection handle - low byte
+        hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F); //connection handle - high byte
+        hcibuf[5] = page_number;
+
+        HCI_Command(hcibuf, 6);
 }
 
 void BTD::hci_set_local_name(const char* name) {
@@ -1146,6 +1291,20 @@ void BTD::hci_pin_code_negative_request_reply() {
 
 void BTD::hci_link_key_request_negative_reply() {
         hcibuf[0] = 0x0C; // HCI OCF = 0C
+        hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+        hcibuf[2] = 0x06; // parameter length 6
+        hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
+        hcibuf[4] = disc_bdaddr[1];
+        hcibuf[5] = disc_bdaddr[2];
+        hcibuf[6] = disc_bdaddr[3];
+        hcibuf[7] = disc_bdaddr[4];
+        hcibuf[8] = disc_bdaddr[5];
+
+        HCI_Command(hcibuf, 9);
+}
+
+void BTD::hci_user_confirmation_request_reply() {
+        hcibuf[0] = 0x2C; // HCI OCF = 2C
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x06; // parameter length 6
         hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr

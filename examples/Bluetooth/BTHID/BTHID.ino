@@ -25,7 +25,7 @@ BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
 BTHID bthid(&Btd, PAIR, "0000");
 
 // After that you can simply create the instance like so and then press any button on the device
-//BTHID hid(&Btd);
+//BTHID bthid(&Btd);
 
 KbdRptParser keyboardPrs;
 MouseRptParser mousePrs;

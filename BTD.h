@@ -59,6 +59,8 @@
 #define HCI_DISABLE_SCAN_STATE          14
 #define HCI_DONE_STATE                  15
 #define HCI_DISCONNECT_STATE            16
+#define HCI_LOCAL_EXTENDED_FEATURES_STATE 17
+#define HCI_REMOTE_EXTENDED_FEATURES_STATE  18
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
@@ -70,6 +72,8 @@
 #define HCI_FLAG_READ_VERSION           (1UL << 6)
 #define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
 #define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
+#define HCI_FLAG_LOCAL_EXTENDED_FEATURES           (1UL << 9)
+#define HCI_FLAG_REMOTE_EXTENDED_FEATURES   (1UL << 10)
 
 /* Macros for HCI event flag tests */
 #define hci_check_flag(flag) (hci_event_flag & (flag))
@@ -99,6 +103,9 @@
 #define EV_COMMAND_STATUS                               0x0F
 #define EV_LOOPBACK_COMMAND                             0x19
 #define EV_PAGE_SCAN_REP_MODE                           0x20
+#define EV_READ_REMOTE_EXTENDED_FEATURES_COMPLETE       0x23
+#define EV_USER_CONFIRMATION_REQUEST                    0x33
+
 
 /* Bluetooth states for the different Bluetooth drivers */
 #define L2CAP_WAIT                      0
@@ -320,6 +327,8 @@ public:
         void hci_read_bdaddr();
         /** Read the HCI Version of the Bluetooth dongle. */
         void hci_read_local_version_information();
+
+        void hci_read_local_extended_features(uint8_t page_number);
         /**
          * Set the local name of the Bluetooth dongle.
          * @param name Desired name.
@@ -331,6 +340,8 @@ public:
         void hci_write_scan_disable();
         /** Read the remote devices name. */
         void hci_remote_name();
+
+        void hci_read_remote_extended_features(uint8_t page_number);
         /** Accept the connection with the Bluetooth device. */
         void hci_accept_connection();
         /**
@@ -351,6 +362,8 @@ public:
          * if the Host does not have a stored Link Key for the connection.
          */
         void hci_link_key_request_negative_reply();
+
+        void hci_user_confirmation_request_reply();
         /** Used to try to authenticate with the remote device. */
         void hci_authentication_request();
         /** Start a HCI inquiry. */
