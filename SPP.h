@@ -20,12 +20,6 @@
 
 #include "BTD.h"
 
-/* Used for SDP */
-#define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
-#define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs
-#define SERIALPORT_UUID     0x1101 // See http://www.bluetooth.org/Technical/AssignedNumbers/service_discovery.htm
-#define L2CAP_UUID          0x0100
-
 /* Used for RFCOMM */
 #define RFCOMM_SABM     0x2F
 #define RFCOMM_UA       0x63

@@ -34,6 +34,7 @@ bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
 qNextPollTime(0), // Reset NextPollTime
 pollInterval(0),
+simple_pairing_supported(false),
 bPollEnable(false) // Don't start polling before dongle is connected
 {
         for(uint8_t i = 0; i < BTD_NUM_SERVICES; i++)
@@ -321,6 +322,7 @@ void BTD::Initialize() {
         qNextPollTime = 0; // Reset next poll time
         pollInterval = 0;
         bPollEnable = false; // Don't start polling before dongle is connected
+        simple_pairing_supported = false;
 }
 
 /* Extracts interrupt-IN, bulk-IN, bulk-OUT endpoint information from config descriptor */
@@ -431,10 +433,13 @@ void BTD::HCI_event_task() {
 #ifdef DEBUG_USB_HOST
                                                         if(hcibuf[6] == 0) { // Page 0
                                                                 Notify(PSTR("\r\nDongle "), 0x80);
-                                                                if(hcibuf[8 + 6] & (1U << 3))
+                                                                if(hcibuf[8 + 6] & (1U << 3)) {
+                                                                        simple_pairing_supported = true;
                                                                         Notify(PSTR("supports"), 0x80);
-                                                                else
+                                                                } else {
+                                                                        simple_pairing_supported = false;
                                                                         Notify(PSTR("does NOT support"), 0x80);
+                                                                }
                                                                 Notify(PSTR(" secure simple pairing (controller support)"), 0x80);
                                                         } else if(hcibuf[6] == 1) { // Page 1
                                                                 Notify(PSTR("\r\nDongle "), 0x80);
@@ -485,7 +490,7 @@ void BTD::HCI_event_task() {
 
                         case EV_INQUIRY_RESULT:
                                 if(hcibuf[2]) { // Check that there is more than zero responses
-#if defined(EXTRADEBUG) && 0
+#ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nNumber of responses: "), 0x80);
                                         Notify(hcibuf[2], 0x80);
 #endif
@@ -495,7 +500,7 @@ void BTD::HCI_event_task() {
                                                 for(uint8_t j = 0; j < 3; j++)
                                                         classOfDevice[j] = hcibuf[j + 4 + offset];
 
-#if defined(EXTRADEBUG) && 0
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nClass of device: "), 0x80);
                                                 D_PrintHex<uint8_t > (classOfDevice[2], 0x80);
                                                 Notify(PSTR(" "), 0x80);
@@ -710,8 +715,8 @@ void BTD::HCI_event_task() {
 
                                 /* We will just ignore the following events */
                         case EV_MAX_SLOTS_CHANGE:
-                                break;
                         case EV_NUM_COMPLETE_PKT:
+                                break;
                         case EV_ROLE_CHANGED:
                         case EV_PAGE_SCAN_REP_MODE:
                         case EV_LOOPBACK_COMMAND:
@@ -806,29 +811,14 @@ void BTD::HCI_task() {
 
                 case HCI_LOCAL_VERSION_STATE: // The local version is used by the PS3BT class
                         if(hci_check_flag(HCI_FLAG_READ_VERSION)) {
-                                hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
-                                //hci_read_local_extended_features(1); // Read page 1
-                                hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
-                        }
-                        break;
-
-                case HCI_LOCAL_EXTENDED_FEATURES_STATE:
-                        if(hci_check_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES)) {
-                                hci_write_simple_pairing_mode(true);
-                                hci_state = HCI_WRITE_SIMPLE_PAIRING_STATE;
-                        }
-                        break;
-
-                case HCI_WRITE_SIMPLE_PAIRING_STATE:
-                        if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
-#ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nSimple pairing was enabled"), 0x80);
-#endif
                                 if(btdName != NULL) {
                                         hci_write_local_name(btdName);
                                         hci_state = HCI_WRITE_NAME_STATE;
-                                } else
-                                        hci_state = HCI_CHECK_DEVICE_SERVICE;
+                                } else {
+                                        hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
+                                        //hci_read_local_extended_features(1); // Read page 1
+                                        hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
+                                }
                         }
                         break;
 
@@ -837,6 +827,27 @@ void BTD::HCI_task() {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nThe name was set to: "), 0x80);
                                 NotifyStr(btdName, 0x80);
+#endif
+                                hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
+                                //hci_read_local_extended_features(1); // Read page 1
+                                hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
+                        }
+                        break;
+
+                case HCI_LOCAL_EXTENDED_FEATURES_STATE:
+                        if(hci_check_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES)) {
+                                if(simple_pairing_supported) {
+                                        hci_write_simple_pairing_mode(true);
+                                        hci_state = HCI_WRITE_SIMPLE_PAIRING_STATE;
+                                } else
+                                        hci_state = HCI_CHECK_DEVICE_SERVICE;
+                        }
+                        break;
+
+                case HCI_WRITE_SIMPLE_PAIRING_STATE:
+                        if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nSimple pairing was enabled"), 0x80);
 #endif
                                 hci_state = HCI_CHECK_DEVICE_SERVICE;
                         }

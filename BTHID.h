@@ -141,20 +141,30 @@ protected:
         /** L2CAP source CID for HID_Interrupt */
         uint8_t interrupt_scid[2];
 
+        uint8_t l2cap_sdp_state;
+        uint8_t sdp_scid[2]; // L2CAP source CID for SDP
+
 private:
         HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
+
+        uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
+        void SDP_Command(uint8_t* data, uint8_t nbytes);
+        void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
 
         /** Set report protocol. */
         void setProtocol();
         uint8_t protocolMode;
 
+        void SDP_task();
         void L2CAP_task(); // L2CAP state machine
 
         bool activeConnection; // Used to indicate if it already has established a connection
+        bool SDPConnected;
 
         /* Variables used for L2CAP communication */
         uint8_t control_dcid[2]; // L2CAP device CID for HID_Control - Always 0x0070
         uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
+        uint8_t sdp_dcid[2];
         uint8_t l2cap_state;
 };
 #endif

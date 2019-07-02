@@ -191,6 +191,17 @@
 #define HID_CTRL_PSM    0x11 // HID_Control PSM Value
 #define HID_INTR_PSM    0x13 // HID_Interrupt PSM Value
 
+/* Used for SDP */
+#define SDP_SERVICE_SEARCH_REQUEST                  0x02
+#define SDP_SERVICE_SEARCH_RESPONSE                 0x03
+#define SDP_SERVICE_ATTRIBUTE_REQUEST               0x04
+#define SDP_SERVICE_ATTRIBUTE_RESPONSE              0x05
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs
+#define PNP_INFORMATION_UUID    0x1200
+#define SERIALPORT_UUID         0x1101 // See http://www.bluetooth.org/Technical/AssignedNumbers/service_discovery.htm
+#define L2CAP_UUID              0x0100
+
 // Used to determine if it is a Bluetooth dongle
 #define WI_SUBCLASS_RF      0x01 // RF Controller
 #define WI_PROTOCOL_BT      0x01 // Bluetooth Programming Interface
@@ -553,6 +564,7 @@ private:
         uint16_t PID, VID; // PID and VID of device connected
 
         uint8_t pollInterval;
+        bool simple_pairing_supported;
         bool bPollEnable;
 
         bool pairWiiUsingSync; // True if pairing was done using the Wii SYNC button.
