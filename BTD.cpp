@@ -466,6 +466,12 @@ void BTD::HCI_event_task() {
 #ifdef DEBUG_USB_HOST
                                         Notify(PSTR("\r\nHCI Command Failed: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[2], 0x80);
+                                        Notify(PSTR("\r\nNum HCI Command Packets: "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[3], 0x80);
+                                        Notify(PSTR("\r\nCommand Opcode: "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[4], 0x80);
+                                        Notify(PSTR(" "), 0x80);
+                                        D_PrintHex<uint8_t > (hcibuf[5], 0x80);
 #endif
                                 }
                                 break;
