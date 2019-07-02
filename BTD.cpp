@@ -430,19 +430,19 @@ void BTD::HCI_event_task() {
 #endif
 #ifdef DEBUG_USB_HOST
                                                         if(hcibuf[6] == 0) { // Page 0
-                                                                Notify(PSTR("\r\nLocal "), 0x80);
+                                                                Notify(PSTR("\r\nDongle "), 0x80);
                                                                 if(hcibuf[8 + 6] & (1U << 3))
                                                                         Notify(PSTR("supports"), 0x80);
                                                                 else
                                                                         Notify(PSTR("does NOT support"), 0x80);
-                                                                Notify(PSTR(" secure simple paring (controller support)"), 0x80);
+                                                                Notify(PSTR(" secure simple pairing (controller support)"), 0x80);
                                                         } else if(hcibuf[6] == 1) { // Page 1
-                                                                Notify(PSTR("\r\nLocal "), 0x80);
+                                                                Notify(PSTR("\r\nDongle "), 0x80);
                                                                 if(hcibuf[8 + 0] & (1U << 0))
                                                                         Notify(PSTR("supports"), 0x80);
                                                                 else
                                                                         Notify(PSTR("does NOT support"), 0x80);
-                                                                Notify(PSTR(" secure simple paring (host support)"), 0x80);
+                                                                Notify(PSTR(" secure simple pairing (host support)"), 0x80);
                                                         }
 #endif
                                                 }
@@ -671,14 +671,14 @@ void BTD::HCI_event_task() {
                                                                 Notify(PSTR("supports"), 0x80);
                                                         else
                                                                 Notify(PSTR("does NOT support"), 0x80);
-                                                        Notify(PSTR(" secure simple paring (controller support)"), 0x80);
+                                                        Notify(PSTR(" secure simple pairing (controller support)"), 0x80);
                                                 } else if(hcibuf[5] == 1) { // Page 1
                                                         Notify(PSTR("\r\nRemote "), 0x80);
                                                         if(hcibuf[7 + 0] & (1U << 0))
                                                                 Notify(PSTR("supports"), 0x80);
                                                         else
                                                                 Notify(PSTR("\r\ndoes NOT support"), 0x80);
-                                                        Notify(PSTR(" secure simple paring (host support)"), 0x80);
+                                                        Notify(PSTR(" secure simple pairing (host support)"), 0x80);
                                                 }
 #endif
                                         }
@@ -814,18 +814,28 @@ void BTD::HCI_task() {
 
                 case HCI_LOCAL_EXTENDED_FEATURES_STATE:
                         if(hci_check_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES)) {
+                                hci_write_simple_pairing_mode(true);
+                                hci_state = HCI_WRITE_SIMPLE_PAIRING_STATE;
+                        }
+                        break;
+
+                case HCI_WRITE_SIMPLE_PAIRING_STATE:
+                        if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nSimple pairing was enabled"), 0x80);
+#endif
                                 if(btdName != NULL) {
-                                        hci_set_local_name(btdName);
-                                        hci_state = HCI_SET_NAME_STATE;
+                                        hci_write_local_name(btdName);
+                                        hci_state = HCI_WRITE_NAME_STATE;
                                 } else
                                         hci_state = HCI_CHECK_DEVICE_SERVICE;
                         }
                         break;
 
-                case HCI_SET_NAME_STATE:
+                case HCI_WRITE_NAME_STATE:
                         if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nThe name is set to: "), 0x80);
+                                Notify(PSTR("\r\nThe name was set to: "), 0x80);
                                 NotifyStr(btdName, 0x80);
 #endif
                                 hci_state = HCI_CHECK_DEVICE_SERVICE;
@@ -1179,7 +1189,7 @@ void BTD::hci_read_remote_extended_features(uint8_t page_number) {
         HCI_Command(hcibuf, 6);
 }
 
-void BTD::hci_set_local_name(const char* name) {
+void BTD::hci_write_local_name(const char* name) {
         hcibuf[0] = 0x13; // HCI OCF = 13
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = strlen(name) + 1; // parameter length = the length of the string + end byte
@@ -1189,6 +1199,15 @@ void BTD::hci_set_local_name(const char* name) {
         hcibuf[i + 3] = 0x00; // End of string
 
         HCI_Command(hcibuf, 4 + strlen(name));
+}
+
+void BTD::hci_write_simple_pairing_mode(bool enable) {
+        hcibuf[0] = 0x56; // HCI OCF = 56
+        hcibuf[1] = 0x03 << 2; // HCI OGF = 3
+        hcibuf[2] = 1; // parameter length = 1
+        hcibuf[3] = enable ? 1 : 0;
+
+        HCI_Command(hcibuf, 4);
 }
 
 void BTD::hci_inquiry() {

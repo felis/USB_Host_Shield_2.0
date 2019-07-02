@@ -45,7 +45,7 @@
 #define HCI_CLASS_STATE                 2
 #define HCI_BDADDR_STATE                3
 #define HCI_LOCAL_VERSION_STATE         4
-#define HCI_SET_NAME_STATE              5
+#define HCI_WRITE_NAME_STATE            5
 #define HCI_CHECK_DEVICE_SERVICE        6
 
 #define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a device
@@ -59,8 +59,9 @@
 #define HCI_DISABLE_SCAN_STATE          14
 #define HCI_DONE_STATE                  15
 #define HCI_DISCONNECT_STATE            16
-#define HCI_LOCAL_EXTENDED_FEATURES_STATE 17
-#define HCI_REMOTE_EXTENDED_FEATURES_STATE  18
+#define HCI_LOCAL_EXTENDED_FEATURES_STATE       17
+#define HCI_WRITE_SIMPLE_PAIRING_STATE          18
+#define HCI_REMOTE_EXTENDED_FEATURES_STATE      19
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
@@ -72,7 +73,7 @@
 #define HCI_FLAG_READ_VERSION           (1UL << 6)
 #define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
 #define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
-#define HCI_FLAG_LOCAL_EXTENDED_FEATURES           (1UL << 9)
+#define HCI_FLAG_LOCAL_EXTENDED_FEATURES    (1UL << 9)
 #define HCI_FLAG_REMOTE_EXTENDED_FEATURES   (1UL << 10)
 
 /* Macros for HCI event flag tests */
@@ -333,7 +334,9 @@ public:
          * Set the local name of the Bluetooth dongle.
          * @param name Desired name.
          */
-        void hci_set_local_name(const char* name);
+        void hci_write_local_name(const char* name);
+
+        void hci_write_simple_pairing_mode(bool enable);
         /** Enable visibility to other Bluetooth devices. */
         void hci_write_scan_enable();
         /** Disable visibility to other Bluetooth devices. */
