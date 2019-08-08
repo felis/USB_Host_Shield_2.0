@@ -74,7 +74,8 @@ env:
 
 install:
     - pip install -U platformio
-    - export PLATFORMIO_BUILD_FLAGS="$PLATFORMIO_BUILD_FLAGS -DDEBUG_USB_HOST -Wall -Werror"
+    # See: https://travis-ci.org/felis/USB_Host_Shield_2.0/jobs/569237654 and https://github.com/arduino/ArduinoCore-sam/issues/69
+    - export PLATFORMIO_BUILD_FLAGS="$PLATFORMIO_BUILD_FLAGS -DDEBUG_USB_HOST -Wall -Werror -Wno-misleading-indentation"
 
     #
     # Libraries from PlatformIO Library Registry:
