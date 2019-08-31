@@ -30,6 +30,11 @@ e-mail   :  support@circuitsathome.com
 struct MultiValueBuffer {
         uint8_t valueSize;
         void *pValue;
+
+public:
+
+        MultiValueBuffer() : valueSize(0), pValue(NULL) {
+        };
 } __attribute__((packed));
 
 class MultiByteValueParser {

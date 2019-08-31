@@ -151,7 +151,7 @@ protected:
 
         static const uint8_t maxHidInterfaces = 3;
         static const uint8_t maxEpPerInterface = 2;
-        static const uint8_t totalEndpoints = (maxHidInterfaces * maxEpPerInterface + 1);
+        static const uint8_t totalEndpoints = (maxHidInterfaces * maxEpPerInterface + 1); // We need to make room for the control endpoint
 
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
         void PrintHidDescriptor(const USB_HID_DESCRIPTOR *pDesc);

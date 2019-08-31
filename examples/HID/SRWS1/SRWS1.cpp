@@ -44,6 +44,5 @@ void SRWS1::setLeds(uint16_t leds) {
         buf[0] = 0x40; // Report ID
         buf[1] = leds & 0xFF;
         buf[2] = (leds >> 8) & 0x7F;
-        pUsb->outTransfer(bAddress, epInfo[ hidInterfaces[0].epIndex[epInterruptOutIndex] ].epAddr, sizeof(buf), buf);
+        pUsb->outTransfer(bAddress, epInfo[epInterruptOutIndex].epAddr, sizeof(buf), buf);
 }
-

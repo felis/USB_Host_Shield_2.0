@@ -86,7 +86,8 @@ install:
 
 script:
     - if [[ -z "$SKIP_UNO" ]]; then UNO="--board=uno"; fi
-    - platformio ci --lib="." $UNO --board=due --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
+    - platformio ci --lib="." $UNO --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
+    - platformio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation" # Workaround https://travis-ci.org/felis/USB_Host_Shield_2.0/jobs/569237654 and https://github.com/arduino/ArduinoCore-sam/issues/69
 
 before_deploy:
     # Fix errors in the Doxygen Markdown parser and generate the docs
