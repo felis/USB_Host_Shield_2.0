@@ -430,26 +430,34 @@ void BTD::HCI_event_task() {
                                                                 D_PrintHex<uint8_t > (hcibuf[8 + i], 0x80);
                                                         }
 #endif
-#ifdef DEBUG_USB_HOST
                                                         if(hcibuf[6] == 0) { // Page 0
+#ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nDongle "), 0x80);
+#endif
                                                                 if(hcibuf[8 + 6] & (1U << 3)) {
                                                                         simple_pairing_supported = true;
+#ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR("supports"), 0x80);
+#endif
                                                                 } else {
                                                                         simple_pairing_supported = false;
+#ifdef DEBUG_USB_HOST
                                                                         Notify(PSTR("does NOT support"), 0x80);
+#endif
                                                                 }
+#ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR(" secure simple pairing (controller support)"), 0x80);
+#endif
                                                         } else if(hcibuf[6] == 1) { // Page 1
+#ifdef DEBUG_USB_HOST
                                                                 Notify(PSTR("\r\nDongle "), 0x80);
                                                                 if(hcibuf[8 + 0] & (1U << 0))
                                                                         Notify(PSTR("supports"), 0x80);
                                                                 else
                                                                         Notify(PSTR("does NOT support"), 0x80);
                                                                 Notify(PSTR(" secure simple pairing (host support)"), 0x80);
-                                                        }
 #endif
+                                                        }
                                                 }
 
                                                 hci_set_flag(HCI_FLAG_LOCAL_EXTENDED_FEATURES);
@@ -650,6 +658,10 @@ void BTD::HCI_event_task() {
                                                 Notify(PSTR("\r\nPairing successful with HID device"), 0x80);
 #endif
                                                 connectToHIDDevice = true; // Used to indicate to the BTHID service, that it should connect to this device
+                                        } else {
+#ifdef DEBUG_USB_HOST
+                                                Notify(PSTR("\r\nPairing was successful"), 0x80);
+#endif
                                         }
                                 } else {
 #ifdef DEBUG_USB_HOST
@@ -744,6 +756,12 @@ void BTD::HCI_event_task() {
                                 if(hcibuf[0] != 0x00) {
                                         Notify(PSTR("\r\nUnmanaged HCI Event: "), 0x80);
                                         D_PrintHex<uint8_t > (hcibuf[0], 0x80);
+
+                                        Notify(PSTR(", data: "), 0x80);
+                                        for(uint16_t i = 0; i < hcibuf[1]; i++) {
+                                                D_PrintHex<uint8_t > (hcibuf[2 + i], 0x80);
+                                                Notify(PSTR(" "), 0x80);
+                                        }
                                 }
                                 break;
 #endif
@@ -939,6 +957,12 @@ void BTD::HCI_task() {
 
                 case HCI_REMOTE_EXTENDED_FEATURES_STATE:
                         if(hci_check_flag(HCI_FLAG_REMOTE_EXTENDED_FEATURES)) {
+                                /*hci_read_remote_version_information();
+                                delay(1);
+                                hci_change_connection_packet_type_command();
+                                delay(1);
+                                hci_write_link_policy_settings();
+                                delay(1);*/
                                 hci_authentication_request();
                                 hci_state = HCI_SCANNING_STATE;
                         }
@@ -1255,7 +1279,7 @@ void BTD::hci_connect() {
 
 void BTD::hci_connect(uint8_t *bdaddr) {
         hci_clear_flag(HCI_FLAG_CONNECT_COMPLETE | HCI_FLAG_CONNECT_EVENT);
-        hcibuf[0] = 0x05;
+        hcibuf[0] = 0x05; // HCI OCF = 5
         hcibuf[1] = 0x01 << 2; // HCI OGF = 1
         hcibuf[2] = 0x0D; // parameter Total Length = 13
         hcibuf[3] = bdaddr[0]; // 6 octet bdaddr (LSB)
@@ -1273,6 +1297,40 @@ void BTD::hci_connect(uint8_t *bdaddr) {
         hcibuf[15] = 0x00; // Do not allow role switch
 
         HCI_Command(hcibuf, 16);
+}
+
+void BTD::hci_read_remote_version_information() {
+        hcibuf[0] = 0x1D; // HCI OCF = 1D
+        hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+        hcibuf[2] = 0x02; // parameter Total Length = 2
+        hcibuf[3] = (uint8_t)(hci_handle & 0xFF); //connection handle - low byte
+        hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F); //connection handle - high byte
+
+        HCI_Command(hcibuf, 5);
+}
+
+void BTD::hci_change_connection_packet_type_command() {
+        hcibuf[0] = 0x0F; // HCI OCF = 0F
+        hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+        hcibuf[2] = 0x04; // parameter Total Length = 4
+        hcibuf[3] = (uint8_t)(hci_handle & 0xFF); //connection handle - low byte
+        hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F); //connection handle - high byte
+        hcibuf[5] = 0x18; // DM1 or DH1 may be used
+        hcibuf[6] = 0xCC; // DM3, DH3, DM5, DH5 may be used
+
+        HCI_Command(hcibuf, 7);
+}
+
+void BTD::hci_write_link_policy_settings() {
+        hcibuf[0] = 0x0D; // HCI OCF = 0D
+        hcibuf[1] = 0x02 << 2; // HCI OGF = 2
+        hcibuf[2] = 0x04; // parameter Total Length = 4
+        hcibuf[3] = (uint8_t)(hci_handle & 0xFF); //connection handle - low byte
+        hcibuf[4] = (uint8_t)((hci_handle >> 8) & 0x0F); //connection handle - high byte
+        hcibuf[5] = 0x0F; // Enable role switch, enable hold mode, enable sniff mode, enable park mode
+        hcibuf[6] = 0x00;
+
+        HCI_Command(hcibuf, 7);
 }
 
 void BTD::hci_pin_code_request_reply() {

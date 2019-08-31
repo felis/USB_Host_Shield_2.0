@@ -196,8 +196,8 @@
 #define SDP_SERVICE_SEARCH_RESPONSE                 0x03
 #define SDP_SERVICE_ATTRIBUTE_REQUEST               0x04
 #define SDP_SERVICE_ATTRIBUTE_RESPONSE              0x05
-#define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU    0x06 // See the RFCOMM specs
-#define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU   0x07 // See the RFCOMM specs
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST        0x06 // See the RFCOMM specs
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE       0x07 // See the RFCOMM specs
 #define PNP_INFORMATION_UUID    0x1200
 #define SERIALPORT_UUID         0x1101 // See http://www.bluetooth.org/Technical/AssignedNumbers/service_discovery.htm
 #define L2CAP_UUID              0x0100
@@ -386,6 +386,13 @@ public:
         void hci_inquiry_cancel();
         /** Connect to last device communicated with. */
         void hci_connect();
+
+        void hci_read_remote_version_information();
+
+        void hci_change_connection_packet_type_command();
+
+        void hci_write_link_policy_settings();
+
         /**
          * Connect to device.
          * @param bdaddr Bluetooth address of the device.

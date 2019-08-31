@@ -30,6 +30,8 @@ protocolMode(USB_HID_BOOT_PROTOCOL) {
         pBtd->btdPin = pin;
 
         /* Set device cid for the control and intterrupt channelse - LSB */
+        sdp_dcid[0] = 0x50; // 0x0050
+        sdp_dcid[1] = 0x00;
         control_dcid[0] = 0x70; // 0x0070
         control_dcid[1] = 0x00;
         interrupt_dcid[0] = 0x71; // 0x0071
@@ -59,6 +61,7 @@ void BTHID::disconnect() { // Use this void to disconnect the device
 }
 
 void BTHID::ACLData(uint8_t* l2capinbuf) {
+/*
         Notify(PSTR("\r\nL2CAP Data - Channel ID: "), 0x80);
         D_PrintHex<uint8_t > (l2capinbuf[7], 0x80);
         Notify(PSTR(" "), 0x80);
@@ -69,6 +72,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                 D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
                 Notify(PSTR(" "), 0x80);
         }
+*/
 
         if(!connected) {
                 if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
@@ -111,14 +115,25 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 #endif
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if(((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
-                                        if(l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
-                                                //Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
+                                        if(l2capinbuf[14] == sdp_dcid[0] && l2capinbuf[15] == sdp_dcid[1]) {
+                                                Notify(PSTR("\r\nSDP Connection Complete"), 0x80);
+                                                identifier = l2capinbuf[9];
+                                                sdp_scid[0] = l2capinbuf[12];
+                                                sdp_scid[1] = l2capinbuf[13];
+
+#ifdef DEBUG_USB_HOST
+                                                Notify(PSTR("\r\nSend SDP Config Request"), 0x80);
+#endif
+                                                identifier++;
+                                                pBtd->l2cap_config_request(hci_handle, identifier, sdp_scid);
+                                        } else if(l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
+                                                Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
                                                 control_scid[1] = l2capinbuf[13];
                                                 l2cap_set_flag(L2CAP_FLAG_CONTROL_CONNECTED);
                                         } else if(l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
-                                                //Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
+                                                Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 interrupt_scid[0] = l2capinbuf[12];
                                                 interrupt_scid[1] = l2capinbuf[13];
@@ -157,28 +172,28 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if(l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                                //Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
+                                                Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_SDP_SUCCESS);
                                         } else if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                                //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
+                                                Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS);
                                         } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                                //Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
+                                                Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS);
                                         }
                                 }
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if(l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
-                                        //Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
+                                        Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], sdp_scid);
                                 } else if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
-                                        //Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
+                                        Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], control_scid);
                                 } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
-                                        //Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
+                                        Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], interrupt_scid);
                                 }
                         } else if(l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
@@ -271,6 +286,10 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 
                                 SDP_Command(l2capoutbuf, 14);
 #endif
+
+                                //pBtd->hci_authentication_request();
+                                //identifier++;
+                                //pBtd->l2cap_connection_request(hci_handle, identifier, sdp_dcid, SDP_PSM);
                         } else if(l2capinbuf[8] == SDP_SERVICE_ATTRIBUTE_REQUEST) {
                                 Notify(PSTR("\r\nSDP_SERVICE_ATTRIBUTE_REQUEST"), 0x80);
 
@@ -279,6 +298,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[1] = l2capinbuf[9];//transactionIDHigh;
                                 l2capoutbuf[2] = l2capinbuf[10];//transactionIDLow;
 
+#if 1
                                 l2capoutbuf[3] = 0x00; // MSB Parameter Length
                                 l2capoutbuf[4] = 0x05; // LSB Parameter Length = 5
 
@@ -292,8 +312,139 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[9] = 0x00; // No continuation state
 
                                 SDP_Command(l2capoutbuf, 10);
-                        } else if(l2capinbuf[8] == SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU) {
-                                Notify(PSTR("\r\nSDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST_PDU"), 0x80);
+#else
+                                size_t i = 3;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x5a;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x57;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x55;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x0a;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x03;
+                                l2capoutbuf[i++] = 0x19;
+                                l2capoutbuf[i++] = 0x12;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x05;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x03;
+                                l2capoutbuf[i++] = 0x19;
+                                l2capoutbuf[i++] = 0x10;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x06;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x65;
+                                l2capoutbuf[i++] = 0x6e;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x6a;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x03;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x4c;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x4a;
+                                l2capoutbuf[i++] = 0x34;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x03;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x10;
+                                l2capoutbuf[i++] = 0x11;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x04;
+                                l2capoutbuf[i++] = 0x28;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x02;
+                                l2capoutbuf[i++] = 0x05;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0xa0;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x16;
+                                l2capoutbuf[i++] = 0xc4;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0xaf;
+                                l2capoutbuf[i++] = 0xff;
+                                l2capoutbuf[i++] = 0x09;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x01;
+                                l2capoutbuf[i++] = 0x00;
+
+                                Serial.print("\nLENGTH: ");
+                                Serial.println(i);
+
+                                SDP_Command(l2capoutbuf, i);
+#endif
+
+/*
+                                l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST;
+                                l2capoutbuf[1] = 0x00; // TODO: Do not hardcode
+                                l2capoutbuf[2] = 0x01;
+
+                                l2capoutbuf[3] = 0x00; // MSB Parameter Length
+                                l2capoutbuf[4] = 0x0F; // LSB Parameter Length = 15
+
+                                i = 5;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x03;
+                                l2capoutbuf[i++] = 0x19;
+                                l2capoutbuf[i++] = 0x12;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0xff;
+                                l2capoutbuf[i++] = 0xff;
+                                l2capoutbuf[i++] = 0x35;
+                                l2capoutbuf[i++] = 0x05;
+                                l2capoutbuf[i++] = 0x0a;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0x00;
+                                l2capoutbuf[i++] = 0xff;
+                                l2capoutbuf[i++] = 0xff;
+                                l2capoutbuf[i++] = 0x00;
+
+                                Serial.print("\nLENGTH: ");
+                                Serial.println(i);
+
+                                SDP_Command(l2capoutbuf, i);
+*/
+                        } else if(l2capinbuf[8] == SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST) {
+                                Notify(PSTR("\r\nSDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST"), 0x80);
 
 #ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nUUID: "), 0x80);
@@ -570,7 +721,7 @@ void BTHID::SDP_Command(uint8_t* data, uint8_t nbytes) { // See page 223 in the 
 }
 
 void BTHID::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
-        l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE_PDU;
+        l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE;
         l2capoutbuf[1] = transactionIDHigh;
         l2capoutbuf[2] = transactionIDLow;
         l2capoutbuf[3] = 0x00; // MSB Parameter Length
