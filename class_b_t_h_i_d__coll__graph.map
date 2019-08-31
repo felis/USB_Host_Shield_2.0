@@ -1,9 +1,9 @@
 <map id="BTHID" name="BTHID">
-<area shape="rect" id="node2" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="201,264,321,291"/>
-<area shape="rect" id="node3" href="$class_b_t_d.html" title="BTD" alt="" coords="237,173,285,200"/>
-<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,83,133,109"/>
-<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="157,83,287,109"/>
-<area shape="rect" id="node6" href="$class_u_s_b.html" title="USB" alt="" coords="312,83,363,109"/>
-<area shape="rect" id="node7" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="293,5,381,32"/>
-<area shape="rect" id="node8" href="$struct_ep_info.html" title="EpInfo" alt="" coords="387,83,447,109"/>
+<area shape="rect" id="node2" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="207,260,337,287"/>
+<area shape="rect" id="node3" href="$class_b_t_d.html" title="BTD" alt="" coords="248,171,296,197"/>
+<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,139,108"/>
+<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="163,81,301,108"/>
+<area shape="rect" id="node6" href="$class_u_s_b.html" title="USB" alt="" coords="325,81,376,108"/>
+<area shape="rect" id="node7" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="305,5,396,32"/>
+<area shape="rect" id="node8" href="$struct_ep_info.html" title="EpInfo" alt="" coords="400,81,461,108"/>
 </map>

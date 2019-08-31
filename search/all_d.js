@@ -110,7 +110,7 @@ var searchData=
   ['ms_5fwant_5fparser',['MS_WANT_PARSER',['../masstorage_8h.html#a5038292165e25bd0f87793941a280494',1,'masstorage.h']]],
   ['multibytevalueparser',['MultiByteValueParser',['../class_multi_byte_value_parser.html',1,'MultiByteValueParser'],['../class_multi_byte_value_parser.html#ad4f53c86eb63f6a1daec933703a753de',1,'MultiByteValueParser::MultiByteValueParser()']]],
   ['multip',['MULTIP',['../struct_inquiry_response.html#a6a3fdde354529eb47ea3f43975bc224d',1,'InquiryResponse']]],
-  ['multivaluebuffer',['MultiValueBuffer',['../struct_multi_value_buffer.html',1,'']]],
+  ['multivaluebuffer',['MultiValueBuffer',['../struct_multi_value_buffer.html',1,'MultiValueBuffer'],['../struct_multi_value_buffer.html#a8e1e09753f11683c2e74aa2826444f1f',1,'MultiValueBuffer::MultiValueBuffer()']]],
   ['mxmove',['mXmove',['../controller_enums_8h.html#a00d5030559c481763282483889597d51a9d1f82ecbf55d931c3f49858d86d4d68',1,'controllerEnums.h']]],
   ['my_5fbdaddr',['my_bdaddr',['../class_b_t_d.html#a1f8e9171a310e50f2c4a3c19066efe5a',1,'BTD']]],
   ['mymove',['mYmove',['../controller_enums_8h.html#a00d5030559c481763282483889597d51aee1254b85fe360243299d2041323aa78',1,'controllerEnums.h']]],

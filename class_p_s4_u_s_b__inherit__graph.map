@@ -1,7 +1,7 @@
 <map id="PS4USB" name="PS4USB">
-<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="95,155,196,181"/>
-<area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="108,80,181,107"/>
-<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,5,133,32"/>
-<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="157,5,287,32"/>
-<area shape="rect" id="node6" href="$class_p_s4_parser.html" title="PS4Parser" alt="" coords="220,155,305,181"/>
+<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="100,155,204,181"/>
+<area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="115,80,189,107"/>
+<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="163,5,301,32"/>
+<area shape="rect" id="node6" href="$class_p_s4_parser.html" title="PS4Parser" alt="" coords="229,155,315,181"/>
 </map>

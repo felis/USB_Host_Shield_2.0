@@ -1,8 +1,8 @@
 <map id="PS4USB.h" name="PS4USB.h">
-<area shape="rect" id="node2" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="5,80,107,107"/>
-<area shape="rect" id="node6" href="$_p_s4_parser_8h.html" title="PS4Parser.h" alt="" coords="132,80,228,107"/>
-<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="21,155,91,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title="Usb.h" alt="" coords="46,304,103,331"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="25,229,124,256"/>
-<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="201,155,327,181"/>
+<area shape="rect" id="node2" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="5,80,116,107"/>
+<area shape="rect" id="node6" href="$_p_s4_parser_8h.html" title="PS4Parser.h" alt="" coords="141,80,239,107"/>
+<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="23,155,99,181"/>
+<area shape="rect" id="node4" href="$_usb_8h.html" title="Usb.h" alt="" coords="50,304,109,331"/>
+<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="25,229,133,256"/>
+<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="209,155,347,181"/>
 </map>

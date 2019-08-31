@@ -1,4 +1,4 @@
 <map id="AddressPool" name="AddressPool">
-<area shape="rect" id="node2" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; MAX\l_DEVICES_ALLOWED \&gt;" alt="" coords="5,81,179,122"/>
-<area shape="rect" id="node3" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; USB\l_NUMDEVICES \&gt;" alt="" coords="203,81,364,122"/>
+<area shape="rect" id="node2" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; MAX\l_DEVICES_ALLOWED \&gt;" alt="" coords="5,80,176,121"/>
+<area shape="rect" id="node3" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; USB\l_NUMDEVICES \&gt;" alt="" coords="200,80,371,121"/>
 </map>

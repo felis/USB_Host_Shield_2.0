@@ -1,6 +1,6 @@
 <map id="XBOXRECV" name="XBOXRECV">
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,83,133,109"/>
-<area shape="rect" id="node3" href="$class_u_s_b.html" title="USB" alt="" coords="159,83,209,109"/>
-<area shape="rect" id="node4" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="140,5,228,32"/>
-<area shape="rect" id="node5" href="$struct_ep_info.html" title="EpInfo" alt="" coords="234,83,293,109"/>
+<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,139,108"/>
+<area shape="rect" id="node3" href="$class_u_s_b.html" title="USB" alt="" coords="163,81,213,108"/>
+<area shape="rect" id="node4" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="143,5,233,32"/>
+<area shape="rect" id="node5" href="$struct_ep_info.html" title="EpInfo" alt="" coords="237,81,299,108"/>
 </map>
