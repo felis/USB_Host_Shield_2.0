@@ -109,7 +109,7 @@ protected:
 
                 // The PS4 console actually set the four last bytes to a CRC32 checksum, but it seems like it is actually not needed
 
-                pUsb->outTransfer(bAddress, epInfo[ hidInterfaces[0].epIndex[epInterruptOutIndex] ].epAddr, sizeof(buf), buf);
+                pUsb->outTransfer(bAddress, epInfo[epInterruptOutIndex].epAddr, sizeof(buf), buf);
         };
         /**@}*/
 
