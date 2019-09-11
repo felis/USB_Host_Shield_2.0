@@ -7,7 +7,7 @@ __________
 # Summary
 This is Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's.
 
-Project main web site is: <http://www.circuitsathome.com>.
+Project main web site is: <https://chome.nerpa.tech/arduino_usb_host_shield_projects/>.
 
 Some information can also be found at: <http://blog.tkjelectronics.dk/>.
 
