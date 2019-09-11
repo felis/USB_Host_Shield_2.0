@@ -15,7 +15,7 @@ The shield can be purchased at the main site: <http://www.circuitsathome.com/pro
 
 ![USB Host Shield](http://shop.tkjelectronics.dk/images/USB_Host_Shield1.jpg)
 
-For more information about the hardware see the [Hardware Manual](http://www.circuitsathome.com/usb-host-shield-hardware-manual).
+For more information about the hardware see the [Hardware Manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual/).
 
 # Developed By
 
