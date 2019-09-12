@@ -11,7 +11,7 @@ Project main web site is: <https://chome.nerpa.tech/arduino_usb_host_shield_proj
 
 Some information can also be found at: <http://blog.tkjelectronics.dk/>.
 
-The shield can be purchased at the main site: <http://www.circuitsathome.com/products-page/arduino-shields> or from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
+The shield can be purchased from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
 
 ![USB Host Shield](http://shop.tkjelectronics.dk/images/USB_Host_Shield1.jpg)
 
@@ -19,7 +19,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 
 # Developed By
 
-* __Oleg Mazurov, Circuits@Home__ - <mazurov@circuitsathome.com>
+* __Oleg Mazurov  - <mazurov@gmail.com>
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
@@ -31,11 +31,6 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 * __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
     * Developer of the [MIDI](#midi-library) library
 
-# Donate
-
-Help yourself by helping us support you! Many thousands of hours have been spent developing the USB Host Shield library. Since you find it useful, please consider donating via the button below. Donations will allow us to support you by ensuring hardware that you have can be acquired in order to add support for your microcontroller board.
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=donate@circuitsathome.com&amp;lc=US&amp;item_name=Donate%20to%20the%20USB%20Host%20Library%20project&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="PayPal - The safer, easier way to pay online!" /></a>
 
 # Table of Contents
 
