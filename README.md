@@ -204,12 +204,12 @@ Also take a look at the blog posts:
 
 * <http://blog.tkjelectronics.dk/2012/01/ps3-controller-bt-library-for-arduino/>
 * <http://chome.nerpa.tech/mcu/sony-ps3-controller-support-added-to-usb-host-library>
-* <http://www.circuitsathome.com/mcu/arduino/interfacing-ps3-controllers-via-usb>
+* <http://chome.nerpa.tech/mcu/arduino/interfacing-ps3-controllers-via-usb>
 
 A special thanks go to the following people:
 
 1. _Richard Ibbotson_ who made this excellent guide: <http://www.circuitsathome.com/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part>
-2. _Tomoyuki Tanaka_ for releasing his code for the Arduino USB Host shield connected to the wiimote: <http://www.circuitsathome.com/mcu/rc-car-controlled-by-wii-remote-on-arduino>
+2. _Tomoyuki Tanaka_ for releasing his code for the Arduino USB Host shield connected to the wiimote: <http://chome.nerpa.tech/mcu/rc-car-controlled-by-wii-remote-on-arduino>
 
 Also a big thanks all the people behind these sites about the Motion controller:
 
