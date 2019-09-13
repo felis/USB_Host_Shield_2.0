@@ -164,7 +164,7 @@ Take a look at the [SPP.ino](examples/Bluetooth/SPP/SPP.ino) example for more in
 
 More information can be found at these blog posts:
 
-* <http://www.circuitsathome.com/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released>
+* <http://chome.nerpa.tech/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released>
 * <http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/>
 
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
@@ -203,7 +203,7 @@ For more information about the PS3 protocol see the official wiki: <https://gith
 Also take a look at the blog posts:
 
 * <http://blog.tkjelectronics.dk/2012/01/ps3-controller-bt-library-for-arduino/>
-* <http://www.circuitsathome.com/mcu/sony-ps3-controller-support-added-to-usb-host-library>
+* <http://chome.nerpa.tech/mcu/sony-ps3-controller-support-added-to-usb-host-library>
 * <http://www.circuitsathome.com/mcu/arduino/interfacing-ps3-controllers-via-usb>
 
 A special thanks go to the following people:
