@@ -208,7 +208,7 @@ Also take a look at the blog posts:
 
 A special thanks go to the following people:
 
-1. _Richard Ibbotson_ who made this excellent guide: <http://www.circuitsathome.com/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part>
+1. _Richard Ibbotson_ who made this excellent guide: <http://chome.nerpa.tech/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part>
 2. _Tomoyuki Tanaka_ for releasing his code for the Arduino USB Host shield connected to the wiimote: <http://chome.nerpa.tech/mcu/rc-car-controlled-by-wii-remote-on-arduino>
 
 Also a big thanks all the people behind these sites about the Motion controller:
@@ -245,7 +245,7 @@ Examples code can be found in the [examples directory](examples/Xbox).
 
 Also see the following blog posts:
 
-* <http://www.circuitsathome.com/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library>
+* <http://chome.nerpa.tech/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library>
 * <http://blog.tkjelectronics.dk/2012/07/xbox-360-controller-support-added-to-the-usb-host-library/>
 * <http://blog.tkjelectronics.dk/2012/12/xbox-360-receiver-added-to-the-usb-host-library/>
 
@@ -349,7 +349,7 @@ For instance if you have rerouted SS to pin 7 it should read:
 typedef MAX3421e<P7, P9> MAX3421E;
 ```
 
-See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
+See the "Interface modifications" section in the [hardware manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual) for more information.
 
 # FAQ
 
