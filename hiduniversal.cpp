@@ -392,12 +392,6 @@ uint8_t HIDUniversal::Poll() {
                         if(read > constBuffLen)
                                 read = constBuffLen;
 
-                        bool identical = BuffersIdentical(read, buf, prevBuf);
-
-                        SaveBuffer(read, buf, prevBuf);
-
-                        if(identical)
-                                return 0;
 #if 0
                         Notify(PSTR("\r\nBuf: "), 0x80);
 
