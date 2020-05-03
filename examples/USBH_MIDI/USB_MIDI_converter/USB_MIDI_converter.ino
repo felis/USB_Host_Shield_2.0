@@ -68,6 +68,7 @@ void MIDI_poll()
     if ( (size = Midi.RecvData(outBuf)) > 0 ) {
       //MIDI Output
       _MIDI_SERIAL_PORT.write(outBuf, size);
+      _MIDI_SERIAL_PORT.flush()
     }
   } while (size > 0);
 }
