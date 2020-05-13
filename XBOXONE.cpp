@@ -237,12 +237,14 @@ Fail:
 
 /* Extracts endpoint information from config descriptor */
 void XBOXONE::EndpointXtract(uint8_t conf,
-        uint8_t iface __attribute__((unused)),
-        uint8_t alt __attribute__((unused)),
-        uint8_t proto __attribute__((unused)),
-        const USB_ENDPOINT_DESCRIPTOR *pep)
+			     uint8_t iface,
+			     uint8_t alt,
+			     uint8_t proto,
+			     const USB_ENDPOINT_DESCRIPTOR *pep)
 {
-        
+  (void)iface;
+  (void)alt;
+  (void)proto;
     bConfNum = conf;
         uint8_t index;
 
@@ -262,9 +264,9 @@ void XBOXONE::EndpointXtract(uint8_t conf,
         bNumEP++;
 }
 
-void XBOXONE::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr
-    __attribute__((unused)))
+void XBOXONE::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr)
 {
+  (void)ep_ptr;
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nEndpoint descriptor:"), 0x80);
         Notify(PSTR("\r\nLength:\t\t"), 0x80);

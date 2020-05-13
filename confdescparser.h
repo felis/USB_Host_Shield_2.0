@@ -103,17 +103,21 @@ template <const uint8_t CLASS_ID, const uint8_t SUBCLASS_ID, const uint8_t PROTO
 bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor(uint8_t **pp, uint16_t *pcntdn) {
         USB_CONFIGURATION_DESCRIPTOR* ucd = reinterpret_cast<USB_CONFIGURATION_DESCRIPTOR*>(varBuffer);
         USB_INTERFACE_DESCRIPTOR* uid = reinterpret_cast<USB_INTERFACE_DESCRIPTOR*>(varBuffer);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wimplicit-fallthrough=3"
         switch(stateParseDescr) {
                 case 0:
                         theBuffer.valueSize = 2;
                         valParser.Initialize(&theBuffer);
                         stateParseDescr = 1;
+			/* FALLTHRU */
                 case 1:
                         if(!valParser.Parse(pp, pcntdn))
                                 return false;
                         dscrLen = *((uint8_t*)theBuffer.pValue);
                         dscrType = *((uint8_t*)theBuffer.pValue + 1);
                         stateParseDescr = 2;
+			/* FALLTHRU */
                 case 2:
                         // This is a sort of hack. Assuming that two bytes are all ready in the buffer
                         //      the pointer is positioned two bytes ahead in order for the rest of descriptor
@@ -122,6 +126,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         //      in the buffer.
                         theBuffer.pValue = varBuffer + 2;
                         stateParseDescr = 3;
+			/* FALLTHRU */
                 case 3:
                         switch(dscrType) {
                                 case USB_DESCRIPTOR_INTERFACE:
@@ -135,6 +140,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         theBuffer.valueSize = dscrLen - 2;
                         valParser.Initialize(&theBuffer);
                         stateParseDescr = 4;
+			/* FALLTHRU */
                 case 4:
                         switch(dscrType) {
                                 case USB_DESCRIPTOR_CONFIGURATION:
@@ -181,6 +187,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         stateParseDescr = 0;
         }
         return true;
+#pragma GCC diagnostic pop
 }
 
 template <const uint8_t CLASS_ID, const uint8_t SUBCLASS_ID, const uint8_t PROTOCOL_ID, const uint8_t MASK>

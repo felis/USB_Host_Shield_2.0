@@ -537,7 +537,8 @@ Fail:
 
 template <const uint8_t BOOT_PROTOCOL>
 void HIDBoot<BOOT_PROTOCOL>::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *pep) {
-
+	(void)alt;
+	(void)proto;
         // If the first configuration satisfies, the others are not considered.
         //if(bNumEP > 1 && conf != bConfNum)
         if(bNumEP == totalEndpoints(BOOT_PROTOCOL))

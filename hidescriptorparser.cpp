@@ -1091,6 +1091,8 @@ void ReportDescParserBase::PrintItemTitle(uint8_t prefix) {
 uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t ret = enErrorSuccess;
         //reinterpret_cast<>(varBuffer);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wimplicit-fallthrough=3"
         switch(itemParseState) {
                 case 0:
                         if(**pp == HID_LONG_ITEM_PREFIX)
@@ -1113,16 +1115,19 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
 
                         if(!pcntdn)
                                 return enErrorIncomplete;
+			/* FALLTHRU */
                 case 1:
                         //USBTRACE2("\r\niSz:",itemSize);
 
                         theBuffer.valueSize = itemSize;
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
+			/* FALLTHRU */
                 case 2:
                         if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
+			/* FALLTHRU */
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
@@ -1207,6 +1212,7 @@ uint8_t ReportDescParserBase::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         } // switch (**pp & (TYPE_MASK | TAG_MASK))
                 }
         } // switch (itemParseState)
+#pragma GCC diagnostic pop
         itemParseState = 0;
         return enErrorSuccess;
 }
@@ -1428,7 +1434,8 @@ void ReportDescParserBase::PrintMedicalInstrumentPageUsage(uint16_t usage) {
 
 uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
         //uint8_t ret = enErrorSuccess;
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wimplicit-fallthrough=3"
         switch(itemParseState) {
                 case 0:
                         if(**pp == HID_LONG_ITEM_PREFIX)
@@ -1448,14 +1455,17 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
 
                         if(!pcntdn)
                                 return enErrorIncomplete;
+			/* FALLTHRU */
                 case 1:
                         theBuffer.valueSize = itemSize;
                         valParser.Initialize(&theBuffer);
                         itemParseState = 2;
+			/* FALLTHRU */
                 case 2:
                         if(!valParser.Parse(pp, pcntdn))
                                 return enErrorIncomplete;
                         itemParseState = 3;
+			/* FALLTHRU */
                 case 3:
                 {
                         uint8_t data = *((uint8_t*)varBuffer);
@@ -1508,6 +1518,7 @@ uint8_t ReportDescParser2::ParseItem(uint8_t **pp, uint16_t *pcntdn) {
                         } // switch (**pp & (TYPE_MASK | TAG_MASK))
                 }
         } // switch (itemParseState)
+#pragma GCC diagnostic pop
         itemParseState = 0;
         return enErrorSuccess;
 }

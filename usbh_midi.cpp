@@ -572,6 +572,8 @@ uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable
                 //Byte 0
                 buf[wptr] = (nCable << 4) | 0x4;             //x4 SysEx starts or continues
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wimplicit-fallthrough=3"
                 switch ( n ) {
                     case 1 :
                         buf[wptr++] = (nCable << 4) | 0x5;   //x5 SysEx ends with following single byte.
@@ -589,6 +591,7 @@ uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable
                         break;
                     case 3 :
                         buf[wptr]   = (nCable << 4) | 0x7;   //x7 SysEx ends with following three bytes.
+			/* FALLTHRU */
                     default :
                         wptr++;
                         buf[wptr++] = *(dataptr++);
@@ -597,6 +600,7 @@ uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable
                         n = n - 3;
                         break;
                 }
+#pragma GCC diagnostic pop
 
                 if( wptr >= maxpkt || n == 0 ){ //Reach a maxPktSize or data end.
                         USBTRACE2(" wptr:\t", wptr);

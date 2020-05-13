@@ -75,10 +75,13 @@ public:
         };
 
         bool Skip(uint8_t **pp, uint16_t *pcntdn, uint16_t bytes_to_skip) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wimplicit-fallthrough=3"
                 switch(nStage) {
                         case 0:
                                 countDown = bytes_to_skip;
                                 nStage++;
+				/* FALLTHRU */
                         case 1:
                                 for(; countDown && (*pcntdn); countDown--, (*pp)++, (*pcntdn)--);
 
@@ -86,6 +89,7 @@ public:
                                         nStage = 0;
                 };
                 return (!countDown);
+#pragma GCC diagnostic pop
         };
 };
 

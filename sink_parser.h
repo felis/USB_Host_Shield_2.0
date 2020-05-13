@@ -42,6 +42,9 @@ public:
         };
 
         void Parse(const LEN_TYPE len, const uint8_t *pbuf, const OFFSET_TYPE &offset) {
+	  (void)len;
+	  (void)pbuf;
+	  (void)offset;
         };
 };
 
