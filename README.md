@@ -124,7 +124,7 @@ Currently the following boards are supported by the library:
       * GPIO16 is **NOT** usable, as it will be used for some other purposes. For example, reset the SoC itself from sleep mode.
       * GPIO6 to 11 is also **NOT** usable, as they are used to connect SPI flash chip and it is used for storing the executable binary content.
 * ESP32 is supported using the [arduino-esp32](https://github.com/espressif/arduino-esp32/)
-    * GPIO5 : SS, GPIO17 : INT, GPIO18 : SCK, GPIO19 : MISO, GPIO23 : MOSI
+    * GPIO5 : SS, GPIO4 : INT, GPIO18 : SCK, GPIO19 : MISO, GPIO23 : MOSI
 
 The following boards need to be activated manually in [settings.h](settings.h):
 
