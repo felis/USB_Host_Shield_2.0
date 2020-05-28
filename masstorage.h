@@ -456,8 +456,8 @@ struct CommandBlockWrapper : public CommandBlockWrapperBase {
         };
 
         struct {
-                uint8_t bmCBWCBLength : 4;
-                uint8_t bmReserved2 : 4;
+                uint8_t bmCBWCBLength : 6;
+                uint8_t bmReserved2 : 2;
         };
 
         uint8_t CBWCB[16];
