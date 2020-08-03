@@ -53,6 +53,8 @@
 #define XBOX_VID5                               0x1532 // Razer
 #define XBOX_VID6                               0x24C6 // PowerA
 
+
+
 #define XBOX_ONE_PID5                           0x4A01 // Mad Catz FightStick TE 2 - might have different mapping for triggers?
 #define XBOX_ONE_PID6                           0x0139 // Afterglow Prismatic Wired Controller
 #define XBOX_ONE_PID7                           0x0146 // Rock Candy Wired Controller for Xbox One
@@ -61,6 +63,9 @@
 #define XBOX_ONE_PID10                          0x541A // PowerA Xbox One Mini Wired Controller
 #define XBOX_ONE_PID11                          0x542A // Xbox ONE spectra
 #define XBOX_ONE_PID12                          0x543A // PowerA Xbox One wired controller
+#define XBOX_ONE_PID14                          0x02A8 // pdp
+
+
 
 /** This class implements support for a Xbox ONE controller connected via USB. */
 class XBOXONE : public USBDeviceConfig, public UsbConfigXtracter {
@@ -125,7 +130,7 @@ public:
                 return ((vid == XBOX_VID1 || vid == XBOX_VID2 || vid == XBOX_VID3 || vid == XBOX_VID4 || vid == XBOX_VID5 || vid == XBOX_VID6) &&
                     (pid == XBOX_ONE_PID1 || pid == XBOX_ONE_PID2 || pid == XBOX_ONE_PID3 || pid == XBOX_ONE_PID4 ||
                         pid == XBOX_ONE_PID5 || pid == XBOX_ONE_PID6 || pid == XBOX_ONE_PID7 || pid == XBOX_ONE_PID8 ||
-                        pid == XBOX_ONE_PID9 || pid == XBOX_ONE_PID10 || pid == XBOX_ONE_PID11 || pid == XBOX_ONE_PID12 || pid == XBOX_ONE_PID13));
+                        pid == XBOX_ONE_PID9 || pid == XBOX_ONE_PID10 || pid == XBOX_ONE_PID11 || pid == XBOX_ONE_PID12 || pid == XBOX_ONE_PID13 || pid == XBOX_ONE_PID14));
         };
         /**@}*/
 
