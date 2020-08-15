@@ -332,6 +332,10 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
                         pollInterval = pep->bInterval;
 
+#ifdef POLLING_OVERRIDE
+                pollInterval = POLLING_OVERRIDE;
+#endif
+
                 bNumEP++;
         }
         //PrintEndpointDescriptor(pep);
