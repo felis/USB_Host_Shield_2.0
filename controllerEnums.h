@@ -144,6 +144,12 @@ enum ButtonEnum {
         WHITE = 9, // Available on the original Xbox controller
         /**@}*/
 
+        /**@{*/
+        /** Xbox One S buttons */
+        VIEW = 4,
+        MENU = 5,
+        /**@}*/
+
         /** PS Buzz controllers */
         RED = 0,
         YELLOW = 1,

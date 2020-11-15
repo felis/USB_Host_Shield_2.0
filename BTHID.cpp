@@ -17,7 +17,7 @@
 
 #include "BTHID.h"
 // To enable serial debugging see "settings.h"
-#define EXTRADEBUG // Uncomment to get even more debugging data
+//#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the HID device
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
@@ -61,19 +61,6 @@ void BTHID::disconnect() { // Use this void to disconnect the device
 }
 
 void BTHID::ACLData(uint8_t* l2capinbuf) {
-/*
-        Notify(PSTR("\r\nL2CAP Data - Channel ID: "), 0x80);
-        D_PrintHex<uint8_t > (l2capinbuf[7], 0x80);
-        Notify(PSTR(" "), 0x80);
-        D_PrintHex<uint8_t > (l2capinbuf[6], 0x80);
-
-        Notify(PSTR(", data: "), 0x80);
-        for(uint16_t i = 0; i < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
-                D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
-                Notify(PSTR(" "), 0x80);
-        }
-*/
-
         if(!connected) {
                 if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == SDP_PSM && !pBtd->sdpConnectionClaimed) {
@@ -116,24 +103,29 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_RESPONSE) {
                                 if(((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) && ((l2capinbuf[18] | (l2capinbuf[19] << 8)) == SUCCESSFUL)) { // Success
                                         if(l2capinbuf[14] == sdp_dcid[0] && l2capinbuf[15] == sdp_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nSDP Connection Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 sdp_scid[0] = l2capinbuf[12];
                                                 sdp_scid[1] = l2capinbuf[13];
-
 #ifdef DEBUG_USB_HOST
                                                 Notify(PSTR("\r\nSend SDP Config Request"), 0x80);
 #endif
                                                 identifier++;
                                                 pBtd->l2cap_config_request(hci_handle, identifier, sdp_scid);
                                         } else if(l2capinbuf[14] == control_dcid[0] && l2capinbuf[15] == control_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nHID Control Connection Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 control_scid[0] = l2capinbuf[12];
                                                 control_scid[1] = l2capinbuf[13];
                                                 l2cap_set_flag(L2CAP_FLAG_CONTROL_CONNECTED);
                                         } else if(l2capinbuf[14] == interrupt_dcid[0] && l2capinbuf[15] == interrupt_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nHID Interrupt Connection Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 interrupt_scid[0] = l2capinbuf[12];
                                                 interrupt_scid[1] = l2capinbuf[13];
@@ -172,28 +164,40 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_RESPONSE) {
                                 if((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if(l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_SDP_SUCCESS);
                                         } else if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_CONTROL_SUCCESS);
                                         } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nHID Interrupt Configuration Complete"), 0x80);
+#endif
                                                 identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_INTERRUPT_SUCCESS);
                                         }
                                 }
                         } else if(l2capinbuf[8] == L2CAP_CMD_CONFIG_REQUEST) {
                                 if(l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
+#ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nSDP Configuration Request"), 0x80);
+#endif
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], sdp_scid);
                                 } else if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
+#ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nHID Control Configuration Request"), 0x80);
+#endif
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], control_scid);
                                 } else if(l2capinbuf[12] == interrupt_dcid[0] && l2capinbuf[13] == interrupt_dcid[1]) {
+#ifdef EXTRADEBUG
                                         Notify(PSTR("\r\nHID Interrupt Configuration Request"), 0x80);
+#endif
                                         pBtd->l2cap_config_response(hci_handle, l2capinbuf[9], interrupt_scid);
                                 }
                         } else if(l2capinbuf[8] == L2CAP_CMD_DISCONNECT_REQUEST) {
@@ -220,15 +224,21 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 }
                         } else if(l2capinbuf[8] == L2CAP_CMD_DISCONNECT_RESPONSE) {
                                 if(l2capinbuf[12] == sdp_scid[0] && l2capinbuf[13] == sdp_scid[1]) {
-                                        //Notify(PSTR("\r\nDisconnect Response: SDP Channel"), 0x80);
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nDisconnect Response: SDP Channel"), 0x80);
+#endif
                                         identifier = l2capinbuf[9];
                                         l2cap_set_flag(L2CAP_FLAG_DISCONNECT_RESPONSE);
                                 } else if(l2capinbuf[12] == control_scid[0] && l2capinbuf[13] == control_scid[1]) {
-                                        //Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nDisconnect Response: Control Channel"), 0x80);
+#endif
                                         identifier = l2capinbuf[9];
                                         l2cap_set_flag(L2CAP_FLAG_DISCONNECT_CONTROL_RESPONSE);
                                 } else if(l2capinbuf[12] == interrupt_scid[0] && l2capinbuf[13] == interrupt_scid[1]) {
-                                        //Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
+#ifdef EXTRADEBUG
+                                        Notify(PSTR("\r\nDisconnect Response: Interrupt Channel"), 0x80);
+#endif
                                         identifier = l2capinbuf[9];
                                         l2cap_set_flag(L2CAP_FLAG_DISCONNECT_INTERRUPT_RESPONSE);
                                 }
@@ -254,7 +264,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[0] = SDP_SERVICE_SEARCH_RESPONSE;
                                 l2capoutbuf[1] = l2capinbuf[9];//transactionIDHigh;
                                 l2capoutbuf[2] = l2capinbuf[10];//transactionIDLow;
-#if 1
+
                                 l2capoutbuf[3] = 0x00; // MSB Parameter Length
                                 l2capoutbuf[4] = 0x05; // LSB Parameter Length = 5
 
@@ -267,29 +277,6 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[9] = 0x00; // No continuation state
 
                                 SDP_Command(l2capoutbuf, 10);
-#else
-                                l2capoutbuf[3] = 0x00; // MSB Parameter Length
-                                l2capoutbuf[4] = 0x09; // LSB Parameter Length = 9
-
-                                l2capoutbuf[5] = 0x00; // MSB TotalServiceRecordCount
-                                l2capoutbuf[6] = 0x01; // LSB TotalServiceRecordCount = 1
-
-                                l2capoutbuf[7] = 0x00; // MSB CurrentServiceRecordCount
-                                l2capoutbuf[8] = 0x01; // LSB CurrentServiceRecordCount = 1
-
-                                l2capoutbuf[9] = 0x00; // ServiceRecordHandleList
-                                l2capoutbuf[10] = 0x01; // ServiceRecordHandleList
-                                l2capoutbuf[11] = 0x00; // ServiceRecordHandleList
-                                l2capoutbuf[12] = 0x01; // ServiceRecordHandleList: 0x10001.
-
-                                l2capoutbuf[13] = 0x00; // No continuation state
-
-                                SDP_Command(l2capoutbuf, 14);
-#endif
-
-                                //pBtd->hci_authentication_request();
-                                //identifier++;
-                                //pBtd->l2cap_connection_request(hci_handle, identifier, sdp_dcid, SDP_PSM);
                         } else if(l2capinbuf[8] == SDP_SERVICE_ATTRIBUTE_REQUEST) {
                                 Notify(PSTR("\r\nSDP_SERVICE_ATTRIBUTE_REQUEST"), 0x80);
 
@@ -298,7 +285,6 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[1] = l2capinbuf[9];//transactionIDHigh;
                                 l2capoutbuf[2] = l2capinbuf[10];//transactionIDLow;
 
-#if 1
                                 l2capoutbuf[3] = 0x00; // MSB Parameter Length
                                 l2capoutbuf[4] = 0x05; // LSB Parameter Length = 5
 
@@ -312,141 +298,9 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 l2capoutbuf[9] = 0x00; // No continuation state
 
                                 SDP_Command(l2capoutbuf, 10);
-#else
-                                size_t i = 3;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x5a;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x57;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x55;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x0a;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x03;
-                                l2capoutbuf[i++] = 0x19;
-                                l2capoutbuf[i++] = 0x12;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x05;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x03;
-                                l2capoutbuf[i++] = 0x19;
-                                l2capoutbuf[i++] = 0x10;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x06;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x65;
-                                l2capoutbuf[i++] = 0x6e;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x6a;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x03;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x4c;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x4a;
-                                l2capoutbuf[i++] = 0x34;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x03;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x10;
-                                l2capoutbuf[i++] = 0x11;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x04;
-                                l2capoutbuf[i++] = 0x28;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x02;
-                                l2capoutbuf[i++] = 0x05;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0xa0;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x16;
-                                l2capoutbuf[i++] = 0xc4;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0xaf;
-                                l2capoutbuf[i++] = 0xff;
-                                l2capoutbuf[i++] = 0x09;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x01;
-                                l2capoutbuf[i++] = 0x00;
-
-                                Serial.print("\nLENGTH: ");
-                                Serial.println(i);
-
-                                SDP_Command(l2capoutbuf, i);
-#endif
-
-/*
-                                l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST;
-                                l2capoutbuf[1] = 0x00; // TODO: Do not hardcode
-                                l2capoutbuf[2] = 0x01;
-
-                                l2capoutbuf[3] = 0x00; // MSB Parameter Length
-                                l2capoutbuf[4] = 0x0F; // LSB Parameter Length = 15
-
-                                i = 5;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x03;
-                                l2capoutbuf[i++] = 0x19;
-                                l2capoutbuf[i++] = 0x12;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0xff;
-                                l2capoutbuf[i++] = 0xff;
-                                l2capoutbuf[i++] = 0x35;
-                                l2capoutbuf[i++] = 0x05;
-                                l2capoutbuf[i++] = 0x0a;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0x00;
-                                l2capoutbuf[i++] = 0xff;
-                                l2capoutbuf[i++] = 0xff;
-                                l2capoutbuf[i++] = 0x00;
-
-                                Serial.print("\nLENGTH: ");
-                                Serial.println(i);
-
-                                SDP_Command(l2capoutbuf, i);
-*/
                         } else if(l2capinbuf[8] == SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST) {
-                                Notify(PSTR("\r\nSDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST"), 0x80);
-
 #ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nSDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST"), 0x80);
                                 Notify(PSTR("\r\nUUID: "), 0x80);
                                 uint16_t uuid;
                                 if((l2capinbuf[16] << 8 | l2capinbuf[17]) == 0x0000) // Check if it's sending the UUID as a 128-bit UUID
@@ -464,7 +318,6 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                         Notify(PSTR(" "), 0x80);
                                 }
 #endif
-
                                 serviceNotSupported(l2capinbuf[9], l2capinbuf[10]); // The service is not supported
                         }
 #ifdef EXTRADEBUG

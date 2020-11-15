@@ -531,6 +531,27 @@ void SPP::RFCOMM_task() {
 /*                    SDP Commands                          */
 
 /************************************************************/
+void SPP::SDP_Command(uint8_t* data, uint8_t nbytes) { // See page 223 in the Bluetooth specs
+        pBtd->L2CAP_Command(hci_handle, data, nbytes, sdp_scid[0], sdp_scid[1]);
+}
+
+void SPP::serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow) { // See page 235 in the Bluetooth specs
+        l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE;
+        l2capoutbuf[1] = transactionIDHigh;
+        l2capoutbuf[2] = transactionIDLow;
+        l2capoutbuf[3] = 0x00; // MSB Parameter Length
+        l2capoutbuf[4] = 0x05; // LSB Parameter Length = 5
+        l2capoutbuf[5] = 0x00; // MSB AttributeListsByteCount
+        l2capoutbuf[6] = 0x02; // LSB AttributeListsByteCount = 2
+
+        /* Attribute ID/Value Sequence: */
+        l2capoutbuf[7] = 0x35; // Data element sequence - length in next byte
+        l2capoutbuf[8] = 0x00; // Length = 0
+        l2capoutbuf[9] = 0x00; // No continuation state
+
+        SDP_Command(l2capoutbuf, 10);
+}
+
 void SPP::serialPortResponse1(uint8_t transactionIDHigh, uint8_t transactionIDLow) {
         l2capoutbuf[0] = SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE;
         l2capoutbuf[1] = transactionIDHigh;

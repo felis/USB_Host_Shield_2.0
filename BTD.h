@@ -61,7 +61,7 @@
 #define HCI_DISCONNECT_STATE            16
 #define HCI_LOCAL_EXTENDED_FEATURES_STATE       17
 #define HCI_WRITE_SIMPLE_PAIRING_STATE          18
-#define HCI_REMOTE_EXTENDED_FEATURES_STATE      19
+#define HCI_SET_EVENT_MASK_STATE                19
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
@@ -74,7 +74,6 @@
 #define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
 #define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
 #define HCI_FLAG_LOCAL_EXTENDED_FEATURES    (1UL << 9)
-#define HCI_FLAG_REMOTE_EXTENDED_FEATURES   (1UL << 10)
 
 /* Macros for HCI event flag tests */
 #define hci_check_flag(flag) (hci_event_flag & (flag))
@@ -91,6 +90,10 @@
 #define EV_REMOTE_NAME_COMPLETE                         0x07
 #define EV_ENCRYPTION_CHANGE                            0x08
 #define EV_CHANGE_CONNECTION_LINK                       0x09
+#define EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE     0x0C
+#define EV_QOS_SETUP_COMPLETE                           0x0D
+#define EV_COMMAND_COMPLETE                             0x0E
+#define EV_COMMAND_STATUS                               0x0F
 #define EV_ROLE_CHANGED                                 0x12
 #define EV_NUM_COMPLETE_PKT                             0x13
 #define EV_PIN_CODE_REQUEST                             0x16
@@ -98,15 +101,13 @@
 #define EV_LINK_KEY_NOTIFICATION                        0x18
 #define EV_DATA_BUFFER_OVERFLOW                         0x1A
 #define EV_MAX_SLOTS_CHANGE                             0x1B
-#define EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE     0x0C
-#define EV_QOS_SETUP_COMPLETE                           0x0D
-#define EV_COMMAND_COMPLETE                             0x0E
-#define EV_COMMAND_STATUS                               0x0F
 #define EV_LOOPBACK_COMMAND                             0x19
 #define EV_PAGE_SCAN_REP_MODE                           0x20
 #define EV_READ_REMOTE_EXTENDED_FEATURES_COMPLETE       0x23
+#define EV_IO_CAPABILITY_REQUEST                        0x31
+#define EV_IO_CAPABILITY_RESPONSE                       0x32
 #define EV_USER_CONFIRMATION_REQUEST                    0x33
-
+#define EV_SIMPLE_PAIRING_COMPLETE                      0x36
 
 /* Bluetooth states for the different Bluetooth drivers */
 #define L2CAP_WAIT                      0
@@ -339,23 +340,23 @@ public:
         void hci_read_bdaddr();
         /** Read the HCI Version of the Bluetooth dongle. */
         void hci_read_local_version_information();
-
+        /** Used to check if the dongle supports simple paring */
         void hci_read_local_extended_features(uint8_t page_number);
         /**
          * Set the local name of the Bluetooth dongle.
          * @param name Desired name.
          */
         void hci_write_local_name(const char* name);
-
+        /** Used to enable simply paring if the dongle supports it */
         void hci_write_simple_pairing_mode(bool enable);
+        /** Used to enable events related to simple paring */
+        void hci_set_event_mask();
         /** Enable visibility to other Bluetooth devices. */
         void hci_write_scan_enable();
         /** Disable visibility to other Bluetooth devices. */
         void hci_write_scan_disable();
         /** Read the remote devices name. */
         void hci_remote_name();
-
-        void hci_read_remote_extended_features(uint8_t page_number);
         /** Accept the connection with the Bluetooth device. */
         void hci_accept_connection();
         /**
@@ -376,7 +377,7 @@ public:
          * if the Host does not have a stored Link Key for the connection.
          */
         void hci_link_key_request_negative_reply();
-
+        /** Used to during simple paring to confirm that the we want to connect */
         void hci_user_confirmation_request_reply();
         /** Used to try to authenticate with the remote device. */
         void hci_authentication_request();
@@ -386,13 +387,8 @@ public:
         void hci_inquiry_cancel();
         /** Connect to last device communicated with. */
         void hci_connect();
-
-        void hci_read_remote_version_information();
-
-        void hci_change_connection_packet_type_command();
-
-        void hci_write_link_policy_settings();
-
+        /** Used during simple paring to reply to a IO capability request */
+        void hci_io_capability_request_reply();
         /**
          * Connect to device.
          * @param bdaddr Bluetooth address of the device.
