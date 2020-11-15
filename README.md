@@ -19,10 +19,10 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 
 # Developed By
 
-* __Oleg Mazurov  - <mazurov@gmail.com>
-* __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
+* __Oleg Mazurov__ - <mazurov@gmail.com>
+* __Alexei Glushchenko__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
-* __Kristian Sloth Lauszus__ - <kristianl@tkjelectronics.com>
+* __Kristian Sloth Lauszus__ - <lauszus@gmail.com>
     * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
     * Major contributor to mass storage code
