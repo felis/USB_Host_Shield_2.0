@@ -79,6 +79,7 @@ public:
                         case 0:
                                 countDown = bytes_to_skip;
                                 nStage++;
+                                // fall through
                         case 1:
                                 for(; countDown && (*pcntdn); countDown--, (*pp)++, (*pcntdn)--);
 

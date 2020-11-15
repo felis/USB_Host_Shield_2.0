@@ -44,6 +44,7 @@ bool PTPListParser::Parse(uint8_t **pp, uint16_t *pcntdn, PTP_ARRAY_EL_FUNC pf, 
                         pBuf->valueSize = lenSize;
                         theParser.Initialize(pBuf);
                         nStage = 1;
+                        // fall through
 
                 case 1:
                         if(!theParser.Parse(pp, pcntdn))
@@ -53,11 +54,13 @@ bool PTPListParser::Parse(uint8_t **pp, uint16_t *pcntdn, PTP_ARRAY_EL_FUNC pf, 
                         arLen = (pBuf->valueSize >= 4) ? *((uint32_t*)pBuf->pValue) : (uint32_t)(*((uint16_t*)pBuf->pValue));
                         arLenCntdn = arLen;
                         nStage = 2;
+                        // fall through
 
                 case 2:
                         pBuf->valueSize = valSize;
                         theParser.Initialize(pBuf);
                         nStage = 3;
+                        // fall through
 
                 case 3:
                         for(; arLenCntdn; arLenCntdn--) {

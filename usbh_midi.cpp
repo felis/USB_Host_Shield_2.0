@@ -589,6 +589,7 @@ uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable
                         break;
                     case 3 :
                         buf[wptr]   = (nCable << 4) | 0x7;   //x7 SysEx ends with following three bytes.
+                        // fall through
                     default :
                         wptr++;
                         buf[wptr++] = *(dataptr++);
