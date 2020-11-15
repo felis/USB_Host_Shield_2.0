@@ -258,8 +258,9 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 #endif
                 } else if(l2capinbuf[6] == sdp_dcid[0] && l2capinbuf[7] == sdp_dcid[1]) { // SDP
                         if(l2capinbuf[8] == SDP_SERVICE_SEARCH_REQUEST) {
+#ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nSDP_SERVICE_SEARCH_REQUEST"), 0x80);
-
+#endif
                                 // Send response
                                 l2capoutbuf[0] = SDP_SERVICE_SEARCH_RESPONSE;
                                 l2capoutbuf[1] = l2capinbuf[9];//transactionIDHigh;
@@ -278,8 +279,9 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
 
                                 SDP_Command(l2capoutbuf, 10);
                         } else if(l2capinbuf[8] == SDP_SERVICE_ATTRIBUTE_REQUEST) {
+#ifdef EXTRADEBUG
                                 Notify(PSTR("\r\nSDP_SERVICE_ATTRIBUTE_REQUEST"), 0x80);
-
+#endif
                                 // Send response
                                 l2capoutbuf[0] = SDP_SERVICE_ATTRIBUTE_RESPONSE;
                                 l2capoutbuf[1] = l2capinbuf[9];//transactionIDHigh;

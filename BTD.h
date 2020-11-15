@@ -530,6 +530,9 @@ public:
                 return pollInterval;
         };
 
+        /** Used by the drivers to enable simple pairing */
+        bool useSimplePairing;
+
 protected:
         /** Pointer to USB class instance. */
         USB *pUsb;

@@ -35,6 +35,7 @@ public:
         XBOXONESBT(BTD *p, bool pair = false) :
         BTHID(p, pair) {
                 XBOXONESParser::Reset();
+                pBtd->useSimplePairing = true; // The Xbox One S controller only works via simple pairing
         };
 
         /**

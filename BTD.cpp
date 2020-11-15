@@ -29,6 +29,7 @@ connectToWii(false),
 pairWithWii(false),
 connectToHIDDevice(false),
 pairWithHIDDevice(false),
+useSimplePairing(false),
 pUsb(p), // Pointer to USB class instance - mandatory
 bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
@@ -658,7 +659,7 @@ void BTD::HCI_event_task() {
 #endif
                                                 connectToHIDDevice = true; // Used to indicate to the BTHID service, that it should connect to this device
                                         } else {
-#ifdef DEBUG_USB_HOST
+#ifdef EXTRADEBUG
                                                 Notify(PSTR("\r\nPairing was successful"), 0x80);
 #endif
                                         }
@@ -823,11 +824,12 @@ void BTD::HCI_task() {
                                 if(btdName != NULL) {
                                         hci_write_local_name(btdName);
                                         hci_state = HCI_WRITE_NAME_STATE;
-                                } else {
+                                } else if(useSimplePairing) {
                                         hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
                                         //hci_read_local_extended_features(1); // Read page 1
                                         hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
-                                }
+                                } else
+                                        hci_state = HCI_CHECK_DEVICE_SERVICE;
                         }
                         break;
 
@@ -837,9 +839,12 @@ void BTD::HCI_task() {
                                 Notify(PSTR("\r\nThe name was set to: "), 0x80);
                                 NotifyStr(btdName, 0x80);
 #endif
-                                hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
-                                //hci_read_local_extended_features(1); // Read page 1
-                                hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
+                                if(useSimplePairing) {
+                                        hci_read_local_extended_features(0); // "Requests the normal LMP features as returned by Read_Local_Supported_Features"
+                                        //hci_read_local_extended_features(1); // Read page 1
+                                        hci_state = HCI_LOCAL_EXTENDED_FEATURES_STATE;
+                                } else
+                                        hci_state = HCI_CHECK_DEVICE_SERVICE;
                         }
                         break;
 
