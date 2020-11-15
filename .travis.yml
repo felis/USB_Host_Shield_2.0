@@ -62,7 +62,8 @@ env:
     - PLATFORMIO_CI_SRC=examples/PSBuzz
     # - PLATFORMIO_CI_SRC=examples/testusbhostFAT
     - PLATFORMIO_CI_SRC=examples/USB_desc
-    - PLATFORMIO_CI_SRC=examples/USBH_MIDI/bidirectional_converter
+    # See: https://travis-ci.org/github/felis/USB_Host_Shield_2.0/jobs/743787235
+    - PLATFORMIO_CI_SRC=examples/USBH_MIDI/bidirectional_converter SKIP_TEENSY35=true SKIP_TEENSY36=true
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/eVY1_sample
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/USB_MIDI_converter
     - PLATFORMIO_CI_SRC=examples/USBH_MIDI/USB_MIDI_converter_multi
@@ -87,7 +88,9 @@ install:
 
 script:
     - if [[ -z "$SKIP_UNO" ]]; then UNO="--board=uno"; fi
-    - platformio ci --lib="." $UNO --board=genuino101 --board=teensy30 --board=teensy31 --board=teensy35 --board=teensy36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
+    - if [[ -z "$SKIP_TEENSY35" ]]; then TEENSY35="--board=teensy35"; fi
+    - if [[ -z "$SKIP_TEENSY36" ]]; then TEENSY36="--board=teensy36"; fi
+    - platformio ci --lib="." $UNO --board=genuino101 --board=teensy30 --board=teensy31 $TEENSY35 $TEENSY36 --board=teensylc --board=esp12e --board=nodemcu --board=esp32dev
     - platformio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation" # Workaround https://travis-ci.org/felis/USB_Host_Shield_2.0/jobs/569237654 and https://github.com/arduino/ArduinoCore-sam/issues/69
 
 before_deploy:
