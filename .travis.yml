@@ -31,7 +31,7 @@ env:
     - PLATFORMIO_CI_SRC=examples/Bluetooth/PS4BT
     - PLATFORMIO_CI_SRC=examples/Bluetooth/SPP
     - PLATFORMIO_CI_SRC=examples/Bluetooth/SPPMulti
-    - PLATFORMIO_CI_SRC=examples/Bluetooth/Wii
+    - PLATFORMIO_CI_SRC=examples/Bluetooth/Wii SKIP_UNO=true
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiBalanceBoard SKIP_UNO=true
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiIRCamera PLATFORMIO_BUILD_FLAGS="-DWIICAMERA" SKIP_UNO=true
     - PLATFORMIO_CI_SRC=examples/Bluetooth/WiiMulti SKIP_UNO=true
