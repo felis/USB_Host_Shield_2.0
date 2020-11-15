@@ -7,19 +7,19 @@ __________
 # Summary
 This is Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's.
 
-Project main web site is: <http://www.circuitsathome.com>.
+Project main web site is: <https://chome.nerpa.tech/arduino_usb_host_shield_projects/>.
 
 Some information can also be found at: <http://blog.tkjelectronics.dk/>.
 
-The shield can be purchased at the main site: <http://www.circuitsathome.com/products-page/arduino-shields> or from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
+The shield can be purchased from [TKJ Electronics](http://tkjelectronics.com/): <http://shop.tkjelectronics.dk/product_info.php?products_id=43>.
 
 ![USB Host Shield](http://shop.tkjelectronics.dk/images/USB_Host_Shield1.jpg)
 
-For more information about the hardware see the [Hardware Manual](http://www.circuitsathome.com/usb-host-shield-hardware-manual).
+For more information about the hardware see the [Hardware Manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual/).
 
 # Developed By
 
-* __Oleg Mazurov, Circuits@Home__ - <mazurov@circuitsathome.com>
+* __Oleg Mazurov  - <mazurov@gmail.com>
 * __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Sloth Lauszus__ - <kristianl@tkjelectronics.com>
@@ -31,11 +31,6 @@ For more information about the hardware see the [Hardware Manual](http://www.cir
 * __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
     * Developer of the [MIDI](#midi-library) library
 
-# Donate
-
-Help yourself by helping us support you! Many thousands of hours have been spent developing the USB Host Shield library. Since you find it useful, please consider donating via the button below. Donations will allow us to support you by ensuring hardware that you have can be acquired in order to add support for your microcontroller board.
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=donate@circuitsathome.com&amp;lc=US&amp;item_name=Donate%20to%20the%20USB%20Host%20Library%20project&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="PayPal - The safer, easier way to pay online!" /></a>
 
 # Table of Contents
 
@@ -112,7 +107,7 @@ Currently the following boards are supported by the library:
 
 * All official Arduino AVR boards (Uno, Duemilanove, Mega, Mega 2560, Mega ADK, Leonardo etc.)
 * Arduino Due, Intel Galileo, Intel Galileo 2, and Intel Edison
-    * Note that the Intel Galileo uses pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
+    * Note that the Intel Galileo uses pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual) for more information.
     * Note native USB host is not supported on any of these platforms. You will have to use the shield for now.
 * Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, and Teensy LC)
     * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
@@ -121,7 +116,7 @@ Currently the following boards are supported by the library:
 * Black Widdow
 * RedBearLab nRF51822
 * Digilent chipKIT
-    * Please see: <http://www.circuitsathome.com/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
+    * Please see: <https://chome.nerpa.tech/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
     * Currently the [NUCLEO-F446RE](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF262063) is supported featuring the STM32F446. Take a look at the following example code: <https://github.com/Lauszus/Nucleo_F446RE_USBHost>.
 * ESP8266 is supported using the [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
@@ -170,7 +165,7 @@ Take a look at the [SPP.ino](examples/Bluetooth/SPP/SPP.ino) example for more in
 
 More information can be found at these blog posts:
 
-* <http://www.circuitsathome.com/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released>
+* <http://chome.nerpa.tech/mcu/bluetooth-rfcommspp-service-support-for-usb-host-2-0-library-released>
 * <http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/>
 
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
@@ -209,13 +204,13 @@ For more information about the PS3 protocol see the official wiki: <https://gith
 Also take a look at the blog posts:
 
 * <http://blog.tkjelectronics.dk/2012/01/ps3-controller-bt-library-for-arduino/>
-* <http://www.circuitsathome.com/mcu/sony-ps3-controller-support-added-to-usb-host-library>
-* <http://www.circuitsathome.com/mcu/arduino/interfacing-ps3-controllers-via-usb>
+* <http://chome.nerpa.tech/mcu/sony-ps3-controller-support-added-to-usb-host-library>
+* <http://chome.nerpa.tech/mcu/arduino/interfacing-ps3-controllers-via-usb>
 
 A special thanks go to the following people:
 
-1. _Richard Ibbotson_ who made this excellent guide: <http://www.circuitsathome.com/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part>
-2. _Tomoyuki Tanaka_ for releasing his code for the Arduino USB Host shield connected to the wiimote: <http://www.circuitsathome.com/mcu/rc-car-controlled-by-wii-remote-on-arduino>
+1. _Richard Ibbotson_ who made this excellent guide: <http://chome.nerpa.tech/mcu/ps3-and-wiimote-game-controllers-on-the-arduino-host-shield-part>
+2. _Tomoyuki Tanaka_ for releasing his code for the Arduino USB Host shield connected to the wiimote: <http://chome.nerpa.tech/mcu/rc-car-controlled-by-wii-remote-on-arduino>
 
 Also a big thanks all the people behind these sites about the Motion controller:
 
@@ -251,7 +246,7 @@ Examples code can be found in the [examples directory](examples/Xbox).
 
 Also see the following blog posts:
 
-* <http://www.circuitsathome.com/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library>
+* <http://chome.nerpa.tech/mcu/xbox360-controller-support-added-to-usb-host-shield-2-0-library>
 * <http://blog.tkjelectronics.dk/2012/07/xbox-360-controller-support-added-to-the-usb-host-library/>
 * <http://blog.tkjelectronics.dk/2012/12/xbox-360-receiver-added-to-the-usb-host-library/>
 
@@ -361,7 +356,7 @@ For instance if you have rerouted SS to pin 7 it should read:
 typedef MAX3421e<P7, P9> MAX3421E;
 ```
 
-See the "Interface modifications" section in the [hardware manual](https://www.circuitsathome.com/usb-host-shield-hardware-manual) for more information.
+See the "Interface modifications" section in the [hardware manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual) for more information.
 
 # FAQ
 

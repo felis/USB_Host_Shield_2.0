@@ -40,7 +40,7 @@ class HIDUniversal : public USBHID {
                         uint8_t bmAltSet : 3;
                         uint8_t bmProtocol : 2;
                 };
-                uint8_t epIndex[maxEpPerInterface];
+                uint8_t epIndex[maxEpPerInterface + 1]; // We need to make room for the control endpoint as well
         };
 
         uint8_t bConfNum; // configuration number
