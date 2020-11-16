@@ -16,7 +16,7 @@ var searchData=
   ['reportcounter',['reportCounter',['../union_p_s4_buttons.html#a5c27c151ad76a3675dce1eda1a3e4cc4',1,'PS4Buttons']]],
   ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#aa47b13c2476207b2c5ad06f973e6b59b',1,'SETUP_PKT']]],
   ['res',['Res',['../struct_inquiry_response.html#a9f642c5fccc1c87cf6b444a138b6aa4b',1,'InquiryResponse']]],
-  ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()'],['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()']]],
+  ['reserved',['reserved',['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()'],['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
   ['reserved2',['reserved2',['../union_xbox_one_s_buttons.html#a2c372291d4f6dd4c8a42414a72f792a3',1,'XboxOneSButtons']]],
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
   ['responsedataformat',['ResponseDataFormat',['../struct_inquiry_response.html#a801e10546dedbd134568bef84f1b287a',1,'InquiryResponse']]],
