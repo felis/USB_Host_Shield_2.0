@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['a',['A',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda42a4ade1acd55a49164099104990e09f',1,'controllerEnums.h']]],
+  ['a',['a',['../union_xbox_one_s_buttons.html#aaab223f09f5afa2d728673985a193d1c',1,'XboxOneSButtons::a()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda42a4ade1acd55a49164099104990e09f',1,'A():&#160;controllerEnums.h']]],
   ['a_5fm_5fl_5flb',['A_M_L_LB',['../struct_c_d_b___l_b_a32__16.html#a636ad8867ce15eb200e30fe1002f3df2',1,'CDB_LBA32_16']]],
   ['a_5fm_5fl_5fmb',['A_M_L_MB',['../struct_c_d_b___l_b_a32__16.html#a104deb61d8c0973b5140fd8f586df4e9',1,'CDB_LBA32_16']]],
   ['a_5fm_5fm_5flb',['A_M_M_LB',['../struct_c_d_b___l_b_a32__16.html#afe7168380c8e629cc53432938b47f1f1',1,'CDB_LBA32_16']]],

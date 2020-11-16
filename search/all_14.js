@@ -52,7 +52,7 @@ var searchData=
   ['touchpadxy',['touchpadXY',['../structtouchpad_x_y.html',1,'']]],
   ['tpgs',['TPGS',['../struct_inquiry_response.html#ada0ff6b78ecefa9b00bbe4e518ca4870',1,'InquiryResponse']]],
   ['triangle',['triangle',['../union_p_s4_buttons.html#a72d07e9a47b1b75474e152b6aaeae6e5',1,'PS4Buttons::triangle()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda2fd33892864d1c342d3bead2f2d9ad56',1,'TRIANGLE():&#160;controllerEnums.h']]],
-  ['trigger',['trigger',['../struct_p_s4_data.html#aad2133de0113cee402cda4a8c7e8b6a5',1,'PS4Data']]],
+  ['trigger',['trigger',['../struct_p_s4_data.html#aad2133de0113cee402cda4a8c7e8b6a5',1,'PS4Data::trigger()'],['../struct_xbox_one_s_data.html#a1c56d0f053f086569518658d827ec77b',1,'XboxOneSData::trigger()']]],
   ['trmtsk',['TrmTsk',['../struct_inquiry_response.html#add4ccc2e5f626d29a24e5f38149a2e76',1,'InquiryResponse']]],
   ['ttthinktime',['TTThinkTime',['../struct_hub_descriptor.html#a00002f5db3d923aa11645bfde3cd650e',1,'HubDescriptor']]],
   ['tty',['tty',['../structtty__features.html#a98aadb5a86b48f1a32f2378bb9e50e28',1,'tty_features']]],

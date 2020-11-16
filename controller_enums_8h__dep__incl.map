@@ -1,10 +1,11 @@
 <map id="controllerEnums.h" name="controllerEnums.h">
 <area shape="rect" id="node2" href="$_p_s3_enums_8h.html" title="PS3Enums.h" alt="" coords="114,80,217,107"/>
 <area shape="rect" id="node7" href="$_p_s4_parser_8h.html" title="PS4Parser.h" alt="" coords="400,80,499,107"/>
-<area shape="rect" id="node11" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="589,80,672,107"/>
-<area shape="rect" id="node13" href="$_wii_8h.html" title="Wii.h" alt="" coords="704,80,755,107"/>
+<area shape="rect" id="node11" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="593,80,676,107"/>
+<area shape="rect" id="node13" href="$_wii_8h.html" title="Wii.h" alt="" coords="708,80,759,107"/>
 <area shape="rect" id="node15" href="$xbox_enums_8h.html" title="xboxEnums.h" alt="" coords="845,80,953,107"/>
-<area shape="rect" id="node22" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="1099,80,1194,107"/>
+<area shape="rect" id="node22" href="$_x_b_o_x_o_l_d_8h.html" title="XBOXOLD.h" alt="" coords="1097,80,1191,107"/>
+<area shape="rect" id="node24" href="$_x_b_o_x_o_n_e_s_parser_8h.html" title="XBOXONESParser.h" alt="" coords="1277,80,1419,107"/>
 <area shape="rect" id="node3" href="$_p_s3_b_t_8h.html" title="PS3BT.h" alt="" coords="17,155,90,181"/>
 <area shape="rect" id="node5" href="$_p_s3_u_s_b_8h.html" title="PS3USB.h" alt="" coords="122,155,209,181"/>
 <area shape="rect" id="node4" href="$_p_s3_b_t_8cpp.html" title="PS3BT.cpp" alt="" coords="5,229,93,256"/>
@@ -21,4 +22,6 @@
 <area shape="rect" id="node19" href="$_x_b_o_x_r_e_c_v_8cpp.html" title="XBOXRECV.cpp" alt="" coords="903,229,1017,256"/>
 <area shape="rect" id="node21" href="$_x_b_o_x_u_s_b_8cpp.html" title="XBOXUSB.cpp" alt="" coords="1042,229,1153,256"/>
 <area shape="rect" id="node23" href="$_x_b_o_x_o_l_d_8cpp.html" title="XBOXOLD.cpp" alt="" coords="1155,155,1264,181"/>
+<area shape="rect" id="node25" href="$_x_b_o_x_o_n_e_s_b_t_8h.html" title="XBOXONESBT.h" alt="" coords="1289,155,1407,181"/>
+<area shape="rect" id="node26" href="$_x_b_o_x_o_n_e_s_parser_8cpp.html" title="XBOXONESParser.cpp" alt="" coords="1431,155,1590,181"/>
 </map>

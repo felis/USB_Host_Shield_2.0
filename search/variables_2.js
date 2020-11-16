@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output']]],
+  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../union_xbox_one_s_buttons.html#a491823704a96dd55f40b1cc3b48d76f0',1,'XboxOneSButtons::b()']]],
   ['badditionallength',['bAdditionalLength',['../struct_request_sense_responce.html#adbc6f965fe2820222504d1e8853f1518',1,'RequestSenseResponce']]],
   ['badditionalsensecode',['bAdditionalSenseCode',['../struct_request_sense_responce.html#a554063acfa94e465da27a7dc73cf786a',1,'RequestSenseResponce']]],
   ['badditionalsensequalifier',['bAdditionalSenseQualifier',['../struct_request_sense_responce.html#a628379310065c48e738bd07037b329e6',1,'RequestSenseResponce']]],
@@ -120,7 +120,7 @@ var searchData=
   ['btdname',['btdName',['../class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9',1,'BTD']]],
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
   ['bthelun',['bTheLUN',['../class_bulk_only.html#a24c051d401f5f1a9ce65c1bc25ab02dd',1,'BulkOnly']]],
-  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a92ce392e7a31f155fbdf0fa0c8a5c83e',1,'PSBUZZButtons::btn()']]],
+  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a92ce392e7a31f155fbdf0fa0c8a5c83e',1,'PSBUZZButtons::btn()'],['../struct_xbox_one_s_data.html#a35f7baba4b94f6c131dd7bcc0ec1fd26',1,'XboxOneSData::btn()']]],
   ['btransfertypemask',['bTransferTypeMask',['../class_u_s_b_h___m_i_d_i.html#a16cc26804628e2ea32513b4cce1aa7c3',1,'USBH_MIDI']]],
   ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]]
 ];

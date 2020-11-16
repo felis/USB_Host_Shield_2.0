@@ -1,4 +1,5 @@
 <map id="BTHID" name="BTHID">
-<area shape="rect" id="node3" href="$class_p_s4_b_t.html" title="PS4BT" alt="" coords="39,155,102,181"/>
-<area shape="rect" id="node2" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node3" href="$class_p_s4_b_t.html" title="PS4BT" alt="" coords="5,155,68,181"/>
+<area shape="rect" id="node4" href="$class_x_b_o_x_o_n_e_s_b_t.html" title="XBOXONESBT" alt="" coords="92,155,200,181"/>
+<area shape="rect" id="node2" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="26,5,157,32"/>
 </map>

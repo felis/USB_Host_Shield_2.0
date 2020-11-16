@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['l1',['l1',['../union_p_s4_buttons.html#a3488f850c1de8d49a9dc932f1575e5e4',1,'PS4Buttons']]],
+  ['l1',['l1',['../union_p_s4_buttons.html#a3488f850c1de8d49a9dc932f1575e5e4',1,'PS4Buttons::l1()'],['../union_xbox_one_s_buttons.html#af4814d979cf79511aeddd119487806dc',1,'XboxOneSButtons::l1()']]],
   ['l2',['l2',['../union_p_s4_buttons.html#a99b88dcb511243ea0c046cac1f5633ec',1,'PS4Buttons']]],
   ['l2cap_5fevent_5fflag',['l2cap_event_flag',['../class_bluetooth_service.html#a78a1a893ec9c2db32e42bc2271c4a4f2',1,'BluetoothService']]],
+  ['l2cap_5fsdp_5fstate',['l2cap_sdp_state',['../class_b_t_h_i_d.html#ae239a164548e359b4deead55ed540962',1,'BTHID']]],
   ['l2capconnectionclaimed',['l2capConnectionClaimed',['../class_b_t_d.html#a0f1c28a03bcbe62cc7c083f97ea27594',1,'BTD']]],
-  ['l3',['l3',['../union_p_s4_buttons.html#ab8835f04d0c0c5e630d685ec2fd54e80',1,'PS4Buttons']]],
+  ['l3',['l3',['../union_p_s4_buttons.html#ab8835f04d0c0c5e630d685ec2fd54e80',1,'PS4Buttons::l3()'],['../union_xbox_one_s_buttons.html#a33cc7b9600dfb0eb8b5d65db28ea6d63',1,'XboxOneSButtons::l3()']]],
   ['lba_5fl_5fl_5flb',['LBA_L_L_LB',['../struct_c_d_b10.html#a87dd0f57fdaedb842f4c7db9b3f7cb2e',1,'CDB10::LBA_L_L_LB()'],['../struct_c_d_b12.html#aa95a1e5187a93f331b34c5aaf05e0cf6',1,'CDB12::LBA_L_L_LB()'],['../struct_c_d_b___l_b_a32__16.html#a1e239989f80f36157fd9271f2141acd1',1,'CDB_LBA32_16::LBA_L_L_LB()'],['../struct_c_d_b___l_b_a64__16.html#a275834d52785e9b72c4eb6b8c0a7d2e2',1,'CDB_LBA64_16::LBA_L_L_LB()']]],
   ['lba_5fl_5fl_5fmb',['LBA_L_L_MB',['../struct_c_d_b10.html#a82b8e9bddbdbc8ef4d8b19017743f4a9',1,'CDB10::LBA_L_L_MB()'],['../struct_c_d_b12.html#a40bc765adf21818c3a1bc3c8ffeabc94',1,'CDB12::LBA_L_L_MB()'],['../struct_c_d_b___l_b_a32__16.html#a9b4af68995d60538e2c15ce5e2c06754',1,'CDB_LBA32_16::LBA_L_L_MB()'],['../struct_c_d_b___l_b_a64__16.html#a43f9e4f510e12a6fcc5afd90f740f76e',1,'CDB_LBA64_16::LBA_L_L_MB()']]],
   ['lba_5fl_5fm_5flb',['LBA_L_M_LB',['../struct_c_d_b10.html#aa74c5c59a4bdfeb2aa6e8c163f1fae10',1,'CDB10::LBA_L_M_LB()'],['../struct_c_d_b12.html#a6fb44effe62ecb8ec0de742b836fe194',1,'CDB12::LBA_L_M_LB()'],['../struct_c_d_b___l_b_a32__16.html#af642464073c45113c7fdf221f40ade1b',1,'CDB_LBA32_16::LBA_L_M_LB()'],['../struct_c_d_b___l_b_a64__16.html#a63cbcd1af4db45506a83c7ec603b44ea',1,'CDB_LBA64_16::LBA_L_M_LB()']]],

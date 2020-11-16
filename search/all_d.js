@@ -76,6 +76,7 @@ var searchData=
   ['memcpy_5fp',['memcpy_P',['../version__helper_8h.html#ae0444ad0cb3250a5778a573dd10f41be',1,'version_helper.h']]],
   ['memmem_5fp',['memmem_P',['../version__helper_8h.html#afe1e08150140cc176a8d0a5b11081dd0',1,'version_helper.h']]],
   ['memrchr_5fp',['memrchr_P',['../version__helper_8h.html#a243235b923ff7a3411ed43653abc727a',1,'version_helper.h']]],
+  ['menu',['menu',['../union_xbox_one_s_buttons.html#a7340abde1fb7867c35c9ee7fbbc0b537',1,'XboxOneSButtons::menu()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda4c40e60bc71a32b924ce1f08d57f9721',1,'MENU():&#160;controllerEnums.h']]],
   ['message_2ecpp',['message.cpp',['../message_8cpp.html',1,'']]],
   ['message_2eh',['message.h',['../message_8h.html',1,'']]],
   ['mfk_5fcastuint8t',['MFK_CASTUINT8T',['../settings_8h.html#ab5a06671af5c2f1154fb653956959838',1,'settings.h']]],

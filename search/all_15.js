@@ -21,7 +21,7 @@ var searchData=
   ['usagepagefunctions',['usagePageFunctions',['../class_report_desc_parser_base.html#af91679187bb24d185979b3ec045c215b',1,'ReportDescParserBase']]],
   ['usagepagetitles0',['usagePageTitles0',['../class_report_desc_parser_base.html#a7f723a8b7bddd061aee7f0af06aeae08',1,'ReportDescParserBase']]],
   ['usagepagetitles1',['usagePageTitles1',['../class_report_desc_parser_base.html#ae6dadd42986663f261aac948d24911a6',1,'ReportDescParserBase']]],
-  ['usb',['USB',['../class_u_s_b.html',1,'USB'],['../class_u_s_b.html#a8ff8cd03496bdcb0ca26f18878ad299d',1,'USB::USB()'],['../struct_p_s4_status.html#a3e7fc4ece250c83c7753e3f557f6d710',1,'PS4Status::usb()']]],
+  ['usb',['USB',['../class_u_s_b.html',1,'USB'],['../struct_p_s4_status.html#a3e7fc4ece250c83c7753e3f557f6d710',1,'PS4Status::usb()'],['../class_u_s_b.html#a8ff8cd03496bdcb0ca26f18878ad299d',1,'USB::USB()']]],
   ['usb_2ecpp',['Usb.cpp',['../_usb_8cpp.html',1,'']]],
   ['usb_2eh',['Usb.h',['../_usb_8h.html',1,'']]],
   ['usb_5fattached_5fsubstate_5fget_5fdevice_5fdescriptor_5fsize',['USB_ATTACHED_SUBSTATE_GET_DEVICE_DESCRIPTOR_SIZE',['../_usb_core_8h.html#a23ebcbb956f600e06435b28ae0c855d4',1,'UsbCore.h']]],
@@ -166,5 +166,6 @@ var searchData=
   ['use_5fuhs_5fblack_5fwiddow',['USE_UHS_BLACK_WIDDOW',['../settings_8h.html#a83f41f46d054786d13082c675b986146',1,'settings.h']]],
   ['use_5fuhs_5fmega_5fadk',['USE_UHS_MEGA_ADK',['../settings_8h.html#a4fda527b33121e12836ef6be1046be0f',1,'settings.h']]],
   ['use_5fxmem_5fspi_5flock',['USE_XMEM_SPI_LOCK',['../settings_8h.html#aee231b7d14cfe47c83ad452386e69cde',1,'settings.h']]],
+  ['usesimplepairing',['useSimplePairing',['../class_b_t_d.html#a93e830be9fb0fe7d04bb39d10806ddc0',1,'BTD']]],
   ['using_5fspi4teensy3',['USING_SPI4TEENSY3',['../settings_8h.html#a9450874c2f6ee4af4e0f0b7923828d90',1,'settings.h']]]
 ];

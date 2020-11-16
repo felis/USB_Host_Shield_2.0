@@ -93,12 +93,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>For more information about the hardware see the <a href="https://chome.nerpa.tech/usb-host-shield-hardware-manual/">Hardware Manual</a>.</p>
 <h1>Developed By</h1>
 <ul>
-<li>__Oleg Mazurov - <a href="#" onclick="location.href='mai'+'lto:'+'maz'+'ur'+'ov@'+'gm'+'ail'+'.c'+'om'; return false;">mazur<span style="display: none;">.nosp@m.</span>ov@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a></li>
-<li><b>Alexei Glushchenko, Circuits@Home</b> - <a href="#" onclick="location.href='mai'+'lto:'+'ale'+'x-'+'gl@'+'ma'+'il.'+'ru'; return false;">alex-<span style="display: none;">.nosp@m.</span>gl@m<span style="display: none;">.nosp@m.</span>ail.r<span style="display: none;">.nosp@m.</span>u</a><ul>
+<li><b>Oleg Mazurov</b> - <a href="#" onclick="location.href='mai'+'lto:'+'maz'+'ur'+'ov@'+'gm'+'ail'+'.c'+'om'; return false;">mazur<span style="display: none;">.nosp@m.</span>ov@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a></li>
+<li><b>Alexei Glushchenko</b> - <a href="#" onclick="location.href='mai'+'lto:'+'ale'+'x-'+'gl@'+'ma'+'il.'+'ru'; return false;">alex-<span style="display: none;">.nosp@m.</span>gl@m<span style="display: none;">.nosp@m.</span>ail.r<span style="display: none;">.nosp@m.</span>u</a><ul>
 <li>Developers of the <a class="el" href="class_u_s_b.html">USB</a> Core, HID, <a class="el" href="class_f_t_d_i.html">FTDI</a>, <a class="el" href="class_a_d_k.html">ADK</a>, <a class="el" href="class_a_c_m.html">ACM</a>, and <a class="el" href="class_p_l2303.html">PL2303</a> libraries</li>
 </ul>
 </li>
-<li><b>Kristian Lauszus, TKJ Electronics</b> - <a href="#" onclick="location.href='mai'+'lto:'+'kri'+'st'+'ian'+'l@'+'tkj'+'el'+'ect'+'ro'+'nic'+'s.'+'com'; return false;">krist<span style="display: none;">.nosp@m.</span>ianl<span style="display: none;">.nosp@m.</span>@tkje<span style="display: none;">.nosp@m.</span>lect<span style="display: none;">.nosp@m.</span>ronic<span style="display: none;">.nosp@m.</span>s.co<span style="display: none;">.nosp@m.</span>m</a><ul>
+<li><b>Kristian Sloth Lauszus</b> - <a href="#" onclick="location.href='mai'+'lto:'+'lau'+'sz'+'us@'+'gm'+'ail'+'.c'+'om'; return false;">lausz<span style="display: none;">.nosp@m.</span>us@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a><ul>
 <li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
 </ul>
 </li>
@@ -135,6 +135,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="#xbox-library">Xbox library</a></li>
 <li><a href="#xbox-360-library">Xbox 360 Library</a></li>
 <li><a href="#xbox-one-library">Xbox ONE Library</a></li>
+<li><a href="#xbox-one-s-library">Xbox ONE S Library</a></li>
 </ul>
 </li>
 <li><a href="#wii-library">Wii library</a></li>
@@ -300,12 +301,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL">https://github.com/Grumbel/xboxdrv/blob/master/PROTOCOL</a></li>
 </ul>
 <h4>Xbox ONE Library</h4>
-<p>An Xbox ONE controller is supported via <a class="el" href="class_u_s_b.html">USB</a> in the <a href="XBOXONE.cpp">XBOXONE</a> class. It is heavily based on the 360 library above. In addition to cross referencing the above, information on the protocol was found at:</p>
+<p>A Xbox ONE controller is supported via <a class="el" href="class_u_s_b.html">USB</a> in the <a href="XBOXONE.cpp">XBOXONE</a> class. It is heavily based on the 360 library above. In addition to cross referencing the above, information on the protocol was found at:</p>
 <ul>
 <li><a href="https://github.com/quantus/xbox-one-controller-protocol">https://github.com/quantus/xbox-one-controller-protocol</a></li>
 <li><a href="https://github.com/torvalds/linux/blob/master/drivers/input/joystick/xpad.c">https://github.com/torvalds/linux/blob/master/drivers/input/joystick/xpad.c</a></li>
 <li><a href="https://github.com/kylelemons/xbox/blob/master/xbox.go">https://github.com/kylelemons/xbox/blob/master/xbox.go</a></li>
 </ul>
+<h4>Xbox ONE S Library</h4>
+<p>A Xbox ONE controller is supported via Bluetooth in the <a href="XBOXONESBT.cpp">XBOXONESBT</a> class.</p>
+<p>Special thanks to <a href="https://github.com/HisashiKato">HisashiKato</a> for his help: <a href="https://github.com/felis/USB_Host_Shield_2.0/issues/252#issuecomment-716912362">https://github.com/felis/USB_Host_Shield_2.0/issues/252#issuecomment-716912362</a>.</p>
 <h3><a href="Wii.cpp">Wii library</a></h3>
 <p>The <a href="Wii.cpp">Wii</a> library support the Wiimote, but also the Nunchuch and Motion Plus extensions via Bluetooth. The Wii U Pro Controller and Wii Balance Board are also supported via Bluetooth.</p>
 <p>First you have to pair with the controller, this is done automatically by the library if you create the instance like so:</p>

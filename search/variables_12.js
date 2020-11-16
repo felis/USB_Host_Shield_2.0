@@ -1,6 +1,7 @@
 var searchData=
 [
   ['sccs',['SCCS',['../struct_inquiry_response.html#a3ed45a85bce19a76850cf5085ab35187',1,'InquiryResponse']]],
+  ['sdp_5fscid',['sdp_scid',['../class_b_t_h_i_d.html#a0446c8e266a111f007b48fa7895f36d7',1,'BTHID']]],
   ['sdpconnectionclaimed',['sdpConnectionClaimed',['../class_b_t_d.html#af5e5b085cec1da5c83c75e80e95b3590',1,'BTD']]],
   ['sensekeyspecific',['SenseKeySpecific',['../struct_request_sense_responce.html#a61d034714befc2fa0fb7dcea30942324',1,'RequestSenseResponce']]],
   ['service_5faction',['Service_Action',['../struct_c_d_b10.html#af1cd479d32aae0c581b735eb5aa081bc',1,'CDB10::Service_Action()'],['../struct_c_d_b12.html#a7d9153a24a41f0432b1467b39d1d5238',1,'CDB12::Service_Action()'],['../struct_c_d_b___l_b_a32__16.html#a7e845f1253ac116a6e9d7178f1f82b6d',1,'CDB_LBA32_16::Service_Action()']]],

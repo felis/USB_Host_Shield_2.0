@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda3f2a77ecd272aa6d6b5902faa5e5fc68',1,'B():&#160;controllerEnums.h']]],
+  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../union_xbox_one_s_buttons.html#a491823704a96dd55f40b1cc3b48d76f0',1,'XboxOneSButtons::b()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda3f2a77ecd272aa6d6b5902faa5e5fc68',1,'B():&#160;controllerEnums.h']]],
   ['back',['BACK',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdac921ff2cfc571c1d19b0485d7f6926ee',1,'controllerEnums.h']]],
   ['badditionallength',['bAdditionalLength',['../struct_request_sense_responce.html#adbc6f965fe2820222504d1e8853f1518',1,'RequestSenseResponce']]],
   ['badditionalsensecode',['bAdditionalSenseCode',['../struct_request_sense_responce.html#a554063acfa94e465da27a7dc73cf786a',1,'RequestSenseResponce']]],
@@ -326,7 +326,7 @@ var searchData=
   ['bthid',['BTHID',['../class_b_t_h_i_d.html',1,'BTHID'],['../class_b_t_h_i_d.html#a5ee874513852b83d6a04b991ab892f54',1,'BTHID::BTHID()']]],
   ['bthid_2ecpp',['BTHID.cpp',['../_b_t_h_i_d_8cpp.html',1,'']]],
   ['bthid_2eh',['BTHID.h',['../_b_t_h_i_d_8h.html',1,'']]],
-  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a92ce392e7a31f155fbdf0fa0c8a5c83e',1,'PSBUZZButtons::btn()']]],
+  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a92ce392e7a31f155fbdf0fa0c8a5c83e',1,'PSBUZZButtons::btn()'],['../struct_xbox_one_s_data.html#a35f7baba4b94f6c131dd7bcc0ec1fd26',1,'XboxOneSData::btn()']]],
   ['btransfertypemask',['bTransferTypeMask',['../class_u_s_b_h___m_i_d_i.html#a16cc26804628e2ea32513b4cce1aa7c3',1,'USBH_MIDI']]],
   ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]],
   ['bulk_5fmaxpktsize',['BULK_MAXPKTSIZE',['../_b_t_d_8h.html#a32d591ef5742a99963130616ef146787',1,'BTD.h']]],

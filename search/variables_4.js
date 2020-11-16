@@ -14,7 +14,7 @@ var searchData=
   ['digittitles2',['digitTitles2',['../class_report_desc_parser_base.html#addaa9b5724f7d1ca10ba4ca14decd40d',1,'ReportDescParserBase']]],
   ['direction',['direction',['../struct_s_e_t_u_p___p_k_t.html#ab50c95fb951cdebc78c3e024de1d6d65',1,'SETUP_PKT']]],
   ['disc_5fbdaddr',['disc_bdaddr',['../class_b_t_d.html#ab23f95f12675d7b4505ca6807d379182',1,'BTD']]],
-  ['dpad',['dpad',['../union_p_s4_buttons.html#a99e2971b4e511a8d1bb718408f559a92',1,'PS4Buttons']]],
+  ['dpad',['dpad',['../union_p_s4_buttons.html#a99e2971b4e511a8d1bb718408f559a92',1,'PS4Buttons::dpad()'],['../union_xbox_one_s_buttons.html#afb149a3a1f26501a5b8270c635777c93',1,'XboxOneSButtons::dpad()']]],
   ['dummy',['dummy',['../structtouchpad_x_y.html#aad3a6094ac41933907969856dfb93e15',1,'touchpadXY::dummy()'],['../struct_p_s4_data.html#aef57cffc87f423db996d817ea75fe5f9',1,'PS4Data::dummy()']]],
   ['dummy2',['dummy2',['../struct_p_s4_data.html#a1135843ae5c396792eee84d1f2254ccc',1,'PS4Data']]],
   ['dummy3',['dummy3',['../struct_p_s4_data.html#ae8342b8249be90f258685928695dd726',1,'PS4Data']]],
