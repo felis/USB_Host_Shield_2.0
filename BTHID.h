@@ -125,6 +125,13 @@ protected:
         virtual void ParseBTHIDData(uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
                 return;
         };
+        /**
+         * Same as ParseBTHIDData for reports that are sent through the
+         * interrupt pipe (in response to a GET_REPORT).
+         */
+        virtual void ParseBTHIDControlData(uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
+                return;
+        }
         /** Called when a device is connected */
         virtual void OnInitBTHID() {
                 return;

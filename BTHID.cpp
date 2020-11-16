@@ -366,6 +366,10 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 Notify(PSTR(" "), 0x80);
                         }
 #endif
+                        if(l2capinbuf[8] == 0xA3) {
+                                uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
+                                ParseBTHIDControlData((uint8_t)(length - 1), &l2capinbuf[9]);
+                        }
                 }
 #ifdef EXTRADEBUG
                 else {
