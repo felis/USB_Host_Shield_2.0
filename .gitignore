@@ -2,3 +2,4 @@
 *.zip
 *.rar
 build/
+venv/
