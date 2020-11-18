@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
         # We need GraphViz to draw figures and graphs
         # Doxygen is used for generating the documentation
