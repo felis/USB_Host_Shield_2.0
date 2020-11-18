@@ -1,8 +1,8 @@
-# USB Host Library Rev.2.0
+# USB Host Library Rev. 2.0
 
 The code is released under the GNU General Public License.
 __________
-[![Build Status](https://travis-ci.org/felis/USB_Host_Shield_2.0.svg?branch=master)](https://travis-ci.org/felis/USB_Host_Shield_2.0)
+[![](https://github.com/felis/USB_Host_Shield_2.0/workflows/CI/badge.svg)](https://github.com/felis/USB_Host_Shield_2.0/actions?query=branch%3Amaster)
 
 # Summary
 This is Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's.
@@ -109,7 +109,7 @@ Currently the following boards are supported by the library:
 * Arduino Due, Intel Galileo, Intel Galileo 2, and Intel Edison
     * Note that the Intel Galileo uses pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual) for more information.
     * Note native USB host is not supported on any of these platforms. You will have to use the shield for now.
-* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, and Teensy LC)
+* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, Teensy LC and Teensy 4.x)
     * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
