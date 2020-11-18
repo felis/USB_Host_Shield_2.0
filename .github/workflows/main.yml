@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies
         # We need GraphViz to draw figures and graphs
         # Doxygen is used for generating the documentation
-        run: apt-get -y install doxygen graphviz
+        run: sudo apt-get -y install doxygen graphviz
       - name: Generate documentation
         run: |
           # Fix error in the Doxygen Markdown parser and generate the documentation
