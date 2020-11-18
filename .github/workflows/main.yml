@@ -43,8 +43,7 @@ jobs:
         env:
           PLATFORMIO_CI_SRC: ${{ matrix.example }}
           PLATFORMIO_BUILD_FLAGS: -DWIICAMERA -DDEBUG_USB_HOST -Wall -Werror
-  deploy:
-    needs: [build]
+  doc:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
@@ -59,7 +58,7 @@ jobs:
           sed -i 's/@YuuichiAkagawa/\\@YuuichiAkagawa/' README.md
           doxygen doc/Doxyfile
           touch doc/html/.nojekyll
-      - name: Deploy
+      - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
