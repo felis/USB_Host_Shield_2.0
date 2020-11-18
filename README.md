@@ -187,7 +187,7 @@ For information see the following blog post: <http://blog.tkjelectronics.dk/2014
 
 Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4> and this Linux driver: <https://github.com/chrippa/ds4drv>.
 
-Several guides on how to use the PS4 library has been written by Dr. James E. Barger and are available at the following link: <https://sites.google.com/view/vbatc-engineeringtechnology2/control-system-tutorials/ps4-tutorials>.
+Several guides on how to use the PS4 library has been written by Dr. James E. Barger and are available at the following link: <https://sites.google.com/view/crosswaystation/ps4-tutorials>.
 
 ### PS3 Library
 
