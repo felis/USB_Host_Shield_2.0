@@ -1,8 +1,8 @@
-# USB Host Library Rev.2.0
+# USB Host Library Rev. 2.0
 
 The code is released under the GNU General Public License.
 __________
-[![Build Status](https://travis-ci.org/felis/USB_Host_Shield_2.0.svg?branch=master)](https://travis-ci.org/felis/USB_Host_Shield_2.0)
+[![](https://github.com/felis/USB_Host_Shield_2.0/workflows/CI/badge.svg)](https://github.com/felis/USB_Host_Shield_2.0/actions?query=branch%3Amaster)
 
 # Summary
 This is Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's.
