@@ -1,8 +1,8 @@
 <map id="HIDComposite" name="HIDComposite">
-<area shape="rect" id="node2" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="195,171,269,197"/>
-<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,139,108"/>
-<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="163,81,301,108"/>
-<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="325,81,376,108"/>
-<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="305,5,396,32"/>
-<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="293,171,355,197"/>
+<area shape="rect" id="node2" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="187,171,262,197"/>
+<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,135,108"/>
+<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="159,81,290,108"/>
+<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="314,81,365,108"/>
+<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="295,5,383,32"/>
+<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="287,171,347,197"/>
 </map>

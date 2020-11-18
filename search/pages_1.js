@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wiicamerareadme',['WiiCameraReadme',['../md_WiiCameraReadme.html',1,'']]]
+  ['wiicamerareadme',['WiiCameraReadme',['../md__wii_camera_readme.html',1,'']]]
 ];

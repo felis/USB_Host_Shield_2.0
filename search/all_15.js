@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['usb_20host_20library_20rev_2e2_2e0',['USB Host Library Rev.2.0',['../index.html',1,'']]],
+  ['usb_20host_20library_20rev_2e_202_2e0',['USB Host Library Rev. 2.0',['../index.html',1,'']]],
   ['uhs2_5fgpio',['UHS2_GPIO',['../class_u_h_s2___g_p_i_o.html',1,'UHS2_GPIO'],['../class_u_h_s2___g_p_i_o.html#a17ed93e6b9a8e81df410ade377bf6413',1,'UHS2_GPIO::UHS2_GPIO()']]],
   ['uhs2_5fgpio_2ecpp',['UHS2_gpio.cpp',['../_u_h_s2__gpio_8cpp.html',1,'']]],
   ['uhs2_5fgpio_2eh',['UHS2_gpio.h',['../_u_h_s2__gpio_8h.html',1,'']]],
