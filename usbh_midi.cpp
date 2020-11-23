@@ -147,10 +147,9 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         p->epinfo = epInfo;
         p->lowspeed = lowspeed;
 
-        // Get device descriptor
-        rcode = pUsb->getDevDescr( 0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf );
-        vid = udd->idVendor;
-        pid = udd->idProduct;
+        // First Device Descriptor Request (Initially first 8 bytes)
+        rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
+
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
@@ -186,6 +185,13 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         }
         p->lowspeed = lowspeed;
 
+        // Second Device Descriptor Request (Full)
+        rcode = pUsb->getDevDescr( bAddress, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf );
+        if( rcode ){
+                goto FailGetDevDescr;
+        }
+        vid = udd->idVendor;
+        pid = udd->idProduct;
         num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
