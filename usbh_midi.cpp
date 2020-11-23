@@ -147,10 +147,10 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         p->epinfo = epInfo;
         p->lowspeed = lowspeed;
 
-        // Get device descriptor
-        rcode = pUsb->getDevDescr( 0, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf );
-        vid = udd->idVendor;
-        pid = udd->idProduct;
+        // First Device Descriptor Request (Initially first 8 bytes)
+        // https://techcommunity.microsoft.com/t5/microsoft-usb-blog/how-does-usb-stack-enumerate-a-device/ba-p/270685#_First_Device_Descriptor
+        rcode = pUsb->getDevDescr( 0, 0, 8, (uint8_t*)buf );
+
         // Restore p->epinfo
         p->epinfo = oldep_ptr;
 
@@ -186,6 +186,13 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
         }
         p->lowspeed = lowspeed;
 
+        // Second Device Descriptor Request (Full)
+        rcode = pUsb->getDevDescr( bAddress, 0, sizeof(USB_DEVICE_DESCRIPTOR), (uint8_t*)buf );
+        if( rcode ){
+                goto FailGetDevDescr;
+        }
+        vid = udd->idVendor;
+        pid = udd->idProduct;
         num_of_conf = udd->bNumConfigurations;
 
         // Assign epInfo to epinfo pointer
@@ -346,9 +353,19 @@ void USBH_MIDI::setupDeviceSpecific()
 {
         // Novation
         if( vid == 0x1235 ) {
-                // LaunchPad's endpoint attirbute is interrupt (0x20:S, 0x36:Mini, 0x51:Pro, 0x69:MK2, 0x7b:Launchkey25 MK2)
-                if(pid == 0x20 || pid == 0x36 || pid == 0x51 || pid == 0x69 || pid == 0x7b ) {
+                // LaunchPad and LaunchKey endpoint attribute is interrupt 
+                // https://github.com/YuuichiAkagawa/USBH_MIDI/wiki/Novation-USB-Product-ID-List
+
+                // LaunchPad: 0x20:S, 0x36:Mini, 0x51:Pro, 0x69:MK2
+                if( pid == 0x20 || pid == 0x36 || pid == 0x51 || pid == 0x69 ) {
                         bTransferTypeMask = 2;
+                        return;
+                }
+
+                // LaunchKey: 0x30-32,  0x35:Mini, 0x7B-0x7D:MK2
+                if( ( 0x30 <= pid && pid <= 0x32) || pid == 0x35 || ( 0x7B <= pid && pid <= 0x7D) ) {
+                        bTransferTypeMask = 2;
+                        return;
                 }
         }
 }
