@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI to Legacy Serial MIDI converter
- * Copyright (C) 2012-2017 Yuuichi Akagawa
+ * Copyright (C) 2012-2020 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -24,6 +24,11 @@
 #else
 #define _MIDI_SERIAL_PORT Serial
 #endif
+
+// Set to 1 if you want to wait for the Serial MIDI transmission to complete.
+// For more information, see https://github.com/felis/USB_Host_Shield_2.0/issues/570
+#define ENABLE_MIDI_SERIAL_FLUSH 0
+
 //////////////////////////
 // MIDI Pin assign
 // 2 : GND
@@ -73,6 +78,9 @@ void MIDI_poll(USBH_MIDI &Midi)
     if ( (size = Midi.RecvData(outBuf)) > 0 ) {
       //MIDI Output
       _MIDI_SERIAL_PORT.write(outBuf, size);
+#if ENABLE_MIDI_SERIAL_FLUSH
+      _MIDI_SERIAL_PORT.flush();
+#endif
     }
   } while (size > 0);
 }

@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * Legacy Serial MIDI and USB Host bidirectional converter
- * Copyright (C) 2013-2017 Yuuichi Akagawa
+ * Copyright (C) 2013-2020 Yuuichi Akagawa
  *
  * for use with Arduino MIDI library
  * https://github.com/FortySevenEffects/arduino_midi_library/
@@ -31,6 +31,10 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 #else
 #define _MIDI_SERIAL_PORT Serial
 #endif
+
+// Set to 1 if you want to wait for the Serial MIDI transmission to complete.
+// For more information, see https://github.com/felis/USB_Host_Shield_2.0/issues/570
+#define ENABLE_MIDI_SERIAL_FLUSH 0
 
 //////////////////////////
 // MIDI Pin assign
@@ -125,6 +129,9 @@ void MIDI_poll()
       _MIDI_SERIAL_PORT.write(outbuf, rc);
       p += 4;
     }
+#if ENABLE_MIDI_SERIAL_FLUSH
+      _MIDI_SERIAL_PORT.flush();
+#endif
     readPtr += 4;
   }
 #else
@@ -133,6 +140,9 @@ void MIDI_poll()
     if ( (size = Midi.RecvData(outBuf)) > 0 ) {
       //MIDI Output
       _MIDI_SERIAL_PORT.write(outBuf, size);
+#if ENABLE_MIDI_SERIAL_FLUSH
+      _MIDI_SERIAL_PORT.flush();
+#endif
     }
   } while (size > 0);
 #endif
