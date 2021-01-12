@@ -308,6 +308,8 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
 
         // Fill in interface structure in case of new interface
         if(!piface) {
+            if(bNumIface >= maxHidInterfaces)
+                    return; // don't overflow hidInterfaces[]
                 piface = hidInterfaces + bNumIface;
                 piface->bmInterface = iface;
                 piface->bmAltSet = alt;
@@ -318,7 +320,7 @@ void HIDUniversal::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
         if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT)
                 index = (pep->bEndpointAddress & 0x80) == 0x80 ? epInterruptInIndex : epInterruptOutIndex;
 
-        if(index) {
+        if(index && bNumEP < totalEndpoints) {
                 // Fill in the endpoint info structure
                 epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;
