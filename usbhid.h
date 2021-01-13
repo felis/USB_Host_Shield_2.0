@@ -149,7 +149,7 @@ protected:
         static const uint8_t epInterruptInIndex = 1; // InterruptIN  endpoint index
         static const uint8_t epInterruptOutIndex = 2; // InterruptOUT endpoint index
 
-        static const uint8_t maxHidInterfaces = 3;
+        static const uint8_t maxHidInterfaces = 5;
         static const uint8_t maxEpPerInterface = 2;
         static const uint8_t totalEndpoints = (maxHidInterfaces * maxEpPerInterface + 1); // We need to make room for the control endpoint
 
