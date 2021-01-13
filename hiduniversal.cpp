@@ -67,8 +67,6 @@ void HIDUniversal::Initialize() {
         bNumIface = 0;
         bConfNum = 0;
         pollInterval = 0;
-
-        ZeroMemory(constBuffLen, prevBuf);
 }
 
 bool HIDUniversal::SetReportParser(uint8_t id, HIDReportParser *prs) {
@@ -361,21 +359,9 @@ uint8_t HIDUniversal::Release() {
         return 0;
 }
 
-bool HIDUniversal::BuffersIdentical(uint8_t len, uint8_t *buf1, uint8_t *buf2) {
-        for(uint8_t i = 0; i < len; i++)
-                if(buf1[i] != buf2[i])
-                        return false;
-        return true;
-}
-
 void HIDUniversal::ZeroMemory(uint8_t len, uint8_t *buf) {
         for(uint8_t i = 0; i < len; i++)
                 buf[i] = 0;
-}
-
-void HIDUniversal::SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest) {
-        for(uint8_t i = 0; i < len; i++)
-                dest[i] = src[i];
 }
 
 uint8_t HIDUniversal::Poll() {

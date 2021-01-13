@@ -51,14 +51,11 @@ class HIDUniversal : public USBHID {
         bool bPollEnable; // poll enable flag
 
         static const uint16_t constBuffLen = 64; // event buffer length
-        uint8_t prevBuf[constBuffLen]; // previous event buffer
 
         void Initialize();
         HIDInterface* FindInterface(uint8_t iface, uint8_t alt, uint8_t proto);
 
         void ZeroMemory(uint8_t len, uint8_t *buf);
-        bool BuffersIdentical(uint8_t len, uint8_t *buf1, uint8_t *buf2);
-        void SaveBuffer(uint8_t len, uint8_t *src, uint8_t *dest);
 
 protected:
         EpInfo epInfo[totalEndpoints];
