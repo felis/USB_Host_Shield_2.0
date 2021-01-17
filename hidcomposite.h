@@ -23,6 +23,8 @@ e-mail   :  support@circuitsathome.com
 
 class HIDComposite : public USBHID {
 
+protected:
+
         struct ReportParser {
                 uint8_t rptId;
                 HIDReportParser *rptParser;
@@ -40,7 +42,7 @@ class HIDComposite : public USBHID {
                         uint8_t bmAltSet : 3;
                         uint8_t bmProtocol : 2;
                 };
-                uint8_t epIndex[maxEpPerInterface];
+                uint8_t epIndex[maxEpPerInterface + 1]; // We need to make room for the control endpoint as well
         };
 
         uint8_t bConfNum; // configuration number
@@ -57,10 +59,13 @@ class HIDComposite : public USBHID {
 
         void ZeroMemory(uint8_t len, uint8_t *buf);
 
-protected:
+
         EpInfo epInfo[totalEndpoints];
         HIDInterface hidInterfaces[maxHidInterfaces];
 
+        // FIXME: bHasReportId is never set (except to false in constructor)
+        //        should probably be in EpInfo, /maybe/ in HIDInterface
+        //        but setting it isn't that easy (requires parsing report descriptors)
         bool bHasReportId;
 
         uint16_t PID, VID; // PID and VID of connected device
