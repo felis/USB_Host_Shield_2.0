@@ -8,6 +8,7 @@ var searchData=
   ['connected',['connected',['../class_b_t_h_i_d.html#ab3a81823a1d8805383146a6baad6ccc4',1,'BTHID::connected()'],['../class_s_p_p.html#ade5d4f0ab50ddcad14f75fce4450a028',1,'SPP::connected()']]],
   ['connecttohiddevice',['connectToHIDDevice',['../class_b_t_d.html#af40b8d52df99192880c8a13443b6c6d8',1,'BTD']]],
   ['connecttowii',['connectToWii',['../class_b_t_d.html#ac7caac80fb6f5f0e794af3644887d88e',1,'BTD']]],
+  ['constbufflen',['constBuffLen',['../class_h_i_d_composite.html#a33882712ebd600a16e7e62c87853cea7',1,'HIDComposite']]],
   ['constitles0',['consTitles0',['../class_report_desc_parser_base.html#a81af202145ab2899b222170b0d681213',1,'ReportDescParserBase']]],
   ['constitles1',['consTitles1',['../class_report_desc_parser_base.html#a4997a30230193326b84fb8f3d3d30536',1,'ReportDescParserBase']]],
   ['constitles2',['consTitles2',['../class_report_desc_parser_base.html#a7b760abbe1a67f241a9c6d34da9207f4',1,'ReportDescParserBase']]],

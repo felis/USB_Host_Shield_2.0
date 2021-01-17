@@ -7,6 +7,7 @@ var searchData=
   ['dcswdataresidue',['dCSWDataResidue',['../struct_command_status_wrapper.html#adf944665d28bb394a3d9756e8418d09e',1,'CommandStatusWrapper']]],
   ['dcswsignature',['dCSWSignature',['../struct_command_status_wrapper.html#a498a87759e737395829b6ff4b6420ad1',1,'CommandStatusWrapper']]],
   ['dcswtag',['dCSWTag',['../struct_command_status_wrapper.html#af872c29cfee3fb74e7ad9471ee4461fb',1,'CommandStatusWrapper']]],
+  ['descrinfo',['descrInfo',['../class_h_i_d_composite.html#a76798078fef95b6a500cf23fd8844a1b',1,'HIDComposite']]],
   ['devaddress',['devAddress',['../struct_usb_device_address.html#a79ed442d6a357907ddb4d1697bd6af5f',1,'UsbDeviceAddress']]],
   ['devicetype',['DeviceType',['../struct_inquiry_response.html#abc2af027a176dc85d4e83f14eec7972e',1,'InquiryResponse']]],
   ['digittitles0',['digitTitles0',['../class_report_desc_parser_base.html#a298396c59609fab20c2a5eedb3ca0b87',1,'ReportDescParserBase']]],

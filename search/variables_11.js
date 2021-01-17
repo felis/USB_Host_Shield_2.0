@@ -14,9 +14,9 @@ var searchData=
   ['removable',['Removable',['../struct_inquiry_response.html#ab6572ef8e5cd457e0699095f6a0c7a3d',1,'InquiryResponse']]],
   ['reportchanged',['reportChanged',['../struct_p_s4_output.html#aff395d1c46c9016ab4ea8ddbf034788b',1,'PS4Output']]],
   ['reportcounter',['reportCounter',['../union_p_s4_buttons.html#a5c27c151ad76a3675dce1eda1a3e4cc4',1,'PS4Buttons']]],
-  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#aa47b13c2476207b2c5ad06f973e6b59b',1,'SETUP_PKT']]],
+  ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#ae1bc3bebe3c1e4370e4c88a674d8f094',1,'SETUP_PKT']]],
   ['res',['Res',['../struct_inquiry_response.html#a9f642c5fccc1c87cf6b444a138b6aa4b',1,'InquiryResponse']]],
-  ['reserved',['reserved',['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()'],['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
+  ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()'],['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()']]],
   ['reserved2',['reserved2',['../union_xbox_one_s_buttons.html#a2c372291d4f6dd4c8a42414a72f792a3',1,'XboxOneSButtons']]],
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
   ['responsedataformat',['ResponseDataFormat',['../struct_inquiry_response.html#a801e10546dedbd134568bef84f1b287a',1,'InquiryResponse']]],
@@ -26,5 +26,8 @@ var searchData=
   ['rollgyroscale',['rollGyroScale',['../class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331',1,'WII']]],
   ['rollgyrospeed',['rollGyroSpeed',['../class_w_i_i.html#a7ddd67a8797d582e324cffe2847a4288',1,'WII']]],
   ['rptcount',['rptCount',['../class_report_desc_parser_base.html#a2c15a93cace44e39560e4613bbefaf14',1,'ReportDescParserBase']]],
+  ['rptid',['rptId',['../struct_h_i_d_composite_1_1_report_parser.html#ad32bb649fa9792ff8cd5dcddcb4386c5',1,'HIDComposite::ReportParser']]],
+  ['rptparser',['rptParser',['../struct_h_i_d_composite_1_1_report_parser.html#a28b0d9f5713234df03fdb7973ed50585',1,'HIDComposite::ReportParser']]],
+  ['rptparsers',['rptParsers',['../class_h_i_d_composite.html#a6ca41b0bce1b78172a961bc7ea87e28f',1,'HIDComposite']]],
   ['rptsize',['rptSize',['../class_report_desc_parser_base.html#a222b1c03a4f3e49283a58ecaa853e247',1,'ReportDescParserBase']]]
 ];

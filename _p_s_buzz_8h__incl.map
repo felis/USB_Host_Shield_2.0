@@ -1,7 +1,8 @@
 <map id="PSBuzz.h" name="PSBuzz.h">
-<area shape="rect" id="node2" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="5,80,108,107"/>
-<area shape="rect" id="node6" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="132,80,259,107"/>
-<area shape="rect" id="node3" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="21,155,92,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title="Usb.h" alt="" coords="28,304,85,331"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="51,229,151,256"/>
+<area shape="rect" id="node2" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="9,80,112,107"/>
+<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="136,80,263,107"/>
+<area shape="rect" id="node3" href="$hidcomposite_8h.html" title="hidcomposite.h" alt="" coords="5,155,116,181"/>
+<area shape="rect" id="node4" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="25,229,96,256"/>
+<area shape="rect" id="node5" href="$_usb_8h.html" title="Usb.h" alt="" coords="32,379,89,405"/>
+<area shape="rect" id="node6" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="55,304,155,331"/>
 </map>

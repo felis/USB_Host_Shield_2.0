@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$struct_xbox_one_s_data.html" title="XboxOneSData" alt="" coords="5,5,119,32"/>
+<area shape="rect" id="node1" href="$class_u_s_b_read_parser.html" title="USBReadParser" alt="" coords="5,53,124,80"/>
+<area shape="rect" id="node2" href="$class_config_desc_parser.html" title="ConfigDescParser\&lt; CLASS\l_ID, SUBCLASS_ID, PROTOCOL\l_ID, MASK \&gt;" alt="" coords="172,5,399,61"/>
+<area shape="rect" id="node3" href="$class_report_desc_parser_base.html" title="ReportDescParserBase" alt="" coords="205,85,365,112"/>
+<area shape="rect" id="node4" href="$class_report_desc_parser.html" title="ReportDescParser" alt="" coords="450,60,581,87"/>
+<area shape="rect" id="node5" href="$class_report_desc_parser2.html" title="ReportDescParser2" alt="" coords="447,111,584,137"/>
 </map>

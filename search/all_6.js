@@ -2,7 +2,8 @@ var searchData=
 [
   ['f',['F',['../version__helper_8h.html#a0e3009529aac180ed5f48296d6670d6b',1,'version_helper.h']]],
   ['fastblink',['FASTBLINK',['../xbox_enums_8h.html#abb8a1831f62ea139a2255c67bb24330fae88cfa0f6acd518889cef621446d9d2a',1,'xboxEnums.h']]],
-  ['finger',['finger',['../structtouchpad_x_y.html#a9dbd96203cca402c085f3c605b1b10a5',1,'touchpadXY']]],
+  ['findinterface',['FindInterface',['../class_h_i_d_composite.html#a53e1bd38eb71173f38429f5b8aa3c8c1',1,'HIDComposite']]],
+  ['finger',['finger',['../structtouchpad_x_y.html#a9f0f865221d85610df91cf8c3a2f7d41',1,'touchpadXY']]],
   ['flashoff',['flashOff',['../struct_p_s4_output.html#a3f4dcb81acca1475402b93ac851b7be8',1,'PS4Output']]],
   ['flashon',['flashOn',['../struct_p_s4_output.html#a4abdb9a24e512f7f2bad16df28b2fcab',1,'PS4Output']]],
   ['flow_5frx_5fauto',['FLOW_RX_AUTO',['../cdcprolific_8h.html#aa9df6c27f8bf720206bc88285994c54b',1,'cdcprolific.h']]],

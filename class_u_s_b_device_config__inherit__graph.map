@@ -14,9 +14,9 @@
 <area shape="rect" id="node21" href="$class_x_b_o_x_u_s_b.html" title="XBOXUSB" alt="" coords="1229,80,1315,107"/>
 <area shape="rect" id="node3" href="$class_p_l2303.html" title="PL2303" alt="" coords="5,155,72,181"/>
 <area shape="rect" id="node4" href="$class_x_r21_b1411.html" title="XR21B1411" alt="" coords="97,155,189,181"/>
-<area shape="rect" id="node12" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="429,155,643,181"/>
-<area shape="rect" id="node13" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="668,155,777,181"/>
-<area shape="rect" id="node14" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="801,155,903,181"/>
-<area shape="rect" id="node15" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="765,229,840,256"/>
-<area shape="rect" id="node16" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="865,229,935,256"/>
+<area shape="rect" id="node12" href="$class_h_i_d_boot.html" title="HIDBoot\&lt; BOOT_PROTOCOL \&gt;" alt="" coords="522,155,737,181"/>
+<area shape="rect" id="node13" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="761,155,871,181"/>
+<area shape="rect" id="node14" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="765,229,867,256"/>
+<area shape="rect" id="node15" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="731,304,805,331"/>
+<area shape="rect" id="node16" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="830,304,901,331"/>
 </map>

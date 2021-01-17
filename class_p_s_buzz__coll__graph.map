@@ -1,9 +1,14 @@
 <map id="PSBuzz" name="PSBuzz">
-<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="266,260,367,287"/>
-<area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="187,171,262,197"/>
-<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,135,108"/>
-<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="159,81,290,108"/>
-<area shape="rect" id="node6" href="$class_u_s_b.html" title="USB" alt="" coords="314,81,365,108"/>
-<area shape="rect" id="node7" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="295,5,383,32"/>
-<area shape="rect" id="node8" href="$struct_ep_info.html" title="EpInfo" alt="" coords="287,171,347,197"/>
+<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title="HIDUniversal" alt="" coords="860,195,961,221"/>
+<area shape="rect" id="node3" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="701,195,811,221"/>
+<area shape="rect" id="node4" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="439,68,513,95"/>
+<area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="143,5,273,32"/>
+<area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="143,56,273,83"/>
+<area shape="rect" id="node7" href="$class_u_s_b.html" title="USB" alt="" coords="183,107,233,133"/>
+<area shape="rect" id="node8" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="5,107,93,133"/>
+<area shape="rect" id="node9" href="$struct_h_i_d_composite_1_1_report_parser.html" title="HIDComposite::ReportParser" alt="" coords="379,144,573,171"/>
+<area shape="rect" id="node10" href="$class_h_i_d_report_parser.html" title="HIDReportParser" alt="" coords="147,157,269,184"/>
+<area shape="rect" id="node11" href="$struct_ep_info.html" title="EpInfo" alt="" coords="446,195,506,221"/>
+<area shape="rect" id="node12" href="$struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html" title="HID_CLASS_DESCRIPTOR\l_LEN_AND_TYPE" alt="" coords="379,246,573,287"/>
+<area shape="rect" id="node13" href="$struct_h_i_d_composite_1_1_h_i_d_interface.html" title="HIDComposite::HIDInterface" alt="" coords="380,312,572,339"/>
 </map>

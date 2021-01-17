@@ -26,6 +26,7 @@ var searchData=
   ['default_5fstate',['DEFAULT_STATE',['../cdcprolific_8h.html#af93d7c80faa6ebd086460cde2d5dd27e',1,'cdcprolific.h']]],
   ['defaultaddressing',['DefaultAddressing',['../class_u_s_b.html#a5eb0d31372d26f0015a0d7be0b9ff4e1',1,'USB']]],
   ['desc_5fbuff_5fsize',['DESC_BUFF_SIZE',['../usbh__midi_8h.html#ad6a6e2474df4bc904baaea690d3d81ad',1,'usbh_midi.h']]],
+  ['descrinfo',['descrInfo',['../class_h_i_d_composite.html#a76798078fef95b6a500cf23fd8844a1b',1,'HIDComposite']]],
   ['dev_5fdescr_5flen',['DEV_DESCR_LEN',['../usb__ch9_8h.html#ab7e334b0d473aca9604a2522c0702e78',1,'usb_ch9.h']]],
   ['devaddress',['devAddress',['../struct_usb_device_address.html#a79ed442d6a357907ddb4d1697bd6af5f',1,'UsbDeviceAddress']]],
   ['devclassok',['DEVCLASSOK',['../class_b_t_d.html#af2cd7fd7592348f26c78e49b40e83935',1,'BTD::DEVCLASSOK()'],['../class_h_i_d_boot.html#a9dd6ae46dfafc0e8c752c555b863e414',1,'HIDBoot::DEVCLASSOK()'],['../class_bulk_only.html#a878110a3df287aae4f95807865d18819',1,'BulkOnly::DEVCLASSOK()'],['../class_u_s_b_device_config.html#a2bb3e09cf128c8ecd04ea0dfce2126e1',1,'USBDeviceConfig::DEVCLASSOK()'],['../class_u_s_b_hub.html#a7b00cb8e367ad377e2e533e29517e413',1,'USBHub::DEVCLASSOK()']]],
