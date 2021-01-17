@@ -15,7 +15,8 @@
  e-mail   :  lauszus@gmail.com
 
  Thanks to Joseph Duchesne for the initial code.
- Based on Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows PS5 port.
+ Based on Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows PS5 port
+ and the series of patches found here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
  */
 
 #ifndef _ps5parser_h_
@@ -32,7 +33,7 @@ const uint8_t PS5_BUTTONS[] PROGMEM = {
         DOWN, // DOWN
         LEFT, // LEFT
 
-        0x0C, // SHARE
+        0x0C, // CREATE
         0x0D, // OPTIONS
         0x0E, // L3
         0x0F, // R3
@@ -64,7 +65,7 @@ union PS5Buttons {
                 uint8_t r1 : 1;
                 uint8_t l2 : 1;
                 uint8_t r2 : 1;
-                uint8_t share : 1;
+                uint8_t create : 1;
                 uint8_t menu : 1;
                 uint8_t l3 : 1;
                 uint8_t r3 : 1;
@@ -96,7 +97,7 @@ union PS5Status {
 
                 // second byte
                 uint8_t mic : 1;
-                uint8_t dummy4 : 3;
+                uint8_t dummy3 : 3;
         } __attribute__((packed));
         uint16_t val;
 } __attribute__((packed));
@@ -106,28 +107,28 @@ struct PS5Data {
         uint8_t hatValue[4]; // 0-3 bytes
         uint8_t trigger[2]; // 4-5
 
-        uint8_t dummy; // 6 unknown
+        uint8_t sequence_number; // 6
 
         PS5Buttons btn; // 7-9
 
-        uint8_t dummy2[5]; // 0xA-0xD unknown
+        uint8_t reserved[5]; // 0xA-0xD
 
         /* Gyro and accelerometer values */
         int16_t gyroX, gyroZ, gyroY; // 0x0F - 0x14
         int16_t accX, accZ, accY; // 0x15-0x1A
+        int32_t sensor_timestamp;
 
-        uint8_t dummy3[5]; // 0x1B - 0x1F unknown
+        uint8_t reserved2;
 
         // 0x20 - 0x23 touchpad point 1
         // 0x24 - 0x27 touchpad point 2
         ps5TouchpadXY xy;
 
-        uint8_t dummy4; //0x28 unknown
+        uint8_t reserved3; // 0x28
 
         uint8_t rightTriggerFeedback; // 0x29
         uint8_t leftTriggerFeedback; // 0x2A
-
-        uint8_t dummy5[10]; // 0x2B - 0x34 unknown
+        uint8_t reserved4[10]; // 0x2B - 0x34
 
         // status bytes 0x35-0x36
         PS5Status status;
@@ -260,7 +261,7 @@ public:
          * @return The battery level in the range 0-15.
          */
         /*uint8_t getBatteryLevel() {
-                return ps5Data.status.battery;
+                return ps5Data.status.battery; // TODO: Where to read the battery level?
         };*/
 
         /**

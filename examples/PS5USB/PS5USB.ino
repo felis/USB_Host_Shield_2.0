@@ -106,8 +106,8 @@ void loop() {
     if (PS5.getButtonClick(R3))
       Serial.print(F("\r\nR3"));
 
-    if (PS5.getButtonClick(SHARE))
-      Serial.print(F("\r\nShare"));
+    if (PS5.getButtonClick(CREATE))
+      Serial.print(F("\r\nCreate"));
     if (PS5.getButtonClick(OPTIONS)) {
       Serial.print(F("\r\nOptions"));
       printAngle = !printAngle;

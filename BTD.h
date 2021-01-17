@@ -575,7 +575,7 @@ private:
 
         bool pairWiiUsingSync; // True if pairing was done using the Wii SYNC button.
         bool checkRemoteName; // Used to check remote device's name before connecting.
-        bool incomingPS4; // True if a PS4 controller is connecting
+        bool incomingPSController; // True if a PS4/PS5 controller is connecting
         uint8_t classOfDevice[3]; // Class of device of last device
 
         /* Variables used by high level HCI task */

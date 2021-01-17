@@ -15,7 +15,8 @@
  e-mail   :  lauszus@gmail.com
 
  Thanks to Joseph Duchesne for the initial code.
- Based on Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows PS5 port.
+ Based on Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows PS5 port
+ and the series of patches found here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
  */
 
 #include "PS5Parser.h"
@@ -88,19 +89,21 @@ void PS5Parser::Parse(uint8_t len, uint8_t *buf) {
 
                 if (buf[0] == 0x01) // Check report ID
                         memcpy(&ps5Data, buf + 1, min((uint8_t)(len - 1), MFK_CASTUINT8T sizeof(ps5Data)));
-                else if (buf[0] == 0x11) { // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
-                        if (len < 4) {
+                else if (buf[0] == 0x31) { // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
+                        if (len < 3) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nReport is too short: "), 0x80);
                                 D_PrintHex<uint8_t > (len, 0x80);
 #endif
                                 return;
                         }
-                        memcpy(&ps5Data, buf + 3, min((uint8_t)(len - 3), MFK_CASTUINT8T sizeof(ps5Data)));
+                        memcpy(&ps5Data, buf + 2, min((uint8_t)(len - 2), MFK_CASTUINT8T sizeof(ps5Data)));
                 } else {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nUnknown report id: "), 0x80);
                         D_PrintHex<uint8_t > (buf[0], 0x80);
+                        Notify(PSTR(", len: "), 0x80);
+                        D_PrintHex<uint8_t > (len, 0x80);
 #endif
                         return;
                 }

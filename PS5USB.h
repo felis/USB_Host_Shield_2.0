@@ -93,13 +93,16 @@ protected:
         virtual void sendOutputReport(PS5Output *output) { // Source: https://github.com/chrippa/ds4drv
                 // PS4 Source: https://github.com/chrippa/ds4drv
                 // PS5 values from https://www.reddit.com/r/gamedev/comments/jumvi5/dualsense_haptics_leds_and_more_hid_output_report/
-                // and Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows
-                uint8_t buf[48];
+                // , Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows
+                // and the series of patches found here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
+                uint8_t buf[1 /* report id */ + 47 /* common */];
                 memset(buf, 0, sizeof(buf));
 
-                buf[0x00] = 0x02; // report type
+                buf[0x00] = 0x02; // Report ID
+
                 buf[0x01] = 0xFF; // feature flags 1
                 buf[0x02]= 0xF7;  // feature flags 2
+
                 buf[0x03] = output->smallRumble; // Small Rumble
                 buf[0x04] = output->bigRumble; // Big rumble
 

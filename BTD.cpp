@@ -317,7 +317,7 @@ void BTD::Initialize() {
         incomingWii = false;
         connectToHIDDevice = false;
         incomingHIDDevice = false;
-        incomingPS4 = false;
+        incomingPSController = false;
         bAddress = 0; // Clear device address
         bNumEP = 1; // Must have to be reset to 1
         qNextPollTime = 0; // Reset next poll time
@@ -1011,9 +1011,9 @@ void BTD::HCI_task() {
                                 }
                                 if(classOfDevice[2] == 0 && classOfDevice[1] == 0x25 && classOfDevice[0] == 0x08 && strncmp((const char*)remote_name, "Wireless Controller", 19) == 0) {
 #ifdef DEBUG_USB_HOST
-                                        Notify(PSTR("\r\nPS4 controller is connecting"), 0x80);
+                                        Notify(PSTR("\r\nPS4/PS5 controller is connecting"), 0x80);
 #endif
-                                        incomingPS4 = true;
+                                        incomingPSController = true;
                                 }
                                 if((pairWithWii || pairWithHIDDevice) && checkRemoteName)
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
@@ -1034,8 +1034,8 @@ void BTD::HCI_task() {
                                 }
                                 D_PrintHex<uint8_t > (disc_bdaddr[0], 0x80);
 #endif
-                                if(incomingPS4)
-                                        connectToHIDDevice = true; // We should always connect to the PS4 controller
+                                if(incomingPSController)
+                                        connectToHIDDevice = true; // We should always connect to the PS4/PS5 controller
 
                                 // Clear these flags for a new connection
                                 l2capConnectionClaimed = false;
@@ -1068,7 +1068,7 @@ void BTD::HCI_task() {
 
                                 connectToWii = incomingWii = pairWithWii = false;
                                 connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = checkRemoteName = false;
-                                incomingPS4 = false;
+                                incomingPSController = false;
 
                                 hci_state = HCI_SCANNING_STATE;
                         }
