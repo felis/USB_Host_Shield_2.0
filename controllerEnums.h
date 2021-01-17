@@ -150,12 +150,18 @@ enum ButtonEnum {
         MENU = 5,
         /**@}*/
 
+        /**@{*/
         /** PS Buzz controllers */
         RED = 0,
         YELLOW = 1,
         GREEN = 2,
         ORANGE = 3,
         BLUE = 4,
+        /**@}*/
+
+        /**@{*/
+        /** PS5 buttons */
+        MICROPHONE = 18,
         /**@}*/
 };
 
