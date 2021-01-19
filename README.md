@@ -23,7 +23,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 * __Alexei Glushchenko__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Sloth Lauszus__ - <lauszus@gmail.com>
-    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
+    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS5](#ps5-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
     * Major contributor to mass storage code
 * __guruthree__
@@ -44,6 +44,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
     * [Bluetooth libraries](#bluetooth-libraries)
     * [BTHID library](#bthid-library)
     * [SPP library](#spp-library)
+    * [PS5 Library](#ps5-library)
     * [PS4 Library](#ps4-library)
     * [PS3 Library](#ps3-library)
     * [Xbox Libraries](#xbox-libraries)
@@ -171,9 +172,25 @@ More information can be found at these blog posts:
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
 It enables me to see the Bluetooth communication between my Mac and any device.
 
+### PS5 Library
+
+The PS5 library is split up into the [PS5BT](PS5BT.h) and the [PS5USB](PS5USB.h) library. These allow you to use the Sony PS5 controller via Bluetooth and USB.
+
+The [PS5BT.ino](examples/Bluetooth/PS5BT/PS5BT.ino) and [PS5USB.ino](examples/PS5USB/PS5USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble, lightbar, microphone LED and player LEDs on the controller. Furthermore the new haptic trigger effects are also supported.
+
+To pair with the PS5 controller via Bluetooth you need create the PS5BT instance like so: ```PS5BT PS5(&Btd, PAIR);``` and then hold down the Create button and then hold down the PS without releasing the Create button. The PS5 controller will then start to blink blue indicating that it is in pairing mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
+
+Thanks to Joseph Duchesne for the initial USB code.
+
+The driver is based on the official Sony driver for Linux: <https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/>.
+
+Also thanks to Ludwig Füchsl's <https://github.com/Ohjurot/DualSense-Windows> for his work on the haptic triggers.
+
 ### PS4 Library
 
-The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
+The PS4 library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
 The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller and get the battery level.
 
