@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../union_xbox_one_s_buttons.html#a491823704a96dd55f40b1cc3b48d76f0',1,'XboxOneSButtons::b()']]],
+  ['b',['b',['../struct_p_s4_output.html#a237a65d5e6deff4a2ef1ca97c7383777',1,'PS4Output::b()'],['../struct_p_s5_output.html#a1399de4d49de1608bf50553aca486a52',1,'PS5Output::b()'],['../union_xbox_one_s_buttons.html#a491823704a96dd55f40b1cc3b48d76f0',1,'XboxOneSButtons::b()']]],
   ['badditionallength',['bAdditionalLength',['../struct_request_sense_responce.html#adbc6f965fe2820222504d1e8853f1518',1,'RequestSenseResponce']]],
   ['badditionalsensecode',['bAdditionalSenseCode',['../struct_request_sense_responce.html#a554063acfa94e465da27a7dc73cf786a',1,'RequestSenseResponce']]],
   ['badditionalsensequalifier',['bAdditionalSenseQualifier',['../struct_request_sense_responce.html#a628379310065c48e738bd07037b329e6',1,'RequestSenseResponce']]],
@@ -32,7 +32,7 @@ var searchData=
   ['bhasreportid',['bHasReportId',['../class_h_i_d_composite.html#abd584015be45fe945f9062c2c5b2a867',1,'HIDComposite']]],
   ['bhubcontrcurrent',['bHubContrCurrent',['../struct_hub_descriptor.html#a454ce905f8af25625156fbeb729d53b7',1,'HubDescriptor']]],
   ['biface',['bIface',['../class_bulk_only.html#ac18ad598cd9a1ee99f49d51a572a50a4',1,'BulkOnly']]],
-  ['bigrumble',['bigRumble',['../struct_p_s4_output.html#ac9e9e57cfce3e7b9588abb273bd908ec',1,'PS4Output']]],
+  ['bigrumble',['bigRumble',['../struct_p_s4_output.html#ac9e9e57cfce3e7b9588abb273bd908ec',1,'PS4Output::bigRumble()'],['../struct_p_s5_output.html#ad8497ffba3ad67cfa90b8d1b841ea655',1,'PS5Output::bigRumble()']]],
   ['binfo',['bInfo',['../class_mouse_report_parser.html#aa12ee1ccfc7bf834268ab6546c11998c',1,'MouseReportParser::bInfo()'],['../class_keyboard_report_parser.html#a65e6da24b038be3095d06e13b4a280ba',1,'KeyboardReportParser::bInfo()']]],
   ['binterfaceclass',['bInterfaceClass',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a4d352604355f617fef9509951d573356',1,'USB_INTERFACE_DESCRIPTOR']]],
   ['binterfacenumber',['bInterfaceNumber',['../struct_u_s_b___i_n_t_e_r_f_a_c_e___d_e_s_c_r_i_p_t_o_r.html#a3ae5da44842f99bbde5cca9b20c6911a',1,'USB_INTERFACE_DESCRIPTOR']]],
@@ -124,7 +124,7 @@ var searchData=
   ['btdname',['btdName',['../class_b_t_d.html#a0359c0c158c864c27319810cbd1534f9',1,'BTD']]],
   ['btdpin',['btdPin',['../class_b_t_d.html#a215cb939c01ed3ff56db37841224546c',1,'BTD']]],
   ['bthelun',['bTheLUN',['../class_bulk_only.html#a24c051d401f5f1a9ce65c1bc25ab02dd',1,'BulkOnly']]],
-  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a4db9ea2056e1aa46420ddc6a86f8e443',1,'PSBUZZButtons::btn()'],['../struct_xbox_one_s_data.html#a35f7baba4b94f6c131dd7bcc0ec1fd26',1,'XboxOneSData::btn()']]],
+  ['btn',['btn',['../struct_p_s4_data.html#a60c0217c1879e1b16ae5d19a8c8695a3',1,'PS4Data::btn()'],['../struct_p_s5_data.html#a2175289b5362728439ec254051f67208',1,'PS5Data::btn()'],['../union_p_s_b_u_z_z_buttons.html#a8c75e5b2ca26f8dd9b3e27ecf4d2fb2d',1,'PSBUZZButtons::btn()'],['../struct_xbox_one_s_data.html#a35f7baba4b94f6c131dd7bcc0ec1fd26',1,'XboxOneSData::btn()']]],
   ['btransfertypemask',['bTransferTypeMask',['../class_u_s_b_h___m_i_d_i.html#a16cc26804628e2ea32513b4cce1aa7c3',1,'USBH_MIDI']]],
   ['btype',['bType',['../struct_hid_item_prefix.html#a16874c73fdb809e4c46407ca83684927',1,'HidItemPrefix']]]
 ];

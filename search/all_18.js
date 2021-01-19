@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../structtouchpad_x_y.html#a1c38a3e4161b1495b4d8ce37124c72a5',1,'touchpadXY::x()'],['../union_xbox_one_s_buttons.html#ab16b0acbeb9c514142fc01411e7df194',1,'XboxOneSButtons::x()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda58833a3110c570fb05130d40c365d1e4',1,'X():&#160;controllerEnums.h']]],
+  ['x',['x',['../structtouchpad_x_y.html#a1c38a3e4161b1495b4d8ce37124c72a5',1,'touchpadXY::x()'],['../structps5_touchpad_x_y.html#a453df9840f628e6b4f6125ffb5df286e',1,'ps5TouchpadXY::x()'],['../union_xbox_one_s_buttons.html#ab16b0acbeb9c514142fc01411e7df194',1,'XboxOneSButtons::x()'],['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda58833a3110c570fb05130d40c365d1e4',1,'X():&#160;controllerEnums.h']]],
   ['xbox',['XBOX',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fdad4689acdcdf0e61373d52de14ff07eae',1,'controllerEnums.h']]],
   ['xbox360connected',['Xbox360Connected',['../class_x_b_o_x_r_e_c_v.html#ac07faada38e159f1e7831d90863ebe3a',1,'XBOXRECV::Xbox360Connected()'],['../class_x_b_o_x_u_s_b.html#a1c779ae5483a2f73426650242a37d868',1,'XBOXUSB::Xbox360Connected()']]],
   ['xbox_5fbuttons',['XBOX_BUTTONS',['../xbox_enums_8h.html#a35901eab017bd1df5d2361634309adbd',1,'xboxEnums.h']]],
@@ -137,5 +137,5 @@ var searchData=
   ['xr_5freg_5fxoff_5fchar',['XR_REG_XOFF_CHAR',['../cdc___x_r21_b1411_8h.html#a0406654de77bbf9fc1202614e30e66bb',1,'cdc_XR21B1411.h']]],
   ['xr_5freg_5fxon_5fchar',['XR_REG_XON_CHAR',['../cdc___x_r21_b1411_8h.html#a2a1d62d79a513b81dde469959e52d177',1,'cdc_XR21B1411.h']]],
   ['xr_5fwrite_5frequest_5ftype',['XR_WRITE_REQUEST_TYPE',['../cdc___x_r21_b1411_8h.html#a8c8ce6038c7bf52b5cca11cb42181624',1,'cdc_XR21B1411.h']]],
-  ['xy',['xy',['../struct_p_s4_data.html#a1cfd90d32bbd9233dae34fb148fc9f56',1,'PS4Data']]]
+  ['xy',['xy',['../struct_p_s4_data.html#a1cfd90d32bbd9233dae34fb148fc9f56',1,'PS4Data::xy()'],['../struct_p_s5_data.html#afa1401aaae836c40681124f077084545',1,'PS5Data::xy()']]]
 ];

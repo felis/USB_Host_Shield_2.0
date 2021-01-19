@@ -1,6 +1,7 @@
 <map id="HIDUniversal" name="HIDUniversal">
-<area shape="rect" id="node6" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="62,304,137,331"/>
-<area shape="rect" id="node7" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="161,304,232,331"/>
+<area shape="rect" id="node6" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="11,304,86,331"/>
+<area shape="rect" id="node7" href="$class_p_s5_u_s_b.html" title="PS5USB" alt="" coords="110,304,185,331"/>
+<area shape="rect" id="node8" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="209,304,280,331"/>
 <area shape="rect" id="node2" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="93,155,202,181"/>
 <area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="110,80,185,107"/>
 <area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,5,135,32"/>

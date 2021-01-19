@@ -82,7 +82,7 @@ $(function() {
 </ul>
 </li>
 <li><b>Kristian Sloth Lauszus</b> - <a href="#" onclick="location.href='mai'+'lto:'+'lau'+'sz'+'us@'+'gm'+'ail'+'.c'+'om'; return false;">lausz<span style="display: none;">.nosp@m.</span>us@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a><ul>
-<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
+<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps5-library">PS5</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
 </ul>
 </li>
 <li><b>Andrew Kroll</b> - <a href="#" onclick="location.href='mai'+'lto:'+'xxx'+'aj'+'k@g'+'ma'+'il.'+'co'+'m'; return false;">xxxaj<span style="display: none;">.nosp@m.</span>k@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a><ul>
@@ -112,6 +112,7 @@ $(function() {
 <li><a href="#bluetooth-libraries">Bluetooth libraries</a></li>
 <li><a href="#bthid-library">BTHID library</a></li>
 <li><a href="#spp-library">SPP library</a></li>
+<li><a href="#ps5-library">PS5 Library</a></li>
 <li><a href="#ps4-library">PS4 Library</a></li>
 <li><a href="#ps3-library">PS3 Library</a></li>
 <li><a href="#xbox-libraries">Xbox Libraries</a><ul>
@@ -222,8 +223,16 @@ $(function() {
 <li><a href="http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/">http://blog.tkjelectronics.dk/2012/07/rfcommspp-library-for-arduino/</a></li>
 </ul>
 <p>To implement the <a class="el" href="class_s_p_p.html">SPP</a> protocol I used a Bluetooth sniffing tool called <a href="http://www.tkjelectronics.com/uploads/PacketLogger.zip">PacketLogger</a> developed by Apple. It enables me to see the Bluetooth communication between my Mac and any device.</p>
+<h3>PS5 Library</h3>
+<p>The PS5 library is split up into the <a href="PS5BT.h">PS5BT</a> and the <a href="PS5USB.h">PS5USB</a> library. These allow you to use the Sony PS5 controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>The <a href="examples/Bluetooth/PS5BT/PS5BT.ino">PS5BT.ino</a> and <a href="examples/PS5USB/PS5USB.ino">PS5USB.ino</a> examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a> respectively. It is also possible to control the rumble, lightbar, microphone LED and player LEDs on the controller. Furthermore the new haptic trigger effects are also supported.</p>
+<p>To pair with the PS5 controller via Bluetooth you need create the <a class="el" href="class_p_s5_b_t.html">PS5BT</a> instance like so: <code><a class="el" href="class_p_s5_b_t.html">PS5BT</a> PS5(&amp;Btd, PAIR);</code> and then hold down the Create button and then hold down the PS without releasing the Create button. The PS5 controller will then start to blink blue indicating that it is in pairing mode.</p>
+<p>It should then automatically pair the dongle with your controller. This only have to be done once.</p>
+<p>Thanks to Joseph Duchesne for the initial <a class="el" href="class_u_s_b.html">USB</a> code.</p>
+<p>The driver is based on the official Sony driver for Linux: <a href="https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/">https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/</a>.</p>
+<p>Also thanks to Ludwig Füchsl's <a href="https://github.com/Ohjurot/DualSense-Windows">https://github.com/Ohjurot/DualSense-Windows</a> for his work on the haptic triggers.</p>
 <h3>PS4 Library</h3>
-<p>The <a class="el" href="class_p_s4_b_t.html">PS4BT</a> library is split up into the <a href="PS4BT.h">PS4BT</a> and the <a href="PS4USB.h">PS4USB</a> library. These allow you to use the Sony PS4 controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>The PS4 library is split up into the <a href="PS4BT.h">PS4BT</a> and the <a href="PS4USB.h">PS4USB</a> library. These allow you to use the Sony PS4 controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
 <p>The <a href="examples/Bluetooth/PS4BT/PS4BT.ino">PS4BT.ino</a> and <a href="examples/PS4USB/PS4USB.ino">PS4USB.ino</a> examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a> respectively. It is also possible to control the rumble and light on the controller and get the battery level.</p>
 <p>Before you can use the PS4 controller via Bluetooth you will need to pair with it.</p>
 <p>Simply create the <a class="el" href="class_p_s4_b_t.html">PS4BT</a> instance like so: <code><a class="el" href="class_p_s4_b_t.html">PS4BT</a> PS4(&amp;Btd, PAIR);</code> and then hold down the Share button and then hold down the PS without releasing the Share button. The PS4 controller will then start to blink rapidly indicating that it is in pairing mode.</p>

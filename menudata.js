@@ -118,7 +118,8 @@ var menudata={children:[
 {text:"z",url:"globals_z.html#index_z"}]},
 {text:"Functions",url:"globals_func.html"},
 {text:"Variables",url:"globals_vars.html",children:[
-{text:"p",url:"globals_vars.html#index_p"},
+{text:"c",url:"globals_vars.html#index_c"},
+{text:"p",url:"globals_vars_p.html#index_p"},
 {text:"r",url:"globals_vars_r.html#index_r"},
 {text:"u",url:"globals_vars_u.html#index_u"},
 {text:"w",url:"globals_vars_w.html#index_w"},

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['g',['g',['../struct_p_s4_output.html#afc78d4e2c0aafbf4b0a27db3746ad93c',1,'PS4Output']]],
+  ['g',['g',['../struct_p_s4_output.html#afc78d4e2c0aafbf4b0a27db3746ad93c',1,'PS4Output::g()'],['../struct_p_s5_output.html#aefcf359b8abf8a6f48729f4f999faedf',1,'PS5Output::g()']]],
   ['gametitles0',['gameTitles0',['../class_report_desc_parser_base.html#a981cacbfad335b19528e59ab2de866e5',1,'ReportDescParserBase']]],
   ['gametitles1',['gameTitles1',['../class_report_desc_parser_base.html#ac9327d02115b1dd60c79c37d1d11cf41',1,'ReportDescParserBase']]],
   ['gendesktoptitles0',['genDesktopTitles0',['../class_report_desc_parser_base.html#a3021443d9320135788844c166240149f',1,'ReportDescParserBase']]],
@@ -16,10 +16,10 @@ var searchData=
   ['gyroroll',['gyroRoll',['../class_w_i_i.html#acd16def2e2100b0ccb590d57a50fa742',1,'WII']]],
   ['gyrorollraw',['gyroRollRaw',['../class_w_i_i.html#a0784c779ebeae2d459996c35a54ee3b8',1,'WII']]],
   ['gyrorollzero',['gyroRollZero',['../class_w_i_i.html#a10d91cd5d73bc655be776b44d27004c9',1,'WII']]],
-  ['gyrox',['gyroX',['../struct_p_s4_data.html#a0535a4a38dc250250fbf253e6bea53dc',1,'PS4Data']]],
-  ['gyroy',['gyroY',['../struct_p_s4_data.html#a2c7c9d0313863ab69e7cafdd79b7492c',1,'PS4Data']]],
+  ['gyrox',['gyroX',['../struct_p_s4_data.html#a0535a4a38dc250250fbf253e6bea53dc',1,'PS4Data::gyroX()'],['../struct_p_s5_data.html#aad1eaf9ef8e42b40bb7184ef01e08225',1,'PS5Data::gyroX()']]],
+  ['gyroy',['gyroY',['../struct_p_s4_data.html#a2c7c9d0313863ab69e7cafdd79b7492c',1,'PS4Data::gyroY()'],['../struct_p_s5_data.html#a8a414fb5f4eb62a61a56a6b6747f37d1',1,'PS5Data::gyroY()']]],
   ['gyroyaw',['gyroYaw',['../class_w_i_i.html#ac3df2ac430112b4a6803d20105e88e67',1,'WII']]],
   ['gyroyawraw',['gyroYawRaw',['../class_w_i_i.html#ab813b65548e827f41a5192fcc34056ea',1,'WII']]],
   ['gyroyawzero',['gyroYawZero',['../class_w_i_i.html#ad4f0d2456c56414f9b8013b85a1ee7d2',1,'WII']]],
-  ['gyroz',['gyroZ',['../struct_p_s4_data.html#ace15cafba1570d56951e7db7947ba94c',1,'PS4Data']]]
+  ['gyroz',['gyroZ',['../struct_p_s4_data.html#ace15cafba1570d56951e7db7947ba94c',1,'PS4Data::gyroZ()'],['../struct_p_s5_data.html#a9ac4be43de8640a194befead37a14901',1,'PS5Data::gyroZ()']]]
 ];

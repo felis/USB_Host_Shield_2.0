@@ -12,6 +12,12 @@ var searchData=
   ['ps4parser_2ecpp',['PS4Parser.cpp',['../_p_s4_parser_8cpp.html',1,'']]],
   ['ps4parser_2eh',['PS4Parser.h',['../_p_s4_parser_8h.html',1,'']]],
   ['ps4usb_2eh',['PS4USB.h',['../_p_s4_u_s_b_8h.html',1,'']]],
+  ['ps5bt_2eh',['PS5BT.h',['../_p_s5_b_t_8h.html',1,'']]],
+  ['ps5parser_2ecpp',['PS5Parser.cpp',['../_p_s5_parser_8cpp.html',1,'']]],
+  ['ps5parser_2eh',['PS5Parser.h',['../_p_s5_parser_8h.html',1,'']]],
+  ['ps5trigger_2ecpp',['PS5Trigger.cpp',['../_p_s5_trigger_8cpp.html',1,'']]],
+  ['ps5trigger_2eh',['PS5Trigger.h',['../_p_s5_trigger_8h.html',1,'']]],
+  ['ps5usb_2eh',['PS5USB.h',['../_p_s5_u_s_b_8h.html',1,'']]],
   ['psbuzz_2ecpp',['PSBuzz.cpp',['../_p_s_buzz_8cpp.html',1,'']]],
   ['psbuzz_2eh',['PSBuzz.h',['../_p_s_buzz_8h.html',1,'']]]
 ];

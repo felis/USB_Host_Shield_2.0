@@ -38,6 +38,8 @@ var searchData=
   ['ps4_5fpid',['PS4_PID',['../_p_s4_u_s_b_8h.html#a776f4d4694166dbe732e585ebb8c816e',1,'PS4USB.h']]],
   ['ps4_5fpid_5fslim',['PS4_PID_SLIM',['../_p_s4_u_s_b_8h.html#a7b76473e5da043c7b3ce1eefebe77dbc',1,'PS4USB.h']]],
   ['ps4_5fvid',['PS4_VID',['../_p_s4_u_s_b_8h.html#ac878fc36cc22549eb8a7ab6371197877',1,'PS4USB.h']]],
+  ['ps5_5fpid',['PS5_PID',['../_p_s5_u_s_b_8h.html#a48324acc0d04dd0c0d9807e93fd4417b',1,'PS5USB.h']]],
+  ['ps5_5fvid',['PS5_VID',['../_p_s5_u_s_b_8h.html#a56be73c68ccf646542442eb9bd2a6b55',1,'PS5USB.h']]],
   ['psbuzz_5fpid',['PSBUZZ_PID',['../_p_s_buzz_8h.html#a0dd7a843e3d17c9404bdfa2723b3e1d5',1,'PSBuzz.h']]],
   ['psbuzz_5fvid',['PSBUZZ_VID',['../_p_s_buzz_8h.html#aa550e9c001056b0ee39428704cde0e5d',1,'PSBuzz.h']]],
   ['pstr',['PSTR',['../version__helper_8h.html#a73809107539df84eaf01f6a4dea4fbff',1,'version_helper.h']]]

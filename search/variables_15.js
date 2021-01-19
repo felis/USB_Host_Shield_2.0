@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['val',['val',['../union_p_s4_buttons.html#aa381b471d6e5f1e36fa87048b0f8ddc9',1,'PS4Buttons::val()'],['../union_p_s_b_u_z_z_buttons.html#aff7e8cc5b9c87d4662dbe687741b78f2',1,'PSBUZZButtons::val()'],['../union_xbox_one_s_buttons.html#a34cdd34d6a1056ff7226e2160af6ac1d',1,'XboxOneSButtons::val()']]],
+  ['val',['val',['../union_p_s4_buttons.html#aa381b471d6e5f1e36fa87048b0f8ddc9',1,'PS4Buttons::val()'],['../union_p_s5_buttons.html#aeca9c25002686a18bdba2f11eb138962',1,'PS5Buttons::val()'],['../union_p_s5_status.html#aec335c1ac92b5062dcfb4da5364e2726',1,'PS5Status::val()'],['../union_p_s_b_u_z_z_buttons.html#aff7e8cc5b9c87d4662dbe687741b78f2',1,'PSBUZZButtons::val()'],['../union_xbox_one_s_buttons.html#a34cdd34d6a1056ff7226e2160af6ac1d',1,'XboxOneSButtons::val()']]],
   ['valparser',['valParser',['../class_report_desc_parser_base.html#a8833e671168779d081e7f50e579bc206',1,'ReportDescParserBase']]],
   ['valuesize',['valueSize',['../struct_multi_value_buffer.html#ab3151f4125e3ca92871307e654de24b7',1,'MultiValueBuffer']]],
   ['varbuffer',['varBuffer',['../class_report_desc_parser_base.html#a82cde32720eba596e5864fe7d541ea13',1,'ReportDescParserBase']]],

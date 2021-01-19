@@ -53,5 +53,6 @@ var searchData=
   ['cp_5fmask_5fcompare_5fall',['CP_MASK_COMPARE_ALL',['../confdescparser_8h.html#ad6da11ef61b1efe75758448abeb4cbe7',1,'confdescparser.h']]],
   ['cp_5fmask_5fcompare_5fclass',['CP_MASK_COMPARE_CLASS',['../confdescparser_8h.html#a97d95efc3446be55adbb1801c356c55c',1,'confdescparser.h']]],
   ['cp_5fmask_5fcompare_5fprotocol',['CP_MASK_COMPARE_PROTOCOL',['../confdescparser_8h.html#a1e4d3b53bdd61abb61f20d5973e194d7',1,'confdescparser.h']]],
-  ['cp_5fmask_5fcompare_5fsubclass',['CP_MASK_COMPARE_SUBCLASS',['../confdescparser_8h.html#a640401f5d117e10f0f0fd26f74f3975e',1,'confdescparser.h']]]
+  ['cp_5fmask_5fcompare_5fsubclass',['CP_MASK_COMPARE_SUBCLASS',['../confdescparser_8h.html#a640401f5d117e10f0f0fd26f74f3975e',1,'confdescparser.h']]],
+  ['crc32_5fpoly_5fle',['CRC32_POLY_LE',['../_p_s5_b_t_8h.html#a1ac47b35ccbf24dd4e876aaca0868b37',1,'PS5BT.h']]]
 ];
