@@ -1,6 +1,6 @@
 {
   "name": "USB-Host-Shield-20",
-  "keywords": "usb, host, ftdi, adk, acm, pl2303, hid, bluetooth, spp, ps3, ps4, buzz, xbox, wii, mass storage",
+  "keywords": "usb, host, ftdi, adk, acm, pl2303, hid, bluetooth, spp, ps3, ps4, ps5, buzz, xbox, wii, mass storage",
   "description": "Revision 2.0 of MAX3421E-based USB Host Shield Library",
   "authors":
   [
