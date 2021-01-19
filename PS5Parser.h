@@ -124,6 +124,7 @@ struct PS5Data {
         // 0x24 - 0x27 touchpad point 2
         ps5TouchpadXY xy;
 
+#if 0 // The status byte depends on if it's sent via USB or Bluetooth, so is not parsed for now
         uint8_t reserved3; // 0x28
 
         uint8_t rightTriggerFeedback; // 0x29
@@ -132,6 +133,7 @@ struct PS5Data {
 
         // status bytes 0x35-0x36
         PS5Status status;
+#endif
 } __attribute__((packed));
 
 struct PS5Output {
@@ -256,14 +258,17 @@ public:
                 }
         };
 
+#if 0 // Seems to only be available via Bluetooth, so have been disabled for now
         /**
          * Return the battery level of the PS5 controller.
          * @return The battery level in the range 0-15.
          */
-        /*uint8_t getBatteryLevel() {
-                return ps5Data.status.battery; // TODO: Where to read the battery level?
-        };*/
+        uint8_t getBatteryLevel() {
+                return ps5Data.status.battery;
+        };
+#endif
 
+#if 0 // These are only valid via USB, so have been commented out for now
         /**
          * Use this to check if an USB cable is connected to the PS5 controller.
          * @return Returns true if an USB cable is connected.
@@ -287,6 +292,7 @@ public:
         bool getMicStatus() {
                 return ps5Data.status.mic;
         };
+#endif
 
         /** Turn both rumble and the LEDs off. */
         void setAllOff() {
