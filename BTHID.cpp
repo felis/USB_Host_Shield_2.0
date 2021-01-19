@@ -336,11 +336,11 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 Notify(PSTR(" "), 0x80);
                         }
 #endif
-                        if(l2capinbuf[8] == 0xA1) { // HID_THDR_DATA_INPUT
+                        if(l2capinbuf[8] == 0xA1) { // HID BT DATA (0xA0) | Report Type (Input 0x01)
                                 uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]);
+                                ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]); // First byte will be the report ID
 
-                                switch(l2capinbuf[9]) {
+                                switch(l2capinbuf[9]) { // Report ID
                                         case 0x01: // Keyboard or Joystick events
                                                 if(pRptParser[KEYBOARD_PARSER_ID])
                                                         pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<USBHID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
@@ -357,6 +357,11 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                                 break;
 #endif
                                 }
+                        } else {
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nUnhandled L2CAP interrupt report: "), 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+#endif
                         }
                 } else if(l2capinbuf[6] == control_dcid[0] && l2capinbuf[7] == control_dcid[1]) { // l2cap_control
 #ifdef PRINTREPORT
@@ -366,9 +371,14 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 Notify(PSTR(" "), 0x80);
                         }
 #endif
-                        if(l2capinbuf[8] == 0xA3) {
+                        if(l2capinbuf[8] == 0xA3) { // HID BT DATA (0xA0) | Report Type (Feature 0x03)
                                 uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
-                                ParseBTHIDControlData((uint8_t)(length - 1), &l2capinbuf[9]);
+                                ParseBTHIDControlData((uint8_t)(length - 1), &l2capinbuf[9]); // First byte will be the report ID
+                        } else {
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nUnhandled L2CAP control report: "), 0x80);
+                                D_PrintHex<uint8_t > (l2capinbuf[8], 0x80);
+#endif
                         }
                 }
 #ifdef EXTRADEBUG

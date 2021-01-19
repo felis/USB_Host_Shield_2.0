@@ -16,7 +16,7 @@
 
  Thanks to Joseph Duchesne for the initial code.
  Based on Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows PS5 port
- and the series of patches found here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
+ and the series of patches found here: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/
  */
 
 #ifndef _ps5parser_h_
@@ -146,13 +146,13 @@ struct PS5Output {
 /** This class parses all the data sent by the PS5 controller */
 class PS5Parser {
 public:
-        PS5Trigger leftTrigger;
-        PS5Trigger rightTrigger;
-
         /** Constructor for the PS5Parser class. */
         PS5Parser() : leftTrigger(), rightTrigger() {
                 Reset();
         };
+
+        /** Used these to manipulate the haptic triggers */
+        PS5Trigger leftTrigger, rightTrigger;
 
         /** @name PS5 Controller functions */
         /**
@@ -227,9 +227,9 @@ public:
          */
         float getAngle(AngleEnum a) {
                 if (a == Pitch)
-                        return (atan2f(ps5Data.accY, ps5Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(-ps5Data.accY, -ps5Data.accZ) + PI) * RAD_TO_DEG;
                 else
-                        return (atan2f(ps5Data.accX, ps5Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(ps5Data.accX, -ps5Data.accZ) + PI) * RAD_TO_DEG;
         };
 
         /**
@@ -356,6 +356,7 @@ public:
          */
         void setPlayerLed(uint8_t mask) {
                 ps5Output.playerLeds = mask;
+                ps5Output.reportChanged = true;
         }
 
         /** Use to turn the microphone LED off. */
@@ -369,6 +370,7 @@ public:
          */
         void setMicLed(bool on) {
                 ps5Output.microphoneLed = on ? 1 : 0;
+                ps5Output.reportChanged = true;
         }
 
         /** Get the incoming message count. */

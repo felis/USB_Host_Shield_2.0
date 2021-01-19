@@ -21,7 +21,12 @@
 #include "BTHID.h"
 #include "PS5Parser.h"
 
-/*const uint32_t crc32_table[] PROGMEM = {
+/**
+ * Generated from the standard Ethernet CRC-32 polynomial:
+ * x^32+x^26+x^23+x^22+x^16+x^12+x^11+x^10+x^8+x^7+x^5+x^4+x^2+x^1+x^0
+ * Source: http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/libkern/crc32.c
+ */
+const uint32_t crc32_table[] PROGMEM = {
         0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
         0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
         0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91, 0x1db71064, 0x6ab020f2,
@@ -67,76 +72,35 @@
         0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-uint32_t crc32(uint8_t *buffer, size_t length) { // Inspired by: http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/libkern/crc32.c and http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=28214
-        uint32_t crc = ~0L; // Initial value
-        for (size_t i = 0; i < length; i++)
-                crc = (crc >> 8) ^ pgm_read_dword(&crc32_table[*buffer++ ^ (crc & 0xFF)]);
-        return ~crc;
-};*/
-
 /*
  * There are multiple 16-bit CRC polynomials in common use, but this is
  * *the* standard CRC-32 polynomial, first popularized by Ethernet.
  * x^32+x^26+x^23+x^22+x^16+x^12+x^11+x^10+x^8+x^7+x^5+x^4+x^2+x^1+x^0
  */
-#if 0
 #define CRC32_POLY_LE 0xedb88320
-#define CRC32_POLY_BE 0x04c11db7
 
-#define CRC_LE_BITS 1
-
-typedef uint32_t u32;
-
-static inline u32 crc32_le_generic(u32 crc, unsigned char const *p, size_t len, const u32 (*tab)[256], u32 polynomial)
-{
-#if CRC_LE_BITS == 1
+static inline uint32_t crc32_le_generic(uint32_t crc, uint8_t const *p, size_t len, uint32_t polynomial) {
+        // Source: https://github.com/torvalds/linux/blob/c4cf498dc0241fa2d758dba177634268446afb06/lib/crc32.c
         int i;
         while (len--) {
                 crc ^= *p++;
                 for (i = 0; i < 8; i++)
                         crc = (crc >> 1) ^ ((crc & 1) ? polynomial : 0);
         }
-# elif CRC_LE_BITS == 2
-        while (len--) {
-                crc ^= *p++;
-                crc = (crc >> 2) ^ tab[0][crc & 3];
-                crc = (crc >> 2) ^ tab[0][crc & 3];
-                crc = (crc >> 2) ^ tab[0][crc & 3];
-                crc = (crc >> 2) ^ tab[0][crc & 3];
-        }
-# elif CRC_LE_BITS == 4
-        while (len--) {
-                crc ^= *p++;
-                crc = (crc >> 4) ^ tab[0][crc & 15];
-                crc = (crc >> 4) ^ tab[0][crc & 15];
-        }
-# elif CRC_LE_BITS == 8
-        /* aka Sarwate algorithm */
-        while (len--) {
-                crc ^= *p++;
-                crc = (crc >> 8) ^ tab[0][crc & 255];
-        }
-# else
-        crc = (__force u32) __cpu_to_le32(crc);
-        crc = crc32_body(crc, p, len, tab);
-        crc = __le32_to_cpu((__force __le32)crc);
-#endif
         return crc;
 }
 
-#if CRC_LE_BITS == 1
-static u32 crc32_le(u32 crc, unsigned char const *p, size_t len)
-{
-        return crc32_le_generic(crc, p, len, NULL, CRC32_POLY_LE);
-}
-#else
-static u32 crc32_le(u32 crc, unsigned char const *p, size_t len)
-{
-        return crc32_le_generic(crc, p, len, (const u32 (*)[256])crc32table_le, CRC32_POLY_LE);
-}
+static inline uint32_t crc32(uint32_t crc, const void *buf, size_t size) {
+#if 1 // Use a table, as it's faster, but takes up more space
+        // Inspired by: http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/libkern/crc32.c
+        const uint8_t *p = (const uint8_t*)buf;
+        while (size--)
+                crc = pgm_read_dword(&crc32_table[*p++ ^ (crc & 0xFF)]) ^ (crc >> 8);
+        return crc;
+#else // Can be used to save flash, but is slower
+        return crc32_le_generic(crc, (uint8_t const*)buf, size, CRC32_POLY_LE);
 #endif
-
-#endif
+};
 
 /**
  * This class implements support for the PS5 controller via Bluetooth.
@@ -151,7 +115,7 @@ public:
          * @param  pin   Write the pin to BTD#btdPin. If argument is omitted, then "0000" will be used.
          */
         PS5BT(BTD *p, bool pair = false, const char *pin = "0000") :
-        BTHID(p, pair, pin) {
+        BTHID(p, pair, pin), output_sequence_counter(0) {
                 PS5Parser::Reset();
         };
 
@@ -182,10 +146,10 @@ protected:
         virtual void OnInitBTHID() {
                 PS5Parser::Reset();
                 enable_sixaxis(); // Make the controller send out the entire output report
-                if (pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
-                else
-                        setLed(Blue);
+
+                // Only call this is a user function has not been set
+                if (!pFuncOnInit)
+                        setLed(Red); // Set the LED to red, as the PS5 controller turns Bluetooth when searching for a device
         };
 
         /** Used to reset the different buffers to there default values */
@@ -196,20 +160,17 @@ protected:
 
         /** @name PS5Parser implementation */
         virtual void sendOutputReport(PS5Output *output) {
-#if 1
-                return; // TODO: Fix this
-#else
-                // See the series of patches here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
-
-                uint8_t buf[1 /* BT Set Output Report */ + 1 /* report id */ + 1 /* seq_tag */ + 1 /* tag */ + 47 /* common */ + 24 /* reserved */ + 4 /* crc32 */];
+                // See the series of patches here: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/
+                uint8_t buf[1 /* BT DATA Output Report */ + 1 /* report id */ + 1 /* seq_tag */ + 1 /* tag */ + 47 /* common */ + 24 /* reserved */ + 4 /* crc32 */];
                 memset(buf, 0, sizeof(buf));
 
-                buf[0] = 0x52; // HID BT Set_report (0x50) | Report Type (Output 0x02)
+                // Send as a Bluetooth HID DATA output report on the interrupt channel
+                buf[0] = 0xA2; // HID BT DATA (0xA0) | Report Type (Output 0x02)
 
                 buf[0x01] = 0x31; // Report ID
-                buf[0x02] = (output_sequence << 4) | 0x0; // Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.
-                if(++output_sequence == 15)
-                        output_sequence = 0;
+                buf[0x02] = (output_sequence_counter << 4) | 0x0; // Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.
+                if(++output_sequence_counter == 15)
+                        output_sequence_counter = 0;
                 buf[0x03] = 0x10; // Magic number must be set to 0x10
 
                 buf[0x01 + 3] = 0xFF; // feature flags 1
@@ -243,40 +204,30 @@ protected:
                 buf[0x2E + 3] = output->g; // Green
                 buf[0x2F + 3] = output->b; // Blue
 
-                //uint32_t crc = crc32(&buf[1], 79 - 1 /* do not include the BT Set Output Report */ - 4 /* crc */);
-
-                uint8_t seed = 0xA2;
-                uint32_t crc = crc32_le(0xFFFFFFFF, &seed, 1);
-                crc = ~crc32_le(crc, &buf[1], 79 - 1 /* do not include the BT Set Output Report */ - 4 /* crc */);
-
-                buf[75] = crc;
-                buf[76] = crc >> 8;
-                buf[77] = crc >> 16;
-                buf[78] = crc >> 24;
+                uint32_t crc = ~crc32(0xFFFFFFFF, buf, sizeof(buf) - 4 /* Do not include the crc32 */); // Note how the report type is also included in the output report
+                buf[75] = crc & 0xFF;
+                buf[76] = (crc >> 8) & 0xFF;
+                buf[77] = (crc >> 16);
+                buf[78] = (crc >> 24);
 
                 output->reportChanged = false;
 
-                // The PS5 console actually set the four last bytes to a CRC32 checksum, but it seems like it is actually not needed
-
-                HID_Command(buf, sizeof(buf));
-#endif
+                // Send the Bluetooth DATA output report on the interrupt channel
+                pBtd->L2CAP_Command(hci_handle, buf, sizeof(buf), interrupt_scid[0], interrupt_scid[1]);
         };
         /**@}*/
 
 private:
-        uint8_t output_sequence = 0;
-
         void enable_sixaxis() { // Command used to make the PS5 controller send out the entire output report
-                // Request the paring info. This makes the controller send out the full report - see: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
+                // Request the paring info. This makes the controller send out the full report - see: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/
                 uint8_t buf[2];
                 buf[0] = 0x43; // HID BT Get_report (0x40) | Report Type (Feature 0x03)
-                buf[1] = 9; // Report ID for paring info
+                buf[1] = 0x09; // Report ID for paring info
 
-                HID_Command(buf, 2);
+                // Send the Bluetooth Get_report Feature report on the control channel
+                pBtd->L2CAP_Command(hci_handle, buf, 2, control_scid[0], control_scid[1]);
         };
 
-        void HID_Command(uint8_t *data, uint8_t nbytes) {
-                pBtd->L2CAP_Command(hci_handle, data, nbytes, control_scid[0], control_scid[1]);
-        };
+        uint8_t output_sequence_counter;
 };
 #endif

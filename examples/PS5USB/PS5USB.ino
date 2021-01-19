@@ -1,7 +1,7 @@
 /*
  Example sketch for the PS5 USB library - developed by Kristian Sloth Lauszus
  For more information visit the Github repository: github.com/felis/USB_Host_Shield_2.0 or
- send me an e-mail:  lauszus@gmail.com
+ send me an e-mail: lauszus@gmail.com
  */
 
 #include <PS5USB.h>
@@ -15,7 +15,7 @@
 USB Usb;
 PS5USB PS5(&Usb);
 
-bool printAngle, printTouch;
+bool printAngle = false, printTouch = false;
 uint16_t lastMessageCounter = -1;
 uint8_t player_led_mask = 0;
 bool microphone_led = false;
@@ -57,7 +57,11 @@ void loop() {
     }
 
     // Set the left trigger to resist at the right trigger's level
-    PS5.leftTrigger.setTriggerForce(PS5.getAnalogButton(R2), 255);
+    static uint8_t oldR2Value = 0xFF;
+    if (PS5.getAnalogButton(R2) != oldR2Value) {
+      oldR2Value = PS5.getAnalogButton(R2);
+      PS5.leftTrigger.setTriggerForce(oldR2Value, 255);
+    }
 
     if (PS5.getButtonClick(PS))
       Serial.print(F("\r\nPS"));

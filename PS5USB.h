@@ -83,7 +83,7 @@ protected:
                         if (pFuncOnInit)
                                 pFuncOnInit(); // Call the user function
                         else
-                                setLed(Blue);
+                                setLed(Red); // Set the LED to red, so it is consistent with the PS5BT driver
                 };
                 return 0;
         };
@@ -92,9 +92,9 @@ protected:
         /** @name PS5Parser implementation */
         virtual void sendOutputReport(PS5Output *output) { // Source: https://github.com/chrippa/ds4drv
                 // PS4 Source: https://github.com/chrippa/ds4drv
-                // PS5 values from https://www.reddit.com/r/gamedev/comments/jumvi5/dualsense_haptics_leds_and_more_hid_output_report/
-                // , Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows
-                // and the series of patches found here: https://patchwork.kernel.org/project/linux-input/patch/20201219062336.72568-14-roderick@gaikai.com/
+                // PS5 values from https://www.reddit.com/r/gamedev/comments/jumvi5/dualsense_haptics_leds_and_more_hid_output_report/,
+                // Ludwig Füchsl's https://github.com/Ohjurot/DualSense-Windows and
+                // the series of patches found here: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/
                 uint8_t buf[1 /* report id */ + 47 /* common */];
                 memset(buf, 0, sizeof(buf));
 
@@ -133,7 +133,7 @@ protected:
 
                 output->reportChanged = false;
 
-                // The PS5 console actually set the four last bytes to a CRC32 checksum, but it seems like it is actually not needed
+                // There is no need to calculate a crc32 when the controller is connected via USB
 
                 pUsb->outTransfer(bAddress, epInfo[ hidInterfaces[0].epIndex[epInterruptOutIndex] ].epAddr, sizeof(buf), buf);
         };
