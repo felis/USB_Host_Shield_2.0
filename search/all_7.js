@@ -78,7 +78,7 @@ var searchData=
   ['getsymkeysup',['getSymKeysUp',['../class_keyboard_report_parser.html#a2df76a06fee8df45a3d0850459887427',1,'KeyboardReportParser']]],
   ['gettemperature',['getTemperature',['../class_p_s3_b_t.html#ab4f49b61167df001d13b68c7699651b4',1,'PS3BT']]],
   ['gettotalweight',['getTotalWeight',['../class_w_i_i.html#a966e34bb434984de59706384c8efc1f1',1,'WII']]],
-  ['gettouchcounter',['getTouchCounter',['../class_p_s4_parser.html#a0b3de008ae8aaa057c571081b1b64e88',1,'PS4Parser::getTouchCounter()'],['../class_p_s5_parser.html#ae539ebc70cdb0abcfc8b1a8c1ba6f819',1,'PS5Parser::getTouchCounter()']]],
+  ['gettouchcounter',['getTouchCounter',['../class_p_s4_parser.html#a0b3de008ae8aaa057c571081b1b64e88',1,'PS4Parser::getTouchCounter()'],['../class_p_s5_parser.html#ad71e6f6cd11f55e688ab40aa5e1e2934',1,'PS5Parser::getTouchCounter()']]],
   ['getusb',['GetUsb',['../class_u_s_b_h_i_d.html#ad90bc410a083495a4ddefc2000f67dbd',1,'USBHID']]],
   ['getusbdeviceptr',['GetUsbDevicePtr',['../class_address_pool.html#aa92d7e8f0f515340ae2dc1679b627056',1,'AddressPool::GetUsbDevicePtr()'],['../class_address_pool_impl.html#aa3e12dda249ef6acbb27592fc8fe1cba',1,'AddressPoolImpl::GetUsbDevicePtr()']]],
   ['getusbstatus',['getUsbStatus',['../class_p_s4_parser.html#ac5eb7f8b6059fdf3b406244d8ebe4000',1,'PS4Parser']]],
