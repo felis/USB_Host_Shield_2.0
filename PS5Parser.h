@@ -218,7 +218,7 @@ public:
          * @param  finger 0 = first finger, 1 = second finger. If omitted, then 0 will be used.
          * @return        Return the value of the counter, note that it is only a 7-bit value.
          */
-        uint8_t getTouchCounter(uint8_t finger = 00) {
+        uint8_t getTouchCounter(uint8_t finger = 0) {
                 return ps5Data.xy.finger[finger].counter;
         };
 
