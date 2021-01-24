@@ -64,8 +64,6 @@ protected:
          */
         virtual void OnInitBTHID() {
                 XBOXONESParser::Reset();
-                if (pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
         };
 
         /** Used to reset the different buffers to there default values */
