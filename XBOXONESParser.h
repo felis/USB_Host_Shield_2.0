@@ -81,7 +81,7 @@ public:
         int16_t getAnalogHat(AnalogHatEnum a);
 
         /** Used to set the rumble off. */
-        //void setRumbleOff();
+        void setRumbleOff();
 
         /**
          * Used to turn on rumble continuously.
@@ -90,7 +90,7 @@ public:
          * @param leftMotor    Left motor force.
          * @param rightMotor   Right motor force.
          */
-        //void setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor);
+        void setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor);
 
 protected:
         /**
@@ -108,7 +108,7 @@ protected:
          * @param output Pointer to data buffer.
          * @param nbytes Bytes to send.
          */
-        //virtual void sendOutputReport(uint8_t *data, uint8_t nbytes) = 0;
+        virtual void sendOutputReport(uint8_t *data, uint8_t nbytes) = 0;
 
 private:
         bool checkDpad(ButtonEnum b); // Used to check Xbox One S DPAD buttons
