@@ -128,6 +128,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7b19a947208d70e6ad822e02674956c0 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9d2ab519ae22786e4218c96539925d6 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#aa9d2ab519ae22786e4218c96539925d6">getAnalogHat</a> (<a class="el" href="controller_enums_8h.html#a34dad8f0a0927471137c403216597093">AnalogHatEnum</a> a)</td></tr>
 <tr class="separator:aa9d2ab519ae22786e4218c96539925d6 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0aa0450e0a944d2b5dae6a5c237ee6 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#ada0aa0450e0a944d2b5dae6a5c237ee6">setRumbleOff</a> ()</td></tr>
+<tr class="separator:ada0aa0450e0a944d2b5dae6a5c237ee6 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b36b55703d44f1e6302633f1965923f inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#a2b36b55703d44f1e6302633f1965923f">setRumbleOn</a> (uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor)</td></tr>
+<tr class="separator:a2b36b55703d44f1e6302633f1965923f inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acede7059d30d10f7276336be8d2dec63 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#acede7059d30d10f7276336be8d2dec63">getButtonPress</a> (<a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a> b)</td></tr>
 <tr class="separator:acede7059d30d10f7276336be8d2dec63 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec1240938df5c0f3415d3e81eb12b4b7 inherit pub_methods_class_x_b_o_x_o_n_e_s_parser"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#aec1240938df5c0f3415d3e81eb12b4b7">getButtonClick</a> (<a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a> b)</td></tr>
@@ -142,6 +146,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ac75cd4c7f8283c8b101c7ec3f3e588aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeb574cc4eaf359c4715245309da71bf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#aeeb574cc4eaf359c4715245309da71bf">ResetBTHID</a> ()</td></tr>
 <tr class="separator:aeeb574cc4eaf359c4715245309da71bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">XBOXONESParser implementation</div></td></tr>
+<tr class="memitem:a65cdd37039e8c520d4ade7c7f7b98341"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#a65cdd37039e8c520d4ade7c7f7b98341">sendOutputReport</a> (uint8_t *data, uint8_t nbytes)</td></tr>
+<tr class="separator:a65cdd37039e8c520d4ade7c7f7b98341"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_b_t_h_i_d"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_b_t_h_i_d')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_b_t_h_i_d.html">BTHID</a></td></tr>
 <tr class="memitem:ad8339ed58b8c19bb5bee1c8aaa4bb715 inherit pro_methods_class_b_t_h_i_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#ad8339ed58b8c19bb5bee1c8aaa4bb715">ParseBTHIDControlData</a> (uint8_t len, uint8_t *buf)</td></tr>
 <tr class="separator:ad8339ed58b8c19bb5bee1c8aaa4bb715 inherit pro_methods_class_b_t_h_i_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -371,6 +378,53 @@ Additional Inherited Members</h2></td></tr>
 <p>Reimplemented from <a class="el" href="class_b_t_h_i_d.html#acc22bf5baaa096fe09b72c812c1134f0">BTHID</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h_source.html#l00072">72</a> of file <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h_source.html">XBOXONESBT.h</a>.</p>
+
+</div>
+</div>
+<a id="a65cdd37039e8c520d4ade7c7f7b98341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65cdd37039e8c520d4ade7c7f7b98341">&#9670;&nbsp;</a></span>sendOutputReport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void XBOXONESBT::sendOutputReport </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Send the output to the Xbox One S controller. This is implemented in <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h.html">XBOXONESBT.h</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>Pointer to data buffer. </td></tr>
+    <tr><td class="paramname">nbytes</td><td>Bytes to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#a32c251e7a51d9192e94f81f6a6f79247">XBOXONESParser</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h_source.html#l00078">78</a> of file <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h_source.html">XBOXONESBT.h</a>.</p>
 
 </div>
 </div>

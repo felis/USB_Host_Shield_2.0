@@ -64,7 +64,7 @@ $(function() {
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="class_x_b_o_x_o_n_e_s_parser-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">XBOXONESParser Class Reference</div>  </div>
+<div class="title">XBOXONESParser Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -84,6 +84,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7b19a947208d70e6ad822e02674956c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9d2ab519ae22786e4218c96539925d6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#aa9d2ab519ae22786e4218c96539925d6">getAnalogHat</a> (<a class="el" href="controller_enums_8h.html#a34dad8f0a0927471137c403216597093">AnalogHatEnum</a> a)</td></tr>
 <tr class="separator:aa9d2ab519ae22786e4218c96539925d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0aa0450e0a944d2b5dae6a5c237ee6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#ada0aa0450e0a944d2b5dae6a5c237ee6">setRumbleOff</a> ()</td></tr>
+<tr class="separator:ada0aa0450e0a944d2b5dae6a5c237ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b36b55703d44f1e6302633f1965923f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#a2b36b55703d44f1e6302633f1965923f">setRumbleOn</a> (uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor)</td></tr>
+<tr class="separator:a2b36b55703d44f1e6302633f1965923f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Xbox One S Controller functions</div></td></tr>
 <tr class="memitem:acede7059d30d10f7276336be8d2dec63"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#acede7059d30d10f7276336be8d2dec63">getButtonPress</a> (<a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a> b)</td></tr>
 <tr class="separator:acede7059d30d10f7276336be8d2dec63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,6 +100,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ab738326926b13d4f40d5bbed34640054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac71c0a2e5e6e61f3bb57409c991c7bcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#ac71c0a2e5e6e61f3bb57409c991c7bcb">Reset</a> ()</td></tr>
 <tr class="separator:ac71c0a2e5e6e61f3bb57409c991c7bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32c251e7a51d9192e94f81f6a6f79247"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_n_e_s_parser.html#a32c251e7a51d9192e94f81f6a6f79247">sendOutputReport</a> (uint8_t *data, uint8_t nbytes)=0</td></tr>
+<tr class="separator:a32c251e7a51d9192e94f81f6a6f79247"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class parses all the data sent by the Xbox One S controller </p>
@@ -216,6 +222,77 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ada0aa0450e0a944d2b5dae6a5c237ee6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada0aa0450e0a944d2b5dae6a5c237ee6">&#9670;&nbsp;</a></span>setRumbleOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XBOXONESParser::setRumbleOff </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to set the rumble off. </p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html#l00186">186</a> of file <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html">XBOXONESParser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2b36b55703d44f1e6302633f1965923f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b36b55703d44f1e6302633f1965923f">&#9670;&nbsp;</a></span>setRumbleOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XBOXONESParser::setRumbleOn </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>leftTrigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rightTrigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>leftMotor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>rightMotor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Used to turn on rumble continuously. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">leftTrigger</td><td>Left trigger force. </td></tr>
+    <tr><td class="paramname">rightTrigger</td><td>Right trigger force. </td></tr>
+    <tr><td class="paramname">leftMotor</td><td>Left motor force. </td></tr>
+    <tr><td class="paramname">rightMotor</td><td>Right motor force. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html#l00200">200</a> of file <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html">XBOXONESParser.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ab738326926b13d4f40d5bbed34640054"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab738326926b13d4f40d5bbed34640054">&#9670;&nbsp;</a></span>Parse()</h2>
 
@@ -249,12 +326,8 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Used to set the rumble off. Used to turn on rumble continuously. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Used to parse data sent from the Xbox One S controller. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">leftTrigger</td><td>Left trigger force. </td></tr>
-    <tr><td class="paramname">rightTrigger</td><td>Right trigger force. </td></tr>
-    <tr><td class="paramname">leftMotor</td><td>Left motor force. </td></tr>
-    <tr><td class="paramname">rightMotor</td><td>Right motor force. Used to parse data sent from the Xbox One S controller. </td></tr>
     <tr><td class="paramname">len</td><td>Length of the data. </td></tr>
     <tr><td class="paramname">buf</td><td>Pointer to the data buffer. </td></tr>
   </table>
@@ -290,6 +363,51 @@ Protected Member Functions</h2></td></tr>
 <p>Used to reset the different buffers to their default values </p>
 
 <p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html#l00171">171</a> of file <a class="el" href="_x_b_o_x_o_n_e_s_parser_8cpp_source.html">XBOXONESParser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a32c251e7a51d9192e94f81f6a6f79247"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32c251e7a51d9192e94f81f6a6f79247">&#9670;&nbsp;</a></span>sendOutputReport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void XBOXONESParser::sendOutputReport </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>nbytes</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Send the output to the Xbox One S controller. This is implemented in <a class="el" href="_x_b_o_x_o_n_e_s_b_t_8h.html">XBOXONESBT.h</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>Pointer to data buffer. </td></tr>
+    <tr><td class="paramname">nbytes</td><td>Bytes to send. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#a65cdd37039e8c520d4ade7c7f7b98341">XBOXONESBT</a>.</p>
 
 </div>
 </div>
