@@ -183,11 +183,24 @@ void XBOXONESParser::Reset() {
         oldDpad = 0;
 };
 
-#if 0
+void XBOXONESParser::setRumbleOff() {
+        // See: https://lore.kernel.org/patchwork/patch/973394/
+        uint8_t buf[8];
+        buf[0] = 0x0F; // Disable all rumble motors
+        buf[1] = 0;
+        buf[2] = 0;
+        buf[3] = 0;
+        buf[4] = 0;
+        buf[5] = 0; // Duration of effect in 10 ms
+        buf[6] = 0; // Start delay in 10 ms
+        buf[7] = 0; // Loop count
+        sendOutputReport(buf, sizeof(buf));
+}
+
 void XBOXONESParser::setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor) {
         // See: https://lore.kernel.org/patchwork/patch/973394/
         uint8_t buf[8];
-        buf[0] = 0x0F;//1 << 1 | 1 << 0; // Enable weak and strong feedback
+        buf[0] = 1 << 3 /* Left trigger */ | 1 << 2 /* Right trigger */ | 1 << 1 /* Left motor */ | 1 << 0 /* Right motor */;
         buf[1] = leftTrigger;
         buf[2] = rightTrigger;
         buf[3] = leftMotor;
@@ -197,4 +210,3 @@ void XBOXONESParser::setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint
         buf[7] = 255; // Loop count
         sendOutputReport(buf, sizeof(buf));
 }
-#endif

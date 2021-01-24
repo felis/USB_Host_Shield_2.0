@@ -74,28 +74,17 @@ protected:
         };
         /**@}*/
 
-#if 0
         /** @name XBOXONESParser implementation */
         virtual void sendOutputReport(uint8_t *data, uint8_t nbytes) {
                 // See: https://lore.kernel.org/patchwork/patch/973394/
                 uint8_t buf[nbytes + 2];
-
-                buf[0] = 0x52; // HID BT Set_report (0x50) | Report Type (Output 0x02)
+                buf[0] = 0xA2; // HID BT DATA (0xA0) | Report Type (Output 0x02)
                 buf[1] = 0x03; // Report ID
-
                 memcpy(buf + 2, data, nbytes);
 
-                Notify(PSTR("\r\n"), 0x80);
-                for (uint8_t i = 0; i < sizeof(buf); i++) {
-                        D_PrintHex<uint8_t > (buf[i], 0x80);
-                        Notify(PSTR(" "), 0x80);
-                }
-                Notify(PSTR("\r\n"), 0x80);
-
-                //pBtd->L2CAP_Command(hci_handle, data, nbytes, interrupt_scid[0], interrupt_scid[1]);
-                pBtd->L2CAP_Command(hci_handle, buf, sizeof(buf), control_scid[0], control_scid[1]);
+                // Send the Bluetooth DATA output report on the interrupt channel
+                pBtd->L2CAP_Command(hci_handle, buf, sizeof(buf), interrupt_scid[0], interrupt_scid[1]);
         };
         /**@}*/
-#endif
 };
 #endif

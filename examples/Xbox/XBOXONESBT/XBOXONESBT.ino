@@ -77,7 +77,6 @@ void loop() {
       Serial.println();
     }
 
-#if 0 // This is currently not working
     // Set rumble effect
     static uint16_t oldL2Value, oldR2Value;
     if (Xbox.getButtonPress(L2) != oldL2Value || Xbox.getButtonPress(R2) != oldR2Value) {
@@ -90,7 +89,6 @@ void loop() {
       else
         Xbox.setRumbleOff();
     }
-#endif
 
     if (Xbox.getButtonClick(UP))
       Serial.println(F("Up"));
