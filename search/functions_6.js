@@ -36,7 +36,7 @@ var searchData=
   ['getiry2',['getIRy2',['../class_w_i_i.html#ae148de3c99b3fb4ef65ea62d2848df7d',1,'WII']]],
   ['getiry3',['getIRy3',['../class_w_i_i.html#a5e778f879c6d0a73a94bd61e42d05b8d',1,'WII']]],
   ['getiry4',['getIRy4',['../class_w_i_i.html#a759837b933f63ce7c3235639be29250a',1,'WII']]],
-  ['getlastmessagetime',['getLastMessageTime',['../class_p_s3_b_t.html#ad5b6bba68b85614f6a1b2ddeb2a3f191',1,'PS3BT']]],
+  ['getlastmessagetime',['getLastMessageTime',['../class_b_t_h_i_d.html#a0d6a230b8916108f32bb3ca628e10bbf',1,'BTHID::getLastMessageTime()'],['../class_p_s3_b_t.html#ad5b6bba68b85614f6a1b2ddeb2a3f191',1,'PS3BT::getLastMessageTime()']]],
   ['getlastusberror',['GetLastUsbError',['../class_bulk_only.html#abe1e768a46e751e6792164334c973b44',1,'BulkOnly']]],
   ['getlatency',['GetLatency',['../class_f_t_d_i.html#a62374382f16e1c557812fe5a50414d49',1,'FTDI']]],
   ['getlinecoding',['GetLineCoding',['../class_a_c_m.html#a9d922317b25a7ae086a6fe79984ab8d1',1,'ACM']]],

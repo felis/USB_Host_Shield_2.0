@@ -108,6 +108,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afceaafc89581441da40b141170b98595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb19720b65cda69d910416c7a689dd45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#afb19720b65cda69d910416c7a689dd45">pair</a> (void)</td></tr>
 <tr class="separator:afb19720b65cda69d910416c7a689dd45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d6a230b8916108f32bb3ca628e10bbf"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#a0d6a230b8916108f32bb3ca628e10bbf">getLastMessageTime</a> ()</td></tr>
+<tr class="separator:a0d6a230b8916108f32bb3ca628e10bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:adbe1ef647fe57bfeaf72ce86cddb8357"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_t_h_i_d.html#adbe1ef647fe57bfeaf72ce86cddb8357">setLeds</a> (struct <a class="el" href="struct_k_b_d_l_e_d_s.html">KBDLEDS</a> data)</td></tr>
 <tr class="separator:adbe1ef647fe57bfeaf72ce86cddb8357"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -425,7 +427,7 @@ BluetoothService implementation</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00628">628</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00630">630</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
 
 </div>
 </div>
@@ -455,6 +457,34 @@ BluetoothService implementation</h2></td></tr>
 <p>Call this to start the pairing sequence with a device </p>
 
 <p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00091">91</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+
+</div>
+</div>
+<a id="a0d6a230b8916108f32bb3ca628e10bbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d6a230b8916108f32bb3ca628e10bbf">&#9670;&nbsp;</a></span>getLastMessageTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BTHID::getLastMessageTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to get the millis() of the last Bluetooth DATA input report received on the interrupt channel. This can be used detect if the connection to a Bluetooth device is lost fx if the battery runs out or if it gets out of range. </p><dl class="section return"><dt>Returns</dt><dd>Timestamp in milliseconds of the last Bluetooth DATA input report received on the interrupt channel. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00101">101</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -520,7 +550,7 @@ BluetoothService implementation</h2></td></tr>
 
 <p>Implements <a class="el" href="class_bluetooth_service.html#a16df27af39d09963cf0d43910d92ff4c">BluetoothService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00558">558</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8cpp_source.html#l00560">560</a> of file <a class="el" href="_b_t_h_i_d_8cpp_source.html">BTHID.cpp</a>.</p>
 
 </div>
 </div>
@@ -580,7 +610,7 @@ BluetoothService implementation</h2></td></tr>
 
 <p>Implements <a class="el" href="class_bluetooth_service.html#a34d08d56c560c892c9684133f69b971b">BluetoothService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00112">112</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00121">121</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -627,7 +657,7 @@ BluetoothService implementation</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_p_s5_b_t.html#a7298dfedcac3819646828edf055bc26b">PS5BT</a>, <a class="el" href="class_p_s4_b_t.html#a0d92689d0c24e62ddc7a1b3c4c658512">PS4BT</a>, and <a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#aee9484727ae88c9ef5102889a1a710fd">XBOXONESBT</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00125">125</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00134">134</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -666,7 +696,7 @@ BluetoothService implementation</h2></td></tr>
 </div><div class="memdoc">
 <p>Same as ParseBTHIDData for reports that are sent through the interrupt pipe (in response to a GET_REPORT). </p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00132">132</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00141">141</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -696,7 +726,7 @@ BluetoothService implementation</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_p_s5_b_t.html#a18ee2006348c6a7aad4b0fc9b14eae40">PS5BT</a>, <a class="el" href="class_p_s4_b_t.html#a91088a6ed093d3cebb82d8f5e208304b">PS4BT</a>, and <a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#ac75cd4c7f8283c8b101c7ec3f3e588aa">XBOXONESBT</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00136">136</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00145">145</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -726,7 +756,7 @@ BluetoothService implementation</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_p_s5_b_t.html#a1752541c2796de06407cf3c6092604cd">PS5BT</a>, <a class="el" href="class_p_s4_b_t.html#a4b1c9e15ccdc7ab24f7fb42fc9b5d827">PS4BT</a>, and <a class="el" href="class_x_b_o_x_o_n_e_s_b_t.html#aeeb574cc4eaf359c4715245309da71bf">XBOXONESBT</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00140">140</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00149">149</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -769,7 +799,7 @@ BluetoothService implementation</h2></td></tr>
 </div><div class="memdoc">
 <p>L2CAP source CID for HID_Control </p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00146">146</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00155">155</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -794,7 +824,7 @@ BluetoothService implementation</h2></td></tr>
 </div><div class="memdoc">
 <p>L2CAP source CID for HID_Interrupt </p>
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00149">149</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00158">158</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -818,7 +848,7 @@ BluetoothService implementation</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00151">151</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00160">160</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
@@ -842,7 +872,7 @@ BluetoothService implementation</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00152">152</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_b_t_h_i_d_8h_source.html#l00161">161</a> of file <a class="el" href="_b_t_h_i_d_8h_source.html">BTHID.h</a>.</p>
 
 </div>
 </div>
