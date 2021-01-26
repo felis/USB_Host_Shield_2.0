@@ -93,6 +93,15 @@ public:
                         pBtd->pairWithHID();
         };
 
+        /**
+         * Used to get the millis() of the last Bluetooth DATA input report received on the interrupt channel.
+         * This can be used detect if the connection to a Bluetooth device is lost fx if the battery runs out or if it gets out of range.
+         * @return      Timestamp in milliseconds of the last Bluetooth DATA input report received on the interrupt channel.
+         */
+        uint32_t getLastMessageTime() {
+                return lastBtDataInputIntMillis;
+        };
+
 protected:
         /** @name BluetoothService implementation */
         /**
@@ -173,5 +182,7 @@ private:
         uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
         uint8_t sdp_dcid[2];
         uint8_t l2cap_state;
+
+        uint32_t lastBtDataInputIntMillis; // Variable used to store the millis value of the last Bluetooth DATA input report received on the interrupt channel
 };
 #endif

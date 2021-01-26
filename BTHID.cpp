@@ -337,6 +337,8 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                         }
 #endif
                         if(l2capinbuf[8] == 0xA1) { // HID BT DATA (0xA0) | Report Type (Input 0x01)
+                                lastBtDataInputIntMillis = (uint32_t)millis(); // Store the timestamp of the report
+
                                 uint16_t length = ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]);
                                 ParseBTHIDData((uint8_t)(length - 1), &l2capinbuf[9]); // First byte will be the report ID
 
