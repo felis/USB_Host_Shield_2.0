@@ -44,7 +44,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 //////////////////////////
 
 USB Usb;
-USBHub  Hub1(&Usb);
+//USBHub  Hub1(&Usb);
 USBH_MIDI Midi(&Usb);
 
 void MIDI_poll();
