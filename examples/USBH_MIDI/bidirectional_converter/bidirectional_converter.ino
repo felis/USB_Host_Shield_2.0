@@ -88,8 +88,10 @@ void loop()
           //SysEx is handled by event.
           break;
         default :
+          // If this is a channel messages, set the channel number.
           if( msg[0] < 0xf0 ){
-            msg[0] |= MIDI.getChannel() - 1;
+            // The getchannel() returns 1-16, but the MIDI status byte starts at 0.
+            msg[0] |= MIDI.getChannel() - 1; 
           }
           msg[1] = MIDI.getData1();
           msg[2] = MIDI.getData2();
