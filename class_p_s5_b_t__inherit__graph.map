@@ -1,5 +1,5 @@
 <map id="PS5BT" name="PS5BT">
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="35,80,97,107"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,5,127,32"/>
-<area shape="rect" id="node4" href="$class_p_s5_parser.html" title="PS5Parser" alt="" coords="122,80,207,107"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="41,80,103,107"/>
+<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node4" href="$class_p_s5_parser.html" title="PS5Parser" alt="" coords="127,80,214,107"/>
 </map>

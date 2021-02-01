@@ -1,9 +1,9 @@
 <map id="ACM" name="ACM">
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,135,108"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="159,81,290,108"/>
-<area shape="rect" id="node4" href="$class_c_d_c_async_oper.html" title="CDCAsyncOper" alt="" coords="314,81,431,108"/>
-<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="455,81,506,108"/>
-<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="437,5,525,32"/>
-<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="531,81,591,108"/>
-<area shape="rect" id="node8" href="$structtty__features.html" title="tty_features" alt="" coords="615,81,706,108"/>
+<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="5,81,140,108"/>
+<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="164,81,304,108"/>
+<area shape="rect" id="node4" href="$class_c_d_c_async_oper.html" title="CDCAsyncOper" alt="" coords="329,81,449,108"/>
+<area shape="rect" id="node5" href="$class_u_s_b.html" title="USB" alt="" coords="473,81,523,108"/>
+<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title="MAX3421E" alt="" coords="453,5,543,32"/>
+<area shape="rect" id="node7" href="$struct_ep_info.html" title="EpInfo" alt="" coords="547,81,609,108"/>
+<area shape="rect" id="node8" href="$structtty__features.html" title="tty_features" alt="" coords="634,81,735,108"/>
 </map>

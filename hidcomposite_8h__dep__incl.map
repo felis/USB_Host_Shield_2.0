@@ -1,9 +1,9 @@
 <map id="hidcomposite.h" name="hidcomposite.h">
-<area shape="rect" id="node2" href="$hidcomposite_8cpp.html" title="hidcomposite.cpp" alt="" coords="44,80,168,107"/>
-<area shape="rect" id="node3" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="192,80,295,107"/>
-<area shape="rect" id="node4" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="5,155,121,181"/>
-<area shape="rect" id="node5" href="$_p_s4_u_s_b_8h.html" title="PS4USB.h" alt="" coords="145,155,232,181"/>
-<area shape="rect" id="node6" href="$_p_s5_u_s_b_8h.html" title="PS5USB.h" alt="" coords="256,155,343,181"/>
-<area shape="rect" id="node7" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="367,155,448,181"/>
-<area shape="rect" id="node8" href="$_p_s_buzz_8cpp.html" title="PSBuzz.cpp" alt="" coords="360,229,455,256"/>
+<area shape="rect" id="node2" href="$hidcomposite_8cpp.html" title="hidcomposite.cpp" alt="" coords="37,80,175,107"/>
+<area shape="rect" id="node3" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="199,80,314,107"/>
+<area shape="rect" id="node4" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="5,155,135,181"/>
+<area shape="rect" id="node5" href="$_p_s4_u_s_b_8h.html" title="PS4USB.h" alt="" coords="159,155,245,181"/>
+<area shape="rect" id="node6" href="$_p_s5_u_s_b_8h.html" title="PS5USB.h" alt="" coords="269,155,354,181"/>
+<area shape="rect" id="node7" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="379,155,460,181"/>
+<area shape="rect" id="node8" href="$_p_s_buzz_8cpp.html" title="PSBuzz.cpp" alt="" coords="371,229,467,256"/>
 </map>

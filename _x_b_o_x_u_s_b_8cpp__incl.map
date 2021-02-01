@@ -1,8 +1,8 @@
 <map id="XBOXUSB.cpp" name="XBOXUSB.cpp">
-<area shape="rect" id="node2" href="$_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="39,80,138,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="5,304,63,331"/>
-<area shape="rect" id="node4" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="53,155,124,181"/>
-<area shape="rect" id="node6" href="$xbox_enums_8h.html" title="xboxEnums.h" alt="" coords="177,155,280,181"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="72,229,172,256"/>
-<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="196,229,323,256"/>
+<area shape="rect" id="node2" href="$_x_b_o_x_u_s_b_8h.html" title="XBOXUSB.h" alt="" coords="45,80,142,107"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="5,304,64,331"/>
+<area shape="rect" id="node4" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="55,155,132,181"/>
+<area shape="rect" id="node6" href="$xbox_enums_8h.html" title="xboxEnums.h" alt="" coords="189,155,299,181"/>
+<area shape="rect" id="node5" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="72,229,181,256"/>
+<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="206,229,346,256"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_address_pool.html" title="AddressPool" alt="" coords="5,46,101,73"/>
-<area shape="rect" id="node2" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; MAX\l_DEVICES_ALLOWED \&gt;" alt="" coords="149,5,323,47"/>
-<area shape="rect" id="node3" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; USB\l_NUMDEVICES \&gt;" alt="" coords="155,71,317,112"/>
+<area shape="rect" id="node1" href="$class_address_pool.html" title="AddressPool" alt="" coords="5,46,108,73"/>
+<area shape="rect" id="node2" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; MAX\l_DEVICES_ALLOWED \&gt;" alt="" coords="156,5,331,47"/>
+<area shape="rect" id="node3" href="$class_address_pool_impl.html" title="AddressPoolImpl\&lt; USB\l_NUMDEVICES \&gt;" alt="" coords="157,71,330,112"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="UsbDevice" name="UsbDevice">
-<area shape="rect" id="node2" href="$struct_ep_info.html" title="EpInfo" alt="" coords="5,5,65,32"/>
-<area shape="rect" id="node3" href="$struct_usb_device_address.html" title="UsbDeviceAddress" alt="" coords="89,5,224,32"/>
+<area shape="rect" id="node2" href="$struct_ep_info.html" title="EpInfo" alt="" coords="5,5,68,32"/>
+<area shape="rect" id="node3" href="$struct_usb_device_address.html" title="UsbDeviceAddress" alt="" coords="93,5,237,32"/>
 </map>
