@@ -20,8 +20,8 @@ uint8_t StatusInputCommand[]{0x05, 0xFF, 0xDA};
 
 // Returns first byte of the sum of given bytes.
 uint8_t Checksum(const uint8_t *data, uint16_t nbytes) {
-  int sum = 0;
-  for (int i = 0; i < nbytes; i++) {
+  uint64_t sum = 0;
+  for (uint16_t i = 0; i < nbytes; i++) {
     sum += data[i];
   }
 
