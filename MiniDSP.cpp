@@ -14,45 +14,45 @@
 
 #include "MiniDSP.h"
 
-void MiniDSP::ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
+void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
 
         constexpr uint8_t StatusInputCommand[]{0x05, 0xFF, 0xDA};
 
         // Only care about valid data for the MiniDSP 2x4HD.
-        if (HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
+        if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
                 return;
 
         // Check if this is a status update.
         // First byte is the length, we ignore that for now.
-        if (memcmp(buf + 1, StatusInputCommand, sizeof(StatusInputCommand)) == 0) {
+        if(memcmp(buf + 1, StatusInputCommand, sizeof (StatusInputCommand)) == 0) {
 
                 // Parse data.
                 // Response is of format [ length ] [ 0x05 0xFF 0xDA ] [ volume ] [ muted ].
-                const auto newVolume = buf[sizeof(StatusInputCommand) + 1];
-                const auto newIsMuted = (bool)buf[sizeof(StatusInputCommand) + 2];
+                const auto newVolume = buf[sizeof (StatusInputCommand) + 1];
+                const auto newIsMuted = (bool)buf[sizeof (StatusInputCommand) + 2];
 
                 // Update status.
                 volume = newVolume;
                 muted = newIsMuted;
 
                 // Call callbacks.
-                if (pFuncOnVolumeChange != nullptr && newVolume != volume)
+                if(pFuncOnVolumeChange != nullptr && newVolume != volume)
                         pFuncOnVolumeChange(volume);
 
-                if (pFuncOnMutedChange != nullptr && newIsMuted != muted)
+                if(pFuncOnMutedChange != nullptr && newIsMuted != muted)
                         pFuncOnMutedChange(muted);
         }
 };
 
 uint8_t MiniDSP::OnInitSuccessful() {
         // Verify we're actually connected to the MiniDSP 2x4HD.
-        if (HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID)
+        if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID)
                 return 0;
 
         // Request current status so we can initialize the values.
         RequestStatus();
 
-        if (pFuncOnInit != nullptr)
+        if(pFuncOnInit != nullptr)
                 pFuncOnInit();
 
         return 0;
@@ -60,7 +60,7 @@ uint8_t MiniDSP::OnInitSuccessful() {
 
 uint8_t MiniDSP::Checksum(const uint8_t *data, uint8_t data_length) const {
         uint16_t sum = 0;
-        for (uint8_t i = 0; i < data_length; i++)
+        for(uint8_t i = 0; i < data_length; i++)
                 sum += data[i];
 
         return sum & 0xFF;
@@ -68,7 +68,7 @@ uint8_t MiniDSP::Checksum(const uint8_t *data, uint8_t data_length) const {
 
 void MiniDSP::SendCommand(uint8_t *command, uint8_t command_length) const {
         // Sanity check on command length.
-        if (command_length > 63)
+        if(command_length > 63)
                 return;
 
         // Message is padded to 64 bytes with 0xFF and is of format:
@@ -89,13 +89,13 @@ void MiniDSP::SendCommand(uint8_t *command, uint8_t command_length) const {
         buf[checksumOffset] = Checksum(buf, command_length + 1);
 
         // Pad the rest.
-        memset(&buf[checksumOffset + 1], 0xFF, sizeof(buf) - checksumOffset - 1);
+        memset(&buf[checksumOffset + 1], 0xFF, sizeof (buf) - checksumOffset - 1);
 
-        pUsb->outTransfer(bAddress, epInfo[epInterruptOutIndex].epAddr, sizeof(buf), buf);
+        pUsb->outTransfer(bAddress, epInfo[epInterruptOutIndex].epAddr, sizeof (buf), buf);
 }
 
 void MiniDSP::RequestStatus() const {
         uint8_t RequestStatusOutputCommand[] = {0x05, 0xFF, 0xDA, 0x02};
 
-        SendCommand(RequestStatusOutputCommand, sizeof(RequestStatusOutputCommand));
+        SendCommand(RequestStatusOutputCommand, sizeof (RequestStatusOutputCommand));
 }

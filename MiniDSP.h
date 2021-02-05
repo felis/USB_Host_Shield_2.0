@@ -30,12 +30,14 @@
  * It uses the HIDUniversal class for all the USB communication.
  */
 class MiniDSP : public HIDUniversal {
-      public:
+public:
+
         /**
          * Constructor for the MiniDSP class.
          * @param  p   Pointer to the USB class instance.
          */
-        MiniDSP(USB *p) : HIDUniversal(p){};
+        MiniDSP(USB *p) : HIDUniversal(p) {
+        };
 
         /**
          * Used to check if a MiniDSP 2x4HD is connected.
@@ -50,7 +52,9 @@ class MiniDSP : public HIDUniversal {
          * initialized.
          * @param funcOnInit Function to call.
          */
-        void attachOnInit(void (*funcOnInit)(void)) { pFuncOnInit = funcOnInit; };
+        void attachOnInit(void (*funcOnInit)(void)) {
+                pFuncOnInit = funcOnInit;
+        };
 
         /**
          * Used to call your own function when the volume has changed.
@@ -98,7 +102,7 @@ class MiniDSP : public HIDUniversal {
                 return muted;
         }
 
-      protected:
+protected:
         /** @name HIDUniversal implementation */
         /**
          * Used to parse USB HID data.
@@ -119,6 +123,7 @@ class MiniDSP : public HIDUniversal {
         /**@}*/
 
         /** @name USBDeviceConfig implementation */
+
         /**
          * Used by the USB core to check what this driver support.
          * @param  vid The device's VID.
@@ -131,9 +136,9 @@ class MiniDSP : public HIDUniversal {
         };
         /**@}*/
 
-      private:
+private:
         /**
-         * Calculate checksum for given buffer. 
+         * Calculate checksum for given buffer.
          * Checksum is given by summing up all bytes in `data` and returning the first byte.
          * @param data Buffer to calculate checksum for.
          * @param data_length Length of the buffer.

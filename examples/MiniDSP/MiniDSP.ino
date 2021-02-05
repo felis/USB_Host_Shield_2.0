@@ -28,14 +28,11 @@ void OnMutedChange(bool isMuted) {
 void setup() {
         Serial.begin(115200);
 #if !defined(__MIPSEL__)
-        while (!Serial)
-                ;   // Wait for serial port to connect - used on Leonardo, Teensy and other
-                    // boards with built-in USB CDC serial connection
+        while(!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
 #endif
-        if (Usb.Init() == -1) {
+        if(Usb.Init() == -1) {
                 Serial.print(F("\r\nOSC did not start"));
-                while (1)
-                        ; // Halt
+                while(1); // Halt
         }
         Serial.println(F("\r\nMiniDSP 2x4HD Library Started"));
 
