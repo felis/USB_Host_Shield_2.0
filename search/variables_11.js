@@ -2,7 +2,7 @@ var searchData=
 [
   ['r',['r',['../struct_p_s4_output.html#a76a85e749899e2e6cb135a6ec6acabb3',1,'PS4Output::r()'],['../struct_p_s5_output.html#a1c00530f9dbbdebd229a2d70d9ee19f6',1,'PS5Output::r()']]],
   ['r1',['R1',['../struct_inquiry_response.html#a72abbdbd399647227ea05cb1cec32b2d',1,'InquiryResponse::R1()'],['../union_p_s4_buttons.html#aba0cb76ee82bd0ebe9872aa7bcbffac6',1,'PS4Buttons::r1()'],['../union_p_s5_buttons.html#a38d0ac2a2df75dda7a2935cdb8c56307',1,'PS5Buttons::r1()'],['../union_xbox_one_s_buttons.html#a09472b083c3d56655ca8a6276c2b52ed',1,'XboxOneSButtons::r1()']]],
-  ['r2',['r2',['../union_p_s4_buttons.html#a416642ff357b1313825fe94e0491b60e',1,'PS4Buttons::r2()'],['../union_p_s5_buttons.html#adf06f1b23b7db3c8cdc5a8ec7ac875e2',1,'PS5Buttons::r2()'],['../struct_inquiry_response.html#aa635575deb7f984d27142ee2071af5b3',1,'InquiryResponse::R2()']]],
+  ['r2',['R2',['../struct_inquiry_response.html#aa635575deb7f984d27142ee2071af5b3',1,'InquiryResponse::R2()'],['../union_p_s4_buttons.html#a416642ff357b1313825fe94e0491b60e',1,'PS4Buttons::r2()'],['../union_p_s5_buttons.html#adf06f1b23b7db3c8cdc5a8ec7ac875e2',1,'PS5Buttons::r2()']]],
   ['r3',['r3',['../union_p_s4_buttons.html#a09805f3bcc362c410d7897792599d61d',1,'PS4Buttons::r3()'],['../union_p_s5_buttons.html#a66475a8e703df5b0f1a7f4e24947e706',1,'PS5Buttons::r3()'],['../union_xbox_one_s_buttons.html#a15d0132ac257469157f43745af37c5b5',1,'XboxOneSButtons::r3()']]],
   ['readptr',['readPtr',['../class_u_s_b_h___m_i_d_i.html#aad25eeebfe8741afa7a242ec398c846e',1,'USBH_MIDI']]],
   ['ready',['ready',['../class_a_d_k.html#a135db75b9e8cdd59b89f46c44dd83dd4',1,'ADK::ready()'],['../class_a_c_m.html#ae9a10861da80510a54942a511ce9009e',1,'ACM::ready()']]],
@@ -16,7 +16,7 @@ var searchData=
   ['reportcounter',['reportCounter',['../union_p_s4_buttons.html#a5c27c151ad76a3675dce1eda1a3e4cc4',1,'PS4Buttons']]],
   ['reqtype_5fu',['ReqType_u',['../struct_s_e_t_u_p___p_k_t.html#aa32d082ca5c1b197458e515830f92a28',1,'SETUP_PKT']]],
   ['res',['Res',['../struct_inquiry_response.html#a9f642c5fccc1c87cf6b444a138b6aa4b',1,'InquiryResponse']]],
-  ['reserved',['Reserved',['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()'],['../struct_p_s5_data.html#ab953374ed47371a44316223a7912acee',1,'PS5Data::reserved()'],['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()']]],
+  ['reserved',['reserved',['../struct_p_s5_data.html#ab953374ed47371a44316223a7912acee',1,'PS5Data::reserved()'],['../union_xbox_one_s_buttons.html#a461a969454844afc31875e430b8f27eb',1,'XboxOneSButtons::reserved()'],['../struct_inquiry_response.html#abb4a48d4fc326ad932fb41c82fe289f3',1,'InquiryResponse::Reserved()'],['../struct_hub_descriptor.html#a0c3292fe67fdbdab6ceac8b198ef44bf',1,'HubDescriptor::Reserved()']]],
   ['reserved2',['reserved2',['../struct_p_s5_data.html#adbb3681b8be4d989d990fd0dabd1311e',1,'PS5Data::reserved2()'],['../union_xbox_one_s_buttons.html#a2c372291d4f6dd4c8a42414a72f792a3',1,'XboxOneSButtons::reserved2()']]],
   ['reserved4',['Reserved4',['../struct_inquiry_response.html#ae5c315ca0c47104b17d5bde7c4d485a6',1,'InquiryResponse']]],
   ['responsedataformat',['ResponseDataFormat',['../struct_inquiry_response.html#a801e10546dedbd134568bef84f1b287a',1,'InquiryResponse']]],

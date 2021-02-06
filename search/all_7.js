@@ -84,6 +84,8 @@ var searchData=
   ['getusbstatus',['getUsbStatus',['../class_p_s4_parser.html#ac5eb7f8b6059fdf3b406244d8ebe4000',1,'PS4Parser']]],
   ['getusbtaskstate',['getUsbTaskState',['../class_u_s_b.html#a1c1aad8269403bf488e3bc4c79886ce4',1,'USB']]],
   ['getvbusstate',['getVbusState',['../class_m_a_x3421e.html#aa1e9380222063c40fbf43428f7c50d67',1,'MAX3421e']]],
+  ['getvolume',['getVolume',['../class_mini_d_s_p.html#a2e10731a50bdce381611f2fbd9ec0dd3',1,'MiniDSP']]],
+  ['getvolumedb',['getVolumeDB',['../class_mini_d_s_p.html#a922a9d11f8dd313d865dc2f56f96e9bb',1,'MiniDSP']]],
   ['getweight',['getWeight',['../class_w_i_i.html#ac1fef8ad0f7d5c36fa61ee91422629f9',1,'WII']]],
   ['getweightraw',['getWeightRaw',['../class_w_i_i.html#a5f554cc77f108336981f7774761b9279',1,'WII']]],
   ['getwiimotepitch',['getWiimotePitch',['../class_w_i_i.html#a7646584a691279fbdb688e7f35f6a5b3',1,'WII']]],

@@ -61,6 +61,8 @@ var searchData=
   ['midi_5fevent_5fpacket_5fsize',['MIDI_EVENT_PACKET_SIZE',['../usbh__midi_8h.html#a0cb5d0be715a42f36440b29eaa728c58',1,'usbh_midi.h']]],
   ['midi_5fmax_5fendpoints',['MIDI_MAX_ENDPOINTS',['../usbh__midi_8h.html#a209d19007c615d3f300a5d3717776a45',1,'usbh_midi.h']]],
   ['midi_5fmax_5fsysex_5fsize',['MIDI_MAX_SYSEX_SIZE',['../usbh__midi_8h.html#ac62d581ae088d3699a4f39672ac2ff51',1,'usbh_midi.h']]],
+  ['minidsp_5fpid',['MINIDSP_PID',['../_mini_d_s_p_8h.html#a4c11b5f7eff2bb882cc3390cc9562910',1,'MiniDSP.h']]],
+  ['minidsp_5fvid',['MINIDSP_VID',['../_mini_d_s_p_8h.html#a96758ce2867ad7daa9b0e71307512813',1,'MiniDSP.h']]],
   ['mode_5ffs_5fhost',['MODE_FS_HOST',['../max3421e_8h.html#a456c3175b4836ed1d2b276faeba55121',1,'max3421e.h']]],
   ['mode_5fls_5fhost',['MODE_LS_HOST',['../max3421e_8h.html#ab3da1b5bd1f43ba9f9da604841ba8802',1,'max3421e.h']]],
   ['mouse_5fparser_5fid',['MOUSE_PARSER_ID',['../_b_t_h_i_d_8h.html#a0b48c93189cf128c1ef13ce86b4fa6be',1,'BTHID.h']]],
