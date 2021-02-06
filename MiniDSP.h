@@ -1,4 +1,4 @@
-/* Copyright (C) 2020 Kristian Sloth Lauszus and Dennis Frett. All rights reserved.
+/* Copyright (C) 2021 Kristian Sloth Lauszus and Dennis Frett. All rights reserved.
 
  This software may be distributed and modified under the terms of the GNU
  General Public License version 2 (GPL2) as published by the Free Software
@@ -15,7 +15,7 @@
  e-mail   :  lauszus@gmail.com
 
  Dennis Frett
- GitHub   :  https://github.com/dennisfrett 
+ GitHub   :  https://github.com/dennisfrett
  e-mail   :  dennis.frett@live.com
  */
 
