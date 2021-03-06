@@ -34,11 +34,13 @@
 #define XBOX_VID                                0x045E // Microsoft Corporation
 #define MADCATZ_VID                             0x1BAD // For unofficial Mad Catz controllers
 #define JOYTECH_VID                             0x162E // For unofficial Joytech controllers
+#define LOGITECH_VID                            0x046D // For official Logitech controllers
 
 #define XBOX_OLD_PID1                           0x0202 // Original Microsoft Xbox controller (US)
 #define XBOX_OLD_PID2                           0x0285 // Original Microsoft Xbox controller (Japan)
 #define XBOX_OLD_PID3                           0x0287 // Microsoft Microsoft Xbox Controller S
 #define XBOX_OLD_PID4                           0x0289 // Smaller Microsoft Xbox controller (US)
+#define XBOX_OLD_PID5                           0xCA84 // Logitech Cordless Precision controller
 
 #define XBOX_MAX_ENDPOINTS   3
 
@@ -94,7 +96,7 @@ public:
          * @return     Returns true if the device's VID and PID matches this driver.
          */
         virtual bool VIDPIDOK(uint16_t vid, uint16_t pid) {
-                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID) && (pid == XBOX_OLD_PID1 || pid == XBOX_OLD_PID2 || pid == XBOX_OLD_PID3 || pid == XBOX_OLD_PID4));
+                return ((vid == XBOX_VID || vid == MADCATZ_VID || vid == JOYTECH_VID || vid == LOGITECH_VID) && (pid == XBOX_OLD_PID1 || pid == XBOX_OLD_PID2 || pid == XBOX_OLD_PID3 || pid == XBOX_OLD_PID4 || pid == XBOX_OLD_PID5));
         };
         /**@}*/
 
