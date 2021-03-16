@@ -30,7 +30,7 @@ void setup() {
 void loop() {
   Usb.Task();
 
-  if (AMBX.AMBXConnected) { // One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB
+  if (AMBX.AMBXConnected) {
     if (state == 0) {
 
     } else if (state == 1) {
