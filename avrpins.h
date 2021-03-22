@@ -1294,6 +1294,68 @@ MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
 
 #undef MAKE_PIN
 
+
+#elif defined(ARDUINO_NRF52840_FEATHER)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+    static void Set() { \
+        nrf_gpio_pin_set(pin); \
+    } \
+    static void Clear() { \
+        nrf_gpio_pin_clear(pin); \
+    } \
+    static void SetDirRead() { \
+        nrf_gpio_cfg_input(pin, NRF_GPIO_PIN_NOPULL); \
+    } \
+    static void SetDirWrite() { \
+        nrf_gpio_cfg_output(pin); \
+    } \
+    static uint8_t IsSet() { \
+        return (uint8_t)nrf_gpio_pin_read(pin); \
+    } \
+};
+
+// Based on variants/feather_nrf52840_express/variant.cpp
+// g_ADigitalPinMap ould be used directly, but it would be slower
+MAKE_PIN(P0, (25));
+MAKE_PIN(P1, (24));
+MAKE_PIN(P2, (10));
+MAKE_PIN(P3, (47));
+MAKE_PIN(P4, (42));
+MAKE_PIN(P5, (40));
+MAKE_PIN(P6, (7));
+MAKE_PIN(P7, (34));
+MAKE_PIN(P8, (16));
+MAKE_PIN(P9, (26));
+MAKE_PIN(P10, (27));
+MAKE_PIN(P11, (6));
+MAKE_PIN(P12, (8));
+MAKE_PIN(P13, (41));
+MAKE_PIN(P14, (4));
+MAKE_PIN(P15, (5));
+MAKE_PIN(P17, (30));
+MAKE_PIN(P18, (28));
+MAKE_PIN(P16, (2));
+MAKE_PIN(P19, (3));
+MAKE_PIN(P20, (29));
+MAKE_PIN(P21, (31));
+MAKE_PIN(P22, (12));
+MAKE_PIN(P23, (11));
+MAKE_PIN(P24, (15));
+MAKE_PIN(P25, (13));
+MAKE_PIN(P26, (14));
+MAKE_PIN(P27, (19));
+MAKE_PIN(P28, (20));
+MAKE_PIN(P29, (17));
+MAKE_PIN(P30, (22));
+MAKE_PIN(P31, (23));
+MAKE_PIN(P32, (21));
+MAKE_PIN(P33, (9));
+
+#undef MAKE_PIN
+
 #else
 #error "Please define board in avrpins.h"
 

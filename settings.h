@@ -157,6 +157,11 @@ e-mail   :  support@circuitsathome.com
 #define SPI SPI_Master
 #define MFK_CASTUINT8T (uint8_t) // RBLs return type for sizeof needs casting to uint8_t
 #endif
+#ifdef NRF52_SERIES
+#include <SPI.h> 
+#include <nrf_gpio.h>
+#define MFK_CASTUINT8T (uint8_t) // NRF return type for sizeof needs casting to uint8_t
+#endif
 #if defined(__PIC32MX__) || defined(__PIC32MZ__)
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library
 #endif
