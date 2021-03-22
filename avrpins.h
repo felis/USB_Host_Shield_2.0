@@ -1318,7 +1318,7 @@ public: \
 };
 
 // Based on variants/feather_nrf52840_express/variant.cpp
-// g_ADigitalPinMap ould be used directly, but it would be slower
+// g_ADigitalPinMap could be used directly, but it would be slower
 MAKE_PIN(P0, (25));
 MAKE_PIN(P1, (24));
 MAKE_PIN(P2, (10));
