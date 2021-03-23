@@ -1,10 +1,11 @@
 <map id="HIDUniversal" name="HIDUniversal">
-<area shape="rect" id="node6" href="$class_mini_d_s_p.html" title="MiniDSP" alt="" coords="5,304,80,331"/>
-<area shape="rect" id="node7" href="$class_p_s4_u_s_b.html" title="PS4USB" alt="" coords="105,304,178,331"/>
-<area shape="rect" id="node8" href="$class_p_s5_u_s_b.html" title="PS5USB" alt="" coords="202,304,275,331"/>
-<area shape="rect" id="node9" href="$class_p_s_buzz.html" title="PSBuzz" alt="" coords="300,304,369,331"/>
-<area shape="rect" id="node2" href="$class_h_i_d_composite.html" title="HIDComposite" alt="" coords="131,155,247,181"/>
-<area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title="USBHID" alt="" coords="153,80,226,107"/>
-<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title="USBDeviceConfig" alt="" coords="42,5,177,32"/>
-<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title="UsbConfigXtracter" alt="" coords="201,5,341,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="136,229,244,256"/>
+<area shape="rect" id="node6" href="$class_mini_d_s_p.html" title=" " alt="" coords="5,304,81,331"/>
+<area shape="rect" id="node7" href="$class_p_s4_u_s_b.html" title=" " alt="" coords="105,304,179,331"/>
+<area shape="rect" id="node8" href="$class_p_s5_u_s_b.html" title=" " alt="" coords="203,304,276,331"/>
+<area shape="rect" id="node9" href="$class_p_s_buzz.html" title=" " alt="" coords="301,304,370,331"/>
+<area shape="rect" id="node2" href="$class_h_i_d_composite.html" title=" " alt="" coords="132,155,248,181"/>
+<area shape="rect" id="node3" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="153,80,227,107"/>
+<area shape="rect" id="node4" href="$class_u_s_b_device_config.html" title=" " alt="" coords="43,5,177,32"/>
+<area shape="rect" id="node5" href="$class_usb_config_xtracter.html" title=" " alt="" coords="201,5,341,32"/>
 </map>

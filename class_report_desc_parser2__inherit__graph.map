@@ -1,4 +1,5 @@
 <map id="ReportDescParser2" name="ReportDescParser2">
-<area shape="rect" id="node2" href="$class_report_desc_parser_base.html" title="ReportDescParserBase" alt="" coords="5,80,173,107"/>
-<area shape="rect" id="node3" href="$class_u_s_b_read_parser.html" title="USBReadParser" alt="" coords="29,5,150,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="17,155,163,181"/>
+<area shape="rect" id="node2" href="$class_report_desc_parser_base.html" title=" " alt="" coords="5,80,175,107"/>
+<area shape="rect" id="node3" href="$class_u_s_b_read_parser.html" title=" " alt="" coords="29,5,151,32"/>
 </map>

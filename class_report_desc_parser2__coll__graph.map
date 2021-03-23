@@ -1,7 +1,8 @@
 <map id="ReportDescParser2" name="ReportDescParser2">
-<area shape="rect" id="node2" href="$class_report_desc_parser_base.html" title="ReportDescParserBase" alt="" coords="201,95,369,121"/>
-<area shape="rect" id="node3" href="$class_u_s_b_read_parser.html" title="USBReadParser" alt="" coords="5,5,127,32"/>
-<area shape="rect" id="node4" href="$struct_multi_value_buffer.html" title="MultiValueBuffer" alt="" coords="151,5,280,32"/>
-<area shape="rect" id="node5" href="$class_byte_skipper.html" title="ByteSkipper" alt="" coords="305,5,406,32"/>
-<area shape="rect" id="node6" href="$class_multi_byte_value_parser.html" title="MultiByteValueParser" alt="" coords="430,5,590,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="214,171,359,197"/>
+<area shape="rect" id="node2" href="$class_report_desc_parser_base.html" title=" " alt="" coords="202,95,371,121"/>
+<area shape="rect" id="node3" href="$class_u_s_b_read_parser.html" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node4" href="$struct_multi_value_buffer.html" title=" " alt="" coords="152,5,283,32"/>
+<area shape="rect" id="node5" href="$class_byte_skipper.html" title=" " alt="" coords="307,5,408,32"/>
+<area shape="rect" id="node6" href="$class_multi_byte_value_parser.html" title=" " alt="" coords="433,5,594,32"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="PS5Data" name="PS5Data">
-<area shape="rect" id="node2" href="$union_p_s5_buttons.html" title="PS5Buttons" alt="" coords="5,5,101,32"/>
-<area shape="rect" id="node3" href="$structps5_touchpad_x_y.html" title="ps5TouchpadXY" alt="" coords="125,5,248,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="81,95,159,121"/>
+<area shape="rect" id="node2" href="$union_p_s5_buttons.html" title=" " alt="" coords="5,5,101,32"/>
+<area shape="rect" id="node3" href="$structps5_touchpad_x_y.html" title=" " alt="" coords="125,5,248,32"/>
 </map>

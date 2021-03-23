@@ -1,5 +1,6 @@
 <map id="XBOXONESBT" name="XBOXONESBT">
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="41,80,103,107"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,5,139,32"/>
-<area shape="rect" id="node4" href="$class_x_b_o_x_o_n_e_s_parser.html" title="XBOXONESParser" alt="" coords="128,80,261,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="78,155,189,181"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,80,103,107"/>
+<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node4" href="$class_x_b_o_x_o_n_e_s_parser.html" title=" " alt="" coords="127,80,262,107"/>
 </map>

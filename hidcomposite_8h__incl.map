@@ -1,5 +1,6 @@
 <map id="hidcomposite.h" name="hidcomposite.h">
-<area shape="rect" id="node2" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="28,80,105,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title="Usb.h" alt="" coords="37,229,96,256"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="59,155,168,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node2" href="$usbhid_8h.html" title=" " alt="" coords="28,80,105,107"/>
+<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="37,229,96,256"/>
+<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="59,155,168,181"/>
 </map>

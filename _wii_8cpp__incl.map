@@ -1,8 +1,9 @@
 <map id="Wii.cpp" name="Wii.cpp">
-<area shape="rect" id="node2" href="$_wii_8h.html" title="Wii.h" alt="" coords="71,80,126,107"/>
-<area shape="rect" id="node3" href="$_b_t_d_8h.html" title="BTD.h" alt="" coords="5,155,67,181"/>
-<area shape="rect" id="node7" href="$controller_enums_8h.html" title="controllerEnums.h" alt="" coords="91,155,231,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title="Usb.h" alt="" coords="20,379,79,405"/>
-<area shape="rect" id="node5" href="$usbhid_8h.html" title="usbhid.h" alt="" coords="36,229,113,256"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title="hidusagestr.h" alt="" coords="87,304,196,331"/>
+<area shape="rect" id="node1" title=" " alt="" coords="63,5,134,32"/>
+<area shape="rect" id="node2" href="$_wii_8h.html" title=" " alt="" coords="71,80,126,107"/>
+<area shape="rect" id="node3" href="$_b_t_d_8h.html" title=" " alt="" coords="5,155,67,181"/>
+<area shape="rect" id="node7" href="$controller_enums_8h.html" title=" " alt="" coords="91,155,231,181"/>
+<area shape="rect" id="node4" href="$_usb_8h.html" title=" " alt="" coords="20,379,79,405"/>
+<area shape="rect" id="node5" href="$usbhid_8h.html" title=" " alt="" coords="36,229,113,256"/>
+<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="87,304,196,331"/>
 </map>

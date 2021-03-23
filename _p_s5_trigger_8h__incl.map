@@ -1,2 +1,4 @@
 <map id="PS5Trigger.h" name="PS5Trigger.h">
+<area shape="rect" id="node1" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="5,5,107,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="13,80,99,107"/>
 </map>

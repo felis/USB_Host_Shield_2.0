@@ -1,11 +1,12 @@
 <map id="hidcomposite.h" name="hidcomposite.h">
-<area shape="rect" id="node2" href="$hidcomposite_8cpp.html" title="hidcomposite.cpp" alt="" coords="92,80,229,107"/>
-<area shape="rect" id="node3" href="$hiduniversal_8h.html" title="hiduniversal.h" alt="" coords="254,80,369,107"/>
-<area shape="rect" id="node4" href="$hiduniversal_8cpp.html" title="hiduniversal.cpp" alt="" coords="5,155,135,181"/>
-<area shape="rect" id="node5" href="$_mini_d_s_p_8h.html" title="MiniDSP.h" alt="" coords="159,155,245,181"/>
-<area shape="rect" id="node7" href="$_p_s4_u_s_b_8h.html" title="PS4USB.h" alt="" coords="269,155,354,181"/>
-<area shape="rect" id="node8" href="$_p_s5_u_s_b_8h.html" title="PS5USB.h" alt="" coords="378,155,463,181"/>
-<area shape="rect" id="node9" href="$_p_s_buzz_8h.html" title="PSBuzz.h" alt="" coords="488,155,569,181"/>
-<area shape="rect" id="node6" href="$_mini_d_s_p_8cpp.html" title="MiniDSP.cpp" alt="" coords="152,229,252,256"/>
-<area shape="rect" id="node10" href="$_p_s_buzz_8cpp.html" title="PSBuzz.cpp" alt="" coords="481,229,577,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="175,5,298,32"/>
+<area shape="rect" id="node2" href="$hidcomposite_8cpp.html" title=" " alt="" coords="93,80,231,107"/>
+<area shape="rect" id="node3" href="$hiduniversal_8h.html" title=" " alt="" coords="255,80,370,107"/>
+<area shape="rect" id="node4" href="$hiduniversal_8cpp.html" title=" " alt="" coords="5,155,135,181"/>
+<area shape="rect" id="node5" href="$_mini_d_s_p_8h.html" title=" " alt="" coords="159,155,245,181"/>
+<area shape="rect" id="node7" href="$_p_s4_u_s_b_8h.html" title=" " alt="" coords="270,155,355,181"/>
+<area shape="rect" id="node8" href="$_p_s5_u_s_b_8h.html" title=" " alt="" coords="379,155,465,181"/>
+<area shape="rect" id="node9" href="$_p_s_buzz_8h.html" title=" " alt="" coords="489,155,571,181"/>
+<area shape="rect" id="node6" href="$_mini_d_s_p_8cpp.html" title=" " alt="" coords="151,229,253,256"/>
+<area shape="rect" id="node10" href="$_p_s_buzz_8cpp.html" title=" " alt="" coords="482,229,578,256"/>
 </map>

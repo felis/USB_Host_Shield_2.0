@@ -1,5 +1,6 @@
 <map id="PS4BT" name="PS4BT">
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title="BTHID" alt="" coords="41,80,103,107"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title="BluetoothService" alt="" coords="5,5,139,32"/>
-<area shape="rect" id="node4" href="$class_p_s4_parser.html" title="PS4Parser" alt="" coords="127,80,214,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="90,155,153,181"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,80,103,107"/>
+<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node4" href="$class_p_s4_parser.html" title=" " alt="" coords="127,80,214,107"/>
 </map>
