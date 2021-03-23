@@ -41,8 +41,8 @@ jobs:
           # Workaround https://github.com/arduino/ArduinoCore-sam/issues/69
           pio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation"
 
-          # Workaround "warning: comparison between signed and unsigned integer expressions" in the Arduino core
-          pio ci --lib="." --board=adafruit_feather_nrf52840 --project-option="build_flags=-Wno-sign-compare"
+          # Ignore warnings in the Arduino core
+          pio ci --lib="." --board=adafruit_feather_nrf52840 --project-option="build_flags=-Wno-sign-compare -Wno-unused-function"
         env:
           PLATFORMIO_CI_SRC: ${{ matrix.example }}
           PLATFORMIO_BUILD_FLAGS: -DWIICAMERA -DDEBUG_USB_HOST -Wall -Werror
