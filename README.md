@@ -116,6 +116,7 @@ Currently the following boards are supported by the library:
 * Sanguino
 * Black Widdow
 * RedBearLab nRF51822
+* Adafruit Feather nRF52840 Express
 * Digilent chipKIT
     * Please see: <https://chome.nerpa.tech/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
