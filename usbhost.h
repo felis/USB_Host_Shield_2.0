@@ -70,7 +70,7 @@ public:
                 #else
                     USB_SPI.setClockDivider(SPI_CLOCK_DIV2); // This will set the SPI frequency to 8MHz - it could be higher, but it is not supported in the old API
                 #endif
-#elif !defined(RBL_NRF51822)
+#elif !defined(RBL_NRF51822) && !defined(NRF52_SERIES)
                 USB_SPI.setClockDivider(4); // Set speed to 84MHz/4=21MHz - the MAX3421E can handle up to 26MHz
 #endif
         }
@@ -120,6 +120,8 @@ typedef SPi< P16, P18, P17, P10 > spi;
 typedef SPi< P14, P13, P12, P15 > spi;
 #elif defined(ESP32)
 typedef SPi< P18, P23, P19, P5 > spi;
+#elif defined(ARDUINO_NRF52840_FEATHER)
+typedef SPi< P26, P25, P24, P5 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif

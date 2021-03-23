@@ -114,7 +114,7 @@ public:
          */
         size_t write(const uint8_t* data, size_t size);
         /** Pull in write(const char *str) from Print */
-#if !defined(RBL_NRF51822)
+#if !defined(RBL_NRF51822) && !defined(NRF52_SERIES)
         using Print::write;
 #endif
 #else
