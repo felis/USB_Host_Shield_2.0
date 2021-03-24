@@ -15,7 +15,7 @@ jobs:
       - name: Install PlatformIO
         run: |
           pip install -U pip setuptools wheel
-          pip install platformio
+          pip install platformio adafruit-nrfutil
       - name: Install MIDI library
         if: contains(matrix.example, 'MIDI')
         # https://platformio.org/lib/show/62/MIDI%20Library
