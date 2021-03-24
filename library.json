@@ -7,8 +7,7 @@
     {
       "name": "Oleg Mazurov",
       "email": "mazurov@circuitsathome.com",
-      "url": "http://www.circuitsathome.com",
-      "maintainer": true
+      "url": "http://www.circuitsathome.com"
     },
     {
       "name": "Alexei Glushchenko",
@@ -22,8 +21,7 @@
     },
     {
       "name": "Andrew Kroll",
-      "email": "xxxajk@gmail.com",
-      "maintainer": true
+      "email": "xxxajk@gmail.com"
     }
   ],
   "repository":
@@ -50,6 +48,7 @@
     "teensy",
     "atmelsam",
     "nordicnrf51",
+    "nordicnrf52",
     "ststm32",
     "espressif8266",
     "espressif32"

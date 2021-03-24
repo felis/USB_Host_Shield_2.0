@@ -1,7 +1,8 @@
-/* Parser for standard HID scale (usage page 0x8d) data input report (ID 3) */ 
-#ifdef ARDUINO_SAM_DUE
+#if defined(ARDUINO_SAM_DUE) || defined(ARDUINO_NRF52840_FEATHER)
 #include <avr/dtostrf.h>
 #endif
+
+/* Parser for standard HID scale (usage page 0x8d) data input report (ID 3) */
 #include "scale_rptparser.h"
 
 const char* UNITS[13] = {

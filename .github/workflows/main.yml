@@ -15,7 +15,7 @@ jobs:
       - name: Install PlatformIO
         run: |
           pip install -U pip setuptools wheel
-          pip install platformio
+          pip install platformio adafruit-nrfutil
       - name: Install MIDI library
         if: contains(matrix.example, 'MIDI')
         # https://platformio.org/lib/show/62/MIDI%20Library
@@ -40,6 +40,9 @@ jobs:
 
           # Workaround https://github.com/arduino/ArduinoCore-sam/issues/69
           pio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation"
+
+          # Ignore warnings in the Arduino core
+          pio ci --lib="." --board=adafruit_feather_nrf52840 --project-option="build_flags=-Wno-sign-compare -Wno-unused-function -Wno-unused-variable"
         env:
           PLATFORMIO_CI_SRC: ${{ matrix.example }}
           PLATFORMIO_BUILD_FLAGS: -DWIICAMERA -DDEBUG_USB_HOST -Wall -Werror
