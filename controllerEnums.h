@@ -77,7 +77,7 @@ enum RumbleEnum {
 /** This enum is used to read all the different buttons on the different controllers */
 enum ButtonEnum {
         /**@{*/
-        /** These buttons are available on all the the controllers */
+        /** Directional Pad Buttons - available on most controllers */
         UP = 0,
         RIGHT = 1,
         DOWN = 2,
@@ -85,69 +85,30 @@ enum ButtonEnum {
         /**@}*/
 
         /**@{*/
-        /** Wii buttons */
-        PLUS,
-        TWO,
-        ONE,
-        MINUS,
-        HOME,
-        Z,
-        C,
-        B,
-        A,
-        /**@}*/
-
-        /**@{*/
-        /** These are only available on the Wii U Pro Controller */
-        L,
-        R,
-        ZL,
-        ZR,
-        /**@}*/
-
-        /**@{*/
-        /** PS3 controllers buttons */
-        SELECT,
-        START,
-        L3,
-        R3,
-
-        L2,
-        R2,
-        L1,
-        R1,
+        /** Playstation buttons */
         TRIANGLE,
         CIRCLE,
         CROSS,
         SQUARE,
 
-        PS,
+        SELECT,
+        START,
 
+        L3,
+        R3,
+
+        L1,
+        R1,
+        L2,
+        R2,
+
+        PS,
+        /**@}*/
+
+        /**@{*/
+        /** PS3 Move Controller */
         MOVE, // Covers 12 bits - we only need to read the top 8
         T, // Covers 12 bits - we only need to read the top 8
-        /**@}*/
-
-        /** PS4 controllers buttons - SHARE and OPTIONS are present instead of SELECT and START */
-        SHARE,
-        OPTIONS,
-        TOUCHPAD,
-        /**@}*/
-
-        /**@{*/
-        /** Xbox buttons */
-        BACK,
-        X,
-        Y,
-        XBOX,
-        SYNC,
-        BLACK, // Available on the original Xbox controller
-        WHITE, // Available on the original Xbox controller
-        /**@}*/
-
-        /**@{*/
-        /** Xbox One S buttons */
-        VIEW,
-        MENU,
         /**@}*/
 
         /**@{*/
@@ -160,9 +121,65 @@ enum ButtonEnum {
         /**@}*/
 
         /**@{*/
+        /** PS4 buttons - SHARE and OPTIONS are present instead of SELECT and START */
+        SHARE,
+        OPTIONS,
+        TOUCHPAD,
+        /**@}*/
+
+        /**@{*/
         /** PS5 buttons */
         CREATE,
         MICROPHONE,
+        /**@}*/
+
+        /**@{*/
+        /** Xbox buttons */
+        A,
+        B,
+        X,
+        Y,
+
+        BACK,
+        // START,  // listed under Playstation buttons
+
+        // L1,  // listed under Playstation buttons
+        // R1,  // listed under Playstation buttons
+        // L2,  // listed under Playstation buttons
+        // R2,  // listed under Playstation buttons
+
+        XBOX,
+        SYNC,
+
+        BLACK, // Available on the original Xbox controller
+        WHITE, // Available on the original Xbox controller
+        /**@}*/
+
+        /**@{*/
+        /** Xbox One S buttons */
+        VIEW,
+        MENU,
+        /**@}*/
+
+        /**@{*/
+        /** Wii buttons */
+        PLUS,
+        TWO,
+        ONE,
+        MINUS,
+        HOME,
+        Z,
+        C,
+        // B,  // listed under Xbox buttons
+        // A,  // listed under Xbox buttons
+        /**@}*/
+
+        /**@{*/
+        /** Wii U Pro Controller */
+        L,
+        R,
+        ZL,
+        ZR,
         /**@}*/
 };
 
