@@ -331,9 +331,9 @@ void XBOXONE::readReport() {
         if(readBuf[0] == 0x07) {
                 // The XBOX button has a separate message
                 if(readBuf[4] == 1)
-                        ButtonState |= pgm_read_word(&XBOX_BUTTONS[XBOX]);
+                        ButtonState |= pgm_read_word(&XBOX_BUTTONS[legacyButtonValues(XBOX)]);
                 else
-                        ButtonState &= ~pgm_read_word(&XBOX_BUTTONS[XBOX]);
+                        ButtonState &= ~pgm_read_word(&XBOX_BUTTONS[legacyButtonValues(XBOX)]);
 
                 if(ButtonState != OldButtonState) {
                     ButtonClickState = ButtonState & ~OldButtonState; // Update click state variable
@@ -348,7 +348,7 @@ void XBOXONE::readReport() {
                 return;
         }
 
-        uint16_t xbox = ButtonState & pgm_read_word(&XBOX_BUTTONS[XBOX]); // Since the XBOX button is separate, save it and add it back in
+        uint16_t xbox = ButtonState & pgm_read_word(&XBOX_BUTTONS[legacyButtonValues(XBOX)]); // Since the XBOX button is separate, save it and add it back in
         // xbox button from before, dpad, abxy, start/back, sync, stick click, shoulder buttons
         ButtonState = xbox | (((uint16_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint16_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint16_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4);
 
@@ -382,7 +382,8 @@ uint16_t XBOXONE::getButtonPress(ButtonEnum b) {
                 return triggerValue[0];
         else if(b == R2)
                 return triggerValue[1];
-        return (bool)(ButtonState & ((uint16_t)pgm_read_word(&XBOX_BUTTONS[(uint8_t)b])));
+        const int8_t index = getXboxButtonIndex(b); if (index < 0) return 0;
+        return (bool)(ButtonState & ((uint16_t)pgm_read_word(&XBOX_BUTTONS[index])));
 }
 
 bool XBOXONE::getButtonClick(ButtonEnum b) {
@@ -399,7 +400,8 @@ bool XBOXONE::getButtonClick(ButtonEnum b) {
                 }
                 return false;
         }
-        uint16_t button = pgm_read_word(&XBOX_BUTTONS[(uint8_t)b]);
+        const int8_t index = getXboxButtonIndex(b); if (index < 0) return 0;
+        uint16_t button = pgm_read_word(&XBOX_BUTTONS[index]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // Clear "click" event
         return click;

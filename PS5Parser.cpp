@@ -36,6 +36,12 @@ enum DPADEnum {
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the PS5 Controller
 
+int8_t PS5Parser::getButtonIndex(ButtonEnum b) {
+    const uint8_t index = legacyButtonValues(b);
+    if (index >= sizeof(PS5_BUTTONS) / sizeof(PS5_BUTTONS[0])) return -1;
+    return index;
+}
+
 bool PS5Parser::checkDpad(ButtonEnum b) {
         switch (b) {
                 case UP:
@@ -52,14 +58,16 @@ bool PS5Parser::checkDpad(ButtonEnum b) {
 }
 
 bool PS5Parser::getButtonPress(ButtonEnum b) {
-        if (b <= LEFT) // Dpad
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        if (index <= LEFT) // Dpad
                 return checkDpad(b);
         else
-                return ps5Data.btn.val & (1UL << pgm_read_byte(&PS5_BUTTONS[(uint8_t)b]));
+                return ps5Data.btn.val & (1UL << pgm_read_byte(&PS5_BUTTONS[index]));
 }
 
 bool PS5Parser::getButtonClick(ButtonEnum b) {
-        uint32_t mask = 1UL << pgm_read_byte(&PS5_BUTTONS[(uint8_t)b]);
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        uint32_t mask = 1UL << pgm_read_byte(&PS5_BUTTONS[index]);
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
         return click;

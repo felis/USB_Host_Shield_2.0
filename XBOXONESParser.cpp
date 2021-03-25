@@ -54,6 +54,12 @@ enum DPADEnum {
         DPAD_LEFT_UP = 0x8,
 };
 
+int8_t XBOXONESParser::getButtonIndex(ButtonEnum b) {
+        const uint8_t index = legacyButtonValues(b);
+        if (index >= sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0])) return -1;
+        return index;
+}
+
 bool XBOXONESParser::checkDpad(ButtonEnum b) {
         switch (b) {
                 case UP:
@@ -78,7 +84,8 @@ uint16_t XBOXONESParser::getButtonPress(ButtonEnum b) {
                 return checkDpad(b);
         else if (b == XBOX)
                 return xboxButtonState;
-        return xboxOneSData.btn.val & (1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[(uint8_t)b]));
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        return xboxOneSData.btn.val & (1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[index]));
 }
 
 bool XBOXONESParser::getButtonClick(ButtonEnum b) {
@@ -99,7 +106,8 @@ bool XBOXONESParser::getButtonClick(ButtonEnum b) {
                 xboxbuttonClickState = 0; // Clear "click" event
                 return click;
         }
-        uint32_t mask = 1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[(uint8_t)b]);
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        uint32_t mask = 1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[index]);
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
         return click;

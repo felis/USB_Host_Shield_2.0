@@ -86,85 +86,168 @@ enum ButtonEnum {
 
         /**@{*/
         /** Wii buttons */
-        PLUS = 5,
-        TWO = 6,
-        ONE = 7,
-        MINUS = 8,
-        HOME = 9,
-        Z = 10,
-        C = 11,
-        B = 12,
-        A = 13,
+        PLUS,
+        TWO,
+        ONE,
+        MINUS,
+        HOME,
+        Z,
+        C,
+        B,
+        A,
         /**@}*/
 
         /**@{*/
         /** These are only available on the Wii U Pro Controller */
-        L = 16,
-        R = 17,
-        ZL = 18,
-        ZR = 19,
+        L,
+        R,
+        ZL,
+        ZR,
         /**@}*/
 
         /**@{*/
         /** PS3 controllers buttons */
-        SELECT = 4,
-        START = 5,
-        L3 = 6,
-        R3 = 7,
+        SELECT,
+        START,
+        L3,
+        R3,
 
-        L2 = 8,
-        R2 = 9,
-        L1 = 10,
-        R1 = 11,
-        TRIANGLE = 12,
-        CIRCLE = 13,
-        CROSS = 14,
-        SQUARE = 15,
+        L2,
+        R2,
+        L1,
+        R1,
+        TRIANGLE,
+        CIRCLE,
+        CROSS,
+        SQUARE,
 
-        PS = 16,
+        PS,
 
-        MOVE = 17, // Covers 12 bits - we only need to read the top 8
-        T = 18, // Covers 12 bits - we only need to read the top 8
+        MOVE, // Covers 12 bits - we only need to read the top 8
+        T, // Covers 12 bits - we only need to read the top 8
         /**@}*/
 
         /** PS4 controllers buttons - SHARE and OPTIONS are present instead of SELECT and START */
-        SHARE = 4,
-        OPTIONS = 5,
-        TOUCHPAD = 17,
+        SHARE,
+        OPTIONS,
+        TOUCHPAD,
         /**@}*/
 
         /**@{*/
         /** Xbox buttons */
-        BACK = 4,
-        X = 14,
-        Y = 15,
-        XBOX = 16,
-        SYNC = 17,
-        BLACK = 8, // Available on the original Xbox controller
-        WHITE = 9, // Available on the original Xbox controller
+        BACK,
+        X,
+        Y,
+        XBOX,
+        SYNC,
+        BLACK, // Available on the original Xbox controller
+        WHITE, // Available on the original Xbox controller
         /**@}*/
 
         /**@{*/
         /** Xbox One S buttons */
-        VIEW = 4,
-        MENU = 5,
+        VIEW,
+        MENU,
         /**@}*/
 
         /**@{*/
         /** PS Buzz controllers */
-        RED = 0,
-        YELLOW = 1,
-        GREEN = 2,
-        ORANGE = 3,
-        BLUE = 4,
+        RED,
+        YELLOW,
+        GREEN,
+        ORANGE,
+        BLUE,
         /**@}*/
 
         /**@{*/
         /** PS5 buttons */
-        CREATE = 4,
-        MICROPHONE = 18,
+        CREATE,
+        MICROPHONE,
         /**@}*/
 };
+
+inline uint8_t legacyButtonValues(ButtonEnum key) {
+    uint8_t out;
+
+    switch (key) {
+    case UP:
+    case RED:
+        out = 0; break;
+    case RIGHT:
+    case YELLOW:
+        out = 1; break;
+    case DOWN:
+    case GREEN:
+        out = 2; break;
+    case LEFT:
+    case ORANGE:
+        out = 3; break;
+    case SELECT:
+    case SHARE:
+    case BACK:
+    case VIEW:
+    case BLUE:
+    case CREATE:
+        out = 4; break;
+    case PLUS:
+    case START:
+    case OPTIONS:
+    case MENU:
+        out = 5; break;
+    case TWO:
+    case L3:
+        out = 6; break;
+    case ONE:
+    case R3:
+        out = 7; break;
+    case MINUS:
+    case L2:
+    case BLACK:
+        out = 8; break;
+    case HOME:
+    case R2:
+    case WHITE:
+        out = 9; break;
+    case Z:
+    case L1:
+        out = 10; break;
+    case C:
+    case R1:
+        out = 11; break;
+    case B:
+    case TRIANGLE:
+        out = 12; break;
+    case A:
+    case CIRCLE:
+        out = 13; break;
+    case CROSS:
+    case X:
+        out = 14; break;
+    case SQUARE:
+    case Y:
+        out = 15; break;
+    case L:
+    case PS:
+    case XBOX:
+        out = 16; break;
+    case R:
+    case MOVE:
+    case TOUCHPAD:
+        out = 17; break;
+    case SYNC:
+        out = 17; break;
+    case ZL:
+    case T:
+    case MICROPHONE:
+        out = 18; break;
+    case ZR:
+        out = 19; break;
+    default:
+        out = 0; break;
+    }
+
+    return out;
+}
 
 /** Joysticks on the PS3 and Xbox controllers. */
 enum AnalogHatEnum {
