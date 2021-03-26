@@ -139,8 +139,8 @@ enum StatusEnum {
 };
 
 inline int8_t getPS3ButtonIndex(ButtonEnum b) {
-    const uint8_t index = legacyButtonValues(b);
-    if (index >= sizeof(PS3_BUTTONS) / sizeof(PS3_BUTTONS[0])) return -1;
+    const int8_t index = legacyButtonValues(b);
+    if ((uint8_t) index >= (sizeof(PS3_BUTTONS) / sizeof(PS3_BUTTONS[0]))) return -1;
     return index;
 }
 

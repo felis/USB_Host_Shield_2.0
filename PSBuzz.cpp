@@ -50,7 +50,7 @@ uint8_t PSBuzz::OnInitSuccessful() {
 };
 
 int8_t PSBuzz::getButtonIndex(ButtonEnum b) {
-    const uint8_t index = legacyButtonValues(b);
+    const int8_t index = legacyButtonValues(b);
     if (index > 4) return -1;  // 5 buttons, 0-4 inclusive
     return index;
 }

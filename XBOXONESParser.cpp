@@ -55,8 +55,8 @@ enum DPADEnum {
 };
 
 int8_t XBOXONESParser::getButtonIndex(ButtonEnum b) {
-        const uint8_t index = legacyButtonValues(b);
-        if (index >= sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0])) return -1;
+        const int8_t index = legacyButtonValues(b);
+        if ((uint8_t) index >= (sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0]))) return -1;
         return index;
 }
 

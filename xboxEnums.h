@@ -63,8 +63,8 @@ const uint16_t XBOX_BUTTONS[] PROGMEM = {
 };
 
 inline int8_t getXboxButtonIndex(ButtonEnum b) {
-        const uint8_t index = legacyButtonValues(b);
-        if (index >= sizeof(XBOX_BUTTONS) / sizeof(XBOX_BUTTONS[0])) return -1;
+        const int8_t index = legacyButtonValues(b);
+        if ((uint8_t) index >= (sizeof(XBOX_BUTTONS) / sizeof(XBOX_BUTTONS[0]))) return -1;
         return index;
 }
 

@@ -183,87 +183,83 @@ enum ButtonEnum {
         /**@}*/
 };
 
-inline uint8_t legacyButtonValues(ButtonEnum key) {
-    uint8_t out;
-
+inline int8_t legacyButtonValues(ButtonEnum key) {
     switch (key) {
     case UP:
     case RED:
-        out = 0; break;
+        return 0;
     case RIGHT:
     case YELLOW:
-        out = 1; break;
+        return 1;
     case DOWN:
     case GREEN:
-        out = 2; break;
+        return 2;
     case LEFT:
     case ORANGE:
-        out = 3; break;
+        return 3;
     case SELECT:
     case SHARE:
     case BACK:
     case VIEW:
     case BLUE:
     case CREATE:
-        out = 4; break;
+        return 4;
     case PLUS:
     case START:
     case OPTIONS:
     case MENU:
-        out = 5; break;
+        return 5;
     case TWO:
     case L3:
-        out = 6; break;
+        return 6;
     case ONE:
     case R3:
-        out = 7; break;
+        return 7;
     case MINUS:
     case L2:
     case BLACK:
-        out = 8; break;
+        return 8;
     case HOME:
     case R2:
     case WHITE:
-        out = 9; break;
+        return 9;
     case Z:
     case L1:
-        out = 10; break;
+        return 10;
     case C:
     case R1:
-        out = 11; break;
+        return 11;
     case B:
     case TRIANGLE:
-        out = 12; break;
+        return 12;
     case A:
     case CIRCLE:
-        out = 13; break;
+        return 13;
     case CROSS:
     case X:
-        out = 14; break;
+        return 14;
     case SQUARE:
     case Y:
-        out = 15; break;
+        return 15;
     case L:
     case PS:
     case XBOX:
-        out = 16; break;
+        return 16;
     case R:
     case MOVE:
     case TOUCHPAD:
-        out = 17; break;
     case SYNC:
-        out = 17; break;
+        return 17;
     case ZL:
     case T:
     case MICROPHONE:
-        out = 18; break;
+        return 18;
     case ZR:
-        out = 19; break;
+        return 19;
     default:
-        out = 0; break;
+        return -1;
     }
-
-    return out;
+    return -1;
 }
 
 /** Joysticks on the PS3 and Xbox controllers. */

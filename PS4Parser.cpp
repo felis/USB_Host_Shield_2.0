@@ -33,8 +33,8 @@ enum DPADEnum {
 //#define PRINTREPORT // Uncomment to print the report send by the PS4 Controller
 
 int8_t PS4Parser::getButtonIndex(ButtonEnum b) {
-    const uint8_t index = legacyButtonValues(b);
-    if (index >= sizeof(PS4_BUTTONS) / sizeof(PS4_BUTTONS[0])) return -1;
+    const int8_t index = legacyButtonValues(b);
+    if ((uint8_t) index >= (sizeof(PS4_BUTTONS) / sizeof(PS4_BUTTONS[0]))) return -1;
     return index;
 }
 
