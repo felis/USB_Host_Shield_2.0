@@ -175,9 +175,10 @@ protected:
         /**@}*/
 
 private:
+        static int8_t getButtonIndexBuzz(ButtonEnum b);
+
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
-        static int8_t getButtonIndex(ButtonEnum b);
         void PSBuzz_Command(uint8_t *data, uint16_t nbytes);
 
         PSBUZZButtons psbuzzButtons, oldButtonState, buttonClickState;

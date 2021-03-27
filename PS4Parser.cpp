@@ -32,8 +32,8 @@ enum DPADEnum {
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the PS4 Controller
 
-int8_t PS4Parser::getButtonIndex(ButtonEnum b) {
-    const int8_t index = legacyButtonValues(b);
+int8_t PS4Parser::getButtonIndexPS4(ButtonEnum b) {
+    const int8_t index = ButtonIndex(b);
     if ((uint8_t) index >= (sizeof(PS4_BUTTONS) / sizeof(PS4_BUTTONS[0]))) return -1;
     return index;
 }
@@ -54,7 +54,7 @@ bool PS4Parser::checkDpad(ButtonEnum b) {
 }
 
 bool PS4Parser::getButtonPress(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS4(b); if (index < 0) return 0;
         if (index <= LEFT) // Dpad
                 return checkDpad(b);
         else
@@ -62,7 +62,7 @@ bool PS4Parser::getButtonPress(ButtonEnum b) {
 }
 
 bool PS4Parser::getButtonClick(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS4(b); if (index < 0) return 0;
         uint32_t mask = 1UL << pgm_read_byte(&PS4_BUTTONS[index]);
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
@@ -70,10 +70,10 @@ bool PS4Parser::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS4Parser::getAnalogButton(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
-        if (index == legacyButtonValues(L2)) // These are the only analog buttons on the controller
+        const int8_t index = getButtonIndexPS4(b); if (index < 0) return 0;
+        if (index == ButtonIndex(L2)) // These are the only analog buttons on the controller
                 return ps4Data.trigger[0];
-        else if (index == legacyButtonValues(R2))
+        else if (index == ButtonIndex(R2))
                 return ps4Data.trigger[1];
         return 0;
 }

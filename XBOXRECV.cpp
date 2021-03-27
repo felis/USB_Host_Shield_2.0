@@ -408,23 +408,23 @@ void XBOXRECV::printReport(uint8_t controller __attribute__((unused)), uint8_t n
 }
 
 uint8_t XBOXRECV::getButtonPress(ButtonEnum b, uint8_t controller) {
-        const int8_t index = getXboxButtonIndex(b); if (index < 0) return 0;
-        if(index == legacyButtonValues(L2)) // These are analog buttons
+        const int8_t index = getButtonIndexXbox(b); if (index < 0) return 0;
+        if(index == ButtonIndex(L2)) // These are analog buttons
                 return (uint8_t)(ButtonState[controller] >> 8);
-        else if(index == legacyButtonValues(R2))
+        else if(index == ButtonIndex(R2))
                 return (uint8_t)ButtonState[controller];
         return (bool)(ButtonState[controller] & ((uint32_t)pgm_read_word(&XBOX_BUTTONS[index]) << 16));
 }
 
 bool XBOXRECV::getButtonClick(ButtonEnum b, uint8_t controller) {
-        const int8_t index = getXboxButtonIndex(b); if (index < 0) return 0;
-        if(index == legacyButtonValues(L2)) {
+        const int8_t index = getButtonIndexXbox(b); if (index < 0) return 0;
+        if(index == ButtonIndex(L2)) {
                 if(L2Clicked[controller]) {
                         L2Clicked[controller] = false;
                         return true;
                 }
                 return false;
-        } else if(index == legacyButtonValues(R2)) {
+        } else if(index == ButtonIndex(R2)) {
                 if(R2Clicked[controller]) {
                         R2Clicked[controller] = false;
                         return true;

@@ -47,12 +47,12 @@ BluetoothService(p) // Pointer to USB class instance - mandatory
 }
 
 bool PS3BT::getButtonPress(ButtonEnum b) {
-        const int8_t index = getPS3ButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS3(b); if (index < 0) return 0;
         return (ButtonState & pgm_read_dword(&PS3_BUTTONS[index]));
 }
 
 bool PS3BT::getButtonClick(ButtonEnum b) {
-        const int8_t index = getPS3ButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS3(b); if (index < 0) return 0;
         uint32_t button = pgm_read_dword(&PS3_BUTTONS[index]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // Clear "click" event
@@ -60,7 +60,7 @@ bool PS3BT::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS3BT::getAnalogButton(ButtonEnum a) {
-        const int8_t index = getPS3ButtonIndex(a); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS3(a); if (index < 0) return 0;
         return (uint8_t)(l2capinbuf[pgm_read_byte(&PS3_ANALOG_BUTTONS[index])]);
 }
 

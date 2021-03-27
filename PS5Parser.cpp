@@ -36,8 +36,8 @@ enum DPADEnum {
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the PS5 Controller
 
-int8_t PS5Parser::getButtonIndex(ButtonEnum b) {
-    const int8_t index = legacyButtonValues(b);
+int8_t PS5Parser::getButtonIndexPS5(ButtonEnum b) {
+    const int8_t index = ButtonIndex(b);
     if ((uint8_t) index >= (sizeof(PS5_BUTTONS) / sizeof(PS5_BUTTONS[0]))) return -1;
     return index;
 }
@@ -58,7 +58,7 @@ bool PS5Parser::checkDpad(ButtonEnum b) {
 }
 
 bool PS5Parser::getButtonPress(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS5(b); if (index < 0) return 0;
         if (index <= LEFT) // Dpad
                 return checkDpad(b);
         else
@@ -66,7 +66,7 @@ bool PS5Parser::getButtonPress(ButtonEnum b) {
 }
 
 bool PS5Parser::getButtonClick(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        const int8_t index = getButtonIndexPS5(b); if (index < 0) return 0;
         uint32_t mask = 1UL << pgm_read_byte(&PS5_BUTTONS[index]);
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
@@ -74,10 +74,10 @@ bool PS5Parser::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS5Parser::getAnalogButton(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
-        if (index == legacyButtonValues(L2)) // These are the only analog buttons on the controller
+        const int8_t index = getButtonIndexPS5(b); if (index < 0) return 0;
+        if (index == ButtonIndex(L2)) // These are the only analog buttons on the controller
                 return ps5Data.trigger[0];
-        else if (index == legacyButtonValues(R2))
+        else if (index == ButtonIndex(R2))
                 return ps5Data.trigger[1];
         return 0;
 }

@@ -54,8 +54,8 @@ enum DPADEnum {
         DPAD_LEFT_UP = 0x8,
 };
 
-int8_t XBOXONESParser::getButtonIndex(ButtonEnum b) {
-        const int8_t index = legacyButtonValues(b);
+int8_t XBOXONESParser::getButtonIndexXboxOneS(ButtonEnum b) {
+        const int8_t index = ButtonIndex(b);
         if ((uint8_t) index >= (sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0]))) return -1;
         return index;
 }
@@ -76,33 +76,33 @@ bool XBOXONESParser::checkDpad(ButtonEnum b) {
 }
 
 uint16_t XBOXONESParser::getButtonPress(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
-        if (index == legacyButtonValues(L2))
+        const int8_t index = getButtonIndexXboxOneS(b); if (index < 0) return 0;
+        if (index == ButtonIndex(L2))
                 return xboxOneSData.trigger[0];
-        else if (index == legacyButtonValues(R2))
+        else if (index == ButtonIndex(R2))
                 return xboxOneSData.trigger[1];
         else if (index <= LEFT) // Dpad
                 return checkDpad(b);
-        else if (index == legacyButtonValues(XBOX))
+        else if (index == ButtonIndex(XBOX))
                 return xboxButtonState;
         return xboxOneSData.btn.val & (1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[index]));
 }
 
 bool XBOXONESParser::getButtonClick(ButtonEnum b) {
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
-        if(index == legacyButtonValues(L2)) {
+        const int8_t index = getButtonIndexXboxOneS(b); if (index < 0) return 0;
+        if(index == ButtonIndex(L2)) {
                 if(L2Clicked) {
                         L2Clicked = false;
                         return true;
                 }
                 return false;
-        } else if(index == legacyButtonValues(R2)) {
+        } else if(index == ButtonIndex(R2)) {
                 if(R2Clicked) {
                         R2Clicked = false;
                         return true;
                 }
                 return false;
-        } else if (index == legacyButtonValues(XBOX)) {
+        } else if (index == ButtonIndex(XBOX)) {
                 bool click = xboxbuttonClickState;
                 xboxbuttonClickState = 0; // Clear "click" event
                 return click;

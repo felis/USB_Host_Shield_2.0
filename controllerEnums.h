@@ -183,7 +183,7 @@ enum ButtonEnum {
         /**@}*/
 };
 
-inline constexpr int8_t legacyButtonValues(ButtonEnum key) {
+inline constexpr int8_t ButtonIndex(ButtonEnum key) {
     // using a chained ternary in place of a switch for constexpr on older compilers
     return
         (key == UP || key == RED) ? 0 :
