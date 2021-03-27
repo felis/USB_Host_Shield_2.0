@@ -183,83 +183,30 @@ enum ButtonEnum {
         /**@}*/
 };
 
-inline int8_t legacyButtonValues(ButtonEnum key) {
-    switch (key) {
-    case UP:
-    case RED:
-        return 0;
-    case RIGHT:
-    case YELLOW:
-        return 1;
-    case DOWN:
-    case GREEN:
-        return 2;
-    case LEFT:
-    case ORANGE:
-        return 3;
-    case SELECT:
-    case SHARE:
-    case BACK:
-    case VIEW:
-    case BLUE:
-    case CREATE:
-        return 4;
-    case PLUS:
-    case START:
-    case OPTIONS:
-    case MENU:
-        return 5;
-    case TWO:
-    case L3:
-        return 6;
-    case ONE:
-    case R3:
-        return 7;
-    case MINUS:
-    case L2:
-    case BLACK:
-        return 8;
-    case HOME:
-    case R2:
-    case WHITE:
-        return 9;
-    case Z:
-    case L1:
-        return 10;
-    case C:
-    case R1:
-        return 11;
-    case B:
-    case TRIANGLE:
-        return 12;
-    case A:
-    case CIRCLE:
-        return 13;
-    case CROSS:
-    case X:
-        return 14;
-    case SQUARE:
-    case Y:
-        return 15;
-    case L:
-    case PS:
-    case XBOX:
-        return 16;
-    case R:
-    case MOVE:
-    case TOUCHPAD:
-    case SYNC:
-        return 17;
-    case ZL:
-    case T:
-    case MICROPHONE:
-        return 18;
-    case ZR:
-        return 19;
-    default:
-        return -1;
-    }
-    return -1;
+inline constexpr int8_t legacyButtonValues(ButtonEnum key) {
+    // using a chained ternary in place of a switch for constexpr on older compilers
+    return
+        (key == UP || key == RED) ? 0 :
+        (key == RIGHT || key == YELLOW) ? 1 :
+        (key == DOWN || key == GREEN) ? 2 :
+        (key == LEFT || key == ORANGE) ? 3 :
+        (key == SELECT || key == SHARE || key == BACK || key == VIEW || key == BLUE || key == CREATE) ? 4 :
+        (key == PLUS || key == START || key == OPTIONS || key == MENU) ? 5 :
+        (key == TWO || key == L3) ? 6 :
+        (key == ONE || key == R3) ? 7 :
+        (key == MINUS || key == L2 || key == BLACK) ? 8 :
+        (key == HOME || key == R2 || key == WHITE) ? 9 :
+        (key == Z || key == L1) ? 10 :
+        (key == C || key == R1) ? 11 :
+        (key == B || key == TRIANGLE) ? 12 :
+        (key == A || key == CIRCLE) ? 13 :
+        (key == CROSS || key == X) ? 14 :
+        (key == SQUARE || key == Y) ? 15 :
+        (key == L || key == PS || key == XBOX) ? 16 :
+        (key == R || key == MOVE || key == TOUCHPAD || key == SYNC) ? 17 :
+        (key == ZL || key == T || key == MICROPHONE) ? 18 :
+        (key == ZR) ? 19 :
+        -1;  // not a match
 }
 
 /** Joysticks on the PS3 and Xbox controllers. */
