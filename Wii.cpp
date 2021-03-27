@@ -1094,16 +1094,12 @@ void WII::readWiiBalanceBoardCalibration() {
 /*                    WII Commands                          */
 /************************************************************/
 
-int8_t WII::getButtonIndex(ButtonEnum b) {
-        const int8_t index = legacyButtonValues(b);
-        if ((uint8_t) index >= (sizeof(WII_BUTTONS) / sizeof(WII_BUTTONS[0]))) return -1;
-        return index;
+inline constexpr int8_t WII::getButtonIndex(ButtonEnum b) {
+        return (uint8_t)legacyButtonValues(b) >= (sizeof(WII_BUTTONS) / sizeof(WII_BUTTONS[0])) ? -1 : legacyButtonValues(b);
 }
 
-int8_t WII::getButtonIndexPro(ButtonEnum b) {
-        const int8_t index = legacyButtonValues(b);
-        if ((uint8_t) index >= (sizeof(WII_PROCONTROLLER_BUTTONS) / sizeof(WII_PROCONTROLLER_BUTTONS[0]))) return -1;
-        return index;
+inline constexpr int8_t WII::getButtonIndexPro(ButtonEnum b) {
+        return (uint8_t)legacyButtonValues(b) >= (sizeof(WII_PROCONTROLLER_BUTTONS) / sizeof(WII_PROCONTROLLER_BUTTONS[0])) ? -1 : legacyButtonValues(b);
 }
 
 bool WII::getButtonPress(ButtonEnum b) { // Return true when a button is pressed

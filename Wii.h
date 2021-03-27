@@ -431,8 +431,8 @@ protected:
         /**@}*/
 
 private:
-        static int8_t getButtonIndex(ButtonEnum b);
-        static int8_t getButtonIndexPro(ButtonEnum b);
+        static inline constexpr int8_t getButtonIndex(ButtonEnum b);
+        static inline constexpr int8_t getButtonIndexPro(ButtonEnum b);
 
         void L2CAP_task(); // L2CAP state machine
 
