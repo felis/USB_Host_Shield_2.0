@@ -218,8 +218,6 @@ void AMBX::Light_Command(uint8_t *data, uint16_t nbytes) {
         Notify(PSTR("\r\nLight command "), 0x80);
         #endif
         pUsb->outTransfer(bAddress, epInfo[ AMBX_OUTPUT_PIPE ].epAddr, nbytes, data);
-        //Do really short delay, I've noticed otherwise the controller will receive all command at once, and might not process all of them.
-        delay(1);
 }
 
 void AMBX::setLight(uint8_t ambx_light, uint8_t r, uint8_t g, uint8_t b) {

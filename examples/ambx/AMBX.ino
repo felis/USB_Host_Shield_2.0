@@ -13,8 +13,9 @@
 USB Usb;
 AMBX AMBX(&Usb); // This will just create the instance
 
-bool printAngle;
 uint8_t state = 0;
+const long interval = 1000;
+unsigned long previousMillis = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -27,29 +28,34 @@ void setup() {
   }
   Serial.print(F("\r\nAMBX USB Library Started"));
 }
+
 void loop() {
   Usb.Task();
-
-  if (AMBX.AMBXConnected) {
-    if (state == 0) {
-
-    } else if (state == 1) {
-      AMBX.setAllLights(Red);
-    } else if (state == 2) {
-      AMBX.setAllLights(Green);
-    } else if (state == 3) {
-      AMBX.setAllLights(Blue);
-    } else if (state == 4) {
-      AMBX.setAllLights(White);
+    
+    if (AMBX.AMBXConnected) {
+      unsigned long currentMillis = millis();
+      if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
+        
+        if (state > 4) {
+          state = 0;
+        }
+        if (state == 0) {
+          Serial.print(F("\r\nRed"));
+          AMBX.setAllLights(Red);
+        } else if (state == 1) {
+          Serial.print(F("\r\nGreen"));
+          AMBX.setAllLights(Green);
+        } else if (state == 2) {
+          Serial.print(F("\r\nBlue"));
+          AMBX.setAllLights(Blue);
+        } else if (state == 3) {
+          Serial.print(F("\r\nWhite"));
+          AMBX.setAllLights(White);
+        }
+        state++;
+      }
     }
-
-    //Example using single light:
-    //AMBX.setLight(Wallwasher_center, White);
-
-    state++;
-    if (state > 4)
-      state = 0;
-    delay(1000);
-  }
-  delay(10);
+  //Example using single light:
+  //AMBX.setLight(Wallwasher_center, White);
 }
