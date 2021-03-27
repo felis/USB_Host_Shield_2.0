@@ -44,7 +44,6 @@ const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
         3, // Y
 };
 
-
 XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory

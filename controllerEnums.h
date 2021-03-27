@@ -191,15 +191,15 @@ inline constexpr int8_t ButtonIndex(ButtonEnum key) {
         (key == DOWN || key == GREEN) ? 2 :
         (key == LEFT || key == ORANGE) ? 3 :
         (key == SELECT || key == SHARE || key == BACK || key == VIEW || key == BLUE || key == CREATE) ? 4 :
-        (key == PLUS || key == START || key == OPTIONS || key == MENU) ? 5 :
-        (key == TWO || key == L3) ? 6 :
-        (key == ONE || key == R3) ? 7 :
-        (key == MINUS || key == L2 || key == BLACK) ? 8 :
-        (key == HOME || key == R2 || key == WHITE) ? 9 :
-        (key == Z || key == L1) ? 10 :
-        (key == C || key == R1) ? 11 :
-        (key == B || key == TRIANGLE) ? 12 :
-        (key == A || key == CIRCLE) ? 13 :
+        (key == START || key == OPTIONS || key == MENU || key == PLUS) ? 5 :
+        (key == L3 || key == TWO) ? 6 :
+        (key == R3 || key == ONE) ? 7 :
+        (key == L2 || key == MINUS || key == BLACK) ? 8 :
+        (key == R2 || key == HOME || key == WHITE) ? 9 :
+        (key == L1 || key == Z) ? 10 :
+        (key == R1 || key == C) ? 11 :
+        (key == TRIANGLE || key == B) ? 12 :
+        (key == CIRCLE || key == A) ? 13 :
         (key == CROSS || key == X) ? 14 :
         (key == SQUARE || key == Y) ? 15 :
         (key == L || key == PS || key == XBOX) ? 16 :
