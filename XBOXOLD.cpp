@@ -20,6 +20,30 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox controller
 
+/** Buttons on the controllers */
+const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
+        0x01, // UP
+        0x08, // RIGHT
+        0x02, // DOWN
+        0x04, // LEFT
+
+        0x20, // BACK
+        0x10, // START
+        0x40, // L3
+        0x80, // R3
+
+        // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+        4, // BLACK
+        5, // WHTIE
+        6, // L1
+        7, // R1
+
+        1, // B
+        0, // A
+        2, // X
+        3, // Y
+};
+
 
 XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
@@ -270,74 +294,55 @@ void XBOXOLD::printReport(uint16_t length __attribute__((unused))) { //Uncomment
 }
 
 int8_t XBOXOLD::getAnalogIndex(ButtonEnum b) {
-        // A, B, X, Y, BLACK, WHITE, L, and R are analog buttons
-        uint8_t out;
+        // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
+        const int8_t index = ButtonIndex(b);
 
-        switch (b) {
-        case A:
-                out = 0; break;
-        case B:
-                out = 1; break;
-        case X:
-                out = 2; break;
-        case Y:
-                out = 3; break;
-        case WHITE:
-                out = 5; break;
-        case BLACK:
-                out = 4; break;
-        case L:
-        case L1:
-        case L2:
-                out = 6; break;
-        case R:
-        case R1:
-        case R2:
-                out = 7; break;
-        default:
-                out = -1; break;
+        switch (index) {
+        case ButtonIndex(A):
+        case ButtonIndex(B):
+        case ButtonIndex(X):
+        case ButtonIndex(Y):
+        case ButtonIndex(BLACK):
+        case ButtonIndex(WHITE):
+        case ButtonIndex(L1):
+        case ButtonIndex(R1):
+                return index;
+        default: break;
         }
 
-        return out;
+        return -1;
 }
 
-int8_t XBOXOLD::getDigitalOffset(ButtonEnum b) {
+int8_t XBOXOLD::getDigitalIndex(ButtonEnum b) {
         // UP, DOWN, LEFT, RIGHT, START, BACK, L3, and R3 are digital buttons
-        // (these are offets for the bitshift)
-        uint8_t out;
+        const int8_t index = ButtonIndex(b);
 
-        switch (b) {
-        case UP:
-                out = 0; break;
-        case DOWN:
-                out = 1; break;
-        case LEFT:
-                out = 2; break;
-        case RIGHT:
-                out = 3; break;
-        case START:
-                out = 4; break;
-        case BACK:
-                out = 5; break;
-        case L3:
-                out = 6; break;
-        case R3:
-                out = 7; break;
-        default:
-                out = -1; break;
+        switch (index) {
+        case ButtonIndex(UP):
+        case ButtonIndex(DOWN):
+        case ButtonIndex(LEFT):
+        case ButtonIndex(RIGHT):
+        case ButtonIndex(START):
+        case ButtonIndex(BACK):
+        case ButtonIndex(L3):
+        case ButtonIndex(R3):
+                return index;
+        default: break;
         }
 
-        return out;
+        return -1;
 }
 
 uint8_t XBOXOLD::getButtonPress(ButtonEnum b) {
         const int8_t analogIndex = getAnalogIndex(b);
         if (analogIndex >= 0) {
-                return buttonValues[analogIndex];
+                const uint8_t buttonIndex = pgm_read_byte(&XBOXOLD_BUTTONS[analogIndex]);
+                return buttonValues[buttonIndex];
         }
-        const int8_t digitalOffset = getDigitalOffset(b);
-        if (digitalOffset >= 0) {
-                return (ButtonState & (1 << digitalOffset));
+        const int8_t digitalIndex = getDigitalIndex(b);
+        if (digitalIndex >= 0) {
+                const uint8_t buttonMask = pgm_read_byte(&XBOXOLD_BUTTONS[digitalIndex]);
+                return (ButtonState & buttonMask);
         }
         return 0;
 }
@@ -345,15 +350,16 @@ uint8_t XBOXOLD::getButtonPress(ButtonEnum b) {
 bool XBOXOLD::getButtonClick(ButtonEnum b) {
         const int8_t analogIndex = getAnalogIndex(b);
         if (analogIndex >= 0) {
-                if (buttonClicked[analogIndex]) {
-                        buttonClicked[analogIndex] = false;
+                const uint8_t buttonIndex = pgm_read_byte(&XBOXOLD_BUTTONS[analogIndex]);
+                if (buttonClicked[buttonIndex]) {
+                        buttonClicked[buttonIndex] = false;
                         return true;
                 }
                 return false;
         }
-        const int8_t digitalOffset = getDigitalOffset(b);
-        if (digitalOffset >= 0) {
-                const uint8_t mask = (1 << digitalOffset);
+        const int8_t digitalIndex = getDigitalIndex(b);
+        if (digitalIndex >= 0) {
+                const uint8_t mask = pgm_read_byte(&XBOXOLD_BUTTONS[digitalIndex]);
                 const bool click = (ButtonClickState & mask);
                 ButtonClickState &= ~mask;
                 return click;

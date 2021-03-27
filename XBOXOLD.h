@@ -154,7 +154,7 @@ protected:
 
 private:
         static int8_t getAnalogIndex(ButtonEnum b);
-        static int8_t getDigitalOffset(ButtonEnum b);
+        static int8_t getDigitalIndex(ButtonEnum b);
 
         /**
          * Called when the controller is successfully initialized.
