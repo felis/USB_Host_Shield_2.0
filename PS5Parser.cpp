@@ -74,9 +74,10 @@ bool PS5Parser::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS5Parser::getAnalogButton(ButtonEnum b) {
-        if (b == L2) // These are the only analog buttons on the controller
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        if (index == legacyButtonValues(L2)) // These are the only analog buttons on the controller
                 return ps5Data.trigger[0];
-        else if (b == R2)
+        else if (index == legacyButtonValues(R2))
                 return ps5Data.trigger[1];
         return 0;
 }

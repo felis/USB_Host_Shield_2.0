@@ -70,9 +70,10 @@ bool PS4Parser::getButtonClick(ButtonEnum b) {
 }
 
 uint8_t PS4Parser::getAnalogButton(ButtonEnum b) {
-        if (b == L2) // These are the only analog buttons on the controller
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        if (index == legacyButtonValues(L2)) // These are the only analog buttons on the controller
                 return ps4Data.trigger[0];
-        else if (b == R2)
+        else if (index == legacyButtonValues(R2))
                 return ps4Data.trigger[1];
         return 0;
 }

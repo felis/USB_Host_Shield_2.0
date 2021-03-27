@@ -76,37 +76,37 @@ bool XBOXONESParser::checkDpad(ButtonEnum b) {
 }
 
 uint16_t XBOXONESParser::getButtonPress(ButtonEnum b) {
-        if (b == L2)
-                return xboxOneSData.trigger[0];
-        else if (b == R2)
-                return xboxOneSData.trigger[1];
-        else if (b <= LEFT) // Dpad
-                return checkDpad(b);
-        else if (b == XBOX)
-                return xboxButtonState;
         const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        if (index == legacyButtonValues(L2))
+                return xboxOneSData.trigger[0];
+        else if (index == legacyButtonValues(R2))
+                return xboxOneSData.trigger[1];
+        else if (index <= LEFT) // Dpad
+                return checkDpad(b);
+        else if (index == legacyButtonValues(XBOX))
+                return xboxButtonState;
         return xboxOneSData.btn.val & (1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[index]));
 }
 
 bool XBOXONESParser::getButtonClick(ButtonEnum b) {
-        if(b == L2) {
+        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
+        if(index == legacyButtonValues(L2)) {
                 if(L2Clicked) {
                         L2Clicked = false;
                         return true;
                 }
                 return false;
-        } else if(b == R2) {
+        } else if(index == legacyButtonValues(R2)) {
                 if(R2Clicked) {
                         R2Clicked = false;
                         return true;
                 }
                 return false;
-        } else if (b == XBOX) {
+        } else if (index == legacyButtonValues(XBOX)) {
                 bool click = xboxbuttonClickState;
                 xboxbuttonClickState = 0; // Clear "click" event
                 return click;
         }
-        const int8_t index = getButtonIndex(b); if (index < 0) return 0;
         uint32_t mask = 1UL << pgm_read_byte(&XBOX_ONE_S_BUTTONS[index]);
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
