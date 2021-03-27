@@ -403,7 +403,7 @@ protected:
 
 
 private:
-        static inline constexpr int8_t getButtonIndex(ButtonEnum b);
+        static int8_t getButtonIndex(ButtonEnum b);
         bool checkDpad(ButtonEnum b); // Used to check PS5 DPAD buttons
 
         PS5Data ps5Data;

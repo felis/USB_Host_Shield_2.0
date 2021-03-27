@@ -54,8 +54,10 @@ enum DPADEnum {
         DPAD_LEFT_UP = 0x8,
 };
 
-inline constexpr int8_t XBOXONESParser::getButtonIndex(ButtonEnum b) {
-        return (uint8_t) legacyButtonValues(b) >= (sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0])) ? -1 : legacyButtonValues(b);
+int8_t XBOXONESParser::getButtonIndex(ButtonEnum b) {
+        const int8_t index = legacyButtonValues(b);
+        if ((uint8_t) index >= (sizeof(XBOX_ONE_S_BUTTONS) / sizeof(XBOX_ONE_S_BUTTONS[0]))) return -1;
+        return index;
 }
 
 bool XBOXONESParser::checkDpad(ButtonEnum b) {

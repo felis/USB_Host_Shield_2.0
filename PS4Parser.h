@@ -362,7 +362,7 @@ protected:
         virtual void sendOutputReport(PS4Output *output) = 0;
 
 private:
-        static inline constexpr int8_t getButtonIndex(ButtonEnum b);
+        static int8_t getButtonIndex(ButtonEnum b);
         bool checkDpad(ButtonEnum b); // Used to check PS4 DPAD buttons
 
         PS4Data ps4Data;

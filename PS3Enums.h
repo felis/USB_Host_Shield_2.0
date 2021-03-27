@@ -138,8 +138,10 @@ enum StatusEnum {
         Bluetooth = (40 << 8) | 0x16, // Operating by Bluetooth and rumble is turned off
 };
 
-inline constexpr int8_t getPS3ButtonIndex(ButtonEnum b) {
-        return (uint8_t) legacyButtonValues(b) >= (sizeof(PS3_BUTTONS) / sizeof(PS3_BUTTONS[0])) ? -1 : legacyButtonValues(b);
+inline int8_t getPS3ButtonIndex(ButtonEnum b) {
+    const int8_t index = legacyButtonValues(b);
+    if ((uint8_t) index >= (sizeof(PS3_BUTTONS) / sizeof(PS3_BUTTONS[0]))) return -1;
+    return index;
 }
 
 #endif

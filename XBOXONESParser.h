@@ -111,7 +111,7 @@ protected:
         virtual void sendOutputReport(uint8_t *data, uint8_t nbytes) = 0;
 
 private:
-        static inline constexpr int8_t getButtonIndex(ButtonEnum b);
+        static int8_t getButtonIndex(ButtonEnum b);
 
         bool checkDpad(ButtonEnum b); // Used to check Xbox One S DPAD buttons
 

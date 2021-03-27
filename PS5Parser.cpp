@@ -36,8 +36,10 @@ enum DPADEnum {
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the PS5 Controller
 
-inline constexpr int8_t PS5Parser::getButtonIndex(ButtonEnum b) {
-        return (uint8_t) legacyButtonValues(b) >= (sizeof(PS5_BUTTONS) / sizeof(PS5_BUTTONS[0])) ? -1 : legacyButtonValues(b);
+int8_t PS5Parser::getButtonIndex(ButtonEnum b) {
+    const int8_t index = legacyButtonValues(b);
+    if ((uint8_t) index >= (sizeof(PS5_BUTTONS) / sizeof(PS5_BUTTONS[0]))) return -1;
+    return index;
 }
 
 bool PS5Parser::checkDpad(ButtonEnum b) {
