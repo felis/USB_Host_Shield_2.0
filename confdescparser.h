@@ -30,7 +30,9 @@ e-mail   :  support@circuitsathome.com
 class UsbConfigXtracter {
 public:
         //virtual void ConfigXtract(const USB_CONFIGURATION_DESCRIPTOR *conf) = 0;
-        //virtual void InterfaceXtract(uint8_t conf, const USB_INTERFACE_DESCRIPTOR *iface) = 0;
+        virtual bool InterfaceXtract(uint8_t conf __attribute__((unused)), const USB_INTERFACE_DESCRIPTOR *iface __attribute__((unused))){
+                return true;
+        };
 
         virtual void EndpointXtract(uint8_t conf __attribute__((unused)), uint8_t iface __attribute__((unused)), uint8_t alt __attribute__((unused)), uint8_t proto __attribute__((unused)), const USB_ENDPOINT_DESCRIPTOR *ep __attribute__((unused))) {
         };
@@ -160,6 +162,9 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                                                 if((MASK & CP_MASK_COMPARE_PROTOCOL) && uid->bInterfaceProtocol != PROTOCOL_ID)
                                                         break;
                                         }
+                                        if(theXtractor)
+                                                if(!theXtractor->InterfaceXtract(confValue, uid))
+                                                        break;
                                         isGoodInterface = true;
                                         ifaceNumber = uid->bInterfaceNumber;
                                         ifaceAltSet = uid->bAlternateSetting;
