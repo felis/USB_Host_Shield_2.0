@@ -639,11 +639,24 @@ void BTD::HCI_event_task() {
                                 }
                                 break;
 
-                        case EV_LINK_KEY_REQUEST:
+                        case EV_LINK_KEY_REQUEST: //For the Xbox One S Controller we can't use the negative reply, other controllers use negative_reply
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nReceived Key Request"), 0x80);
 #endif
-                                hci_link_key_request_negative_reply();
+                                if ((!pairWithHIDDevice || incomingHIDDevice) && incomingXboxOneS) {
+                                        for(uint8_t i = 0; i < 16; i ++) {
+                                                link_key[i] = EEPROM.read(i+6);
+                                        }
+                                        hci_link_key_request_reply();
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nhci_link_key_request_reply"), 0x80);
+#endif
+                                } else {
+                                        hci_link_key_request_negative_reply();
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nhci_link_key_request_negative_reply"), 0x80);
+#endif
+                                }
                                 break;
 
                         case EV_AUTHENTICATION_COMPLETE:
@@ -717,6 +730,39 @@ void BTD::HCI_event_task() {
                                 }
 #endif
                                 break;
+                        
+                        case EV_LINK_KEY_NOTIFICATION: //Xbox One S BT Controller, when pairing write the address and link key to EEPROM
+                                if(incomingXboxOneS) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nLink Key Notification"), 0x80);
+#endif
+                                        for(uint8_t i = 0; i < 16; i++) {
+                                                link_key[i] = hcibuf[8 + i];
+                                        }
+                                
+                                        for(uint8_t i = 0; i < 6; i++) {
+                                                EEPROM.write(i, disc_bdaddr[i]);
+                                        }
+
+                                        for(uint8_t i = 0; i < 16; i++) {
+                                                EEPROM.write(i + 6, link_key[i]);
+                                        }                        
+
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nBD_ADDR: "), 0x80);
+                                        for(uint8_t i = 0; i < 6; i++) {
+                                                Notify(PSTR(" "), 0x80);
+                                                D_PrintHex<uint8_t > (hcibuf[2 + i], 0x80);
+                                        }
+                                        Notify(PSTR("\r\nLink Key for the associated BD_ADDR: "), 0x80);
+                                        for(uint8_t i = 0; i < 16; i++) {
+                                                Notify(PSTR(" "), 0x80);
+                                                D_PrintHex<uint8_t > (hcibuf[8 + i], 0x80);
+                                        }
+#endif
+                                }
+
+                                break;
 
                                 /* We will just ignore the following events */
                         case EV_MAX_SLOTS_CHANGE:
@@ -728,7 +774,6 @@ void BTD::HCI_event_task() {
                         case EV_DATA_BUFFER_OVERFLOW:
                         case EV_CHANGE_CONNECTION_LINK:
                         case EV_QOS_SETUP_COMPLETE:
-                        case EV_LINK_KEY_NOTIFICATION:
                         case EV_ENCRYPTION_CHANGE:
                         case EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE:
 #ifdef EXTRADEBUG
@@ -1015,8 +1060,37 @@ void BTD::HCI_task() {
 #endif
                                         incomingPSController = true;
                                 }
-                                if((pairWithWii || pairWithHIDDevice) && checkRemoteName)
+
+                                if(strncmp((const char*)remote_name, "Xbox Wireless Controller", 24 ) == 0) {
+#ifdef DEBUG_USB_HOST
+                                        Notify(PSTR("\r\nXbox One S controller is connecting"), 0x80);
+#endif
+                                        incomingXboxOneS = true;
+                                        if(!pairWithHIDDevice) { //If an Xbox One S BT Controller is connecting and it is not in pair mode, check EEPROM for the controller's address
+                                                pairedDevice = true;
+                                                for(uint8_t i = 0; i < 6; i++) {
+                                                        if(disc_bdaddr[i] != EEPROM.read(i)) {
+#ifdef DEBUG_USB_HOST
+                                                                Notify(PSTR("\r\nXbox One S Controller did not match EEPROM"), 0x80);
+#endif
+                                                                pairedDevice = false;
+                                                                break;
+                                                        }
+                                                }
+                                                if(!pairedDevice) {
+                                                        hci_state = HCI_SCANNING_STATE;
+                                                } else {
+                                                        hci_accept_connection();
+                                                        hci_state = HCI_CONNECTED_STATE;
+                                                }
+                                        } else { //If the Xbox One S BT controlelr is in pair mode instead
+                                                hci_state = HCI_CONNECT_DEVICE_STATE;
+                                        }
+                                }
+
+                                else if((pairWithWii || pairWithHIDDevice) && checkRemoteName) {
                                         hci_state = HCI_CONNECT_DEVICE_STATE;
+                                }
                                 else {
                                         hci_accept_connection();
                                         hci_state = HCI_CONNECTED_STATE;
@@ -1059,6 +1133,8 @@ void BTD::HCI_task() {
                         if(hci_check_flag(HCI_FLAG_DISCONNECT_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nHCI Disconnected from Device"), 0x80);
+                                disconnect(); //xbox one bt s <- doesn't work without this!
+                                              //Need for the controller to be able to reconnect  
 #endif
                                 hci_event_flag = 0; // Clear all flags
 
@@ -1069,10 +1145,11 @@ void BTD::HCI_task() {
                                 connectToWii = incomingWii = pairWithWii = false;
                                 connectToHIDDevice = incomingHIDDevice = pairWithHIDDevice = checkRemoteName = false;
                                 incomingPSController = false;
-
+                                incomingXboxOneS = false;
                                 hci_state = HCI_SCANNING_STATE;
                         }
                         break;
+
                 default:
                         break;
         }
@@ -1339,6 +1416,38 @@ void BTD::hci_pin_code_negative_request_reply() {
         hcibuf[8] = disc_bdaddr[5];
 
         HCI_Command(hcibuf, 9);
+}
+
+void BTD::hci_link_key_request_reply() {
+        hcibuf[0] = 0x0B; // HCI OCF = 0B
+        hcibuf[1] = 0x01 << 2; // HCI OGF = 1
+        hcibuf[2] = 0x16; // parameter length 22
+        //for(uint8_t i = 0; i < 6; i++) hcibuf[i + 3] = disc_bdaddr[i]; // 6 octet bdaddr
+        hcibuf[3] = disc_bdaddr[0]; // 6 octet bdaddr
+        hcibuf[4] = disc_bdaddr[1];
+        hcibuf[5] = disc_bdaddr[2];
+        hcibuf[6] = disc_bdaddr[3];
+        hcibuf[7] = disc_bdaddr[4];
+        hcibuf[8] = disc_bdaddr[5];
+        //for(uint8_t i = 0; i < 16; i++) hcibuf[i + 9] = link_key[i]; // 16 octet link_key
+        hcibuf[9] = link_key[0]; // 16 octet link_key
+        hcibuf[10] = link_key[1];
+        hcibuf[11] = link_key[2];
+        hcibuf[12] = link_key[3];
+        hcibuf[13] = link_key[4];
+        hcibuf[14] = link_key[5];
+        hcibuf[15] = link_key[6];
+        hcibuf[16] = link_key[7];
+        hcibuf[17] = link_key[8];
+        hcibuf[18] = link_key[9];
+        hcibuf[19] = link_key[10];
+        hcibuf[20] = link_key[11];
+        hcibuf[21] = link_key[12];
+        hcibuf[22] = link_key[13];
+        hcibuf[23] = link_key[14];
+        hcibuf[24] = link_key[15];
+
+        HCI_Command(hcibuf, 25);
 }
 
 void BTD::hci_link_key_request_negative_reply() {

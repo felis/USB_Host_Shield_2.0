@@ -20,6 +20,7 @@
 
 #include "Usb.h"
 #include "usbhid.h"
+#include <EEPROM.h>
 
 //PID and VID of the Sony PS3 devices
 #define PS3_VID                 0x054C  // Sony Corporation
@@ -372,6 +373,8 @@ public:
         void hci_pin_code_request_reply();
         /** Respons when no pin was set. */
         void hci_pin_code_negative_request_reply();
+        /** Used when we have already been paired, we will use the key in eeprom */
+        void hci_link_key_request_reply();
         /**
          * Command is used to reply to a Link Key Request event from the BR/EDR Controller
          * if the Host does not have a stored Link Key for the connection.
@@ -486,6 +489,10 @@ public:
         uint8_t disc_bdaddr[6];
         /** First 30 chars of last remote name. */
         char remote_name[30];
+        /** Link key **/
+        uint8_t link_key[16];
+        /** Stored Bluetooth address. */
+        uint8_t stored_bdaddr[6];
         /**
          * The supported HCI Version read from the Bluetooth dongle.
          * Used by the PS3BT library to check the HCI Version of the Bluetooth dongle,
@@ -509,6 +516,9 @@ public:
         /** True if it's a Wii U Pro Controller. */
         bool wiiUProController;
 
+        /** True if an Xbox One S Controller is Connecting. */
+        bool incomingXboxOneS;
+ 
         /** Call this function to pair with a HID device */
         void pairWithHID() {
                 waitingForConnection = false;
@@ -521,6 +531,8 @@ public:
         bool incomingHIDDevice;
         /** True when it should pair with a device like a mouse or keyboard. */
         bool pairWithHIDDevice;
+        /** True when the device is paired. */
+        bool pairedDevice;
 
         /**
          * Read the poll interval taken from the endpoint descriptors.
