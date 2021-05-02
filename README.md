@@ -31,7 +31,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 * __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
     * Developer of the [MIDI](#midi-library) library
 * __Aran Vink__ - <aranvink@gmail.com>
-    * Developer of the [amBX](#amBX) library
+    * Developer of the [amBX](#amBX-library) library
 
 
 # Table of Contents
