@@ -99,6 +99,10 @@ $(function() {
 <li>Developer of the <a href="#midi-library">MIDI</a> library</li>
 </ul>
 </li>
+<li><b>Aran Vink</b> - <a href="#" onclick="location.href='mai'+'lto:'+'ara'+'nv'+'ink'+'@g'+'mai'+'l.'+'com'; return false;">aranv<span style="display: none;">.nosp@m.</span>ink@<span style="display: none;">.nosp@m.</span>gmail<span style="display: none;">.nosp@m.</span>.com</a><ul>
+<li>Developer of the <a href="#amBX">amBX</a> library</li>
+</ul>
+</li>
 </ul>
 <h1>Table of Contents</h1>
 <ul>
@@ -128,6 +132,7 @@ $(function() {
 <li><a href="#ps-buzz-library">PS Buzz Library</a></li>
 <li><a href="#hid-libraries">HID Libraries</a></li>
 <li><a href="#midi-library">MIDI Library</a></li>
+<li><a href="#amBX-library">amBX Library</a></li>
 </ul>
 </li>
 <li><a href="#interface-modifications">Interface modifications</a></li>
@@ -351,6 +356,11 @@ $(function() {
 <li><a href="examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino">USB_MIDI_converter_multi.ino</a></li>
 </ul>
 <p>For information see the following page: <a href="http://yuuichiakagawa.github.io/USBH_MIDI/">http://yuuichiakagawa.github.io/USBH_MIDI/</a>.</p>
+<h3><a href="AMBX.cpp">amBX Library</a></h3>
+<p>This library support Philips amBX lights. You can set the colors of the lights individually or all at once. The rumble pad and fans are not supported.</p>
+<ul>
+<li><a href="examples/ambx/AMBX.ino">AMBX.ino</a></li>
+</ul>
 <h1>Interface modifications</h1>
 <p>The shield is using SPI for communicating with the MAX3421E <a class="el" href="class_u_s_b.html">USB</a> host controller. It uses the SCK, MISO and MOSI pins via the ICSP on your board.</p>
 <p>Note this means that it uses pin 13, 12, 11 on an Arduino Uno, so these pins can not be used for anything else than SPI communication!</p>
