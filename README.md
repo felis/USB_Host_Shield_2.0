@@ -30,6 +30,8 @@ For more information about the hardware see the [Hardware Manual](https://chome.
     * [Xbox ONE](#xbox-one-library) controller support
 * __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
     * Developer of the [MIDI](#midi-library) library
+* __Aran Vink__ - <aranvink@gmail.com>
+    * Developer of the [amBX](#amBX) library
 
 
 # Table of Contents
@@ -56,6 +58,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
     * [PS Buzz Library](#ps-buzz-library)
     * [HID Libraries](#hid-libraries)
     * [MIDI Library](#midi-library)
+    * [amBX Library](#amBX-library)
 * [Interface modifications](#interface-modifications)
 * [FAQ](#faq)
 
@@ -353,6 +356,13 @@ You can convert USB MIDI keyboard to legacy serial MIDI.
 * [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino)
 
 For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
+
+### [amBX Library](AMBX.cpp)
+
+This library support Philips amBX lights.
+You can set the colors of the lights individually or all at once. The rumble pad and fans are not supported.
+
+* [AMBX.ino](examples/ambx/AMBX.ino)
 
 # Interface modifications
 
