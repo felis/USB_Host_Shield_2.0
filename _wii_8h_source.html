@@ -272,96 +272,98 @@ $(function() {
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_w_i_i.html#a769ee2f9a0088da097438bc3cc677f7c">Reset</a>();</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_w_i_i.html#ab9449f87825417defb9b985d7181bbd6">onInit</a>();</div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="keywordtype">void</span> L2CAP_task(); <span class="comment">// L2CAP state machine</span></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="keyword">static</span> int8_t getButtonIndexWii(<a class="code" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a> b);</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="keyword">static</span> int8_t getButtonIndexWiiPro(<a class="code" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a> b);</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        <span class="comment">/* Variables filled from HCI event management */</span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        <span class="keywordtype">bool</span> activeConnection; <span class="comment">// Used to indicate if it&#39;s already has established a connection</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160; </div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="comment">/* Variables used by high level L2CAP task */</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        uint8_t l2cap_state;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        uint8_t wii_event_flag; <span class="comment">// Used for Wii flags</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        uint32_t ButtonState;</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        uint32_t OldButtonState;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        uint32_t ButtonClickState;</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        uint16_t hatValues[4];</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        uint8_t HIDBuffer[3]; <span class="comment">// Used to store HID commands</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        <span class="keywordtype">void</span> L2CAP_task(); <span class="comment">// L2CAP state machine</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="comment">/* Variables filled from HCI event management */</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordtype">bool</span> activeConnection; <span class="comment">// Used to indicate if it&#39;s already has established a connection</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160; </div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <span class="comment">/* Variables used by high level L2CAP task */</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        uint8_t l2cap_state;</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        uint8_t wii_event_flag; <span class="comment">// Used for Wii flags</span></div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        uint32_t ButtonState;</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        uint32_t OldButtonState;</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        uint32_t ButtonClickState;</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        uint16_t hatValues[4];</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        uint16_t stateCounter;</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        <span class="keywordtype">bool</span> unknownExtensionConnected;</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        <span class="keywordtype">bool</span> extensionConnected;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <span class="keywordtype">bool</span> checkBatteryLevel; <span class="comment">// Set to true when getBatteryLevel() is called otherwise if should be false</span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        <span class="keywordtype">bool</span> motionPlusInside; <span class="comment">// True if it&#39;s a new Wiimote with the Motion Plus extension build into it</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="comment">/* L2CAP Channels */</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        uint8_t control_scid[2]; <span class="comment">// L2CAP source CID for HID_Control</span></div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        uint8_t control_dcid[2]; <span class="comment">// 0x0060</span></div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        uint8_t interrupt_scid[2]; <span class="comment">// L2CAP source CID for HID_Interrupt</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        uint8_t interrupt_dcid[2]; <span class="comment">// 0x0061</span></div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        <span class="comment">/* HID Commands */</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        <span class="keywordtype">void</span> HID_Command(uint8_t* data, uint8_t nbytes);</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        <span class="keywordtype">void</span> setReportMode(<span class="keywordtype">bool</span> continuous, uint8_t mode);</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160; </div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        <span class="keywordtype">void</span> writeData(uint32_t offset, uint8_t size, uint8_t* data);</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;        <span class="keywordtype">void</span> initExtension1();</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        <span class="keywordtype">void</span> initExtension2();</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160; </div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        <span class="keywordtype">void</span> statusRequest(); <span class="comment">// Used to update the Wiimote state and battery level</span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        uint8_t HIDBuffer[3]; <span class="comment">// Used to store HID commands</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        uint16_t stateCounter;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <span class="keywordtype">bool</span> unknownExtensionConnected;</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        <span class="keywordtype">bool</span> extensionConnected;</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        <span class="keywordtype">bool</span> checkBatteryLevel; <span class="comment">// Set to true when getBatteryLevel() is called otherwise if should be false</span></div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="keywordtype">bool</span> motionPlusInside; <span class="comment">// True if it&#39;s a new Wiimote with the Motion Plus extension build into it</span></div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160; </div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        <span class="comment">/* L2CAP Channels */</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        uint8_t control_scid[2]; <span class="comment">// L2CAP source CID for HID_Control</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        uint8_t control_dcid[2]; <span class="comment">// 0x0060</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        uint8_t interrupt_scid[2]; <span class="comment">// L2CAP source CID for HID_Interrupt</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        uint8_t interrupt_dcid[2]; <span class="comment">// 0x0061</span></div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160; </div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        <span class="comment">/* HID Commands */</span></div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        <span class="keywordtype">void</span> HID_Command(uint8_t* data, uint8_t nbytes);</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        <span class="keywordtype">void</span> setReportMode(<span class="keywordtype">bool</span> continuous, uint8_t mode);</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        <span class="keywordtype">void</span> writeData(uint32_t offset, uint8_t size, uint8_t* data);</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        <span class="keywordtype">void</span> initExtension1();</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        <span class="keywordtype">void</span> initExtension2();</div>
 <div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160; </div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;        <span class="keywordtype">void</span> readData(uint32_t offset, uint16_t size, <span class="keywordtype">bool</span> EEPROM);</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        <span class="keywordtype">void</span> readExtensionType();</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <span class="keywordtype">void</span> readCalData();</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;        <span class="keywordtype">void</span> readWiiBalanceBoardCalibration(); <span class="comment">// Used by the library to read the Wii Balance Board calibration values</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160; </div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        <span class="keywordtype">void</span> checkMotionPresent(); <span class="comment">// Used to see if a Motion Plus is connected to the Wiimote</span></div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        <span class="keywordtype">void</span> initMotionPlus();</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        <span class="keywordtype">void</span> activateMotionPlus();</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160; </div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        uint16_t wiiBalanceBoardRaw[4]; <span class="comment">// Wii Balance Board raw values</span></div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;        uint16_t wiiBalanceBoardCal[3][4]; <span class="comment">// Wii Balance Board calibration values</span></div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160; </div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        <span class="keywordtype">float</span> compPitch; <span class="comment">// Fusioned angle using a complimentary filter if the Motion Plus is connected</span></div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;        <span class="keywordtype">float</span> compRoll; <span class="comment">// Fusioned angle using a complimentary filter if the Motion Plus is connected</span></div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        <span class="keywordtype">bool</span> activateNunchuck;</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        <span class="keywordtype">bool</span> motionValuesReset; <span class="comment">// This bool is true when the gyro values has been reset</span></div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        uint32_t timer;</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160; </div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        uint8_t wiiState; <span class="comment">// Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)</span></div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        uint8_t batteryLevel;</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="preprocessor">#ifdef WIICAMERA</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;        <span class="comment">/* Private function and variables for the readings from the IR Camera */</span></div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        <span class="keywordtype">void</span> enableIRCamera1(); <span class="comment">// Sets bit 2 of output report 13</span></div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;        <span class="keywordtype">void</span> enableIRCamera2(); <span class="comment">// Sets bit 2 of output report 1A</span></div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        <span class="keywordtype">void</span> writeSensitivityBlock1();</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        <span class="keywordtype">void</span> writeSensitivityBlock2();</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        <span class="keywordtype">void</span> write0x08Value();</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        <span class="keywordtype">void</span> setWiiModeNumber(uint8_t mode_number);</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160; </div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        uint16_t IR_object_x1; <span class="comment">// IR x position 10 bits</span></div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;        uint16_t IR_object_y1; <span class="comment">// IR y position 10 bits</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        uint8_t IR_object_s1; <span class="comment">// IR size value</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        uint16_t IR_object_x2;</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        uint16_t IR_object_y2;</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        uint8_t IR_object_s2;</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        uint16_t IR_object_x3; <span class="comment">// IR x position 10 bits</span></div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;        uint16_t IR_object_y3; <span class="comment">// IR y position 10 bits</span></div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        uint8_t IR_object_s3; <span class="comment">// IR size value</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;        uint16_t IR_object_x4;</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;        uint16_t IR_object_y4;</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;        uint8_t IR_object_s4;</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;};</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;        <span class="keywordtype">void</span> statusRequest(); <span class="comment">// Used to update the Wiimote state and battery level</span></div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160; </div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <span class="keywordtype">void</span> readData(uint32_t offset, uint16_t size, <span class="keywordtype">bool</span> EEPROM);</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;        <span class="keywordtype">void</span> readExtensionType();</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        <span class="keywordtype">void</span> readCalData();</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        <span class="keywordtype">void</span> readWiiBalanceBoardCalibration(); <span class="comment">// Used by the library to read the Wii Balance Board calibration values</span></div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160; </div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        <span class="keywordtype">void</span> checkMotionPresent(); <span class="comment">// Used to see if a Motion Plus is connected to the Wiimote</span></div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        <span class="keywordtype">void</span> initMotionPlus();</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        <span class="keywordtype">void</span> activateMotionPlus();</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        uint16_t wiiBalanceBoardRaw[4]; <span class="comment">// Wii Balance Board raw values</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        uint16_t wiiBalanceBoardCal[3][4]; <span class="comment">// Wii Balance Board calibration values</span></div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        <span class="keywordtype">float</span> compPitch; <span class="comment">// Fusioned angle using a complimentary filter if the Motion Plus is connected</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        <span class="keywordtype">float</span> compRoll; <span class="comment">// Fusioned angle using a complimentary filter if the Motion Plus is connected</span></div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160; </div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        <span class="keywordtype">bool</span> activateNunchuck;</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        <span class="keywordtype">bool</span> motionValuesReset; <span class="comment">// This bool is true when the gyro values has been reset</span></div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        uint32_t timer;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160; </div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        uint8_t wiiState; <span class="comment">// Stores the value in l2capinbuf[12] - (0x01: Battery is nearly empty), (0x02:  An Extension Controller is connected), (0x04: Speaker enabled), (0x08: IR enabled), (0x10: LED1, 0x20: LED2, 0x40: LED3, 0x80: LED4)</span></div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;        uint8_t batteryLevel;</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160; </div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;<span class="preprocessor">#ifdef WIICAMERA</span></div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;        <span class="comment">/* Private function and variables for the readings from the IR Camera */</span></div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        <span class="keywordtype">void</span> enableIRCamera1(); <span class="comment">// Sets bit 2 of output report 13</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        <span class="keywordtype">void</span> enableIRCamera2(); <span class="comment">// Sets bit 2 of output report 1A</span></div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        <span class="keywordtype">void</span> writeSensitivityBlock1();</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        <span class="keywordtype">void</span> writeSensitivityBlock2();</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <span class="keywordtype">void</span> write0x08Value();</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        <span class="keywordtype">void</span> setWiiModeNumber(uint8_t mode_number);</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        uint16_t IR_object_x1; <span class="comment">// IR x position 10 bits</span></div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        uint16_t IR_object_y1; <span class="comment">// IR y position 10 bits</span></div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        uint8_t IR_object_s1; <span class="comment">// IR size value</span></div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        uint16_t IR_object_x2;</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        uint16_t IR_object_y2;</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;        uint8_t IR_object_s2;</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        uint16_t IR_object_x3; <span class="comment">// IR x position 10 bits</span></div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;        uint16_t IR_object_y3; <span class="comment">// IR y position 10 bits</span></div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;        uint8_t IR_object_s3; <span class="comment">// IR size value</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;        uint16_t IR_object_x4;</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;        uint16_t IR_object_y4;</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;        uint8_t IR_object_s4;</div>
 <div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;};</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_b_t_d_8h_html"><div class="ttname"><a href="_b_t_d_8h.html">BTD.h</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_ae7e07f929fba8f0ff061a1405baa2b58"><div class="ttname"><a href="class_w_i_i.html#ae7e07f929fba8f0ff061a1405baa2b58">WII::setLedRaw</a></div><div class="ttdeci">void setLedRaw(uint8_t value)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00927">Wii.cpp:927</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_ae3eb7942181a9c9e681e18bd5c8eaef4"><div class="ttname"><a href="class_w_i_i.html#ae3eb7942181a9c9e681e18bd5c8eaef4">WII::setLedOff</a></div><div class="ttdeci">void setLedOff()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00152">Wii.h:152</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_ac94e8b9ce6d3f914f0e3ee4fba82efa3"><div class="ttname"><a href="class_w_i_i.html#ac94e8b9ce6d3f914f0e3ee4fba82efa3">WII::getButtonClick</a></div><div class="ttdeci">bool getButtonClick(ButtonEnum b)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01104">Wii.cpp:1104</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_ac94e8b9ce6d3f914f0e3ee4fba82efa3"><div class="ttname"><a href="class_w_i_i.html#ac94e8b9ce6d3f914f0e3ee4fba82efa3">WII::getButtonClick</a></div><div class="ttdeci">bool getButtonClick(ButtonEnum b)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01120">Wii.cpp:1120</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a2c5c32841b020b248f757cb793acb936"><div class="ttname"><a href="class_w_i_i.html#a2c5c32841b020b248f757cb793acb936">WII::setRumbleOff</a></div><div class="ttdeci">void setRumbleOff()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00909">Wii.cpp:909</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_acd16def2e2100b0ccb590d57a50fa742"><div class="ttname"><a href="class_w_i_i.html#acd16def2e2100b0ccb590d57a50fa742">WII::gyroRoll</a></div><div class="ttdeci">float gyroRoll</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00243">Wii.h:243</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a6e97bfcfb134b63d7190ba1bc326e1d3"><div class="ttname"><a href="class_w_i_i.html#a6e97bfcfb134b63d7190ba1bc326e1d3">WII::setAllOff</a></div><div class="ttdeci">void setAllOff()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00903">Wii.cpp:903</a></div></div>
@@ -370,13 +372,13 @@ $(function() {
 <div class="ttc" id="aclass_w_i_i_html_a341b9a50bfdb18af9c66a3079e5804d9"><div class="ttname"><a href="class_w_i_i.html#a341b9a50bfdb18af9c66a3079e5804d9">WII::getIRy1</a></div><div class="ttdeci">uint16_t getIRy1()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00319">Wii.h:319</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_aa47478ccdfe009dabb7c21232e07bfd5"><div class="ttname"><a href="class_w_i_i.html#aa47478ccdfe009dabb7c21232e07bfd5">WII::pitchGyroSpeed</a></div><div class="ttdeci">float pitchGyroSpeed</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00249">Wii.h:249</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a5648a03968d0c2331867f9b7bcaa3e3e"><div class="ttname"><a href="class_w_i_i.html#a5648a03968d0c2331867f9b7bcaa3e3e">WII::getIRx3</a></div><div class="ttdeci">uint16_t getIRx3()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00359">Wii.h:359</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_ab9449f87825417defb9b985d7181bbd6"><div class="ttname"><a href="class_w_i_i.html#ab9449f87825417defb9b985d7181bbd6">WII::onInit</a></div><div class="ttdeci">void onInit()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01139">Wii.cpp:1139</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_ab9449f87825417defb9b985d7181bbd6"><div class="ttname"><a href="class_w_i_i.html#ab9449f87825417defb9b985d7181bbd6">WII::onInit</a></div><div class="ttdeci">void onInit()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01159">Wii.cpp:1159</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a2e1236eaee605bd5a6fa581c501cf406"><div class="ttname"><a href="class_w_i_i.html#a2e1236eaee605bd5a6fa581c501cf406">WII::getWiimoteRoll</a></div><div class="ttdeci">float getWiimoteRoll()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00216">Wii.h:216</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a759837b933f63ce7c3235639be29250a"><div class="ttname"><a href="class_w_i_i.html#a759837b933f63ce7c3235639be29250a">WII::getIRy4</a></div><div class="ttdeci">uint16_t getIRy4()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00391">Wii.h:391</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a81e1eb4d9ef9999a84e71d764d54dff7"><div class="ttname"><a href="class_w_i_i.html#a81e1eb4d9ef9999a84e71d764d54dff7">WII::ACLData</a></div><div class="ttdeci">void ACLData(uint8_t *ACLData)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00133">Wii.cpp:133</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a1a1bdeef9ca069a1d14887182a2664a4"><div class="ttname"><a href="class_w_i_i.html#a1a1bdeef9ca069a1d14887182a2664a4">WII::wiiBalanceBoardConnected</a></div><div class="ttdeci">bool wiiBalanceBoardConnected</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00204">Wii.h:204</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a2d8fd822e6e9c271d59c71dc7b757421"><div class="ttname"><a href="class_w_i_i.html#a2d8fd822e6e9c271d59c71dc7b757421">WII::getIRs1</a></div><div class="ttdeci">uint8_t getIRs1()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00327">Wii.h:327</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_a3505abbc01c71d134ce301dfb7c0c5b5"><div class="ttname"><a href="class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5">WII::IRinitialize</a></div><div class="ttdeci">void IRinitialize()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01173">Wii.cpp:1173</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_a3505abbc01c71d134ce301dfb7c0c5b5"><div class="ttname"><a href="class_w_i_i.html#a3505abbc01c71d134ce301dfb7c0c5b5">WII::IRinitialize</a></div><div class="ttdeci">void IRinitialize()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01193">Wii.cpp:1193</a></div></div>
 <div class="ttc" id="a_wii_8h_html_ad79e49e27b025d6ac9d695c4816f84d4ae2ac743b5ba1752933e09f1dac48d97b"><div class="ttname"><a href="_wii_8h.html#ad79e49e27b025d6ac9d695c4816f84d4ae2ac743b5ba1752933e09f1dac48d97b">HatY</a></div><div class="ttdeci">@ HatY</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00040">Wii.h:40</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a551e48a50c7b60722e807e68ae25f084"><div class="ttname"><a href="class_w_i_i.html#a551e48a50c7b60722e807e68ae25f084">WII::getIRx2</a></div><div class="ttdeci">uint16_t getIRx2()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00335">Wii.h:335</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a4c373f956eddf2dd3a66d4a000459b85"><div class="ttname"><a href="class_w_i_i.html#a4c373f956eddf2dd3a66d4a000459b85">WII::yawGyroSpeed</a></div><div class="ttdeci">float yawGyroSpeed</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00251">Wii.h:251</a></div></div>
@@ -392,7 +394,7 @@ $(function() {
 <div class="ttc" id="a_wii_8h_html_a1f2e8277faa24c51a9c99f3fbac8d80ba61f66ddc6702462a94d3e231f02b9017"><div class="ttname"><a href="_wii_8h.html#a1f2e8277faa24c51a9c99f3fbac8d80ba61f66ddc6702462a94d3e231f02b9017">TopLeft</a></div><div class="ttdeci">@ TopLeft</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00047">Wii.h:47</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_acdebdaab544ffcecf8ab09adacbd28c8"><div class="ttname"><a href="class_w_i_i.html#acdebdaab544ffcecf8ab09adacbd28c8">WII::accZwiimote</a></div><div class="ttdeci">int16_t accZwiimote</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00235">Wii.h:235</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_ad8c2d7acc64b32272de0ec9c1675e1fa"><div class="ttname"><a href="class_w_i_i.html#ad8c2d7acc64b32272de0ec9c1675e1fa">WII::getYaw</a></div><div class="ttdeci">float getYaw()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00132">Wii.h:132</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_a7b183fe1809c1c595438e930b8f3f4de"><div class="ttname"><a href="class_w_i_i.html#a7b183fe1809c1c595438e930b8f3f4de">WII::getButtonPress</a></div><div class="ttdeci">bool getButtonPress(ButtonEnum b)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01097">Wii.cpp:1097</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_a7b183fe1809c1c595438e930b8f3f4de"><div class="ttname"><a href="class_w_i_i.html#a7b183fe1809c1c595438e930b8f3f4de">WII::getButtonPress</a></div><div class="ttdeci">bool getButtonPress(ButtonEnum b)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01109">Wii.cpp:1109</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_ac5cd06f3e9aa2a0d9b9691f00c047e72"><div class="ttname"><a href="class_w_i_i.html#ac5cd06f3e9aa2a0d9b9691f00c047e72">WII::Run</a></div><div class="ttdeci">void Run()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00725">Wii.cpp:725</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_afaafee11ac191ba43b6a2b989cdd137c"><div class="ttname"><a href="class_w_i_i.html#afaafee11ac191ba43b6a2b989cdd137c">WII::accXwiimote</a></div><div class="ttdeci">int16_t accXwiimote</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00230">Wii.h:230</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_aea6ce6f3222df3e547e9957673c7a07a"><div class="ttname"><a href="class_w_i_i.html#aea6ce6f3222df3e547e9957673c7a07a">WII::pitchGyroScale</a></div><div class="ttdeci">uint16_t pitchGyroScale</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00256">Wii.h:256</a></div></div>
@@ -402,7 +404,7 @@ $(function() {
 <div class="ttc" id="aclass_w_i_i_html_af380eb3bf65ce33a60aaf35f74a44f6d"><div class="ttname"><a href="class_w_i_i.html#af380eb3bf65ce33a60aaf35f74a44f6d">WII::getIRx1</a></div><div class="ttdeci">uint16_t getIRx1()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00311">Wii.h:311</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_aef56b9f37422b0a41642b39d10db0735"><div class="ttname"><a href="class_w_i_i.html#aef56b9f37422b0a41642b39d10db0735">WII::getIRs4</a></div><div class="ttdeci">uint8_t getIRs4()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00399">Wii.h:399</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a8e81eb7d2d78680df0dee1869695ff05"><div class="ttname"><a href="class_w_i_i.html#a8e81eb7d2d78680df0dee1869695ff05">WII::setLedToggle</a></div><div class="ttdeci">void setLedToggle(LEDEnum a)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00949">Wii.cpp:949</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_a966e34bb434984de59706384c8efc1f1"><div class="ttname"><a href="class_w_i_i.html#a966e34bb434984de59706384c8efc1f1">WII::getTotalWeight</a></div><div class="ttdeci">float getTotalWeight()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01163">Wii.cpp:1163</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_a966e34bb434984de59706384c8efc1f1"><div class="ttname"><a href="class_w_i_i.html#a966e34bb434984de59706384c8efc1f1">WII::getTotalWeight</a></div><div class="ttdeci">float getTotalWeight()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01183">Wii.cpp:1183</a></div></div>
 <div class="ttc" id="a_wii_8h_html_ad79e49e27b025d6ac9d695c4816f84d4aed1a7a35bf1b9c1003fbe3dd4a61a06d"><div class="ttname"><a href="_wii_8h.html#ad79e49e27b025d6ac9d695c4816f84d4aed1a7a35bf1b9c1003fbe3dd4a61a06d">HatX</a></div><div class="ttdeci">@ HatX</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00038">Wii.h:38</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a2df9544486403b369836a10bf8af6dfa"><div class="ttname"><a href="class_w_i_i.html#a2df9544486403b369836a10bf8af6dfa">WII::getPitch</a></div><div class="ttdeci">float getPitch()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00110">Wii.h:110</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a6c0971ae4c9ab752888a5871020c8331"><div class="ttname"><a href="class_w_i_i.html#a6c0971ae4c9ab752888a5871020c8331">WII::rollGyroScale</a></div><div class="ttdeci">uint16_t rollGyroScale</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00257">Wii.h:257</a></div></div>
@@ -410,13 +412,13 @@ $(function() {
 <div class="ttc" id="aclass_w_i_i_html_ac2f0e9f96d0a4b0dd7044b7f3ffc24bd"><div class="ttname"><a href="class_w_i_i.html#ac2f0e9f96d0a4b0dd7044b7f3ffc24bd">WII::getNunchuckRoll</a></div><div class="ttdeci">float getNunchuckRoll()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00228">Wii.h:228</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a749ea9dd39ba9a5320c5b24ce93bc544"><div class="ttname"><a href="class_w_i_i.html#a749ea9dd39ba9a5320c5b24ce93bc544">WII::gyroPitchRaw</a></div><div class="ttdeci">int16_t gyroPitchRaw</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00265">Wii.h:265</a></div></div>
 <div class="ttc" id="a_wii_8h_html_ad79e49e27b025d6ac9d695c4816f84d4"><div class="ttname"><a href="_wii_8h.html#ad79e49e27b025d6ac9d695c4816f84d4">HatEnum</a></div><div class="ttdeci">HatEnum</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00036">Wii.h:36</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_ac1fef8ad0f7d5c36fa61ee91422629f9"><div class="ttname"><a href="class_w_i_i.html#ac1fef8ad0f7d5c36fa61ee91422629f9">WII::getWeight</a></div><div class="ttdeci">float getWeight(BalanceBoardEnum pos)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01150">Wii.cpp:1150</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_ac1fef8ad0f7d5c36fa61ee91422629f9"><div class="ttname"><a href="class_w_i_i.html#ac1fef8ad0f7d5c36fa61ee91422629f9">WII::getWeight</a></div><div class="ttdeci">float getWeight(BalanceBoardEnum pos)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01170">Wii.cpp:1170</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a7cb4cec343c65fd350e6b05043d7f1a8"><div class="ttname"><a href="class_w_i_i.html#a7cb4cec343c65fd350e6b05043d7f1a8">WII::nunchuckConnected</a></div><div class="ttdeci">bool nunchuckConnected</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00198">Wii.h:198</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a7ddd67a8797d582e324cffe2847a4288"><div class="ttname"><a href="class_w_i_i.html#a7ddd67a8797d582e324cffe2847a4288">WII::rollGyroSpeed</a></div><div class="ttdeci">float rollGyroSpeed</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00250">Wii.h:250</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a5d3b4a33ebc2ca9ebb154e10a05dbdd4"><div class="ttname"><a href="class_w_i_i.html#a5d3b4a33ebc2ca9ebb154e10a05dbdd4">WII::setLedStatus</a></div><div class="ttdeci">void setLedStatus()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00955">Wii.cpp:955</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a7a92d63c7cf9d3d5b38bdb9ad4d7ef66"><div class="ttname"><a href="class_w_i_i.html#a7a92d63c7cf9d3d5b38bdb9ad4d7ef66">WII::getIRx4</a></div><div class="ttdeci">uint16_t getIRx4()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00383">Wii.h:383</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html"><div class="ttname"><a href="class_w_i_i.html">WII</a></div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00056">Wii.h:56</a></div></div>
-<div class="ttc" id="aclass_w_i_i_html_a8e34abf62a9631ca3efba0150ca91b93"><div class="ttname"><a href="class_w_i_i.html#a8e34abf62a9631ca3efba0150ca91b93">WII::getAnalogHat</a></div><div class="ttdeci">uint8_t getAnalogHat(HatEnum a)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01115">Wii.cpp:1115</a></div></div>
+<div class="ttc" id="aclass_w_i_i_html_a8e34abf62a9631ca3efba0150ca91b93"><div class="ttname"><a href="class_w_i_i.html#a8e34abf62a9631ca3efba0150ca91b93">WII::getAnalogHat</a></div><div class="ttdeci">uint8_t getAnalogHat(HatEnum a)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l01135">Wii.cpp:1135</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_aa2c14275d9e482e6add06cb34ccf1197"><div class="ttname"><a href="class_w_i_i.html#aa2c14275d9e482e6add06cb34ccf1197">WII::accYwiimote</a></div><div class="ttdeci">int16_t accYwiimote</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00235">Wii.h:235</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a0694969a30092b9b1dcb26120c7cff73"><div class="ttname"><a href="class_w_i_i.html#a0694969a30092b9b1dcb26120c7cff73">WII::yawGyroScale</a></div><div class="ttdeci">uint16_t yawGyroScale</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00258">Wii.h:258</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a38507c76e5d7375a7971bc3a17b87338"><div class="ttname"><a href="class_w_i_i.html#a38507c76e5d7375a7971bc3a17b87338">WII::setLedOn</a></div><div class="ttdeci">void setLedOn(LEDEnum a)</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8cpp_source.html#l00939">Wii.cpp:939</a></div></div>
@@ -443,7 +445,7 @@ $(function() {
 <div class="ttc" id="aclass_w_i_i_html_ad4f0d2456c56414f9b8013b85a1ee7d2"><div class="ttname"><a href="class_w_i_i.html#ad4f0d2456c56414f9b8013b85a1ee7d2">WII::gyroYawZero</a></div><div class="ttdeci">int16_t gyroYawZero</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00270">Wii.h:270</a></div></div>
 <div class="ttc" id="acontroller_enums_8h_html_a94f7389d205c78830a5441370d7870fd"><div class="ttname"><a href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd">ButtonEnum</a></div><div class="ttdeci">ButtonEnum</div><div class="ttdef"><b>Definition:</b> <a href="controller_enums_8h_source.html#l00078">controllerEnums.h:78</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_accf6ca623ffe93b3c78aaf60c7fd1f46"><div class="ttname"><a href="class_w_i_i.html#accf6ca623ffe93b3c78aaf60c7fd1f46">WII::getIRs2</a></div><div class="ttdeci">uint8_t getIRs2()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00351">Wii.h:351</a></div></div>
-<div class="ttc" id="acontroller_enums_8h_html_a34dad8f0a0927471137c403216597093"><div class="ttname"><a href="controller_enums_8h.html#a34dad8f0a0927471137c403216597093">AnalogHatEnum</a></div><div class="ttdeci">AnalogHatEnum</div><div class="ttdef"><b>Definition:</b> <a href="controller_enums_8h_source.html#l00170">controllerEnums.h:170</a></div></div>
+<div class="ttc" id="acontroller_enums_8h_html_a34dad8f0a0927471137c403216597093"><div class="ttname"><a href="controller_enums_8h.html#a34dad8f0a0927471137c403216597093">AnalogHatEnum</a></div><div class="ttdeci">AnalogHatEnum</div><div class="ttdef"><b>Definition:</b> <a href="controller_enums_8h_source.html#l00213">controllerEnums.h:213</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a5e778f879c6d0a73a94bd61e42d05b8d"><div class="ttname"><a href="class_w_i_i.html#a5e778f879c6d0a73a94bd61e42d05b8d">WII::getIRy3</a></div><div class="ttdeci">uint16_t getIRy3()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00367">Wii.h:367</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_a461f5b7a5f2bc874e107fc776c284b16"><div class="ttname"><a href="class_w_i_i.html#a461f5b7a5f2bc874e107fc776c284b16">WII::wiiUProControllerConnected</a></div><div class="ttdeci">bool wiiUProControllerConnected</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00202">Wii.h:202</a></div></div>
 <div class="ttc" id="aclass_w_i_i_html_ad0a061fd6715690914c922911106b813"><div class="ttname"><a href="class_w_i_i.html#ad0a061fd6715690914c922911106b813">WII::getNunchuckPitch</a></div><div class="ttdeci">float getNunchuckPitch()</div><div class="ttdef"><b>Definition:</b> <a href="_wii_8h_source.html#l00224">Wii.h:224</a></div></div>

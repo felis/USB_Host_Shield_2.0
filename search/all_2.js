@@ -338,7 +338,8 @@ var searchData=
   ['busprobe_446',['busprobe',['../class_m_a_x3421e.html#a517e877930090c612adf9f79fb5c8f3d',1,'MAX3421e']]],
   ['buttonchanged_447',['buttonChanged',['../class_x_b_o_x_r_e_c_v.html#ae78ddfff307d26b0ed35dfb75173adf7',1,'XBOXRECV']]],
   ['buttonenum_448',['ButtonEnum',['../controller_enums_8h.html#a94f7389d205c78830a5441370d7870fd',1,'controllerEnums.h']]],
-  ['byteskipper_449',['ByteSkipper',['../class_byte_skipper.html',1,'ByteSkipper'],['../class_byte_skipper.html#abfe4186513af9389e93931f0bee2c606',1,'ByteSkipper::ByteSkipper()']]],
-  ['bytesrd_450',['bytesRd',['../class_m_a_x3421e.html#af136074eab636da10cf50a03d735c1b5',1,'MAX3421e']]],
-  ['byteswr_451',['bytesWr',['../class_m_a_x3421e.html#a67229549b336fb1c000488382d35aaaa',1,'MAX3421e']]]
+  ['buttonindex_449',['ButtonIndex',['../controller_enums_8h.html#a114f266591a03b0eff0f1e6b67d94f85',1,'controllerEnums.h']]],
+  ['byteskipper_450',['ByteSkipper',['../class_byte_skipper.html',1,'ByteSkipper'],['../class_byte_skipper.html#abfe4186513af9389e93931f0bee2c606',1,'ByteSkipper::ByteSkipper()']]],
+  ['bytesrd_451',['bytesRd',['../class_m_a_x3421e.html#af136074eab636da10cf50a03d735c1b5',1,'MAX3421e']]],
+  ['byteswr_452',['bytesWr',['../class_m_a_x3421e.html#a67229549b336fb1c000488382d35aaaa',1,'MAX3421e']]]
 ];
