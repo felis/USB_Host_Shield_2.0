@@ -38,6 +38,7 @@ PS4BT	KEYWORD1
 PS4USB	KEYWORD1
 PS5BT	KEYWORD1
 PS5USB	KEYWORD1
+SwitchProBT	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
@@ -317,6 +318,7 @@ TopRight	LITERAL1
 BotRight	LITERAL1
 TopLeft	LITERAL1
 BotLeft	LITERAL1
+CAPTURE	LITERAL1
 
 ####################################################
 # Methods and Functions for the IR Camera

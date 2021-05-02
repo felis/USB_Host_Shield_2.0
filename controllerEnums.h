@@ -181,6 +181,11 @@ enum ButtonEnum {
         ZL,
         ZR,
         /**@}*/
+
+        /**@{*/
+        /** Switch Pro Controller */
+        CAPTURE,
+        /**@}*/
 };
 
 inline constexpr int8_t ButtonIndex(ButtonEnum key) {
@@ -190,7 +195,7 @@ inline constexpr int8_t ButtonIndex(ButtonEnum key) {
         (key == RIGHT || key == YELLOW) ? 1 :
         (key == DOWN || key == GREEN) ? 2 :
         (key == LEFT || key == ORANGE) ? 3 :
-        (key == SELECT || key == SHARE || key == BACK || key == VIEW || key == BLUE || key == CREATE) ? 4 :
+        (key == SELECT || key == SHARE || key == BACK || key == VIEW || key == BLUE || key == CREATE || key == CAPTURE) ? 4 :
         (key == START || key == OPTIONS || key == MENU || key == PLUS) ? 5 :
         (key == L3 || key == TWO) ? 6 :
         (key == R3 || key == ONE) ? 7 :
