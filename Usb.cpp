@@ -388,6 +388,11 @@ uint8_t USB::OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8
                 data_p += bytes_tosend;
         }//while( bytes_left...
 breakout:
+        /* If rcode(=rHRSL) is non-zero, untransmitted data remains in the SNDFIFO. */
+        if(rcode != 0) {
+            //Switch the FIFO containing the OUT data back under microcontroller control and reset pointer.
+            regWr(rSNDBC, 0);
+        }
 
         pep->bmSndToggle = (regRd(rHRSL) & bmSNDTOGRD) ? 1 : 0; //bmSNDTOG1 : bmSNDTOG0;  //update toggle
         return ( rcode); //should be 0 in all cases
