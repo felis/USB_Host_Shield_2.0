@@ -77,7 +77,7 @@ enum RumbleEnum {
 /** This enum is used to read all the different buttons on the different controllers */
 enum ButtonEnum {
         /**@{*/
-        /** These buttons are available on all the the controllers */
+        /** Directional Pad Buttons - available on most controllers */
         UP = 0,
         RIGHT = 1,
         DOWN = 2,
@@ -85,86 +85,129 @@ enum ButtonEnum {
         /**@}*/
 
         /**@{*/
-        /** Wii buttons */
-        PLUS = 5,
-        TWO = 6,
-        ONE = 7,
-        MINUS = 8,
-        HOME = 9,
-        Z = 10,
-        C = 11,
-        B = 12,
-        A = 13,
+        /** Playstation buttons */
+        TRIANGLE,
+        CIRCLE,
+        CROSS,
+        SQUARE,
+
+        SELECT,
+        START,
+
+        L3,
+        R3,
+
+        L1,
+        R1,
+        L2,
+        R2,
+
+        PS,
         /**@}*/
 
         /**@{*/
-        /** These are only available on the Wii U Pro Controller */
-        L = 16,
-        R = 17,
-        ZL = 18,
-        ZR = 19,
-        /**@}*/
-
-        /**@{*/
-        /** PS3 controllers buttons */
-        SELECT = 4,
-        START = 5,
-        L3 = 6,
-        R3 = 7,
-
-        L2 = 8,
-        R2 = 9,
-        L1 = 10,
-        R1 = 11,
-        TRIANGLE = 12,
-        CIRCLE = 13,
-        CROSS = 14,
-        SQUARE = 15,
-
-        PS = 16,
-
-        MOVE = 17, // Covers 12 bits - we only need to read the top 8
-        T = 18, // Covers 12 bits - we only need to read the top 8
-        /**@}*/
-
-        /** PS4 controllers buttons - SHARE and OPTIONS are present instead of SELECT and START */
-        SHARE = 4,
-        OPTIONS = 5,
-        TOUCHPAD = 17,
-        /**@}*/
-
-        /**@{*/
-        /** Xbox buttons */
-        BACK = 4,
-        X = 14,
-        Y = 15,
-        XBOX = 16,
-        SYNC = 17,
-        BLACK = 8, // Available on the original Xbox controller
-        WHITE = 9, // Available on the original Xbox controller
-        /**@}*/
-
-        /**@{*/
-        /** Xbox One S buttons */
-        VIEW = 4,
-        MENU = 5,
+        /** PS3 Move Controller */
+        MOVE, // Covers 12 bits - we only need to read the top 8
+        T, // Covers 12 bits - we only need to read the top 8
         /**@}*/
 
         /**@{*/
         /** PS Buzz controllers */
-        RED = 0,
-        YELLOW = 1,
-        GREEN = 2,
-        ORANGE = 3,
-        BLUE = 4,
+        RED,
+        YELLOW,
+        GREEN,
+        ORANGE,
+        BLUE,
+        /**@}*/
+
+        /**@{*/
+        /** PS4 buttons - SHARE and OPTIONS are present instead of SELECT and START */
+        SHARE,
+        OPTIONS,
+        TOUCHPAD,
         /**@}*/
 
         /**@{*/
         /** PS5 buttons */
-        CREATE = 4,
-        MICROPHONE = 18,
+        CREATE,
+        MICROPHONE,
+        /**@}*/
+
+        /**@{*/
+        /** Xbox buttons */
+        A,
+        B,
+        X,
+        Y,
+
+        BACK,
+        // START,  // listed under Playstation buttons
+
+        // L1,  // listed under Playstation buttons
+        // R1,  // listed under Playstation buttons
+        // L2,  // listed under Playstation buttons
+        // R2,  // listed under Playstation buttons
+
+        XBOX,
+        SYNC,
+
+        BLACK, // Available on the original Xbox controller
+        WHITE, // Available on the original Xbox controller
+        /**@}*/
+
+        /**@{*/
+        /** Xbox One S buttons */
+        VIEW,
+        MENU,
+        /**@}*/
+
+        /**@{*/
+        /** Wii buttons */
+        PLUS,
+        TWO,
+        ONE,
+        MINUS,
+        HOME,
+        Z,
+        C,
+        // B,  // listed under Xbox buttons
+        // A,  // listed under Xbox buttons
+        /**@}*/
+
+        /**@{*/
+        /** Wii U Pro Controller */
+        L,
+        R,
+        ZL,
+        ZR,
         /**@}*/
 };
+
+inline constexpr int8_t ButtonIndex(ButtonEnum key) {
+    // using a chained ternary in place of a switch for constexpr on older compilers
+    return
+        (key == UP || key == RED) ? 0 :
+        (key == RIGHT || key == YELLOW) ? 1 :
+        (key == DOWN || key == GREEN) ? 2 :
+        (key == LEFT || key == ORANGE) ? 3 :
+        (key == SELECT || key == SHARE || key == BACK || key == VIEW || key == BLUE || key == CREATE) ? 4 :
+        (key == START || key == OPTIONS || key == MENU || key == PLUS) ? 5 :
+        (key == L3 || key == TWO) ? 6 :
+        (key == R3 || key == ONE) ? 7 :
+        (key == L2 || key == MINUS || key == BLACK) ? 8 :
+        (key == R2 || key == HOME || key == WHITE) ? 9 :
+        (key == L1 || key == Z) ? 10 :
+        (key == R1 || key == C) ? 11 :
+        (key == TRIANGLE || key == B) ? 12 :
+        (key == CIRCLE || key == A) ? 13 :
+        (key == CROSS || key == X) ? 14 :
+        (key == SQUARE || key == Y) ? 15 :
+        (key == L || key == PS || key == XBOX) ? 16 :
+        (key == R || key == MOVE || key == TOUCHPAD || key == SYNC) ? 17 :
+        (key == ZL || key == T || key == MICROPHONE) ? 18 :
+        (key == ZR) ? 19 :
+        -1;  // not a match
+}
 
 /** Joysticks on the PS3 and Xbox controllers. */
 enum AnalogHatEnum {

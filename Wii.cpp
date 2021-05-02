@@ -1094,19 +1094,39 @@ void WII::readWiiBalanceBoardCalibration() {
 /*                    WII Commands                          */
 /************************************************************/
 
+int8_t WII::getButtonIndexWii(ButtonEnum b) {
+        const int8_t index = ButtonIndex(b);
+        if ((uint8_t) index >= (sizeof(WII_BUTTONS) / sizeof(WII_BUTTONS[0]))) return -1;
+        return index;
+}
+
+int8_t WII::getButtonIndexWiiPro(ButtonEnum b) {
+        const int8_t index = ButtonIndex(b);
+        if ((uint8_t) index >= (sizeof(WII_PROCONTROLLER_BUTTONS) / sizeof(WII_PROCONTROLLER_BUTTONS[0]))) return -1;
+        return index;
+}
+
 bool WII::getButtonPress(ButtonEnum b) { // Return true when a button is pressed
-        if(wiiUProControllerConnected)
-                return (ButtonState & pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[(uint8_t)b]));
-        else
-                return (ButtonState & pgm_read_dword(&WII_BUTTONS[(uint8_t)b]));
+        if (wiiUProControllerConnected) {
+                const int8_t index = getButtonIndexWiiPro(b); if (index < 0) return 0;
+                return (ButtonState & pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[index]));
+        }
+        else {
+                const int8_t index = getButtonIndexWii(b); if (index < 0) return 0;
+                return (ButtonState & pgm_read_dword(&WII_BUTTONS[index]));
+        }
 }
 
 bool WII::getButtonClick(ButtonEnum b) { // Only return true when a button is clicked
         uint32_t button;
-        if(wiiUProControllerConnected)
-                button = pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[(uint8_t)b]);
-        else
-                button = pgm_read_dword(&WII_BUTTONS[(uint8_t)b]);
+        if (wiiUProControllerConnected) {
+                const int8_t index = getButtonIndexWiiPro(b); if (index < 0) return 0;
+                button = pgm_read_dword(&WII_PROCONTROLLER_BUTTONS[index]);
+        }
+        else {
+                const int8_t index = getButtonIndexWii(b); if (index < 0) return 0;
+                button = pgm_read_dword(&WII_BUTTONS[index]);
+        }
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // clear "click" event
         return click;

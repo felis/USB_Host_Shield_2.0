@@ -153,6 +153,9 @@ protected:
         EpInfo epInfo[XBOX_MAX_ENDPOINTS];
 
 private:
+        static int8_t getAnalogIndex(ButtonEnum b);
+        static int8_t getDigitalIndex(ButtonEnum b);
+
         /**
          * Called when the controller is successfully initialized.
          * Use attachOnInit(void (*funcOnInit)(void)) to call your own function.

@@ -403,6 +403,7 @@ protected:
 
 
 private:
+        static int8_t getButtonIndexPS5(ButtonEnum b);
         bool checkDpad(ButtonEnum b); // Used to check PS5 DPAD buttons
 
         PS5Data ps5Data;
