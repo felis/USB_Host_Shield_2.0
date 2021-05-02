@@ -21,6 +21,22 @@
 #include "Usb.h"
 #include "controllerEnums.h"
 
+/** Used to set the LEDs on the controller */
+const uint8_t SWITCH_PRO_LEDS[] PROGMEM = {
+        0x00, // OFF
+        0x01, // LED1
+        0x02, // LED2
+        0x04, // LED3
+        0x08, // LED4
+
+        0x09, // LED5
+        0x0A, // LED6
+        0x0C, // LED7
+        0x0D, // LED8
+        0x0E, // LED9
+        0x0F, // LED10
+};
+
 /** Buttons on the controller */
 const uint8_t SWITCH_PRO_BUTTONS[] PROGMEM = {
         0x10, // UP
@@ -82,14 +98,21 @@ struct SwitchProData {
 } __attribute__((packed));
 
 struct SwitchProOutput {
-        bool reportChanged; // The data is send when data is received from the controller
+        bool leftRumbleOn;
+        bool rightRumbleOn;
+        uint8_t ledMask; // Higher nibble flashes the LEDs, lower nibble set them on/off
+        bool ledHome;
+
+        // Used to only send the report when the state changes
+        bool ledReportChanged;
+        bool ledHomeReportChanged;
 } __attribute__((packed));
 
 /** This class parses all the data sent by the Switch Pro controller */
 class SwitchProParser {
 public:
         /** Constructor for the SwitchProParser class. */
-        SwitchProParser() {
+        SwitchProParser() : output_sequence_counter(0) {
                 Reset();
         };
 
@@ -111,7 +134,7 @@ public:
         /**
          * Used to read the analog joystick.
          * @param  a ::LeftHatX, ::LeftHatY, ::RightHatX, and ::RightHatY.
-         * @return   Return the analog value in the range of 0-255.
+         * @return   Return the analog value as a signed 16-bit value.
          */
         int16_t getAnalogHat(AnalogHatEnum a);
 
@@ -157,6 +180,7 @@ public:
         void setAllOff() {
                 setRumbleOff();
                 setLedOff();
+                setLedHomeOff();
         };
 
         /** Set rumble off. */
@@ -166,73 +190,78 @@ public:
 
         /** Toggle rumble. */
         void setRumbleToggle() {
-                // TODO: Implement this
-                switchProOutput.reportChanged = true;
+                setRumbleOn(!switchProOutput.leftRumbleOn, !switchProOutput.rightRumbleOn);
         }
 
         /**
          * Turn on rumble.
-         * @param mode Either ::RumbleHigh or ::RumbleLow.
+         * @param leftRumbleOn   Turn on left rumble motor.
+         * @param rightRumbleOn  Turn on right rumble motor.
          */
-        void setRumbleOn(RumbleEnum mode) {
-                if (mode == RumbleLow)
-                        setRumbleOn(0x00, 0xFF);
-                else
-                        setRumbleOn(0xFF, 0x00);
-        }
-
-        /**
-         * Turn on rumble.
-         * @param bigRumble   Value for big motor.
-         * @param smallRumble Value for small motor.
-         */
-        void setRumbleOn(uint8_t bigRumble, uint8_t smallRumble) {
-                // TODO: Implement this
-                (void)bigRumble;
-                (void)smallRumble;
-                switchProOutput.reportChanged = true;
+        void setRumbleOn(bool leftRumbleOn, bool rightRumbleOn) {
+                switchProOutput.leftRumbleOn = leftRumbleOn;
+                switchProOutput.rightRumbleOn = rightRumbleOn;
+                switchProOutput.ledReportChanged = true; // Set this, so the rumble effect gets changed immediately
         }
 
         /**
          * Set LED value without using the ::LEDEnum.
+         * This can also be used to flash the LEDs by setting the high 4-bits of the mask.
          * @param value See: ::LEDEnum.
          */
-        void setLedRaw(uint8_t value) {
-                // TODO: Implement this
-                (void)value;
-                switchProOutput.reportChanged = true;
+        void setLedRaw(uint8_t mask) {
+                switchProOutput.ledMask = mask;
+                switchProOutput.ledReportChanged = true;
         }
 
         /** Turn all LEDs off. */
         void setLedOff() {
                 setLedRaw(0);
         }
+
         /**
          * Turn the specific ::LEDEnum off.
          * @param a The ::LEDEnum to turn off.
          */
         void setLedOff(LEDEnum a) {
-                // TODO: Implement this
-                (void)a;
-                switchProOutput.reportChanged = true;
+                switchProOutput.ledMask &= ~((uint8_t)(pgm_read_byte(&SWITCH_PRO_LEDS[(uint8_t)a]) & 0x0f));
+                switchProOutput.ledReportChanged = true;
         }
+
         /**
          * Turn the specific ::LEDEnum on.
          * @param a The ::LEDEnum to turn on.
          */
         void setLedOn(LEDEnum a) {
-                // TODO: Implement this
-                (void)a;
-                switchProOutput.reportChanged = true;
+                switchProOutput.ledMask |= (uint8_t)(pgm_read_byte(&SWITCH_PRO_LEDS[(uint8_t)a]) & 0x0f);
+                switchProOutput.ledReportChanged = true;
         }
+
         /**
          * Toggle the specific ::LEDEnum.
          * @param a The ::LEDEnum to toggle.
          */
         void setLedToggle(LEDEnum a) {
-                // TODO: Implement this
-                (void)a;
-                switchProOutput.reportChanged = true;
+                switchProOutput.ledMask ^= (uint8_t)(pgm_read_byte(&SWITCH_PRO_LEDS[(uint8_t)a]) & 0x0f);
+                switchProOutput.ledReportChanged = true;
+        }
+
+        /** Turn home LED off. */
+        void setLedHomeOff() {
+                switchProOutput.ledHome = false;
+                switchProOutput.ledHomeReportChanged = true;
+        }
+
+        /** Turn home LED on. */
+        void setLedHomeOn() {
+                switchProOutput.ledHome = true;
+                switchProOutput.ledHomeReportChanged = true;
+        }
+
+        /** Toggle home LED. */
+        void setLedHomeToggle() {
+                switchProOutput.ledHome = !switchProOutput.ledHome;
+                switchProOutput.ledHomeReportChanged = true;
         }
 
         /** Get the incoming message count. */
@@ -253,19 +282,24 @@ protected:
 
         /**
          * Send the output to the Switch Pro controller. This is implemented in SwitchProBT.h and SwitchProUSB.h.
-         * @param output Pointer to SwitchProOutput buffer;
+         * @param data  Pointer to buffer to send by the derived class.
+         * @param len   Length of buffer.
          */
-        virtual void sendOutputReport(SwitchProOutput *output) = 0;
-
+        virtual void sendOutputReport(uint8_t *data, uint8_t len) = 0;
 
 private:
         static int8_t getButtonIndexSwitchPro(ButtonEnum b);
         bool checkDpad(ButtonEnum b); // Used to check Switch Pro DPAD buttons
+
+        void sendLedOutputReport();
+        void sendRumbleOutputReport();
 
         SwitchProData switchProData;
         SwitchProButtons oldButtonState, buttonClickState;
         SwitchProOutput switchProOutput;
         uint8_t oldDpad;
         uint16_t message_counter = 0;
+        uint8_t output_sequence_counter : 4;
+        uint32_t rumble_on_timer = 0;
 };
 #endif

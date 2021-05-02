@@ -66,8 +66,10 @@ protected:
                 SwitchProParser::Reset();
 
                 // Only call this is a user function has not been set
-                if (!pFuncOnInit)
+                if (!pFuncOnInit) {
                         setLedOn(LED1); // Turn on the LED1
+                        setLedHomeOn(); // Turn on the home LED
+                }
         };
 
         /** Used to reset the different buffers to there default values */
@@ -77,12 +79,15 @@ protected:
         /**@}*/
 
         /** @name SwitchProParser implementation */
-        virtual void sendOutputReport(SwitchProOutput *output) {
-                output->reportChanged = false;
-#if 0
+        virtual void sendOutputReport(uint8_t *data, uint8_t len) {
+                uint8_t buf[1 /* BT DATA Output Report */ + len];
+
+                // Send as a Bluetooth HID DATA output report on the interrupt channel
+                buf[0] = 0xA2; // HID BT DATA (0xA0) | Report Type (Output 0x02)
+                memcpy(&buf[1], data, len);
+
                 // Send the Bluetooth DATA output report on the interrupt channel
                 pBtd->L2CAP_Command(hci_handle, buf, sizeof(buf), interrupt_scid[0], interrupt_scid[1]);
-#endif
         };
         /**@}*/
 };

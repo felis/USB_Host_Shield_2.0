@@ -26,7 +26,7 @@ SwitchProBT SwitchPro(&Btd, PAIR);
 //SwitchProBT SwitchPro(&Btd);
 
 uint16_t lastMessageCounter = -1;
-uint32_t home_timer;
+uint32_t capture_timer;
 
 void setup() {
   Serial.begin(115200);
@@ -60,38 +60,41 @@ void loop() {
       Serial.print(SwitchPro.getAnalogHat(RightHatY));
     }
 
-    // Hold the HOME button for 1 second to disconnect the controller
+    // Hold the CAPTURE button for 1 second to disconnect the controller
     // This prevents the controller from disconnecting when it is reconnected,
-    // as the HOME button is sent when it reconnects
-    if (SwitchPro.getButtonPress(HOME)) {
-      if (millis() - home_timer > 1000)
+    // as the CAPTURE button is sent when it reconnects
+    if (SwitchPro.getButtonPress(CAPTURE)) {
+      if (millis() - capture_timer > 1000)
         SwitchPro.disconnect();
     } else
-      home_timer = millis();
+      capture_timer = millis();
 
-    if (SwitchPro.getButtonClick(HOME))
-      Serial.print(F("\r\nHome"));
     if (SwitchPro.getButtonClick(CAPTURE))
       Serial.print(F("\r\nCapture"));
+    if (SwitchPro.getButtonClick(HOME)) {
+      Serial.print(F("\r\nHome"));
+      SwitchPro.setLedHomeToggle(); // Toggle the home LED
+    }
+
     if (SwitchPro.getButtonClick(LEFT)) {
-      /*SwitchPro.setLedOff();
-      SwitchPro.setLedOn(LED1);*/
+      SwitchPro.setLedOff();
+      SwitchPro.setLedOn(LED1);
       Serial.print(F("\r\nLeft"));
     }
+    if (SwitchPro.getButtonClick(UP)) {
+      SwitchPro.setLedOff();
+      SwitchPro.setLedOn(LED2);
+      Serial.print(F("\r\nUp"));
+    }
     if (SwitchPro.getButtonClick(RIGHT)) {
-      /*SwitchPro.setLedOff();
-      SwitchPro.setLedOn(LED3);*/
+      SwitchPro.setLedOff();
+      SwitchPro.setLedOn(LED3);
       Serial.print(F("\r\nRight"));
     }
     if (SwitchPro.getButtonClick(DOWN)) {
-      /*SwitchPro.setLedOff();
-      SwitchPro.setLedOn(LED4);*/
+      SwitchPro.setLedOff();
+      SwitchPro.setLedOn(LED4);
       Serial.print(F("\r\nDown"));
-    }
-    if (SwitchPro.getButtonClick(UP)) {
-      /*SwitchPro.setLedOff();
-      SwitchPro.setLedOn(LED2);*/
-      Serial.print(F("\r\nUp"));
     }
 
     if (SwitchPro.getButtonClick(PLUS))
@@ -99,16 +102,20 @@ void loop() {
     if (SwitchPro.getButtonClick(MINUS))
       Serial.print(F("\r\nMinus"));
 
-    if (SwitchPro.getButtonClick(A))
+    if (SwitchPro.getButtonClick(A)) {
+      SwitchPro.setRumbleOn(false, true); // Turn on the right rumble motor
       Serial.print(F("\r\nA"));
+    }
     if (SwitchPro.getButtonClick(B)) {
-      //SwitchPro.setRumbleToggle();
+      SwitchPro.setRumbleOn(true, false); // Turn on the left rumble motor
       Serial.print(F("\r\nB"));
     }
     if (SwitchPro.getButtonClick(X))
       Serial.print(F("\r\nX"));
-    if (SwitchPro.getButtonClick(Y))
+    if (SwitchPro.getButtonClick(Y)) {
+      SwitchPro.setRumbleOn(false, false);
       Serial.print(F("\r\nY"));
+    }
 
     if (SwitchPro.getButtonClick(L))
       Serial.print(F("\r\nL"));

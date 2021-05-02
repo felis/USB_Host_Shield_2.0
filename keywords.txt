@@ -71,6 +71,10 @@ setLedFlash	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
 
+setLedHomeOff	KEYWORD2
+setLedHomeOn	KEYWORD2
+setLedHomeToggle	KEYWORD2
+
 attachOnInit	KEYWORD2
 
 PS3Connected	KEYWORD2
