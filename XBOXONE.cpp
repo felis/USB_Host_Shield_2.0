@@ -416,8 +416,10 @@ uint8_t XBOXONE::XboxCommand(uint8_t* data, uint16_t nbytes) {
         data[2] = cmdCounter++; // Increment the output command counter
         uint8_t rcode = pUsb->outTransfer(bAddress, epInfo[ XBOX_ONE_OUTPUT_PIPE ].epAddr, nbytes, data);
 #ifdef DEBUG_USB_HOST
-        Notify(PSTR("\r\nXboxCommand, Return: "), 0x80);
-        D_PrintHex<uint8_t > (rcode, 0x80);
+        if(rcode) {
+                Notify(PSTR("\r\nXboxCommand failed. Return: "), 0x80);
+                D_PrintHex<uint8_t > (rcode, 0x80);
+        }
 #endif
         return rcode;
 }
