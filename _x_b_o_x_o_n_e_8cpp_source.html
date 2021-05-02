@@ -484,89 +484,91 @@ $(function() {
 <div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        data[2] = cmdCounter++; <span class="comment">// Increment the output command counter</span></div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        uint8_t rcode = <a class="code" href="class_x_b_o_x_o_n_e.html#a5b4e45cdd8695439d9772f55bb8ece6f">pUsb</a>-&gt;<a class="code" href="class_u_s_b.html#affbc018973a588995457d535b0ac7ee7">outTransfer</a>(<a class="code" href="class_x_b_o_x_o_n_e.html#a800dd3559813c0f1771e8fdd30c4105b">bAddress</a>, <a class="code" href="class_x_b_o_x_o_n_e.html#a2915fc1f1f3a9c5333bfd643defa0621">epInfo</a>[ <a class="code" href="_x_b_o_x_o_n_e_8h.html#a1a9da90da4584db2de7c84f45bdafc89">XBOX_ONE_OUTPUT_PIPE</a> ].epAddr, nbytes, data);</div>
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(<a class="code" href="version__helper_8h.html#a73809107539df84eaf01f6a4dea4fbff">PSTR</a>(<span class="stringliteral">&quot;\r\nXboxCommand, Return: &quot;</span>), 0x80);</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        D_PrintHex&lt;uint8_t &gt; (rcode, 0x80);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;}</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160; </div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="comment">// The Xbox One packets are described at: https://github.com/quantus/xbox-one-controller-protocol</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="keywordtype">void</span> XBOXONE::onInit() {</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        <span class="comment">// A short buzz to show the controller is active</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        uint8_t writeBuf[13];</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160; </div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="comment">// Activate rumble</span></div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        writeBuf[0] = 0x09;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        writeBuf[1] = 0x00;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="comment">// Single rumble effect</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        writeBuf[6] = 0x04; <span class="comment">// lT force</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        writeBuf[7] = 0x04; <span class="comment">// rT force</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        writeBuf[8] = 0x20; <span class="comment">// L force</span></div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        writeBuf[9] = 0x20; <span class="comment">// R force</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        writeBuf[10] = 0x80; <span class="comment">// Length of pulse</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        writeBuf[12] = 0x00; <span class="comment">// Repeat count</span></div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        XboxCommand(writeBuf, 13);</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160; </div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        <span class="keywordflow">if</span>(pFuncOnInit)</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                pFuncOnInit(); <span class="comment">// Call the user function</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;}</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
-<div class="line"><a name="l00452"></a><span class="lineno"><a class="line" href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">  452</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">XBOXONE::setRumbleOff</a>() {</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        uint8_t writeBuf[13];</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        <span class="comment">// Activate rumble</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        writeBuf[0] = 0x09;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        writeBuf[1] = 0x00;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="comment">// Continuous rumble effect</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        writeBuf[6] = 0x00; <span class="comment">// lT force</span></div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        writeBuf[7] = 0x00; <span class="comment">// rT force</span></div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        writeBuf[8] = 0x00; <span class="comment">// L force</span></div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        writeBuf[9] = 0x00; <span class="comment">// R force</span></div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;        writeBuf[10] = 0x00; <span class="comment">// On period</span></div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        writeBuf[12] = 0x00; <span class="comment">// Repeat count</span></div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        XboxCommand(writeBuf, 13);</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;}</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160; </div>
-<div class="line"><a name="l00474"></a><span class="lineno"><a class="line" href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">  474</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">XBOXONE::setRumbleOn</a>(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor) {</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        uint8_t writeBuf[13];</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160; </div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        <span class="comment">// Activate rumble</span></div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        writeBuf[0] = 0x09;</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        writeBuf[1] = 0x00;</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160; </div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        <span class="comment">// Continuous rumble effect</span></div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;        writeBuf[6] = leftTrigger; <span class="comment">// lT force</span></div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        writeBuf[7] = rightTrigger; <span class="comment">// rT force</span></div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        writeBuf[8] = leftMotor; <span class="comment">// L force</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        writeBuf[9] = rightMotor; <span class="comment">// R force</span></div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        writeBuf[10] = 0xFF; <span class="comment">// On period</span></div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        writeBuf[12] = 0xFF; <span class="comment">// Repeat count</span></div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        XboxCommand(writeBuf, 13);</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;}</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="keywordflow">if</span>(rcode) {</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                <a class="code" href="message_8h.html#a27117e124c5d66d5512fe8d494fe6338">Notify</a>(<a class="code" href="version__helper_8h.html#a73809107539df84eaf01f6a4dea4fbff">PSTR</a>(<span class="stringliteral">&quot;\r\nXboxCommand failed. Return: &quot;</span>), 0x80);</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                D_PrintHex&lt;uint8_t &gt; (rcode, 0x80);</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        }</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;}</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="comment">// The Xbox One packets are described at: https://github.com/quantus/xbox-one-controller-protocol</span></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="keywordtype">void</span> XBOXONE::onInit() {</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="comment">// A short buzz to show the controller is active</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        uint8_t writeBuf[13];</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        <span class="comment">// Activate rumble</span></div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        writeBuf[0] = 0x09;</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        writeBuf[1] = 0x00;</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        <span class="comment">// Single rumble effect</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        writeBuf[6] = 0x04; <span class="comment">// lT force</span></div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        writeBuf[7] = 0x04; <span class="comment">// rT force</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        writeBuf[8] = 0x20; <span class="comment">// L force</span></div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        writeBuf[9] = 0x20; <span class="comment">// R force</span></div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        writeBuf[10] = 0x80; <span class="comment">// Length of pulse</span></div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        writeBuf[12] = 0x00; <span class="comment">// Repeat count</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        XboxCommand(writeBuf, 13);</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160; </div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        <span class="keywordflow">if</span>(pFuncOnInit)</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                pFuncOnInit(); <span class="comment">// Call the user function</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;}</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
+<div class="line"><a name="l00454"></a><span class="lineno"><a class="line" href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">  454</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">XBOXONE::setRumbleOff</a>() {</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        uint8_t writeBuf[13];</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="comment">// Activate rumble</span></div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        writeBuf[0] = 0x09;</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        writeBuf[1] = 0x00;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        <span class="comment">// Continuous rumble effect</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        writeBuf[6] = 0x00; <span class="comment">// lT force</span></div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        writeBuf[7] = 0x00; <span class="comment">// rT force</span></div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;        writeBuf[8] = 0x00; <span class="comment">// L force</span></div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        writeBuf[9] = 0x00; <span class="comment">// R force</span></div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        writeBuf[10] = 0x00; <span class="comment">// On period</span></div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;        writeBuf[12] = 0x00; <span class="comment">// Repeat count</span></div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;        XboxCommand(writeBuf, 13);</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;}</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
+<div class="line"><a name="l00476"></a><span class="lineno"><a class="line" href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">  476</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">XBOXONE::setRumbleOn</a>(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor) {</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        uint8_t writeBuf[13];</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160; </div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        <span class="comment">// Activate rumble</span></div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        writeBuf[0] = 0x09;</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        writeBuf[1] = 0x00;</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        <span class="comment">// Byte 2 is set in &quot;XboxCommand&quot;</span></div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        <span class="comment">// Continuous rumble effect</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        writeBuf[3] = 0x09; <span class="comment">// Substructure (what substructure rest of this packet has)</span></div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;        writeBuf[4] = 0x00; <span class="comment">// Mode</span></div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        writeBuf[5] = 0x0F; <span class="comment">// Rumble mask (what motors are activated) (0000 lT rT L R)</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        writeBuf[6] = leftTrigger; <span class="comment">// lT force</span></div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        writeBuf[7] = rightTrigger; <span class="comment">// rT force</span></div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        writeBuf[8] = leftMotor; <span class="comment">// L force</span></div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        writeBuf[9] = rightMotor; <span class="comment">// R force</span></div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        writeBuf[10] = 0xFF; <span class="comment">// On period</span></div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        writeBuf[11] = 0x00; <span class="comment">// Off period</span></div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        writeBuf[12] = 0xFF; <span class="comment">// Repeat count</span></div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;        XboxCommand(writeBuf, 13);</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a2915fc1f1f3a9c5333bfd643defa0621"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a2915fc1f1f3a9c5333bfd643defa0621">XBOXONE::epInfo</a></div><div class="ttdeci">EpInfo epInfo[XBOX_ONE_MAX_ENDPOINTS]</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8h_source.html#l00185">XBOXONE.h:185</a></div></div>
 <div class="ttc" id="aclass_u_s_b_html_affbc018973a588995457d535b0ac7ee7"><div class="ttname"><a href="class_u_s_b.html#affbc018973a588995457d535b0ac7ee7">USB::outTransfer</a></div><div class="ttdeci">uint8_t outTransfer(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t *data)</div><div class="ttdef"><b>Definition:</b> <a href="_usb_8cpp_source.html#l00303">Usb.cpp:303</a></div></div>
 <div class="ttc" id="amax3421e_8h_html_ab44a7968d08016b58d98951059c37076"><div class="ttname"><a href="max3421e_8h.html#ab44a7968d08016b58d98951059c37076">hrNAK</a></div><div class="ttdeci">#define hrNAK</div><div class="ttdef"><b>Definition:</b> <a href="max3421e_8h_source.html#l00218">max3421e.h:218</a></div></div>
 <div class="ttc" id="astruct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r_html_a95cd9669dee9cab375a7c5e62284a01b"><div class="ttname"><a href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html#a95cd9669dee9cab375a7c5e62284a01b">USB_ENDPOINT_DESCRIPTOR::bInterval</a></div><div class="ttdeci">uint8_t bInterval</div><div class="ttdef"><b>Definition:</b> <a href="usb__ch9_8h_source.html#l00154">usb_ch9.h:154</a></div></div>
 <div class="ttc" id="aclass_address_pool_html_aa92d7e8f0f515340ae2dc1679b627056"><div class="ttname"><a href="class_address_pool.html#aa92d7e8f0f515340ae2dc1679b627056">AddressPool::GetUsbDevicePtr</a></div><div class="ttdeci">virtual UsbDevice * GetUsbDevicePtr(uint8_t addr)=0</div></div>
-<div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a6586343cacf8705c7a3c2d4f479f2261"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">XBOXONE::setRumbleOn</a></div><div class="ttdeci">void setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor)</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00474">XBOXONE.cpp:474</a></div></div>
+<div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a6586343cacf8705c7a3c2d4f479f2261"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a6586343cacf8705c7a3c2d4f479f2261">XBOXONE::setRumbleOn</a></div><div class="ttdeci">void setRumbleOn(uint8_t leftTrigger, uint8_t rightTrigger, uint8_t leftMotor, uint8_t rightMotor)</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00476">XBOXONE.cpp:476</a></div></div>
 <div class="ttc" id="aclass_address_pool_html"><div class="ttname"><a href="class_address_pool.html">AddressPool</a></div><div class="ttdef"><b>Definition:</b> <a href="address_8h_source.html#l00090">address.h:90</a></div></div>
 <div class="ttc" id="astruct_ep_info_html_ac85bff70ad0e5d71e50cb501f4d8caf3"><div class="ttname"><a href="struct_ep_info.html#ac85bff70ad0e5d71e50cb501f4d8caf3">EpInfo::bmSndToggle</a></div><div class="ttdeci">uint8_t bmSndToggle</div><div class="ttdef"><b>Definition:</b> <a href="address_8h_source.html#l00047">address.h:47</a></div></div>
 <div class="ttc" id="aclass_x_b_o_x_o_n_e_html_af49b526b57d3a3148537bdada9fb69bc"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#af49b526b57d3a3148537bdada9fb69bc">XBOXONE::getAnalogHat</a></div><div class="ttdeci">int16_t getAnalogHat(AnalogHatEnum a)</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00410">XBOXONE.cpp:410</a></div></div>
@@ -596,7 +598,7 @@ $(function() {
 <div class="ttc" id="astruct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r_html"><div class="ttname"><a href="struct_u_s_b___d_e_v_i_c_e___d_e_s_c_r_i_p_t_o_r.html">USB_DEVICE_DESCRIPTOR</a></div><div class="ttdef"><b>Definition:</b> <a href="usb__ch9_8h_source.html#l00105">usb_ch9.h:105</a></div></div>
 <div class="ttc" id="astruct_ep_info_html_a3a5b1c017a034cd9e06e76729e727c46"><div class="ttname"><a href="struct_ep_info.html#a3a5b1c017a034cd9e06e76729e727c46">EpInfo::bmNakPower</a></div><div class="ttdeci">uint8_t bmNakPower</div><div class="ttdef"><b>Definition:</b> <a href="address_8h_source.html#l00049">address.h:49</a></div></div>
 <div class="ttc" id="a_x_b_o_x_o_n_e_8h_html_a8e9bf59d8bc051ff3fa38e2b327ade6e"><div class="ttname"><a href="_x_b_o_x_o_n_e_8h.html#a8e9bf59d8bc051ff3fa38e2b327ade6e">XBOX_ONE_MAX_ENDPOINTS</a></div><div class="ttdeci">#define XBOX_ONE_MAX_ENDPOINTS</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8h_source.html#l00037">XBOXONE.h:37</a></div></div>
-<div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a506e8add57ffac652a28e8c5b7e72e85"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">XBOXONE::setRumbleOff</a></div><div class="ttdeci">void setRumbleOff()</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00452">XBOXONE.cpp:452</a></div></div>
+<div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a506e8add57ffac652a28e8c5b7e72e85"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a506e8add57ffac652a28e8c5b7e72e85">XBOXONE::setRumbleOff</a></div><div class="ttdeci">void setRumbleOff()</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00454">XBOXONE.cpp:454</a></div></div>
 <div class="ttc" id="aclass_x_b_o_x_o_n_e_html_a9bd03dd0f2abde83f34635ab72564811"><div class="ttname"><a href="class_x_b_o_x_o_n_e.html#a9bd03dd0f2abde83f34635ab72564811">XBOXONE::getButtonClick</a></div><div class="ttdeci">bool getButtonClick(ButtonEnum b)</div><div class="ttdef"><b>Definition:</b> <a href="_x_b_o_x_o_n_e_8cpp_source.html#l00389">XBOXONE.cpp:389</a></div></div>
 <div class="ttc" id="aclass_u_s_b_html_a618eedabc161d8315be45cae0c8b6f89"><div class="ttname"><a href="class_u_s_b.html#a618eedabc161d8315be45cae0c8b6f89">USB::getConfDescr</a></div><div class="ttdeci">uint8_t getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t *dataptr)</div><div class="ttdef"><b>Definition:</b> <a href="_usb_8cpp_source.html#l00801">Usb.cpp:801</a></div></div>
 <div class="ttc" id="aaddress_8h_html_a517dfa014946e2d087d197312234a1de"><div class="ttname"><a href="address_8h.html#a517dfa014946e2d087d197312234a1de">USB_NAK_MAX_POWER</a></div><div class="ttdeci">#define USB_NAK_MAX_POWER</div><div class="ttdef"><b>Definition:</b> <a href="address_8h_source.html#l00034">address.h:34</a></div></div>
