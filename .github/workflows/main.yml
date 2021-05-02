@@ -33,10 +33,13 @@ jobs:
           # See: https://travis-ci.org/github/felis/USB_Host_Shield_2.0/jobs/743787235
           if [[ "${{ matrix.example }}" != *"bidirectional_converter" ]]; then TEENSY35="--board=teensy35"; TEENSY36="--board=teensy36"; TEENSY40="--board=teensy40"; TEENSY41="--board=teensy41"; fi
 
-          pio ci --lib="." $UNO --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41 --board=esp12e --board=nodemcu --board=esp32dev
+          pio ci --lib="." $UNO --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41 --board=esp12e --board=nodemcu
 
           # Teensy 3.x depends on the SPI4Teensy3 library: https://platformio.org/lib/show/417/SPI4Teensy3
           pio ci --lib="." --board=teensy30 --board=teensy31 $TEENSY35 $TEENSY36 --project-option="lib_deps=SPI4Teensy3"
+
+          # Ignore "initialization from incompatible pointer type" warning in the ESP32 core
+          pio ci --lib="." --board=esp32dev --project-option="build_flags=-Wno-incompatible-pointer-types"
 
           # Workaround https://github.com/arduino/ArduinoCore-sam/issues/69
           pio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation"
