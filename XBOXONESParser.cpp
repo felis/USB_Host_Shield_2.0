@@ -40,6 +40,7 @@ const uint8_t XBOX_ONE_S_BUTTONS[] PROGMEM = {
         0x08, // A
         0x0A, // X
         0x0B, // Y
+        0, // XBOX - this is sent in another report
 };
 
 enum DPADEnum {
