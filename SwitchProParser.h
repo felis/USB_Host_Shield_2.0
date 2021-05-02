@@ -185,22 +185,40 @@ public:
 
         /** Set rumble off. */
         void setRumbleOff() {
-                setRumbleOn(0, 0);
+                setRumble(false, false);
         }
 
         /** Toggle rumble. */
         void setRumbleToggle() {
-                setRumbleOn(!switchProOutput.leftRumbleOn, !switchProOutput.rightRumbleOn);
+                setRumble(!switchProOutput.leftRumbleOn, !switchProOutput.rightRumbleOn);
         }
 
         /**
-         * Turn on rumble.
-         * @param leftRumbleOn   Turn on left rumble motor.
-         * @param rightRumbleOn  Turn on right rumble motor.
+         * Turn on/off rumble.
+         * @param leftRumbleOn   Turn on/off left rumble motor.
+         * @param rightRumbleOn  Turn on/off right rumble motor.
          */
-        void setRumbleOn(bool leftRumbleOn, bool rightRumbleOn) {
+        void setRumble(bool leftRumbleOn, bool rightRumbleOn) {
                 switchProOutput.leftRumbleOn = leftRumbleOn;
                 switchProOutput.rightRumbleOn = rightRumbleOn;
+                switchProOutput.ledReportChanged = true; // Set this, so the rumble effect gets changed immediately
+        }
+
+        /**
+         * Turn on/off the left rumble.
+         * @param on   Turn on/off left rumble motor.
+         */
+        void setRumbleLeft(bool on) {
+                switchProOutput.leftRumbleOn = on;
+                switchProOutput.ledReportChanged = true; // Set this, so the rumble effect gets changed immediately
+        }
+
+        /**
+         * Turn on/off the right rumble.
+         * @param on   Turn on/off right rumble motor.
+         */
+        void setRumbleRight(bool on) {
+                switchProOutput.rightRumbleOn = on;
                 switchProOutput.ledReportChanged = true; // Set this, so the rumble effect gets changed immediately
         }
 

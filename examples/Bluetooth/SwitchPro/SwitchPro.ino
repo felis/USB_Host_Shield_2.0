@@ -73,7 +73,7 @@ void loop() {
       Serial.print(F("\r\nCapture"));
     if (SwitchPro.getButtonClick(HOME)) {
       Serial.print(F("\r\nHome"));
-      SwitchPro.setLedHomeToggle(); // Toggle the home LED
+      SwitchPro.setLedHomeToggle();
     }
 
     if (SwitchPro.getButtonClick(LEFT)) {
@@ -102,29 +102,31 @@ void loop() {
     if (SwitchPro.getButtonClick(MINUS))
       Serial.print(F("\r\nMinus"));
 
-    if (SwitchPro.getButtonClick(A)) {
-      SwitchPro.setRumbleOn(false, true); // Turn on the right rumble motor
+    if (SwitchPro.getButtonClick(A))
       Serial.print(F("\r\nA"));
-    }
-    if (SwitchPro.getButtonClick(B)) {
-      SwitchPro.setRumbleOn(true, false); // Turn on the left rumble motor
+    if (SwitchPro.getButtonClick(B))
       Serial.print(F("\r\nB"));
-    }
     if (SwitchPro.getButtonClick(X))
       Serial.print(F("\r\nX"));
-    if (SwitchPro.getButtonClick(Y)) {
-      SwitchPro.setRumbleOn(false, false);
+    if (SwitchPro.getButtonClick(Y))
       Serial.print(F("\r\nY"));
-    }
 
-    if (SwitchPro.getButtonClick(L))
+    if (SwitchPro.getButtonClick(L)) {
+      SwitchPro.setRumbleLeft(false);
       Serial.print(F("\r\nL"));
-    if (SwitchPro.getButtonClick(R))
+    }
+    if (SwitchPro.getButtonClick(R)) {
+      SwitchPro.setRumbleRight(false);
       Serial.print(F("\r\nR"));
-    if (SwitchPro.getButtonClick(ZL))
+    }
+    if (SwitchPro.getButtonClick(ZL)) {
+      SwitchPro.setRumbleLeft(true);
       Serial.print(F("\r\nZL"));
-    if (SwitchPro.getButtonClick(ZR))
+    }
+    if (SwitchPro.getButtonClick(ZR)) {
+      SwitchPro.setRumbleRight(true);
       Serial.print(F("\r\nZR"));
+    }
     if (SwitchPro.getButtonClick(L3))
       Serial.print(F("\r\nL3"));
     if (SwitchPro.getButtonClick(R3))
