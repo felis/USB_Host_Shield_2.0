@@ -23,7 +23,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 * __Alexei Glushchenko__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
 * __Kristian Sloth Lauszus__ - <lauszus@gmail.com>
-    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS5](#ps5-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
+    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS5](#ps5-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Switch Pro](#switch-pro-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
     * Major contributor to mass storage code
 * __guruthree__
@@ -55,6 +55,7 @@ For more information about the hardware see the [Hardware Manual](https://chome.
         * [Xbox ONE Library](#xbox-one-library)
         * [Xbox ONE S Library](#xbox-one-s-library)
     * [Wii library](#wii-library)
+    * [Switch Pro Library](#switch-pro-library)
     * [PS Buzz Library](#ps-buzz-library)
     * [HID Libraries](#hid-libraries)
     * [MIDI Library](#midi-library)
@@ -329,6 +330,21 @@ All the information about the Wii controllers are from these sites:
 * <http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus>
 * <http://wiibrew.org/wiki/Wii_Balance_Board>
 * The old library created by _Tomoyuki Tanaka_: <https://github.com/moyuchin/WiiRemote_on_Arduino> also helped a lot.
+
+### Switch Pro Library
+
+The Switch Pro library is split up into the [SwitchProBT](SwitchProBT.h) and the [SwitchProUSB](SwitchProUSB.h) library. These allow you to use the Nintendo Switch Pro controller via Bluetooth and USB.
+
+The [SwitchProBT.ino](examples/Bluetooth/SwitchProBT/SwitchProBT.ino) and [SwitchProUSB.ino](examples/SwitchProUSB/SwitchProUSB.ino) examples shows how to easily read the buttons, joysticks and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and LEDs on the controller.
+
+To pair with the Switch Pro controller via Bluetooth you need create the SwitchProBT instance like so: ```SwitchProBT SwitchPro(&Btd, PAIR);``` and then press the Sync button next to the USB connector to put the controller into pairing mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
+
+All the information about the controller are from these sites:
+
+* <https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering>
+* <https://github.com/Dan611/hid-procon>
 
 ### [PS Buzz Library](PSBuzz.cpp)
 

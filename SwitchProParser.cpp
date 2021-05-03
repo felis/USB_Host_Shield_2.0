@@ -17,18 +17,6 @@
 
 #include "SwitchProParser.h"
 
-enum DPADEnum {
-        DPAD_UP = 0x0,
-        DPAD_UP_RIGHT = 0x1,
-        DPAD_RIGHT = 0x2,
-        DPAD_RIGHT_DOWN = 0x3,
-        DPAD_DOWN = 0x4,
-        DPAD_DOWN_LEFT = 0x5,
-        DPAD_LEFT = 0x6,
-        DPAD_LEFT_UP = 0x7,
-        DPAD_OFF = 0x8,
-};
-
 // To enable serial debugging see "settings.h"
 //#define PRINTREPORT // Uncomment to print the report send by the Switch Pro Controller
 
@@ -38,27 +26,9 @@ int8_t SwitchProParser::getButtonIndexSwitchPro(ButtonEnum b) {
     return index;
 }
 
-bool SwitchProParser::checkDpad(ButtonEnum b) {
-        switch (b) {
-                case UP:
-                        return switchProData.btn.dpad == DPAD_LEFT_UP || switchProData.btn.dpad == DPAD_UP || switchProData.btn.dpad == DPAD_UP_RIGHT;
-                case RIGHT:
-                        return switchProData.btn.dpad == DPAD_UP_RIGHT || switchProData.btn.dpad == DPAD_RIGHT || switchProData.btn.dpad == DPAD_RIGHT_DOWN;
-                case DOWN:
-                        return switchProData.btn.dpad == DPAD_RIGHT_DOWN || switchProData.btn.dpad == DPAD_DOWN || switchProData.btn.dpad == DPAD_DOWN_LEFT;
-                case LEFT:
-                        return switchProData.btn.dpad == DPAD_DOWN_LEFT || switchProData.btn.dpad == DPAD_LEFT || switchProData.btn.dpad == DPAD_LEFT_UP;
-                default:
-                        return false;
-        }
-}
-
 bool SwitchProParser::getButtonPress(ButtonEnum b) {
         const int8_t index = getButtonIndexSwitchPro(b); if (index < 0) return 0;
-        if (index <= LEFT) // Dpad
-                return checkDpad(b);
-        else
-                return switchProData.btn.val & (1UL << pgm_read_byte(&SWITCH_PRO_BUTTONS[index]));
+        return switchProData.btn.val & (1UL << pgm_read_byte(&SWITCH_PRO_BUTTONS[index]));
 }
 
 bool SwitchProParser::getButtonClick(ButtonEnum b) {
@@ -70,11 +40,20 @@ bool SwitchProParser::getButtonClick(ButtonEnum b) {
 }
 
 int16_t SwitchProParser::getAnalogHat(AnalogHatEnum a) {
-        return switchProData.hatValue[(uint8_t)a] - 0x7FFF; // Subtract the center value
+        switch((uint8_t)a) {
+                case 0:
+                        return switchProData.leftHatX - 2048; // Subtract the center value
+                case 1:
+                        return 2048 - switchProData.leftHatY; // Invert, so it follows the same coordinate as the simple report
+                case 2:
+                        return switchProData.rightHatX - 2048; // Subtract the center value
+                default:
+                        return 2048 - switchProData.rightHatY; // Invert, so it follows the same coordinate as the simple report
+        }
 }
 
 void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
-        if (len > 1 && buf)  {
+        if (len > 0 && buf)  {
 #ifdef PRINTREPORT
                 Notify(PSTR("\r\nLen: "), 0x80); Notify(len, 0x80);
                 Notify(PSTR(", data: "), 0x80);
@@ -84,51 +63,50 @@ void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
                 }
 #endif
 
-                if (buf[0] == 0x3F) // Simple input report
-                        memcpy(&switchProData, buf + 1, min((uint8_t)(len - 1), MFK_CASTUINT8T sizeof(switchProData)));
-                else if (buf[0] == 0x21) // Subcommand reply
-                        return;
-                else {
+                // This driver always uses the standard full report that includes the IMU data.
+                // The downside is that it requires more processing power, as the data is send contentiously
+                // while the simple input report is only send when the button state changes however the simple
+                // input report is not available via USB and does not include the IMU data.
+
+                if (buf[0] == 0x3F) // Simple input report via Bluetooth
+                        switchProOutput.enableFullReportMode = true; // Switch over to the full report
+                else if (buf[0] == 0x30) { // Standard full mode
+                        if (len < 4) {
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nReport is too short: "), 0x80);
+                                D_PrintHex<uint8_t > (len, 0x80);
+#endif
+                                return;
+                        }
+                        memcpy(&switchProData, buf + 3, min((uint8_t)(len - 3), MFK_CASTUINT8T sizeof(switchProData)));
+
+                        if (switchProData.btn.val != oldButtonState.val) { // Check if anything has changed
+                                buttonClickState.val = switchProData.btn.val & ~oldButtonState.val; // Update click state variable
+                                oldButtonState.val = switchProData.btn.val;
+                        }
+
+                        message_counter++;
+                } else if (buf[0] == 0x21) {
+                        // Subcommand reply via Bluetooth
+                } else if (buf[0] == 0x81) {
+                        // Subcommand reply via USB
+                } else {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nUnknown report id: "), 0x80);
                         D_PrintHex<uint8_t > (buf[0], 0x80);
                         Notify(PSTR(", len: "), 0x80);
                         D_PrintHex<uint8_t > (len, 0x80);
 #endif
-                        return;
                 }
-
-                // Workaround issue with the controller sending invalid joystick values when it is connected
-                for (uint8_t i = 0; i < sizeof(switchProData.hatValue) / sizeof(switchProData.hatValue[0]); i++) {
-                        if (switchProData.hatValue[i] < 1000 || switchProData.hatValue[i] > 0xFFFF - 1000)
-                                switchProData.hatValue[i] = 0x7FFF; // Center value
-                }
-
-                if (switchProData.btn.val != oldButtonState.val) { // Check if anything has changed
-                        buttonClickState.val = switchProData.btn.val & ~oldButtonState.val; // Update click state variable
-                        oldButtonState.val = switchProData.btn.val;
-
-                        // The DPAD buttons does not set the different bits, but set a value corresponding to the buttons pressed, we will simply set the bits ourself
-                        uint8_t newDpad = 0;
-                        if (checkDpad(UP))
-                                newDpad |= 1 << UP;
-                        if (checkDpad(RIGHT))
-                                newDpad |= 1 << RIGHT;
-                        if (checkDpad(DOWN))
-                                newDpad |= 1 << DOWN;
-                        if (checkDpad(LEFT))
-                                newDpad |= 1 << LEFT;
-                        if (newDpad != oldDpad) {
-                                buttonClickState.dpad = newDpad & ~oldDpad; // Override values
-                                oldDpad = newDpad;
-                        }
-                }
-
-                message_counter++;
         }
 
-        if (switchProOutput.ledReportChanged || switchProOutput.ledHomeReportChanged)
-                sendLedOutputReport(); // Send output report
+        if (switchProOutput.sendHandshake)
+                sendHandshake();
+        else if (switchProOutput.disableTimeout)
+                disableTimeout();
+        else if (switchProOutput.ledReportChanged || switchProOutput.ledHomeReportChanged ||
+                switchProOutput.enableFullReportMode || switchProOutput.enableImu != -1)
+                sendOutputCmd();
         else if (switchProOutput.leftRumbleOn || switchProOutput.rightRumbleOn) {
                 // We need to send the rumble report repeatedly to keep it on
                 uint32_t now = millis();
@@ -136,11 +114,10 @@ void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
                         rumble_on_timer = now;
                         sendRumbleOutputReport();
                 }
-        } else
-                rumble_on_timer = 0;
+        }
 }
 
-void SwitchProParser::sendLedOutputReport() {
+void SwitchProParser::sendOutputCmd() {
         // See: https://github.com/Dan611/hid-procon
         //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering
         //      https://github.com/HisashiKato/USB_Host_Shield_Library_2.0_BTXBOX/blob/master/src/SWProBTParser.h#L152-L153
@@ -196,6 +173,21 @@ void SwitchProParser::sendLedOutputReport() {
                 buf[0x0A + 3] = (0xF /* Mini Cycle 1 LED intensity */ << 4) | 0x0 /* Mini Cycle 2 LED intensity */;
 
                 sendOutputReport(buf, 10 + 4);
+        } else if (switchProOutput.enableFullReportMode) {
+                switchProOutput.enableFullReportMode = false;
+
+                // See: https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/bluetooth_hid_subcommands_notes.md#subcommand-0x03-set-input-report-mode
+                buf[0x0A + 0] = 0x03; // PROCON_CMD_MODE
+                buf[0x0A + 1] = 0x30; // PROCON_ARG_INPUT_FULL
+
+                sendOutputReport(buf, 10 + 2);
+        } else if (switchProOutput.enableImu != -1) {
+                // See: https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/bluetooth_hid_subcommands_notes.md#subcommand-0x40-enable-imu-6-axis-sensor
+                buf[0x0A + 0] = 0x40; // PROCON_CMD_GYRO
+                buf[0x0A + 1] = switchProOutput.enableImu ? 1 : 0; // The new state is stored in the variable
+                switchProOutput.enableImu = -1;
+
+                sendOutputReport(buf, 12);
         }
 }
 
@@ -203,7 +195,6 @@ void SwitchProParser::sendRumbleOutputReport() {
         // See: https://github.com/Dan611/hid-procon
         //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering
         //      https://github.com/HisashiKato/USB_Host_Shield_Library_2.0_BTXBOX/blob/master/src/SWProBTParser.h#L152-L153
-
         uint8_t buf[10] = { 0 };
         buf[0x00] = 0x10; // Report ID - PROCON_CMD_RUMBLE_ONLY
         buf[0x01] = output_sequence_counter++; // Lowest 4-bit is a sequence number, which needs to be increased for every report
@@ -238,15 +229,14 @@ void SwitchProParser::sendRumbleOutputReport() {
 }
 
 void SwitchProParser::Reset() {
-        for (uint8_t i = 0; i < sizeof(switchProData.hatValue) / sizeof(switchProData.hatValue[0]); i++)
-                switchProData.hatValue[i] = 0x7FFF; // Center value
+        // Center joysticks
+        switchProData.leftHatX = switchProData.leftHatY = switchProData.rightHatX = switchProData.rightHatY = 2048;
+
+        // Reset buttons variables
         switchProData.btn.val = 0;
         oldButtonState.val = 0;
+        buttonClickState.val = 0;
 
-        switchProData.btn.dpad = DPAD_OFF;
-        oldButtonState.dpad = DPAD_OFF;
-        buttonClickState.dpad = 0;
-        oldDpad = 0;
         output_sequence_counter = 0;
         rumble_on_timer = 0;
 
@@ -256,4 +246,8 @@ void SwitchProParser::Reset() {
         switchProOutput.ledHome = false;
         switchProOutput.ledReportChanged = false;
         switchProOutput.ledHomeReportChanged = false;
+        switchProOutput.enableFullReportMode = false;
+        switchProOutput.enableImu = -1;
+        switchProOutput.sendHandshake = false;
+        switchProOutput.disableTimeout = false;
 };

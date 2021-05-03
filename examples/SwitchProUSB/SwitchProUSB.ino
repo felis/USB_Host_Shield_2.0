@@ -1,11 +1,10 @@
 /*
- Example sketch for the Switch Pro Bluetooth library - developed by Kristian Sloth Lauszus
+ Example sketch for the Switch Pro USB library - developed by Kristian Sloth Lauszus
  For more information visit the Github repository: github.com/felis/USB_Host_Shield_2.0 or
  send me an e-mail: lauszus@gmail.com
  */
 
-#include <SwitchProBT.h>
-#include <usbhub.h>
+#include <SwitchProUSB.h>
 
 // Satisfy the IDE, which needs to see the include statement in the ino too.
 #ifdef dobogusinclude
@@ -14,16 +13,7 @@
 #include <SPI.h>
 
 USB Usb;
-//USBHub Hub1(&Usb); // Some dongles have a hub inside
-BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
-
-/* You can create the instance of the SwitchProBT class in two ways */
-// This will start an inquiry and then pair with the Switch Pro controller - you only have to do this once
-// You will need to press the Sync button next to the USB connector to put the controller into pairing mode.
-SwitchProBT SwitchPro(&Btd, PAIR);
-
-// After that you can simply create the instance like so and then press a button on the device
-//SwitchProBT SwitchPro(&Btd);
+SwitchProUSB SwitchPro(&Usb);
 
 bool printAngle = false;
 uint16_t lastMessageCounter = -1;
@@ -38,7 +28,7 @@ void setup() {
     Serial.print(F("\r\nOSC did not start"));
     while (1); // Halt
   }
-  Serial.print(F("\r\nSwitch Pro Bluetooth Library Started"));
+  Serial.print(F("\r\nSwitch Pro USB Library Started"));
 }
 
 void loop() {
@@ -61,15 +51,6 @@ void loop() {
       Serial.print(F("\tRightHatY: "));
       Serial.print(SwitchPro.getAnalogHat(RightHatY));
     }
-
-    // Hold the CAPTURE button for 1 second to disconnect the controller
-    // This prevents the controller from disconnecting when it is reconnected,
-    // as the CAPTURE button is sent when it reconnects
-    if (SwitchPro.getButtonPress(CAPTURE)) {
-      if (millis() - capture_timer > 1000)
-        SwitchPro.disconnect();
-    } else
-      capture_timer = millis();
 
     if (SwitchPro.getButtonClick(CAPTURE))
       Serial.print(F("\r\nCapture"));

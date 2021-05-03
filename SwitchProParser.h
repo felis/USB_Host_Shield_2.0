@@ -39,73 +39,99 @@ const uint8_t SWITCH_PRO_LEDS[] PROGMEM = {
 
 /** Buttons on the controller */
 const uint8_t SWITCH_PRO_BUTTONS[] PROGMEM = {
-        0x10, // UP
-        0x11, // RIGHT
-        0x12, // DOWN
+        0x11, // UP
+        0x12, // RIGHT
+        0x10, // DOWN
         0x13, // LEFT
 
         0x0D, // Capture
         0x09, // PLUS
-        0x0A, // L3
-        0x0B, // R3
+        0x0B, // L3
+        0x0A, // R3
 
         0x08, // MINUS
         0x0C, // HOME
         0, 0, // Skip
 
-        0x00, // B
-        0x01, // A
-        0x03, // X
-        0x02, // Y
+        0x02, // B
+        0x03, // A
+        0x01, // X
+        0x00, // Y
 
-        0x04, // L
-        0x05, // R
-        0x06, // ZL
+        0x16, // L
+        0x06, // R
+        0x17, // ZL
         0x07, // ZR
 };
 
+// https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/bluetooth_hid_notes.md#standard-input-report-format
 union SwitchProButtons {
         struct {
-                uint8_t b : 1;
-                uint8_t a : 1;
                 uint8_t y : 1;
                 uint8_t x : 1;
+                uint8_t b : 1;
+                uint8_t a : 1;
 
-                uint8_t l : 1;
+                uint8_t dummy1 : 2;
                 uint8_t r : 1;
-                uint8_t zl : 1;
                 uint8_t zr : 1;
 
                 uint8_t minus : 1;
                 uint8_t plus : 1;
-                uint8_t l3 : 1;
                 uint8_t r3 : 1;
+                uint8_t l3 : 1;
 
                 uint8_t home : 1;
                 uint8_t capture : 1;
-                uint8_t dummy1 : 2;
+                uint8_t dummy2 : 2;
 
                 uint8_t dpad : 4;
-                uint8_t dummy2 : 4;
+
+                uint8_t dummy3 : 2;
+                uint8_t l : 1;
+                uint8_t zl : 1;
         } __attribute__((packed));
         uint32_t val : 24;
 } __attribute__((packed));
 
+struct ImuData {
+        int16_t accX, accY, accZ;
+        int16_t gyroX, gyroY, gyroZ;
+} __attribute__((packed));
+
 struct SwitchProData {
+        // TODO: Add byte 2 containing battery level and connection info
+
         /* Button and joystick values */
-        SwitchProButtons btn; // 0-2 bytes
-        uint16_t hatValue[4]; // 3-10 bytes
+        SwitchProButtons btn; // Bytes 3-5
+
+        // Bytes 6-11
+        uint16_t leftHatX : 12;
+        uint16_t leftHatY : 12;
+        uint16_t rightHatX : 12;
+        uint16_t rightHatY : 12;
+
+        uint8_t vibratorInput; // What is this used for?
+
+        // Bytes 13-48
+        // Three samples of the IMU is sent in one message
+        // See: https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/imu_sensor_notes.md
+        ImuData imu[3];
 } __attribute__((packed));
 
 struct SwitchProOutput {
         bool leftRumbleOn;
         bool rightRumbleOn;
-        uint8_t ledMask; // Higher nibble flashes the LEDs, lower nibble set them on/off
+        uint8_t ledMask; // Higher nibble flashes the LEDs, lower nibble sets them on/off
         bool ledHome;
 
-        // Used to only send the report when the state changes
+        // Used to send the reports at the same rate as the controller is sending messages
         bool ledReportChanged;
         bool ledHomeReportChanged;
+        bool enableFullReportMode;
+        int8_t enableImu; // -1 == Do nothing, 0 == disable IMU, 1 == enable IMU
+        bool sendHandshake;
+        bool disableTimeout;
 } __attribute__((packed));
 
 /** This class parses all the data sent by the Switch Pro controller */
@@ -138,7 +164,15 @@ public:
          */
         int16_t getAnalogHat(AnalogHatEnum a);
 
-#if 0
+        /**
+         * Used to enable/disable the IMU. By default it is disabled.
+         * @param  enable Enable/disable the IMU.
+         */
+        void enableImu(bool enable) {
+                // TODO: Should we just always enable it?
+                switchProOutput.enableImu = enable ? 1 : 0;
+        }
+
         /**
          * Get the angle of the controller calculated using the accelerometer.
          * @param  a Either ::Pitch or ::Roll.
@@ -146,9 +180,9 @@ public:
          */
         float getAngle(AngleEnum a) {
                 if (a == Pitch)
-                        return (atan2f(-ps5Data.accY, -ps5Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(-switchProData.imu[0].accY, -switchProData.imu[0].accZ) + PI) * RAD_TO_DEG;
                 else
-                        return (atan2f(ps5Data.accX, -ps5Data.accZ) + PI) * RAD_TO_DEG;
+                        return (atan2f(switchProData.imu[0].accX, -switchProData.imu[0].accZ) + PI) * RAD_TO_DEG;
         };
 
         /**
@@ -159,22 +193,21 @@ public:
         int16_t getSensor(SensorEnum s) {
                 switch(s) {
                         case gX:
-                                return ps5Data.gyroX;
+                                return switchProData.imu[0].gyroX;
                         case gY:
-                                return ps5Data.gyroY;
+                                return switchProData.imu[0].gyroY;
                         case gZ:
-                                return ps5Data.gyroZ;
+                                return switchProData.imu[0].gyroZ;
                         case aX:
-                                return ps5Data.accX;
+                                return switchProData.imu[0].accX;
                         case aY:
-                                return ps5Data.accY;
+                                return switchProData.imu[0].accY;
                         case aZ:
-                                return ps5Data.accZ;
+                                return switchProData.imu[0].accZ;
                         default:
                                 return 0;
                 }
         };
-#endif
 
         /** Turn both rumble and the LEDs off. */
         void setAllOff() {
@@ -305,17 +338,27 @@ protected:
          */
         virtual void sendOutputReport(uint8_t *data, uint8_t len) = 0;
 
+        /** Used to send a handshake command via USB before disabling the timeout. */
+        virtual void sendHandshake() {}
+
+        /**
+         * Needed to disable USB timeout for the controller,
+         * so it sends out data without the host having to send data continuously.
+         */
+        virtual void disableTimeout() {}
+
+        /** Allow derived classes to access the output variables. */
+        SwitchProOutput switchProOutput;
+
 private:
         static int8_t getButtonIndexSwitchPro(ButtonEnum b);
         bool checkDpad(ButtonEnum b); // Used to check Switch Pro DPAD buttons
 
-        void sendLedOutputReport();
+        void sendOutputCmd();
         void sendRumbleOutputReport();
 
         SwitchProData switchProData;
         SwitchProButtons oldButtonState, buttonClickState;
-        SwitchProOutput switchProOutput;
-        uint8_t oldDpad;
         uint16_t message_counter = 0;
         uint8_t output_sequence_counter : 4;
         uint32_t rumble_on_timer = 0;

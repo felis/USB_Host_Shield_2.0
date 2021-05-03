@@ -39,6 +39,7 @@ PS4USB	KEYWORD1
 PS5BT	KEYWORD1
 PS5USB	KEYWORD1
 SwitchProBT	KEYWORD1
+SwitchProUSB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
@@ -62,8 +63,11 @@ getTemperature	KEYWORD2
 disconnect	KEYWORD2
 
 setAllOff	KEYWORD2
+setRumble	KEYWORD2
 setRumbleOff	KEYWORD2
 setRumbleOn	KEYWORD2
+setRumbleLeft	KEYWORD2
+setRumbleRight	KEYWORD2
 setLedOff	KEYWORD2
 setLedOn	KEYWORD2
 setLedToggle	KEYWORD2
