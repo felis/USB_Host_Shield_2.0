@@ -100,7 +100,10 @@ struct ImuData {
 } __attribute__((packed));
 
 struct SwitchProData {
-        // TODO: Add byte 2 containing battery level and connection info
+        struct {
+                uint8_t connection_info : 4;
+                uint8_t battery_level : 4;
+        } __attribute__((packed));
 
         /* Button and joystick values */
         SwitchProButtons btn; // Bytes 3-5
@@ -316,8 +319,25 @@ public:
         }
 
         /** Get the incoming message count. */
-        uint16_t getMessageCounter(){
+        uint16_t getMessageCounter() {
                 return message_counter;
+        }
+
+        /**
+        * Return the battery level of the Switch Pro Controller.
+        * @return The battery level as a bit mask according to ::SwitchProBatteryLevel:
+         *        4=full, 3=medium, 2=low, 1=critical, 0=empty.
+        */
+        uint8_t getBatteryLevel() {
+                return switchProData.battery_level >> 1;
+        }
+
+        /**
+         * Returns whenever the controller is plugged in and charging.
+         * @return Returns True if the controller is charging.
+         */
+        bool isCharging() {
+                return switchProData.battery_level & 0x01;
         }
 
 protected:
@@ -352,7 +372,6 @@ protected:
 
 private:
         static int8_t getButtonIndexSwitchPro(ButtonEnum b);
-        bool checkDpad(ButtonEnum b); // Used to check Switch Pro DPAD buttons
 
         void sendOutputCmd();
         void sendRumbleOutputReport();

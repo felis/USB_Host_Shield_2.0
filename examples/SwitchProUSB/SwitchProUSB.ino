@@ -90,8 +90,13 @@ void loop() {
 
     if (SwitchPro.getButtonClick(A))
       Serial.print(F("\r\nA"));
-    if (SwitchPro.getButtonClick(B))
+    if (SwitchPro.getButtonClick(B)) {
       Serial.print(F("\r\nB"));
+      Serial.print(F("\r\nBattery level: "));
+      Serial.print(SwitchPro.getBatteryLevel());
+      Serial.print(F(", charging: "));
+      Serial.print(SwitchPro.isCharging());
+    }
     if (SwitchPro.getButtonClick(X))
       Serial.print(F("\r\nX"));
     if (SwitchPro.getButtonClick(Y))

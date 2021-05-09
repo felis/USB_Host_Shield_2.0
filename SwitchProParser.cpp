@@ -71,14 +71,14 @@ void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
                 if (buf[0] == 0x3F) // Simple input report via Bluetooth
                         switchProOutput.enableFullReportMode = true; // Switch over to the full report
                 else if (buf[0] == 0x30) { // Standard full mode
-                        if (len < 4) {
+                        if (len < 3) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nReport is too short: "), 0x80);
                                 D_PrintHex<uint8_t > (len, 0x80);
 #endif
                                 return;
                         }
-                        memcpy(&switchProData, buf + 3, min((uint8_t)(len - 3), MFK_CASTUINT8T sizeof(switchProData)));
+                        memcpy(&switchProData, buf + 2, min((uint8_t)(len - 2), MFK_CASTUINT8T sizeof(switchProData)));
 
                         if (switchProData.btn.val != oldButtonState.val) { // Check if anything has changed
                                 buttonClickState.val = switchProData.btn.val & ~oldButtonState.val; // Update click state variable
@@ -250,4 +250,4 @@ void SwitchProParser::Reset() {
         switchProOutput.enableImu = -1;
         switchProOutput.sendHandshake = false;
         switchProOutput.disableTimeout = false;
-};
+}
