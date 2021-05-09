@@ -89,15 +89,26 @@ protected:
                                 setLedOn(LED1); // Turn on the LED1
                                 setLedHomeOn(); // Turn on the home LED
                         }
-                };
+                }
                 return 0;
         };
         /**@}*/
 
         /** @name SwitchProParser implementation */
         virtual void sendOutputReport(uint8_t *data, uint8_t len) {
+                // Based on: https://github.com/Dan611/hid-procon
                 // The first 8 bytes are always the same. The actual report follows
-                uint8_t buf[8 + len] = { 0x80 /* PROCON_REPORT_SEND_USB */, 0x92 /*PROCON_USB_DO_CMD */, 0x00, 0x31, 0x00, 0x00, 0x00, 0x00 };
+                uint8_t buf[8 + len];
+                buf[0] = 0x80; // PROCON_REPORT_SEND_USB
+                buf[1] = 0x92; // PROCON_USB_DO_CMD
+                buf[2] = 0x00;
+                buf[3] = 0x31;
+                buf[4] = 0x00;
+                buf[5] = 0x00;
+                buf[6] = 0x00;
+                buf[7] = 0x00;
+
+                // Cope over the report
                 memcpy(buf + 8, data, len);
 
                 // Endpoint (control endpoint), Interface (0x00), Report Type (Output 0x02), Report ID (0x80), nbytes, data
