@@ -355,7 +355,7 @@ You can convert USB MIDI keyboard to legacy serial MIDI.
 * [USB_MIDI_converter.ino](examples/USBH_MIDI/USB_MIDI_converter/USB_MIDI_converter.ino)
 * [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino)
 
-For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
+For more information see : <https://github.com/YuuichiAkagawa/USBH_MIDI>.
 
 ### [amBX Library](AMBX.cpp)
 
