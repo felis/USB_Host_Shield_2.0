@@ -1,10 +1,11 @@
 <map id="hiduniversal.h" name="hiduniversal.h">
-<area shape="rect" id="node1" title=" " alt="" coords="255,5,370,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="310,5,425,32"/>
 <area shape="rect" id="node2" href="$hiduniversal_8cpp.html" title=" " alt="" coords="5,80,135,107"/>
 <area shape="rect" id="node3" href="$_mini_d_s_p_8h.html" title=" " alt="" coords="159,80,245,107"/>
 <area shape="rect" id="node5" href="$_p_s4_u_s_b_8h.html" title=" " alt="" coords="270,80,355,107"/>
 <area shape="rect" id="node6" href="$_p_s5_u_s_b_8h.html" title=" " alt="" coords="379,80,465,107"/>
 <area shape="rect" id="node7" href="$_p_s_buzz_8h.html" title=" " alt="" coords="489,80,571,107"/>
+<area shape="rect" id="node9" href="$_switch_pro_u_s_b_8h.html" title=" " alt="" coords="595,80,721,107"/>
 <area shape="rect" id="node4" href="$_mini_d_s_p_8cpp.html" title=" " alt="" coords="151,155,253,181"/>
 <area shape="rect" id="node8" href="$_p_s_buzz_8cpp.html" title=" " alt="" coords="482,155,578,181"/>
 </map>

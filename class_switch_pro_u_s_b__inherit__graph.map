@@ -1,0 +1,9 @@
+<map id="SwitchProUSB" name="SwitchProUSB">
+<area shape="rect" id="node1" title=" " alt="" coords="167,304,280,331"/>
+<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title=" " alt="" coords="99,229,207,256"/>
+<area shape="rect" id="node3" href="$class_h_i_d_composite.html" title=" " alt="" coords="95,155,211,181"/>
+<area shape="rect" id="node4" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="116,80,189,107"/>
+<area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,32"/>
+<area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,32"/>
+<area shape="rect" id="node7" href="$class_switch_pro_parser.html" title=" " alt="" coords="231,229,357,256"/>
+</map>

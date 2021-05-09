@@ -1,0 +1,43 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_bluetooth_service.html" title=" " alt="" coords="409,309,543,336"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="671,335,733,361"/>
+<area shape="rect" id="node7" href="$class_p_s3_b_t.html" title=" " alt="" coords="671,385,733,412"/>
+<area shape="rect" id="node8" href="$class_s_p_p.html" title=" " alt="" coords="679,499,725,525"/>
+<area shape="rect" id="node9" href="$class_w_i_i.html" title=" " alt="" coords="681,284,723,311"/>
+<area shape="rect" id="node3" href="$class_p_s4_b_t.html" title=" " alt="" coords="843,259,905,285"/>
+<area shape="rect" id="node4" href="$class_p_s5_b_t.html" title=" " alt="" coords="843,309,905,336"/>
+<area shape="rect" id="node5" href="$class_switch_pro_b_t.html" title=" " alt="" coords="823,360,925,387"/>
+<area shape="rect" id="node6" href="$class_x_b_o_x_o_n_e_s_b_t.html" title=" " alt="" coords="819,436,929,463"/>
+<area shape="rect" id="node10" href="$class_p_s4_parser.html" title=" " alt="" coords="659,132,745,159"/>
+<area shape="rect" id="node11" href="$class_p_s4_u_s_b.html" title=" " alt="" coords="837,107,911,133"/>
+<area shape="rect" id="node12" href="$class_p_s5_parser.html" title=" " alt="" coords="659,183,745,209"/>
+<area shape="rect" id="node13" href="$class_p_s5_u_s_b.html" title=" " alt="" coords="837,157,911,184"/>
+<area shape="rect" id="node14" title=" " alt="" coords="441,512,511,539"/>
+<area shape="rect" id="node15" href="$class_switch_pro_parser.html" title=" " alt="" coords="639,233,765,260"/>
+<area shape="rect" id="node16" href="$class_switch_pro_u_s_b.html" title=" " alt="" coords="817,208,931,235"/>
+<area shape="rect" id="node17" href="$class_usb_config_xtracter.html" title=" " alt="" coords="19,284,159,311"/>
+<area shape="rect" id="node18" href="$class_a_c_m.html" title=" " alt="" coords="243,436,295,463"/>
+<area shape="rect" id="node21" href="$class_a_d_k.html" title=" " alt="" coords="244,183,295,209"/>
+<area shape="rect" id="node22" href="$class_b_t_d.html" title=" " alt="" coords="245,233,294,260"/>
+<area shape="rect" id="node23" href="$class_bulk_only.html" title=" " alt="" coords="229,284,310,311"/>
+<area shape="rect" id="node24" href="$class_f_t_d_i.html" title=" " alt="" coords="244,335,295,361"/>
+<area shape="rect" id="node25" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="233,132,306,159"/>
+<area shape="rect" id="node31" href="$class_x_b_o_x_o_n_e.html" title=" " alt="" coords="226,385,313,412"/>
+<area shape="rect" id="node19" href="$class_p_l2303.html" title=" " alt="" coords="441,411,511,437"/>
+<area shape="rect" id="node20" href="$class_x_r21_b1411.html" title=" " alt="" coords="427,461,525,488"/>
+<area shape="rect" id="node26" href="$class_h_i_d_boot.html" title=" " alt="" coords="365,360,587,387"/>
+<area shape="rect" id="node27" href="$class_h_i_d_composite.html" title=" " alt="" coords="418,107,534,133"/>
+<area shape="rect" id="node28" href="$class_h_i_d_universal.html" title=" " alt="" coords="648,81,756,108"/>
+<area shape="rect" id="node29" href="$class_mini_d_s_p.html" title=" " alt="" coords="836,56,912,83"/>
+<area shape="rect" id="node30" href="$class_p_s_buzz.html" title=" " alt="" coords="839,5,909,32"/>
+<area shape="rect" id="node32" href="$class_u_s_b_device_config.html" title=" " alt="" coords="22,461,157,488"/>
+<area shape="rect" id="node33" href="$class_a_m_b_x.html" title=" " alt="" coords="239,487,300,513"/>
+<area shape="rect" id="node34" href="$class_p_s3_u_s_b.html" title=" " alt="" coords="233,537,306,564"/>
+<area shape="rect" id="node35" href="$class_u_s_b_h___m_i_d_i.html" title=" " alt="" coords="221,791,317,817"/>
+<area shape="rect" id="node36" href="$class_u_s_b_hub.html" title=" " alt="" coords="232,588,307,615"/>
+<area shape="rect" id="node37" href="$class_x_b_o_x_o_l_d.html" title=" " alt="" coords="227,639,312,665"/>
+<area shape="rect" id="node38" href="$class_x_b_o_x_r_e_c_v.html" title=" " alt="" coords="222,689,317,716"/>
+<area shape="rect" id="node39" href="$class_x_b_o_x_u_s_b.html" title=" " alt="" coords="226,740,313,767"/>
+<area shape="rect" id="node40" href="$class_usb_midi_config_xtracter.html" title=" " alt="" coords="5,791,173,817"/>
+<area shape="rect" id="node41" href="$class_x_b_o_x_o_n_e_s_parser.html" title=" " alt="" coords="635,436,769,463"/>
+</map>

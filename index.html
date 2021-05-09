@@ -84,7 +84,7 @@ $(function() {
 </ul>
 </li>
 <li><b>Kristian Sloth Lauszus</b> - <a href="#" onclick="location.href='mai'+'lto:'+'lau'+'sz'+'us@'+'gm'+'ail'+'.c'+'om'; return false;">lausz<span style="display: none;">.nosp@m.</span>us@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a><ul>
-<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps5-library">PS5</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
+<li>Developer of the <a href="#bluetooth-libraries">BTD</a>, <a href="#bthid-library">BTHID</a>, <a href="#spp-library">SPP</a>, <a href="#ps5-library">PS5</a>, <a href="#ps4-library">PS4</a>, <a href="#ps3-library">PS3</a>, <a href="#wii-library">Wii</a>, <a href="#switch-pro-library">Switch Pro</a>, <a href="#xbox-library">Xbox</a>, and <a href="#ps-buzz-library">PSBuzz</a> libraries</li>
 </ul>
 </li>
 <li><b>Andrew Kroll</b> - <a href="#" onclick="location.href='mai'+'lto:'+'xxx'+'aj'+'k@g'+'ma'+'il.'+'co'+'m'; return false;">xxxaj<span style="display: none;">.nosp@m.</span>k@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a><ul>
@@ -129,6 +129,7 @@ $(function() {
 </ul>
 </li>
 <li><a href="#wii-library">Wii library</a></li>
+<li><a href="#switch-pro-library">Switch Pro Library</a></li>
 <li><a href="#ps-buzz-library">PS Buzz Library</a></li>
 <li><a href="#hid-libraries">HID Libraries</a></li>
 <li><a href="#midi-library">MIDI Library</a></li>
@@ -337,6 +338,16 @@ $(function() {
 <li><a href="http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus">http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Wii_Motion_Plus</a></li>
 <li><a href="http://wiibrew.org/wiki/Wii_Balance_Board">http://wiibrew.org/wiki/Wii_Balance_Board</a></li>
 <li>The old library created by <em>Tomoyuki Tanaka</em>: <a href="https://github.com/moyuchin/WiiRemote_on_Arduino">https://github.com/moyuchin/WiiRemote_on_Arduino</a> also helped a lot.</li>
+</ul>
+<h3>Switch Pro Library</h3>
+<p>The Switch Pro library is split up into the <a href="SwitchProBT.h">SwitchProBT</a> and the <a href="SwitchProUSB.h">SwitchProUSB</a> library. These allow you to use the Nintendo Switch Pro controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a>.</p>
+<p>The <a href="examples/Bluetooth/SwitchProBT/SwitchProBT.ino">SwitchProBT.ino</a> and <a href="examples/SwitchProUSB/SwitchProUSB.ino">SwitchProUSB.ino</a> examples shows how to easily read the buttons, joysticks and IMU on the controller via Bluetooth and <a class="el" href="class_u_s_b.html">USB</a> respectively. It is also possible to control the rumble and LEDs on the controller.</p>
+<p>To pair with the Switch Pro controller via Bluetooth you need create the <a class="el" href="class_switch_pro_b_t.html">SwitchProBT</a> instance like so: <code><a class="el" href="class_switch_pro_b_t.html">SwitchProBT</a> SwitchPro(&amp;Btd, PAIR);</code> and then press the Sync button next to the <a class="el" href="class_u_s_b.html">USB</a> connector to put the controller into pairing mode.</p>
+<p>It should then automatically pair the dongle with your controller. This only have to be done once.</p>
+<p>All the information about the controller are from these sites:</p>
+<ul>
+<li><a href="https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering">https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering</a></li>
+<li><a href="https://github.com/Dan611/hid-procon">https://github.com/Dan611/hid-procon</a></li>
 </ul>
 <h3><a href="PSBuzz.cpp">PS Buzz Library</a></h3>
 <p>This library implements support for the Playstation Buzz controllers via <a class="el" href="class_u_s_b.html">USB</a>.</p>

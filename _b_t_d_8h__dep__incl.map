@@ -1,15 +1,16 @@
 <map id="BTD.h" name="BTD.h">
-<area shape="rect" id="node1" title=" " alt="" coords="479,5,540,32"/>
-<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title=" " alt="" coords="179,80,255,107"/>
-<area shape="rect" id="node3" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="280,80,355,107"/>
-<area shape="rect" id="node8" href="$_p_s3_b_t_8h.html" title=" " alt="" coords="472,80,547,107"/>
-<area shape="rect" id="node10" href="$_s_p_p_8h.html" title=" " alt="" coords="577,80,633,107"/>
-<area shape="rect" id="node12" href="$_wii_8h.html" title=" " alt="" coords="669,80,723,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="617,5,679,32"/>
+<area shape="rect" id="node2" href="$_b_t_d_8cpp.html" title=" " alt="" coords="237,80,313,107"/>
+<area shape="rect" id="node3" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="337,80,412,107"/>
+<area shape="rect" id="node9" href="$_p_s3_b_t_8h.html" title=" " alt="" coords="611,80,685,107"/>
+<area shape="rect" id="node11" href="$_s_p_p_8h.html" title=" " alt="" coords="716,80,772,107"/>
+<area shape="rect" id="node13" href="$_wii_8h.html" title=" " alt="" coords="807,80,862,107"/>
 <area shape="rect" id="node4" href="$_b_t_h_i_d_8cpp.html" title=" " alt="" coords="5,155,96,181"/>
 <area shape="rect" id="node5" href="$_p_s4_b_t_8h.html" title=" " alt="" coords="120,155,195,181"/>
 <area shape="rect" id="node6" href="$_p_s5_b_t_8h.html" title=" " alt="" coords="219,155,293,181"/>
-<area shape="rect" id="node7" href="$_x_b_o_x_o_n_e_s_b_t_8h.html" title=" " alt="" coords="317,155,440,181"/>
-<area shape="rect" id="node9" href="$_p_s3_b_t_8cpp.html" title=" " alt="" coords="465,155,554,181"/>
-<area shape="rect" id="node11" href="$_s_p_p_8cpp.html" title=" " alt="" coords="578,155,649,181"/>
-<area shape="rect" id="node13" href="$_wii_8cpp.html" title=" " alt="" coords="673,155,743,181"/>
+<area shape="rect" id="node7" href="$_switch_pro_b_t_8h.html" title=" " alt="" coords="317,155,432,181"/>
+<area shape="rect" id="node8" href="$_x_b_o_x_o_n_e_s_b_t_8h.html" title=" " alt="" coords="456,155,579,181"/>
+<area shape="rect" id="node10" href="$_p_s3_b_t_8cpp.html" title=" " alt="" coords="603,155,693,181"/>
+<area shape="rect" id="node12" href="$_s_p_p_8cpp.html" title=" " alt="" coords="717,155,787,181"/>
+<area shape="rect" id="node14" href="$_wii_8cpp.html" title=" " alt="" coords="811,155,882,181"/>
 </map>

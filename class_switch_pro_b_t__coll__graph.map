@@ -1,0 +1,13 @@
+<map id="SwitchProBT" name="SwitchProBT">
+<area shape="rect" id="node1" title=" " alt="" coords="296,425,399,452"/>
+<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="257,349,320,376"/>
+<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="207,260,341,287"/>
+<area shape="rect" id="node4" href="$class_b_t_d.html" title=" " alt="" coords="249,171,299,197"/>
+<area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,81,140,108"/>
+<area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,81,304,108"/>
+<area shape="rect" id="node7" href="$class_u_s_b.html" title=" " alt="" coords="328,81,377,108"/>
+<area shape="rect" id="node8" href="$class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,32"/>
+<area shape="rect" id="node9" href="$struct_ep_info.html" title=" " alt="" coords="401,81,464,108"/>
+<area shape="rect" id="node10" href="$class_switch_pro_parser.html" title=" " alt="" coords="363,349,489,376"/>
+<area shape="rect" id="node11" href="$struct_switch_pro_output.html" title=" " alt="" coords="365,260,495,287"/>
+</map>
