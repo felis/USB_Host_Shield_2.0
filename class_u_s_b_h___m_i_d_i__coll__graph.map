@@ -1,7 +1,8 @@
 <map id="USBH_MIDI" name="USBH_MIDI">
-<area shape="rect" id="node1" title=" " alt="" coords="141,171,237,197"/>
+<area shape="rect" id="node1" title=" " alt="" coords="245,171,341,197"/>
 <area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node3" href="$class_u_s_b.html" title=" " alt="" coords="164,81,213,108"/>
-<area shape="rect" id="node4" href="$class_m_a_x3421e.html" title=" " alt="" coords="143,5,235,32"/>
-<area shape="rect" id="node5" href="$struct_ep_info.html" title=" " alt="" coords="237,81,300,108"/>
+<area shape="rect" id="node3" href="$class_usb_midi_config_xtracter.html" title=" " alt="" coords="165,81,333,108"/>
+<area shape="rect" id="node4" href="$class_u_s_b.html" title=" " alt="" coords="357,81,407,108"/>
+<area shape="rect" id="node5" href="$class_m_a_x3421e.html" title=" " alt="" coords="336,5,428,32"/>
+<area shape="rect" id="node6" href="$struct_ep_info.html" title=" " alt="" coords="431,81,493,108"/>
 </map>
