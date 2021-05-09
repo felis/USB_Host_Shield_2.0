@@ -38,6 +38,8 @@ PS4BT	KEYWORD1
 PS4USB	KEYWORD1
 PS5BT	KEYWORD1
 PS5USB	KEYWORD1
+SwitchProBT	KEYWORD1
+SwitchProUSB	KEYWORD1
 
 ####################################################
 # Methods and Functions (KEYWORD2)
@@ -61,14 +63,21 @@ getTemperature	KEYWORD2
 disconnect	KEYWORD2
 
 setAllOff	KEYWORD2
+setRumble	KEYWORD2
 setRumbleOff	KEYWORD2
 setRumbleOn	KEYWORD2
+setRumbleLeft	KEYWORD2
+setRumbleRight	KEYWORD2
 setLedOff	KEYWORD2
 setLedOn	KEYWORD2
 setLedToggle	KEYWORD2
 setLedFlash	KEYWORD2
 moveSetBulb	KEYWORD2
 moveSetRumble	KEYWORD2
+
+setLedHomeOff	KEYWORD2
+setLedHomeOn	KEYWORD2
+setLedHomeToggle	KEYWORD2
 
 attachOnInit	KEYWORD2
 
@@ -317,6 +326,7 @@ TopRight	LITERAL1
 BotRight	LITERAL1
 TopLeft	LITERAL1
 BotLeft	LITERAL1
+CAPTURE	LITERAL1
 
 ####################################################
 # Methods and Functions for the IR Camera
