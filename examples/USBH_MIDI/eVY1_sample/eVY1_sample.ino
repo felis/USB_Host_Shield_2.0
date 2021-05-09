@@ -1,19 +1,13 @@
 /*
  *******************************************************************************
  * eVY1 Shield sample - Say 'Konnichiwa'
- * Copyright (C) 2014-2016 Yuuichi Akagawa
+ * Copyright (C) 2014-2021 Yuuichi Akagawa
  *
  * This is sample program. Do not expect perfect behavior.
  *******************************************************************************
  */
 #include <usbh_midi.h>
 #include <usbhub.h>
-
-// Satisfy the IDE, which needs to see the include statment in the ino too.
-#ifdef dobogusinclude
-#include <spi4teensy3.h>
-#endif
-#include <SPI.h>
 
 USB Usb;
 //USBHub Hub(&Usb);
@@ -23,7 +17,6 @@ void MIDI_poll();
 void noteOn(uint8_t note);
 void noteOff(uint8_t note);
 
-uint16_t pid, vid;
 uint8_t exdata[] = {
   0xf0, 0x43, 0x79, 0x09, 0x00, 0x50, 0x10,
   'k', ' ', 'o', ',', //Ko
@@ -34,15 +27,22 @@ uint8_t exdata[] = {
   0x00, 0xf7
 };
 
+void onInit()
+{
+  // Send Phonetic symbols via SysEx
+  Midi.SendSysEx(exdata, sizeof(exdata));
+  delay(500);
+}
+
 void setup()
 {
-  vid = pid = 0;
-  Serial.begin(115200);
-
   if (Usb.Init() == -1) {
     while (1); //halt
   }//if (Usb.Init() == -1...
   delay( 200 );
+
+  // Register onInit() function
+  Midi.attachOnInit(onInit);
 }
 
 void loop()
@@ -61,13 +61,6 @@ void loop()
 void MIDI_poll()
 {
   uint8_t inBuf[ 3 ];
-
-  //first call?
-  if (Midi.idVendor() != vid || Midi.idProduct() != pid) {
-    vid = Midi.idVendor(); pid = Midi.idProduct();
-    Midi.SendSysEx(exdata, sizeof(exdata));
-    delay(500);
-  }
   Midi.RecvData(inBuf);
 }
 

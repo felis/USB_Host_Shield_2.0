@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI to Legacy Serial MIDI converter
- * Copyright (C) 2012-2020 Yuuichi Akagawa
+ * Copyright (C) 2012-2021 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -12,12 +12,6 @@
 
 #include <usbh_midi.h>
 #include <usbhub.h>
-
-// Satisfy the IDE, which needs to see the include statment in the ino too.
-#ifdef dobogusinclude
-#include <spi4teensy3.h>
-#endif
-#include <SPI.h>
 
 #ifdef USBCON
 #define _MIDI_SERIAL_PORT Serial1
@@ -41,8 +35,7 @@ USBHub  Hub1(&Usb);
 USBH_MIDI  Midi1(&Usb);
 USBH_MIDI  Midi2(&Usb);
 
-void MIDI_poll();
-void doDelay(uint32_t t1, uint32_t t2, uint32_t delayTime);
+void MIDI_poll(USBH_MIDI &Midi);
 
 void setup()
 {
@@ -57,15 +50,15 @@ void setup()
 void loop()
 {
   Usb.Task();
-  uint32_t t1 = (uint32_t)micros();
+
   if ( Midi1 ) {
     MIDI_poll(Midi1);
   }
   if ( Midi2 ) {
     MIDI_poll(Midi2);
   }
-  //delay(1ms)
-  doDelay(t1, (uint32_t)micros(), 1000);
+  //delay(1ms) if you want
+  //delayMicroseconds(1000);
 }
 
 // Poll USB MIDI Controler and send to serial MIDI
