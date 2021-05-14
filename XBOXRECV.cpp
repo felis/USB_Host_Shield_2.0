@@ -89,7 +89,7 @@ uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         VID = udd->idVendor;
         PID = udd->idProduct;
 
-        if((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_WIRELESS_RECEIVER_PID && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID)) { // Check if it's a Xbox receiver using the Vendor ID and Product ID
+        if((VID != XBOX_VID && VID != MADCATZ_VID && VID != JOYTECH_VID) || (PID != XBOX_WIRELESS_RECEIVER_PID_1 && PID != XBOX_WIRELESS_RECEIVER_PID_2 && PID != XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID)) { // Check if it's a Xbox receiver using the Vendor ID and Product ID
 #ifdef DEBUG_USB_HOST
                 Notify(PSTR("\r\nYou'll need a wireless receiver for this libary to work"), 0x80);
 #endif
