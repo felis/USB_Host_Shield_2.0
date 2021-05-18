@@ -93,6 +93,15 @@ public:
                         pBtd->pairWithHID();
         };
 
+        /**
+         * Used to get the millis() of the last Bluetooth DATA input report received on the interrupt channel.
+         * This can be used detect if the connection to a Bluetooth device is lost fx if the battery runs out or if it gets out of range.
+         * @return      Timestamp in milliseconds of the last Bluetooth DATA input report received on the interrupt channel.
+         */
+        uint32_t getLastMessageTime() {
+                return lastBtDataInputIntMillis;
+        };
+
 protected:
         /** @name BluetoothService implementation */
         /**
@@ -125,6 +134,13 @@ protected:
         virtual void ParseBTHIDData(uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
                 return;
         };
+        /**
+         * Same as ParseBTHIDData for reports that are sent through the
+         * interrupt pipe (in response to a GET_REPORT).
+         */
+        virtual void ParseBTHIDControlData(uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
+                return;
+        }
         /** Called when a device is connected */
         virtual void OnInitBTHID() {
                 return;
@@ -141,20 +157,32 @@ protected:
         /** L2CAP source CID for HID_Interrupt */
         uint8_t interrupt_scid[2];
 
+        uint8_t l2cap_sdp_state;
+        uint8_t sdp_scid[2]; // L2CAP source CID for SDP
+
 private:
         HIDReportParser *pRptParser[NUM_PARSERS]; // Pointer to HIDReportParsers.
+
+        uint8_t l2capoutbuf[BULK_MAXPKTSIZE]; // General purpose buffer for l2cap out data
+        void SDP_Command(uint8_t* data, uint8_t nbytes);
+        void serviceNotSupported(uint8_t transactionIDHigh, uint8_t transactionIDLow);
 
         /** Set report protocol. */
         void setProtocol();
         uint8_t protocolMode;
 
+        void SDP_task();
         void L2CAP_task(); // L2CAP state machine
 
         bool activeConnection; // Used to indicate if it already has established a connection
+        bool SDPConnected;
 
         /* Variables used for L2CAP communication */
         uint8_t control_dcid[2]; // L2CAP device CID for HID_Control - Always 0x0070
         uint8_t interrupt_dcid[2]; // L2CAP device CID for HID_Interrupt - Always 0x0071
+        uint8_t sdp_dcid[2];
         uint8_t l2cap_state;
+
+        uint32_t lastBtDataInputIntMillis; // Variable used to store the millis value of the last Bluetooth DATA input report received on the interrupt channel
 };
 #endif

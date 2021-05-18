@@ -49,12 +49,20 @@ uint8_t PSBuzz::OnInitSuccessful() {
         return 0;
 };
 
+int8_t PSBuzz::getButtonIndexBuzz(ButtonEnum b) {
+    const int8_t index = ButtonIndex(b);
+    if (index > 4) return -1;  // 5 buttons, 0-4 inclusive
+    return index;
+}
+
 bool PSBuzz::getButtonPress(ButtonEnum b, uint8_t controller) {
-        return psbuzzButtons.val & (1UL << (b + 5 * controller)); // Each controller uses 5 bits, so the value is shifted 5 for each controller
+        const int8_t index = getButtonIndexBuzz(b); if (index < 0) return 0;
+        return psbuzzButtons.val & (1UL << (index + 5 * controller)); // Each controller uses 5 bits, so the value is shifted 5 for each controller
 };
 
 bool PSBuzz::getButtonClick(ButtonEnum b, uint8_t controller) {
-        uint32_t mask = (1UL << (b + 5 * controller)); // Each controller uses 5 bits, so the value is shifted 5 for each controller
+        const int8_t index = getButtonIndexBuzz(b); if (index < 0) return 0;
+        uint32_t mask = (1UL << (index + 5 * controller)); // Each controller uses 5 bits, so the value is shifted 5 for each controller
         bool click = buttonClickState.val & mask;
         buttonClickState.val &= ~mask; // Clear "click" event
         return click;

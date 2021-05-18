@@ -65,10 +65,8 @@ protected:
         virtual void OnInitBTHID() {
                 PS4Parser::Reset();
                 enable_sixaxis(); // Make the controller send out the entire output report
-                if (pFuncOnInit)
-                        pFuncOnInit(); // Call the user function
-                else
-                        setLed(Blue);
+                if (!pFuncOnInit)
+                        setLed(Blue); // Only call this is a user function has not been set
         };
 
         /** Used to reset the different buffers to there default values */

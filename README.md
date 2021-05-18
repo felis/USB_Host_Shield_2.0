@@ -1,8 +1,8 @@
-# USB Host Library Rev.2.0
+# USB Host Library Rev. 2.0
 
 The code is released under the GNU General Public License.
 __________
-[![Build Status](https://travis-ci.org/felis/USB_Host_Shield_2.0.svg?branch=master)](https://travis-ci.org/felis/USB_Host_Shield_2.0)
+[![](https://github.com/felis/USB_Host_Shield_2.0/workflows/CI/badge.svg)](https://github.com/felis/USB_Host_Shield_2.0/actions?query=branch%3Amaster)
 
 # Summary
 This is Revision 2.0 of MAX3421E-based USB Host Shield Library for AVR's.
@@ -19,17 +19,19 @@ For more information about the hardware see the [Hardware Manual](https://chome.
 
 # Developed By
 
-* __Oleg Mazurov  - <mazurov@gmail.com>
-* __Alexei Glushchenko, Circuits@Home__ - <alex-gl@mail.ru>
+* __Oleg Mazurov__ - <mazurov@gmail.com>
+* __Alexei Glushchenko__ - <alex-gl@mail.ru>
     * Developers of the USB Core, HID, FTDI, ADK, ACM, and PL2303 libraries
-* __Kristian Lauszus, TKJ Electronics__ - <kristianl@tkjelectronics.com>
-    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
+* __Kristian Sloth Lauszus__ - <lauszus@gmail.com>
+    * Developer of the [BTD](#bluetooth-libraries), [BTHID](#bthid-library), [SPP](#spp-library), [PS5](#ps5-library), [PS4](#ps4-library), [PS3](#ps3-library), [Wii](#wii-library), [Switch Pro](#switch-pro-library), [Xbox](#xbox-library), and [PSBuzz](#ps-buzz-library) libraries
 * __Andrew Kroll__ - <xxxajk@gmail.com>
     * Major contributor to mass storage code
 * __guruthree__
     * [Xbox ONE](#xbox-one-library) controller support
 * __Yuuichi Akagawa__ - [@YuuichiAkagawa](https://twitter.com/yuuichiakagawa)
     * Developer of the [MIDI](#midi-library) library
+* __Aran Vink__ - <aranvink@gmail.com>
+    * Developer of the [amBX](#amBX-library) library
 
 
 # Table of Contents
@@ -44,16 +46,20 @@ For more information about the hardware see the [Hardware Manual](https://chome.
     * [Bluetooth libraries](#bluetooth-libraries)
     * [BTHID library](#bthid-library)
     * [SPP library](#spp-library)
+    * [PS5 Library](#ps5-library)
     * [PS4 Library](#ps4-library)
     * [PS3 Library](#ps3-library)
     * [Xbox Libraries](#xbox-libraries)
         * [Xbox library](#xbox-library)
         * [Xbox 360 Library](#xbox-360-library)
         * [Xbox ONE Library](#xbox-one-library)
+        * [Xbox ONE S Library](#xbox-one-s-library)
     * [Wii library](#wii-library)
+    * [Switch Pro Library](#switch-pro-library)
     * [PS Buzz Library](#ps-buzz-library)
     * [HID Libraries](#hid-libraries)
     * [MIDI Library](#midi-library)
+    * [amBX Library](#amBX-library)
 * [Interface modifications](#interface-modifications)
 * [FAQ](#faq)
 
@@ -108,12 +114,13 @@ Currently the following boards are supported by the library:
 * Arduino Due, Intel Galileo, Intel Galileo 2, and Intel Edison
     * Note that the Intel Galileo uses pin 2 and 3 as INT and SS pin respectively by default, so some modifications to the shield are needed. See the "Interface modifications" section in the [hardware manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual) for more information.
     * Note native USB host is not supported on any of these platforms. You will have to use the shield for now.
-* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, and Teensy LC)
+* Teensy (Teensy++ 1.0, Teensy 2.0, Teensy++ 2.0, Teensy 3.x, Teensy LC and Teensy 4.x)
     * Note if you are using the Teensy 3.x you should download this SPI library as well: <https://github.com/xxxajk/spi4teensy3>. You should then add ```#include <spi4teensy3.h>``` to your .ino file.
 * Balanduino
 * Sanguino
 * Black Widdow
 * RedBearLab nRF51822
+* Adafruit Feather nRF52840 Express
 * Digilent chipKIT
     * Please see: <https://chome.nerpa.tech/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
@@ -170,9 +177,25 @@ More information can be found at these blog posts:
 To implement the SPP protocol I used a Bluetooth sniffing tool called [PacketLogger](http://www.tkjelectronics.com/uploads/PacketLogger.zip) developed by Apple.
 It enables me to see the Bluetooth communication between my Mac and any device.
 
+### PS5 Library
+
+The PS5 library is split up into the [PS5BT](PS5BT.h) and the [PS5USB](PS5USB.h) library. These allow you to use the Sony PS5 controller via Bluetooth and USB.
+
+The [PS5BT.ino](examples/Bluetooth/PS5BT/PS5BT.ino) and [PS5USB.ino](examples/PS5USB/PS5USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble, lightbar, microphone LED and player LEDs on the controller. Furthermore the new haptic trigger effects are also supported.
+
+To pair with the PS5 controller via Bluetooth you need create the PS5BT instance like so: ```PS5BT PS5(&Btd, PAIR);``` and then hold down the Create button and then hold down the PS without releasing the Create button. The PS5 controller will then start to blink blue indicating that it is in pairing mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
+
+Thanks to Joseph Duchesne for the initial USB code.
+
+The driver is based on the official Sony driver for Linux: <https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/>.
+
+Also thanks to Ludwig Füchsl's <https://github.com/Ohjurot/DualSense-Windows> for his work on the haptic triggers.
+
 ### PS4 Library
 
-The PS4BT library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
+The PS4 library is split up into the [PS4BT](PS4BT.h) and the [PS4USB](PS4USB.h) library. These allow you to use the Sony PS4 controller via Bluetooth and USB.
 
 The [PS4BT.ino](examples/Bluetooth/PS4BT/PS4BT.ino) and [PS4USB.ino](examples/PS4USB/PS4USB.ino) examples shows how to easily read the buttons, joysticks, touchpad and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and light on the controller and get the battery level.
 
@@ -186,7 +209,7 @@ For information see the following blog post: <http://blog.tkjelectronics.dk/2014
 
 Also check out this excellent Wiki by Frank Zhao about the PS4 controller: <http://eleccelerator.com/wiki/index.php?title=DualShock_4> and this Linux driver: <https://github.com/chrippa/ds4drv>.
 
-Several guides on how to use the PS4 library has been written by Dr. James E. Barger and are available at the following link: <https://sites.google.com/view/vbatc-engineeringtechnology2/control-system-tutorials/ps4-tutorials>.
+Several guides on how to use the PS4 library has been written by Dr. James E. Barger and are available at the following link: <https://sites.google.com/view/crosswaystation/ps4-tutorials>.
 
 ### PS3 Library
 
@@ -257,11 +280,17 @@ All the information regarding the Xbox 360 controller protocol are form these si
 
 #### Xbox ONE Library
 
-An Xbox ONE controller is supported via USB in the [XBOXONE](XBOXONE.cpp) class. It is heavily based on the 360 library above. In addition to cross referencing the above, information on the protocol was found at:
+A Xbox ONE controller is supported via USB in the [XBOXONE](XBOXONE.cpp) class. It is heavily based on the 360 library above. In addition to cross referencing the above, information on the protocol was found at:
 
 * <https://github.com/quantus/xbox-one-controller-protocol>
 * <https://github.com/torvalds/linux/blob/master/drivers/input/joystick/xpad.c>
 * <https://github.com/kylelemons/xbox/blob/master/xbox.go>
+
+#### Xbox ONE S Library
+
+A Xbox ONE controller is supported via Bluetooth in the [XBOXONESBT](XBOXONESBT.cpp) class.
+
+Special thanks to [HisashiKato](https://github.com/HisashiKato) for his help: <https://github.com/felis/USB_Host_Shield_2.0/issues/252#issuecomment-716912362>.
 
 ### [Wii library](Wii.cpp)
 
@@ -302,6 +331,21 @@ All the information about the Wii controllers are from these sites:
 * <http://wiibrew.org/wiki/Wii_Balance_Board>
 * The old library created by _Tomoyuki Tanaka_: <https://github.com/moyuchin/WiiRemote_on_Arduino> also helped a lot.
 
+### Switch Pro Library
+
+The Switch Pro library is split up into the [SwitchProBT](SwitchProBT.h) and the [SwitchProUSB](SwitchProUSB.h) library. These allow you to use the Nintendo Switch Pro controller via Bluetooth and USB.
+
+The [SwitchProBT.ino](examples/Bluetooth/SwitchProBT/SwitchProBT.ino) and [SwitchProUSB.ino](examples/SwitchProUSB/SwitchProUSB.ino) examples shows how to easily read the buttons, joysticks and IMU on the controller via Bluetooth and USB respectively. It is also possible to control the rumble and LEDs on the controller.
+
+To pair with the Switch Pro controller via Bluetooth you need create the SwitchProBT instance like so: ```SwitchProBT SwitchPro(&Btd, PAIR);``` and then press the Sync button next to the USB connector to put the controller into pairing mode.
+
+It should then automatically pair the dongle with your controller. This only have to be done once.
+
+All the information about the controller are from these sites:
+
+* <https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering>
+* <https://github.com/Dan611/hid-procon>
+
 ### [PS Buzz Library](PSBuzz.cpp)
 
 This library implements support for the Playstation Buzz controllers via USB.
@@ -327,7 +371,14 @@ You can convert USB MIDI keyboard to legacy serial MIDI.
 * [USB_MIDI_converter.ino](examples/USBH_MIDI/USB_MIDI_converter/USB_MIDI_converter.ino)
 * [USB_MIDI_converter_multi.ino](examples/USBH_MIDI/USB_MIDI_converter_multi/USB_MIDI_converter_multi.ino)
 
-For information see the following page: <http://yuuichiakagawa.github.io/USBH_MIDI/>.
+For more information see : <https://github.com/YuuichiAkagawa/USBH_MIDI>.
+
+### [amBX Library](AMBX.cpp)
+
+This library support Philips amBX lights.
+You can set the colors of the lights individually or all at once. The rumble pad and fans are not supported.
+
+* [AMBX.ino](examples/ambx/AMBX.ino)
 
 # Interface modifications
 

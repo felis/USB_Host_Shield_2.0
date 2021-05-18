@@ -314,18 +314,21 @@ void PS3USB::printReport() { // Uncomment "#define PRINTREPORT" to print the rep
 }
 
 bool PS3USB::getButtonPress(ButtonEnum b) {
-        return (ButtonState & pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]));
+        const int8_t index = getButtonIndexPS3(b); if (index < 0) return 0;
+        return (ButtonState & pgm_read_dword(&PS3_BUTTONS[index]));
 }
 
 bool PS3USB::getButtonClick(ButtonEnum b) {
-        uint32_t button = pgm_read_dword(&PS3_BUTTONS[(uint8_t)b]);
+        const int8_t index = getButtonIndexPS3(b); if (index < 0) return 0;
+        uint32_t button = pgm_read_dword(&PS3_BUTTONS[index]);
         bool click = (ButtonClickState & button);
         ButtonClickState &= ~button; // Clear "click" event
         return click;
 }
 
 uint8_t PS3USB::getAnalogButton(ButtonEnum a) {
-        return (uint8_t)(readBuf[(pgm_read_byte(&PS3_ANALOG_BUTTONS[(uint8_t)a])) - 9]);
+        const int8_t index = getButtonIndexPS3(a); if (index < 0) return 0;
+        return (uint8_t)(readBuf[(pgm_read_byte(&PS3_ANALOG_BUTTONS[index])) - 9]);
 }
 
 uint8_t PS3USB::getAnalogHat(AnalogHatEnum a) {

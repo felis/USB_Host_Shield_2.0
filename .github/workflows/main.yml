@@ -1,0 +1,71 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # find examples -type f -name "*.ino" | rev | cut -d/ -f2- | rev  | sort | sed -z 's/\n/, /g'
+        example: [examples/ambx, examples/acm/acm_terminal, examples/adk/adk_barcode, examples/adk/ArduinoBlinkLED, examples/adk/demokit_20, examples/adk/term_test, examples/adk/term_time, examples/Bluetooth/BTHID, examples/Bluetooth/PS3BT, examples/Bluetooth/PS3Multi, examples/Bluetooth/PS3SPP, examples/Bluetooth/PS4BT, examples/Bluetooth/PS5BT, examples/Bluetooth/SPP, examples/Bluetooth/SPPMulti, examples/Bluetooth/SwitchProBT, examples/Bluetooth/Wii, examples/Bluetooth/WiiBalanceBoard, examples/Bluetooth/WiiIRCamera, examples/Bluetooth/WiiMulti, examples/Bluetooth/WiiUProController, examples/board_qc, examples/cdc_XR21B1411/XR_terminal, examples/ftdi/USBFTDILoopback, examples/GPIO/Blink, examples/GPIO/Blink_LowLevel, examples/GPIO/Input, examples/HID/le3dp, examples/HID/scale, examples/HID/SRWS1, examples/HID/t16km, examples/HID/USBHIDBootKbd, examples/HID/USBHIDBootKbdAndMouse, examples/HID/USBHIDBootMouse, examples/HID/USBHID_desc, examples/HID/USBHIDJoystick, examples/HID/USBHIDMultimediaKbd, examples/hub_demo, examples/max_LCD, examples/pl2303/pl2303_gprs_terminal, examples/pl2303/pl2303_gps, examples/pl2303/pl2303_tinygps, examples/pl2303/pl2303_xbee_terminal, examples/PS3USB, examples/PS4USB, examples/PS5USB, examples/PSBuzz, examples/SwitchProUSB, examples/USB_desc, examples/USBH_MIDI/bidirectional_converter, examples/USBH_MIDI/eVY1_sample, examples/USBH_MIDI/USBH_MIDI_dump, examples/USBH_MIDI/USB_MIDI_converter, examples/USBH_MIDI/USB_MIDI_converter_multi, examples/Xbox/XBOXOLD, examples/Xbox/XBOXONE, examples/Xbox/XBOXONESBT, examples/Xbox/XBOXRECV, examples/Xbox/XBOXUSB]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install PlatformIO
+        run: |
+          pip install -U pip setuptools wheel
+          pip install platformio adafruit-nrfutil
+      - name: Install MIDI library
+        if: contains(matrix.example, 'MIDI')
+        # https://platformio.org/lib/show/62/MIDI%20Library
+        run: pio lib -g install 62
+      - name: Install TinyGPS library
+        if: contains(matrix.example, 'tinygps')
+        # https://platformio.org/lib/show/416/TinyGPS
+        run: pio lib -g install 416
+      - name: Run PlatformIO
+        run: |
+          # Skip all Wii examples and the PS3SPP example on Uno, as they will not fit with debugging enabled
+          if [[ "${{ matrix.example }}" != *"Wii"* && "${{ matrix.example }}" != *"PS3SPP" ]]; then UNO="--board=uno"; fi
+
+          # There is a conflict with the internal Teensy MIDI library, so skip this example on Teensy 3.x and 4.x
+          # See: https://travis-ci.org/github/felis/USB_Host_Shield_2.0/jobs/743787235
+          if [[ "${{ matrix.example }}" != *"bidirectional_converter" ]]; then TEENSY35="--board=teensy35"; TEENSY36="--board=teensy36"; TEENSY40="--board=teensy40"; TEENSY41="--board=teensy41"; fi
+
+          pio ci --lib="." $UNO --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41 --board=esp12e --board=nodemcu
+
+          # Teensy 3.x depends on the SPI4Teensy3 library: https://platformio.org/lib/show/417/SPI4Teensy3
+          pio ci --lib="." --board=teensy30 --board=teensy31 $TEENSY35 $TEENSY36 --project-option="lib_deps=SPI4Teensy3"
+
+          # Ignore "initialization from incompatible pointer type" warning in the ESP32 core
+          pio ci --lib="." --board=esp32dev --project-option="build_flags=-Wno-incompatible-pointer-types"
+
+          # Workaround https://github.com/arduino/ArduinoCore-sam/issues/69
+          pio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation"
+
+          # Ignore warnings in the Arduino core
+          pio ci --lib="." --board=adafruit_feather_nrf52840 --project-option="build_flags=-Wno-sign-compare -Wno-unused-function -Wno-unused-variable"
+        env:
+          PLATFORMIO_CI_SRC: ${{ matrix.example }}
+          PLATFORMIO_BUILD_FLAGS: -DWIICAMERA -DDEBUG_USB_HOST -Wall -Werror
+  doc:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        # We need GraphViz to draw figures and graphs
+        # Doxygen is used for generating the documentation
+        run: sudo apt-get -y install doxygen graphviz
+      - name: Generate documentation
+        run: |
+          # Fix error in the Doxygen Markdown parser and generate the documentation
+          sed -i 's/@YuuichiAkagawa/\\@YuuichiAkagawa/' README.md
+          doxygen doc/Doxyfile
+          touch doc/html/.nojekyll
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/html

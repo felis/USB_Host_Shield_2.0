@@ -80,16 +80,14 @@ e-mail   :  support@circuitsathome.com
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Set to 1 to use the faster spi4teensy3 driver.
+// Set to 1 to use the faster spi4teensy3 driver on Teensy 3.x
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef USE_SPI4TEENSY3
+#if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__))
 #define USE_SPI4TEENSY3 1
-#endif
-
-// Disabled on the Teensy LC, as it is incompatible for now
-#if defined(__MKL26Z64__)
-#undef USE_SPI4TEENSY3
+#else
 #define USE_SPI4TEENSY3 0
+#endif
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +156,11 @@ e-mail   :  support@circuitsathome.com
 #include <SPI_Master.h>
 #define SPI SPI_Master
 #define MFK_CASTUINT8T (uint8_t) // RBLs return type for sizeof needs casting to uint8_t
+#endif
+#ifdef NRF52_SERIES
+#include <SPI.h> 
+#include <nrf_gpio.h>
+#define MFK_CASTUINT8T (uint8_t) // NRF return type for sizeof needs casting to uint8_t
 #endif
 #if defined(__PIC32MX__) || defined(__PIC32MZ__)
 #include <../../../../hardware/pic32/libraries/SPI/SPI.h> // Hack to use the SPI library

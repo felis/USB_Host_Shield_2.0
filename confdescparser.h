@@ -108,12 +108,14 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         theBuffer.valueSize = 2;
                         valParser.Initialize(&theBuffer);
                         stateParseDescr = 1;
+                        // fall through
                 case 1:
                         if(!valParser.Parse(pp, pcntdn))
                                 return false;
                         dscrLen = *((uint8_t*)theBuffer.pValue);
                         dscrType = *((uint8_t*)theBuffer.pValue + 1);
                         stateParseDescr = 2;
+                        // fall through
                 case 2:
                         // This is a sort of hack. Assuming that two bytes are all ready in the buffer
                         //      the pointer is positioned two bytes ahead in order for the rest of descriptor
@@ -122,6 +124,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         //      in the buffer.
                         theBuffer.pValue = varBuffer + 2;
                         stateParseDescr = 3;
+                        // fall through
                 case 3:
                         switch(dscrType) {
                                 case USB_DESCRIPTOR_INTERFACE:
@@ -135,6 +138,7 @@ bool ConfigDescParser<CLASS_ID, SUBCLASS_ID, PROTOCOL_ID, MASK>::ParseDescriptor
                         theBuffer.valueSize = dscrLen - 2;
                         valParser.Initialize(&theBuffer);
                         stateParseDescr = 4;
+                        // fall through
                 case 4:
                         switch(dscrType) {
                                 case USB_DESCRIPTOR_CONFIGURATION:

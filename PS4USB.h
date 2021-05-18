@@ -65,7 +65,7 @@ protected:
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
                 if (HIDUniversal::VID == PS4_VID && (HIDUniversal::PID == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM))
                         PS4Parser::Parse(len, buf);
         };

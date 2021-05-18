@@ -138,4 +138,10 @@ enum StatusEnum {
         Bluetooth = (40 << 8) | 0x16, // Operating by Bluetooth and rumble is turned off
 };
 
+inline int8_t getButtonIndexPS3(ButtonEnum b) {
+    const int8_t index = ButtonIndex(b);
+    if ((uint8_t) index >= (sizeof(PS3_BUTTONS) / sizeof(PS3_BUTTONS[0]))) return -1;
+    return index;
+}
+
 #endif

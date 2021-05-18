@@ -306,6 +306,13 @@ void HIDComposite::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
 
         // Fill in interface structure in case of new interface
         if(!piface) {
+                if(bNumIface >= maxHidInterfaces) {
+                        // don't overflow hidInterfaces[]
+                        Notify(PSTR("\r\n EndpointXtract(): Not adding HID interface because we already have "), 0x80);
+                        Notify(bNumIface, 0x80);
+                        Notify(PSTR(" interfaces and can't hold more. "), 0x80);
+                        return;
+                }
                 piface = hidInterfaces + bNumIface;
                 piface->bmInterface = iface;
                 piface->bmAltSet = alt;
@@ -320,6 +327,13 @@ void HIDComposite::EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint
                 index = 0;
 
         if(index) {
+                if(bNumEP >= totalEndpoints) {
+                        // don't overflow epInfo[] either
+                        Notify(PSTR("\r\n EndpointXtract(): Not adding endpoint info because we already have "), 0x80);
+                        Notify(bNumEP, 0x80);
+                        Notify(PSTR(" endpoints and can't hold more. "), 0x80);
+                        return;
+                }
                 // Fill in the endpoint info structure
                 epInfo[bNumEP].epAddr = (pep->bEndpointAddress & 0x0F);
                 epInfo[bNumEP].maxPktSize = (uint8_t)pep->wMaxPacketSize;

@@ -814,6 +814,7 @@ public:
 #define pgm_read_pointer(p) pgm_read_dword(p)
 
 #if defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__))
+// Teensy 3.x
 
 #include "core_pins.h"
 #include "avr_emulation.h"
@@ -913,6 +914,7 @@ MAKE_PIN(P63, CORE_PIN63_PORTREG, CORE_PIN63_BIT, CORE_PIN63_CONFIG);
 #undef MAKE_PIN
 
 #elif defined(CORE_TEENSY) && (defined(__MKL26Z64__))
+// Teensy-LC
 
 // we could get lower level by making these macros work properly.
 // for now just use the semi optimised version, it costs a lookup in the pin pgm table per op
@@ -973,6 +975,91 @@ MAKE_PIN(P23, CORE_PIN23_PORTREG, 23, CORE_PIN23_CONFIG);
 MAKE_PIN(P24, CORE_PIN24_PORTREG, 24, CORE_PIN24_CONFIG);
 MAKE_PIN(P25, CORE_PIN25_PORTREG, 25, CORE_PIN25_CONFIG);
 MAKE_PIN(P26, CORE_PIN26_PORTREG, 26, CORE_PIN26_CONFIG);
+
+#undef MAKE_PIN
+
+#elif defined(__IMXRT1062__) && (defined(ARDUINO_TEENSY40) || defined(ARDUINO_TEENSY41))
+// Teensy 4.x
+
+#include "core_pins.h"
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWriteFast(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWriteFast(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalReadFast(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14);
+MAKE_PIN(P15, 15);
+MAKE_PIN(P16, 16);
+MAKE_PIN(P17, 17);
+MAKE_PIN(P18, 18);
+MAKE_PIN(P19, 19);
+MAKE_PIN(P20, 20);
+MAKE_PIN(P21, 21);
+MAKE_PIN(P22, 22);
+MAKE_PIN(P23, 23);
+MAKE_PIN(P24, 24);
+MAKE_PIN(P25, 25);
+MAKE_PIN(P26, 26);
+MAKE_PIN(P27, 27);
+MAKE_PIN(P28, 28);
+MAKE_PIN(P29, 29);
+MAKE_PIN(P30, 30);
+MAKE_PIN(P31, 31);
+MAKE_PIN(P32, 35);
+MAKE_PIN(P33, 33);
+MAKE_PIN(P34, 34);
+MAKE_PIN(P35, 35);
+MAKE_PIN(P36, 36);
+MAKE_PIN(P37, 37);
+MAKE_PIN(P38, 38);
+MAKE_PIN(P39, 39);
+#ifdef ARDUINO_TEENSY41
+MAKE_PIN(P40, 40);
+MAKE_PIN(P41, 41);
+MAKE_PIN(P42, 42);
+MAKE_PIN(P43, 43);
+MAKE_PIN(P44, 44);
+MAKE_PIN(P45, 45);
+MAKE_PIN(P46, 46);
+MAKE_PIN(P47, 47);
+MAKE_PIN(P48, 48);
+MAKE_PIN(P49, 49);
+MAKE_PIN(P50, 50);
+MAKE_PIN(P51, 51);
+MAKE_PIN(P52, 52);
+MAKE_PIN(P53, 53);
+MAKE_PIN(P54, 54);
+#endif
 
 #undef MAKE_PIN
 
@@ -1204,6 +1291,68 @@ MAKE_PIN(P16, GPIOA, GPIO_PIN_4); // A2
 MAKE_PIN(P17, GPIOB, GPIO_PIN_0); // A3
 MAKE_PIN(P18, GPIOC, GPIO_PIN_1); // A4
 MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
+
+#undef MAKE_PIN
+
+
+#elif defined(ARDUINO_NRF52840_FEATHER)
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+    static void Set() { \
+        nrf_gpio_pin_set(pin); \
+    } \
+    static void Clear() { \
+        nrf_gpio_pin_clear(pin); \
+    } \
+    static void SetDirRead() { \
+        nrf_gpio_cfg_input(pin, NRF_GPIO_PIN_NOPULL); \
+    } \
+    static void SetDirWrite() { \
+        nrf_gpio_cfg_output(pin); \
+    } \
+    static uint8_t IsSet() { \
+        return (uint8_t)nrf_gpio_pin_read(pin); \
+    } \
+};
+
+// Based on variants/feather_nrf52840_express/variant.cpp
+// g_ADigitalPinMap could be used directly, but it would be slower
+MAKE_PIN(P0, (25));
+MAKE_PIN(P1, (24));
+MAKE_PIN(P2, (10));
+MAKE_PIN(P3, (47));
+MAKE_PIN(P4, (42));
+MAKE_PIN(P5, (40));
+MAKE_PIN(P6, (7));
+MAKE_PIN(P7, (34));
+MAKE_PIN(P8, (16));
+MAKE_PIN(P9, (26));
+MAKE_PIN(P10, (27));
+MAKE_PIN(P11, (6));
+MAKE_PIN(P12, (8));
+MAKE_PIN(P13, (41));
+MAKE_PIN(P14, (4));
+MAKE_PIN(P15, (5));
+MAKE_PIN(P17, (30));
+MAKE_PIN(P18, (28));
+MAKE_PIN(P16, (2));
+MAKE_PIN(P19, (3));
+MAKE_PIN(P20, (29));
+MAKE_PIN(P21, (31));
+MAKE_PIN(P22, (12));
+MAKE_PIN(P23, (11));
+MAKE_PIN(P24, (15));
+MAKE_PIN(P25, (13));
+MAKE_PIN(P26, (14));
+MAKE_PIN(P27, (19));
+MAKE_PIN(P28, (20));
+MAKE_PIN(P29, (17));
+MAKE_PIN(P30, (22));
+MAKE_PIN(P31, (23));
+MAKE_PIN(P32, (21));
+MAKE_PIN(P33, (9));
 
 #undef MAKE_PIN
 

@@ -45,7 +45,7 @@
 #define HCI_CLASS_STATE                 2
 #define HCI_BDADDR_STATE                3
 #define HCI_LOCAL_VERSION_STATE         4
-#define HCI_SET_NAME_STATE              5
+#define HCI_WRITE_NAME_STATE            5
 #define HCI_CHECK_DEVICE_SERVICE        6
 
 #define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a device
@@ -59,6 +59,9 @@
 #define HCI_DISABLE_SCAN_STATE          14
 #define HCI_DONE_STATE                  15
 #define HCI_DISCONNECT_STATE            16
+#define HCI_LOCAL_EXTENDED_FEATURES_STATE       17
+#define HCI_WRITE_SIMPLE_PAIRING_STATE          18
+#define HCI_SET_EVENT_MASK_STATE                19
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
@@ -70,6 +73,7 @@
 #define HCI_FLAG_READ_VERSION           (1UL << 6)
 #define HCI_FLAG_DEVICE_FOUND           (1UL << 7)
 #define HCI_FLAG_CONNECT_EVENT          (1UL << 8)
+#define HCI_FLAG_LOCAL_EXTENDED_FEATURES    (1UL << 9)
 
 /* Macros for HCI event flag tests */
 #define hci_check_flag(flag) (hci_event_flag & (flag))
@@ -86,6 +90,10 @@
 #define EV_REMOTE_NAME_COMPLETE                         0x07
 #define EV_ENCRYPTION_CHANGE                            0x08
 #define EV_CHANGE_CONNECTION_LINK                       0x09
+#define EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE     0x0C
+#define EV_QOS_SETUP_COMPLETE                           0x0D
+#define EV_COMMAND_COMPLETE                             0x0E
+#define EV_COMMAND_STATUS                               0x0F
 #define EV_ROLE_CHANGED                                 0x12
 #define EV_NUM_COMPLETE_PKT                             0x13
 #define EV_PIN_CODE_REQUEST                             0x16
@@ -93,12 +101,13 @@
 #define EV_LINK_KEY_NOTIFICATION                        0x18
 #define EV_DATA_BUFFER_OVERFLOW                         0x1A
 #define EV_MAX_SLOTS_CHANGE                             0x1B
-#define EV_READ_REMOTE_VERSION_INFORMATION_COMPLETE     0x0C
-#define EV_QOS_SETUP_COMPLETE                           0x0D
-#define EV_COMMAND_COMPLETE                             0x0E
-#define EV_COMMAND_STATUS                               0x0F
 #define EV_LOOPBACK_COMMAND                             0x19
 #define EV_PAGE_SCAN_REP_MODE                           0x20
+#define EV_READ_REMOTE_EXTENDED_FEATURES_COMPLETE       0x23
+#define EV_IO_CAPABILITY_REQUEST                        0x31
+#define EV_IO_CAPABILITY_RESPONSE                       0x32
+#define EV_USER_CONFIRMATION_REQUEST                    0x33
+#define EV_SIMPLE_PAIRING_COMPLETE                      0x36
 
 /* Bluetooth states for the different Bluetooth drivers */
 #define L2CAP_WAIT                      0
@@ -182,6 +191,17 @@
 #define RFCOMM_PSM      0x03 // RFCOMM PSM Value
 #define HID_CTRL_PSM    0x11 // HID_Control PSM Value
 #define HID_INTR_PSM    0x13 // HID_Interrupt PSM Value
+
+/* Used for SDP */
+#define SDP_SERVICE_SEARCH_REQUEST                  0x02
+#define SDP_SERVICE_SEARCH_RESPONSE                 0x03
+#define SDP_SERVICE_ATTRIBUTE_REQUEST               0x04
+#define SDP_SERVICE_ATTRIBUTE_RESPONSE              0x05
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_REQUEST        0x06 // See the RFCOMM specs
+#define SDP_SERVICE_SEARCH_ATTRIBUTE_RESPONSE       0x07 // See the RFCOMM specs
+#define PNP_INFORMATION_UUID    0x1200
+#define SERIALPORT_UUID         0x1101 // See http://www.bluetooth.org/Technical/AssignedNumbers/service_discovery.htm
+#define L2CAP_UUID              0x0100
 
 // Used to determine if it is a Bluetooth dongle
 #define WI_SUBCLASS_RF      0x01 // RF Controller
@@ -320,11 +340,17 @@ public:
         void hci_read_bdaddr();
         /** Read the HCI Version of the Bluetooth dongle. */
         void hci_read_local_version_information();
+        /** Used to check if the dongle supports simple paring */
+        void hci_read_local_extended_features(uint8_t page_number);
         /**
          * Set the local name of the Bluetooth dongle.
          * @param name Desired name.
          */
-        void hci_set_local_name(const char* name);
+        void hci_write_local_name(const char* name);
+        /** Used to enable simply paring if the dongle supports it */
+        void hci_write_simple_pairing_mode(bool enable);
+        /** Used to enable events related to simple paring */
+        void hci_set_event_mask();
         /** Enable visibility to other Bluetooth devices. */
         void hci_write_scan_enable();
         /** Disable visibility to other Bluetooth devices. */
@@ -351,6 +377,8 @@ public:
          * if the Host does not have a stored Link Key for the connection.
          */
         void hci_link_key_request_negative_reply();
+        /** Used to during simple paring to confirm that the we want to connect */
+        void hci_user_confirmation_request_reply();
         /** Used to try to authenticate with the remote device. */
         void hci_authentication_request();
         /** Start a HCI inquiry. */
@@ -359,6 +387,8 @@ public:
         void hci_inquiry_cancel();
         /** Connect to last device communicated with. */
         void hci_connect();
+        /** Used during simple paring to reply to a IO capability request */
+        void hci_io_capability_request_reply();
         /**
          * Connect to device.
          * @param bdaddr Bluetooth address of the device.
@@ -500,6 +530,9 @@ public:
                 return pollInterval;
         };
 
+        /** Used by the drivers to enable simple pairing */
+        bool useSimplePairing;
+
 protected:
         /** Pointer to USB class instance. */
         USB *pUsb;
@@ -537,11 +570,12 @@ private:
         uint16_t PID, VID; // PID and VID of device connected
 
         uint8_t pollInterval;
+        bool simple_pairing_supported;
         bool bPollEnable;
 
         bool pairWiiUsingSync; // True if pairing was done using the Wii SYNC button.
         bool checkRemoteName; // Used to check remote device's name before connecting.
-        bool incomingPS4; // True if a PS4 controller is connecting
+        bool incomingPSController; // True if a PS4/PS5 controller is connecting
         uint8_t classOfDevice[3]; // Class of device of last device
 
         /* Variables used by high level HCI task */
