@@ -45,7 +45,7 @@ jobs:
           pio ci --lib="." --board=due --project-option="build_flags=-Wno-misleading-indentation"
 
           # Ignore warnings in the Arduino core
-          pio ci --lib="." --board=adafruit_feather_nrf52840 --project-option="build_flags=-Wno-sign-compare -Wno-unused-function -Wno-unused-variable"
+          pio ci --lib="." --board=adafruit_feather_nrf52840 --board=adafruit_feather_nrf52832 --project-option="build_flags=-Wno-sign-compare -Wno-unused-function -Wno-unused-variable"
         env:
           PLATFORMIO_CI_SRC: ${{ matrix.example }}
           PLATFORMIO_BUILD_FLAGS: -DWIICAMERA -DDEBUG_USB_HOST -Wall -Werror
