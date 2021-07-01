@@ -21,7 +21,7 @@ void setup() {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
-  Serial.print(F("\r\nXBOX USB Library Started"));
+  Serial.print(F("\r\nXBOX ONE USB Library Started"));
 }
 void loop() {
   Usb.Task();
