@@ -293,6 +293,19 @@ void XBOXOLD::printReport(uint16_t length __attribute__((unused))) { //Uncomment
 }
 
 int8_t XBOXOLD::getAnalogIndex(ButtonEnum b) {
+        // For legacy reasons these mapping indices not match up,
+        // as the original code uses L1/R1 for the triggers and
+        // L2/R2 for the white/black buttons. To fix these new enums
+        // we have to transpose the keys before passing them through
+        // the button index function
+        switch (b) {
+        case(LT): b = L1; break;  // normally L2
+        case(RT): b = R1; break;  // normally R2
+        case(LB): b = WHITE; break;  // normally L1
+        case(RB): b = BLACK; break;  // normally R1
+        default: break;
+        }
+
         // A, B, X, Y, BLACK, WHITE, L1, and R1 are analog buttons
         const int8_t index = ButtonIndex(b);
 
