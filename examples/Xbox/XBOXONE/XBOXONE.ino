@@ -93,6 +93,8 @@ void loop() {
       Serial.println(F("Xbox"));
     if (Xbox.getButtonClick(SYNC))
       Serial.println(F("Sync"));
+    if (Xbox.getButtonClick(SHARE))
+      Serial.println(F("Share"));
 
     if (Xbox.getButtonClick(L1))
       Serial.println(F("L1"));

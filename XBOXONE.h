@@ -221,9 +221,10 @@ private:
         bool bPollEnable;
 
         /* Variables to store the buttons */
-        uint16_t ButtonState;
-        uint16_t OldButtonState;
-        uint16_t ButtonClickState;
+        static const uint8_t ShareButtonIndex = 16;  // bit offset from right
+        uint32_t ButtonState;
+        uint32_t OldButtonState;
+        uint32_t ButtonClickState;
         int16_t hatValue[4];
         uint16_t triggerValue[2];
         uint16_t triggerValueOld[2];

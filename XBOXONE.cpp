@@ -348,9 +348,9 @@ void XBOXONE::readReport() {
                 return;
         }
 
-        uint16_t xbox = ButtonState & pgm_read_word(&XBOX_BUTTONS[ButtonIndex(XBOX)]); // Since the XBOX button is separate, save it and add it back in
+        uint32_t xbox = ButtonState & pgm_read_word(&XBOX_BUTTONS[ButtonIndex(XBOX)]); // Since the XBOX button is separate, save it and add it back in
         // xbox button from before, dpad, abxy, start/back, sync, stick click, shoulder buttons
-        ButtonState = xbox | (((uint16_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint16_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint16_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4);
+        ButtonState = xbox | (((uint32_t)readBuf[5] & 0xF) << 8) | (readBuf[4] & 0xF0)  | (((uint32_t)readBuf[4] & 0x0C) << 10) | ((readBuf[4] & 0x01) << 3) | (((uint32_t)readBuf[5] & 0xC0) << 8) | ((readBuf[5] & 0x30) >> 4) | (((uint32_t)readBuf[22] & 0x01) << ShareButtonIndex);
 
         triggerValue[0] = (uint16_t)(((uint16_t)readBuf[7] << 8) | readBuf[6]);
         triggerValue[1] = (uint16_t)(((uint16_t)readBuf[9] << 8) | readBuf[8]);
@@ -383,7 +383,16 @@ uint16_t XBOXONE::getButtonPress(ButtonEnum b) {
                 return triggerValue[0];
         else if(index == ButtonIndex(R2))
                 return triggerValue[1];
-        return (bool)(ButtonState & ((uint16_t)pgm_read_word(&XBOX_BUTTONS[index])));
+
+        uint32_t buttonMask;
+        // special case, as 'SHARE' from the PS4 has the same index
+        // as 'BACK' on the Xbox controller, so we treat it separately
+        if (b == SHARE) {
+                buttonMask = (1 << ShareButtonIndex);
+        } else {
+                buttonMask = (uint32_t) pgm_read_word(&XBOX_BUTTONS[index]);
+        }
+        return (bool)(ButtonState & buttonMask);
 }
 
 bool XBOXONE::getButtonClick(ButtonEnum b) {
@@ -401,9 +410,17 @@ bool XBOXONE::getButtonClick(ButtonEnum b) {
                 }
                 return false;
         }
-        uint16_t button = pgm_read_word(&XBOX_BUTTONS[index]);
-        bool click = (ButtonClickState & button);
-        ButtonClickState &= ~button; // Clear "click" event
+
+        uint32_t buttonMask;
+        // special case, as 'SHARE' from the PS4 has the same index
+        // as 'BACK' on the Xbox controller, so we treat it separately
+        if (b == SHARE) {
+                buttonMask = (1 << ShareButtonIndex);
+        } else {
+                buttonMask = pgm_read_word(&XBOX_BUTTONS[index]);
+        }
+        bool click = (ButtonClickState & buttonMask);
+        ButtonClickState &= ~buttonMask; // Clear "click" event
         return click;
 }
 
