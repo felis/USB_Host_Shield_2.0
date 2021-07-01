@@ -143,10 +143,10 @@ enum ButtonEnum {
         BACK,
         // START,  // listed under Playstation buttons
 
-        // L1,  // listed under Playstation buttons
-        // R1,  // listed under Playstation buttons
-        // L2,  // listed under Playstation buttons
-        // R2,  // listed under Playstation buttons
+        LB,
+        RB,
+        LT,
+        RT,
 
         XBOX,
         SYNC,
@@ -199,10 +199,10 @@ inline constexpr int8_t ButtonIndex(ButtonEnum key) {
         (key == START || key == OPTIONS || key == MENU || key == PLUS) ? 5 :
         (key == L3 || key == TWO) ? 6 :
         (key == R3 || key == ONE) ? 7 :
-        (key == L2 || key == MINUS || key == BLACK) ? 8 :
-        (key == R2 || key == HOME || key == WHITE) ? 9 :
-        (key == L1 || key == Z) ? 10 :
-        (key == R1 || key == C) ? 11 :
+        (key == L2 || key == LT || key == MINUS || key == BLACK) ? 8 :
+        (key == R2 || key == RT || key == HOME || key == WHITE) ? 9 :
+        (key == L1 || key == LB || key == Z) ? 10 :
+        (key == R1 || key == RB || key == C) ? 11 :
         (key == TRIANGLE || key == B) ? 12 :
         (key == CIRCLE || key == A) ? 13 :
         (key == CROSS || key == X) ? 14 :
