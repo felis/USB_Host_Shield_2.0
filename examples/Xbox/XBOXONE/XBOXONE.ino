@@ -49,15 +49,15 @@ void loop() {
       Serial.println();
     }
 
-    if (Xbox.getButtonPress(L2) > 0 || Xbox.getButtonPress(R2) > 0) {
-      if (Xbox.getButtonPress(L2) > 0) {
-        Serial.print(F("L2: "));
-        Serial.print(Xbox.getButtonPress(L2));
+    if (Xbox.getButtonPress(LT) > 0 || Xbox.getButtonPress(RT) > 0) {
+      if (Xbox.getButtonPress(LT) > 0) {
+        Serial.print(F("LT: "));
+        Serial.print(Xbox.getButtonPress(LT));
         Serial.print("\t");
       }
-      if (Xbox.getButtonPress(R2) > 0) {
-        Serial.print(F("R2: "));
-        Serial.print(Xbox.getButtonPress(R2));
+      if (Xbox.getButtonPress(RT) > 0) {
+        Serial.print(F("RT: "));
+        Serial.print(Xbox.getButtonPress(RT));
         Serial.print("\t");
       }
       Serial.println();
@@ -94,14 +94,14 @@ void loop() {
     if (Xbox.getButtonClick(SYNC))
       Serial.println(F("Sync"));
 
-    if (Xbox.getButtonClick(L1))
-      Serial.println(F("L1"));
-    if (Xbox.getButtonClick(R1))
-      Serial.println(F("R1"));
-    if (Xbox.getButtonClick(L2))
-      Serial.println(F("L2"));
-    if (Xbox.getButtonClick(R2))
-      Serial.println(F("R2"));
+    if (Xbox.getButtonClick(LB))
+      Serial.println(F("LB"));
+    if (Xbox.getButtonClick(RB))
+      Serial.println(F("RB"));
+    if (Xbox.getButtonClick(LT))
+      Serial.println(F("LT"));
+    if (Xbox.getButtonClick(RT))
+      Serial.println(F("RT"));
     if (Xbox.getButtonClick(L3))
       Serial.println(F("L3"));
     if (Xbox.getButtonClick(R3))

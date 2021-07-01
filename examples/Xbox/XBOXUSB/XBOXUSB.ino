@@ -29,12 +29,12 @@ void setup() {
 void loop() {
   Usb.Task();
   if (Xbox.Xbox360Connected) {
-    if (Xbox.getButtonPress(L2) || Xbox.getButtonPress(R2)) {
-      Serial.print("L2: ");
-      Serial.print(Xbox.getButtonPress(L2));
-      Serial.print("\tR2: ");
-      Serial.println(Xbox.getButtonPress(R2));
-      Xbox.setRumbleOn(Xbox.getButtonPress(L2), Xbox.getButtonPress(R2));
+    if (Xbox.getButtonPress(LT) || Xbox.getButtonPress(RT)) {
+      Serial.print("LT: ");
+      Serial.print(Xbox.getButtonPress(LT));
+      Serial.print("\tRT: ");
+      Serial.println(Xbox.getButtonPress(RT));
+      Xbox.setRumbleOn(Xbox.getButtonPress(LT), Xbox.getButtonPress(RT));
     } else
       Xbox.setRumbleOn(0, 0);
 
@@ -91,10 +91,10 @@ void loop() {
     if (Xbox.getButtonClick(R3))
       Serial.println(F("R3"));
 
-    if (Xbox.getButtonClick(L1))
-      Serial.println(F("L1"));
-    if (Xbox.getButtonClick(R1))
-      Serial.println(F("R1"));
+    if (Xbox.getButtonClick(LB))
+      Serial.println(F("LB"));
+    if (Xbox.getButtonClick(RB))
+      Serial.println(F("RB"));
     if (Xbox.getButtonClick(XBOX)) {
       Xbox.setLedMode(ROTATING);
       Serial.println(F("Xbox"));

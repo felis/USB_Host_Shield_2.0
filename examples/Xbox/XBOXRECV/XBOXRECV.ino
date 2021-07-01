@@ -32,12 +32,12 @@ void loop() {
   if (Xbox.XboxReceiverConnected) {
     for (uint8_t i = 0; i < 4; i++) {
       if (Xbox.Xbox360Connected[i]) {
-        if (Xbox.getButtonPress(L2, i) || Xbox.getButtonPress(R2, i)) {
-          Serial.print("L2: ");
-          Serial.print(Xbox.getButtonPress(L2, i));
-          Serial.print("\tR2: ");
-          Serial.println(Xbox.getButtonPress(R2, i));
-          Xbox.setRumbleOn(Xbox.getButtonPress(L2, i), Xbox.getButtonPress(R2, i), i);
+        if (Xbox.getButtonPress(LT, i) || Xbox.getButtonPress(RT, i)) {
+          Serial.print("LT: ");
+          Serial.print(Xbox.getButtonPress(LT, i));
+          Serial.print("\tRT: ");
+          Serial.println(Xbox.getButtonPress(RT, i));
+          Xbox.setRumbleOn(Xbox.getButtonPress(LT, i), Xbox.getButtonPress(RT, i), i);
         }
 
         if (Xbox.getAnalogHat(LeftHatX, i) > 7500 || Xbox.getAnalogHat(LeftHatX, i) < -7500 || Xbox.getAnalogHat(LeftHatY, i) > 7500 || Xbox.getAnalogHat(LeftHatY, i) < -7500 || Xbox.getAnalogHat(RightHatX, i) > 7500 || Xbox.getAnalogHat(RightHatX, i) < -7500 || Xbox.getAnalogHat(RightHatY, i) > 7500 || Xbox.getAnalogHat(RightHatY, i) < -7500) {
@@ -93,10 +93,10 @@ void loop() {
         if (Xbox.getButtonClick(R3, i))
           Serial.println(F("R3"));
 
-        if (Xbox.getButtonClick(L1, i))
-          Serial.println(F("L1"));
-        if (Xbox.getButtonClick(R1, i))
-          Serial.println(F("R1"));
+        if (Xbox.getButtonClick(LB, i))
+          Serial.println(F("LB"));
+        if (Xbox.getButtonClick(RB, i))
+          Serial.println(F("RB"));
         if (Xbox.getButtonClick(XBOX, i)) {
           Xbox.setLedMode(ROTATING, i);
           Serial.print(F("Xbox (Battery: "));
