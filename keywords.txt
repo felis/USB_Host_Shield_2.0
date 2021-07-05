@@ -253,6 +253,12 @@ B	LITERAL1
 X	LITERAL1
 Y	LITERAL1
 
+LB	LITERAL1
+RB	LITERAL1
+
+LT	LITERAL1
+RT	LITERAL1
+
 ####################################################
 # Syntax Coloring Map For RFCOMM/SPP Library
 ####################################################
