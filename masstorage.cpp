@@ -111,6 +111,51 @@ uint8_t BulkOnly::SCSITransaction10(CDB10_t *cdb, uint16_t buf_size, void *buf, 
 }
 
 /**
+ * Wrap and execute a SCSI CDB with length of 12 (LBA32 size)
+ *
+ * @param cdb CDB to execute
+ * @param buf_size Size of expected transaction
+ * @param buf Buffer
+ * @param dir MASS_CMD_DIR_IN | MASS_CMD_DIR_OUT
+ * @return
+ */
+uint8_t BulkOnly::SCSITransaction12(CDB12_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
+        // promote buf_size to 32bits.
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
+        return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
+}
+
+/**
+ * Wrap and execute a SCSI CDB with length of 16 (LBA32 size)
+ *
+ * @param cdb CDB to execute
+ * @param buf_size Size of expected transaction
+ * @param buf Buffer
+ * @param dir MASS_CMD_DIR_IN | MASS_CMD_DIR_OUT
+ * @return
+ */
+uint8_t BulkOnly::SCSITransaction16(CDB_LBA32_16_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
+        // promote buf_size to 32bits.
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
+        return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
+}
+
+/**
+ * Wrap and execute a SCSI CDB with length of 16 (LBA64 size)
+ *
+ * @param cdb CDB to execute
+ * @param buf_size Size of expected transaction
+ * @param buf Buffer
+ * @param dir MASS_CMD_DIR_IN | MASS_CMD_DIR_OUT
+ * @return
+ */
+uint8_t BulkOnly::SCSITransaction16(CDB_LBA64_16_t *cdb, uint16_t buf_size, void *buf, uint8_t dir) {
+        // promote buf_size to 32bits.
+        CommandBlockWrapper cbw = CommandBlockWrapper(++dCBWTag, (uint32_t)buf_size, cdb, dir);
+        return (HandleSCSIError(Transaction(&cbw, buf_size, buf)));
+}
+
+/**
  * Lock or Unlock the tray or door on device.
  * Caution: Some devices with buggy firmware will lock up.
  *
