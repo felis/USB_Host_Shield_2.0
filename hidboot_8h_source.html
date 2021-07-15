@@ -650,49 +650,53 @@ $(function() {
 <div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160; </div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                <span class="comment">// To-do: optimize manually, using the for loop only if needed.</span></div>
 <div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="hidboot_8h.html#abbd1564d789b53fcf08fa5c4d9b0121d">epMUL</a>(BOOT_PROTOCOL); i++) {</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                        <span class="keyword">const</span> uint16_t const_buff_len = 16;</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                        uint8_t buf[const_buff_len];</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160; </div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) i=&quot;</span>, i, 0x81);</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) epInfo[epInterruptInIndex + i].epAddr=&quot;</span>, epInfo[epInterruptInIndex + i].epAddr, 0x81);</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) epInfo[epInterruptInIndex + i].maxPktSize=&quot;</span>, epInfo[epInterruptInIndex + i].maxPktSize, 0x81);</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                        uint16_t read = (uint16_t)epInfo[epInterruptInIndex + i].maxPktSize;</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160; </div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                        rcode = pUsb-&gt;inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &amp;read, buf);</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                        <span class="comment">// SOME buggy dongles report extra keys (like sleep) using a 2 byte packet on the wrong endpoint.</span></div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                        <span class="comment">// Since keyboard and mice must report at least 3 bytes, we ignore the extra data.</span></div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                        <span class="keywordflow">if</span>(!rcode &amp;&amp; read &gt; 2) {</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;                                <span class="keywordflow">if</span>(pRptParser[i])</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;                                        pRptParser[i]-&gt;Parse((<a class="code" href="class_u_s_b_h_i_d.html">USBHID</a>*)<span class="keyword">this</span>, 0, (uint8_t)read, buf);</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;                                <span class="comment">// We really don&#39;t care about errors and anomalies unless we are debugging.</span></div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                                <span class="keywordflow">if</span>(rcode != <a class="code" href="max3421e_8h.html#ab44a7968d08016b58d98951059c37076">hrNAK</a>) {</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Poll:&quot;</span>, rcode, 0x81);</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                                }</div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                                <span class="keywordflow">if</span>(!rcode &amp;&amp; read) {</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Strange read count: &quot;</span>, read, 0x80);</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Interface:&quot;</span>, i, 0x80);</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                        <span class="keyword">const</span> uint16_t const_buff_len = 64;</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160; </div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) i=&quot;</span>, i, 0x81);</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) epInfo[epInterruptInIndex + i].epAddr=&quot;</span>, epInfo[epInterruptInIndex + i].epAddr, 0x81);</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) epInfo[epInterruptInIndex + i].maxPktSize=&quot;</span>, epInfo[epInterruptInIndex + i].maxPktSize, 0x81);</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                        uint16_t read = (uint16_t)epInfo[epInterruptInIndex + i].maxPktSize;</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160; </div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                        <span class="keywordflow">if</span> (read &gt; const_buff_len)</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                            read = const_buff_len;</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160; </div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                        uint8_t buf[read];</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160; </div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;                        rcode = pUsb-&gt;inTransfer(bAddress, epInfo[epInterruptInIndex + i].epAddr, &amp;read, buf);</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;                        <span class="comment">// SOME buggy dongles report extra keys (like sleep) using a 2 byte packet on the wrong endpoint.</span></div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;                        <span class="comment">// Since keyboard and mice must report at least 3 bytes, we ignore the extra data.</span></div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;                        <span class="keywordflow">if</span>(!rcode &amp;&amp; read &gt; 2) {</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                                <span class="keywordflow">if</span>(pRptParser[i])</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                                        pRptParser[i]-&gt;Parse((<a class="code" href="class_u_s_b_h_i_d.html">USBHID</a>*)<span class="keyword">this</span>, 0, (uint8_t)read, buf);</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;<span class="preprocessor">#ifdef DEBUG_USB_HOST</span></div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                                <span class="comment">// We really don&#39;t care about errors and anomalies unless we are debugging.</span></div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                                <span class="keywordflow">if</span>(rcode != <a class="code" href="max3421e_8h.html#ab44a7968d08016b58d98951059c37076">hrNAK</a>) {</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Poll:&quot;</span>, rcode, 0x81);</div>
 <div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                                }</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                        }</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160; </div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                        <span class="keywordflow">if</span>(!rcode &amp;&amp; read &amp;&amp; (<a class="code" href="hexdump_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78">UsbDEBUGlvl</a> &gt; 0x7f)) {</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                                <span class="keywordflow">for</span>(uint8_t i = 0; i &lt; read; i++) {</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                                        PrintHex&lt;uint8_t &gt; (buf[i], 0x80);</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                                        <a class="code" href="macros_8h.html#a50c48abaa034bcce833c6061b9f8e5cf">USBTRACE1</a>(<span class="stringliteral">&quot; &quot;</span>, 0x80);</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                                }</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                                <span class="keywordflow">if</span>(read)</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                                        <a class="code" href="macros_8h.html#a50c48abaa034bcce833c6061b9f8e5cf">USBTRACE1</a>(<span class="stringliteral">&quot;\r\n&quot;</span>, 0x80);</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                        }</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160; </div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                }</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                qNextPollTime = (uint32_t)millis() + bInterval;</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        }</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;}</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160; </div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;<span class="preprocessor">#endif // __HIDBOOTMOUSE_H__</span></div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                                <span class="keywordflow">if</span>(!rcode &amp;&amp; read) {</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Strange read count: &quot;</span>, read, 0x80);</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                                        <a class="code" href="macros_8h.html#a3b6ba9344d4ae0847095896841587862">USBTRACE3</a>(<span class="stringliteral">&quot;(hidboot.h) Interface:&quot;</span>, i, 0x80);</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                                }</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                        }</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160; </div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                        <span class="keywordflow">if</span>(!rcode &amp;&amp; read &amp;&amp; (<a class="code" href="hexdump_8h.html#a25b114fa75a1d5c09bde2dadc5a27f78">UsbDEBUGlvl</a> &gt; 0x7f)) {</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                                <span class="keywordflow">for</span>(uint8_t i = 0; i &lt; read; i++) {</div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                                        PrintHex&lt;uint8_t &gt; (buf[i], 0x80);</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                                        <a class="code" href="macros_8h.html#a50c48abaa034bcce833c6061b9f8e5cf">USBTRACE1</a>(<span class="stringliteral">&quot; &quot;</span>, 0x80);</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                                }</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                                <span class="keywordflow">if</span>(read)</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                                        <a class="code" href="macros_8h.html#a50c48abaa034bcce833c6061b9f8e5cf">USBTRACE1</a>(<span class="stringliteral">&quot;\r\n&quot;</span>, 0x80);</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                        }</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160; </div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                }</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                qNextPollTime = (uint32_t)millis() + bInterval;</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;        }</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;        <span class="keywordflow">return</span> rcode;</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;}</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160; </div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;<span class="preprocessor">#endif // __HIDBOOTMOUSE_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astruct_m_o_u_s_e_i_n_f_o_html"><div class="ttname"><a href="struct_m_o_u_s_e_i_n_f_o.html">MOUSEINFO</a></div><div class="ttdef"><b>Definition:</b> <a href="hidboot_8h_source.html#l00039">hidboot.h:39</a></div></div>
 <div class="ttc" id="amax3421e_8h_html_ab44a7968d08016b58d98951059c37076"><div class="ttname"><a href="max3421e_8h.html#ab44a7968d08016b58d98951059c37076">hrNAK</a></div><div class="ttdeci">#define hrNAK</div><div class="ttdef"><b>Definition:</b> <a href="max3421e_8h_source.html#l00218">max3421e.h:218</a></div></div>
