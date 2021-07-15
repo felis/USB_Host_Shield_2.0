@@ -97,13 +97,13 @@ void loop() {
       Serial.print(F("Y: "));
       Serial.println(Xbox.getButtonPress(Y));
     }
-    if (Xbox.getButtonPress(L1)) {
-      Serial.print(F("L1: "));
-      Serial.println(Xbox.getButtonPress(L1));
+    if (Xbox.getButtonPress(LT)) {
+      Serial.print(F("LT: "));
+      Serial.println(Xbox.getButtonPress(LT));
     }
-    if (Xbox.getButtonPress(R1)) {
-      Serial.print(F("R1: "));
-      Serial.println(Xbox.getButtonPress(R1));
+    if (Xbox.getButtonPress(RT)) {
+      Serial.print(F("RT: "));
+      Serial.println(Xbox.getButtonPress(RT));
     }
   }
   delay(1);
