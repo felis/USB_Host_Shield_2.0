@@ -231,6 +231,9 @@ private:
         bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
         bool R2Clicked;
 
+        bool sharePressed;  // This button doesn't fit in the bitfield
+        bool shareClicked;
+
         uint8_t readBuf[XBOX_ONE_EP_MAXPKTSIZE]; // General purpose buffer for input data
         uint8_t cmdCounter;
 

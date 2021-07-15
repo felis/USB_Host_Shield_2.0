@@ -360,6 +360,11 @@ void XBOXONE::readReport() {
         hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[15] << 8) | readBuf[14]);
         hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[17] << 8) | readBuf[16]);
 
+        // Read and store share button separately
+        const bool newShare = (readBuf[22] & 0x01) ? 1 : 0;
+        shareClicked = ((sharePressed != newShare) && newShare) ? 1 : 0;
+        sharePressed = newShare;
+
         //Notify(PSTR("\r\nButtonState"), 0x80);
         //PrintHex<uint16_t>(ButtonState, 0x80);
 
@@ -378,6 +383,11 @@ void XBOXONE::readReport() {
 }
 
 uint16_t XBOXONE::getButtonPress(ButtonEnum b) {
+        // special handling for 'SHARE' button due to index collision with 'BACK',
+        // since the 'SHARE' value originally came from the PS4 controller and
+        // the 'SHARE' button was added to Xbox later with the Series S/X controllers
+        if (b == SHARE) return sharePressed;
+
         const int8_t index = getButtonIndexXbox(b); if (index < 0) return 0;
         if(index == ButtonIndex(L2)) // These are analog buttons
                 return triggerValue[0];
@@ -387,6 +397,15 @@ uint16_t XBOXONE::getButtonPress(ButtonEnum b) {
 }
 
 bool XBOXONE::getButtonClick(ButtonEnum b) {
+        // special handling for 'SHARE' button, ibid the above
+        if (b == SHARE) {
+                if (shareClicked) {
+                        shareClicked = false;
+                        return true;
+                }
+                return false;
+        }
+
         const int8_t index = getButtonIndexXbox(b); if (index < 0) return 0;
         if(index == ButtonIndex(L2)) {
                 if(L2Clicked) {

@@ -21,7 +21,7 @@ void setup() {
     Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
-  Serial.print(F("\r\nXBOX USB Library Started"));
+  Serial.print(F("\r\nXBOX ONE USB Library Started"));
 }
 void loop() {
   Usb.Task();
@@ -93,6 +93,8 @@ void loop() {
       Serial.println(F("Xbox"));
     if (Xbox.getButtonClick(SYNC))
       Serial.println(F("Sync"));
+    if (Xbox.getButtonClick(SHARE))
+      Serial.println(F("Share"));
 
     if (Xbox.getButtonClick(L1))
       Serial.println(F("L1"));
