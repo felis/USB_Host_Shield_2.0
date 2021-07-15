@@ -36,7 +36,7 @@ jobs:
           pio ci --lib="." $UNO --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41
 
           # Ignore warning caused by strcpy in the ESP8266 core
-          pio ci --lib="." --board=esp12e --board=nodemcu --project-option="build_flags=-Wno-array-bounds -Wno-restrict"
+          pio ci --lib="." --board=esp12e --board=nodemcu --project-option="build_flags=-Wno-array-bounds -Wno-restrict -Wno-stringop-overflow"
 
           # Teensy 3.x depends on the SPI4Teensy3 library: https://platformio.org/lib/show/417/SPI4Teensy3
           pio ci --lib="." --board=teensy30 --board=teensy31 $TEENSY35 $TEENSY36 --project-option="lib_deps=SPI4Teensy3"
