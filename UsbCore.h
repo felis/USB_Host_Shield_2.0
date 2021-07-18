@@ -154,6 +154,10 @@ public:
                 return 0;
         }
 
+		virtual uint8_t GetPortAddress() {
+			return GetAddress();
+		}
+
         virtual void ResetHubPort(uint8_t port __attribute__((unused))) {
                 return;
         } // Note used for hubs only!
@@ -276,6 +280,7 @@ private:
         uint8_t SetAddress(uint8_t addr, uint8_t ep, EpInfo **ppep, uint16_t *nak_limit);
         uint8_t OutTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t nbytes, uint8_t *data);
         uint8_t InTransfer(EpInfo *pep, uint16_t nak_limit, uint16_t *nbytesptr, uint8_t *data, uint8_t bInterval = 0);
+        void ResetHubPort(uint8_t parent, uint8_t port);
         uint8_t AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed);
 };
 
