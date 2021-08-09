@@ -175,10 +175,6 @@ e-mail   :  support@circuitsathome.com
 extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #endif
 
-#ifdef AM_PART_APOLLO3
-#include <SPI.h> 
-#endif
-
 // Fix defines on Arduino Due
 #ifdef ARDUINO_SAM_DUE
 #ifdef tokSETUP

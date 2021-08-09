@@ -57,6 +57,11 @@ public:
         static void init() {
                 // Should be initialized by the user manually for now
         }
+#elif defined(AM_PART_APOLLO3)
+
+		static void init() {
+				SPI::begin();
+		}
 #elif !defined(SPDR)
         static void init() {
                 SPI_SS::SetDirWrite();
@@ -123,7 +128,7 @@ typedef SPi< P18, P23, P19, P5 > spi;
 #elif defined(ARDUINO_NRF52840_FEATHER)
 typedef SPi< P26, P25, P24, P5 > spi;
 #elif defined(AM_PART_APOLLO3)
-typedef SPi< P5, P7, P6, P13> spi;
+typedef SPi< P13, P11, P12, P10 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
@@ -430,8 +435,9 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         // Also avoids the vbus flicker issue confusing some devices.
         /* pin and peripheral setup */
         SPI_SS::SetDirWrite();
+		
         SPI_SS::Set();
-        spi::init();
+		spi::init();
         INTR::SetDirRead();
         XMEM_RELEASE_SPI();
         /* MAX3421E - full-duplex SPI, level interrupt */

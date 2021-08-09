@@ -1358,56 +1358,73 @@ MAKE_PIN(P33, (9));
 
 #elif defined(AM_PART_APOLLO3)
 // Sparkfun Artemis Redboard & ATP variant
-#include "Arduino.h" \
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
 
-#define P0  0
-#define P1  1
-#define P2  2
-#define P3  3
-#define P4  4
-#define P5  5
-#define P6  6
-#define P7  7
-#define P8  8
-#define P9  9
-#define P10  10
-#define P11  11
-#define P12  12
-#define P13  13
-#define P14  14
-#define P15  15
-#define P16  16
-#define P17  17
-#define P18  18
-#define P19  19
-#define P20  20
-#define P21  21
-#define P22 22
-#define P23 23
-#define P24 24
-#define P25 25
-#define P26 26
-#define P27 27
-#define P28 28
-#define P29 29
-#define P30 30
-#define P31 31
-#define P32 32
-#define P33 33
-#define P34 34
-#define P35 35
-#define P36 36
-#define P37 37
-
-#if defined(AM_PACKAGE_BGA)
-	#define P38 38
-	#define P39 39
-	#define P40 40
-	#define P41 41
-	#define P42 42
-	#define P43 43
-	#define P44 44
-	#define P45 45
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14);
+MAKE_PIN(P15, 15);
+MAKE_PIN(P16, 16);
+MAKE_PIN(P17, 17);
+MAKE_PIN(P18, 18);
+MAKE_PIN(P19, 19);
+MAKE_PIN(P20, 20);
+MAKE_PIN(P21, 21);
+MAKE_PIN(P22, 22);
+MAKE_PIN(P23, 23);
+MAKE_PIN(P24, 24);
+MAKE_PIN(P25, 25);
+MAKE_PIN(P26, 26);
+MAKE_PIN(P27, 27);
+MAKE_PIN(P28, 28);
+MAKE_PIN(P29, 29);
+MAKE_PIN(P30, 30);
+MAKE_PIN(P31, 31);
+MAKE_PIN(P32, 35);
+MAKE_PIN(P33, 33);
+MAKE_PIN(P34, 34);
+MAKE_PIN(P35, 35);
+MAKE_PIN(P36, 36);
+MAKE_PIN(P37, 37);
+MAKE_PIN(P38, 38);
+MAKE_PIN(P39, 39);
+#ifdef AM_PACKAGE_BGA // All The Pins (ATP) variant
+MAKE_PIN(P40, 40);
+MAKE_PIN(P41, 41);
+MAKE_PIN(P42, 42);
+MAKE_PIN(P43, 43);
+MAKE_PIN(P44, 44);
+MAKE_PIN(P45, 45);
 #endif
 
 #else
