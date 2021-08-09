@@ -1357,7 +1357,7 @@ MAKE_PIN(P33, (9));
 #undef MAKE_PIN
 
 #elif defined(AM_PART_APOLLO3)
-// SPARKFUN REDBOARD ARTEMIS ALL THE PINS
+// Sparkfun Artemis Redboard & ATP variant
 #include "Arduino.h" \
 
 #define P0  0
