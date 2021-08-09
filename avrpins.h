@@ -1356,6 +1356,60 @@ MAKE_PIN(P33, (9));
 
 #undef MAKE_PIN
 
+#elif defined(AM_PART_APOLLO3)
+// SPARKFUN REDBOARD ARTEMIS ALL THE PINS
+#include "Arduino.h" \
+
+#define P0  0
+#define P1  1
+#define P2  2
+#define P3  3
+#define P4  4
+#define P5  5
+#define P6  6
+#define P7  7
+#define P8  8
+#define P9  9
+#define P10  10
+#define P11  11
+#define P12  12
+#define P13  13
+#define P14  14
+#define P15  15
+#define P16  16
+#define P17  17
+#define P18  18
+#define P19  19
+#define P20  20
+#define P21  21
+#define P22 22
+#define P23 23
+#define P24 24
+#define P25 25
+#define P26 26
+#define P27 27
+#define P28 28
+#define P29 29
+#define P30 30
+#define P31 31
+#define P32 32
+#define P33 33
+#define P34 34
+#define P35 35
+#define P36 36
+#define P37 37
+
+#if defined(AM_PACKAGE_BGA)
+	#define P38 38
+	#define P39 39
+	#define P40 40
+	#define P41 41
+	#define P42 42
+	#define P43 43
+	#define P44 44
+	#define P45 45
+#endif
+
 #else
 #error "Please define board in avrpins.h"
 

@@ -62,6 +62,7 @@ e-mail   :  support@circuitsathome.com
 /* Set this to a one to use the xmem2 lock. This is needed for multitasking and threading */
 #define USE_XMEM_SPI_LOCK 0
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Wii IR camera
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,10 @@ e-mail   :  support@circuitsathome.com
 #ifdef STM32F4
 #include "stm32f4xx_hal.h"
 extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
+#endif
+
+#ifdef AM_PART_APOLLO3
+#include <SPI.h> 
 #endif
 
 // Fix defines on Arduino Due
