@@ -435,7 +435,6 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         // Also avoids the vbus flicker issue confusing some devices.
         /* pin and peripheral setup */
         SPI_SS::SetDirWrite();
-		
         SPI_SS::Set();
 		spi::init();
         INTR::SetDirRead();
