@@ -1426,6 +1426,7 @@ MAKE_PIN(P43, 43);
 MAKE_PIN(P44, 44);
 MAKE_PIN(P45, 45);
 #endif
+#undef MAKE_PIN
 
 #else
 #error "Please define board in avrpins.h"
