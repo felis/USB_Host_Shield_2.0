@@ -58,7 +58,6 @@ public:
                 // Should be initialized by the user manually for now
         }
 #elif defined(AM_PART_APOLLO3)
-
 		static void init() {
 				SPI::begin();
 		}
@@ -436,7 +435,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         /* pin and peripheral setup */
         SPI_SS::SetDirWrite();
         SPI_SS::Set();
-	spi::init();
+        spi::init();
         INTR::SetDirRead();
         XMEM_RELEASE_SPI();
         /* MAX3421E - full-duplex SPI, level interrupt */
