@@ -436,7 +436,7 @@ int8_t MAX3421e< SPI_SS, INTR >::Init() {
         /* pin and peripheral setup */
         SPI_SS::SetDirWrite();
         SPI_SS::Set();
-		spi::init();
+	spi::init();
         INTR::SetDirRead();
         XMEM_RELEASE_SPI();
         /* MAX3421E - full-duplex SPI, level interrupt */
