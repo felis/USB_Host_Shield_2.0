@@ -215,11 +215,11 @@ extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #error "This board is currently not supported"
 #endif
 
-#endif /* SETTINGS_H */
-
 // See: https://github.com/sparkfun/Arduino_Apollo3/pull/421
 #ifdef AM_PART_APOLLO3
 #ifndef SPI_HAS_TRANSACTION
 #define SPI_HAS_TRANSACTION 1
 #endif
 #endif
+
+#endif /* SETTINGS_H */
