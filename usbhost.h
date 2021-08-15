@@ -57,10 +57,6 @@ public:
         static void init() {
                 // Should be initialized by the user manually for now
         }
-#elif defined(AM_PART_APOLLO3)
-		static void init() {
-				SPI::begin();
-		}
 #elif !defined(SPDR)
         static void init() {
                 SPI_SS::SetDirWrite();
