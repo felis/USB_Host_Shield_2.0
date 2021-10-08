@@ -524,7 +524,7 @@ void BTD::HCI_event_task() {
                                                 D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
 #endif
 
-                                                if(pairWithWii && (classOfDevice[2] == 0x00) && ((classOfDevice[1] & 0x0F) == 0x05) && (classOfDevice[0] & 0x04)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
+                                                if(pairWithWii && (classOfDevice[2] == 0x00) && ((classOfDevice[1] & 0x0F) == 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
                                                         checkRemoteName = true; // Check remote name to distinguish between the different controllers
 
                                                         for(uint8_t j = 0; j < 6; j++)
