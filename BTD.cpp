@@ -524,7 +524,7 @@ void BTD::HCI_event_task() {
                                                 D_PrintHex<uint8_t > (classOfDevice[0], 0x80);
 #endif
 
-                                                if(pairWithWii && classOfDevice[2] == 0x00 && (classOfDevice[1] == 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
+                                                if(pairWithWii && (classOfDevice[2] == 0x00) && ((classOfDevice[1] & 0x0F) == 0x05) && (classOfDevice[0] & 0x0C)) { // See http://wiibrew.org/wiki/Wiimote#SDP_information
                                                         checkRemoteName = true; // Check remote name to distinguish between the different controllers
 
                                                         for(uint8_t j = 0; j < 6; j++)
@@ -532,7 +532,7 @@ void BTD::HCI_event_task() {
 
                                                         hci_set_flag(HCI_FLAG_DEVICE_FOUND);
                                                         break;
-                                                } else if(pairWithHIDDevice && (classOfDevice[1] & 0x0F) == 0x05 && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
+                                                } else if(pairWithHIDDevice && ((classOfDevice[1] & 0x0F) == 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad - see: http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html
 #ifdef DEBUG_USB_HOST
                                                         checkRemoteName = true; // Used to print name in the serial monitor if serial debugging is enabled
 
@@ -596,7 +596,7 @@ void BTD::HCI_event_task() {
                                 for(uint8_t i = 0; i < 3; i++)
                                         classOfDevice[i] = hcibuf[i + 8];
 
-                                if((classOfDevice[1] & 0x0F) == 0x05 && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad
+                                if(((classOfDevice[1] & 0x0F) == 0x05) && (classOfDevice[0] & 0xC8)) { // Check if it is a mouse, keyboard or a gamepad
 #ifdef DEBUG_USB_HOST
                                         if(classOfDevice[0] & 0x80)
                                                 Notify(PSTR("\r\nMouse is connecting"), 0x80);
