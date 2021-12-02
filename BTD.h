@@ -40,28 +40,29 @@
 #define bmREQ_HCI_OUT USB_SETUP_HOST_TO_DEVICE|USB_SETUP_TYPE_CLASS|USB_SETUP_RECIPIENT_DEVICE
 
 /* Bluetooth HCI states for hci_task() */
-#define HCI_INIT_STATE                  0
-#define HCI_RESET_STATE                 1
-#define HCI_CLASS_STATE                 2
-#define HCI_BDADDR_STATE                3
-#define HCI_LOCAL_VERSION_STATE         4
-#define HCI_WRITE_NAME_STATE            5
-#define HCI_CHECK_DEVICE_SERVICE        6
+#define HCI_INIT_STATE                          0
+#define HCI_RESET_STATE                         1
+#define HCI_CLASS_STATE                         2
+#define HCI_BDADDR_STATE                        3
+#define HCI_LOCAL_VERSION_STATE                 4
+#define HCI_WRITE_NAME_STATE                    5
+#define HCI_CHECK_DEVICE_SERVICE                6
 
-#define HCI_INQUIRY_STATE               7 // These three states are only used if it should pair and connect to a device
-#define HCI_CONNECT_DEVICE_STATE        8
-#define HCI_CONNECTED_DEVICE_STATE      9
+#define HCI_WRITE_INQUIRY_MODE_STATE            7 // These four states are only used if it should pair and connect to a device
+#define HCI_INQUIRY_STATE                       8
+#define HCI_CONNECT_DEVICE_STATE                9
+#define HCI_CONNECTED_DEVICE_STATE              10
 
-#define HCI_SCANNING_STATE              10
-#define HCI_CONNECT_IN_STATE            11
-#define HCI_REMOTE_NAME_STATE           12
-#define HCI_CONNECTED_STATE             13
-#define HCI_DISABLE_SCAN_STATE          14
-#define HCI_DONE_STATE                  15
-#define HCI_DISCONNECT_STATE            16
-#define HCI_LOCAL_EXTENDED_FEATURES_STATE       17
-#define HCI_WRITE_SIMPLE_PAIRING_STATE          18
-#define HCI_SET_EVENT_MASK_STATE                19
+#define HCI_SCANNING_STATE                      11
+#define HCI_CONNECT_IN_STATE                    12
+#define HCI_REMOTE_NAME_STATE                   13
+#define HCI_CONNECTED_STATE                     14
+#define HCI_DISABLE_SCAN_STATE                  15
+#define HCI_DONE_STATE                          16
+#define HCI_DISCONNECT_STATE                    17
+#define HCI_LOCAL_EXTENDED_FEATURES_STATE       18
+#define HCI_WRITE_SIMPLE_PAIRING_STATE          19
+#define HCI_SET_EVENT_MASK_STATE                20
 
 /* HCI event flags*/
 #define HCI_FLAG_CMD_COMPLETE           (1UL << 0)
@@ -381,6 +382,8 @@ public:
         void hci_user_confirmation_request_reply();
         /** Used to try to authenticate with the remote device. */
         void hci_authentication_request();
+        /** Write the HCI inquiry mode. */
+        void hci_write_inquiry_mode(uint8_t mode);
         /** Start a HCI inquiry. */
         void hci_inquiry();
         /** Cancel a HCI inquiry. */

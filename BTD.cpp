@@ -879,6 +879,17 @@ void BTD::HCI_task() {
 
                 case HCI_CHECK_DEVICE_SERVICE:
                         if(pairWithHIDDevice || pairWithWii) { // Check if it should try to connect to a Wiimote
+#ifdef EXTRADEBUG
+                                Notify(PSTR("\r\nSet inquiry mode to \"Standard Inquiry Result event format\""), 0x80);
+#endif
+                                hci_write_inquiry_mode(0x00);
+                                hci_state = HCI_WRITE_INQUIRY_MODE_STATE;
+                        } else
+                                hci_state = HCI_SCANNING_STATE; // Don't try to connect to a Wiimote
+                        break;
+
+                case HCI_WRITE_INQUIRY_MODE_STATE:
+                        if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
                                 if(pairWithWii)
                                         Notify(PSTR("\r\nStarting inquiry\r\nPress 1 & 2 on the Wiimote\r\nOr press the SYNC button if you are using a Wii U Pro Controller or a Wii Balance Board"), 0x80);
@@ -887,8 +898,7 @@ void BTD::HCI_task() {
 #endif
                                 hci_inquiry();
                                 hci_state = HCI_INQUIRY_STATE;
-                        } else
-                                hci_state = HCI_SCANNING_STATE; // Don't try to connect to a Wiimote
+                        }
                         break;
 
                 case HCI_INQUIRY_STATE:
@@ -1239,6 +1249,15 @@ void BTD::hci_write_simple_pairing_mode(bool enable) {
         hcibuf[1] = 0x03 << 2; // HCI OGF = 3
         hcibuf[2] = 1; // parameter length = 1
         hcibuf[3] = enable ? 1 : 0;
+
+        HCI_Command(hcibuf, 4);
+}
+
+void BTD::hci_write_inquiry_mode(uint8_t mode) {
+        hcibuf[0] = 0x45; // HCI OCF = 45
+        hcibuf[1] = 0x03 << 2; // HCI OGF = 3
+        hcibuf[2] = 0x01; // Parameter Total Length = 1
+        hcibuf[3] = mode;
 
         HCI_Command(hcibuf, 4);
 }
