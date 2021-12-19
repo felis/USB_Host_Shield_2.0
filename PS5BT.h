@@ -168,9 +168,7 @@ protected:
                 buf[0] = 0xA2; // HID BT DATA (0xA0) | Report Type (Output 0x02)
 
                 buf[0x01] = 0x31; // Report ID
-                buf[0x02] = (output_sequence_counter << 4) | 0x0; // Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.
-                if(++output_sequence_counter == 15)
-                        output_sequence_counter = 0;
+                buf[0x02] = (output_sequence_counter++ << 4) | 0x0; // Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.
                 buf[0x03] = 0x10; // Magic number must be set to 0x10
 
                 buf[0x01 + 3] = 0xFF; // feature flags 1
