@@ -104,6 +104,7 @@
 #define EV_LOOPBACK_COMMAND                             0x19
 #define EV_PAGE_SCAN_REP_MODE                           0x20
 #define EV_READ_REMOTE_EXTENDED_FEATURES_COMPLETE       0x23
+#define EV_EXTENDED_INQUIRY_RESULT                      0x2F
 #define EV_IO_CAPABILITY_REQUEST                        0x31
 #define EV_IO_CAPABILITY_RESPONSE                       0x32
 #define EV_USER_CONFIRMATION_REQUEST                    0x33
