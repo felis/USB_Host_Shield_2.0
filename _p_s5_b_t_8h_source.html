@@ -202,67 +202,65 @@ $(function() {
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                buf[0] = 0xA2; <span class="comment">// HID BT DATA (0xA0) | Report Type (Output 0x02)</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                buf[0x01] = 0x31; <span class="comment">// Report ID</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                buf[0x02] = (output_sequence_counter &lt;&lt; 4) | 0x0; <span class="comment">// Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                <span class="keywordflow">if</span>(++output_sequence_counter == 15)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                        output_sequence_counter = 0;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                buf[0x03] = 0x10; <span class="comment">// Magic number must be set to 0x10</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                buf[0x01 + 3] = 0xFF; <span class="comment">// feature flags 1</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                buf[0x02 + 3]= 0xF7;  <span class="comment">// feature flags 2</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                buf[0x03 + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a12e7cdb5e0a6a08315defa08f51b4465">smallRumble</a>; <span class="comment">// Small Rumble</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                buf[0x04 + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#ad8497ffba3ad67cfa90b8d1b841ea655">bigRumble</a>; <span class="comment">// Big rumble</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                buf[0x02] = (output_sequence_counter++ &lt;&lt; 4) | 0x0; <span class="comment">// Highest 4-bit is a sequence number, which needs to be increased every report. Lowest 4-bit is tag and can be zero for now.</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                buf[0x03] = 0x10; <span class="comment">// Magic number must be set to 0x10</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                buf[0x01 + 3] = 0xFF; <span class="comment">// feature flags 1</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                buf[0x02 + 3]= 0xF7;  <span class="comment">// feature flags 2</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                buf[0x03 + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a12e7cdb5e0a6a08315defa08f51b4465">smallRumble</a>; <span class="comment">// Small Rumble</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                buf[0x04 + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#ad8497ffba3ad67cfa90b8d1b841ea655">bigRumble</a>; <span class="comment">// Big rumble</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                <span class="comment">// 5-7 headphone, speaker, mic volume, audio flags</span></div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <span class="comment">// 5-7 headphone, speaker, mic volume, audio flags</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                buf[0x09 + 3] = (uint8_t)output-&gt;<a class="code" href="struct_p_s5_output.html#a17044560913adb86212345ccd7dd34ce">microphoneLed</a>;</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                buf[0x09 + 3] = (uint8_t)output-&gt;<a class="code" href="struct_p_s5_output.html#a17044560913adb86212345ccd7dd34ce">microphoneLed</a>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <span class="comment">// 0x0A mute flags</span></div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="comment">// 0x0A mute flags</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="comment">// Adaptive Triggers: 0x0B-0x14 right, 0x15 unknown, 0x16-0x1F left</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <a class="code" href="class_p_s5_parser.html#a3a6cf326963a4bd8b08ee4b22d456df4">rightTrigger</a>.<a class="code" href="class_p_s5_trigger.html#a5cf79bb95535c3c540ef698921989691">processTrigger</a>(&amp;buf[0x0B + 3]); <span class="comment">// right</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <a class="code" href="class_p_s5_parser.html#a819cd1faa12a83cd8525be60bc8c8b83">leftTrigger</a>.<a class="code" href="class_p_s5_trigger.html#a5cf79bb95535c3c540ef698921989691">processTrigger</a>(&amp;buf[0x16 + 3]); <span class="comment">// left</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="comment">// 0x20-0x24 unknown</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <span class="comment">// 0x25 trigger motor effect strengths</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="comment">// 0x26 speaker volume</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="comment">// player LEDs</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                buf[0x27 + 3] = 0x03; <span class="comment">// led brightness, pulse</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                buf[0x2A + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a9213909e8add31c49f9d494ac212718f">disableLeds</a> ? 0x01 : 0x2; <span class="comment">// led pulse option</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                <span class="comment">// buf[0x2B] LED brightness, 0 = full, 1= medium, 2 = low</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                buf[0x2C + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a661c41e46e5c3a70175efe77d8f0fb8e">playerLeds</a>; <span class="comment">// 5 white player LEDs</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                <span class="comment">// lightbar</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                buf[0x2D + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a1c00530f9dbbdebd229a2d70d9ee19f6">r</a>; <span class="comment">// Red</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                buf[0x2E + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#aefcf359b8abf8a6f48729f4f999faedf">g</a>; <span class="comment">// Green</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                buf[0x2F + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a1399de4d49de1608bf50553aca486a52">b</a>; <span class="comment">// Blue</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                uint32_t crc = ~crc32(0xFFFFFFFF, buf, <span class="keyword">sizeof</span>(buf) - 4 <span class="comment">/* Do not include the crc32 */</span>); <span class="comment">// Note how the report type is also included in the output report</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                buf[75] = crc &amp; 0xFF;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                buf[76] = (crc &gt;&gt; 8) &amp; 0xFF;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                buf[77] = (crc &gt;&gt; 16);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                buf[78] = (crc &gt;&gt; 24);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="comment">// Adaptive Triggers: 0x0B-0x14 right, 0x15 unknown, 0x16-0x1F left</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                <a class="code" href="class_p_s5_parser.html#a3a6cf326963a4bd8b08ee4b22d456df4">rightTrigger</a>.<a class="code" href="class_p_s5_trigger.html#a5cf79bb95535c3c540ef698921989691">processTrigger</a>(&amp;buf[0x0B + 3]); <span class="comment">// right</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <a class="code" href="class_p_s5_parser.html#a819cd1faa12a83cd8525be60bc8c8b83">leftTrigger</a>.<a class="code" href="class_p_s5_trigger.html#a5cf79bb95535c3c540ef698921989691">processTrigger</a>(&amp;buf[0x16 + 3]); <span class="comment">// left</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="comment">// 0x20-0x24 unknown</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="comment">// 0x25 trigger motor effect strengths</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="comment">// 0x26 speaker volume</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="comment">// player LEDs</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                buf[0x27 + 3] = 0x03; <span class="comment">// led brightness, pulse</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                buf[0x2A + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a9213909e8add31c49f9d494ac212718f">disableLeds</a> ? 0x01 : 0x2; <span class="comment">// led pulse option</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                <span class="comment">// buf[0x2B] LED brightness, 0 = full, 1= medium, 2 = low</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                buf[0x2C + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a661c41e46e5c3a70175efe77d8f0fb8e">playerLeds</a>; <span class="comment">// 5 white player LEDs</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="comment">// lightbar</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                buf[0x2D + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a1c00530f9dbbdebd229a2d70d9ee19f6">r</a>; <span class="comment">// Red</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                buf[0x2E + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#aefcf359b8abf8a6f48729f4f999faedf">g</a>; <span class="comment">// Green</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                buf[0x2F + 3] = output-&gt;<a class="code" href="struct_p_s5_output.html#a1399de4d49de1608bf50553aca486a52">b</a>; <span class="comment">// Blue</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                uint32_t crc = ~crc32(0xFFFFFFFF, buf, <span class="keyword">sizeof</span>(buf) - 4 <span class="comment">/* Do not include the crc32 */</span>); <span class="comment">// Note how the report type is also included in the output report</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                buf[75] = crc &amp; 0xFF;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                buf[76] = (crc &gt;&gt; 8) &amp; 0xFF;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                buf[77] = (crc &gt;&gt; 16);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                buf[78] = (crc &gt;&gt; 24);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                output-&gt;<a class="code" href="struct_p_s5_output.html#a58019fdd5842d4d5aa7b3f3bf6cb5d7a">reportChanged</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                output-&gt;<a class="code" href="struct_p_s5_output.html#a58019fdd5842d4d5aa7b3f3bf6cb5d7a">reportChanged</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                <span class="comment">// Send the Bluetooth DATA output report on the interrupt channel</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <a class="code" href="class_bluetooth_service.html#aa67faf901f78a55a202945a20f6d778a">pBtd</a>-&gt;<a class="code" href="class_b_t_d.html#aad7d8ef46e60b48ff4aaabefb0b290e7">L2CAP_Command</a>(<a class="code" href="class_bluetooth_service.html#a67b1db67c05d0bbdcd9c992135455437">hci_handle</a>, buf, <span class="keyword">sizeof</span>(buf), <a class="code" href="class_b_t_h_i_d.html#a34a91f92ea32033403c2b37af92535dc">interrupt_scid</a>[0], <a class="code" href="class_b_t_h_i_d.html#a34a91f92ea32033403c2b37af92535dc">interrupt_scid</a>[1]);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        };</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordtype">void</span> enable_sixaxis() { <span class="comment">// Command used to make the PS5 controller send out the entire output report</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                <span class="comment">// Request the paring info. This makes the controller send out the full report - see: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                uint8_t buf[2];</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                buf[0] = 0x43; <span class="comment">// HID BT Get_report (0x40) | Report Type (Feature 0x03)</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                buf[1] = 0x09; <span class="comment">// Report ID for paring info</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                <span class="comment">// Send the Bluetooth Get_report Feature report on the control channel</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                <a class="code" href="class_bluetooth_service.html#aa67faf901f78a55a202945a20f6d778a">pBtd</a>-&gt;<a class="code" href="class_b_t_d.html#aad7d8ef46e60b48ff4aaabefb0b290e7">L2CAP_Command</a>(<a class="code" href="class_bluetooth_service.html#a67b1db67c05d0bbdcd9c992135455437">hci_handle</a>, buf, 2, <a class="code" href="class_b_t_h_i_d.html#acf6933a4988ed9f48c6e08cc7c9b906c">control_scid</a>[0], <a class="code" href="class_b_t_h_i_d.html#acf6933a4988ed9f48c6e08cc7c9b906c">control_scid</a>[1]);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        };</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        uint8_t output_sequence_counter;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;};</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                <span class="comment">// Send the Bluetooth DATA output report on the interrupt channel</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <a class="code" href="class_bluetooth_service.html#aa67faf901f78a55a202945a20f6d778a">pBtd</a>-&gt;<a class="code" href="class_b_t_d.html#aad7d8ef46e60b48ff4aaabefb0b290e7">L2CAP_Command</a>(<a class="code" href="class_bluetooth_service.html#a67b1db67c05d0bbdcd9c992135455437">hci_handle</a>, buf, <span class="keyword">sizeof</span>(buf), <a class="code" href="class_b_t_h_i_d.html#a34a91f92ea32033403c2b37af92535dc">interrupt_scid</a>[0], <a class="code" href="class_b_t_h_i_d.html#a34a91f92ea32033403c2b37af92535dc">interrupt_scid</a>[1]);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        };</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordtype">void</span> enable_sixaxis() { <span class="comment">// Command used to make the PS5 controller send out the entire output report</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="comment">// Request the paring info. This makes the controller send out the full report - see: https://patchwork.kernel.org/project/linux-input/cover/20201219062336.72568-1-roderick@gaikai.com/</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                uint8_t buf[2];</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                buf[0] = 0x43; <span class="comment">// HID BT Get_report (0x40) | Report Type (Feature 0x03)</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                buf[1] = 0x09; <span class="comment">// Report ID for paring info</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                <span class="comment">// Send the Bluetooth Get_report Feature report on the control channel</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <a class="code" href="class_bluetooth_service.html#aa67faf901f78a55a202945a20f6d778a">pBtd</a>-&gt;<a class="code" href="class_b_t_d.html#aad7d8ef46e60b48ff4aaabefb0b290e7">L2CAP_Command</a>(<a class="code" href="class_bluetooth_service.html#a67b1db67c05d0bbdcd9c992135455437">hci_handle</a>, buf, 2, <a class="code" href="class_b_t_h_i_d.html#acf6933a4988ed9f48c6e08cc7c9b906c">control_scid</a>[0], <a class="code" href="class_b_t_h_i_d.html#acf6933a4988ed9f48c6e08cc7c9b906c">control_scid</a>[1]);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        };</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        uint8_t output_sequence_counter;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;};</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_p_s5_b_t_html_a1c55a37b59d84c204c3460f2163b06fa"><div class="ttname"><a href="class_p_s5_b_t.html#a1c55a37b59d84c204c3460f2163b06fa">PS5BT::sendOutputReport</a></div><div class="ttdeci">virtual void sendOutputReport(PS5Output *output)</div><div class="ttdef"><b>Definition:</b> <a href="_p_s5_b_t_8h_source.html#l00162">PS5BT.h:162</a></div></div>
 <div class="ttc" id="aclass_p_s5_parser_html_a3a6cf326963a4bd8b08ee4b22d456df4"><div class="ttname"><a href="class_p_s5_parser.html#a3a6cf326963a4bd8b08ee4b22d456df4">PS5Parser::rightTrigger</a></div><div class="ttdeci">PS5Trigger rightTrigger</div><div class="ttdef"><b>Definition:</b> <a href="_p_s5_parser_8h_source.html#l00157">PS5Parser.h:157</a></div></div>
