@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  * USB-MIDI class driver for USB Host Shield 2.0 Library
- * Copyright (c) 2012-2021 Yuuichi Akagawa
+ * Copyright (c) 2012-2022 Yuuichi Akagawa
  *
  * Idea from LPK25 USB-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
@@ -359,7 +359,7 @@ RecvData_return_from_buffer:
         *(outBuf++) =     recvBuf[readPtr++];
         *(outBuf++) =     recvBuf[readPtr++];
 
-        return getMsgSizeFromCin(cin);
+        return getMsgSizeFromCin(cin & 0x0f);
 }
 
 /* Send data to MIDI device */
