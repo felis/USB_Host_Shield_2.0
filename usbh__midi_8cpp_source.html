@@ -69,7 +69,7 @@ $(function() {
 <a href="usbh__midi_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *******************************************************************************</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * USB-MIDI class driver for USB Host Shield 2.0 Library</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2012-2021 Yuuichi Akagawa</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2012-2022 Yuuichi Akagawa</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Idea from LPK25 USB-MIDI to Serial MIDI converter</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *   by Collin Cunningham - makezine.com, narbotic.com</span></div>
@@ -421,7 +421,7 @@ $(function() {
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        *(outBuf++) =     <a class="code" href="class_u_s_b_h___m_i_d_i.html#aa84131af42cd34c3d62763a7b3f07d2f">recvBuf</a>[<a class="code" href="class_u_s_b_h___m_i_d_i.html#aad25eeebfe8741afa7a242ec398c846e">readPtr</a>++];</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        *(outBuf++) =     <a class="code" href="class_u_s_b_h___m_i_d_i.html#aa84131af42cd34c3d62763a7b3f07d2f">recvBuf</a>[<a class="code" href="class_u_s_b_h___m_i_d_i.html#aad25eeebfe8741afa7a242ec398c846e">readPtr</a>++];</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_u_s_b_h___m_i_d_i.html#ae72b2c1cbd89e25b60833add4de15153">getMsgSizeFromCin</a>(cin);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_u_s_b_h___m_i_d_i.html#ae72b2c1cbd89e25b60833add4de15153">getMsgSizeFromCin</a>(cin &amp; 0x0f);</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">/* Send data to MIDI device */</span></div>

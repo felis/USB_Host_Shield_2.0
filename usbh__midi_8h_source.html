@@ -69,7 +69,7 @@ $(function() {
 <a href="usbh__midi_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *******************************************************************************</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * USB-MIDI class driver for USB Host Shield 2.0 Library</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2012-2021 Yuuichi Akagawa</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2012-2022 Yuuichi Akagawa</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Idea from LPK25 USB-MIDI to Serial MIDI converter</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *   by Collin Cunningham - makezine.com, narbotic.com</span></div>
@@ -96,7 +96,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define _USBH_MIDI_H_</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_usb_8h.html">Usb.h</a>&quot;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="usbh__midi_8h.html#aedbb874461f06ee82661c00de153c126">   31</a></span>&#160;<span class="preprocessor">#define USBH_MIDI_VERSION 600</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="usbh__midi_8h.html#aedbb874461f06ee82661c00de153c126">   31</a></span>&#160;<span class="preprocessor">#define USBH_MIDI_VERSION 601</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="usbh__midi_8h.html#a209d19007c615d3f300a5d3717776a45">   32</a></span>&#160;<span class="preprocessor">#define MIDI_MAX_ENDPOINTS 3 //endpoint 0, bulk_IN(MIDI), bulk_OUT(MIDI)</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="usbh__midi_8h.html#a071b718fc63564ff2ae0b8b8d8e638fc">   33</a></span>&#160;<span class="preprocessor">#define USB_SUBCLASS_MIDISTREAMING 3</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="usbh__midi_8h.html#a0cb5d0be715a42f36440b29eaa728c58">   34</a></span>&#160;<span class="preprocessor">#define MIDI_EVENT_PACKET_SIZE 64</span></div>
