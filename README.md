@@ -119,6 +119,7 @@ Currently the following boards are supported by the library:
 * Balanduino
 * Sanguino
 * Black Widdow
+* Any board supported by [MightyCore](https://github.com/MCUdude/MightyCore)
 * RedBearLab nRF51822
 * Adafruit Feather nRF52840 Express
 * Digilent chipKIT
