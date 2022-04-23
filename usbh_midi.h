@@ -28,7 +28,7 @@
 #define _USBH_MIDI_H_
 #include "Usb.h"
 
-#define USBH_MIDI_VERSION 601
+#define USBH_MIDI_VERSION 10000
 #define MIDI_MAX_ENDPOINTS 3 //endpoint 0, bulk_IN(MIDI), bulk_OUT(MIDI)
 #define USB_SUBCLASS_MIDISTREAMING 3
 #define MIDI_EVENT_PACKET_SIZE 64
@@ -137,8 +137,13 @@ public:
         void attachOnInit(void (*funcOnInit)(void)) {
                 pFuncOnInit = funcOnInit;
         };
+
+        void attachOnRelease(void (*funcOnRelease)(void)) {
+                pFuncOnRelease = funcOnRelease;
+        };
 private:
         void (*pFuncOnInit)(void) = nullptr; // Pointer to function called in onInit()
+        void (*pFuncOnRelease)(void) = nullptr; // Pointer to function called in onRelease()
 };
 
 #endif //_USBH_MIDI_H_
