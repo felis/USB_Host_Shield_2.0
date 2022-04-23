@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hatenum_5293',['HatEnum',['../_wii_8h.html#ad79e49e27b025d6ac9d695c4816f84d4',1,'Wii.h']]]
+  ['hatenum_5295',['HatEnum',['../_wii_8h.html#ad79e49e27b025d6ac9d695c4816f84d4',1,'Wii.h']]]
 ];
