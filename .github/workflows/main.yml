@@ -26,14 +26,14 @@ jobs:
         run: pio lib -g install 416
       - name: Run PlatformIO
         run: |
-          # Skip all Wii examples and the PS3SPP example on Uno, as they will not fit with debugging enabled
-          if [[ "${{ matrix.example }}" != *"Wii"* && "${{ matrix.example }}" != *"PS3SPP" ]]; then UNO="--board=uno"; fi
+          # Skip all Wii examples and the PS3SPP example on Uno and ATmega32, as they will not fit with debugging enabled
+          if [[ "${{ matrix.example }}" != *"Wii"* && "${{ matrix.example }}" != *"PS3SPP" ]]; then UNO="--board=uno"; ATMEGA32="--board=ATmega32"; fi
 
           # There is a conflict with the internal Teensy MIDI library, so skip this example on Teensy 3.x and 4.x
           # See: https://travis-ci.org/github/felis/USB_Host_Shield_2.0/jobs/743787235
           if [[ "${{ matrix.example }}" != *"bidirectional_converter" ]]; then TEENSY35="--board=teensy35"; TEENSY36="--board=teensy36"; TEENSY40="--board=teensy40"; TEENSY41="--board=teensy41"; fi
 
-          pio ci --lib="." $UNO --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41
+          pio ci --lib="." $UNO $ATMEGA32 --board=genuino101 --board=teensylc $TEENSY40 $TEENSY41
 
           # Ignore warning caused by strcpy in the ESP8266 core
           pio ci --lib="." --board=esp12e --board=nodemcu --project-option="build_flags=-Wno-array-bounds -Wno-restrict -Wno-stringop-overflow"

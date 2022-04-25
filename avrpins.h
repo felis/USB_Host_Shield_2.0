@@ -765,6 +765,88 @@ public:
 #define P31 Pd7
 // UNO*Pro
 
+#elif defined(MIGHTYCORE)
+// https://github.com/MCUdude/MightyCore
+#if defined(BOBUINO_PINOUT)
+  #define P0  Pd0
+  #define P1  Pd1
+  #define P2  Pd2
+  #define P3  Pd3
+  #define P4  Pb0
+  #define P5  Pb1
+  #define P6  Pb2
+  #define P7  Pb3
+  #define P8  Pd5
+  #define P9  Pd6
+  #define P10 Pb4
+  #define P11 Pb5
+  #define P12 Pb6
+  #define P13 Pb7
+  #define P14 Pa7
+  #define P15 Pa6
+  #define P16 Pa5
+  #define P17 Pa4
+  #define P18 Pa3
+  #define P19 Pa2
+  #define P20 Pa1
+  #define P21 Pa0
+  #define P22 Pc0
+  #define P23 Pc1
+  #define P24 Pc2
+  #define P25 Pc3
+  #define P26 Pc4
+  #define P27 Pc5
+  #define P28 Pc6
+  #define P29 Pc7
+  #define P30 Pd4
+  #define P31 Pd7
+#else
+  #define P0  Pb0
+  #define P1  Pb1
+  #define P2  Pb2
+  #define P3  Pb3
+  #define P4  Pb4
+  #define P5  Pb5
+  #define P6  Pb6
+  #define P7  Pb7
+  #define P8  Pd0
+  #define P9  Pd1
+  #define P10 Pd2
+  #define P11 Pd3
+  #define P12 Pd4
+  #define P13 Pd5
+  #define P14 Pd6
+  #define P15 Pd7
+  #define P16 Pc0
+  #define P17 Pc1
+  #define P18 Pc2
+  #define P19 Pc3
+  #define P20 Pc4
+  #define P21 Pc5
+  #define P22 Pc6
+  #define P23 Pc7
+  #if defined(SANGUINO_PINOUT)
+    #define P24 Pa7
+    #define P25 Pa6
+    #define P26 Pa5
+    #define P27 Pa4
+    #define P28 Pa3
+    #define P29 Pa2
+    #define P30 Pa1
+    #define P31 Pa0
+  #else
+    #define P24 Pa0
+    #define P25 Pa1
+    #define P26 Pa2
+    #define P27 Pa3
+    #define P28 Pa4
+    #define P29 Pa5
+    #define P30 Pa6
+    #define P31 Pa7
+  #endif
+#endif
+// MightyCore
+
 #elif defined(__AVR_ATmega644__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__)
 // Sanguino pin numbers
 // Homepage: http://sanguino.cc/hardware
