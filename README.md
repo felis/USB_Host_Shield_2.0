@@ -126,6 +126,7 @@ Currently the following boards are supported by the library:
     * Please see: <https://chome.nerpa.tech/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
     * Currently the [NUCLEO-F446RE](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF262063) is supported featuring the STM32F446. Take a look at the following example code: <https://github.com/Lauszus/Nucleo_F446RE_USBHost>.
+      * The shield will **NOT** work without rewiring
 * ESP8266 is supported using the [ESP8266 Arduino core](https://github.com/esp8266/Arduino)
     * Note it uses pin 15 and 5 for SS and INT respectively
     * Also please be aware that:
