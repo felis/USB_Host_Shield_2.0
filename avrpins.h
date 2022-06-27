@@ -1438,6 +1438,78 @@ MAKE_PIN(P33, (9));
 
 #undef MAKE_PIN
 
+#elif defined(AM_PART_APOLLO3)
+// Sparkfun Artemis Redboard & ATP variant
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14);
+MAKE_PIN(P15, 15);
+MAKE_PIN(P16, 16);
+MAKE_PIN(P17, 17);
+MAKE_PIN(P18, 18);
+MAKE_PIN(P19, 19);
+MAKE_PIN(P20, 20);
+MAKE_PIN(P21, 21);
+MAKE_PIN(P22, 22);
+MAKE_PIN(P23, 23);
+MAKE_PIN(P24, 24);
+MAKE_PIN(P25, 25);
+MAKE_PIN(P26, 26);
+MAKE_PIN(P27, 27);
+MAKE_PIN(P28, 28);
+MAKE_PIN(P29, 29);
+MAKE_PIN(P30, 30);
+MAKE_PIN(P31, 31);
+MAKE_PIN(P32, 35);
+MAKE_PIN(P33, 33);
+MAKE_PIN(P34, 34);
+MAKE_PIN(P35, 35);
+MAKE_PIN(P36, 36);
+MAKE_PIN(P37, 37);
+MAKE_PIN(P38, 38);
+MAKE_PIN(P39, 39);
+#ifdef AM_PACKAGE_BGA // All The Pins (ATP) variant
+MAKE_PIN(P40, 40);
+MAKE_PIN(P41, 41);
+MAKE_PIN(P42, 42);
+MAKE_PIN(P43, 43);
+MAKE_PIN(P44, 44);
+MAKE_PIN(P45, 45);
+#endif
+#undef MAKE_PIN
+
 #else
 #error "Please define board in avrpins.h"
 
