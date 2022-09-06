@@ -117,13 +117,17 @@ public:
         }
 
         /**
-         * Retrieve the current muted status of the MiniDSP
+         * Retrieve the current muted status of the MiniDSP.
          * @return `true` if the device is muted, `false` otherwise.
          */
         bool isMuted() const {
                 return muted;
         }
 
+        /**
+         * Retrieve the current input source of the MiniDSP.
+         * @return Current input source: `ANALOG`, `TOSLINK` or `USB`.
+         */
         InputSource getInputSource() const {
                 return inputSource;
         }
