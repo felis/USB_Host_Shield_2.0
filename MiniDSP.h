@@ -217,5 +217,5 @@ private:
         // -dB value. Example: 19 represents -9.5dB.
         uint8_t volume = 0;
         bool muted = false;
-        InputSource inputSource = InputSource::UNKNOWN;
+        InputSource inputSource = InputSource::Unknown;
 };
