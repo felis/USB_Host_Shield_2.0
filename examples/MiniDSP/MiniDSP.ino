@@ -28,9 +28,9 @@ void OnMutedChange(bool isMuted) {
 void OnInputSourceChange(MiniDSP::InputSource inputSource) {
   String inputSourceStr;
 
-  if(inputSource == MiniDSP::InputSource::ANALOG) {
+  if(inputSource == MiniDSP::InputSource::Analog) {
     inputSourceStr = "Analog";
-  } else if(inputSource == MiniDSP::InputSource::TOSLINK) {
+  } else if(inputSource == MiniDSP::InputSource::Toslink) {
     inputSourceStr = "Toslink";
   } else if(inputSource == MiniDSP::InputSource::USB) {
     inputSourceStr = "USB";

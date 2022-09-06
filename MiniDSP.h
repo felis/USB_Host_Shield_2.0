@@ -40,10 +40,10 @@ class MiniDSP : public HIDUniversal {
 public:
 
         enum class InputSource : uint8_t {
-                ANALOG = 0x00,
-                TOSLINK = 0x01,
+                Analog = 0x00,
+                Toslink = 0x01,
                 USB = 0x02,
-                UNKNOWN = 0x03
+                Unknown = 0x03
         };
 
         /**
@@ -126,7 +126,7 @@ public:
 
         /**
          * Retrieve the current input source of the MiniDSP.
-         * @return Current input source: `ANALOG`, `TOSLINK` or `USB`.
+         * @return Current input source: `Analog`, `Toslink` or `USB`.
          */
         InputSource getInputSource() const {
                 return inputSource;
