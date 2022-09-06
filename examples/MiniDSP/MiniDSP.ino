@@ -25,6 +25,20 @@ void OnMutedChange(bool isMuted) {
   Serial.println("Muted status: " + String(isMuted ? "muted" : "unmuted"));
 }
 
+void OnInputSourceChange(MiniDSP::InputSource inputSource) {
+  String inputSourceStr;
+
+  if(inputSource == MiniDSP::InputSource::ANALOG) {
+    inputSourceStr = "Analog";
+  } else if(inputSource == MiniDSP::InputSource::TOSLINK) {
+    inputSourceStr = "Toslink";
+  } else if(inputSource == MiniDSP::InputSource::USB) {
+    inputSourceStr = "USB";
+  }
+
+  Serial.println("Input source: " + inputSourceStr);
+}
+
 void setup() {
   Serial.begin(115200);
 #if !defined(__MIPSEL__)
@@ -40,6 +54,7 @@ void setup() {
   MiniDSP.attachOnInit(&OnMiniDSPConnected);
   MiniDSP.attachOnVolumeChange(&OnVolumeChange);
   MiniDSP.attachOnMutedChange(&OnMutedChange);
+  MiniDSP.attachOnInputSourceChange(&OnInputSourceChange);
 }
 
 void loop() {
