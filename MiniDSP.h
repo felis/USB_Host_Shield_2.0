@@ -39,7 +39,7 @@
 class MiniDSP : public HIDUniversal {
 public:
 
-        enum class InputSource {
+        enum class InputSource : uint8_t {
                 ANALOG = 0x00,
                 TOSLINK = 0x01,
                 USB = 0x02,
