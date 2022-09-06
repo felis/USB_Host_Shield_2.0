@@ -39,6 +39,13 @@
 class MiniDSP : public HIDUniversal {
 public:
 
+        enum class InputSource {
+                ANALOG = 0x00,
+                TOSLINK = 0x01,
+                USB = 0x02,
+                UNKNOWN = 0x03
+        };
+
         /**
          * Constructor for the MiniDSP class.
          * @param  p   Pointer to the USB class instance.
@@ -81,6 +88,14 @@ public:
          */
         void attachOnMutedChange(void (*funcOnMutedChange)(bool)) {
                 pFuncOnMutedChange = funcOnMutedChange;
+        }
+
+        /**
+         * Used to call your own function when the input source has changed.
+         * @param funcOnInputSourceChange Function to call.
+         */
+        void attachOnInputSourceChange(void (*funcOnInputSourceChange)(InputSource)) {
+                pFuncOnInputSourceChange = funcOnInputSourceChange;
         }
 
         /**
@@ -159,6 +174,9 @@ private:
         void
         RequestStatus() const;
 
+        void
+        RequestInputSource() const;
+
         /**
          * Send the given MiniDSP command. This function will create a buffer
          * with the expected header and checksum and send it to the MiniDSP.
@@ -179,6 +197,9 @@ private:
         // Pointer to function called when muted status changes.
         void (*pFuncOnMutedChange)(bool) = nullptr;
 
+        // Pointer to function called when input source changes.
+        void (*pFuncOnInputSourceChange)(InputSource) = nullptr;
+
         // -----------------------------------------------------------------------------
 
         // MiniDSP state. Currently only volume and muted status are
@@ -188,4 +209,5 @@ private:
         // -dB value. Example: 19 represents -9.5dB.
         uint8_t volume = 0;
         bool muted = false;
+        InputSource inputSource = InputSource::UNKNOWN;
 };

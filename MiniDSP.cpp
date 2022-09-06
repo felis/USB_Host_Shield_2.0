@@ -24,6 +24,7 @@
 void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
 
         constexpr uint8_t StatusInputCommand[] = {0x05, 0xFF, 0xDA};
+        constexpr uint8_t InputSourceInputCommand[] = {0x05, 0xFF, 0xD9};
 
         // Only care about valid data for the MiniDSP 2x4HD.
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
@@ -52,6 +53,28 @@ void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id 
                 if(pFuncOnMutedChange != nullptr && mutedChanged)
                         pFuncOnMutedChange(muted);
         }
+
+
+        // Check if this is an input source update.
+        // First byte is the length, we ignore that for now.
+        if(memcmp(buf + 1, InputSourceInputCommand, sizeof (InputSourceInputCommand)) == 0) {
+
+                // Parse data.
+                // Response is of format [ length ] [ 0x05 0xFF 0xD9 ] [ source ].
+                const auto newInputSource = buf[sizeof (InputSourceInputCommand) + 1];
+
+                // Ensure we only interpret valid inputs.
+                if(newInputSource >= 0x00 && newInputSource <= 0x02){
+                        const auto inputSourceChanged = newInputSource != (char) inputSource;
+
+                        // Update values.
+                        inputSource = (InputSource) newInputSource;
+
+                        // Call callbacks.
+                        if(pFuncOnInputSourceChange != nullptr && inputSourceChanged)
+                                pFuncOnInputSourceChange(inputSource);
+                }
+        }
 };
 
 uint8_t MiniDSP::OnInitSuccessful() {
@@ -59,8 +82,9 @@ uint8_t MiniDSP::OnInitSuccessful() {
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID)
                 return 0;
 
-        // Request current status so we can initialize the values.
+        // Request current information so we can initialize the values.
         RequestStatus();
+        RequestInputSource();
 
         if(pFuncOnInit != nullptr)
                 pFuncOnInit();
@@ -108,4 +132,11 @@ void MiniDSP::RequestStatus() const {
         uint8_t RequestStatusOutputCommand[] = {0x05, 0xFF, 0xDA, 0x02};
 
         SendCommand(RequestStatusOutputCommand, sizeof (RequestStatusOutputCommand));
+}
+
+
+void MiniDSP::RequestInputSource() const {
+  uint8_t RequestInputSourceCommand[] = {0x05, 0xFF, 0xD9, 0x01};
+
+  SendCommand(RequestInputSourceCommand, sizeof(RequestInputSourceCommand));
 }
