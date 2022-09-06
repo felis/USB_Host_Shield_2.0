@@ -124,6 +124,10 @@ public:
                 return muted;
         }
 
+        InputSource getInputSource() const {
+                return inputSource;
+        }
+
 protected:
         /** @name HIDUniversal implementation */
         /**
