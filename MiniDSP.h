@@ -182,6 +182,9 @@ private:
         void
         RequestStatus() const;
 
+        /**
+         * Send the "Request input source" command to the MiniDSP.
+         */
         void
         RequestInputSource() const;
 

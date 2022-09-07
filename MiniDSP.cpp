@@ -22,22 +22,21 @@
 #include "MiniDSP.h"
 
 void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
-
-        constexpr uint8_t StatusInputCommand[] = {0x05, 0xFF, 0xDA};
-        constexpr uint8_t InputSourceInputCommand[] = {0x05, 0xFF, 0xD9};
+        constexpr uint8_t InputCommand[] = {0x05, 0xFF};
 
         // Only care about valid data for the MiniDSP 2x4HD.
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
                 return;
 
-        // Check if this is a status update.
-        // First byte is the length, we ignore that for now.
-        if(memcmp(buf + 1, StatusInputCommand, sizeof (StatusInputCommand)) == 0) {
+        // Only deal with valid inputs.
+        if(memcmp(buf + 1, InputCommand, sizeof (InputCommand)) != 0)
+                return;
 
+        if(buf[3] == 0xDA){
                 // Parse data.
                 // Response is of format [ length ] [ 0x05 0xFF 0xDA ] [ volume ] [ muted ].
-                const auto newVolume = buf[sizeof (StatusInputCommand) + 1];
-                const auto newIsMuted = (bool)buf[sizeof (StatusInputCommand) + 2];
+                const auto newVolume = buf[4];
+                const auto newIsMuted = (bool)buf[5];
 
                 const auto volumeChanged = newVolume != volume;
                 const auto mutedChanged = newIsMuted != muted;
@@ -56,12 +55,10 @@ void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id 
 
 
         // Check if this is an input source update.
-        // First byte is the length, we ignore that for now.
-        if(memcmp(buf + 1, InputSourceInputCommand, sizeof (InputSourceInputCommand)) == 0) {
-
+        if(buf[3] == 0xA9 || buf[3] == 0xD9){
                 // Parse data.
-                // Response is of format [ length ] [ 0x05 0xFF 0xD9 ] [ source ].
-                const auto newInputSource = buf[sizeof (InputSourceInputCommand) + 1];
+                // Response is of format [ length ] [ 0x05 0xFF 0xA9/0xD9 ] [ source ].
+                const auto newInputSource = buf[4];
 
                 // Ensure we only interpret valid inputs.
                 if(newInputSource >= 0x00 && newInputSource <= 0x02){
