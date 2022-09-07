@@ -22,13 +22,28 @@
 #include "MiniDSP.h"
 
 void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
-        constexpr uint8_t InputCommand[] = {0x05, 0xFF};
-
         // Only care about valid data for the MiniDSP 2x4HD.
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
                 return;
 
-        // Only deal with valid inputs.
+        // Check if this is a requested mute change.
+        if(buf[1] == 0x17){
+                // Response is of format [ length ] [ 0x17 ] [ muted ]
+                muted = (bool)buf[2];
+                Serial.println("Muted was set to: " + String(muted));
+        }
+
+        // Check if this is a requested volume change.
+        if(buf[1] == 0x42){
+                // Response is of format [ length ] [ 0x42 ] [ volume ]
+                volume = buf[2];
+                                Serial.println("Volume was set to: " + String(volume));
+
+        }
+
+        constexpr uint8_t InputCommand[] = {0x05, 0xFF};
+
+        // Only deal with status updates from now on.
         if(memcmp(buf + 1, InputCommand, sizeof (InputCommand)) != 0)
                 return;
 
@@ -161,4 +176,22 @@ void MiniDSP::RequestConfig() const {
         uint8_t RequestConfigCommand[] = {0x05, 0xFF, 0xD8, 0x01};
 
         SendCommand(RequestConfigCommand, sizeof(RequestConfigCommand));
+}
+
+void MiniDSP::setVolumeDB(float volumeDB) const {
+        // Only accept values between 0dB and -127.5dB.
+        // Don't do error handling.
+        if(volume > 0 || volume < -127.5){
+                return;
+        }
+
+        uint8_t SetVolumeCommand[] = {0x42, (int)-2*volumedB};
+
+        SendCommand(SetVolumeCommand, sizeof(SetVolumeCommand));
+}
+
+void MiniDSP::setMuted(bool muted) const {
+        uint8_t SetMutedommand[] = {0x17, muted ? 0x01 : 0x00};
+
+        SendCommand(SetMutedommand, sizeof(SetMutedommand));
 }

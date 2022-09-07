@@ -39,6 +39,21 @@ void OnInputSourceChange(MiniDSP::InputSource inputSource) {
   Serial.println("Input source: " + inputSourceStr);
 }
 
+void OnConfigChange(MiniDSP::Config config) {
+  String configStr = "Unknown";
+
+  if (config == MiniDSP::Config::Config_1) {
+    configStr = "Config 1";
+  } else if (config == MiniDSP::Config::Config_2) {
+    configStr = "Config 2";
+  } else if (config == MiniDSP::Config::Config_3) {
+    configStr = "Config 3";
+  } else if (config == MiniDSP::Config::Config_4) {
+    configStr = "Config 4";
+  }
+  Serial.println("Config: " + configStr);
+}
+
 void setup() {
   Serial.begin(115200);
 #if !defined(__MIPSEL__)
@@ -55,6 +70,7 @@ void setup() {
   MiniDSP.attachOnVolumeChange(&OnVolumeChange);
   MiniDSP.attachOnMutedChange(&OnMutedChange);
   MiniDSP.attachOnInputSourceChange(&OnInputSourceChange);
+  MiniDSP.attachOnConfigChange(&OnConfigChange);
 }
 
 void loop() {

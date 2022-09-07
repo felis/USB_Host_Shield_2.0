@@ -148,6 +148,27 @@ public:
                 return inputSource;
         }
 
+        /**
+         * Set volume of the MiniDSP in dB. Values between 0 and -127.5 are
+         * accepted. If any values outside if this range are passed, this
+         * function does nothing.
+         *
+         * Calling this function will not trigger the volume change callback.
+         *
+         * @param volumeDB New volume to set.
+         */
+        void setVolumeDB(float volumeDB) const;
+
+
+        /**
+         * Mute or unmute the MiniDSP.
+         *
+         * Calling this function will not trigger the mute change callback.
+         *
+         * @param muted Muted status.
+         */
+        void setMuted(bool muted) const;
+
 protected:
         /** @name HIDUniversal implementation */
         /**
