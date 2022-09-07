@@ -26,7 +26,7 @@ void OnMutedChange(bool isMuted) {
 }
 
 void OnInputSourceChange(MiniDSP::InputSource inputSource) {
-  String inputSourceStr;
+  String inputSourceStr = "Unknown";
 
   if(inputSource == MiniDSP::InputSource::Analog) {
     inputSourceStr = "Analog";
