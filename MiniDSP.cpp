@@ -183,7 +183,7 @@ void MiniDSP::setVolumeDB(float volumeDB) const {
                 return;
         }
 
-        uint8_t SetVolumeCommand[] = {0x42, (int)-2*volumeDB};
+        uint8_t SetVolumeCommand[] = {0x42, (uint8_t)(-2*volumeDB)};
 
         SendCommand(SetVolumeCommand, sizeof(SetVolumeCommand));
 }
