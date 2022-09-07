@@ -72,6 +72,25 @@ void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id 
                                 pFuncOnInputSourceChange(inputSource);
                 }
         }
+
+        // Check if this is an Config update.
+        if(buf[3] == 0xD8){
+                // Parse data.
+                // Response is of format [ length ] [ 0x05 0xFF 0xD8 ] [ config ].
+                const auto newConfig = buf[4];
+
+                // Ensure we only interpret valid inputs.
+                if(newConfig >= 0x00 && newConfig <= 0x03){
+                        const auto configChanged = newConfig != (char) config;
+
+                        // Update values.
+                        config = (Config) newConfig;
+
+                        // Call callbacks.
+                        if(pFuncOnConfigChange != nullptr && configChanged)
+                                pFuncOnConfigChange(config);
+                }
+        }
 };
 
 uint8_t MiniDSP::OnInitSuccessful() {
@@ -82,6 +101,7 @@ uint8_t MiniDSP::OnInitSuccessful() {
         // Request current information so we can initialize the values.
         RequestStatus();
         RequestInputSource();
+        RequestConfig();
 
         if(pFuncOnInit != nullptr)
                 pFuncOnInit();
@@ -131,9 +151,14 @@ void MiniDSP::RequestStatus() const {
         SendCommand(RequestStatusOutputCommand, sizeof (RequestStatusOutputCommand));
 }
 
-
 void MiniDSP::RequestInputSource() const {
-  uint8_t RequestInputSourceCommand[] = {0x05, 0xFF, 0xD9, 0x01};
+        uint8_t RequestInputSourceCommand[] = {0x05, 0xFF, 0xD9, 0x01};
 
-  SendCommand(RequestInputSourceCommand, sizeof(RequestInputSourceCommand));
+        SendCommand(RequestInputSourceCommand, sizeof(RequestInputSourceCommand));
+}
+
+void MiniDSP::RequestConfig() const {
+        uint8_t RequestConfigCommand[] = {0x05, 0xFF, 0xD8, 0x01};
+
+        SendCommand(RequestConfigCommand, sizeof(RequestConfigCommand));
 }

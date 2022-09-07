@@ -46,6 +46,14 @@ public:
                 Unknown = 0x03
         };
 
+        enum class Config : uint8_t {
+                Config_1 = 0x00,
+                Config_2 = 0x01,
+                Config_3 = 0x02,
+                Config_4 = 0x03,
+                Unknown = 0x04
+        };
+
         /**
          * Constructor for the MiniDSP class.
          * @param  p   Pointer to the USB class instance.
@@ -96,6 +104,14 @@ public:
          */
         void attachOnInputSourceChange(void (*funcOnInputSourceChange)(InputSource)) {
                 pFuncOnInputSourceChange = funcOnInputSourceChange;
+        }
+
+        /**
+         * Used to call your own function when the config has changed.
+         * @param funcOnConfigChange Function to call.
+         */
+        void attachOnConfigChange(void (*funcOnConfigChange)(Config)) {
+                pFuncOnConfigChange = funcOnConfigChange;
         }
 
         /**
@@ -189,6 +205,12 @@ private:
         RequestInputSource() const;
 
         /**
+         * Send the "Request config" command to the MiniDSP.
+         */
+        void
+        RequestConfig() const;
+
+        /**
          * Send the given MiniDSP command. This function will create a buffer
          * with the expected header and checksum and send it to the MiniDSP.
          * Responses will come in throug `ParseHIDData`.
@@ -211,6 +233,9 @@ private:
         // Pointer to function called when input source changes.
         void (*pFuncOnInputSourceChange)(InputSource) = nullptr;
 
+        // Pointer to function called when config changes.
+        void (*pFuncOnConfigChange)(Config) = nullptr;
+
         // -----------------------------------------------------------------------------
 
         // MiniDSP state. Currently only volume and muted status are
@@ -221,4 +246,5 @@ private:
         uint8_t volume = 0;
         bool muted = false;
         InputSource inputSource = InputSource::Unknown;
+        Config config = Config::Unknown;
 };
