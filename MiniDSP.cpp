@@ -30,14 +30,12 @@ void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id 
         if(buf[1] == 0x17){
                 // Response is of format [ length ] [ 0x17 ] [ muted ]
                 muted = (bool)buf[2];
-                Serial.println("Muted was set to: " + String(muted));
         }
 
         // Check if this is a requested volume change.
         if(buf[1] == 0x42){
                 // Response is of format [ length ] [ 0x42 ] [ volume ]
                 volume = buf[2];
-                                Serial.println("Volume was set to: " + String(volume));
 
         }
 
@@ -185,13 +183,13 @@ void MiniDSP::setVolumeDB(float volumeDB) const {
                 return;
         }
 
-        uint8_t SetVolumeCommand[] = {0x42, (int)-2*volumedB};
+        uint8_t SetVolumeCommand[] = {0x42, (int)-2*volumeDB};
 
         SendCommand(SetVolumeCommand, sizeof(SetVolumeCommand));
 }
 
 void MiniDSP::setMuted(bool muted) const {
-        uint8_t SetMutedommand[] = {0x17, muted ? 0x01 : 0x00};
+        uint8_t SetMutedommand[] = {0x17, muted ? (uint8_t)0x01 : (uint8_t)0x00};
 
         SendCommand(SetMutedommand, sizeof(SetMutedommand));
 }
