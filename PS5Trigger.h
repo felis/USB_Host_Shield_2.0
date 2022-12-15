@@ -152,7 +152,7 @@ public:
      * @param frequency Vibration frequency of the trigger
      */
     void setTriggerForceEffect(uint8_t start, bool keep, uint8_t begin_force, uint8_t mid_force, uint8_t end_force, uint8_t frequency) {
-        data.effectType = EffectType::SectionResitance;
+        data.effectType = EffectType::EffectEx;
         data.EffectEx.startPosition = start;
         data.EffectEx.keepEffect = keep;
         data.EffectEx.beginForce = begin_force;
