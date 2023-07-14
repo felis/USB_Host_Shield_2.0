@@ -1320,6 +1320,135 @@ MAKE_PIN(P24, Pin_nRF51822_to_Arduino(D24));
 
 #undef MAKE_PIN
 
+#elif defined(__IMXRT1062__) && (defined(ARDUINO_TEENSY40) || defined(ARDUINO_TEENSY41))
+// Teensy 4.x
+
+#include "core_pins.h"
+
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWriteFast(pin, HIGH);\
+  } \
+  static void Clear() { \
+    digitalWriteFast(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+    pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+    pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalReadFast(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14);
+MAKE_PIN(P15, 15);
+MAKE_PIN(P16, 16);
+MAKE_PIN(P17, 17);
+MAKE_PIN(P18, 18);
+MAKE_PIN(P19, 19);
+MAKE_PIN(P20, 20);
+MAKE_PIN(P21, 21);
+MAKE_PIN(P22, 22);
+MAKE_PIN(P23, 23);
+MAKE_PIN(P24, 24);
+MAKE_PIN(P25, 25);
+MAKE_PIN(P26, 26);
+MAKE_PIN(P27, 27);
+MAKE_PIN(P28, 28);
+MAKE_PIN(P29, 29);
+MAKE_PIN(P30, 30);
+MAKE_PIN(P31, 31);
+MAKE_PIN(P32, 35);
+MAKE_PIN(P33, 33);
+MAKE_PIN(P34, 34);
+MAKE_PIN(P35, 35);
+MAKE_PIN(P36, 36);
+MAKE_PIN(P37, 37);
+MAKE_PIN(P38, 38);
+MAKE_PIN(P39, 39);
+#ifdef ARDUINO_TEENSY41
+MAKE_PIN(P40, 40);
+MAKE_PIN(P41, 41);
+MAKE_PIN(P42, 42);
+MAKE_PIN(P43, 43);
+MAKE_PIN(P44, 44);
+MAKE_PIN(P45, 45);
+MAKE_PIN(P46, 46);
+MAKE_PIN(P47, 47);
+MAKE_PIN(P48, 48);
+MAKE_PIN(P49, 49);
+MAKE_PIN(P50, 50);
+MAKE_PIN(P51, 51);
+MAKE_PIN(P52, 52);
+MAKE_PIN(P53, 53);
+MAKE_PIN(P54, 54);
+#endif
+
+#undef MAKE_PIN
+
+#elif defined(ARDUINO_ARCH_RENESAS_UNO)
+#define MAKE_PIN(className, pin) \
+class className { \
+public: \
+  static void Set() { \
+    digitalWrite(pin, HIGH); \
+  } \
+  static void Clear() { \
+    digitalWrite(pin, LOW); \
+  } \
+  static void SetDirRead() { \
+      pinMode(pin, INPUT); \
+  } \
+  static void SetDirWrite() { \
+      pinMode(pin, OUTPUT); \
+  } \
+  static uint8_t IsSet() { \
+    return digitalRead(pin); \
+  } \
+};
+
+MAKE_PIN(P0, 0);
+MAKE_PIN(P1, 1);
+MAKE_PIN(P2, 2);
+MAKE_PIN(P3, 3);
+MAKE_PIN(P4, 4);
+MAKE_PIN(P5, 5);
+MAKE_PIN(P6, 6);
+MAKE_PIN(P7, 7);
+MAKE_PIN(P8, 8);
+MAKE_PIN(P9, 9);
+MAKE_PIN(P10, 10);
+MAKE_PIN(P11, 11);
+MAKE_PIN(P12, 12);
+MAKE_PIN(P13, 13);
+MAKE_PIN(P14, 14); // A0
+MAKE_PIN(P15, 15); // A1
+MAKE_PIN(P16, 16); // A2
+MAKE_PIN(P17, 17); // A3
+MAKE_PIN(P18, 18); // A4
+MAKE_PIN(P19, 19); // A5
+
+#undef MAKE_PIN
+
 #elif defined(STM32F446xx)
 // NUCLEO-F446RE
 
