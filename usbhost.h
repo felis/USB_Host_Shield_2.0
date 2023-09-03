@@ -122,6 +122,8 @@ typedef SPi< P14, P13, P12, P15 > spi;
 typedef SPi< P18, P23, P19, P5 > spi;
 #elif defined(ARDUINO_NRF52840_FEATHER)
 typedef SPi< P26, P25, P24, P5 > spi;
+#elif defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
+typedef SPi< P8, P10, P9, P7 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif

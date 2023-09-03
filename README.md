@@ -122,6 +122,8 @@ Currently the following boards are supported by the library:
 * Any board supported by [MightyCore](https://github.com/MCUdude/MightyCore)
 * RedBearLab nRF51822
 * Adafruit Feather nRF52840 Express
+* SEEED XIAO nRF52840 Sense
+    * Note it uses pin 7 and 5 for SS and INT respectively
 * Digilent chipKIT
     * Please see: <https://chome.nerpa.tech/mcu/usb/running-usb-host-code-on-digilent-chipkit-board>.
 * STM32F4
