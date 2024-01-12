@@ -1377,7 +1377,7 @@ MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
 #undef MAKE_PIN
 
 
-#elif defined(ARDUINO_NRF52840_FEATHER)
+#elif defined(ARDUINO_NRF52840_FEATHER) || defined(ARDUINO_NRF52840_FEATHER_SENSE)
 
 #define MAKE_PIN(className, pin) \
 class className { \
