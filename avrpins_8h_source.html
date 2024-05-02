@@ -1635,292 +1635,354 @@ $(function() {
 <div class="line"><a name="l01567"></a><span class="lineno"> 1567</span>&#160; </div>
 <div class="line"><a name="l01568"></a><span class="lineno"> 1568</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
 <div class="line"><a name="l01569"></a><span class="lineno"> 1569</span>&#160; </div>
-<div class="line"><a name="l01570"></a><span class="lineno"> 1570</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l01571"></a><span class="lineno"> 1571</span>&#160;<span class="preprocessor">#error &quot;Please define board in avrpins.h&quot;</span></div>
-<div class="line"><a name="l01572"></a><span class="lineno"> 1572</span>&#160; </div>
-<div class="line"><a name="l01573"></a><span class="lineno"> 1573</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01574"></a><span class="lineno"> 1574</span>&#160; </div>
-<div class="line"><a name="l01575"></a><span class="lineno"> 1575</span>&#160;<span class="preprocessor">#elif defined(__ARDUINO_ARC__)</span></div>
-<div class="line"><a name="l01576"></a><span class="lineno"> 1576</span>&#160; </div>
-<div class="line"><a name="l01577"></a><span class="lineno"> 1577</span>&#160;<span class="preprocessor">#include &lt;avr/pgmspace.h&gt;</span></div>
-<div class="line"><a name="l01578"></a><span class="lineno"> 1578</span>&#160;<span class="comment">// Pointers are 32 bits on arc</span></div>
-<div class="line"><a name="l01579"></a><span class="lineno"> 1579</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_dword(p)</span></div>
-<div class="line"><a name="l01580"></a><span class="lineno"> 1580</span>&#160; </div>
-<div class="line"><a name="l01581"></a><span class="lineno"> 1581</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
-<div class="line"><a name="l01582"></a><span class="lineno"> 1582</span>&#160;<span class="preprocessor">class className { \</span></div>
-<div class="line"><a name="l01583"></a><span class="lineno"> 1583</span>&#160;<span class="preprocessor">public: \</span></div>
-<div class="line"><a name="l01584"></a><span class="lineno"> 1584</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
-<div class="line"><a name="l01585"></a><span class="lineno"> 1585</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
-<div class="line"><a name="l01586"></a><span class="lineno"> 1586</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01587"></a><span class="lineno"> 1587</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
-<div class="line"><a name="l01588"></a><span class="lineno"> 1588</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
-<div class="line"><a name="l01589"></a><span class="lineno"> 1589</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01590"></a><span class="lineno"> 1590</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
-<div class="line"><a name="l01591"></a><span class="lineno"> 1591</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
-<div class="line"><a name="l01592"></a><span class="lineno"> 1592</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01593"></a><span class="lineno"> 1593</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
-<div class="line"><a name="l01594"></a><span class="lineno"> 1594</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
-<div class="line"><a name="l01595"></a><span class="lineno"> 1595</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01596"></a><span class="lineno"> 1596</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
-<div class="line"><a name="l01597"></a><span class="lineno"> 1597</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
-<div class="line"><a name="l01598"></a><span class="lineno"> 1598</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01599"></a><span class="lineno"> 1599</span>&#160;<span class="preprocessor">};</span></div>
-<div class="line"><a name="l01600"></a><span class="lineno"> 1600</span>&#160; </div>
-<div class="line"><a name="l01601"></a><span class="lineno"> 1601</span>&#160;MAKE_PIN(P0, 0);</div>
-<div class="line"><a name="l01602"></a><span class="lineno"> 1602</span>&#160;MAKE_PIN(P1, 1);</div>
-<div class="line"><a name="l01603"></a><span class="lineno"> 1603</span>&#160;MAKE_PIN(P2, 2);</div>
-<div class="line"><a name="l01604"></a><span class="lineno"> 1604</span>&#160;MAKE_PIN(P3, 3); <span class="comment">//PWM</span></div>
-<div class="line"><a name="l01605"></a><span class="lineno"> 1605</span>&#160;MAKE_PIN(P4, 4);</div>
-<div class="line"><a name="l01606"></a><span class="lineno"> 1606</span>&#160;MAKE_PIN(P5, 5); <span class="comment">//PWM</span></div>
-<div class="line"><a name="l01607"></a><span class="lineno"> 1607</span>&#160;MAKE_PIN(P6, 6); <span class="comment">//PWM</span></div>
-<div class="line"><a name="l01608"></a><span class="lineno"> 1608</span>&#160;MAKE_PIN(P7, 7);</div>
-<div class="line"><a name="l01609"></a><span class="lineno"> 1609</span>&#160;MAKE_PIN(P8, 8);</div>
-<div class="line"><a name="l01610"></a><span class="lineno"> 1610</span>&#160;MAKE_PIN(P9, 9); <span class="comment">//PWM</span></div>
-<div class="line"><a name="l01611"></a><span class="lineno"> 1611</span>&#160; </div>
-<div class="line"><a name="l01612"></a><span class="lineno"> 1612</span>&#160;MAKE_PIN(P10, 10); <span class="comment">//SPI SS</span></div>
-<div class="line"><a name="l01613"></a><span class="lineno"> 1613</span>&#160;MAKE_PIN(P11, 11); <span class="comment">//SPI MOSI</span></div>
-<div class="line"><a name="l01614"></a><span class="lineno"> 1614</span>&#160;MAKE_PIN(P12, 12); <span class="comment">//SPI MISO</span></div>
-<div class="line"><a name="l01615"></a><span class="lineno"> 1615</span>&#160;MAKE_PIN(P13, 13); <span class="comment">//SPI SCK / BUILTIN LED</span></div>
-<div class="line"><a name="l01616"></a><span class="lineno"> 1616</span>&#160; </div>
-<div class="line"><a name="l01617"></a><span class="lineno"> 1617</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// A0</span></div>
-<div class="line"><a name="l01618"></a><span class="lineno"> 1618</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// A1</span></div>
-<div class="line"><a name="l01619"></a><span class="lineno"> 1619</span>&#160;MAKE_PIN(P16, 16); <span class="comment">// A2</span></div>
-<div class="line"><a name="l01620"></a><span class="lineno"> 1620</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// A3</span></div>
-<div class="line"><a name="l01621"></a><span class="lineno"> 1621</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// A4 SDA</span></div>
-<div class="line"><a name="l01622"></a><span class="lineno"> 1622</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// A5 SCL</span></div>
-<div class="line"><a name="l01623"></a><span class="lineno"> 1623</span>&#160;MAKE_PIN(P20, 20); <span class="comment">// ATN</span></div>
-<div class="line"><a name="l01624"></a><span class="lineno"> 1624</span>&#160; </div>
-<div class="line"><a name="l01625"></a><span class="lineno"> 1625</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
-<div class="line"><a name="l01626"></a><span class="lineno"> 1626</span>&#160; </div>
-<div class="line"><a name="l01627"></a><span class="lineno"> 1627</span>&#160;<span class="preprocessor">#elif defined(__ARDUINO_X86__) </span><span class="comment">// Intel Galileo, Intel Galileo 2 and Intel Edison</span></div>
-<div class="line"><a name="l01628"></a><span class="lineno"> 1628</span>&#160; </div>
-<div class="line"><a name="l01629"></a><span class="lineno"> 1629</span>&#160;<span class="preprocessor">#include &lt;avr/pgmspace.h&gt;</span></div>
-<div class="line"><a name="l01630"></a><span class="lineno"> 1630</span>&#160; </div>
-<div class="line"><a name="l01631"></a><span class="lineno"> 1631</span>&#160;<span class="comment">// Pointers are 32 bits on x86</span></div>
-<div class="line"><a name="l01632"></a><span class="lineno"> 1632</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_dword(p)</span></div>
-<div class="line"><a name="l01633"></a><span class="lineno"> 1633</span>&#160; </div>
-<div class="line"><a name="l01634"></a><span class="lineno"> 1634</span>&#160;<span class="preprocessor">#if PLATFORM_ID == 0xE1 </span><span class="comment">// Edison platform id</span></div>
-<div class="line"><a name="l01635"></a><span class="lineno"> 1635</span>&#160;<span class="preprocessor">#define pinToFastPin(pin) 1 </span><span class="comment">// As far as I can tell all pins can be used as fast pins</span></div>
-<div class="line"><a name="l01636"></a><span class="lineno"> 1636</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01637"></a><span class="lineno"> 1637</span>&#160; </div>
-<div class="line"><a name="l01638"></a><span class="lineno"> 1638</span>&#160;<span class="comment">// Pin 2 and 3 on the Intel Galileo supports a higher rate,</span></div>
-<div class="line"><a name="l01639"></a><span class="lineno"> 1639</span>&#160;<span class="comment">// so it is recommended to use one of these as the SS pin.</span></div>
-<div class="line"><a name="l01640"></a><span class="lineno"> 1640</span>&#160; </div>
-<div class="line"><a name="l01641"></a><span class="lineno"> 1641</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
-<div class="line"><a name="l01642"></a><span class="lineno"> 1642</span>&#160;<span class="preprocessor">class className { \</span></div>
-<div class="line"><a name="l01643"></a><span class="lineno"> 1643</span>&#160;<span class="preprocessor">public: \</span></div>
-<div class="line"><a name="l01644"></a><span class="lineno"> 1644</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
-<div class="line"><a name="l01645"></a><span class="lineno"> 1645</span>&#160;<span class="preprocessor">    fastDigitalWrite(pin, HIGH); \</span></div>
-<div class="line"><a name="l01646"></a><span class="lineno"> 1646</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01647"></a><span class="lineno"> 1647</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
-<div class="line"><a name="l01648"></a><span class="lineno"> 1648</span>&#160;<span class="preprocessor">    fastDigitalWrite(pin, LOW); \</span></div>
-<div class="line"><a name="l01649"></a><span class="lineno"> 1649</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01650"></a><span class="lineno"> 1650</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
-<div class="line"><a name="l01651"></a><span class="lineno"> 1651</span>&#160;<span class="preprocessor">    if (pinToFastPin(pin)) \</span></div>
-<div class="line"><a name="l01652"></a><span class="lineno"> 1652</span>&#160;<span class="preprocessor">      pinMode(pin, INPUT_FAST); \</span></div>
-<div class="line"><a name="l01653"></a><span class="lineno"> 1653</span>&#160;<span class="preprocessor">    else \</span></div>
-<div class="line"><a name="l01654"></a><span class="lineno"> 1654</span>&#160;<span class="preprocessor">      pinMode(pin, INPUT); \</span></div>
-<div class="line"><a name="l01655"></a><span class="lineno"> 1655</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01656"></a><span class="lineno"> 1656</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
-<div class="line"><a name="l01657"></a><span class="lineno"> 1657</span>&#160;<span class="preprocessor">    if (pinToFastPin(pin)) \</span></div>
-<div class="line"><a name="l01658"></a><span class="lineno"> 1658</span>&#160;<span class="preprocessor">      pinMode(pin, OUTPUT_FAST); \</span></div>
-<div class="line"><a name="l01659"></a><span class="lineno"> 1659</span>&#160;<span class="preprocessor">    else \</span></div>
-<div class="line"><a name="l01660"></a><span class="lineno"> 1660</span>&#160;<span class="preprocessor">      pinMode(pin, OUTPUT); \</span></div>
-<div class="line"><a name="l01661"></a><span class="lineno"> 1661</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01662"></a><span class="lineno"> 1662</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
-<div class="line"><a name="l01663"></a><span class="lineno"> 1663</span>&#160;<span class="preprocessor">    return fastDigitalRead(pin); \</span></div>
-<div class="line"><a name="l01664"></a><span class="lineno"> 1664</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01665"></a><span class="lineno"> 1665</span>&#160;<span class="preprocessor">};</span></div>
-<div class="line"><a name="l01666"></a><span class="lineno"> 1666</span>&#160; </div>
-<div class="line"><a name="l01667"></a><span class="lineno"> 1667</span>&#160;MAKE_PIN(P0, 0);</div>
-<div class="line"><a name="l01668"></a><span class="lineno"> 1668</span>&#160;MAKE_PIN(P1, 1);</div>
-<div class="line"><a name="l01669"></a><span class="lineno"> 1669</span>&#160;MAKE_PIN(P2, 2);</div>
-<div class="line"><a name="l01670"></a><span class="lineno"> 1670</span>&#160;MAKE_PIN(P3, 3);</div>
-<div class="line"><a name="l01671"></a><span class="lineno"> 1671</span>&#160;MAKE_PIN(P4, 4);</div>
-<div class="line"><a name="l01672"></a><span class="lineno"> 1672</span>&#160;MAKE_PIN(P5, 5);</div>
-<div class="line"><a name="l01673"></a><span class="lineno"> 1673</span>&#160;MAKE_PIN(P6, 6);</div>
-<div class="line"><a name="l01674"></a><span class="lineno"> 1674</span>&#160;MAKE_PIN(P7, 7);</div>
-<div class="line"><a name="l01675"></a><span class="lineno"> 1675</span>&#160;MAKE_PIN(P8, 8);</div>
-<div class="line"><a name="l01676"></a><span class="lineno"> 1676</span>&#160;MAKE_PIN(P9, 9);</div>
-<div class="line"><a name="l01677"></a><span class="lineno"> 1677</span>&#160;MAKE_PIN(P10, 10);</div>
-<div class="line"><a name="l01678"></a><span class="lineno"> 1678</span>&#160;MAKE_PIN(P11, 11);</div>
-<div class="line"><a name="l01679"></a><span class="lineno"> 1679</span>&#160;MAKE_PIN(P12, 12);</div>
-<div class="line"><a name="l01680"></a><span class="lineno"> 1680</span>&#160;MAKE_PIN(P13, 13);</div>
-<div class="line"><a name="l01681"></a><span class="lineno"> 1681</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// A0</span></div>
-<div class="line"><a name="l01682"></a><span class="lineno"> 1682</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// A1</span></div>
-<div class="line"><a name="l01683"></a><span class="lineno"> 1683</span>&#160;MAKE_PIN(P16, 16); <span class="comment">// A2</span></div>
-<div class="line"><a name="l01684"></a><span class="lineno"> 1684</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// A3</span></div>
-<div class="line"><a name="l01685"></a><span class="lineno"> 1685</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// A4</span></div>
-<div class="line"><a name="l01686"></a><span class="lineno"> 1686</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// A5</span></div>
-<div class="line"><a name="l01687"></a><span class="lineno"> 1687</span>&#160; </div>
-<div class="line"><a name="l01688"></a><span class="lineno"> 1688</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
-<div class="line"><a name="l01689"></a><span class="lineno"> 1689</span>&#160; </div>
-<div class="line"><a name="l01690"></a><span class="lineno"> 1690</span>&#160;<span class="preprocessor">#elif defined(__MIPSEL__)</span></div>
-<div class="line"><a name="l01691"></a><span class="lineno"> 1691</span>&#160;<span class="comment">// MIPSEL (MIPS architecture using a little endian byte order)</span></div>
+<div class="line"><a name="l01570"></a><span class="lineno"> 1570</span>&#160; </div>
+<div class="line"><a name="l01571"></a><span class="lineno"> 1571</span>&#160; </div>
+<div class="line"><a name="l01572"></a><span class="lineno"> 1572</span>&#160;<span class="preprocessor">#elif defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)</span></div>
+<div class="line"><a name="l01573"></a><span class="lineno"> 1573</span>&#160; </div>
+<div class="line"><a name="l01574"></a><span class="lineno"> 1574</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
+<div class="line"><a name="l01575"></a><span class="lineno"> 1575</span>&#160;<span class="preprocessor">class className { \</span></div>
+<div class="line"><a name="l01576"></a><span class="lineno"> 1576</span>&#160;<span class="preprocessor">public: \</span></div>
+<div class="line"><a name="l01577"></a><span class="lineno"> 1577</span>&#160;<span class="preprocessor">    static void Set() { \</span></div>
+<div class="line"><a name="l01578"></a><span class="lineno"> 1578</span>&#160;<span class="preprocessor">        nrf_gpio_pin_set(pin); \</span></div>
+<div class="line"><a name="l01579"></a><span class="lineno"> 1579</span>&#160;<span class="preprocessor">    } \</span></div>
+<div class="line"><a name="l01580"></a><span class="lineno"> 1580</span>&#160;<span class="preprocessor">    static void Clear() { \</span></div>
+<div class="line"><a name="l01581"></a><span class="lineno"> 1581</span>&#160;<span class="preprocessor">        nrf_gpio_pin_clear(pin); \</span></div>
+<div class="line"><a name="l01582"></a><span class="lineno"> 1582</span>&#160;<span class="preprocessor">    } \</span></div>
+<div class="line"><a name="l01583"></a><span class="lineno"> 1583</span>&#160;<span class="preprocessor">    static void SetDirRead() { \</span></div>
+<div class="line"><a name="l01584"></a><span class="lineno"> 1584</span>&#160;<span class="preprocessor">        nrf_gpio_cfg_input(pin, NRF_GPIO_PIN_NOPULL); \</span></div>
+<div class="line"><a name="l01585"></a><span class="lineno"> 1585</span>&#160;<span class="preprocessor">    } \</span></div>
+<div class="line"><a name="l01586"></a><span class="lineno"> 1586</span>&#160;<span class="preprocessor">    static void SetDirWrite() { \</span></div>
+<div class="line"><a name="l01587"></a><span class="lineno"> 1587</span>&#160;<span class="preprocessor">        nrf_gpio_cfg_output(pin); \</span></div>
+<div class="line"><a name="l01588"></a><span class="lineno"> 1588</span>&#160;<span class="preprocessor">    } \</span></div>
+<div class="line"><a name="l01589"></a><span class="lineno"> 1589</span>&#160;<span class="preprocessor">    static uint8_t IsSet() { \</span></div>
+<div class="line"><a name="l01590"></a><span class="lineno"> 1590</span>&#160;<span class="preprocessor">        return (uint8_t)nrf_gpio_pin_read(pin); \</span></div>
+<div class="line"><a name="l01591"></a><span class="lineno"> 1591</span>&#160;<span class="preprocessor">    } \</span></div>
+<div class="line"><a name="l01592"></a><span class="lineno"> 1592</span>&#160;<span class="preprocessor">};</span></div>
+<div class="line"><a name="l01593"></a><span class="lineno"> 1593</span>&#160; </div>
+<div class="line"><a name="l01594"></a><span class="lineno"> 1594</span>&#160;<span class="comment">// Based on variants/feather_nrf52840_express/variant.cpp</span></div>
+<div class="line"><a name="l01595"></a><span class="lineno"> 1595</span>&#160;<span class="comment">// g_ADigitalPinMap could be used directly, but it would be slower</span></div>
+<div class="line"><a name="l01596"></a><span class="lineno"> 1596</span>&#160;MAKE_PIN(P0, (2));</div>
+<div class="line"><a name="l01597"></a><span class="lineno"> 1597</span>&#160;MAKE_PIN(P1, (3));</div>
+<div class="line"><a name="l01598"></a><span class="lineno"> 1598</span>&#160;MAKE_PIN(P2, (28));</div>
+<div class="line"><a name="l01599"></a><span class="lineno"> 1599</span>&#160;MAKE_PIN(P3, (29));</div>
+<div class="line"><a name="l01600"></a><span class="lineno"> 1600</span>&#160;MAKE_PIN(P4, (4));</div>
+<div class="line"><a name="l01601"></a><span class="lineno"> 1601</span>&#160;MAKE_PIN(P5, (5));</div>
+<div class="line"><a name="l01602"></a><span class="lineno"> 1602</span>&#160;MAKE_PIN(P6, (43));</div>
+<div class="line"><a name="l01603"></a><span class="lineno"> 1603</span>&#160;MAKE_PIN(P7, (44));</div>
+<div class="line"><a name="l01604"></a><span class="lineno"> 1604</span>&#160;MAKE_PIN(P8, (45));</div>
+<div class="line"><a name="l01605"></a><span class="lineno"> 1605</span>&#160;MAKE_PIN(P9, (46));</div>
+<div class="line"><a name="l01606"></a><span class="lineno"> 1606</span>&#160;MAKE_PIN(P10, (47));</div>
+<div class="line"><a name="l01607"></a><span class="lineno"> 1607</span>&#160;MAKE_PIN(P11, (26));</div>
+<div class="line"><a name="l01608"></a><span class="lineno"> 1608</span>&#160;MAKE_PIN(P12, (6));</div>
+<div class="line"><a name="l01609"></a><span class="lineno"> 1609</span>&#160;MAKE_PIN(P13, (30));</div>
+<div class="line"><a name="l01610"></a><span class="lineno"> 1610</span>&#160;MAKE_PIN(P14, (14));</div>
+<div class="line"><a name="l01611"></a><span class="lineno"> 1611</span>&#160;MAKE_PIN(P15, (40));</div>
+<div class="line"><a name="l01612"></a><span class="lineno"> 1612</span>&#160;MAKE_PIN(P17, (27));</div>
+<div class="line"><a name="l01613"></a><span class="lineno"> 1613</span>&#160;MAKE_PIN(P18, (7));</div>
+<div class="line"><a name="l01614"></a><span class="lineno"> 1614</span>&#160;MAKE_PIN(P16, (11));</div>
+<div class="line"><a name="l01615"></a><span class="lineno"> 1615</span>&#160;MAKE_PIN(P19, (42));</div>
+<div class="line"><a name="l01616"></a><span class="lineno"> 1616</span>&#160;MAKE_PIN(P20, (32));</div>
+<div class="line"><a name="l01617"></a><span class="lineno"> 1617</span>&#160;MAKE_PIN(P21, (16));</div>
+<div class="line"><a name="l01618"></a><span class="lineno"> 1618</span>&#160;MAKE_PIN(P22, (13));</div>
+<div class="line"><a name="l01619"></a><span class="lineno"> 1619</span>&#160;MAKE_PIN(P23, (17));</div>
+<div class="line"><a name="l01620"></a><span class="lineno"> 1620</span>&#160;MAKE_PIN(P24, (21));</div>
+<div class="line"><a name="l01621"></a><span class="lineno"> 1621</span>&#160;MAKE_PIN(P25, (25));</div>
+<div class="line"><a name="l01622"></a><span class="lineno"> 1622</span>&#160;MAKE_PIN(P26, (20));</div>
+<div class="line"><a name="l01623"></a><span class="lineno"> 1623</span>&#160;MAKE_PIN(P27, (24));</div>
+<div class="line"><a name="l01624"></a><span class="lineno"> 1624</span>&#160;MAKE_PIN(P28, (22));</div>
+<div class="line"><a name="l01625"></a><span class="lineno"> 1625</span>&#160;MAKE_PIN(P29, (23));</div>
+<div class="line"><a name="l01626"></a><span class="lineno"> 1626</span>&#160;MAKE_PIN(P30, (9));</div>
+<div class="line"><a name="l01627"></a><span class="lineno"> 1627</span>&#160;MAKE_PIN(P31, (10));</div>
+<div class="line"><a name="l01628"></a><span class="lineno"> 1628</span>&#160;MAKE_PIN(P32, (31));</div>
+<div class="line"><a name="l01629"></a><span class="lineno"> 1629</span>&#160; </div>
+<div class="line"><a name="l01630"></a><span class="lineno"> 1630</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01631"></a><span class="lineno"> 1631</span>&#160; </div>
+<div class="line"><a name="l01632"></a><span class="lineno"> 1632</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l01633"></a><span class="lineno"> 1633</span>&#160;<span class="preprocessor">#error &quot;Please define board in avrpins.h&quot;</span></div>
+<div class="line"><a name="l01634"></a><span class="lineno"> 1634</span>&#160; </div>
+<div class="line"><a name="l01635"></a><span class="lineno"> 1635</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01636"></a><span class="lineno"> 1636</span>&#160; </div>
+<div class="line"><a name="l01637"></a><span class="lineno"> 1637</span>&#160;<span class="preprocessor">#elif defined(__ARDUINO_ARC__)</span></div>
+<div class="line"><a name="l01638"></a><span class="lineno"> 1638</span>&#160; </div>
+<div class="line"><a name="l01639"></a><span class="lineno"> 1639</span>&#160;<span class="preprocessor">#include &lt;avr/pgmspace.h&gt;</span></div>
+<div class="line"><a name="l01640"></a><span class="lineno"> 1640</span>&#160;<span class="comment">// Pointers are 32 bits on arc</span></div>
+<div class="line"><a name="l01641"></a><span class="lineno"> 1641</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_dword(p)</span></div>
+<div class="line"><a name="l01642"></a><span class="lineno"> 1642</span>&#160; </div>
+<div class="line"><a name="l01643"></a><span class="lineno"> 1643</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
+<div class="line"><a name="l01644"></a><span class="lineno"> 1644</span>&#160;<span class="preprocessor">class className { \</span></div>
+<div class="line"><a name="l01645"></a><span class="lineno"> 1645</span>&#160;<span class="preprocessor">public: \</span></div>
+<div class="line"><a name="l01646"></a><span class="lineno"> 1646</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
+<div class="line"><a name="l01647"></a><span class="lineno"> 1647</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
+<div class="line"><a name="l01648"></a><span class="lineno"> 1648</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01649"></a><span class="lineno"> 1649</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
+<div class="line"><a name="l01650"></a><span class="lineno"> 1650</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
+<div class="line"><a name="l01651"></a><span class="lineno"> 1651</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01652"></a><span class="lineno"> 1652</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
+<div class="line"><a name="l01653"></a><span class="lineno"> 1653</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
+<div class="line"><a name="l01654"></a><span class="lineno"> 1654</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01655"></a><span class="lineno"> 1655</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
+<div class="line"><a name="l01656"></a><span class="lineno"> 1656</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
+<div class="line"><a name="l01657"></a><span class="lineno"> 1657</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01658"></a><span class="lineno"> 1658</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
+<div class="line"><a name="l01659"></a><span class="lineno"> 1659</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
+<div class="line"><a name="l01660"></a><span class="lineno"> 1660</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01661"></a><span class="lineno"> 1661</span>&#160;<span class="preprocessor">};</span></div>
+<div class="line"><a name="l01662"></a><span class="lineno"> 1662</span>&#160; </div>
+<div class="line"><a name="l01663"></a><span class="lineno"> 1663</span>&#160;MAKE_PIN(P0, 0);</div>
+<div class="line"><a name="l01664"></a><span class="lineno"> 1664</span>&#160;MAKE_PIN(P1, 1);</div>
+<div class="line"><a name="l01665"></a><span class="lineno"> 1665</span>&#160;MAKE_PIN(P2, 2);</div>
+<div class="line"><a name="l01666"></a><span class="lineno"> 1666</span>&#160;MAKE_PIN(P3, 3); <span class="comment">//PWM</span></div>
+<div class="line"><a name="l01667"></a><span class="lineno"> 1667</span>&#160;MAKE_PIN(P4, 4);</div>
+<div class="line"><a name="l01668"></a><span class="lineno"> 1668</span>&#160;MAKE_PIN(P5, 5); <span class="comment">//PWM</span></div>
+<div class="line"><a name="l01669"></a><span class="lineno"> 1669</span>&#160;MAKE_PIN(P6, 6); <span class="comment">//PWM</span></div>
+<div class="line"><a name="l01670"></a><span class="lineno"> 1670</span>&#160;MAKE_PIN(P7, 7);</div>
+<div class="line"><a name="l01671"></a><span class="lineno"> 1671</span>&#160;MAKE_PIN(P8, 8);</div>
+<div class="line"><a name="l01672"></a><span class="lineno"> 1672</span>&#160;MAKE_PIN(P9, 9); <span class="comment">//PWM</span></div>
+<div class="line"><a name="l01673"></a><span class="lineno"> 1673</span>&#160; </div>
+<div class="line"><a name="l01674"></a><span class="lineno"> 1674</span>&#160;MAKE_PIN(P10, 10); <span class="comment">//SPI SS</span></div>
+<div class="line"><a name="l01675"></a><span class="lineno"> 1675</span>&#160;MAKE_PIN(P11, 11); <span class="comment">//SPI MOSI</span></div>
+<div class="line"><a name="l01676"></a><span class="lineno"> 1676</span>&#160;MAKE_PIN(P12, 12); <span class="comment">//SPI MISO</span></div>
+<div class="line"><a name="l01677"></a><span class="lineno"> 1677</span>&#160;MAKE_PIN(P13, 13); <span class="comment">//SPI SCK / BUILTIN LED</span></div>
+<div class="line"><a name="l01678"></a><span class="lineno"> 1678</span>&#160; </div>
+<div class="line"><a name="l01679"></a><span class="lineno"> 1679</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// A0</span></div>
+<div class="line"><a name="l01680"></a><span class="lineno"> 1680</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// A1</span></div>
+<div class="line"><a name="l01681"></a><span class="lineno"> 1681</span>&#160;MAKE_PIN(P16, 16); <span class="comment">// A2</span></div>
+<div class="line"><a name="l01682"></a><span class="lineno"> 1682</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// A3</span></div>
+<div class="line"><a name="l01683"></a><span class="lineno"> 1683</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// A4 SDA</span></div>
+<div class="line"><a name="l01684"></a><span class="lineno"> 1684</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// A5 SCL</span></div>
+<div class="line"><a name="l01685"></a><span class="lineno"> 1685</span>&#160;MAKE_PIN(P20, 20); <span class="comment">// ATN</span></div>
+<div class="line"><a name="l01686"></a><span class="lineno"> 1686</span>&#160; </div>
+<div class="line"><a name="l01687"></a><span class="lineno"> 1687</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01688"></a><span class="lineno"> 1688</span>&#160; </div>
+<div class="line"><a name="l01689"></a><span class="lineno"> 1689</span>&#160;<span class="preprocessor">#elif defined(__ARDUINO_X86__) </span><span class="comment">// Intel Galileo, Intel Galileo 2 and Intel Edison</span></div>
+<div class="line"><a name="l01690"></a><span class="lineno"> 1690</span>&#160; </div>
+<div class="line"><a name="l01691"></a><span class="lineno"> 1691</span>&#160;<span class="preprocessor">#include &lt;avr/pgmspace.h&gt;</span></div>
 <div class="line"><a name="l01692"></a><span class="lineno"> 1692</span>&#160; </div>
-<div class="line"><a name="l01693"></a><span class="lineno"> 1693</span>&#160;<span class="comment">// MIPS size_t = 4</span></div>
+<div class="line"><a name="l01693"></a><span class="lineno"> 1693</span>&#160;<span class="comment">// Pointers are 32 bits on x86</span></div>
 <div class="line"><a name="l01694"></a><span class="lineno"> 1694</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_dword(p)</span></div>
 <div class="line"><a name="l01695"></a><span class="lineno"> 1695</span>&#160; </div>
-<div class="line"><a name="l01696"></a><span class="lineno"> 1696</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
-<div class="line"><a name="l01697"></a><span class="lineno"> 1697</span>&#160;<span class="preprocessor">class className { \</span></div>
-<div class="line"><a name="l01698"></a><span class="lineno"> 1698</span>&#160;<span class="preprocessor">public: \</span></div>
-<div class="line"><a name="l01699"></a><span class="lineno"> 1699</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
-<div class="line"><a name="l01700"></a><span class="lineno"> 1700</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
-<div class="line"><a name="l01701"></a><span class="lineno"> 1701</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01702"></a><span class="lineno"> 1702</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
-<div class="line"><a name="l01703"></a><span class="lineno"> 1703</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
-<div class="line"><a name="l01704"></a><span class="lineno"> 1704</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01705"></a><span class="lineno"> 1705</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
-<div class="line"><a name="l01706"></a><span class="lineno"> 1706</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
-<div class="line"><a name="l01707"></a><span class="lineno"> 1707</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01708"></a><span class="lineno"> 1708</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
-<div class="line"><a name="l01709"></a><span class="lineno"> 1709</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
-<div class="line"><a name="l01710"></a><span class="lineno"> 1710</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01711"></a><span class="lineno"> 1711</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
-<div class="line"><a name="l01712"></a><span class="lineno"> 1712</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
-<div class="line"><a name="l01713"></a><span class="lineno"> 1713</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01714"></a><span class="lineno"> 1714</span>&#160;<span class="preprocessor">};</span></div>
-<div class="line"><a name="l01715"></a><span class="lineno"> 1715</span>&#160; </div>
-<div class="line"><a name="l01716"></a><span class="lineno"> 1716</span>&#160;<span class="comment">// 0 .. 13 - Digital pins</span></div>
-<div class="line"><a name="l01717"></a><span class="lineno"> 1717</span>&#160;MAKE_PIN(P0, 0); <span class="comment">// RX</span></div>
-<div class="line"><a name="l01718"></a><span class="lineno"> 1718</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX</span></div>
-<div class="line"><a name="l01719"></a><span class="lineno"> 1719</span>&#160;MAKE_PIN(P2, 2); <span class="comment">//</span></div>
-<div class="line"><a name="l01720"></a><span class="lineno"> 1720</span>&#160;MAKE_PIN(P3, 3); <span class="comment">//</span></div>
-<div class="line"><a name="l01721"></a><span class="lineno"> 1721</span>&#160;MAKE_PIN(P4, 4); <span class="comment">//</span></div>
-<div class="line"><a name="l01722"></a><span class="lineno"> 1722</span>&#160;MAKE_PIN(P5, 5); <span class="comment">//</span></div>
-<div class="line"><a name="l01723"></a><span class="lineno"> 1723</span>&#160;MAKE_PIN(P6, 6); <span class="comment">//</span></div>
-<div class="line"><a name="l01724"></a><span class="lineno"> 1724</span>&#160;MAKE_PIN(P7, 7); <span class="comment">//</span></div>
-<div class="line"><a name="l01725"></a><span class="lineno"> 1725</span>&#160;MAKE_PIN(P8, 8); <span class="comment">//</span></div>
-<div class="line"><a name="l01726"></a><span class="lineno"> 1726</span>&#160;MAKE_PIN(P9, 9); <span class="comment">//</span></div>
-<div class="line"><a name="l01727"></a><span class="lineno"> 1727</span>&#160;MAKE_PIN(P10, 10); <span class="comment">//</span></div>
-<div class="line"><a name="l01728"></a><span class="lineno"> 1728</span>&#160;MAKE_PIN(P11, 11); <span class="comment">//</span></div>
-<div class="line"><a name="l01729"></a><span class="lineno"> 1729</span>&#160;MAKE_PIN(P12, 12); <span class="comment">//</span></div>
-<div class="line"><a name="l01730"></a><span class="lineno"> 1730</span>&#160;MAKE_PIN(P13, 13); <span class="comment">//</span></div>
-<div class="line"><a name="l01731"></a><span class="lineno"> 1731</span>&#160; </div>
-<div class="line"><a name="l01732"></a><span class="lineno"> 1732</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
-<div class="line"><a name="l01733"></a><span class="lineno"> 1733</span>&#160; </div>
-<div class="line"><a name="l01734"></a><span class="lineno"> 1734</span>&#160;<span class="preprocessor">#elif defined(ESP8266) || defined(ESP32)</span></div>
-<div class="line"><a name="l01735"></a><span class="lineno"> 1735</span>&#160; </div>
-<div class="line"><a name="l01736"></a><span class="lineno"> 1736</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
-<div class="line"><a name="l01737"></a><span class="lineno"> 1737</span>&#160;<span class="preprocessor">class className { \</span></div>
-<div class="line"><a name="l01738"></a><span class="lineno"> 1738</span>&#160;<span class="preprocessor">public: \</span></div>
-<div class="line"><a name="l01739"></a><span class="lineno"> 1739</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
-<div class="line"><a name="l01740"></a><span class="lineno"> 1740</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
-<div class="line"><a name="l01741"></a><span class="lineno"> 1741</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01742"></a><span class="lineno"> 1742</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
-<div class="line"><a name="l01743"></a><span class="lineno"> 1743</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
-<div class="line"><a name="l01744"></a><span class="lineno"> 1744</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01745"></a><span class="lineno"> 1745</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
-<div class="line"><a name="l01746"></a><span class="lineno"> 1746</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
-<div class="line"><a name="l01747"></a><span class="lineno"> 1747</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01748"></a><span class="lineno"> 1748</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
-<div class="line"><a name="l01749"></a><span class="lineno"> 1749</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
-<div class="line"><a name="l01750"></a><span class="lineno"> 1750</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01751"></a><span class="lineno"> 1751</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
-<div class="line"><a name="l01752"></a><span class="lineno"> 1752</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
-<div class="line"><a name="l01753"></a><span class="lineno"> 1753</span>&#160;<span class="preprocessor">  } \</span></div>
-<div class="line"><a name="l01754"></a><span class="lineno"> 1754</span>&#160;<span class="preprocessor">};</span></div>
-<div class="line"><a name="l01755"></a><span class="lineno"> 1755</span>&#160; </div>
-<div class="line"><a name="l01756"></a><span class="lineno"> 1756</span>&#160;<span class="preprocessor">#if defined(ESP8266)</span></div>
+<div class="line"><a name="l01696"></a><span class="lineno"> 1696</span>&#160;<span class="preprocessor">#if PLATFORM_ID == 0xE1 </span><span class="comment">// Edison platform id</span></div>
+<div class="line"><a name="l01697"></a><span class="lineno"> 1697</span>&#160;<span class="preprocessor">#define pinToFastPin(pin) 1 </span><span class="comment">// As far as I can tell all pins can be used as fast pins</span></div>
+<div class="line"><a name="l01698"></a><span class="lineno"> 1698</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01699"></a><span class="lineno"> 1699</span>&#160; </div>
+<div class="line"><a name="l01700"></a><span class="lineno"> 1700</span>&#160;<span class="comment">// Pin 2 and 3 on the Intel Galileo supports a higher rate,</span></div>
+<div class="line"><a name="l01701"></a><span class="lineno"> 1701</span>&#160;<span class="comment">// so it is recommended to use one of these as the SS pin.</span></div>
+<div class="line"><a name="l01702"></a><span class="lineno"> 1702</span>&#160; </div>
+<div class="line"><a name="l01703"></a><span class="lineno"> 1703</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
+<div class="line"><a name="l01704"></a><span class="lineno"> 1704</span>&#160;<span class="preprocessor">class className { \</span></div>
+<div class="line"><a name="l01705"></a><span class="lineno"> 1705</span>&#160;<span class="preprocessor">public: \</span></div>
+<div class="line"><a name="l01706"></a><span class="lineno"> 1706</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
+<div class="line"><a name="l01707"></a><span class="lineno"> 1707</span>&#160;<span class="preprocessor">    fastDigitalWrite(pin, HIGH); \</span></div>
+<div class="line"><a name="l01708"></a><span class="lineno"> 1708</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01709"></a><span class="lineno"> 1709</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
+<div class="line"><a name="l01710"></a><span class="lineno"> 1710</span>&#160;<span class="preprocessor">    fastDigitalWrite(pin, LOW); \</span></div>
+<div class="line"><a name="l01711"></a><span class="lineno"> 1711</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01712"></a><span class="lineno"> 1712</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
+<div class="line"><a name="l01713"></a><span class="lineno"> 1713</span>&#160;<span class="preprocessor">    if (pinToFastPin(pin)) \</span></div>
+<div class="line"><a name="l01714"></a><span class="lineno"> 1714</span>&#160;<span class="preprocessor">      pinMode(pin, INPUT_FAST); \</span></div>
+<div class="line"><a name="l01715"></a><span class="lineno"> 1715</span>&#160;<span class="preprocessor">    else \</span></div>
+<div class="line"><a name="l01716"></a><span class="lineno"> 1716</span>&#160;<span class="preprocessor">      pinMode(pin, INPUT); \</span></div>
+<div class="line"><a name="l01717"></a><span class="lineno"> 1717</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01718"></a><span class="lineno"> 1718</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
+<div class="line"><a name="l01719"></a><span class="lineno"> 1719</span>&#160;<span class="preprocessor">    if (pinToFastPin(pin)) \</span></div>
+<div class="line"><a name="l01720"></a><span class="lineno"> 1720</span>&#160;<span class="preprocessor">      pinMode(pin, OUTPUT_FAST); \</span></div>
+<div class="line"><a name="l01721"></a><span class="lineno"> 1721</span>&#160;<span class="preprocessor">    else \</span></div>
+<div class="line"><a name="l01722"></a><span class="lineno"> 1722</span>&#160;<span class="preprocessor">      pinMode(pin, OUTPUT); \</span></div>
+<div class="line"><a name="l01723"></a><span class="lineno"> 1723</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01724"></a><span class="lineno"> 1724</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
+<div class="line"><a name="l01725"></a><span class="lineno"> 1725</span>&#160;<span class="preprocessor">    return fastDigitalRead(pin); \</span></div>
+<div class="line"><a name="l01726"></a><span class="lineno"> 1726</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01727"></a><span class="lineno"> 1727</span>&#160;<span class="preprocessor">};</span></div>
+<div class="line"><a name="l01728"></a><span class="lineno"> 1728</span>&#160; </div>
+<div class="line"><a name="l01729"></a><span class="lineno"> 1729</span>&#160;MAKE_PIN(P0, 0);</div>
+<div class="line"><a name="l01730"></a><span class="lineno"> 1730</span>&#160;MAKE_PIN(P1, 1);</div>
+<div class="line"><a name="l01731"></a><span class="lineno"> 1731</span>&#160;MAKE_PIN(P2, 2);</div>
+<div class="line"><a name="l01732"></a><span class="lineno"> 1732</span>&#160;MAKE_PIN(P3, 3);</div>
+<div class="line"><a name="l01733"></a><span class="lineno"> 1733</span>&#160;MAKE_PIN(P4, 4);</div>
+<div class="line"><a name="l01734"></a><span class="lineno"> 1734</span>&#160;MAKE_PIN(P5, 5);</div>
+<div class="line"><a name="l01735"></a><span class="lineno"> 1735</span>&#160;MAKE_PIN(P6, 6);</div>
+<div class="line"><a name="l01736"></a><span class="lineno"> 1736</span>&#160;MAKE_PIN(P7, 7);</div>
+<div class="line"><a name="l01737"></a><span class="lineno"> 1737</span>&#160;MAKE_PIN(P8, 8);</div>
+<div class="line"><a name="l01738"></a><span class="lineno"> 1738</span>&#160;MAKE_PIN(P9, 9);</div>
+<div class="line"><a name="l01739"></a><span class="lineno"> 1739</span>&#160;MAKE_PIN(P10, 10);</div>
+<div class="line"><a name="l01740"></a><span class="lineno"> 1740</span>&#160;MAKE_PIN(P11, 11);</div>
+<div class="line"><a name="l01741"></a><span class="lineno"> 1741</span>&#160;MAKE_PIN(P12, 12);</div>
+<div class="line"><a name="l01742"></a><span class="lineno"> 1742</span>&#160;MAKE_PIN(P13, 13);</div>
+<div class="line"><a name="l01743"></a><span class="lineno"> 1743</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// A0</span></div>
+<div class="line"><a name="l01744"></a><span class="lineno"> 1744</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// A1</span></div>
+<div class="line"><a name="l01745"></a><span class="lineno"> 1745</span>&#160;MAKE_PIN(P16, 16); <span class="comment">// A2</span></div>
+<div class="line"><a name="l01746"></a><span class="lineno"> 1746</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// A3</span></div>
+<div class="line"><a name="l01747"></a><span class="lineno"> 1747</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// A4</span></div>
+<div class="line"><a name="l01748"></a><span class="lineno"> 1748</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// A5</span></div>
+<div class="line"><a name="l01749"></a><span class="lineno"> 1749</span>&#160; </div>
+<div class="line"><a name="l01750"></a><span class="lineno"> 1750</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01751"></a><span class="lineno"> 1751</span>&#160; </div>
+<div class="line"><a name="l01752"></a><span class="lineno"> 1752</span>&#160;<span class="preprocessor">#elif defined(__MIPSEL__)</span></div>
+<div class="line"><a name="l01753"></a><span class="lineno"> 1753</span>&#160;<span class="comment">// MIPSEL (MIPS architecture using a little endian byte order)</span></div>
+<div class="line"><a name="l01754"></a><span class="lineno"> 1754</span>&#160; </div>
+<div class="line"><a name="l01755"></a><span class="lineno"> 1755</span>&#160;<span class="comment">// MIPS size_t = 4</span></div>
+<div class="line"><a name="l01756"></a><span class="lineno"> 1756</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_dword(p)</span></div>
 <div class="line"><a name="l01757"></a><span class="lineno"> 1757</span>&#160; </div>
-<div class="line"><a name="l01758"></a><span class="lineno"> 1758</span>&#160;<span class="comment">// Workaround the following issue: https://github.com/esp8266/Arduino/pull/5735</span></div>
-<div class="line"><a name="l01759"></a><span class="lineno"> 1759</span>&#160;<span class="preprocessor">#undef pgm_read_ptr_aligned</span></div>
-<div class="line"><a name="l01760"></a><span class="lineno"> 1760</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l01761"></a><span class="lineno"> 1761</span>&#160;<span class="preprocessor">#define pgm_read_ptr_aligned(addr) (*reinterpret_cast&lt;const void* const*&gt;(addr))</span></div>
-<div class="line"><a name="l01762"></a><span class="lineno"> 1762</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l01763"></a><span class="lineno"> 1763</span>&#160;<span class="preprocessor">#define pgm_read_ptr_aligned(addr) (*(const void* const*)(addr))</span></div>
-<div class="line"><a name="l01764"></a><span class="lineno"> 1764</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01765"></a><span class="lineno"> 1765</span>&#160; </div>
-<div class="line"><a name="l01766"></a><span class="lineno"> 1766</span>&#160;<span class="preprocessor">#undef pgm_read_ptr</span></div>
-<div class="line"><a name="l01767"></a><span class="lineno"> 1767</span>&#160;<span class="preprocessor">#if PGM_READ_UNALIGNED</span></div>
-<div class="line"><a name="l01768"></a><span class="lineno"> 1768</span>&#160;<span class="preprocessor">#define pgm_read_ptr(p) pgm_read_ptr_unaligned(p)</span></div>
-<div class="line"><a name="l01769"></a><span class="lineno"> 1769</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l01770"></a><span class="lineno"> 1770</span>&#160;<span class="preprocessor">#define pgm_read_ptr(p) pgm_read_ptr_aligned(p)</span></div>
-<div class="line"><a name="l01771"></a><span class="lineno"> 1771</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01772"></a><span class="lineno"> 1772</span>&#160; </div>
-<div class="line"><a name="l01773"></a><span class="lineno"> 1773</span>&#160;<span class="preprocessor">#ifdef pgm_read_pointer</span></div>
-<div class="line"><a name="l01774"></a><span class="lineno"> 1774</span>&#160;<span class="preprocessor">#undef pgm_read_pointer</span></div>
-<div class="line"><a name="l01775"></a><span class="lineno"> 1775</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01776"></a><span class="lineno"> 1776</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_ptr(p)</span></div>
+<div class="line"><a name="l01758"></a><span class="lineno"> 1758</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
+<div class="line"><a name="l01759"></a><span class="lineno"> 1759</span>&#160;<span class="preprocessor">class className { \</span></div>
+<div class="line"><a name="l01760"></a><span class="lineno"> 1760</span>&#160;<span class="preprocessor">public: \</span></div>
+<div class="line"><a name="l01761"></a><span class="lineno"> 1761</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
+<div class="line"><a name="l01762"></a><span class="lineno"> 1762</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
+<div class="line"><a name="l01763"></a><span class="lineno"> 1763</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01764"></a><span class="lineno"> 1764</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
+<div class="line"><a name="l01765"></a><span class="lineno"> 1765</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
+<div class="line"><a name="l01766"></a><span class="lineno"> 1766</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01767"></a><span class="lineno"> 1767</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
+<div class="line"><a name="l01768"></a><span class="lineno"> 1768</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
+<div class="line"><a name="l01769"></a><span class="lineno"> 1769</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01770"></a><span class="lineno"> 1770</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
+<div class="line"><a name="l01771"></a><span class="lineno"> 1771</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
+<div class="line"><a name="l01772"></a><span class="lineno"> 1772</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01773"></a><span class="lineno"> 1773</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
+<div class="line"><a name="l01774"></a><span class="lineno"> 1774</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
+<div class="line"><a name="l01775"></a><span class="lineno"> 1775</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01776"></a><span class="lineno"> 1776</span>&#160;<span class="preprocessor">};</span></div>
 <div class="line"><a name="l01777"></a><span class="lineno"> 1777</span>&#160; </div>
-<div class="line"><a name="l01778"></a><span class="lineno"> 1778</span>&#160;<span class="comment">// Pinout for ESP-12 module</span></div>
-<div class="line"><a name="l01779"></a><span class="lineno"> 1779</span>&#160;<span class="comment">// 0 .. 16 - Digital pins</span></div>
-<div class="line"><a name="l01780"></a><span class="lineno"> 1780</span>&#160;<span class="comment">// GPIO 6 to 11 and 16 are not usable in this library.</span></div>
-<div class="line"><a name="l01781"></a><span class="lineno"> 1781</span>&#160; </div>
-<div class="line"><a name="l01782"></a><span class="lineno"> 1782</span>&#160;MAKE_PIN(P0, 0);</div>
-<div class="line"><a name="l01783"></a><span class="lineno"> 1783</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX0</span></div>
-<div class="line"><a name="l01784"></a><span class="lineno"> 1784</span>&#160;MAKE_PIN(P2, 2); <span class="comment">// TX1</span></div>
-<div class="line"><a name="l01785"></a><span class="lineno"> 1785</span>&#160;MAKE_PIN(P3, 3); <span class="comment">// RX0</span></div>
-<div class="line"><a name="l01786"></a><span class="lineno"> 1786</span>&#160;MAKE_PIN(P4, 4); <span class="comment">// SDA</span></div>
-<div class="line"><a name="l01787"></a><span class="lineno"> 1787</span>&#160;MAKE_PIN(P5, 5); <span class="comment">// SCL</span></div>
-<div class="line"><a name="l01788"></a><span class="lineno"> 1788</span>&#160;MAKE_PIN(P12, 12); <span class="comment">// MISO</span></div>
-<div class="line"><a name="l01789"></a><span class="lineno"> 1789</span>&#160;MAKE_PIN(P13, 13); <span class="comment">// MOSI</span></div>
-<div class="line"><a name="l01790"></a><span class="lineno"> 1790</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// SCK</span></div>
-<div class="line"><a name="l01791"></a><span class="lineno"> 1791</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// SS</span></div>
-<div class="line"><a name="l01792"></a><span class="lineno"> 1792</span>&#160; </div>
-<div class="line"><a name="l01793"></a><span class="lineno"> 1793</span>&#160;<span class="preprocessor">#elif defined(ESP32)</span></div>
-<div class="line"><a name="l01794"></a><span class="lineno"> 1794</span>&#160; </div>
-<div class="line"><a name="l01795"></a><span class="lineno"> 1795</span>&#160;<span class="comment">// Workaround strict-aliasing warnings</span></div>
-<div class="line"><a name="l01796"></a><span class="lineno"> 1796</span>&#160;<span class="preprocessor">#ifdef pgm_read_word</span></div>
-<div class="line"><a name="l01797"></a><span class="lineno"> 1797</span>&#160;<span class="preprocessor">#undef pgm_read_word</span></div>
-<div class="line"><a name="l01798"></a><span class="lineno"> 1798</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01799"></a><span class="lineno"> 1799</span>&#160;<span class="preprocessor">#ifdef pgm_read_dword</span></div>
-<div class="line"><a name="l01800"></a><span class="lineno"> 1800</span>&#160;<span class="preprocessor">#undef pgm_read_dword</span></div>
-<div class="line"><a name="l01801"></a><span class="lineno"> 1801</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01802"></a><span class="lineno"> 1802</span>&#160;<span class="preprocessor">#ifdef  pgm_read_float</span></div>
-<div class="line"><a name="l01803"></a><span class="lineno"> 1803</span>&#160;<span class="preprocessor">#undef pgm_read_float</span></div>
-<div class="line"><a name="l01804"></a><span class="lineno"> 1804</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01805"></a><span class="lineno"> 1805</span>&#160;<span class="preprocessor">#ifdef  pgm_read_ptr</span></div>
-<div class="line"><a name="l01806"></a><span class="lineno"> 1806</span>&#160;<span class="preprocessor">#undef pgm_read_ptr</span></div>
-<div class="line"><a name="l01807"></a><span class="lineno"> 1807</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01808"></a><span class="lineno"> 1808</span>&#160; </div>
-<div class="line"><a name="l01809"></a><span class="lineno"> 1809</span>&#160;<span class="preprocessor">#define pgm_read_word(addr) ({ \</span></div>
-<div class="line"><a name="l01810"></a><span class="lineno"> 1810</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
-<div class="line"><a name="l01811"></a><span class="lineno"> 1811</span>&#160;<span class="preprocessor">  *(const unsigned short *)(_addr); \</span></div>
-<div class="line"><a name="l01812"></a><span class="lineno"> 1812</span>&#160;<span class="preprocessor">})</span></div>
-<div class="line"><a name="l01813"></a><span class="lineno"> 1813</span>&#160;<span class="preprocessor">#define pgm_read_dword(addr) ({ \</span></div>
-<div class="line"><a name="l01814"></a><span class="lineno"> 1814</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
-<div class="line"><a name="l01815"></a><span class="lineno"> 1815</span>&#160;<span class="preprocessor">  *(const unsigned long *)(_addr); \</span></div>
-<div class="line"><a name="l01816"></a><span class="lineno"> 1816</span>&#160;<span class="preprocessor">})</span></div>
-<div class="line"><a name="l01817"></a><span class="lineno"> 1817</span>&#160;<span class="preprocessor">#define pgm_read_float(addr) ({ \</span></div>
-<div class="line"><a name="l01818"></a><span class="lineno"> 1818</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
-<div class="line"><a name="l01819"></a><span class="lineno"> 1819</span>&#160;<span class="preprocessor">  *(const float *)(_addr); \</span></div>
-<div class="line"><a name="l01820"></a><span class="lineno"> 1820</span>&#160;<span class="preprocessor">})</span></div>
-<div class="line"><a name="l01821"></a><span class="lineno"> 1821</span>&#160;<span class="preprocessor">#define pgm_read_ptr(addr) ({ \</span></div>
-<div class="line"><a name="l01822"></a><span class="lineno"> 1822</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
-<div class="line"><a name="l01823"></a><span class="lineno"> 1823</span>&#160;<span class="preprocessor">  *(void * const *)(_addr); \</span></div>
-<div class="line"><a name="l01824"></a><span class="lineno"> 1824</span>&#160;<span class="preprocessor">})</span></div>
-<div class="line"><a name="l01825"></a><span class="lineno"> 1825</span>&#160; </div>
-<div class="line"><a name="l01826"></a><span class="lineno"> 1826</span>&#160;<span class="comment">// Pinout for ESP32 dev module</span></div>
+<div class="line"><a name="l01778"></a><span class="lineno"> 1778</span>&#160;<span class="comment">// 0 .. 13 - Digital pins</span></div>
+<div class="line"><a name="l01779"></a><span class="lineno"> 1779</span>&#160;MAKE_PIN(P0, 0); <span class="comment">// RX</span></div>
+<div class="line"><a name="l01780"></a><span class="lineno"> 1780</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX</span></div>
+<div class="line"><a name="l01781"></a><span class="lineno"> 1781</span>&#160;MAKE_PIN(P2, 2); <span class="comment">//</span></div>
+<div class="line"><a name="l01782"></a><span class="lineno"> 1782</span>&#160;MAKE_PIN(P3, 3); <span class="comment">//</span></div>
+<div class="line"><a name="l01783"></a><span class="lineno"> 1783</span>&#160;MAKE_PIN(P4, 4); <span class="comment">//</span></div>
+<div class="line"><a name="l01784"></a><span class="lineno"> 1784</span>&#160;MAKE_PIN(P5, 5); <span class="comment">//</span></div>
+<div class="line"><a name="l01785"></a><span class="lineno"> 1785</span>&#160;MAKE_PIN(P6, 6); <span class="comment">//</span></div>
+<div class="line"><a name="l01786"></a><span class="lineno"> 1786</span>&#160;MAKE_PIN(P7, 7); <span class="comment">//</span></div>
+<div class="line"><a name="l01787"></a><span class="lineno"> 1787</span>&#160;MAKE_PIN(P8, 8); <span class="comment">//</span></div>
+<div class="line"><a name="l01788"></a><span class="lineno"> 1788</span>&#160;MAKE_PIN(P9, 9); <span class="comment">//</span></div>
+<div class="line"><a name="l01789"></a><span class="lineno"> 1789</span>&#160;MAKE_PIN(P10, 10); <span class="comment">//</span></div>
+<div class="line"><a name="l01790"></a><span class="lineno"> 1790</span>&#160;MAKE_PIN(P11, 11); <span class="comment">//</span></div>
+<div class="line"><a name="l01791"></a><span class="lineno"> 1791</span>&#160;MAKE_PIN(P12, 12); <span class="comment">//</span></div>
+<div class="line"><a name="l01792"></a><span class="lineno"> 1792</span>&#160;MAKE_PIN(P13, 13); <span class="comment">//</span></div>
+<div class="line"><a name="l01793"></a><span class="lineno"> 1793</span>&#160; </div>
+<div class="line"><a name="l01794"></a><span class="lineno"> 1794</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01795"></a><span class="lineno"> 1795</span>&#160; </div>
+<div class="line"><a name="l01796"></a><span class="lineno"> 1796</span>&#160;<span class="preprocessor">#elif defined(ESP8266) || defined(ESP32)</span></div>
+<div class="line"><a name="l01797"></a><span class="lineno"> 1797</span>&#160; </div>
+<div class="line"><a name="l01798"></a><span class="lineno"> 1798</span>&#160;<span class="preprocessor">#define MAKE_PIN(className, pin) \</span></div>
+<div class="line"><a name="l01799"></a><span class="lineno"> 1799</span>&#160;<span class="preprocessor">class className { \</span></div>
+<div class="line"><a name="l01800"></a><span class="lineno"> 1800</span>&#160;<span class="preprocessor">public: \</span></div>
+<div class="line"><a name="l01801"></a><span class="lineno"> 1801</span>&#160;<span class="preprocessor">  static void Set() { \</span></div>
+<div class="line"><a name="l01802"></a><span class="lineno"> 1802</span>&#160;<span class="preprocessor">    digitalWrite(pin, HIGH);\</span></div>
+<div class="line"><a name="l01803"></a><span class="lineno"> 1803</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01804"></a><span class="lineno"> 1804</span>&#160;<span class="preprocessor">  static void Clear() { \</span></div>
+<div class="line"><a name="l01805"></a><span class="lineno"> 1805</span>&#160;<span class="preprocessor">    digitalWrite(pin, LOW); \</span></div>
+<div class="line"><a name="l01806"></a><span class="lineno"> 1806</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01807"></a><span class="lineno"> 1807</span>&#160;<span class="preprocessor">  static void SetDirRead() { \</span></div>
+<div class="line"><a name="l01808"></a><span class="lineno"> 1808</span>&#160;<span class="preprocessor">    pinMode(pin, INPUT); \</span></div>
+<div class="line"><a name="l01809"></a><span class="lineno"> 1809</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01810"></a><span class="lineno"> 1810</span>&#160;<span class="preprocessor">  static void SetDirWrite() { \</span></div>
+<div class="line"><a name="l01811"></a><span class="lineno"> 1811</span>&#160;<span class="preprocessor">    pinMode(pin, OUTPUT); \</span></div>
+<div class="line"><a name="l01812"></a><span class="lineno"> 1812</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01813"></a><span class="lineno"> 1813</span>&#160;<span class="preprocessor">  static uint8_t IsSet() { \</span></div>
+<div class="line"><a name="l01814"></a><span class="lineno"> 1814</span>&#160;<span class="preprocessor">    return digitalRead(pin); \</span></div>
+<div class="line"><a name="l01815"></a><span class="lineno"> 1815</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l01816"></a><span class="lineno"> 1816</span>&#160;<span class="preprocessor">};</span></div>
+<div class="line"><a name="l01817"></a><span class="lineno"> 1817</span>&#160; </div>
+<div class="line"><a name="l01818"></a><span class="lineno"> 1818</span>&#160;<span class="preprocessor">#if defined(ESP8266)</span></div>
+<div class="line"><a name="l01819"></a><span class="lineno"> 1819</span>&#160; </div>
+<div class="line"><a name="l01820"></a><span class="lineno"> 1820</span>&#160;<span class="comment">// Workaround the following issue: https://github.com/esp8266/Arduino/pull/5735</span></div>
+<div class="line"><a name="l01821"></a><span class="lineno"> 1821</span>&#160;<span class="preprocessor">#undef pgm_read_ptr_aligned</span></div>
+<div class="line"><a name="l01822"></a><span class="lineno"> 1822</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l01823"></a><span class="lineno"> 1823</span>&#160;<span class="preprocessor">#define pgm_read_ptr_aligned(addr) (*reinterpret_cast&lt;const void* const*&gt;(addr))</span></div>
+<div class="line"><a name="l01824"></a><span class="lineno"> 1824</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l01825"></a><span class="lineno"> 1825</span>&#160;<span class="preprocessor">#define pgm_read_ptr_aligned(addr) (*(const void* const*)(addr))</span></div>
+<div class="line"><a name="l01826"></a><span class="lineno"> 1826</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l01827"></a><span class="lineno"> 1827</span>&#160; </div>
-<div class="line"><a name="l01828"></a><span class="lineno"> 1828</span>&#160;MAKE_PIN(P0, 0);</div>
-<div class="line"><a name="l01829"></a><span class="lineno"> 1829</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX0</span></div>
-<div class="line"><a name="l01830"></a><span class="lineno"> 1830</span>&#160;MAKE_PIN(P10, 10); <span class="comment">// TX1</span></div>
-<div class="line"><a name="l01831"></a><span class="lineno"> 1831</span>&#160;MAKE_PIN(P3, 3); <span class="comment">// RX0</span></div>
-<div class="line"><a name="l01832"></a><span class="lineno"> 1832</span>&#160;MAKE_PIN(P21, 21); <span class="comment">// SDA</span></div>
-<div class="line"><a name="l01833"></a><span class="lineno"> 1833</span>&#160;MAKE_PIN(P22, 22); <span class="comment">// SCL</span></div>
-<div class="line"><a name="l01834"></a><span class="lineno"> 1834</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// MISO</span></div>
-<div class="line"><a name="l01835"></a><span class="lineno"> 1835</span>&#160;MAKE_PIN(P23, 23); <span class="comment">// MOSI</span></div>
-<div class="line"><a name="l01836"></a><span class="lineno"> 1836</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// SCK</span></div>
-<div class="line"><a name="l01837"></a><span class="lineno"> 1837</span>&#160;MAKE_PIN(P5, 5); <span class="comment">// SS</span></div>
-<div class="line"><a name="l01838"></a><span class="lineno"> 1838</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// INT</span></div>
+<div class="line"><a name="l01828"></a><span class="lineno"> 1828</span>&#160;<span class="preprocessor">#undef pgm_read_ptr</span></div>
+<div class="line"><a name="l01829"></a><span class="lineno"> 1829</span>&#160;<span class="preprocessor">#if PGM_READ_UNALIGNED</span></div>
+<div class="line"><a name="l01830"></a><span class="lineno"> 1830</span>&#160;<span class="preprocessor">#define pgm_read_ptr(p) pgm_read_ptr_unaligned(p)</span></div>
+<div class="line"><a name="l01831"></a><span class="lineno"> 1831</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l01832"></a><span class="lineno"> 1832</span>&#160;<span class="preprocessor">#define pgm_read_ptr(p) pgm_read_ptr_aligned(p)</span></div>
+<div class="line"><a name="l01833"></a><span class="lineno"> 1833</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01834"></a><span class="lineno"> 1834</span>&#160; </div>
+<div class="line"><a name="l01835"></a><span class="lineno"> 1835</span>&#160;<span class="preprocessor">#ifdef pgm_read_pointer</span></div>
+<div class="line"><a name="l01836"></a><span class="lineno"> 1836</span>&#160;<span class="preprocessor">#undef pgm_read_pointer</span></div>
+<div class="line"><a name="l01837"></a><span class="lineno"> 1837</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01838"></a><span class="lineno"> 1838</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_ptr(p)</span></div>
 <div class="line"><a name="l01839"></a><span class="lineno"> 1839</span>&#160; </div>
-<div class="line"><a name="l01840"></a><span class="lineno"> 1840</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01841"></a><span class="lineno"> 1841</span>&#160; </div>
-<div class="line"><a name="l01842"></a><span class="lineno"> 1842</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01840"></a><span class="lineno"> 1840</span>&#160;<span class="comment">// Pinout for ESP-12 module</span></div>
+<div class="line"><a name="l01841"></a><span class="lineno"> 1841</span>&#160;<span class="comment">// 0 .. 16 - Digital pins</span></div>
+<div class="line"><a name="l01842"></a><span class="lineno"> 1842</span>&#160;<span class="comment">// GPIO 6 to 11 and 16 are not usable in this library.</span></div>
 <div class="line"><a name="l01843"></a><span class="lineno"> 1843</span>&#160; </div>
-<div class="line"><a name="l01844"></a><span class="lineno"> 1844</span>&#160;<span class="comment">// pgm_read_ptr is not defined in the ESP32, so we have to undef the diffinition from version_helper.h</span></div>
-<div class="line"><a name="l01845"></a><span class="lineno"> 1845</span>&#160;<span class="preprocessor">#ifdef pgm_read_pointer</span></div>
-<div class="line"><a name="l01846"></a><span class="lineno"> 1846</span>&#160;<span class="preprocessor">#undef pgm_read_pointer</span></div>
-<div class="line"><a name="l01847"></a><span class="lineno"> 1847</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01848"></a><span class="lineno"> 1848</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_ptr(p)</span></div>
-<div class="line"><a name="l01849"></a><span class="lineno"> 1849</span>&#160; </div>
-<div class="line"><a name="l01850"></a><span class="lineno"> 1850</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l01851"></a><span class="lineno"> 1851</span>&#160;<span class="preprocessor">#error &quot;Please define board in avrpins.h&quot;</span></div>
-<div class="line"><a name="l01852"></a><span class="lineno"> 1852</span>&#160; </div>
-<div class="line"><a name="l01853"></a><span class="lineno"> 1853</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01844"></a><span class="lineno"> 1844</span>&#160;MAKE_PIN(P0, 0);</div>
+<div class="line"><a name="l01845"></a><span class="lineno"> 1845</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX0</span></div>
+<div class="line"><a name="l01846"></a><span class="lineno"> 1846</span>&#160;MAKE_PIN(P2, 2); <span class="comment">// TX1</span></div>
+<div class="line"><a name="l01847"></a><span class="lineno"> 1847</span>&#160;MAKE_PIN(P3, 3); <span class="comment">// RX0</span></div>
+<div class="line"><a name="l01848"></a><span class="lineno"> 1848</span>&#160;MAKE_PIN(P4, 4); <span class="comment">// SDA</span></div>
+<div class="line"><a name="l01849"></a><span class="lineno"> 1849</span>&#160;MAKE_PIN(P5, 5); <span class="comment">// SCL</span></div>
+<div class="line"><a name="l01850"></a><span class="lineno"> 1850</span>&#160;MAKE_PIN(P12, 12); <span class="comment">// MISO</span></div>
+<div class="line"><a name="l01851"></a><span class="lineno"> 1851</span>&#160;MAKE_PIN(P13, 13); <span class="comment">// MOSI</span></div>
+<div class="line"><a name="l01852"></a><span class="lineno"> 1852</span>&#160;MAKE_PIN(P14, 14); <span class="comment">// SCK</span></div>
+<div class="line"><a name="l01853"></a><span class="lineno"> 1853</span>&#160;MAKE_PIN(P15, 15); <span class="comment">// SS</span></div>
 <div class="line"><a name="l01854"></a><span class="lineno"> 1854</span>&#160; </div>
-<div class="line"><a name="l01855"></a><span class="lineno"> 1855</span>&#160;<span class="preprocessor">#endif </span><span class="comment">//_avrpins_h_</span></div>
+<div class="line"><a name="l01855"></a><span class="lineno"> 1855</span>&#160;<span class="preprocessor">#elif defined(ESP32)</span></div>
+<div class="line"><a name="l01856"></a><span class="lineno"> 1856</span>&#160; </div>
+<div class="line"><a name="l01857"></a><span class="lineno"> 1857</span>&#160;<span class="comment">// Workaround strict-aliasing warnings</span></div>
+<div class="line"><a name="l01858"></a><span class="lineno"> 1858</span>&#160;<span class="preprocessor">#ifdef pgm_read_word</span></div>
+<div class="line"><a name="l01859"></a><span class="lineno"> 1859</span>&#160;<span class="preprocessor">#undef pgm_read_word</span></div>
+<div class="line"><a name="l01860"></a><span class="lineno"> 1860</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01861"></a><span class="lineno"> 1861</span>&#160;<span class="preprocessor">#ifdef pgm_read_dword</span></div>
+<div class="line"><a name="l01862"></a><span class="lineno"> 1862</span>&#160;<span class="preprocessor">#undef pgm_read_dword</span></div>
+<div class="line"><a name="l01863"></a><span class="lineno"> 1863</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01864"></a><span class="lineno"> 1864</span>&#160;<span class="preprocessor">#ifdef  pgm_read_float</span></div>
+<div class="line"><a name="l01865"></a><span class="lineno"> 1865</span>&#160;<span class="preprocessor">#undef pgm_read_float</span></div>
+<div class="line"><a name="l01866"></a><span class="lineno"> 1866</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01867"></a><span class="lineno"> 1867</span>&#160;<span class="preprocessor">#ifdef  pgm_read_ptr</span></div>
+<div class="line"><a name="l01868"></a><span class="lineno"> 1868</span>&#160;<span class="preprocessor">#undef pgm_read_ptr</span></div>
+<div class="line"><a name="l01869"></a><span class="lineno"> 1869</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01870"></a><span class="lineno"> 1870</span>&#160; </div>
+<div class="line"><a name="l01871"></a><span class="lineno"> 1871</span>&#160;<span class="preprocessor">#define pgm_read_word(addr) ({ \</span></div>
+<div class="line"><a name="l01872"></a><span class="lineno"> 1872</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
+<div class="line"><a name="l01873"></a><span class="lineno"> 1873</span>&#160;<span class="preprocessor">  *(const unsigned short *)(_addr); \</span></div>
+<div class="line"><a name="l01874"></a><span class="lineno"> 1874</span>&#160;<span class="preprocessor">})</span></div>
+<div class="line"><a name="l01875"></a><span class="lineno"> 1875</span>&#160;<span class="preprocessor">#define pgm_read_dword(addr) ({ \</span></div>
+<div class="line"><a name="l01876"></a><span class="lineno"> 1876</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
+<div class="line"><a name="l01877"></a><span class="lineno"> 1877</span>&#160;<span class="preprocessor">  *(const unsigned long *)(_addr); \</span></div>
+<div class="line"><a name="l01878"></a><span class="lineno"> 1878</span>&#160;<span class="preprocessor">})</span></div>
+<div class="line"><a name="l01879"></a><span class="lineno"> 1879</span>&#160;<span class="preprocessor">#define pgm_read_float(addr) ({ \</span></div>
+<div class="line"><a name="l01880"></a><span class="lineno"> 1880</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
+<div class="line"><a name="l01881"></a><span class="lineno"> 1881</span>&#160;<span class="preprocessor">  *(const float *)(_addr); \</span></div>
+<div class="line"><a name="l01882"></a><span class="lineno"> 1882</span>&#160;<span class="preprocessor">})</span></div>
+<div class="line"><a name="l01883"></a><span class="lineno"> 1883</span>&#160;<span class="preprocessor">#define pgm_read_ptr(addr) ({ \</span></div>
+<div class="line"><a name="l01884"></a><span class="lineno"> 1884</span>&#160;<span class="preprocessor">  typeof(addr) _addr = (addr); \</span></div>
+<div class="line"><a name="l01885"></a><span class="lineno"> 1885</span>&#160;<span class="preprocessor">  *(void * const *)(_addr); \</span></div>
+<div class="line"><a name="l01886"></a><span class="lineno"> 1886</span>&#160;<span class="preprocessor">})</span></div>
+<div class="line"><a name="l01887"></a><span class="lineno"> 1887</span>&#160; </div>
+<div class="line"><a name="l01888"></a><span class="lineno"> 1888</span>&#160;<span class="comment">// Pinout for ESP32 dev module</span></div>
+<div class="line"><a name="l01889"></a><span class="lineno"> 1889</span>&#160; </div>
+<div class="line"><a name="l01890"></a><span class="lineno"> 1890</span>&#160;MAKE_PIN(P0, 0);</div>
+<div class="line"><a name="l01891"></a><span class="lineno"> 1891</span>&#160;MAKE_PIN(P1, 1); <span class="comment">// TX0</span></div>
+<div class="line"><a name="l01892"></a><span class="lineno"> 1892</span>&#160;MAKE_PIN(P10, 10); <span class="comment">// TX1</span></div>
+<div class="line"><a name="l01893"></a><span class="lineno"> 1893</span>&#160;MAKE_PIN(P3, 3); <span class="comment">// RX0</span></div>
+<div class="line"><a name="l01894"></a><span class="lineno"> 1894</span>&#160;MAKE_PIN(P21, 21); <span class="comment">// SDA</span></div>
+<div class="line"><a name="l01895"></a><span class="lineno"> 1895</span>&#160;MAKE_PIN(P22, 22); <span class="comment">// SCL</span></div>
+<div class="line"><a name="l01896"></a><span class="lineno"> 1896</span>&#160;MAKE_PIN(P19, 19); <span class="comment">// MISO</span></div>
+<div class="line"><a name="l01897"></a><span class="lineno"> 1897</span>&#160;MAKE_PIN(P23, 23); <span class="comment">// MOSI</span></div>
+<div class="line"><a name="l01898"></a><span class="lineno"> 1898</span>&#160;MAKE_PIN(P18, 18); <span class="comment">// SCK</span></div>
+<div class="line"><a name="l01899"></a><span class="lineno"> 1899</span>&#160;MAKE_PIN(P5, 5); <span class="comment">// SS</span></div>
+<div class="line"><a name="l01900"></a><span class="lineno"> 1900</span>&#160;MAKE_PIN(P17, 17); <span class="comment">// INT</span></div>
+<div class="line"><a name="l01901"></a><span class="lineno"> 1901</span>&#160; </div>
+<div class="line"><a name="l01902"></a><span class="lineno"> 1902</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01903"></a><span class="lineno"> 1903</span>&#160; </div>
+<div class="line"><a name="l01904"></a><span class="lineno"> 1904</span>&#160;<span class="preprocessor">#undef MAKE_PIN</span></div>
+<div class="line"><a name="l01905"></a><span class="lineno"> 1905</span>&#160; </div>
+<div class="line"><a name="l01906"></a><span class="lineno"> 1906</span>&#160;<span class="comment">// pgm_read_ptr is not defined in the ESP32, so we have to undef the diffinition from version_helper.h</span></div>
+<div class="line"><a name="l01907"></a><span class="lineno"> 1907</span>&#160;<span class="preprocessor">#ifdef pgm_read_pointer</span></div>
+<div class="line"><a name="l01908"></a><span class="lineno"> 1908</span>&#160;<span class="preprocessor">#undef pgm_read_pointer</span></div>
+<div class="line"><a name="l01909"></a><span class="lineno"> 1909</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01910"></a><span class="lineno"> 1910</span>&#160;<span class="preprocessor">#define pgm_read_pointer(p) pgm_read_ptr(p)</span></div>
+<div class="line"><a name="l01911"></a><span class="lineno"> 1911</span>&#160; </div>
+<div class="line"><a name="l01912"></a><span class="lineno"> 1912</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l01913"></a><span class="lineno"> 1913</span>&#160;<span class="preprocessor">#error &quot;Please define board in avrpins.h&quot;</span></div>
+<div class="line"><a name="l01914"></a><span class="lineno"> 1914</span>&#160; </div>
+<div class="line"><a name="l01915"></a><span class="lineno"> 1915</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01916"></a><span class="lineno"> 1916</span>&#160; </div>
+<div class="line"><a name="l01917"></a><span class="lineno"> 1917</span>&#160;<span class="preprocessor">#endif </span><span class="comment">//_avrpins_h_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
