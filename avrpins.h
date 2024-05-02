@@ -1506,7 +1506,7 @@ MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
 #undef MAKE_PIN
 
 
-#elif defined(ARDUINO_NRF52840_FEATHER)
+#elif defined(ARDUINO_NRF52840_FEATHER) || defined(ARDUINO_NRF52840_FEATHER_SENSE)
 
 #define MAKE_PIN(className, pin) \
 class className { \
@@ -1851,6 +1851,47 @@ MAKE_PIN(P12, 12); // MISO
 MAKE_PIN(P13, 13); // MOSI
 MAKE_PIN(P14, 14); // SCK
 MAKE_PIN(P15, 15); // SS
+
+#elif defined(ARDUINO_XIAO_ESP32S3)
+
+// Workaround strict-aliasing warnings
+#ifdef pgm_read_word
+#undef pgm_read_word
+#endif
+#ifdef pgm_read_dword
+#undef pgm_read_dword
+#endif
+#ifdef  pgm_read_float
+#undef pgm_read_float
+#endif
+#ifdef  pgm_read_ptr
+#undef pgm_read_ptr
+#endif
+
+#define pgm_read_word(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned short *)(_addr); \
+})
+#define pgm_read_dword(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned long *)(_addr); \
+})
+#define pgm_read_float(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const float *)(_addr); \
+})
+#define pgm_read_ptr(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(void * const *)(_addr); \
+})
+
+// Pinout for ESP32 dev module
+
+MAKE_PIN(P8, 8); // MISO
+MAKE_PIN(P9, 9); // MOSI
+MAKE_PIN(P7, 7); // SCK
+MAKE_PIN(P44, 44); // SS
+MAKE_PIN(P4, 4); // INT
 
 #elif defined(ESP32)
 

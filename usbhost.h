@@ -118,9 +118,11 @@ typedef SPi< P76, P75, P74, P10 > spi;
 typedef SPi< P16, P18, P17, P10 > spi;
 #elif defined(ESP8266)
 typedef SPi< P14, P13, P12, P15 > spi;
+#elif defined(ARDUINO_XIAO_ESP32S3)
+typedef SPi< P7, P9, P8, P44 > spi;
 #elif defined(ESP32)
 typedef SPi< P18, P23, P19, P5 > spi;
-#elif defined(ARDUINO_NRF52840_FEATHER)
+#elif defined(ARDUINO_NRF52840_FEATHER) || defined(ARDUINO_NRF52840_FEATHER_SENSE)
 typedef SPi< P26, P25, P24, P5 > spi;
 #elif defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
 typedef SPi< P8, P10, P9, P7 > spi;
