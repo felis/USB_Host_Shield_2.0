@@ -343,10 +343,10 @@ void XBOXOLD::readReport() {
         for(uint8_t i = 0; i < sizeof (buttonValues); i++)
                 buttonValues[i] = readBuf[i + 4]; // A, B, X, Y, BLACK, WHITE, L1, and R1
 
-        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[12] << 8) | readBuf[13]);
-        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[14] << 8) | readBuf[15]);
-        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[16] << 8) | readBuf[17]);
-        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[18] << 8) | readBuf[19]);
+        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
+        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[15] << 8) | readBuf[14]);
+        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[17] << 8) | readBuf[16]);
+        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[19] << 8) | readBuf[18]);
 
         //Notify(PSTR("\r\nButtonState"), 0x80);
         //PrintHex<uint8_t>(ButtonState, 0x80);
