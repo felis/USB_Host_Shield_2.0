@@ -10,8 +10,10 @@ jobs:
         # find examples -type f -name "*.ino" | rev | cut -d/ -f2- | rev  | sort | sed -z 's/\n/, /g'
         example: [examples/ambx, examples/acm/acm_terminal, examples/adk/adk_barcode, examples/adk/ArduinoBlinkLED, examples/adk/demokit_20, examples/adk/term_test, examples/adk/term_time, examples/Bluetooth/BTHID, examples/Bluetooth/PS3BT, examples/Bluetooth/PS3Multi, examples/Bluetooth/PS3SPP, examples/Bluetooth/PS4BT, examples/Bluetooth/PS5BT, examples/Bluetooth/SPP, examples/Bluetooth/SPPMulti, examples/Bluetooth/SwitchProBT, examples/Bluetooth/Wii, examples/Bluetooth/WiiBalanceBoard, examples/Bluetooth/WiiIRCamera, examples/Bluetooth/WiiMulti, examples/Bluetooth/WiiUProController, examples/board_qc, examples/cdc_XR21B1411/XR_terminal, examples/ftdi/USBFTDILoopback, examples/GPIO/Blink, examples/GPIO/Blink_LowLevel, examples/GPIO/Input, examples/HID/le3dp, examples/HID/scale, examples/HID/SRWS1, examples/HID/t16km, examples/HID/USBHIDBootKbd, examples/HID/USBHIDBootKbdAndMouse, examples/HID/USBHIDBootMouse, examples/HID/USBHID_desc, examples/HID/USBHIDJoystick, examples/HID/USBHIDMultimediaKbd, examples/hub_demo, examples/max_LCD, examples/pl2303/pl2303_gprs_terminal, examples/pl2303/pl2303_gps, examples/pl2303/pl2303_tinygps, examples/pl2303/pl2303_xbee_terminal, examples/PS3USB, examples/PS4USB, examples/PS5USB, examples/PSBuzz, examples/SwitchProUSB, examples/USB_desc, examples/USBH_MIDI/bidirectional_converter, examples/USBH_MIDI/eVY1_sample, examples/USBH_MIDI/USBH_MIDI_dump, examples/USBH_MIDI/USB_MIDI_converter, examples/USBH_MIDI/USB_MIDI_converter_multi, examples/Xbox/XBOXOLD, examples/Xbox/XBOXONE, examples/Xbox/XBOXONESBT, examples/Xbox/XBOXRECV, examples/Xbox/XBOXUSB]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Install PlatformIO
         run: |
           pip install -U pip setuptools wheel
@@ -56,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         # We need GraphViz to draw figures and graphs
         # Doxygen is used for generating the documentation
@@ -68,7 +70,7 @@ jobs:
           doxygen doc/Doxyfile
           touch doc/html/.nojekyll
       - name: Deploy documentation
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./doc/html
