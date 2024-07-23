@@ -1,4 +1,4 @@
-#if defined(ARDUINO_SAM_DUE) || defined(ARDUINO_NRF52840_FEATHER) || defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
+#if defined(ARDUINO_SAM_DUE) || defined(ARDUINO_NRF52840_FEATHER) || defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
 #include <avr/dtostrf.h>
 #endif
 
