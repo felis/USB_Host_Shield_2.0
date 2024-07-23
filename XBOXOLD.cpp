@@ -47,6 +47,9 @@ const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
 XBOXOLD::XBOXOLD(USB *p) :
 pUsb(p), // pointer to USB class instance - mandatory
 bAddress(0), // device address - mandatory
+bNumEP(1), // If config descriptor needs to be parsed
+qNextPollTime(0), // Reset NextPollTime
+pollInterval(0),
 bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
                 epInfo[i].epAddr = 0;
@@ -68,6 +71,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         EpInfo *oldep_ptr = NULL;
         uint16_t PID;
         uint16_t VID;
+        uint8_t num_of_conf; // Number of configurations
 
         // get memory address of USB device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
@@ -162,31 +166,38 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         if(rcode)
                 goto FailSetDevTblEntry;
 
-        /* The application will work in reduced host mode, so we can save program and data
-           memory space. After verifying the VID we will use known values for the
-           configuration values for device, interface, endpoints and HID for the XBOX controllers */
+        /*
+	   We better go and parse configuration values, as there are at least two kind of controllers that use different endpoints,
+	   so using hardcoded values cause the usb host to miss all input reports from those controllers.
 
-        /* Initialize data structures for endpoints of device */
-        epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01; // XBOX report endpoint
-        epInfo[ XBOX_INPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
-        epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = 0;
-        epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = 0;
-        epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX output endpoint
-        epInfo[ XBOX_OUTPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = 0;
-        epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = 0;
+	   As an example:
+           - 045e:0289 uses EP 1 for IN and EP 2 for OUT
+           - but 045e:0202 uses both EP 2 for IN and OUT
+	 */
+        num_of_conf = udd->bNumConfigurations; // Number of configurations
 
-        rcode = pUsb->setEpInfoEntry(bAddress, 3, epInfo);
+        USBTRACE2("NC:", num_of_conf);
+
+        // Check if attached device is a Xbox controller and fill endpoint data structure
+        for(uint8_t i = 0; i < num_of_conf; i++) {
+                ConfigDescParser<0, 0, 0, 0> confDescrParser(this); // Allow all devices, as we have already verified that it is a Xbox controller from the VID and PID
+                rcode = pUsb->getConfDescr(bAddress, 0, i, &confDescrParser);
+                if(rcode) // Check error code
+                        goto FailGetConfDescr;
+                if(bNumEP >= XBOX_MAX_ENDPOINTS) // All endpoints extracted
+                        break;
+        }
+
+        if(bNumEP < XBOX_MAX_ENDPOINTS)
+                goto FailUnknownDevice;
+
+        rcode = pUsb->setEpInfoEntry(bAddress, bNumEP, epInfo);
         if(rcode)
                 goto FailSetDevTblEntry;
 
         delay(200); // Give time for address change
 
-        rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, 1);
+        rcode = pUsb->setConf(bAddress, epInfo[ XBOX_CONTROL_PIPE ].epAddr, bConfNum);
         if(rcode)
                 goto FailSetConfDescr;
 
@@ -212,6 +223,12 @@ FailSetDevTblEntry:
         goto Fail;
 #endif
 
+FailGetConfDescr:
+#ifdef DEBUG_USB_HOST
+        NotifyFailGetConfDescr();
+        goto Fail;
+#endif
+
 FailSetConfDescr:
 #ifdef DEBUG_USB_HOST
         NotifyFailSetConfDescr();
@@ -233,25 +250,91 @@ Fail:
         return rcode;
 }
 
+/* Extracts endpoint information from config descriptor */
+void XBOXOLD::EndpointXtract(uint8_t conf,
+        uint8_t iface __attribute__((unused)),
+        uint8_t alt __attribute__((unused)),
+        uint8_t proto __attribute__((unused)),
+        const USB_ENDPOINT_DESCRIPTOR *pep)
+{
+        bConfNum = conf;
+        uint8_t index;
+
+        if((pep->bmAttributes & bmUSB_TRANSFER_TYPE) == USB_TRANSFER_TYPE_INTERRUPT) { // Interrupt endpoint
+                index = (pep->bEndpointAddress & 0x80) == 0x80 ? XBOX_INPUT_PIPE : XBOX_OUTPUT_PIPE; // Set the endpoint index
+        } else
+                return;
+
+        // Fill the rest of endpoint data structure
+        epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
+        epInfo[index].maxPktSize = (uint8_t)pep->wMaxPacketSize;
+#ifdef EXTRADEBUG
+        PrintEndpointDescriptor(pep);
+#endif
+        if(pollInterval < pep->bInterval) // Set the polling interval as the largest polling interval obtained from endpoints
+                pollInterval = pep->bInterval;
+        bNumEP++;
+}
+
+void XBOXOLD::PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr
+    __attribute__((unused)))
+{
+#ifdef EXTRADEBUG
+        Notify(PSTR("\r\nEndpoint descriptor:"), 0x80);
+        Notify(PSTR("\r\nLength:\t\t"), 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bLength, 0x80);
+        Notify(PSTR("\r\nType:\t\t"), 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bDescriptorType, 0x80);
+        Notify(PSTR("\r\nAddress:\t"), 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bEndpointAddress, 0x80);
+        Notify(PSTR("\r\nAttributes:\t"), 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bmAttributes, 0x80);
+        Notify(PSTR("\r\nMaxPktSize:\t"), 0x80);
+        D_PrintHex<uint16_t > (ep_ptr->wMaxPacketSize, 0x80);
+        Notify(PSTR("\r\nPoll Intrv:\t"), 0x80);
+        D_PrintHex<uint8_t > (ep_ptr->bInterval, 0x80);
+#endif
+}
+
 /* Performs a cleanup after failed Init() attempt */
 uint8_t XBOXOLD::Release() {
         XboxConnected = false;
         pUsb->GetAddressPool().FreeAddress(bAddress);
         bAddress = 0;
+        bNumEP = 1; // Must have to be reset to 1
+        qNextPollTime = 0; // Reset next poll time
+        pollInterval = 0;
         bPollEnable = false;
+#ifdef DEBUG_USB_HOST
+        Notify(PSTR("\r\nXbox Controller Disconnected\r\n"), 0x80);
+#endif
         return 0;
 }
 
 uint8_t XBOXOLD::Poll() {
+        uint8_t rcode = 0;
+
         if(!bPollEnable)
                 return 0;
-        uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
-        pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
-        readReport();
-#ifdef PRINTREPORT
-        printReport(BUFFER_SIZE); // Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
+
+        if((int32_t)((uint32_t)millis() - qNextPollTime) >= 0L) { // Do not poll if shorter than polling interval
+                qNextPollTime = (uint32_t)millis() + pollInterval; // Set new poll time
+                uint16_t length =  (uint16_t)epInfo[ XBOX_INPUT_PIPE ].maxPktSize; // Read the maximum packet size from the endpoint
+                uint8_t rcode = pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &length, readBuf, pollInterval);
+                if(!rcode) {
+                        readReport();
+#ifdef PRINTREPORT // Uncomment "#define PRINTREPORT" to print the report send by the Xbox ONE Controller
+                        printReport(length);
 #endif
-        return 0;
+                }
+#ifdef DEBUG_USB_HOST
+                else if(rcode != hrNAK) { // Not a matter of no update to send
+                        Notify(PSTR("\r\nXbox Poll Failed, error code: "), 0x80);
+                        NotifyFail(rcode);
+                }
+#endif
+        }
+        return rcode;
 }
 
 void XBOXOLD::readReport() {
@@ -260,10 +343,10 @@ void XBOXOLD::readReport() {
         for(uint8_t i = 0; i < sizeof (buttonValues); i++)
                 buttonValues[i] = readBuf[i + 4]; // A, B, X, Y, BLACK, WHITE, L1, and R1
 
-        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[12] << 8) | readBuf[13]);
-        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[14] << 8) | readBuf[15]);
-        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[16] << 8) | readBuf[17]);
-        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[18] << 8) | readBuf[19]);
+        hatValue[LeftHatX] = (int16_t)(((uint16_t)readBuf[13] << 8) | readBuf[12]);
+        hatValue[LeftHatY] = (int16_t)(((uint16_t)readBuf[15] << 8) | readBuf[14]);
+        hatValue[RightHatX] = (int16_t)(((uint16_t)readBuf[17] << 8) | readBuf[16]);
+        hatValue[RightHatY] = (int16_t)(((uint16_t)readBuf[19] << 8) | readBuf[18]);
 
         //Notify(PSTR("\r\nButtonState"), 0x80);
         //PrintHex<uint8_t>(ButtonState, 0x80);
@@ -282,7 +365,7 @@ void XBOXOLD::readReport() {
 
 void XBOXOLD::printReport(uint16_t length __attribute__((unused))) { //Uncomment "#define PRINTREPORT" to print the report send by the Xbox controller
 #ifdef PRINTREPORT
-        if(readBuf == NULL)
+        if(readBuf == NULL || !length)
                 return;
         for(uint8_t i = 0; i < length; i++) {
                 D_PrintHex<uint8_t > (readBuf[i], 0x80);

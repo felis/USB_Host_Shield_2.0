@@ -823,7 +823,12 @@ uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint8_t conf, USBReadParser 
 
         //USBTRACE2("\r\ntotal conf.size:", total);
 
-        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, bufSize, buf, p));
+        /*
+	   At least 045e:0289 complains if nbytes is greater than total when calling ctrlReq().
+           Make sure that we don't request chunks greater than total length, now that XBOXOLD
+	   retrieves and parses configuration descriptors.
+	 */
+        return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, total, (total<bufSize)?total:bufSize, buf, p));
 }
 
 //get string descriptor

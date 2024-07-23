@@ -45,7 +45,7 @@
 #define XBOX_MAX_ENDPOINTS   3
 
 /** This class implements support for a the original Xbox controller via USB. */
-class XBOXOLD : public USBDeviceConfig {
+class XBOXOLD : public USBDeviceConfig, public UsbConfigXtracter {
 public:
         /**
          * Constructor for the XBOXOLD class.
@@ -87,6 +87,14 @@ public:
          */
         virtual bool isReady() {
                 return bPollEnable;
+        };
+
+        /**
+         * Read the poll interval taken from the endpoint descriptors.
+         * @return The poll interval in ms.
+         */
+        uint8_t readPollInterval() {
+                return pollInterval;
         };
 
         /**
@@ -154,6 +162,31 @@ protected:
         /** Endpoint info structure. */
         EpInfo epInfo[XBOX_MAX_ENDPOINTS];
 
+        /** Configuration number. */
+        uint8_t bConfNum;
+        /** Total number of endpoints in the configuration. */
+        uint8_t bNumEP;
+        /** Next poll time based on poll interval taken from the USB descriptor. */
+        uint32_t qNextPollTime;
+
+        /** @name UsbConfigXtracter implementation */
+        /**
+         * UsbConfigXtracter implementation, used to extract endpoint information.
+         * @param conf  Configuration value.
+         * @param iface Interface number.
+         * @param alt   Alternate setting.
+         * @param proto Interface Protocol.
+         * @param ep    Endpoint Descriptor.
+         */
+        void EndpointXtract(uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const USB_ENDPOINT_DESCRIPTOR *ep);
+        /**@}*/
+
+        /**
+         * Used to print the USB Endpoint Descriptor.
+         * @param ep_ptr Pointer to USB Endpoint Descriptor.
+         */
+        void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+
 private:
         static int8_t getAnalogIndex(ButtonEnum b);
         static int8_t getDigitalIndex(ButtonEnum b);
@@ -165,6 +198,7 @@ private:
          */
         void (*pFuncOnInit)(void); // Pointer to function called in onInit()
 
+        uint8_t pollInterval;
         bool bPollEnable;
 
         /* Variables to store the digital buttons */
