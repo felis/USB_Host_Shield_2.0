@@ -65,6 +65,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_x_b_o_x_o_l_d-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -78,8 +79,9 @@ Inheritance diagram for XBOXOLD:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_x_b_o_x_o_l_d__inherit__graph.png" border="0" usemap="#a_x_b_o_x_o_l_d_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_x_b_o_x_o_l_d_inherit__map" id="a_x_b_o_x_o_l_d_inherit__map">
-<area shape="rect" title=" " alt="" coords="30,80,115,107"/>
+<area shape="rect" title=" " alt="" coords="110,80,195,107"/>
 <area shape="rect" href="class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,32"/>
+<area shape="rect" href="class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -87,11 +89,12 @@ Collaboration diagram for XBOXOLD:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_x_b_o_x_o_l_d__coll__graph.png" border="0" usemap="#a_x_b_o_x_o_l_d_coll__map" alt="Collaboration graph"/></div>
 <map name="a_x_b_o_x_o_l_d_coll__map" id="a_x_b_o_x_o_l_d_coll__map">
-<area shape="rect" title=" " alt="" coords="146,171,231,197"/>
+<area shape="rect" title=" " alt="" coords="231,171,317,197"/>
 <area shape="rect" href="class_u_s_b_device_config.html" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" href="class_u_s_b.html" title=" " alt="" coords="164,81,213,108"/>
-<area shape="rect" href="class_m_a_x3421e.html" title=" " alt="" coords="143,5,235,32"/>
-<area shape="rect" href="struct_ep_info.html" title=" " alt="" coords="237,81,300,108"/>
+<area shape="rect" href="class_usb_config_xtracter.html" title=" " alt="" coords="164,81,304,108"/>
+<area shape="rect" href="class_u_s_b.html" title=" " alt="" coords="328,81,377,108"/>
+<area shape="rect" href="class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,32"/>
+<area shape="rect" href="struct_ep_info.html" title=" " alt="" coords="401,81,464,108"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -110,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac2db53abfe0aae15d56ef65b57a2b38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4d77a5108f2e6812ba00be1b0374829"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#af4d77a5108f2e6812ba00be1b0374829">isReady</a> ()</td></tr>
 <tr class="separator:af4d77a5108f2e6812ba00be1b0374829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44fff75636767dec1408770b61ddaf43"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a44fff75636767dec1408770b61ddaf43">readPollInterval</a> ()</td></tr>
+<tr class="separator:a44fff75636767dec1408770b61ddaf43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6db4a09978cacebb93d1b4ea5ad676f2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a6db4a09978cacebb93d1b4ea5ad676f2">VIDPIDOK</a> (uint16_t vid, uint16_t pid)</td></tr>
 <tr class="separator:a6db4a09978cacebb93d1b4ea5ad676f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Xbox Controller functions</div></td></tr>
@@ -140,6 +145,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa091ff52ba7ad4216b0cd0f18651b755"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#aa091ff52ba7ad4216b0cd0f18651b755">XboxConnected</a></td></tr>
 <tr class="separator:aa091ff52ba7ad4216b0cd0f18651b755"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a2f0cf2acb13f87662a08aab598c31778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a2f0cf2acb13f87662a08aab598c31778">PrintEndpointDescriptor</a> (const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *ep_ptr)</td></tr>
+<tr class="separator:a2f0cf2acb13f87662a08aab598c31778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">UsbConfigXtracter implementation</div></td></tr>
+<tr class="memitem:a2dcbfd3ca9f00d7170dbd6edd2f7de77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a2dcbfd3ca9f00d7170dbd6edd2f7de77">EndpointXtract</a> (uint8_t conf, uint8_t iface, uint8_t alt, uint8_t proto, const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *ep)</td></tr>
+<tr class="separator:a2dcbfd3ca9f00d7170dbd6edd2f7de77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a2b4d7d994ab6f5e1d1344d4162e9f5fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_s_b.html">USB</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a2b4d7d994ab6f5e1d1344d4162e9f5fb">pUsb</a></td></tr>
@@ -148,6 +161,12 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ae28d3306b484750d7067fa5f7ed0beae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06a318db8037f25a8d9bb62785dbacb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ep_info.html">EpInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a06a318db8037f25a8d9bb62785dbacb9">epInfo</a> [<a class="el" href="_x_b_o_x_u_s_b_8h.html#af35f872fc33e690571eb99de648e8e96">XBOX_MAX_ENDPOINTS</a>]</td></tr>
 <tr class="separator:a06a318db8037f25a8d9bb62785dbacb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d19f02ee8ef908da0c511178d3f874c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#a8d19f02ee8ef908da0c511178d3f874c">bConfNum</a></td></tr>
+<tr class="separator:a8d19f02ee8ef908da0c511178d3f874c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9adad3f2e041881cc32f3b10aa4a24a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#ae9adad3f2e041881cc32f3b10aa4a24a">bNumEP</a></td></tr>
+<tr class="separator:ae9adad3f2e041881cc32f3b10aa4a24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae793559585b88923ed240e4cf7c0d846"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_b_o_x_o_l_d.html#ae793559585b88923ed240e4cf7c0d846">qNextPollTime</a></td></tr>
+<tr class="separator:ae793559585b88923ed240e4cf7c0d846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements support for a the original Xbox controller via <a class="el" href="class_u_s_b.html">USB</a>. </p>
@@ -232,7 +251,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a3706cf6b18785aff823171e280bab738">USBDeviceConfig</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00063">63</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00066">66</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +281,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a61e301efedae55c6ac12c6cce154e432">USBDeviceConfig</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00237">237</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00300">300</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +311,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#a893ea73deab98be837c257201e7da25a">USBDeviceConfig</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00245">245</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00314">314</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -354,6 +373,34 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a44fff75636767dec1408770b61ddaf43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44fff75636767dec1408770b61ddaf43">&#9670;&nbsp;</a></span>readPollInterval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t XBOXOLD::readPollInterval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Read the poll interval taken from the endpoint descriptors. </p><dl class="section return"><dt>Returns</dt><dd>The poll interval in ms. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00096">96</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+
+</div>
+</div>
 <a id="a6db4a09978cacebb93d1b4ea5ad676f2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6db4a09978cacebb93d1b4ea5ad676f2">&#9670;&nbsp;</a></span>VIDPIDOK()</h2>
 
@@ -398,7 +445,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_s_b_device_config.html#af920743379d8c133dda4335d11601141">USBDeviceConfig</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00098">98</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00106">106</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
@@ -427,7 +474,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_x_b_o_x_o_l_d.html#a61ed3d2e7d782b4456b3ed863a50789f">getButtonClick(ButtonEnum b)</a> will return a bool, while <a class="el" href="class_x_b_o_x_o_l_d.html#a81c07adc969bcfbbb10a36b3544ee85a">getButtonPress(ButtonEnum b)</a> will return a byte if reading <a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda0adffb24dae0c41be5b803f4d444f066">L2</a> or <a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda629d7b403cea5f826352f3aefb9a6d6a">R2</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00348">348</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00431">431</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +503,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_x_b_o_x_o_l_d.html#a61ed3d2e7d782b4456b3ed863a50789f">getButtonClick(ButtonEnum b)</a> will return a bool, while <a class="el" href="class_x_b_o_x_o_l_d.html#a81c07adc969bcfbbb10a36b3544ee85a">getButtonPress(ButtonEnum b)</a> will return a byte if reading <a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda0adffb24dae0c41be5b803f4d444f066">L2</a> or <a class="el" href="controller_enums_8h.html#a94f7389d205c78830a5441370d7870fda629d7b403cea5f826352f3aefb9a6d6a">R2</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00362">362</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00445">445</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -483,7 +530,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a signed 16-bit integer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00382">382</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00465">465</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -511,7 +558,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Turn rumble off the controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00127">127</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00135">135</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
@@ -548,7 +595,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00392">392</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00475">475</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -582,7 +629,109 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00141">141</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00149">149</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+
+</div>
+</div>
+<a id="a2dcbfd3ca9f00d7170dbd6edd2f7de77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dcbfd3ca9f00d7170dbd6edd2f7de77">&#9670;&nbsp;</a></span>EndpointXtract()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XBOXOLD::EndpointXtract </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>conf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>iface</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>alt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>proto</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>ep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p><a class="el" href="class_usb_config_xtracter.html">UsbConfigXtracter</a> implementation, used to extract endpoint information. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">conf</td><td>Configuration value. </td></tr>
+    <tr><td class="paramname">iface</td><td>Interface number. </td></tr>
+    <tr><td class="paramname">alt</td><td>Alternate setting. </td></tr>
+    <tr><td class="paramname">proto</td><td>Interface Protocol. </td></tr>
+    <tr><td class="paramname">ep</td><td>Endpoint Descriptor. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="class_usb_config_xtracter.html#a7717ea27bb756568e0deb544d8331370">UsbConfigXtracter</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00254">254</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2f0cf2acb13f87662a08aab598c31778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f0cf2acb13f87662a08aab598c31778">&#9670;&nbsp;</a></span>PrintEndpointDescriptor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XBOXOLD::PrintEndpointDescriptor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_u_s_b___e_n_d_p_o_i_n_t___d_e_s_c_r_i_p_t_o_r.html">USB_ENDPOINT_DESCRIPTOR</a> *&#160;</td>
+          <td class="paramname"><em>ep_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Used to print the <a class="el" href="class_u_s_b.html">USB</a> Endpoint Descriptor. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ep_ptr</td><td>Pointer to <a class="el" href="class_u_s_b.html">USB</a> Endpoint Descriptor. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html#l00279">279</a> of file <a class="el" href="_x_b_o_x_o_l_d_8cpp_source.html">XBOXOLD.cpp</a>.</p>
 
 </div>
 </div>
@@ -600,7 +749,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>True if a Xbox controller is connected. </p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00147">147</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00155">155</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
@@ -625,7 +774,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pointer to <a class="el" href="class_u_s_b.html">USB</a> class instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00151">151</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00159">159</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
@@ -650,7 +799,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Device address. </p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00153">153</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00161">161</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
@@ -675,7 +824,82 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Endpoint info structure. </p>
 
-<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00155">155</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00163">163</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+
+</div>
+</div>
+<a id="a8d19f02ee8ef908da0c511178d3f874c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d19f02ee8ef908da0c511178d3f874c">&#9670;&nbsp;</a></span>bConfNum</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t XBOXOLD::bConfNum</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Configuration number. </p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00166">166</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+
+</div>
+</div>
+<a id="ae9adad3f2e041881cc32f3b10aa4a24a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9adad3f2e041881cc32f3b10aa4a24a">&#9670;&nbsp;</a></span>bNumEP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t XBOXOLD::bNumEP</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Total number of endpoints in the configuration. </p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00168">168</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
+
+</div>
+</div>
+<a id="ae793559585b88923ed240e4cf7c0d846"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae793559585b88923ed240e4cf7c0d846">&#9670;&nbsp;</a></span>qNextPollTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t XBOXOLD::qNextPollTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Next poll time based on poll interval taken from the <a class="el" href="class_u_s_b.html">USB</a> descriptor. </p>
+
+<p class="definition">Definition at line <a class="el" href="_x_b_o_x_o_l_d_8h_source.html#l00170">170</a> of file <a class="el" href="_x_b_o_x_o_l_d_8h_source.html">XBOXOLD.h</a>.</p>
 
 </div>
 </div>
