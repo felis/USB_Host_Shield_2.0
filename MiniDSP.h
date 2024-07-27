@@ -39,6 +39,21 @@
 class MiniDSP : public HIDUniversal {
 public:
 
+        enum class InputSource : uint8_t {
+                Analog = 0x00,
+                Toslink = 0x01,
+                USB = 0x02,
+                Unknown = 0x03
+        };
+
+        enum class Config : uint8_t {
+                Config_1 = 0x00,
+                Config_2 = 0x01,
+                Config_3 = 0x02,
+                Config_4 = 0x03,
+                Unknown = 0x04
+        };
+
         /**
          * Constructor for the MiniDSP class.
          * @param  p   Pointer to the USB class instance.
@@ -84,6 +99,22 @@ public:
         }
 
         /**
+         * Used to call your own function when the input source has changed.
+         * @param funcOnInputSourceChange Function to call.
+         */
+        void attachOnInputSourceChange(void (*funcOnInputSourceChange)(InputSource)) {
+                pFuncOnInputSourceChange = funcOnInputSourceChange;
+        }
+
+        /**
+         * Used to call your own function when the config has changed.
+         * @param funcOnConfigChange Function to call.
+         */
+        void attachOnConfigChange(void (*funcOnConfigChange)(Config)) {
+                pFuncOnConfigChange = funcOnConfigChange;
+        }
+
+        /**
          * Retrieve the current volume of the MiniDSP.
          * The volume is passed as an unsigned integer that represents twice the
          * -dB value. Example: 19 represents -9.5dB.
@@ -102,12 +133,41 @@ public:
         }
 
         /**
-         * Retrieve the current muted status of the MiniDSP
+         * Retrieve the current muted status of the MiniDSP.
          * @return `true` if the device is muted, `false` otherwise.
          */
         bool isMuted() const {
                 return muted;
         }
+
+        /**
+         * Retrieve the current input source of the MiniDSP.
+         * @return Current input source: `Analog`, `Toslink` or `USB`.
+         */
+        InputSource getInputSource() const {
+                return inputSource;
+        }
+
+        /**
+         * Set volume of the MiniDSP in dB. Values between 0 and -127.5 are
+         * accepted. If any values outside if this range are passed, this
+         * function does nothing.
+         *
+         * Calling this function will not trigger the volume change callback.
+         *
+         * @param volumeDB New volume to set.
+         */
+        void setVolumeDB(float volumeDB) const;
+
+
+        /**
+         * Mute or unmute the MiniDSP.
+         *
+         * Calling this function will not trigger the mute change callback.
+         *
+         * @param muted Muted status.
+         */
+        void setMuted(bool muted) const;
 
 protected:
         /** @name HIDUniversal implementation */
@@ -160,6 +220,18 @@ private:
         RequestStatus() const;
 
         /**
+         * Send the "Request input source" command to the MiniDSP.
+         */
+        void
+        RequestInputSource() const;
+
+        /**
+         * Send the "Request config" command to the MiniDSP.
+         */
+        void
+        RequestConfig() const;
+
+        /**
          * Send the given MiniDSP command. This function will create a buffer
          * with the expected header and checksum and send it to the MiniDSP.
          * Responses will come in throug `ParseHIDData`.
@@ -179,6 +251,12 @@ private:
         // Pointer to function called when muted status changes.
         void (*pFuncOnMutedChange)(bool) = nullptr;
 
+        // Pointer to function called when input source changes.
+        void (*pFuncOnInputSourceChange)(InputSource) = nullptr;
+
+        // Pointer to function called when config changes.
+        void (*pFuncOnConfigChange)(Config) = nullptr;
+
         // -----------------------------------------------------------------------------
 
         // MiniDSP state. Currently only volume and muted status are
@@ -188,4 +266,6 @@ private:
         // -dB value. Example: 19 represents -9.5dB.
         uint8_t volume = 0;
         bool muted = false;
+        InputSource inputSource = InputSource::Unknown;
+        Config config = Config::Unknown;
 };
