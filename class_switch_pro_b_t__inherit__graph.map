@@ -1,6 +1,9 @@
 <map id="SwitchProBT" name="SwitchProBT">
-<area shape="rect" id="node1" title=" " alt="" coords="79,155,182,181"/>
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,80,103,107"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,32"/>
-<area shape="rect" id="node4" href="$class_switch_pro_parser.html" title=" " alt="" coords="127,80,254,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="79,152,182,177"/>
+<area shape="rect" id="Node000002" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,79,103,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,113,123,150,119,154,88,116"/>
+<area shape="rect" id="Node000003" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,44,75,79,69,79,69,44"/>
+<area shape="rect" id="Node000004" href="$class_switch_pro_parser.html" title=" " alt="" coords="127,79,254,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,116,142,154,138,150,170,113"/>
 </map>

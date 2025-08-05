@@ -1,5 +1,7 @@
 <map id="ADK" name="ADK">
-<area shape="rect" id="node1" title=" " alt="" coords="127,80,178,107"/>
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,32"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="127,79,178,104"/>
+<area shape="rect" id="Node000002" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,38,141,76,138,80,94,42"/>
+<area shape="rect" id="Node000003" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,42,168,80,164,76,209,38"/>
 </map>

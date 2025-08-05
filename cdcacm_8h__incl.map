@@ -1,4 +1,5 @@
 <map id="cdcacm.h" name="cdcacm.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,89,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="18,80,77,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,89,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="18,79,77,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="50,31,50,65,45,65,45,31"/>
 </map>

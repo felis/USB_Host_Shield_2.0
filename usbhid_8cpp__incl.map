@@ -1,6 +1,10 @@
 <map id="usbhid.cpp" name="usbhid.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,97,32"/>
-<area shape="rect" id="node2" href="$usbhid_8h.html" title=" " alt="" coords="13,80,90,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="22,229,81,256"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="43,155,153,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,97,31"/>
+<area shape="rect" id="Node000002" href="$usbhid_8h.html" title=" " alt="" coords="13,79,90,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,31,54,65,49,65,49,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="22,225,81,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="49,105,34,152,35,183,43,212,38,214,30,184,29,152,44,103"/>
+<area shape="rect" id="Node000004" href="$hidusagestr_8h.html" title=" " alt="" coords="43,152,153,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="61,103,85,139,81,142,57,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="93,179,69,215,64,212,88,176"/>
 </map>

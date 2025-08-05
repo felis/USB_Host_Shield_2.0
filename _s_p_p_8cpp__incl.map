@@ -1,8 +1,15 @@
 <map id="SPP.cpp" name="SPP.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,76,32"/>
-<area shape="rect" id="node2" href="$_s_p_p_8h.html" title=" " alt="" coords="13,80,69,107"/>
-<area shape="rect" id="node3" href="$_b_t_d_8h.html" title=" " alt="" coords="10,155,71,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title=" " alt="" coords="25,379,83,405"/>
-<area shape="rect" id="node5" href="$usbhid_8h.html" title=" " alt="" coords="41,229,118,256"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="91,304,201,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,76,31"/>
+<area shape="rect" id="Node000002" href="$_s_p_p_8h.html" title=" " alt="" coords="13,79,69,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="43,31,43,65,38,65,38,31"/>
+<area shape="rect" id="Node000003" href="$_b_t_d_8h.html" title=" " alt="" coords="10,152,71,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="43,104,43,138,38,138,38,104"/>
+<area shape="rect" id="Node000004" href="$_usb_8h.html" title=" " alt="" coords="25,372,83,397"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="40,178,31,226,31,262,35,298,49,358,43,359,30,299,25,262,26,225,35,177"/>
+<area shape="rect" id="Node000005" href="$usbhid_8h.html" title=" " alt="" coords="41,225,118,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="49,176,69,212,64,215,45,179"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="80,252,61,359,56,358,75,251"/>
+<area shape="rect" id="Node000006" href="$hidusagestr_8h.html" title=" " alt="" coords="91,299,201,324"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="92,249,128,287,124,290,88,253"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="133,326,81,366,78,361,130,322"/>
 </map>

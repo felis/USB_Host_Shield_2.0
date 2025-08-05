@@ -1,4 +1,5 @@
 <map id="SinkParser&lt; BASE_CLASS, LEN_TYPE, OFFSET_TYPE &gt;" name="SinkParser&lt; BASE_CLASS, LEN_TYPE, OFFSET_TYPE &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,207,121"/>
-<area shape="rect" id="node2" title=" " alt="" coords="53,5,159,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,207,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="53,5,159,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,44,109,79,103,79,103,44"/>
 </map>

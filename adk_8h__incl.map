@@ -1,4 +1,5 @@
 <map id="adk.h" name="adk.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,64,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="5,80,64,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="37,31,37,65,32,65,32,31"/>
 </map>

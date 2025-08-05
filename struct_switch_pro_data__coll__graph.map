@@ -1,5 +1,7 @@
 <map id="SwitchProData" name="SwitchProData">
-<area shape="rect" id="node1" title=" " alt="" coords="51,95,169,121"/>
-<area shape="rect" id="node2" href="$struct_imu_data.html" title=" " alt="" coords="5,5,84,32"/>
-<area shape="rect" id="node3" href="$union_switch_pro_buttons.html" title=" " alt="" coords="109,5,245,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="80,93,197,119"/>
+<area shape="rect" id="Node000002" href="$union_switch_pro_buttons.html" title=" " alt="" coords="5,5,141,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,40,132,91,127,94,88,43"/>
+<area shape="rect" id="Node000003" href="$struct_imu_data.html" title=" " alt="" coords="166,5,245,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,43,150,94,146,91,186,40"/>
 </map>

@@ -1,8 +1,13 @@
 <map id="USBReadParser" name="USBReadParser">
-<area shape="rect" id="node1" title=" " alt="" coords="5,85,128,112"/>
-<area shape="rect" id="node2" href="$class_config_desc_parser.html" title=" " alt="" coords="176,5,396,61"/>
-<area shape="rect" id="node3" href="$class_midi_desc_parser.html" title=" " alt="" coords="225,85,347,112"/>
-<area shape="rect" id="node4" href="$class_report_desc_parser_base.html" title=" " alt="" coords="201,136,371,163"/>
-<area shape="rect" id="node5" href="$class_report_desc_parser.html" title=" " alt="" coords="448,111,585,137"/>
-<area shape="rect" id="node6" href="$class_report_desc_parser2.html" title=" " alt="" coords="444,161,589,188"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,84,128,109"/>
+<area shape="rect" id="Node000002" href="$class_config_desc_parser.html" title=" " alt="" coords="176,5,396,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,77,191,58,192,63,125,83"/>
+<area shape="rect" id="Node000003" href="$class_midi_desc_parser.html" title=" " alt="" coords="225,84,347,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,94,225,94,225,99,142,99"/>
+<area shape="rect" id="Node000004" href="$class_report_desc_parser_base.html" title=" " alt="" coords="201,133,371,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,110,229,131,228,136,136,115"/>
+<area shape="rect" id="Node000005" href="$class_report_desc_parser.html" title=" " alt="" coords="448,108,585,133"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="384,133,447,126,448,131,385,138"/>
+<area shape="rect" id="Node000006" href="$class_report_desc_parser2.html" title=" " alt="" coords="444,157,589,183"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="385,154,444,160,443,165,384,159"/>
 </map>

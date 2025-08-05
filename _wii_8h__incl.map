@@ -1,8 +1,15 @@
 <map id="Wii.h" name="Wii.h">
-<area shape="rect" id="node1" title=" " alt="" coords="71,5,126,32"/>
-<area shape="rect" id="node2" href="$_b_t_d_8h.html" title=" " alt="" coords="5,80,67,107"/>
-<area shape="rect" id="node6" href="$controller_enums_8h.html" title=" " alt="" coords="91,80,231,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="20,304,79,331"/>
-<area shape="rect" id="node4" href="$usbhid_8h.html" title=" " alt="" coords="36,155,113,181"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title=" " alt="" coords="87,229,196,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="71,5,126,31"/>
+<area shape="rect" id="Node000002" href="$_b_t_d_8h.html" title=" " alt="" coords="5,79,67,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,33,57,70,53,66,86,29"/>
+<area shape="rect" id="Node000006" href="$controller_enums_8h.html" title=" " alt="" coords="91,79,231,104"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="111,29,144,66,140,70,107,33"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="20,299,79,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="36,105,27,152,26,188,30,224,44,285,39,286,25,225,21,189,21,152,30,104"/>
+<area shape="rect" id="Node000004" href="$usbhid_8h.html" title=" " alt="" coords="36,152,113,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="45,103,64,139,60,141,40,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="75,178,56,285,51,285,70,177"/>
+<area shape="rect" id="Node000005" href="$hidusagestr_8h.html" title=" " alt="" coords="87,225,196,251"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="88,176,123,213,119,217,84,179"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="128,253,77,292,73,288,125,249"/>
 </map>

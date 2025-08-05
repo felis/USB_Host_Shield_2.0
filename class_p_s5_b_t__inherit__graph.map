@@ -1,6 +1,9 @@
 <map id="PS5BT" name="PS5BT">
-<area shape="rect" id="node1" title=" " alt="" coords="90,155,153,181"/>
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,80,103,107"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,32"/>
-<area shape="rect" id="node4" href="$class_p_s5_parser.html" title=" " alt="" coords="127,80,214,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="90,152,153,177"/>
+<area shape="rect" id="Node000002" href="$class_b_t_h_i_d.html" title=" " alt="" coords="41,79,103,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,114,116,150,111,153,86,117"/>
+<area shape="rect" id="Node000003" href="$class_bluetooth_service.html" title=" " alt="" coords="5,5,139,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,44,75,79,69,79,69,44"/>
+<area shape="rect" id="Node000004" href="$class_p_s5_parser.html" title=" " alt="" coords="127,79,214,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,117,132,153,127,150,153,114"/>
 </map>

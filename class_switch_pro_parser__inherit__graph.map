@@ -1,5 +1,7 @@
 <map id="SwitchProParser" name="SwitchProParser">
-<area shape="rect" id="node1" title=" " alt="" coords="59,5,185,32"/>
-<area shape="rect" id="node2" href="$class_switch_pro_b_t.html" title=" " alt="" coords="5,80,108,107"/>
-<area shape="rect" id="node3" href="$class_switch_pro_u_s_b.html" title=" " alt="" coords="132,80,245,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="59,5,185,31"/>
+<area shape="rect" id="Node000002" href="$class_switch_pro_b_t.html" title=" " alt="" coords="5,79,108,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,43,69,80,65,77,100,39"/>
+<area shape="rect" id="Node000003" href="$class_switch_pro_u_s_b.html" title=" " alt="" coords="132,79,245,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,39,180,77,176,80,141,43"/>
 </map>

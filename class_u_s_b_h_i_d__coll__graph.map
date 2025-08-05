@@ -1,7 +1,11 @@
 <map id="USBHID" name="USBHID">
-<area shape="rect" id="node1" title=" " alt="" coords="197,171,271,197"/>
-<area shape="rect" id="node2" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node3" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,81,304,108"/>
-<area shape="rect" id="node4" href="$class_u_s_b.html" title=" " alt="" coords="328,81,377,108"/>
-<area shape="rect" id="node5" href="$class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,168,271,193"/>
+<area shape="rect" id="Node000002" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,80,140,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,110,213,165,211,170,105,114"/>
+<area shape="rect" id="Node000003" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,80,304,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,119,237,167,231,167,231,119"/>
+<area shape="rect" id="Node000004" href="$class_u_s_b.html" title=" " alt="" coords="328,80,377,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,116,252,170,249,166,324,111"/>
+<area shape="rect" id="Node000005" href="$class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="355,45,355,80,350,80,350,45"/>
 </map>

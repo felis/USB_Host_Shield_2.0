@@ -1,12 +1,23 @@
 <map id="PS5USB.h" name="PS5USB.h">
-<area shape="rect" id="node1" title=" " alt="" coords="129,5,214,32"/>
-<area shape="rect" id="node2" href="$hiduniversal_8h.html" title=" " alt="" coords="49,80,164,107"/>
-<area shape="rect" id="node7" href="$_p_s5_parser_8h.html" title=" " alt="" coords="207,80,304,107"/>
-<area shape="rect" id="node3" href="$hidcomposite_8h.html" title=" " alt="" coords="8,155,130,181"/>
-<area shape="rect" id="node4" href="$usbhid_8h.html" title=" " alt="" coords="30,229,108,256"/>
-<area shape="rect" id="node5" href="$_usb_8h.html" title=" " alt="" coords="46,379,105,405"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="21,304,130,331"/>
-<area shape="rect" id="node8" href="$controller_enums_8h.html" title=" " alt="" coords="206,155,346,181"/>
-<area shape="rect" id="node9" href="$_p_s5_trigger_8h.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="370,155,472,181"/>
-<area shape="rect" id="node10" title=" " alt="" coords="378,229,464,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,5,214,31"/>
+<area shape="rect" id="Node000002" href="$hiduniversal_8h.html" title=" " alt="" coords="49,79,164,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,33,128,70,124,67,159,29"/>
+<area shape="rect" id="Node000007" href="$_p_s5_parser_8h.html" title=" " alt="" coords="207,79,304,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="187,29,233,67,230,72,183,33"/>
+<area shape="rect" id="Node000003" href="$hidcomposite_8h.html" title=" " alt="" coords="8,152,130,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="102,106,84,141,79,139,98,103"/>
+<area shape="rect" id="Node000004" href="$usbhid_8h.html" title=" " alt="" coords="30,225,108,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="72,178,72,212,66,212,66,178"/>
+<area shape="rect" id="Node000005" href="$_usb_8h.html" title=" " alt="" coords="46,372,105,397"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="52,253,35,267,19,284,10,303,11,323,26,345,46,362,42,366,22,348,6,325,4,302,15,281,31,263,49,249"/>
+<area shape="rect" id="Node000006" href="$hidusagestr_8h.html" title=" " alt="" coords="21,299,130,324"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="73,251,76,285,71,285,67,251"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="78,324,78,358,73,358,73,324"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="241,106,217,127,195,153,183,177,176,199,171,239,165,279,157,301,144,325,127,347,106,366,103,362,123,344,140,323,153,299,160,278,165,238,171,197,178,175,191,151,213,123,238,102"/>
+<area shape="rect" id="Node000008" href="$controller_enums_8h.html" title=" " alt="" coords="206,152,346,177"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="261,104,271,138,266,140,256,105"/>
+<area shape="rect" id="Node000009" href="$_p_s5_trigger_8h.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="370,152,472,177"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="283,102,383,144,380,149,281,106"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="378,225,464,251"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="424,178,424,212,418,212,418,178"/>
 </map>

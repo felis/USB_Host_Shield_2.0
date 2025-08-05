@@ -1,7 +1,11 @@
 <map id="PS5Parser.h" name="PS5Parser.h">
-<area shape="rect" id="node1" title=" " alt="" coords="110,5,207,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="5,80,64,107"/>
-<area shape="rect" id="node3" href="$controller_enums_8h.html" title=" " alt="" coords="89,80,229,107"/>
-<area shape="rect" id="node4" href="$_p_s5_trigger_8h.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="253,80,355,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="261,155,347,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="110,5,207,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,33,68,74,65,69,137,28"/>
+<area shape="rect" id="Node000003" href="$controller_enums_8h.html" title=" " alt="" coords="89,79,229,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,31,161,65,156,65,156,31"/>
+<area shape="rect" id="Node000004" href="$_p_s5_trigger_8h.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="253,79,355,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,28,269,70,267,75,181,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="261,152,347,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="307,104,307,138,301,138,301,104"/>
 </map>

@@ -1,8 +1,13 @@
 <map id="PS5Trigger.h" name="PS5Trigger.h">
-<area shape="rect" id="node1" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="175,5,276,32"/>
-<area shape="rect" id="node2" href="$_p_s5_parser_8h.html" title=" " alt="" coords="111,80,209,107"/>
-<area shape="rect" id="node6" href="$_p_s5_trigger_8cpp.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="233,80,349,107"/>
-<area shape="rect" id="node3" href="$_p_s5_b_t_8h.html" title=" " alt="" coords="5,155,80,181"/>
-<area shape="rect" id="node4" href="$_p_s5_parser_8cpp.html" title=" " alt="" coords="104,155,216,181"/>
-<area shape="rect" id="node5" href="$_p_s5_u_s_b_8h.html" title=" " alt="" coords="240,155,325,181"/>
+<area shape="rect" id="Node000001" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="175,5,276,31"/>
+<area shape="rect" id="Node000002" href="$_p_s5_parser_8h.html" title=" " alt="" coords="111,79,209,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,43,173,80,169,77,203,39"/>
+<area shape="rect" id="Node000006" href="$_p_s5_trigger_8cpp.html" title="Based on Ludwig Füchsl&#39;s DualSense Windows driver https://github.com/Ohjurot/DualSense&#45;Windows." alt="" coords="233,79,349,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="247,39,282,77,278,80,243,43"/>
+<area shape="rect" id="Node000003" href="$_p_s5_b_t_8h.html" title=" " alt="" coords="5,152,80,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="131,113,63,154,60,149,128,109"/>
+<area shape="rect" id="Node000004" href="$_p_s5_parser_8cpp.html" title=" " alt="" coords="104,152,216,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="163,118,163,152,157,152,157,118"/>
+<area shape="rect" id="Node000005" href="$_p_s5_u_s_b_8h.html" title=" " alt="" coords="240,152,325,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="193,108,264,149,261,154,190,113"/>
 </map>

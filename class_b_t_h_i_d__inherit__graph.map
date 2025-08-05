@@ -1,8 +1,13 @@
 <map id="BTHID" name="BTHID">
-<area shape="rect" id="node1" title=" " alt="" coords="145,80,208,107"/>
-<area shape="rect" id="node3" href="$class_p_s4_b_t.html" title=" " alt="" coords="5,155,68,181"/>
-<area shape="rect" id="node4" href="$class_p_s5_b_t.html" title=" " alt="" coords="92,155,155,181"/>
-<area shape="rect" id="node5" href="$class_switch_pro_b_t.html" title=" " alt="" coords="179,155,281,181"/>
-<area shape="rect" id="node6" href="$class_x_b_o_x_o_n_e_s_b_t.html" title=" " alt="" coords="305,155,416,181"/>
-<area shape="rect" id="node2" href="$class_bluetooth_service.html" title=" " alt="" coords="110,5,243,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="145,79,208,104"/>
+<area shape="rect" id="Node000003" href="$class_p_s4_b_t.html" title=" " alt="" coords="5,152,68,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,113,61,154,58,149,141,108"/>
+<area shape="rect" id="Node000004" href="$class_p_s5_b_t.html" title=" " alt="" coords="92,152,155,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,117,134,153,130,150,158,113"/>
+<area shape="rect" id="Node000005" href="$class_switch_pro_b_t.html" title=" " alt="" coords="179,152,281,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="196,113,223,150,219,153,191,117"/>
+<area shape="rect" id="Node000006" href="$class_x_b_o_x_o_n_e_s_b_t.html" title=" " alt="" coords="305,152,416,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="220,106,332,149,330,154,218,111"/>
+<area shape="rect" id="Node000002" href="$class_bluetooth_service.html" title=" " alt="" coords="110,5,243,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,44,179,79,174,79,174,44"/>
 </map>

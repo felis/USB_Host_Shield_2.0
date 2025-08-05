@@ -1,13 +1,23 @@
 <map id="PS5BT" name="PS5BT">
-<area shape="rect" id="node1" title=" " alt="" coords="305,440,368,467"/>
-<area shape="rect" id="node2" href="$class_b_t_h_i_d.html" title=" " alt="" coords="257,364,320,391"/>
-<area shape="rect" id="node3" href="$class_bluetooth_service.html" title=" " alt="" coords="207,260,341,287"/>
-<area shape="rect" id="node4" href="$class_b_t_d.html" title=" " alt="" coords="249,171,299,197"/>
-<area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,81,304,108"/>
-<area shape="rect" id="node7" href="$class_u_s_b.html" title=" " alt="" coords="328,81,377,108"/>
-<area shape="rect" id="node8" href="$class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,32"/>
-<area shape="rect" id="node9" href="$struct_ep_info.html" title=" " alt="" coords="401,81,464,108"/>
-<area shape="rect" id="node10" href="$class_p_s5_parser.html" title=" " alt="" coords="363,364,449,391"/>
-<area shape="rect" id="node11" href="$class_p_s5_trigger.html" title=" " alt="" coords="365,260,455,287"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="305,433,368,459"/>
+<area shape="rect" id="Node000002" href="$class_b_t_h_i_d.html" title=" " alt="" coords="257,359,320,384"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,394,331,432,327,434,302,397"/>
+<area shape="rect" id="Node000003" href="$class_bluetooth_service.html" title=" " alt="" coords="207,256,341,281"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="280,294,290,358,284,359,275,295"/>
+<area shape="rect" id="Node000004" href="$class_b_t_d.html" title=" " alt="" coords="249,168,299,193"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="277,207,277,255,271,255,271,207"/>
+<area shape="rect" id="Node000005" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,80,140,105"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="113,108,250,166,248,171,111,113"/>
+<area shape="rect" id="Node000006" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,80,304,105"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="248,117,271,166,266,169,243,119"/>
+<area shape="rect" id="Node000007" href="$class_u_s_b.html" title=" " alt="" coords="328,80,377,105"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="335,117,287,169,283,166,331,114"/>
+<area shape="rect" id="Node000008" href="$class_m_a_x3421e.html" title=" " alt="" coords="307,5,399,31"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="355,45,355,80,350,80,350,45"/>
+<area shape="rect" id="Node000009" href="$struct_ep_info.html" title=" " alt="" coords="401,80,464,105"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="409,116,363,146,300,174,298,169,361,142,406,112"/>
+<area shape="rect" id="Node000010" href="$class_p_s5_parser.html" title=" " alt="" coords="363,359,449,384"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="387,396,350,435,346,431,383,393"/>
+<area shape="rect" id="Node000011" href="$class_p_s5_trigger.html" title=" " alt="" coords="365,256,455,281"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="412,295,409,359,404,359,406,295"/>
 </map>

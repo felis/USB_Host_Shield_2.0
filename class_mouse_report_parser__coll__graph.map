@@ -1,5 +1,7 @@
 <map id="MouseReportParser" name="MouseReportParser">
-<area shape="rect" id="node1" title=" " alt="" coords="65,95,213,121"/>
-<area shape="rect" id="node2" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node3" href="$struct_m_o_u_s_e_i_n_f_o.html" title=" " alt="" coords="159,5,261,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,93,213,119"/>
+<area shape="rect" id="Node000002" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,40,132,91,128,94,86,43"/>
+<area shape="rect" id="Node000003" href="$struct_m_o_u_s_e_i_n_f_o.html" title=" " alt="" coords="159,5,261,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,43,151,94,147,91,190,39"/>
 </map>

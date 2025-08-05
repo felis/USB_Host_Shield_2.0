@@ -1,9 +1,17 @@
 <map id="Wii.cpp" name="Wii.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="63,5,134,32"/>
-<area shape="rect" id="node2" href="$_wii_8h.html" title=" " alt="" coords="71,80,126,107"/>
-<area shape="rect" id="node3" href="$_b_t_d_8h.html" title=" " alt="" coords="5,155,67,181"/>
-<area shape="rect" id="node7" href="$controller_enums_8h.html" title=" " alt="" coords="91,155,231,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title=" " alt="" coords="20,379,79,405"/>
-<area shape="rect" id="node5" href="$usbhid_8h.html" title=" " alt="" coords="36,229,113,256"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="87,304,196,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="63,5,134,31"/>
+<area shape="rect" id="Node000002" href="$_wii_8h.html" title=" " alt="" coords="71,79,126,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,31,101,65,96,65,96,31"/>
+<area shape="rect" id="Node000003" href="$_b_t_d_8h.html" title=" " alt="" coords="5,152,67,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,106,57,143,53,140,86,103"/>
+<area shape="rect" id="Node000007" href="$controller_enums_8h.html" title=" " alt="" coords="91,152,231,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="111,103,144,140,140,143,107,106"/>
+<area shape="rect" id="Node000004" href="$_usb_8h.html" title=" " alt="" coords="20,372,79,397"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="36,178,27,226,26,262,30,298,44,358,39,359,25,299,21,262,21,225,30,177"/>
+<area shape="rect" id="Node000005" href="$usbhid_8h.html" title=" " alt="" coords="36,225,113,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="45,176,64,212,60,215,40,179"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="75,252,56,359,51,358,70,251"/>
+<area shape="rect" id="Node000006" href="$hidusagestr_8h.html" title=" " alt="" coords="87,299,196,324"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="88,249,123,287,119,290,84,253"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="128,326,77,366,73,361,125,322"/>
 </map>

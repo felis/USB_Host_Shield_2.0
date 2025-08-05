@@ -1,6 +1,11 @@
 <map id="BTD.h" name="BTD.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,67,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="20,229,79,256"/>
-<area shape="rect" id="node3" href="$usbhid_8h.html" title=" " alt="" coords="36,80,113,107"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="87,155,196,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,67,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="20,225,79,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="36,32,27,79,26,115,30,151,44,211,39,213,25,152,21,115,21,78,30,31"/>
+<area shape="rect" id="Node000003" href="$usbhid_8h.html" title=" " alt="" coords="36,79,113,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="45,30,64,65,60,68,40,32"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="75,105,56,212,51,211,70,104"/>
+<area shape="rect" id="Node000004" href="$hidusagestr_8h.html" title=" " alt="" coords="87,152,196,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="88,103,123,140,119,144,84,106"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="128,179,77,219,73,215,125,175"/>
 </map>

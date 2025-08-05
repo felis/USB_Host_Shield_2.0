@@ -1,6 +1,9 @@
 <map id="PS4Data" name="PS4Data">
-<area shape="rect" id="node1" title=" " alt="" coords="133,95,211,121"/>
-<area shape="rect" id="node2" href="$structtouchpad_x_y.html" title=" " alt="" coords="5,5,104,32"/>
-<area shape="rect" id="node3" href="$struct_p_s4_status.html" title=" " alt="" coords="129,5,215,32"/>
-<area shape="rect" id="node4" href="$union_p_s4_buttons.html" title=" " alt="" coords="240,5,336,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="131,93,208,119"/>
+<area shape="rect" id="Node000002" href="$union_p_s4_buttons.html" title=" " alt="" coords="5,5,101,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,37,155,91,152,95,78,41"/>
+<area shape="rect" id="Node000003" href="$struct_p_s4_status.html" title=" " alt="" coords="126,5,213,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,45,172,93,167,93,167,45"/>
+<area shape="rect" id="Node000004" href="$structtouchpad_x_y.html" title=" " alt="" coords="237,5,336,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="262,41,222,71,188,95,185,91,218,67,259,37"/>
 </map>

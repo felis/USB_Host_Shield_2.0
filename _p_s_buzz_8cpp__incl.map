@@ -1,10 +1,18 @@
 <map id="PSBuzz.cpp" name="PSBuzz.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="95,5,191,32"/>
-<area shape="rect" id="node2" href="$_p_s_buzz_8h.html" title=" " alt="" coords="102,80,183,107"/>
-<area shape="rect" id="node3" href="$hiduniversal_8h.html" title=" " alt="" coords="9,155,124,181"/>
-<area shape="rect" id="node8" href="$controller_enums_8h.html" title=" " alt="" coords="149,155,289,181"/>
-<area shape="rect" id="node4" href="$hidcomposite_8h.html" title=" " alt="" coords="5,229,128,256"/>
-<area shape="rect" id="node5" href="$usbhid_8h.html" title=" " alt="" coords="28,304,105,331"/>
-<area shape="rect" id="node6" href="$_usb_8h.html" title=" " alt="" coords="37,453,96,480"/>
-<area shape="rect" id="node7" href="$hidusagestr_8h.html" title=" " alt="" coords="59,379,168,405"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="95,5,191,31"/>
+<area shape="rect" id="Node000002" href="$_p_s_buzz_8h.html" title=" " alt="" coords="102,79,183,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,31,145,65,140,65,140,31"/>
+<area shape="rect" id="Node000003" href="$hiduniversal_8h.html" title=" " alt="" coords="9,152,124,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,106,91,144,87,141,129,102"/>
+<area shape="rect" id="Node000008" href="$controller_enums_8h.html" title=" " alt="" coords="149,152,289,177"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="157,102,198,141,194,144,153,106"/>
+<area shape="rect" id="Node000004" href="$hidcomposite_8h.html" title=" " alt="" coords="5,225,128,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="69,178,69,212,64,212,64,178"/>
+<area shape="rect" id="Node000005" href="$usbhid_8h.html" title=" " alt="" coords="28,299,105,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="69,251,69,285,64,285,64,251"/>
+<area shape="rect" id="Node000006" href="$_usb_8h.html" title=" " alt="" coords="37,445,96,471"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="64,325,49,372,50,403,58,432,53,434,45,404,44,372,59,323"/>
+<area shape="rect" id="Node000007" href="$hidusagestr_8h.html" title=" " alt="" coords="59,372,168,397"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="77,323,100,359,96,362,72,326"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="108,399,84,435,80,432,103,396"/>
 </map>

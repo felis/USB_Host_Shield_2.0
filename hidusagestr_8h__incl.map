@@ -1,4 +1,5 @@
 <map id="hidusagestr.h" name="hidusagestr.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,115,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="31,80,89,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,115,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="31,79,89,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,31,63,65,57,65,57,31"/>
 </map>

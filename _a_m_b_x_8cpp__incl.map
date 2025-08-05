@@ -1,6 +1,9 @@
 <map id="AMBX.cpp" name="AMBX.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="47,5,135,32"/>
-<area shape="rect" id="node2" href="$_a_m_b_x_8h.html" title=" " alt="" coords="54,80,127,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="5,155,64,181"/>
-<area shape="rect" id="node4" href="$_a_m_b_x_enums_8h.html" title=" " alt="" coords="88,155,205,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="47,5,135,31"/>
+<area shape="rect" id="Node000002" href="$_a_m_b_x_8h.html" title=" " alt="" coords="54,79,127,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,31,93,65,88,65,88,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="5,152,64,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,106,54,143,50,140,79,103"/>
+<area shape="rect" id="Node000004" href="$_a_m_b_x_enums_8h.html" title=" " alt="" coords="88,152,205,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="102,103,131,140,127,143,98,106"/>
 </map>

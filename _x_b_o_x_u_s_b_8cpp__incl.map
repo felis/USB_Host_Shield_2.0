@@ -1,9 +1,17 @@
 <map id="XBOXUSB.cpp" name="XBOXUSB.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="37,5,150,32"/>
-<area shape="rect" id="node2" href="$_x_b_o_x_u_s_b_8h.html" title=" " alt="" coords="44,80,143,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="5,304,64,331"/>
-<area shape="rect" id="node4" href="$usbhid_8h.html" title=" " alt="" coords="55,155,132,181"/>
-<area shape="rect" id="node6" href="$xbox_enums_8h.html" title=" " alt="" coords="189,155,299,181"/>
-<area shape="rect" id="node5" href="$hidusagestr_8h.html" title=" " alt="" coords="72,229,181,256"/>
-<area shape="rect" id="node7" href="$controller_enums_8h.html" title=" " alt="" coords="206,229,346,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="37,5,150,31"/>
+<area shape="rect" id="Node000002" href="$_x_b_o_x_u_s_b_8h.html" title=" " alt="" coords="44,79,143,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,31,96,65,91,65,91,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="5,299,64,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="81,106,61,127,45,153,36,187,32,223,34,285,28,285,26,223,30,186,40,151,57,123,77,102"/>
+<area shape="rect" id="Node000004" href="$usbhid_8h.html" title=" " alt="" coords="55,152,132,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="96,104,96,138,91,138,91,104"/>
+<area shape="rect" id="Node000006" href="$xbox_enums_8h.html" title=" " alt="" coords="189,152,299,177"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="119,102,208,144,206,148,116,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="88,179,62,226,43,286,38,284,58,224,84,176"/>
+<area shape="rect" id="Node000005" href="$hidusagestr_8h.html" title=" " alt="" coords="72,225,181,251"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="101,177,118,212,113,214,96,179"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="114,253,62,292,59,288,110,249"/>
+<area shape="rect" id="Node000007" href="$controller_enums_8h.html" title=" " alt="" coords="206,225,346,251"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="252,177,268,212,263,214,247,179"/>
 </map>

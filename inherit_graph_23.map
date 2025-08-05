@@ -1,6 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,56,135,83"/>
-<area shape="rect" id="node2" href="$class_keyboard_report_parser.html" title=" " alt="" coords="183,5,349,32"/>
-<area shape="rect" id="node3" href="$class_mouse_report_parser.html" title=" " alt="" coords="192,56,340,83"/>
-<area shape="rect" id="node4" href="$class_universal_report_parser.html" title=" " alt="" coords="183,107,349,133"/>
+<area shape="rect" id="Node000000" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,55,135,80"/>
+<area shape="rect" id="Node000001" href="$class_keyboard_report_parser.html" title=" " alt="" coords="183,5,349,31"/>
+<area shape="poly" id="edge55_Node000000_Node000001" title=" " alt="" coords="134,49,214,28,215,33,135,54"/>
+<area shape="rect" id="Node000002" href="$class_mouse_report_parser.html" title=" " alt="" coords="192,55,340,80"/>
+<area shape="poly" id="edge56_Node000000_Node000002" title=" " alt="" coords="149,65,192,65,192,70,149,70"/>
+<area shape="rect" id="Node000003" href="$class_universal_report_parser.html" title=" " alt="" coords="183,104,349,129"/>
+<area shape="poly" id="edge57_Node000000_Node000003" title=" " alt="" coords="135,81,215,101,214,107,134,86"/>
 </map>

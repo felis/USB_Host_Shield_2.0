@@ -1,9 +1,15 @@
 <map id="PS4USB" name="PS4USB">
-<area shape="rect" id="node1" title=" " alt="" coords="176,304,249,331"/>
-<area shape="rect" id="node2" href="$class_h_i_d_universal.html" title=" " alt="" coords="99,229,207,256"/>
-<area shape="rect" id="node3" href="$class_h_i_d_composite.html" title=" " alt="" coords="95,155,211,181"/>
-<area shape="rect" id="node4" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="116,80,189,107"/>
-<area shape="rect" id="node5" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,32"/>
-<area shape="rect" id="node6" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,32"/>
-<area shape="rect" id="node7" href="$class_p_s4_parser.html" title=" " alt="" coords="231,229,317,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="176,299,249,324"/>
+<area shape="rect" id="Node000002" href="$class_h_i_d_universal.html" title=" " alt="" coords="99,225,207,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,260,205,297,201,300,169,263"/>
+<area shape="rect" id="Node000003" href="$class_h_i_d_composite.html" title=" " alt="" coords="95,152,211,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,191,155,225,150,225,150,191"/>
+<area shape="rect" id="Node000004" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="116,79,189,104"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="155,118,155,152,150,152,150,118"/>
+<area shape="rect" id="Node000005" href="$class_u_s_b_device_config.html" title=" " alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="97,38,141,76,138,80,94,42"/>
+<area shape="rect" id="Node000006" href="$class_usb_config_xtracter.html" title=" " alt="" coords="164,5,304,31"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="212,42,168,80,164,76,209,38"/>
+<area shape="rect" id="Node000007" href="$class_p_s4_parser.html" title=" " alt="" coords="231,225,317,251"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="257,263,225,300,221,297,253,260"/>
 </map>

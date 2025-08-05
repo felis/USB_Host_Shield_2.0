@@ -1,4 +1,5 @@
 <map id="HIDComposite::ReportParser" name="HIDComposite::ReportParser">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,212,121"/>
-<area shape="rect" id="node2" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="44,5,173,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,212,119"/>
+<area shape="rect" id="Node000002" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="44,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,45,111,93,106,93,106,45"/>
 </map>

@@ -1,8 +1,15 @@
 <map id="PS3USB.h" name="PS3USB.h">
-<area shape="rect" id="node1" title=" " alt="" coords="51,5,136,32"/>
-<area shape="rect" id="node2" href="$_usb_8h.html" title=" " alt="" coords="5,229,64,256"/>
-<area shape="rect" id="node3" href="$usbhid_8h.html" title=" " alt="" coords="55,80,132,107"/>
-<area shape="rect" id="node5" href="$_p_s3_enums_8h.html" title=" " alt="" coords="190,80,293,107"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="72,155,181,181"/>
-<area shape="rect" id="node6" href="$controller_enums_8h.html" title=" " alt="" coords="206,155,346,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="51,5,136,31"/>
+<area shape="rect" id="Node000002" href="$_usb_8h.html" title=" " alt="" coords="5,225,64,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,33,61,53,45,80,36,114,32,150,34,211,28,211,26,149,30,113,40,78,57,50,77,29"/>
+<area shape="rect" id="Node000003" href="$usbhid_8h.html" title=" " alt="" coords="55,79,132,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="96,31,96,65,91,65,91,31"/>
+<area shape="rect" id="Node000005" href="$_p_s3_enums_8h.html" title=" " alt="" coords="190,79,293,104"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="118,28,206,70,204,75,116,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="88,105,62,153,43,212,38,211,58,151,84,103"/>
+<area shape="rect" id="Node000004" href="$hidusagestr_8h.html" title=" " alt="" coords="72,152,181,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="101,103,118,139,113,141,96,105"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="114,179,62,219,59,215,110,175"/>
+<area shape="rect" id="Node000006" href="$controller_enums_8h.html" title=" " alt="" coords="206,152,346,177"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="249,103,267,138,262,141,245,106"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="USB" name="USB">
-<area shape="rect" id="node1" title=" " alt="" coords="27,80,76,107"/>
-<area shape="rect" id="node2" href="$class_m_a_x3421e.html" title=" " alt="" coords="5,5,97,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="27,79,76,104"/>
+<area shape="rect" id="Node000002" href="$class_m_a_x3421e.html" title=" " alt="" coords="5,5,97,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,44,54,79,49,79,49,44"/>
 </map>

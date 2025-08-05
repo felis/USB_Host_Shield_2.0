@@ -1,6 +1,10 @@
 <map id="hidescriptorparser.h" name="hidescriptorparser.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,156,32"/>
-<area shape="rect" id="node2" href="$usbhid_8h.html" title=" " alt="" coords="42,80,119,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="51,229,110,256"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="73,155,182,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,156,31"/>
+<area shape="rect" id="Node000002" href="$usbhid_8h.html" title=" " alt="" coords="42,79,119,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,31,83,65,78,65,78,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="51,225,110,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="78,105,63,152,64,183,72,212,67,214,59,184,58,152,73,103"/>
+<area shape="rect" id="Node000004" href="$hidusagestr_8h.html" title=" " alt="" coords="73,152,182,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="91,103,114,139,110,142,86,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="122,179,98,215,94,212,117,176"/>
 </map>

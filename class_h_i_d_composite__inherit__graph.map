@@ -1,12 +1,21 @@
 <map id="HIDComposite" name="HIDComposite">
-<area shape="rect" id="node1" title=" " alt="" coords="181,155,297,181"/>
-<area shape="rect" id="node5" href="$class_h_i_d_universal.html" title=" " alt="" coords="185,229,293,256"/>
-<area shape="rect" id="node2" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="203,80,276,107"/>
-<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title=" " alt="" coords="92,5,227,32"/>
-<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title=" " alt="" coords="251,5,391,32"/>
-<area shape="rect" id="node6" href="$class_mini_d_s_p.html" title=" " alt="" coords="5,304,81,331"/>
-<area shape="rect" id="node7" href="$class_p_s4_u_s_b.html" title=" " alt="" coords="105,304,179,331"/>
-<area shape="rect" id="node8" href="$class_p_s5_u_s_b.html" title=" " alt="" coords="203,304,276,331"/>
-<area shape="rect" id="node9" href="$class_p_s_buzz.html" title=" " alt="" coords="301,304,370,331"/>
-<area shape="rect" id="node10" href="$class_switch_pro_u_s_b.html" title=" " alt="" coords="395,304,508,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="181,152,297,177"/>
+<area shape="rect" id="Node000005" href="$class_h_i_d_universal.html" title=" " alt="" coords="185,225,293,251"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="242,191,242,225,237,225,237,191"/>
+<area shape="rect" id="Node000002" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="203,79,276,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,118,242,152,237,152,237,118"/>
+<area shape="rect" id="Node000003" href="$class_u_s_b_device_config.html" title=" " alt="" coords="92,5,227,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="184,38,228,76,224,80,180,42"/>
+<area shape="rect" id="Node000004" href="$class_usb_config_xtracter.html" title=" " alt="" coords="251,5,391,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="299,42,254,80,251,76,296,38"/>
+<area shape="rect" id="Node000006" href="$class_mini_d_s_p.html" title=" " alt="" coords="5,299,81,324"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="196,258,76,301,74,296,194,253"/>
+<area shape="rect" id="Node000007" href="$class_p_s4_u_s_b.html" title=" " alt="" coords="105,299,179,324"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="214,261,159,301,156,296,211,257"/>
+<area shape="rect" id="Node000008" href="$class_p_s5_u_s_b.html" title=" " alt="" coords="203,299,276,324"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="242,264,242,299,237,299,237,264"/>
+<area shape="rect" id="Node000009" href="$class_p_s_buzz.html" title=" " alt="" coords="301,299,370,324"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="267,257,321,296,318,301,264,261"/>
+<area shape="rect" id="Node000010" href="$class_switch_pro_u_s_b.html" title=" " alt="" coords="395,299,508,324"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="287,252,418,296,416,301,285,257"/>
 </map>

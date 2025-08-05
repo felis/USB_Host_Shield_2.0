@@ -1,6 +1,9 @@
 <map id="HIDReportParser" name="HIDReportParser">
-<area shape="rect" id="node1" title=" " alt="" coords="205,5,335,32"/>
-<area shape="rect" id="node2" href="$class_keyboard_report_parser.html" title=" " alt="" coords="5,80,172,107"/>
-<area shape="rect" id="node3" href="$class_mouse_report_parser.html" title=" " alt="" coords="196,80,344,107"/>
-<area shape="rect" id="node4" href="$class_universal_report_parser.html" title=" " alt="" coords="368,80,535,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="205,5,335,31"/>
+<area shape="rect" id="Node000002" href="$class_keyboard_report_parser.html" title=" " alt="" coords="5,79,172,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,38,119,81,117,76,227,33"/>
+<area shape="rect" id="Node000003" href="$class_mouse_report_parser.html" title=" " alt="" coords="196,79,344,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,44,273,79,267,79,267,44"/>
+<area shape="rect" id="Node000004" href="$class_universal_report_parser.html" title=" " alt="" coords="368,79,535,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="313,33,423,76,421,81,311,38"/>
 </map>

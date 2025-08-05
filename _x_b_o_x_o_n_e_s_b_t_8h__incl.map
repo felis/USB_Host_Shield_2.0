@@ -1,11 +1,23 @@
 <map id="XBOXONESBT.h" name="XBOXONESBT.h">
-<area shape="rect" id="node1" title=" " alt="" coords="137,5,260,32"/>
-<area shape="rect" id="node2" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="95,80,169,107"/>
-<area shape="rect" id="node8" href="$_x_b_o_x_o_n_e_s_parser_8h.html" title=" " alt="" coords="195,80,341,107"/>
-<area shape="rect" id="node3" href="$_b_t_d_8h.html" title=" " alt="" coords="5,155,67,181"/>
-<area shape="rect" id="node7" href="$hidboot_8h.html" title=" " alt="" coords="91,155,173,181"/>
-<area shape="rect" id="node4" href="$_usb_8h.html" title=" " alt="" coords="100,379,159,405"/>
-<area shape="rect" id="node5" href="$usbhid_8h.html" title=" " alt="" coords="83,229,160,256"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="121,304,231,331"/>
-<area shape="rect" id="node9" href="$controller_enums_8h.html" title=" " alt="" coords="306,155,446,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="137,5,260,31"/>
+<area shape="rect" id="Node000002" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="95,79,169,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,33,154,70,150,67,186,29"/>
+<area shape="rect" id="Node000008" href="$_x_b_o_x_o_n_e_s_parser_8h.html" title=" " alt="" coords="195,79,341,104"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="212,29,249,67,245,71,208,33"/>
+<area shape="rect" id="Node000003" href="$_b_t_d_8h.html" title=" " alt="" coords="5,152,67,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,106,64,146,61,141,115,102"/>
+<area shape="rect" id="Node000007" href="$hidboot_8h.html" title=" " alt="" coords="91,152,173,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="135,104,135,138,129,138,129,104"/>
+<area shape="rect" id="Node000004" href="$_usb_8h.html" title=" " alt="" coords="100,372,159,397"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="43,177,73,250,121,358,116,360,68,252,38,179"/>
+<area shape="rect" id="Node000005" href="$usbhid_8h.html" title=" " alt="" coords="83,225,160,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="51,175,99,214,95,219,48,179"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="120,251,113,284,112,324,122,359,117,360,107,324,107,283,115,250"/>
+<area shape="rect" id="Node000006" href="$hidusagestr_8h.html" title=" " alt="" coords="121,299,231,324"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="132,249,161,286,157,289,128,253"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="171,326,147,362,142,359,166,323"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="133,178,128,212,122,211,128,177"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="273,104,278,143,280,201,271,265,260,297,245,326,230,342,212,356,173,375,170,370,209,352,226,339,240,322,256,295,266,264,274,201,273,144,268,104"/>
+<area shape="rect" id="Node000009" href="$controller_enums_8h.html" title=" " alt="" coords="306,152,446,177"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="287,102,348,142,345,147,284,106"/>
 </map>

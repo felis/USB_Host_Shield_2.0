@@ -1,6 +1,9 @@
 <map id="SwitchProParser.h" name="SwitchProParser.h">
-<area shape="rect" id="node1" title=" " alt="" coords="151,5,289,32"/>
-<area shape="rect" id="node2" href="$_switch_pro_b_t_8h.html" title=" " alt="" coords="5,80,120,107"/>
-<area shape="rect" id="node3" href="$_switch_pro_parser_8cpp.html" title=" " alt="" coords="144,80,296,107"/>
-<area shape="rect" id="node4" href="$_switch_pro_u_s_b_8h.html" title=" " alt="" coords="320,80,445,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="151,5,289,31"/>
+<area shape="rect" id="Node000002" href="$_switch_pro_b_t_8h.html" title=" " alt="" coords="5,79,120,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,39,89,81,87,76,181,34"/>
+<area shape="rect" id="Node000003" href="$_switch_pro_parser_8cpp.html" title=" " alt="" coords="144,79,296,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,44,223,79,217,79,217,44"/>
+<area shape="rect" id="Node000004" href="$_switch_pro_u_s_b_8h.html" title=" " alt="" coords="320,79,445,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,34,357,76,355,81,258,39"/>
 </map>

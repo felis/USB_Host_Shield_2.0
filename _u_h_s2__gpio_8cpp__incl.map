@@ -1,5 +1,7 @@
 <map id="UHS2_gpio.cpp" name="UHS2_gpio.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,125,32"/>
-<area shape="rect" id="node2" href="$_u_h_s2__gpio_8h.html" title=" " alt="" coords="13,80,118,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="36,155,95,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,125,31"/>
+<area shape="rect" id="Node000002" href="$_u_h_s2__gpio_8h.html" title=" " alt="" coords="13,79,118,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="68,31,68,65,63,65,63,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="36,152,95,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="68,104,68,138,63,138,63,104"/>
 </map>

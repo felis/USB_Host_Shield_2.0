@@ -1,10 +1,17 @@
 <map id="hidboot.h" name="hidboot.h">
-<area shape="rect" id="node1" title=" " alt="" coords="269,5,352,32"/>
-<area shape="rect" id="node2" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="219,80,293,107"/>
-<area shape="rect" id="node8" href="$hidboot_8cpp.html" title=" " alt="" coords="317,80,416,107"/>
-<area shape="rect" id="node3" href="$_b_t_h_i_d_8cpp.html" title=" " alt="" coords="5,155,96,181"/>
-<area shape="rect" id="node4" href="$_p_s4_b_t_8h.html" title=" " alt="" coords="120,155,195,181"/>
-<area shape="rect" id="node5" href="$_p_s5_b_t_8h.html" title=" " alt="" coords="219,155,293,181"/>
-<area shape="rect" id="node6" href="$_switch_pro_b_t_8h.html" title=" " alt="" coords="317,155,432,181"/>
-<area shape="rect" id="node7" href="$_x_b_o_x_o_n_e_s_b_t_8h.html" title=" " alt="" coords="456,155,579,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="269,5,352,31"/>
+<area shape="rect" id="Node000002" href="$_b_t_h_i_d_8h.html" title=" " alt="" coords="219,79,293,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="295,43,267,80,263,77,291,40"/>
+<area shape="rect" id="Node000008" href="$hidboot_8cpp.html" title=" " alt="" coords="317,79,416,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="331,40,360,77,356,80,326,43"/>
+<area shape="rect" id="Node000003" href="$_b_t_h_i_d_8cpp.html" title=" " alt="" coords="5,152,96,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="211,111,85,154,83,149,209,106"/>
+<area shape="rect" id="Node000004" href="$_p_s4_b_t_8h.html" title=" " alt="" coords="120,152,195,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="231,114,175,154,172,150,228,110"/>
+<area shape="rect" id="Node000005" href="$_p_s5_b_t_8h.html" title=" " alt="" coords="219,152,293,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="259,118,259,152,253,152,253,118"/>
+<area shape="rect" id="Node000006" href="$_switch_pro_b_t_8h.html" title=" " alt="" coords="317,152,432,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="288,109,357,149,354,154,286,113"/>
+<area shape="rect" id="Node000007" href="$_x_b_o_x_o_n_e_s_b_t_8h.html" title=" " alt="" coords="456,152,579,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="307,104,476,149,475,155,306,109"/>
 </map>

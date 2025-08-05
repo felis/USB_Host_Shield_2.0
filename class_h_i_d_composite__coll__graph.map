@@ -1,13 +1,23 @@
 <map id="HIDComposite" name="HIDComposite">
-<area shape="rect" id="node1" title=" " alt="" coords="741,195,857,221"/>
-<area shape="rect" id="node2" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="464,68,537,95"/>
-<area shape="rect" id="node3" href="$class_u_s_b_device_config.html" title=" " alt="" coords="149,5,284,32"/>
-<area shape="rect" id="node4" href="$class_usb_config_xtracter.html" title=" " alt="" coords="147,56,287,83"/>
-<area shape="rect" id="node5" href="$class_u_s_b.html" title=" " alt="" coords="192,107,241,133"/>
-<area shape="rect" id="node6" href="$class_m_a_x3421e.html" title=" " alt="" coords="5,107,97,133"/>
-<area shape="rect" id="node7" href="$struct_h_i_d_composite_1_1_report_parser.html" title=" " alt="" coords="397,144,604,171"/>
-<area shape="rect" id="node8" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="152,157,281,184"/>
-<area shape="rect" id="node9" href="$struct_ep_info.html" title=" " alt="" coords="469,195,532,221"/>
-<area shape="rect" id="node10" href="$struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html" title=" " alt="" coords="408,246,593,287"/>
-<area shape="rect" id="node11" href="$struct_h_i_d_composite_1_1_h_i_d_interface.html" title=" " alt="" coords="397,312,604,339"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="741,197,857,223"/>
+<area shape="rect" id="Node000002" href="$class_u_s_b_h_i_d.html" title=" " alt="" coords="464,67,537,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="551,90,631,115,719,152,754,173,784,195,781,199,751,178,716,156,629,120,550,95"/>
+<area shape="rect" id="Node000003" href="$class_u_s_b_device_config.html" title=" " alt="" coords="149,5,284,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="290,31,464,69,463,74,289,36"/>
+<area shape="rect" id="Node000004" href="$class_usb_config_xtracter.html" title=" " alt="" coords="147,55,287,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="300,68,464,75,464,80,300,74"/>
+<area shape="rect" id="Node000005" href="$class_u_s_b.html" title=" " alt="" coords="192,104,241,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="255,109,463,81,464,87,255,114"/>
+<area shape="rect" id="Node000006" href="$class_m_a_x3421e.html" title=" " alt="" coords="5,104,97,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="111,114,192,114,192,119,111,119"/>
+<area shape="rect" id="Node000007" href="$struct_h_i_d_composite_1_1_report_parser.html" title=" " alt="" coords="397,140,604,165"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="598,165,718,187,750,195,748,200,717,193,597,170"/>
+<area shape="rect" id="Node000008" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="152,153,281,179"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="295,160,397,155,397,160,295,165"/>
+<area shape="rect" id="Node000009" href="$struct_h_i_d___c_l_a_s_s___d_e_s_c_r_i_p_t_o_r___l_e_n___a_n_d___t_y_p_e.html" title=" " alt="" coords="408,190,593,230"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="607,207,741,207,741,213,607,213"/>
+<area shape="rect" id="Node000010" href="$struct_ep_info.html" title=" " alt="" coords="469,255,532,280"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="545,258,717,227,748,220,750,225,718,233,546,263"/>
+<area shape="rect" id="Node000011" href="$struct_h_i_d_composite_1_1_h_i_d_interface.html" title=" " alt="" coords="397,304,604,329"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="602,299,659,284,716,264,752,243,781,221,785,225,755,247,718,268,661,289,603,304"/>
 </map>

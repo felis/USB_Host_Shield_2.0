@@ -1,6 +1,9 @@
 <map id="KeyboardReportParser" name="KeyboardReportParser">
-<area shape="rect" id="node1" title=" " alt="" coords="117,95,284,121"/>
-<area shape="rect" id="node2" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node3" href="$struct_k_b_d_l_e_d_s.html" title=" " alt="" coords="159,5,242,32"/>
-<area shape="rect" id="node4" href="$struct_k_b_d_i_n_f_o.html" title=" " alt="" coords="266,5,349,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="117,93,284,119"/>
+<area shape="rect" id="Node000002" href="$class_h_i_d_report_parser.html" title=" " alt="" coords="5,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,36,184,91,181,95,97,40"/>
+<area shape="rect" id="Node000003" href="$struct_k_b_d_i_n_f_o.html" title=" " alt="" coords="159,5,242,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,45,203,93,198,93,198,45"/>
+<area shape="rect" id="Node000004" href="$struct_k_b_d_l_e_d_s.html" title=" " alt="" coords="266,5,349,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="291,43,261,71,224,95,221,91,258,67,287,39"/>
 </map>

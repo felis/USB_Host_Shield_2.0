@@ -1,5 +1,7 @@
 <map id="usbh_midi.cpp" name="usbh_midi.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,121,32"/>
-<area shape="rect" id="node2" href="$usbh__midi_8h.html" title=" " alt="" coords="13,80,114,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="34,155,93,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,121,31"/>
+<area shape="rect" id="Node000002" href="$usbh__midi_8h.html" title=" " alt="" coords="13,79,114,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,31,66,65,61,65,61,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="34,152,93,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="66,104,66,138,61,138,61,104"/>
 </map>

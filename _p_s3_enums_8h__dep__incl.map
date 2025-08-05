@@ -1,7 +1,11 @@
 <map id="PS3Enums.h" name="PS3Enums.h">
-<area shape="rect" id="node1" title=" " alt="" coords="57,5,160,32"/>
-<area shape="rect" id="node2" href="$_p_s3_b_t_8h.html" title=" " alt="" coords="17,80,91,107"/>
-<area shape="rect" id="node4" href="$_p_s3_u_s_b_8h.html" title=" " alt="" coords="122,80,207,107"/>
-<area shape="rect" id="node3" href="$_p_s3_b_t_8cpp.html" title=" " alt="" coords="5,155,95,181"/>
-<area shape="rect" id="node5" href="$_p_s3_u_s_b_8cpp.html" title=" " alt="" coords="119,155,219,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="57,5,160,31"/>
+<area shape="rect" id="Node000002" href="$_p_s3_b_t_8h.html" title=" " alt="" coords="17,79,91,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,43,65,80,61,77,89,40"/>
+<area shape="rect" id="Node000004" href="$_p_s3_u_s_b_8h.html" title=" " alt="" coords="122,79,207,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="129,40,158,77,154,80,124,43"/>
+<area shape="rect" id="Node000003" href="$_p_s3_b_t_8cpp.html" title=" " alt="" coords="5,152,95,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="55,118,53,152,48,152,50,118"/>
+<area shape="rect" id="Node000005" href="$_p_s3_u_s_b_8cpp.html" title=" " alt="" coords="119,152,219,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="169,118,171,152,165,152,163,118"/>
 </map>

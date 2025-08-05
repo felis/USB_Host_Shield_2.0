@@ -1,4 +1,5 @@
 <map id="UsbMidiConfigXtracter" name="UsbMidiConfigXtracter">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,173,32"/>
-<area shape="rect" id="node2" href="$class_u_s_b_h___m_i_d_i.html" title=" " alt="" coords="41,80,137,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,173,31"/>
+<area shape="rect" id="Node000002" href="$class_u_s_b_h___m_i_d_i.html" title=" " alt="" coords="41,79,137,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,44,92,79,87,79,87,44"/>
 </map>

@@ -1,8 +1,14 @@
 <map id="hiduniversal.cpp" name="hiduniversal.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node2" href="$hiduniversal_8h.html" title=" " alt="" coords="13,80,127,107"/>
-<area shape="rect" id="node3" href="$hidcomposite_8h.html" title=" " alt="" coords="9,155,131,181"/>
-<area shape="rect" id="node4" href="$usbhid_8h.html" title=" " alt="" coords="31,229,109,256"/>
-<area shape="rect" id="node5" href="$_usb_8h.html" title=" " alt="" coords="41,379,99,405"/>
-<area shape="rect" id="node6" href="$hidusagestr_8h.html" title=" " alt="" coords="62,304,171,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,135,31"/>
+<area shape="rect" id="Node000002" href="$hiduniversal_8h.html" title=" " alt="" coords="13,79,127,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,31,73,65,67,65,67,31"/>
+<area shape="rect" id="Node000003" href="$hidcomposite_8h.html" title=" " alt="" coords="9,152,131,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,104,73,138,67,138,67,104"/>
+<area shape="rect" id="Node000004" href="$usbhid_8h.html" title=" " alt="" coords="31,225,109,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="73,178,73,212,67,212,67,178"/>
+<area shape="rect" id="Node000005" href="$_usb_8h.html" title=" " alt="" coords="41,372,99,397"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="67,252,53,299,54,330,62,359,57,360,48,331,47,298,62,250"/>
+<area shape="rect" id="Node000006" href="$hidusagestr_8h.html" title=" " alt="" coords="62,299,171,324"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="80,250,104,286,99,289,75,252"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="111,326,87,362,83,359,107,323"/>
 </map>

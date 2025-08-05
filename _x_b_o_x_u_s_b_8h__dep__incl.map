@@ -1,4 +1,5 @@
 <map id="XBOXUSB.h" name="XBOXUSB.h">
-<area shape="rect" id="node1" title=" " alt="" coords="13,5,111,32"/>
-<area shape="rect" id="node2" href="$_x_b_o_x_u_s_b_8cpp.html" title=" " alt="" coords="5,80,119,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="13,5,111,31"/>
+<area shape="rect" id="Node000002" href="$_x_b_o_x_u_s_b_8cpp.html" title=" " alt="" coords="5,79,119,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,44,65,79,59,79,59,44"/>
 </map>

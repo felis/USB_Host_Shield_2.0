@@ -1,6 +1,10 @@
 <map id="hidcomposite.h" name="hidcomposite.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,128,32"/>
-<area shape="rect" id="node2" href="$usbhid_8h.html" title=" " alt="" coords="28,80,105,107"/>
-<area shape="rect" id="node3" href="$_usb_8h.html" title=" " alt="" coords="37,229,96,256"/>
-<area shape="rect" id="node4" href="$hidusagestr_8h.html" title=" " alt="" coords="59,155,168,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,128,31"/>
+<area shape="rect" id="Node000002" href="$usbhid_8h.html" title=" " alt="" coords="28,79,105,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,31,69,65,64,65,64,31"/>
+<area shape="rect" id="Node000003" href="$_usb_8h.html" title=" " alt="" coords="37,225,96,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="64,105,49,152,50,183,58,212,53,214,45,184,44,152,59,103"/>
+<area shape="rect" id="Node000004" href="$hidusagestr_8h.html" title=" " alt="" coords="59,152,168,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="77,103,100,139,96,142,72,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="108,179,84,215,80,212,103,176"/>
 </map>
