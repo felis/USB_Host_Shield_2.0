@@ -136,8 +136,7 @@ uint8_t ACM::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                         CDC_SUBCLASS_ACM,
                         CDC_PROTOCOL_ITU_T_V_250,
                         CP_MASK_COMPARE_CLASS |
-                        CP_MASK_COMPARE_SUBCLASS |
-                        CP_MASK_COMPARE_PROTOCOL > CdcControlParser(this);
+                        CP_MASK_COMPARE_SUBCLASS > CdcControlParser(this);
 
                 ConfigDescParser<USB_CLASS_CDC_DATA, 0, 0,
                         CP_MASK_COMPARE_CLASS> CdcDataParser(this);
