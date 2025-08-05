@@ -118,6 +118,8 @@ typedef SPi< P76, P75, P74, P10 > spi;
 typedef SPi< P16, P18, P17, P10 > spi;
 #elif defined(ESP8266)
 typedef SPi< P14, P13, P12, P15 > spi;
+#elif defined(ARDUINO_M5STACK_CORES3)
+typedef SPi< P36, P37, P35, P1 > spi;
 #elif defined(ARDUINO_XIAO_ESP32S3)
 typedef SPi< P7, P9, P8, P44 > spi;
 #elif defined(ESP32)

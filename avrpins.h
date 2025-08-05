@@ -1852,6 +1852,47 @@ MAKE_PIN(P13, 13); // MOSI
 MAKE_PIN(P14, 14); // SCK
 MAKE_PIN(P15, 15); // SS
 
+#elif defined(ARDUINO_M5STACK_CORES3)
+
+// Workaround strict-aliasing warnings
+#ifdef pgm_read_word
+#undef pgm_read_word
+#endif
+#ifdef pgm_read_dword
+#undef pgm_read_dword
+#endif
+#ifdef  pgm_read_float
+#undef pgm_read_float
+#endif
+#ifdef  pgm_read_ptr
+#undef pgm_read_ptr
+#endif
+
+#define pgm_read_word(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned short *)(_addr); \
+})
+#define pgm_read_dword(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const unsigned long *)(_addr); \
+})
+#define pgm_read_float(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(const float *)(_addr); \
+})
+#define pgm_read_ptr(addr) ({ \
+  typeof(addr) _addr = (addr); \
+  *(void * const *)(_addr); \
+})
+
+// Pinout for ESP32 dev module
+
+MAKE_PIN(P35, 35); // MISO
+MAKE_PIN(P37, 37); // MOSI
+MAKE_PIN(P36, 36); // SCK
+MAKE_PIN(P1, 1); // SS
+MAKE_PIN(P14, 14); // INT
+
 #elif defined(ARDUINO_XIAO_ESP32S3)
 
 // Workaround strict-aliasing warnings
