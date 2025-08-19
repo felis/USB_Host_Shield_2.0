@@ -22,21 +22,34 @@
 #include "MiniDSP.h"
 
 void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
-
-        constexpr uint8_t StatusInputCommand[] = {0x05, 0xFF, 0xDA};
-
         // Only care about valid data for the MiniDSP 2x4HD.
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID || len <= 4 || buf == nullptr)
                 return;
 
-        // Check if this is a status update.
-        // First byte is the length, we ignore that for now.
-        if(memcmp(buf + 1, StatusInputCommand, sizeof (StatusInputCommand)) == 0) {
+        // Check if this is a requested mute change.
+        if(buf[1] == 0x17){
+                // Response is of format [ length ] [ 0x17 ] [ muted ]
+                muted = (bool)buf[2];
+        }
 
+        // Check if this is a requested volume change.
+        if(buf[1] == 0x42){
+                // Response is of format [ length ] [ 0x42 ] [ volume ]
+                volume = buf[2];
+
+        }
+
+        constexpr uint8_t InputCommand[] = {0x05, 0xFF};
+
+        // Only deal with status updates from now on.
+        if(memcmp(buf + 1, InputCommand, sizeof (InputCommand)) != 0)
+                return;
+
+        if(buf[3] == 0xDA){
                 // Parse data.
                 // Response is of format [ length ] [ 0x05 0xFF 0xDA ] [ volume ] [ muted ].
-                const auto newVolume = buf[sizeof (StatusInputCommand) + 1];
-                const auto newIsMuted = (bool)buf[sizeof (StatusInputCommand) + 2];
+                const auto newVolume = buf[4];
+                const auto newIsMuted = (bool)buf[5];
 
                 const auto volumeChanged = newVolume != volume;
                 const auto mutedChanged = newIsMuted != muted;
@@ -52,6 +65,45 @@ void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id 
                 if(pFuncOnMutedChange != nullptr && mutedChanged)
                         pFuncOnMutedChange(muted);
         }
+
+
+        // Check if this is an input source update.
+        if(buf[3] == 0xA9 || buf[3] == 0xD9){
+                // Parse data.
+                // Response is of format [ length ] [ 0x05 0xFF 0xA9/0xD9 ] [ source ].
+                const auto newInputSource = buf[4];
+
+                // Ensure we only interpret valid inputs.
+                if(newInputSource >= 0x00 && newInputSource <= 0x02){
+                        const auto inputSourceChanged = newInputSource != (char) inputSource;
+
+                        // Update values.
+                        inputSource = (InputSource) newInputSource;
+
+                        // Call callbacks.
+                        if(pFuncOnInputSourceChange != nullptr && inputSourceChanged)
+                                pFuncOnInputSourceChange(inputSource);
+                }
+        }
+
+        // Check if this is an Config update.
+        if(buf[3] == 0xD8){
+                // Parse data.
+                // Response is of format [ length ] [ 0x05 0xFF 0xD8 ] [ config ].
+                const auto newConfig = buf[4];
+
+                // Ensure we only interpret valid inputs.
+                if(newConfig >= 0x00 && newConfig <= 0x03){
+                        const auto configChanged = newConfig != (char) config;
+
+                        // Update values.
+                        config = (Config) newConfig;
+
+                        // Call callbacks.
+                        if(pFuncOnConfigChange != nullptr && configChanged)
+                                pFuncOnConfigChange(config);
+                }
+        }
 };
 
 uint8_t MiniDSP::OnInitSuccessful() {
@@ -59,8 +111,10 @@ uint8_t MiniDSP::OnInitSuccessful() {
         if(HIDUniversal::VID != MINIDSP_VID || HIDUniversal::PID != MINIDSP_PID)
                 return 0;
 
-        // Request current status so we can initialize the values.
+        // Request current information so we can initialize the values.
         RequestStatus();
+        RequestInputSource();
+        RequestConfig();
 
         if(pFuncOnInit != nullptr)
                 pFuncOnInit();
@@ -108,4 +162,34 @@ void MiniDSP::RequestStatus() const {
         uint8_t RequestStatusOutputCommand[] = {0x05, 0xFF, 0xDA, 0x02};
 
         SendCommand(RequestStatusOutputCommand, sizeof (RequestStatusOutputCommand));
+}
+
+void MiniDSP::RequestInputSource() const {
+        uint8_t RequestInputSourceCommand[] = {0x05, 0xFF, 0xD9, 0x01};
+
+        SendCommand(RequestInputSourceCommand, sizeof(RequestInputSourceCommand));
+}
+
+void MiniDSP::RequestConfig() const {
+        uint8_t RequestConfigCommand[] = {0x05, 0xFF, 0xD8, 0x01};
+
+        SendCommand(RequestConfigCommand, sizeof(RequestConfigCommand));
+}
+
+void MiniDSP::setVolumeDB(float volumeDB) const {
+        // Only accept values between 0dB and -127.5dB.
+        // Don't do error handling.
+        if(volume > 0 || volume < -127.5){
+                return;
+        }
+
+        uint8_t SetVolumeCommand[] = {0x42, (uint8_t)(-2*volumeDB)};
+
+        SendCommand(SetVolumeCommand, sizeof(SetVolumeCommand));
+}
+
+void MiniDSP::setMuted(bool muted) const {
+        uint8_t SetMutedommand[] = {0x17, muted ? (uint8_t)0x01 : (uint8_t)0x00};
+
+        SendCommand(SetMutedommand, sizeof(SetMutedommand));
 }
