@@ -603,6 +603,25 @@ uint8_t USB::DefaultAddressing(uint8_t parent, uint8_t port, bool lowspeed) {
         return 0;
 };
 
+void USB::ResetHubPort(uint8_t parent, uint8_t port) {
+	if (parent == 0) {
+		// Send a bus reset on the root interface.
+		regWr(rHCTL, bmBUSRST); //issue bus reset
+		delay(102); // delay 102ms, compensate for clock inaccuracy.
+	} else {
+		for (uint8_t i = 0; i < USB_NUMDEVICES; i++) {
+			if (devConfig[i]) {
+				UsbDeviceAddress addr;
+				addr.devAddress = devConfig[i]->GetAddress();
+				if (addr.bmHub && addr.bmAddress == parent) {
+					devConfig[i]->ResetHubPort(port);
+					break;
+				}
+			}
+		}
+	}
+}
+
 uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lowspeed) {
         //printf("AttemptConfig: parent = %i, port = %i\r\n", parent, port);
         uint8_t retries = 0;
@@ -610,14 +629,7 @@ uint8_t USB::AttemptConfig(uint8_t driver, uint8_t parent, uint8_t port, bool lo
 again:
         uint8_t rcode = devConfig[driver]->ConfigureDevice(parent, port, lowspeed);
         if(rcode == USB_ERROR_CONFIG_REQUIRES_ADDITIONAL_RESET) {
-                if(parent == 0) {
-                        // Send a bus reset on the root interface.
-                        regWr(rHCTL, bmBUSRST); //issue bus reset
-                        delay(102); // delay 102ms, compensate for clock inaccuracy.
-                } else {
-                        // reset parent port
-                        devConfig[parent]->ResetHubPort(port);
-                }
+                ResetHubPort(parent, port);
         } else if(rcode == hrJERR && retries < 3) { // Some devices returns this when plugged in - trying to initialize the device again usually works
                 delay(100);
                 retries++;
@@ -633,14 +645,7 @@ again:
         }
         if(rcode) {
                 // Issue a bus reset, because the device may be in a limbo state
-                if(parent == 0) {
-                        // Send a bus reset on the root interface.
-                        regWr(rHCTL, bmBUSRST); //issue bus reset
-                        delay(102); // delay 102ms, compensate for clock inaccuracy.
-                } else {
-                        // reset parent port
-                        devConfig[parent]->ResetHubPort(port);
-                }
+                ResetHubPort(parent, port);
         }
         return rcode;
 }
@@ -784,13 +789,22 @@ uint8_t USB::Configuring(uint8_t parent, uint8_t port, bool lowspeed) {
 }
 
 uint8_t USB::ReleaseDevice(uint8_t addr) {
+        UsbDeviceAddress a;
         if(!addr)
                 return 0;
-
-        for(uint8_t i = 0; i < USB_NUMDEVICES; i++) {
-                if(!devConfig[i]) continue;
-                if(devConfig[i]->GetAddress() == addr)
+        a.devAddress = addr;
+        if(a.bmHub) {
+                for(uint8_t i = 0; i < USB_NUMDEVICES; i++) {
+                        if(!devConfig[i]) continue;
+                        if(devConfig[i]->GetAddress() == addr)
                         return devConfig[i]->Release();
+                }
+        } else {
+                for(uint8_t i = 0; i < USB_NUMDEVICES; i++) {
+                        if(!devConfig[i]) continue;
+                        if(devConfig[i]->GetPortAddress() == addr)
+                        return devConfig[i]->Release();
+                }
         }
         return 0;
 }
