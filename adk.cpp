@@ -22,7 +22,7 @@ e-mail   :  support@circuitsathome.com
 const uint8_t ADK::epDataInIndex = 1;
 const uint8_t ADK::epDataOutIndex = 2;
 
-ADK::ADK(USB *p, const char* manufacturer,
+ADK::ADK(USBHost *p, const char* manufacturer,
         const char* model,
         const char* description,
         const char* version,
@@ -36,7 +36,7 @@ description(description),
 version(version),
 uri(uri),
 serial(serial),
-pUsb(p), //pointer to USB class instance - mandatory
+pUsb(p), //pointer to USBHost class instance - mandatory
 bAddress(0), //device address - mandatory
 bConfNum(0), //configuration number
 bNumEP(1), //if config descriptor needs to be parsed
@@ -50,7 +50,7 @@ ready(false) {
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }//for(uint8_t i=0; i<ADK_MAX_ENDPOINTS; i++...
 
-        // register in USB subsystem
+        // register in USBHost subsystem
         if(pUsb) {
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
         }
@@ -69,7 +69,7 @@ uint8_t ADK::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         UsbDevice *p = NULL;
         EpInfo *oldep_ptr = NULL;
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 
         USBTRACE("\r\nADK Init");

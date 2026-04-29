@@ -21,7 +21,7 @@ Circuits At Home, LTD
 Web      :  http://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
-/* USB functions */
+/* USBHost functions */
 #ifndef _usb_h_
 #define _usb_h_
 

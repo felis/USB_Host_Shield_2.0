@@ -123,7 +123,7 @@ class PL2303 : public ACM {
         uint16_t wPLType; // Type of chip
 
 public:
-        PL2303(USB *pusb, CDCAsyncOper *pasync);
+        PL2303(USBHost *pusb, CDCAsyncOper *pasync);
 
         // USBDeviceConfig implementation
         uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);

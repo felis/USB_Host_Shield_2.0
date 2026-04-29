@@ -16,7 +16,7 @@ e-mail   :  support@circuitsathome.com
  */
 #include "cdc_XR21B1411.h"
 
-XR21B1411::XR21B1411(USB *p, CDCAsyncOper *pasync) :
+XR21B1411::XR21B1411(USBHost *p, CDCAsyncOper *pasync) :
 ACM(p, pasync) {
         // Is this needed??
         _enhanced_status = enhanced_features(); // Set up features

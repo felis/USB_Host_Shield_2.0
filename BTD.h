@@ -216,16 +216,16 @@
 class BluetoothService;
 
 /**
- * The Bluetooth Dongle class will take care of all the USB communication
+ * The Bluetooth Dongle class will take care of all the USBHost communication
  * and then pass the data to the BluetoothService classes.
  */
 class BTD : public USBDeviceConfig, public UsbConfigXtracter {
 public:
         /**
          * Constructor for the BTD class.
-         * @param  p   Pointer to USB class instance.
+         * @param  p   Pointer to USBHost class instance.
          */
-        BTD(USB *p);
+        BTD(USBHost *p);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -245,12 +245,12 @@ public:
          */
         uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
-         * Release the USB device.
+         * Release the USBHost device.
          * @return 0 on success.
          */
         uint8_t Release();
         /**
-         * Poll the USB Input endpoints and run the state machines.
+         * Poll the USBHost Input endpoints and run the state machines.
          * @return 0 on success.
          */
         uint8_t Poll();
@@ -272,16 +272,16 @@ public:
         };
 
         /**
-         * Used by the USB core to check what this driver support.
-         * @param  klass The device's USB class.
-         * @return       Returns true if the device's USB class matches this driver.
+         * Used by the USBHost core to check what this driver support.
+         * @param  klass The device's USBHost class.
+         * @return       Returns true if the device's USBHost class matches this driver.
          */
         virtual bool DEVCLASSOK(uint8_t klass) {
                 return (klass == USB_CLASS_WIRELESS_CTRL);
         };
 
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * Used to set the Bluetooth address into the PS3 controllers.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
@@ -535,8 +535,8 @@ public:
         bool useSimplePairing;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */
@@ -546,7 +546,7 @@ protected:
         uint8_t bConfNum;
         /** Total number of endpoints in the configuration. */
         uint8_t bNumEP;
-        /** Next poll time based on poll interval taken from the USB descriptor. */
+        /** Next poll time based on poll interval taken from the USBHost descriptor. */
         uint32_t qNextPollTime;
 
         /** Bluetooth dongle control endpoint. */
@@ -559,8 +559,8 @@ protected:
         static const uint8_t BTD_DATAOUT_PIPE;
 
         /**
-         * Used to print the USB Endpoint Descriptor.
-         * @param ep_ptr Pointer to USB Endpoint Descriptor.
+         * Used to print the USBHost Endpoint Descriptor.
+         * @param ep_ptr Pointer to USBHost Endpoint Descriptor.
          */
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 

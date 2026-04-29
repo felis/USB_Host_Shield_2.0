@@ -18,7 +18,7 @@ e-mail   :  support@circuitsathome.com
 
 bool USBHub::bResetInitiated = false;
 
-USBHub::USBHub(USB *p) :
+USBHub::USBHub(USBHost *p) :
 pUsb(p),
 bAddress(0),
 bNbrPorts(0),

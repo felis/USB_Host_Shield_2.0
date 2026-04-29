@@ -252,8 +252,8 @@ public:
         };
 
         /**
-         * Use this to check if an USB cable is connected to the PS4 controller.
-         * @return Returns true if an USB cable is connected.
+         * Use this to check if an USBHost cable is connected to the PS4 controller.
+         * @return Returns true if an USBHost cable is connected.
          */
         bool getUsbStatus() {
                 return ps4Data.status.usb;

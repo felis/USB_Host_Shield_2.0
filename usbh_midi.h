@@ -1,12 +1,12 @@
 /*
  *******************************************************************************
- * USB-MIDI class driver for USB Host Shield 2.0 Library
+ * USBHost-MIDI class driver for USBHost Host Shield 2.0 Library
  * Copyright (c) 2012-2022 Yuuichi Akagawa
  *
- * Idea from LPK25 USB-MIDI to Serial MIDI converter
+ * Idea from LPK25 USBHost-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
  *
- * for use with USB Host Shield 2.0 from Circuitsathome.com
+ * for use with USBHost Host Shield 2.0 from Circuitsathome.com
  * https://github.com/felis/USB_Host_Shield_2.0
  *******************************************************************************
  * This program is free software; you can redistribute it and/or modify
@@ -84,7 +84,7 @@ protected:
         static const uint8_t    epDataOutIndex= 2;         // DataOUT endpoint index(MIDI)
 
         /* mandatory members */
-        USB      *pUsb;
+        USBHost      *pUsb;
         uint8_t  bAddress;
         bool     bPollEnable;
         uint16_t pid, vid;    // ProductID, VendorID
@@ -111,7 +111,7 @@ protected:
         void PrintEndpointDescriptor( const USB_ENDPOINT_DESCRIPTOR* ep_ptr );
 #endif
 public:
-        USBH_MIDI(USB *p);
+        USBH_MIDI(USBHost *p);
         // Misc functions
         operator bool() { return (bPollEnable); }
         uint16_t idVendor() { return vid; }

@@ -17,8 +17,8 @@ e-mail   :  support@circuitsathome.com
 
 #include "hidcomposite.h"
 
-HIDComposite::HIDComposite(USB *p) :
-USBHID(p),
+HIDComposite::HIDComposite(USBHost *p) :
+HostUSBHID(p),
 qNextPollTime(0),
 pollInterval(0),
 bPollEnable(false),
@@ -166,7 +166,7 @@ uint8_t HIDComposite::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 return rcode;
         }
 
-        //delay(2); //per USB 2.0 sect.9.2.6.3
+        //delay(2); //per USBHost 2.0 sect.9.2.6.3
 
         USBTRACE2("Addr:", bAddress);
 

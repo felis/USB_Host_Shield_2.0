@@ -28,16 +28,16 @@
 #define PS5_PID         0x0CE6 // PS5 Controller
 
 /**
- * This class implements support for the PS5 controller via USB.
- * It uses the HIDUniversal class for all the USB communication.
+ * This class implements support for the PS5 controller via USBHost.
+ * It uses the HIDUniversal class for all the USBHost communication.
  */
 class PS5USB : public HIDUniversal, public PS5Parser {
 public:
         /**
          * Constructor for the PS5USB class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        PS5USB(USB *p) :
+        PS5USB(USBHost *p) :
         HIDUniversal(p) {
                 PS5Parser::Reset();
         };
@@ -61,13 +61,13 @@ public:
 protected:
         /** @name HIDUniversal implementation */
         /**
-         * Used to parse USB HID data.
+         * Used to parse USBHost HID data.
          * @param hid       Pointer to the HID class.
          * @param is_rpt_id Only used for Hubs.
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(HostUSBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
                 if (HIDUniversal::VID == PS5_VID && HIDUniversal::PID == PS5_PID)
                         PS5Parser::Parse(len, buf);
         };
@@ -133,7 +133,7 @@ protected:
 
                 output->reportChanged = false;
 
-                // There is no need to calculate a crc32 when the controller is connected via USB
+                // There is no need to calculate a crc32 when the controller is connected via USBHost
 
                 pUsb->outTransfer(bAddress, epInfo[ hidInterfaces[0].epIndex[epInterruptOutIndex] ].epAddr, sizeof(buf), buf);
         };
@@ -141,7 +141,7 @@ protected:
 
         /** @name USBDeviceConfig implementation */
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.

@@ -27,14 +27,14 @@ UHS2_GPIO implements "wiring" style GPIO access. Implemented by Brian Walton bri
 #include "UHS2_gpio.h"
 
 /** @brief  Implement an instance of a UHS2_GPIO object
-*   @param  pUSB Pointer to a UHS2 USB object
+*   @param  pUSB Pointer to a UHS2 USBHost object
 */
-UHS2_GPIO::UHS2_GPIO(USB *pUsb) : m_pUsb(pUsb)
+UHS2_GPIO::UHS2_GPIO(USBHost *pUsb) : m_pUsb(pUsb)
 {
 }
 
 /** @brief  Set a GPIO output value
-*   @param  pin GPIO output pin on USB Host Shield to set
+*   @param  pin GPIO output pin on USBHost Host Shield to set
 *   @param  val Value to set the pin to (zero value will clear output, non-zero value will assert output)
 */
 void UHS2_GPIO::digitalWrite(uint8_t pin, uint8_t val) {
@@ -49,7 +49,7 @@ void UHS2_GPIO::digitalWrite(uint8_t pin, uint8_t val) {
 }
 
 /** @brief  Read the value from a GPIO input pin
-*   @param  pin GPIO input pin on USB Host Shield to read
+*   @param  pin GPIO input pin on USBHost Host Shield to read
 *   @retval int Value of GPIO input (-1 on fail)
 */
 int UHS2_GPIO::digitalRead(uint8_t pin) {
@@ -61,7 +61,7 @@ int UHS2_GPIO::digitalRead(uint8_t pin) {
 }
 
 /** @brief  Read the value from a GPIO output pin
-*   @param  pin GPIO output pin on USB Host Shield to read
+*   @param  pin GPIO output pin on USBHost Host Shield to read
 *   @retval int Value of GPIO output (-1 on fail)
 *   @note   Value of MAX3421E output register, i.e. what the device has been set to, not the physical value on the pin
 */

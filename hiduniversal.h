@@ -29,7 +29,7 @@ class HIDUniversal : public HIDComposite {
                 return true;
         }
 
-        void ParseHIDData(USBHID *hid, uint8_t ep __attribute__((unused)), bool is_rpt_id, uint8_t len, uint8_t *buf) final {
+        void ParseHIDData(HostUSBHID *hid, uint8_t ep __attribute__((unused)), bool is_rpt_id, uint8_t len, uint8_t *buf) final {
                 // override the HIDComposite version of this method to call the HIDUniversal version
                 // (which doesn't use the endpoint), made it final to make sure users
                 // of HIDUniversal override the right version of ParseHIDData() (the other one, below)
@@ -37,12 +37,12 @@ class HIDUniversal : public HIDComposite {
         }
 
 protected:
-        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
+        virtual void ParseHIDData(HostUSBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
                 return;
         }
 
 public:
-        HIDUniversal(USB *p) : HIDComposite(p) {}
+        HIDUniversal(USBHost *p) : HIDComposite(p) {}
 
         uint8_t Poll() override;
 

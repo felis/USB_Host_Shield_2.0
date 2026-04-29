@@ -358,11 +358,11 @@ protected:
          */
         virtual void sendOutputReport(uint8_t *data, uint8_t len) = 0;
 
-        /** Used to send a handshake command via USB before disabling the timeout. */
+        /** Used to send a handshake command via USBHost before disabling the timeout. */
         virtual void sendHandshake() {}
 
         /**
-         * Needed to disable USB timeout for the controller,
+         * Needed to disable USBHost timeout for the controller,
          * so it sends out data without the host having to send data continuously.
          */
         virtual void disableTimeout() {}

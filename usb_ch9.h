@@ -26,10 +26,10 @@ e-mail   :  support@circuitsathome.com
 #error "Never include usb_ch9.h directly; include Usb.h instead"
 #else
 
-/* USB chapter 9 structures */
+/* USBHost chapter 9 structures */
 #define _ch9_h_
 
-/* Misc.USB constants */
+/* Misc.USBHost constants */
 #define DEV_DESCR_LEN   18      //device descriptor length
 #define CONF_DESCR_LEN  9       //configuration descriptor length
 #define INTR_DESCR_LEN  9       //interface descriptor length
@@ -65,7 +65,7 @@ e-mail   :  support@circuitsathome.com
 #define USB_SETUP_RECIPIENT_ENDPOINT            0x02    // Device Request bmRequestType recipient - endpoint
 #define USB_SETUP_RECIPIENT_OTHER               0x03    // Device Request bmRequestType recipient - other
 
-/* USB descriptors  */
+/* USBHost descriptors  */
 
 #define USB_DESCRIPTOR_DEVICE                   0x01    // bDescriptorType for a Device Descriptor.
 #define USB_DESCRIPTOR_CONFIGURATION            0x02    // bDescriptorType for a Configuration Descriptor.
@@ -86,7 +86,7 @@ e-mail   :  support@circuitsathome.com
 #define OTG_FEATURE_A_HNP_SUPPORT               4       // SET FEATURE OTG - A device supports HNP
 #define OTG_FEATURE_A_ALT_HNP_SUPPORT           5       // SET FEATURE OTG - Another port on the A device supports HNP
 
-/* USB Endpoint Transfer Types  */
+/* USBHost Endpoint Transfer Types  */
 #define USB_TRANSFER_TYPE_CONTROL               0x00    // Endpoint is a control endpoint.
 #define USB_TRANSFER_TYPE_ISOCHRONOUS           0x01    // Endpoint is an isochronous endpoint.
 #define USB_TRANSFER_TYPE_BULK                  0x02    // Endpoint is a bulk endpoint.
@@ -105,12 +105,12 @@ e-mail   :  support@circuitsathome.com
 typedef struct {
         uint8_t bLength; // Length of this descriptor.
         uint8_t bDescriptorType; // DEVICE descriptor type (USB_DESCRIPTOR_DEVICE).
-        uint16_t bcdUSB; // USB Spec Release Number (BCD).
-        uint8_t bDeviceClass; // Class code (assigned by the USB-IF). 0xFF-Vendor specific.
-        uint8_t bDeviceSubClass; // Subclass code (assigned by the USB-IF).
-        uint8_t bDeviceProtocol; // Protocol code (assigned by the USB-IF). 0xFF-Vendor specific.
+        uint16_t bcdUSB; // USBHost Spec Release Number (BCD).
+        uint8_t bDeviceClass; // Class code (assigned by the USBHost-IF). 0xFF-Vendor specific.
+        uint8_t bDeviceSubClass; // Subclass code (assigned by the USBHost-IF).
+        uint8_t bDeviceProtocol; // Protocol code (assigned by the USBHost-IF). 0xFF-Vendor specific.
         uint8_t bMaxPacketSize0; // Maximum packet size for endpoint 0.
-        uint16_t idVendor; // Vendor ID (assigned by the USB-IF).
+        uint16_t idVendor; // Vendor ID (assigned by the USBHost-IF).
         uint16_t idProduct; // Product ID (assigned by the manufacturer).
         uint16_t bcdDevice; // Device release number (BCD).
         uint8_t iManufacturer; // Index of String Descriptor describing the manufacturer.
@@ -138,9 +138,9 @@ typedef struct {
         uint8_t bInterfaceNumber; // Number of this interface (0 based).
         uint8_t bAlternateSetting; // Value of this alternate interface setting.
         uint8_t bNumEndpoints; // Number of endpoints in this interface.
-        uint8_t bInterfaceClass; // Class code (assigned by the USB-IF).  0xFF-Vendor specific.
-        uint8_t bInterfaceSubClass; // Subclass code (assigned by the USB-IF).
-        uint8_t bInterfaceProtocol; // Protocol code (assigned by the USB-IF).  0xFF-Vendor specific.
+        uint8_t bInterfaceClass; // Class code (assigned by the USBHost-IF).  0xFF-Vendor specific.
+        uint8_t bInterfaceSubClass; // Subclass code (assigned by the USBHost-IF).
+        uint8_t bInterfaceProtocol; // Protocol code (assigned by the USBHost-IF).  0xFF-Vendor specific.
         uint8_t iInterface; // Index of String Descriptor describing the interface.
 } __attribute__((packed)) USB_INTERFACE_DESCRIPTOR;
 

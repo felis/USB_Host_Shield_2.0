@@ -22,8 +22,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
-XBOXRECV::XBOXRECV(USB *p) :
-pUsb(p), // pointer to USB class instance - mandatory
+XBOXRECV::XBOXRECV(USBHost *p) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
@@ -34,7 +34,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if(pUsb) // register in USB subsystem
+        if(pUsb) // register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
@@ -47,7 +47,7 @@ uint8_t XBOXRECV::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
         EpInfo *oldep_ptr = NULL;
         uint16_t PID, VID;
 
-        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USB device address pool
+        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USBHost device address pool
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nXBOXRECV Init"), 0x80);
 #endif
@@ -531,7 +531,7 @@ void XBOXRECV::setLedMode(LEDModeEnum ledMode, uint8_t controller) { // This fun
 }
 
 /* PC runs this at interval of approx 2 seconds
-Thanks to BusHound from Perisoft.net for the Windows USB Analysis output
+Thanks to BusHound from Perisoft.net for the Windows USBHost Analysis output
 Found by timstamp.co.uk
  */
 void XBOXRECV::checkStatus() {

@@ -135,6 +135,12 @@ Currently the following boards are supported by the library:
       * GPIO6 to 11 is also **NOT** usable, as they are used to connect SPI flash chip and it is used for storing the executable binary content.
 * ESP32 is supported using the [arduino-esp32](https://github.com/espressif/arduino-esp32/)
     * GPIO5 : SS, GPIO17 : INT, GPIO18 : SCK, GPIO19 : MISO, GPIO23 : MOSI
+* ESP32-S2 is supported using the [arduino-esp32](https://github.com/espressif/arduino-esp32/)
+    * GPIO10 : SS, GPIO14 : INT, GPIO12 : SCK, GPIO13 : MISO, GPIO11 : MOSI
+* ESP32-S3 is supported using the [arduino-esp32](https://github.com/espressif/arduino-esp32/)
+    * GPIO10 : SS, GPIO14 : INT, GPIO12 : SCK, GPIO13 : MISO, GPIO11 : MOSI
+
+**Note for ESP32-S2 and ESP32-S3:** Unlike the standard ESP32, these variants require explicit SPI bus initialization in your sketch before calling Usb.Init(): SPI.begin(12, 13, 11, 10);
 
 The following boards need to be activated manually in [settings.h](settings.h):
 

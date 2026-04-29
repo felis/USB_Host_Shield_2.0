@@ -21,7 +21,7 @@ e-mail   :  support@circuitsathome.com
 #include "usbhid.h"
 //#include "hidescriptorparser.h"
 
-class HIDComposite : public USBHID {
+class HIDComposite : public HostUSBHID {
 
 protected:
 
@@ -77,12 +77,12 @@ protected:
                 return 0;
         };
 
-        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), uint8_t ep __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
+        virtual void ParseHIDData(HostUSBHID *hid __attribute__((unused)), uint8_t ep __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len __attribute__((unused)), uint8_t *buf __attribute__((unused))) {
                 return;
         };
 
 public:
-        HIDComposite(USB *p);
+        HIDComposite(USBHost *p);
 
         // HID implementation
         bool SetReportParser(uint8_t id, HIDReportParser *prs);

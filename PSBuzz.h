@@ -37,16 +37,16 @@ union PSBUZZButtons {
 } __attribute__((packed));
 
 /**
- * This class implements support for the PS Buzz controllers via USB.
- * It uses the HIDUniversal class for all the USB communication.
+ * This class implements support for the PS Buzz controllers via USBHost.
+ * It uses the HIDUniversal class for all the USBHost communication.
  */
 class PSBuzz : public HIDUniversal {
 public:
         /**
          * Constructor for the PSBuzz class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        PSBuzz(USB *p) :
+        PSBuzz(USBHost *p) :
         HIDUniversal(p) {
                 Reset();
         };
@@ -137,13 +137,13 @@ public:
 protected:
         /** @name HIDUniversal implementation */
         /**
-         * Used to parse USB HID data.
+         * Used to parse USBHost HID data.
          * @param hid       Pointer to the HID class.
          * @param is_rpt_id Only used for Hubs.
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void ParseHIDData(HostUSBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
         /**
          * Called when a device is successfully initialized.
@@ -164,7 +164,7 @@ protected:
 
         /** @name USBDeviceConfig implementation */
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.

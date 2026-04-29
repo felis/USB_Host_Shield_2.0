@@ -162,7 +162,7 @@ typedef struct {
 
 class ACM : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
-        USB *pUsb;
+        USBHost *pUsb;
         CDCAsyncOper *pAsync;
         uint8_t bAddress;
         uint8_t bConfNum; // configuration number
@@ -182,7 +182,7 @@ public:
         static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
         EpInfo epInfo[ACM_MAX_ENDPOINTS];
 
-        ACM(USB *pusb, CDCAsyncOper *pasync);
+        ACM(USBHost *pusb, CDCAsyncOper *pasync);
 
         uint8_t SetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);
         uint8_t GetCommFeature(uint16_t fid, uint8_t nbytes, uint8_t *dataptr);

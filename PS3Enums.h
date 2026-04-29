@@ -57,7 +57,7 @@ const uint8_t PS3_LEDS[] PROGMEM = {
 
 /**
  * Buttons on the controllers.
- * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USBHost.
  */
 const uint32_t PS3_BUTTONS[] PROGMEM = {
         0x10, // UP
@@ -87,7 +87,7 @@ const uint32_t PS3_BUTTONS[] PROGMEM = {
 
 /**
  * Analog buttons on the controllers.
- * <B>Note:</B> that the location is shifted 9 when it's connected via USB.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USBHost.
  */
 const uint8_t PS3_ANALOG_BUTTONS[] PROGMEM = {
         23, // UP_ANALOG
@@ -111,7 +111,7 @@ const uint8_t PS3_ANALOG_BUTTONS[] PROGMEM = {
 };
 
 enum StatusEnum {
-        // Note that the location is shifted 9 when it's connected via USB
+        // Note that the location is shifted 9 when it's connected via USBHost
         // Byte location | bit location
         Plugged = (38 << 8) | 0x02,
         Unplugged = (38 << 8) | 0x03,
@@ -132,8 +132,8 @@ enum StatusEnum {
         MoveHigh = (21 << 8) | 0x04,
         MoveFull = (21 << 8) | 0x05,
 
-        CableRumble = (40 << 8) | 0x10, // Operating by USB and rumble is turned on
-        Cable = (40 << 8) | 0x12, // Operating by USB and rumble is turned off
+        CableRumble = (40 << 8) | 0x10, // Operating by USBHost and rumble is turned on
+        Cable = (40 << 8) | 0x12, // Operating by USBHost and rumble is turned off
         BluetoothRumble = (40 << 8) | 0x14, // Operating by Bluetooth and rumble is turned on
         Bluetooth = (40 << 8) | 0x16, // Operating by Bluetooth and rumble is turned off
 };

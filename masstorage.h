@@ -40,7 +40,7 @@ e-mail   :  support@circuitsathome.com
 #define MASS_SUBCLASS_RBC               0x01
 #define MASS_SUBCLASS_ATAPI             0x02    // MMC-5 (ATAPI)
 #define MASS_SUBCLASS_OBSOLETE1         0x03    // Was QIC-157
-#define MASS_SUBCLASS_UFI               0x04    // Specifies how to interface Floppy Disk Drives to USB
+#define MASS_SUBCLASS_UFI               0x04    // Specifies how to interface Floppy Disk Drives to USBHost
 #define MASS_SUBCLASS_OBSOLETE2         0x05    // Was SFF-8070i
 #define MASS_SUBCLASS_SCSI              0x06    // SCSI Transparent Command Set
 #define MASS_SUBCLASS_LSDFS             0x07    // Specifies how host has to negotiate access before trying SCSI
@@ -154,7 +154,7 @@ e-mail   :  support@circuitsathome.com
 #define SCSI_ASC_MEDIA_CHANGED          0x28
 #define SCSI_ASC_MEDIUM_NOT_PRESENT     0x3A
 
-/* USB error codes */
+/* USBHost error codes */
 #define MASS_ERR_SUCCESS                0x00
 #define MASS_ERR_PHASE_ERROR            0x02
 #define MASS_ERR_UNIT_NOT_READY         0x03
@@ -472,7 +472,7 @@ protected:
         static const uint8_t epDataOutIndex; // DataOUT endpoint index
         static const uint8_t epInterruptInIndex; // InterruptIN  endpoint index
 
-        USB *pUsb;
+        USBHost *pUsb;
         uint8_t bAddress;
         uint8_t bConfNum; // configuration number
         uint8_t bIface; // interface value
@@ -484,7 +484,7 @@ protected:
 
         uint32_t dCBWTag; // Tag
         //uint32_t dCBWDataTransferLength; // Data Transfer Length
-        uint8_t bLastUsbError; // Last USB error
+        uint8_t bLastUsbError; // Last USBHost error
         uint8_t bMaxLUN; // Max LUN
         uint8_t bTheLUN; // Active LUN
         uint32_t CurrentCapacity[MASS_MAX_SUPPORTED_LUN]; // Total sectors
@@ -500,7 +500,7 @@ protected:
                 return 0;
         };
 public:
-        BulkOnly(USB *p);
+        BulkOnly(USBHost *p);
 
         uint8_t GetLastUsbError() {
                 return bLastUsbError;

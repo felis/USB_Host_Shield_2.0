@@ -27,7 +27,7 @@
 #include "xboxEnums.h"
 
 /* Xbox One data taken from descriptors */
-#define XBOX_ONE_EP_MAXPKTSIZE                  64 // Max size for data via USB
+#define XBOX_ONE_EP_MAXPKTSIZE                  64 // Max size for data via USBHost
 
 /* Names we give to the 3 XboxONE pipes */
 #define XBOX_ONE_CONTROL_PIPE                   0
@@ -63,14 +63,14 @@
 #define XBOX_ONE_PID11                          0x542A // Xbox ONE spectra
 #define XBOX_ONE_PID12                          0x543A // PowerA Xbox One wired controller
 
-/** This class implements support for a Xbox ONE controller connected via USB. */
+/** This class implements support for a Xbox ONE controller connected via USBHost. */
 class XBOXONE : public USBDeviceConfig, public UsbConfigXtracter {
 public:
         /**
          * Constructor for the XBOXONE class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          */
-        XBOXONE(USB *pUsb);
+        XBOXONE(USBHost *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -82,12 +82,12 @@ public:
          */
         virtual uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
-         * Release the USB device.
+         * Release the USBHost device.
          * @return 0 on success.
          */
         virtual uint8_t Release();
         /**
-         * Poll the USB Input endpoins and run the state machines.
+         * Poll the USBHost Input endpoins and run the state machines.
          * @return 0 on success.
          */
         virtual uint8_t Poll();
@@ -117,7 +117,7 @@ public:
         };
 
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
@@ -177,8 +177,8 @@ public:
         bool XboxOneConnected;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */
@@ -188,7 +188,7 @@ protected:
         uint8_t bConfNum;
         /** Total number of endpoints in the configuration. */
         uint8_t bNumEP;
-        /** Next poll time based on poll interval taken from the USB descriptor. */
+        /** Next poll time based on poll interval taken from the USBHost descriptor. */
         uint32_t qNextPollTime;
 
         /** @name UsbConfigXtracter implementation */
@@ -204,8 +204,8 @@ protected:
         /**@}*/
 
         /**
-         * Used to print the USB Endpoint Descriptor.
-         * @param ep_ptr Pointer to USB Endpoint Descriptor.
+         * Used to print the USBHost Endpoint Descriptor.
+         * @param ep_ptr Pointer to USBHost Endpoint Descriptor.
          */
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 

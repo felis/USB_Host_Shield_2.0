@@ -26,16 +26,16 @@
 #define PS4_PID_SLIM    0x09CC // PS4 Slim Controller
 
 /**
- * This class implements support for the PS4 controller via USB.
- * It uses the HIDUniversal class for all the USB communication.
+ * This class implements support for the PS4 controller via USBHost.
+ * It uses the HIDUniversal class for all the USBHost communication.
  */
 class PS4USB : public HIDUniversal, public PS4Parser {
 public:
         /**
          * Constructor for the PS4USB class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        PS4USB(USB *p) :
+        PS4USB(USBHost *p) :
         HIDUniversal(p) {
                 PS4Parser::Reset();
         };
@@ -59,13 +59,13 @@ public:
 protected:
         /** @name HIDUniversal implementation */
         /**
-         * Used to parse USB HID data.
+         * Used to parse USBHost HID data.
          * @param hid       Pointer to the HID class.
          * @param is_rpt_id Only used for Hubs.
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(HostUSBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
                 if (HIDUniversal::VID == PS4_VID && (HIDUniversal::PID == PS4_PID || HIDUniversal::PID == PS4_PID_SLIM))
                         PS4Parser::Parse(len, buf);
         };
@@ -115,7 +115,7 @@ protected:
 
         /** @name USBDeviceConfig implementation */
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.

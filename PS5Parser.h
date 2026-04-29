@@ -124,7 +124,7 @@ struct PS5Data {
         // 0x24 - 0x27 touchpad point 2
         ps5TouchpadXY xy;
 
-#if 0 // The status byte depends on if it's sent via USB or Bluetooth, so is not parsed for now
+#if 0 // The status byte depends on if it's sent via USBHost or Bluetooth, so is not parsed for now
         uint8_t reserved3; // 0x28
 
         uint8_t rightTriggerFeedback; // 0x29
@@ -268,10 +268,10 @@ public:
         };
 #endif
 
-#if 0 // These are only valid via USB, so have been commented out for now
+#if 0 // These are only valid via USBHost, so have been commented out for now
         /**
-         * Use this to check if an USB cable is connected to the PS5 controller.
-         * @return Returns true if an USB cable is connected.
+         * Use this to check if an USBHost cable is connected to the PS5 controller.
+         * @return Returns true if an USBHost cable is connected.
          */
         bool getUsbStatus() {
                 return ps5Data.status.usb;

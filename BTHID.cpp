@@ -21,7 +21,7 @@
 //#define PRINTREPORT // Uncomment to print the report send by the HID device
 
 BTHID::BTHID(BTD *p, bool pair, const char *pin) :
-BluetoothService(p), // Pointer to USB class instance - mandatory
+BluetoothService(p), // Pointer to USBHost class instance - mandatory
 protocolMode(USB_HID_BOOT_PROTOCOL) {
         for(uint8_t i = 0; i < NUM_PARSERS; i++)
                 pRptParser[i] = NULL;
@@ -345,12 +345,12 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 switch(l2capinbuf[9]) { // Report ID
                                         case 0x01: // Keyboard or Joystick events
                                                 if(pRptParser[KEYBOARD_PARSER_ID])
-                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<USBHID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
+                                                        pRptParser[KEYBOARD_PARSER_ID]->Parse(reinterpret_cast<HostUSBHID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
 
                                         case 0x02: // Mouse events
                                                 if(pRptParser[MOUSE_PARSER_ID])
-                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<USBHID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
+                                                        pRptParser[MOUSE_PARSER_ID]->Parse(reinterpret_cast<HostUSBHID *>(this), 0, (uint8_t)(length - 2), &l2capinbuf[10]); // Use reinterpret_cast again to extract the instance
                                                 break;
 #ifdef EXTRADEBUG
                                         default:

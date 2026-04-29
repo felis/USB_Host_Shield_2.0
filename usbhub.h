@@ -164,7 +164,7 @@ struct HubEvent {
 class USBHub : USBDeviceConfig {
         static bool bResetInitiated; // True when reset is triggered
 
-        USB *pUsb; // USB class instance pointer
+        USBHost *pUsb; // USBHost class instance pointer
 
         EpInfo epInfo[2]; // interrupt endpoint info structure
 
@@ -178,7 +178,7 @@ class USBHub : USBDeviceConfig {
         uint8_t PortStatusChange(uint8_t port, HubEvent &evt);
 
 public:
-        USBHub(USB *p);
+        USBHub(USBHost *p);
 
         uint8_t ClearHubFeature(uint8_t fid);
         uint8_t ClearPortFeature(uint8_t fid, uint8_t port, uint8_t sel = 0);
@@ -247,6 +247,6 @@ inline uint8_t USBHub::SetPortFeature(uint8_t fid, uint8_t port, uint8_t sel) {
         return ( pUsb->ctrlReq(bAddress, 0, bmREQ_SET_PORT_FEATURE, USB_REQUEST_SET_FEATURE, fid, 0, (((0x0000 | sel) << 8) | port), 0, 0, NULL, NULL));
 }
 
-void PrintHubPortStatus(USB *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);
+void PrintHubPortStatus(USBHost *usbptr, uint8_t addr, uint8_t port, bool print_changes = false);
 
 #endif // __USBHUB_H__

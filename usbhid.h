@@ -133,16 +133,16 @@ struct MainItemIOFeature {
         uint8_t bmIsVolatileOrNonVolatile : 1;
 };
 
-class USBHID;
+class HostUSBHID;
 
 class HIDReportParser {
 public:
-        virtual void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) = 0;
+        virtual void Parse(HostUSBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) = 0;
 };
 
-class USBHID : public USBDeviceConfig, public UsbConfigXtracter {
+class HostUSBHID : public USBDeviceConfig, public UsbConfigXtracter {
 protected:
-        USB *pUsb; // USB class instance pointer
+        USBHost *pUsb; // USBHost class instance pointer
         uint8_t bAddress; // address
 
 protected:
@@ -162,10 +162,10 @@ protected:
 
 public:
 
-        USBHID(USB *pusb) : pUsb(pusb) {
+        HostUSBHID(USBHost *pusb) : pUsb(pusb) {
         };
 
-        const USB* GetUsb() {
+        const USBHost* GetUsb() {
                 return pUsb;
         };
 

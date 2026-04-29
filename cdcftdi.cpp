@@ -20,7 +20,7 @@ const uint8_t FTDI::epDataInIndex = 1;
 const uint8_t FTDI::epDataOutIndex = 2;
 const uint8_t FTDI::epInterruptInIndex = 3;
 
-FTDI::FTDI(USB *p, FTDIAsyncOper *pasync, uint16_t idProduct) :
+FTDI::FTDI(USBHost *p, FTDIAsyncOper *pasync, uint16_t idProduct) :
 pAsync(pasync),
 pUsb(p),
 bAddress(0),

@@ -63,10 +63,10 @@ e-mail   :  support@circuitsathome.com
 #define LCD_5x8DOTS             0x00
 
 class Max_LCD : public Print {
-        USB *pUsb;
+        USBHost *pUsb;
 
 public:
-        Max_LCD(USB *pusb);
+        Max_LCD(USBHost *pusb);
         void init();
         void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
         void clear();

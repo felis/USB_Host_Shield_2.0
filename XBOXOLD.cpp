@@ -44,8 +44,8 @@ const uint8_t XBOXOLD_BUTTONS[] PROGMEM = {
         3, // Y
 };
 
-XBOXOLD::XBOXOLD(USB *p) :
-pUsb(p), // pointer to USB class instance - mandatory
+XBOXOLD::XBOXOLD(USBHost *p) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
 qNextPollTime(0), // Reset NextPollTime
@@ -59,7 +59,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if(pUsb) // register in USB subsystem
+        if(pUsb) // register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
@@ -73,7 +73,7 @@ uint8_t XBOXOLD::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint16_t VID;
         uint8_t num_of_conf; // Number of configurations
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nXBOXUSB Init"), 0x80);

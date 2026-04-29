@@ -20,7 +20,7 @@ const uint8_t ACM::epDataInIndex = 1;
 const uint8_t ACM::epDataOutIndex = 2;
 const uint8_t ACM::epInterruptInIndex = 3;
 
-ACM::ACM(USB *p, CDCAsyncOper *pasync) :
+ACM::ACM(USBHost *p, CDCAsyncOper *pasync) :
 pUsb(p),
 pAsync(pasync),
 bAddress(0),

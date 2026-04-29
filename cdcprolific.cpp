@@ -16,7 +16,7 @@ e-mail   :  support@circuitsathome.com
  */
 #include "cdcprolific.h"
 
-PL2303::PL2303(USB *p, CDCAsyncOper *pasync) :
+PL2303::PL2303(USBHost *p, CDCAsyncOper *pasync) :
 ACM(p, pasync),
 wPLType(0) {
 }

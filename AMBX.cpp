@@ -18,8 +18,8 @@
 // To enable serial debugging see "settings.h"
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 
-AMBX::AMBX(USB *p) :
-pUsb(p), // pointer to USB class instance - mandatory
+AMBX::AMBX(USBHost *p) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0) // device address - mandatory
 {
         for(uint8_t i = 0; i < AMBX_MAX_ENDPOINTS; i++) {
@@ -30,7 +30,7 @@ bAddress(0) // device address - mandatory
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if(pUsb) // register in USB subsystem
+        if(pUsb) // register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
@@ -43,7 +43,7 @@ uint8_t AMBX::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint16_t PID;
         uint16_t VID;
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nAMBX Init"), 0x80);

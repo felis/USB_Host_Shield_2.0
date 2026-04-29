@@ -52,6 +52,10 @@ typedef MAX3421e<P15, P5> MAX3421E; // ESP8266 boards
 typedef MAX3421e<P1, P14> MAX3421E; // M5Stack Core S3
 #elif defined(ARDUINO_XIAO_ESP32S3)
 typedef MAX3421e<P44, P4> MAX3421E; // ESP32 XIAO boards
+#elif defined(ARDUINO_ESP32S2_DEV) || defined(CONFIG_IDF_TARGET_ESP32S2)
+typedef MAX3421e<P10, P14> MAX3421E; // ESP32-S2 boards
+#elif defined(ARDUINO_ESP32S3_DEV) || defined(CONFIG_IDF_TARGET_ESP32S3)
+typedef MAX3421e<P10, P14> MAX3421E; // ESP32-S3 boards
 #elif defined(ESP32)
 typedef MAX3421e<P5, P17> MAX3421E; // ESP32 boards
 #elif defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
@@ -75,7 +79,7 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 // D6-5         Type (0- standard, 1 - class, 2 - vendor, 3 - reserved)
 // D4-0         Recipient (0 - device, 1 - interface, 2 - endpoint, 3 - other, 4..31 - reserved)
 
-// USB Device Classes
+// USBHost Device Classes
 #define USB_CLASS_USE_CLASS_INFO        0x00    // Use Class Info in the Interface Descriptors
 #define USB_CLASS_AUDIO                 0x01    // Audio
 #define USB_CLASS_COM_AND_CDC_CTRL      0x02    // Communications and CDC Control
@@ -114,16 +118,16 @@ typedef MAX3421e<P10, P9> MAX3421E; // Official Arduinos (UNO, Duemilanove, Mega
 #define USB_ERROR_FailGetConfDescr                      0xE3
 #define USB_ERROR_TRANSFER_TIMEOUT                      0xFF
 
-#define USB_XFER_TIMEOUT        5000    // (5000) USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
+#define USB_XFER_TIMEOUT        5000    // (5000) USBHost transfer timeout in milliseconds, per section 9.2.6.1 of USBHost 2.0 spec
 //#define USB_NAK_LIMIT         32000   // NAK limit for a transfer. 0 means NAKs are not counted
 #define USB_RETRY_LIMIT         3       // 3 retry limit for a transfer
 #define USB_SETTLE_DELAY        200     // settle delay in milliseconds
 
-#define USB_NUMDEVICES          16      //number of USB devices
+#define USB_NUMDEVICES          16      //number of USBHost devices
 //#define HUB_MAX_HUBS          7       // maximum number of hubs that can be attached to the host controller
 #define HUB_PORT_RESET_DELAY    20      // hub port reset delay 10 ms recomended, can be up to 20 ms
 
-/* USB state machine states */
+/* USBHost state machine states */
 #define USB_STATE_MASK                                      0xf0
 
 #define USB_STATE_DETACHED                                  0x10
@@ -182,7 +186,7 @@ public:
 
 };
 
-/* USB Setup Packet Structure   */
+/* USBHost Setup Packet Structure   */
 typedef struct {
 
         union { // offset   description
@@ -217,13 +221,13 @@ public:
         virtual void Parse(const uint16_t len, const uint8_t *pbuf, const uint16_t &offset) = 0;
 };
 
-class USB : public MAX3421E {
+class USBHost : public MAX3421E {
         AddressPoolImpl<USB_NUMDEVICES> addrPool;
         USBDeviceConfig* devConfig[USB_NUMDEVICES];
         uint8_t bmHubPre;
 
 public:
-        USB(void);
+        USBHost(void);
 
         void SetHubPreMask() {
                 bmHubPre |= bmHUBPRE;
@@ -292,27 +296,27 @@ private:
 #if 0 //defined(USB_METHODS_INLINE)
 //get device descriptor
 
-inline uint8_t USB::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
+inline uint8_t USBHost::getDevDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, 0x00, USB_DESCRIPTOR_DEVICE, 0x0000, nbytes, dataptr));
 }
 //get configuration descriptor
 
-inline uint8_t USB::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
+inline uint8_t USBHost::getConfDescr(uint8_t addr, uint8_t ep, uint16_t nbytes, uint8_t conf, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, conf, USB_DESCRIPTOR_CONFIGURATION, 0x0000, nbytes, dataptr));
 }
 //get string descriptor
 
-inline uint8_t USB::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
+inline uint8_t USBHost::getStrDescr(uint8_t addr, uint8_t ep, uint16_t nuint8_ts, uint8_t index, uint16_t langid, uint8_t* dataptr) {
         return ( ctrlReq(addr, ep, bmREQ_GET_DESCR, USB_REQUEST_GET_DESCRIPTOR, index, USB_DESCRIPTOR_STRING, langid, nuint8_ts, dataptr));
 }
 //set address
 
-inline uint8_t USB::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
+inline uint8_t USBHost::setAddr(uint8_t oldaddr, uint8_t ep, uint8_t newaddr) {
         return ( ctrlReq(oldaddr, ep, bmREQ_SET, USB_REQUEST_SET_ADDRESS, newaddr, 0x00, 0x0000, 0x0000, NULL));
 }
 //set configuration
 
-inline uint8_t USB::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
+inline uint8_t USBHost::setConf(uint8_t addr, uint8_t ep, uint8_t conf_value) {
         return ( ctrlReq(addr, ep, bmREQ_SET, USB_REQUEST_SET_CONFIGURATION, conf_value, 0x00, 0x0000, 0x0000, NULL));
 }
 

@@ -32,7 +32,7 @@ e-mail   :  support@circuitsathome.com
 
 /* requests */
 
-#define ADK_GETPROTO      51  //check USB accessory protocol version
+#define ADK_GETPROTO      51  //check USBHost accessory protocol version
 #define ADK_SENDSTR       52  //send identifying string
 #define ADK_ACCSTART      53  //start device in accessory mode
 
@@ -70,7 +70,7 @@ protected:
         static const uint8_t epDataOutIndex; // DataOUT endpoint index
 
         /* mandatory members */
-        USB *pUsb;
+        USBHost *pUsb;
         uint8_t bAddress;
         uint8_t bConfNum; // configuration number
 
@@ -83,7 +83,7 @@ protected:
         void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
-        ADK(USB *pUsb, const char* manufacturer,
+        ADK(USBHost *pUsb, const char* manufacturer,
                 const char* model,
                 const char* description,
                 const char* version,

@@ -94,7 +94,7 @@ void PS4Parser::Parse(uint8_t len, uint8_t *buf) {
 
                 if (buf[0] == 0x01) // Check report ID
                         memcpy(&ps4Data, buf + 1, min((uint8_t)(len - 1), MFK_CASTUINT8T sizeof(ps4Data)));
-                else if (buf[0] == 0x11) { // This report is send via Bluetooth, it has an offset of 2 compared to the USB data
+                else if (buf[0] == 0x11) { // This report is send via Bluetooth, it has an offset of 2 compared to the USBHost data
                         if (len < 4) {
 #ifdef DEBUG_USB_HOST
                                 Notify(PSTR("\r\nReport is too short: "), 0x80);

@@ -21,7 +21,7 @@
 #include "AMBXEnums.h"
 
 /* AMBX data taken from descriptors */
-#define AMBX_EP_MAXPKTSIZE           40 // max size for data via USB
+#define AMBX_EP_MAXPKTSIZE           40 // max size for data via USBHost
 
 /* Names we give to the 3 AMBX but note only one is actually used (output) */
 #define AMBX_CONTROL_PIPE        0
@@ -64,9 +64,9 @@ class AMBX : public USBDeviceConfig {
 public:
         /**
          * Constructor for the AMBX class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          */
-        AMBX(USB *pUsb);
+        AMBX(USBHost *pUsb);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -78,12 +78,12 @@ public:
          */
         uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
-         * Release the USB device.
+         * Release the USBHost device.
          * @return 0 on success.
          */
         uint8_t Release();
         /**
-         * Poll the USB Input endpoins and run the state machines.
+         * Poll the USBHost Input endpoins and run the state machines.
          * @return 0 on success.
          */
         uint8_t Poll();
@@ -97,7 +97,7 @@ public:
         };
 
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
@@ -136,8 +136,8 @@ public:
         bool AMBXConnected;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */

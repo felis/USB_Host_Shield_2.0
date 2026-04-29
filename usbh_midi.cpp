@@ -1,12 +1,12 @@
 /*
  *******************************************************************************
- * USB-MIDI class driver for USB Host Shield 2.0 Library
+ * USBHost-MIDI class driver for USBHost Host Shield 2.0 Library
  * Copyright (c) 2012-2022 Yuuichi Akagawa
  *
- * Idea from LPK25 USB-MIDI to Serial MIDI converter
+ * Idea from LPK25 USBHost-MIDI to Serial MIDI converter
  *   by Collin Cunningham - makezine.com, narbotic.com
  *
- * for use with USB Host Shield 2.0 from Circuitsathome.com
+ * for use with USBHost Host Shield 2.0 from Circuitsathome.com
  * https://github.com/felis/USB_Host_Shield_2.0
  *******************************************************************************
  * This program is free software; you can redistribute it and/or modify
@@ -49,7 +49,7 @@
 // or
 // controlVal == (0-127)
 ///////////////////////////////////////////////////////////////////////////////
-// USB-MIDI Event Packets
+// USBHost-MIDI Event Packets
 // usb.org - Universal Serial Bus Device Class Definition for MIDI Devices 1.0
 ///////////////////////////////////////////////////////////////////////////////
 //+-------------+-------------+-------------+-------------+
@@ -82,7 +82,7 @@
 //| 0xF |     1     |Single Byte
 //+-----+-----------+-------------------------------------------------------------------
 
-USBH_MIDI::USBH_MIDI(USB *p) :
+USBH_MIDI::USBH_MIDI(USBHost *p) :
 pUsb(p),
 bAddress(0),
 bPollEnable(false),
@@ -93,7 +93,7 @@ readPtr(0) {
                 epInfo[i].maxPktSize  = (i) ? 0 : 8;
                 epInfo[i].bmNakPower  = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
-        // register in USB subsystem
+        // register in USBHost subsystem
         if (pUsb) {
                 pUsb->RegisterDeviceClass(this);
         }
@@ -124,7 +124,7 @@ uint8_t USBH_MIDI::Init(uint8_t parent, uint8_t port, bool lowspeed)
                 // epInfo[i].bmNakPower  = (i==epDataOutIndex) ? 10 : USB_NAK_NOWAIT;
         }
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 
         // check if address has already been assigned to an instance
@@ -293,7 +293,7 @@ void USBH_MIDI::setupDeviceSpecific()
         // Novation
         if( vid == 0x1235 ) {
                 // LaunchPad and LaunchKey endpoint attribute is interrupt 
-                // https://github.com/YuuichiAkagawa/USBH_MIDI/wiki/Novation-USB-Product-ID-List
+                // https://github.com/YuuichiAkagawa/USBH_MIDI/wiki/Novation-USBHost-Product-ID-List
 
                 // LaunchPad: 0x20:S, 0x36:Mini, 0x51:Pro, 0x69:MK2
                 if( pid == 0x20 || pid == 0x36 || pid == 0x51 || pid == 0x69 ) {
@@ -380,7 +380,7 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, uint8_t nCable)
                 return SendSysEx(dataptr, countSysExDataSize(dataptr), nCable);
         }
 
-        //Building USB-MIDI Event Packets
+        //Building USBHost-MIDI Event Packets
         buf[0] = (uint8_t)(nCable << 4) | cin;
         buf[1] = dataptr[0];
 
@@ -407,7 +407,7 @@ uint8_t USBH_MIDI::SendData(uint8_t *dataptr, uint8_t nCable)
                 break;
         }
 #ifdef EXTRADEBUG
-        //Dump for raw USB-MIDI event packet
+        //Dump for raw USBHost-MIDI event packet
         Notify(PSTR("SendData():"), 0x80), D_PrintHex((buf[0]), 0x80), D_PrintHex((buf[1]), 0x80), D_PrintHex((buf[2]), 0x80), D_PrintHex((buf[3]), 0x80), Notify(PSTR("\r\n"), 0x80);
 #endif
         return pUsb->outTransfer(bAddress, epInfo[epDataOutIndex].epAddr, 4, buf);
@@ -473,7 +473,7 @@ uint8_t USBH_MIDI::SendSysEx(uint8_t *dataptr, uint16_t datasize, uint8_t nCable
         USBTRACE("SendSysEx:\r\t");
         USBTRACE2(" Length:\t", datasize);
 #ifdef EXTRADEBUG
-        uint16_t pktSize = (n+2)/3;   //Calculate total USB MIDI packet size
+        uint16_t pktSize = (n+2)/3;   //Calculate total USBHost MIDI packet size
         USBTRACE2(" Total pktSize:\t", pktSize);
 #endif
 
@@ -687,7 +687,7 @@ bool USBH_MIDI::EndpointXtract(uint8_t conf __attribute__((unused)),
 
         // Fill the rest of endpoint data structure
         epInfo[index].epAddr = (pep->bEndpointAddress & 0x0F);
-        // The maximum packet size for the USB Host Shield 2.0 library is 64 bytes.
+        // The maximum packet size for the USBHost Host Shield 2.0 library is 64 bytes.
         if(pep->wMaxPacketSize > MIDI_EVENT_PACKET_SIZE) {
                 epInfo[index].maxPktSize = MIDI_EVENT_PACKET_SIZE;
         } else {

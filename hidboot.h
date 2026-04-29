@@ -56,7 +56,7 @@ class MouseReportParser : public HIDReportParser {
         } prevState;
 
 public:
-        void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void Parse(HostUSBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
 protected:
 
@@ -144,11 +144,11 @@ public:
                 kbdLockingKeys.bLeds = 0;
         };
 
-        void Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void Parse(HostUSBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
 protected:
 
-        virtual uint8_t HandleLockingKeys(USBHID* hid, uint8_t key) {
+        virtual uint8_t HandleLockingKeys(HostUSBHID* hid, uint8_t key) {
                 uint8_t old_keys = kbdLockingKeys.bLeds;
 
                 switch(key) {
@@ -198,7 +198,7 @@ protected:
 };
 
 template <const uint8_t BOOT_PROTOCOL>
-class HIDBoot : public USBHID //public USBDeviceConfig, public UsbConfigXtracter
+class HIDBoot : public HostUSBHID //public USBDeviceConfig, public UsbConfigXtracter
 {
         EpInfo epInfo[totalEndpoints(BOOT_PROTOCOL)];
         HIDReportParser *pRptParser[epMUL(BOOT_PROTOCOL)];
@@ -219,7 +219,7 @@ class HIDBoot : public USBHID //public USBDeviceConfig, public UsbConfigXtracter
         };
 
 public:
-        HIDBoot(USB *p, bool bRptProtoEnable = false);
+        HIDBoot(USBHost *p, bool bRptProtoEnable = false);
 
         virtual bool SetReportParser(uint8_t id, HIDReportParser *prs) {
                 pRptParser[id] = prs;
@@ -253,8 +253,8 @@ public:
 };
 
 template <const uint8_t BOOT_PROTOCOL>
-HIDBoot<BOOT_PROTOCOL>::HIDBoot(USB *p, bool bRptProtoEnable/* = false*/) :
-USBHID(p),
+HIDBoot<BOOT_PROTOCOL>::HIDBoot(USBHost *p, bool bRptProtoEnable/* = false*/) :
+HostUSBHID(p),
 qNextPollTime(0),
 bPollEnable(false),
 bRptProtoEnable(bRptProtoEnable) {
@@ -362,7 +362,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Init(uint8_t parent, uint8_t port, bool lowspeed
                 USBTRACE2("setAddr:", rcode);
                 return rcode;
         }
-        //delay(2); //per USB 2.0 sect.9.2.6.3
+        //delay(2); //per USBHost 2.0 sect.9.2.6.3
 
         USBTRACE2("Addr:", bAddress);
 
@@ -599,7 +599,7 @@ uint8_t HIDBoot<BOOT_PROTOCOL>::Poll() {
                         // Since keyboard and mice must report at least 3 bytes, we ignore the extra data.
                         if(!rcode && read > 2) {
                                 if(pRptParser[i])
-                                        pRptParser[i]->Parse((USBHID*)this, 0, (uint8_t)read, buf);
+                                        pRptParser[i]->Parse((HostUSBHID*)this, 0, (uint8_t)read, buf);
 #ifdef DEBUG_USB_HOST
                                 // We really don't care about errors and anomalies unless we are debugging.
                         } else {

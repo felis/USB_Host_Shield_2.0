@@ -21,7 +21,7 @@
 
 #include "MiniDSP.h"
 
-void MiniDSP::ParseHIDData(USBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
+void MiniDSP::ParseHIDData(HostUSBHID *hid __attribute__ ((unused)), bool is_rpt_id __attribute__ ((unused)), uint8_t len, uint8_t *buf) {
 
         constexpr uint8_t StatusInputCommand[] = {0x05, 0xFF, 0xDA};
 

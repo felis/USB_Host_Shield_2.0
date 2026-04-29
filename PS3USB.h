@@ -23,7 +23,7 @@
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
-#define EP_MAXPKTSIZE           64 // max size for data via USB
+#define EP_MAXPKTSIZE           64 // max size for data via USBHost
 
 /* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
 #define PS3_CONTROL_PIPE        0
@@ -40,9 +40,9 @@
 
 /**
  * This class implements support for all the official PS3 Controllers:
- * Dualshock 3, Navigation or a Motion controller via USB.
+ * Dualshock 3, Navigation or a Motion controller via USBHost.
  *
- * One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB on the Move controller.
+ * One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USBHost on the Move controller.
  *
  * Information about the protocol can be found at the wiki: https://github.com/felis/USB_Host_Shield_2.0/wiki/PS3-Information.
  */
@@ -50,12 +50,12 @@ class PS3USB : public USBDeviceConfig {
 public:
         /**
          * Constructor for the PS3USB class.
-         * @param  pUsb   Pointer to USB class instance.
+         * @param  pUsb   Pointer to USBHost class instance.
          * @param  btadr5,btadr4,btadr3,btadr2,btadr1,btadr0
          * Pass your dongles Bluetooth address into the constructor,
          * so you are able to pair the controller with a Bluetooth dongle.
          */
-        PS3USB(USB *pUsb, uint8_t btadr5 = 0, uint8_t btadr4 = 0, uint8_t btadr3 = 0, uint8_t btadr2 = 0, uint8_t btadr1 = 0, uint8_t btadr0 = 0);
+        PS3USB(USBHost *pUsb, uint8_t btadr5 = 0, uint8_t btadr4 = 0, uint8_t btadr3 = 0, uint8_t btadr2 = 0, uint8_t btadr1 = 0, uint8_t btadr0 = 0);
 
         /** @name USBDeviceConfig implementation */
         /**
@@ -67,12 +67,12 @@ public:
          */
         uint8_t Init(uint8_t parent, uint8_t port, bool lowspeed);
         /**
-         * Release the USB device.
+         * Release the USBHost device.
          * @return 0 on success.
          */
         uint8_t Release();
         /**
-         * Poll the USB Input endpoins and run the state machines.
+         * Poll the USBHost Input endpoins and run the state machines.
          * @return 0 on success.
          */
         uint8_t Poll();
@@ -94,7 +94,7 @@ public:
         };
 
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
@@ -264,8 +264,8 @@ public:
         bool PS3NavigationConnected;
 
 protected:
-        /** Pointer to USB class instance. */
-        USB *pUsb;
+        /** Pointer to USBHost class instance. */
+        USBHost *pUsb;
         /** Device address. */
         uint8_t bAddress;
         /** Endpoint info structure. */
@@ -297,7 +297,7 @@ private:
 
         /* Private commands */
         void PS3_Command(uint8_t *data, uint16_t nbytes);
-        void enable_sixaxis(); // Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+        void enable_sixaxis(); // Command used to enable the Dualshock 3 and Navigation controller to send data via USBHost
         void Move_Command(uint8_t *data, uint16_t nbytes);
 };
 #endif

@@ -226,7 +226,7 @@ again:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-BulkOnly::BulkOnly(USB *p) :
+BulkOnly::BulkOnly(USBHost *p) :
 pUsb(p),
 bAddress(0),
 bIface(0),
@@ -250,7 +250,7 @@ bLastUsbError(0) {
  * TECHNICAL: We could do most of this code elsewhere, with the exception of checking the class instance.
  * Doing so would save some program memory when using multiple drivers.
  *
- * @param parent USB address of parent
+ * @param parent USBHost address of parent
  * @param port address of port on parent
  * @param lowspeed true if device is low speed
  * @return
@@ -465,7 +465,7 @@ uint8_t BulkOnly::Init(uint8_t parent __attribute__((unused)), uint8_t port __at
                                 // try to lock media and spin up
                                 if(tries < 14) {
                                         LockMedia(lun, 1);
-                                        MediaCTL(lun, 1); // I actually have a USB stick that needs this!
+                                        MediaCTL(lun, 1); // I actually have a USBHost stick that needs this!
                                 } else delay(2 * (tries + 1));
                                 tries++;
                                 if(!tries) break;
@@ -831,7 +831,7 @@ uint8_t BulkOnly::RequestSense(uint8_t lun, uint16_t size, uint8_t *buf) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-// USB code
+// USBHost code
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -953,7 +953,7 @@ uint8_t BulkOnly::HandleUsbError(uint8_t error, uint8_t index) {
         //ClearEpHalt(index);
         while(error && count) {
                 if(error != hrSUCCESS) {
-                        ErrorMessage<uint8_t > (PSTR("USB Error"), error);
+                        ErrorMessage<uint8_t > (PSTR("USBHost Error"), error);
                         ErrorMessage<uint8_t > (PSTR("Index"), index);
                 }
                 switch(error) {
@@ -1101,7 +1101,7 @@ uint8_t BulkOnly::Transaction(CommandBlockWrapper *pcbw, uint16_t buf_size, void
                         } else {
                                 // NOTE! Sometimes this is caused by the reported residue being wrong.
                                 // Get a different device. It isn't compliant, and should have never passed Q&A.
-                                // I own one... 05e3:0701 Genesys Logic, Inc. USB 2.0 IDE Adapter.
+                                // I own one... 05e3:0701 Genesys Logic, Inc. USBHost 2.0 IDE Adapter.
                                 // Other devices that exhibit this behavior exist in the wild too.
                                 // Be sure to check quirks in the Linux source code before reporting a bug. --xxxajk
                                 Notify(PSTR("Invalid CSW\r\n"), 0x80);

@@ -20,8 +20,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the PS3 Controllers
 
-PS3USB::PS3USB(USB *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
-pUsb(p), // pointer to USB class instance - mandatory
+PS3USB::PS3USB(USBHost *p, uint8_t btadr5, uint8_t btadr4, uint8_t btadr3, uint8_t btadr2, uint8_t btadr1, uint8_t btadr0) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) // don't start polling before dongle is connected
 {
@@ -33,7 +33,7 @@ bPollEnable(false) // don't start polling before dongle is connected
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if(pUsb) // register in USB subsystem
+        if(pUsb) // register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 
         my_bdaddr[5] = btadr5; // Change to your dongle's Bluetooth address instead
@@ -53,7 +53,7 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint16_t PID;
         uint16_t VID;
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nPS3USB Init"), 0x80);
@@ -282,7 +282,7 @@ uint8_t PS3USB::Poll() {
                         printReport(); // Uncomment "#define PRINTREPORT" to print the report send by the PS3 Controllers
 #endif
                 }
-        } else if(PS3MoveConnected) { // One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USB
+        } else if(PS3MoveConnected) { // One can only set the color of the bulb, set the rumble, set and get the bluetooth address and calibrate the magnetometer via USBHost
                 if((int32_t)((uint32_t)millis() - timer) > 4000) { // Send at least every 4th second
                         Move_Command(writeBuf, MOVE_REPORT_BUFFER_SIZE); // The Bulb and rumble values, has to be written again and again, for it to stay turned on
                         timer = (uint32_t)millis();
@@ -488,7 +488,7 @@ void PS3USB::getBdaddr(uint8_t *bdaddr) {
                 bdaddr[5 - i] = buf[i + 2]; // Copy into buffer reversed, so it is LSB first
 }
 
-void PS3USB::enable_sixaxis() { // Command used to enable the Dualshock 3 and Navigation controller to send data via USB
+void PS3USB::enable_sixaxis() { // Command used to enable the Dualshock 3 and Navigation controller to send data via USBHost
         uint8_t cmd_buf[4];
         cmd_buf[0] = 0x42; // Special PS3 Controller enable commands
         cmd_buf[1] = 0x0c;

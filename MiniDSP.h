@@ -27,23 +27,23 @@
 #define MINIDSP_PID 0x0011 // MiniDSP 2x4HD
 
 /**
- * Arduino MiniDSP 2x4HD USB Host Driver by Dennis Frett.
+ * Arduino MiniDSP 2x4HD USBHost Host Driver by Dennis Frett.
  *
- * This class implements support for the MiniDSP 2x4HD via USB.
+ * This class implements support for the MiniDSP 2x4HD via USBHost.
  * Based on NodeJS implementation by Mathieu Rene:
  * https://github.com/mrene/node-minidsp and the Python implementation by Mark
  * Kubiak: https://github.com/markubiak/python3-minidsp.
  *
- * It uses the HIDUniversal class for all the USB communication.
+ * It uses the HIDUniversal class for all the USBHost communication.
  */
 class MiniDSP : public HIDUniversal {
 public:
 
         /**
          * Constructor for the MiniDSP class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        MiniDSP(USB *p) : HIDUniversal(p) {
+        MiniDSP(USBHost *p) : HIDUniversal(p) {
         };
 
         /**
@@ -112,13 +112,13 @@ public:
 protected:
         /** @name HIDUniversal implementation */
         /**
-         * Used to parse USB HID data.
+         * Used to parse USBHost HID data.
          * @param hid       Pointer to the HID class.
          * @param is_rpt_id Only used for Hubs.
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        void ParseHIDData(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
+        void ParseHIDData(HostUSBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf);
 
         /**
          * Called when a device is successfully initialized.
@@ -132,7 +132,7 @@ protected:
         /** @name USBDeviceConfig implementation */
 
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this

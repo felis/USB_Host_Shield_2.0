@@ -24,13 +24,13 @@ const uint8_t BTD::BTD_EVENT_PIPE = 1;
 const uint8_t BTD::BTD_DATAIN_PIPE = 2;
 const uint8_t BTD::BTD_DATAOUT_PIPE = 3;
 
-BTD::BTD(USB *p) :
+BTD::BTD(USBHost *p) :
 connectToWii(false),
 pairWithWii(false),
 connectToHIDDevice(false),
 pairWithHIDDevice(false),
 useSimplePairing(false),
-pUsb(p), // Pointer to USB class instance - mandatory
+pUsb(p), // Pointer to USBHost class instance - mandatory
 bAddress(0), // Device address - mandatory
 bNumEP(1), // If config descriptor needs to be parsed
 qNextPollTime(0), // Reset NextPollTime
@@ -43,7 +43,7 @@ bPollEnable(false) // Don't start polling before dongle is connected
 
         Initialize(); // Set all variables, endpoint structs etc. to default values
 
-        if(pUsb) // Register in USB subsystem
+        if(pUsb) // Register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); // Set devConfig[] entry
 }
 
@@ -57,7 +57,7 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
 
         Initialize(); // Set all variables, endpoint structs etc. to default values
 
-        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USB device address pool
+        AddressPool &addrPool = pUsb->GetAddressPool(); // Get memory address of USBHost device address pool
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nBTD ConfigureDevice"), 0x80);
 #endif
@@ -103,7 +103,7 @@ uint8_t BTD::ConfigureDevice(uint8_t parent, uint8_t port, bool lowspeed) {
                 return USB_ERROR_OUT_OF_ADDRESS_SPACE_IN_POOL;
         }
 
-        if (udd->bDeviceClass == 0x09) // Some dongles have an USB hub inside
+        if (udd->bDeviceClass == 0x09) // Some dongles have an USBHost hub inside
                 goto FailHub;
 
         epInfo[0].maxPktSize = udd->bMaxPacketSize0; // Extract Max Packet Size from device descriptor

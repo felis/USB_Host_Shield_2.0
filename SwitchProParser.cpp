@@ -66,7 +66,7 @@ void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
                 // This driver always uses the standard full report that includes the IMU data.
                 // The downside is that it requires more processing power, as the data is send contentiously
                 // while the simple input report is only send when the button state changes however the simple
-                // input report is not available via USB and does not include the IMU data.
+                // input report is not available via USBHost and does not include the IMU data.
 
                 if (buf[0] == 0x3F) // Simple input report via Bluetooth
                         switchProOutput.enableFullReportMode = true; // Switch over to the full report
@@ -89,7 +89,7 @@ void SwitchProParser::Parse(uint8_t len, uint8_t *buf) {
                 } else if (buf[0] == 0x21) {
                         // Subcommand reply via Bluetooth
                 } else if (buf[0] == 0x81) {
-                        // Subcommand reply via USB
+                        // Subcommand reply via USBHost
                 } else {
 #ifdef DEBUG_USB_HOST
                         Notify(PSTR("\r\nUnknown report id: "), 0x80);

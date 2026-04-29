@@ -228,7 +228,7 @@ enum AnalogHatEnum {
 
 /**
  * Sensors inside the Sixaxis Dualshock 3, Move controller and PS4 controller.
- * <B>Note:</B> that the location is shifted 9 when it's connected via USB on the PS3 controller.
+ * <B>Note:</B> that the location is shifted 9 when it's connected via USBHost on the PS3 controller.
  */
 enum SensorEnum {
         /** Accelerometer values */

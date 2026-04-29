@@ -34,7 +34,7 @@ e-mail   :  support@circuitsathome.com
 #define USB_NAK_MAX_POWER               15              //NAK binary order maximum value
 #define USB_NAK_DEFAULT                 14              //default 32K-1 NAKs before giving up
 #define USB_NAK_NOWAIT                  1               //Single NAK stops transfer
-#define USB_NAK_NONAK                   0               //Do not count NAKs, stop retrying after USB Timeout
+#define USB_NAK_NONAK                   0               //Do not count NAKs, stop retrying after USBHost Timeout
 
 struct EpInfo {
         uint8_t epAddr; // Endpoint address

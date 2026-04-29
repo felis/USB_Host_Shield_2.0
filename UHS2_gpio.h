@@ -31,14 +31,14 @@ UHS2_GPIO implements "wiring" style GPIO access. Implemented by Brian Walton bri
 
 class UHS2_GPIO {
 public:
-        UHS2_GPIO(USB *pUsb);
+        UHS2_GPIO(USBHost *pUsb);
 
         void digitalWrite(uint8_t pin, uint8_t val);
         int digitalRead(uint8_t pin);
         int digitalReadOutput(uint8_t pin);
 
 private:
-        USB* m_pUsb;
+        USBHost* m_pUsb;
 };
 
 #endif // __USB2_GPIO_H__

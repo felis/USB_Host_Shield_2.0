@@ -20,8 +20,8 @@
 //#define EXTRADEBUG // Uncomment to get even more debugging data
 //#define PRINTREPORT // Uncomment to print the report send by the Xbox 360 Controller
 
-XBOXUSB::XBOXUSB(USB *p) :
-pUsb(p), // pointer to USB class instance - mandatory
+XBOXUSB::XBOXUSB(USBHost *p) :
+pUsb(p), // pointer to USBHost class instance - mandatory
 bAddress(0), // device address - mandatory
 bPollEnable(false) { // don't start polling before dongle is connected
         for(uint8_t i = 0; i < XBOX_MAX_ENDPOINTS; i++) {
@@ -32,7 +32,7 @@ bPollEnable(false) { // don't start polling before dongle is connected
                 epInfo[i].bmNakPower = (i) ? USB_NAK_NOWAIT : USB_NAK_MAX_POWER;
         }
 
-        if(pUsb) // register in USB subsystem
+        if(pUsb) // register in USBHost subsystem
                 pUsb->RegisterDeviceClass(this); //set devConfig[] entry
 }
 
@@ -45,7 +45,7 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         uint16_t PID;
         uint16_t VID;
 
-        // get memory address of USB device address pool
+        // get memory address of USBHost device address pool
         AddressPool &addrPool = pUsb->GetAddressPool();
 #ifdef EXTRADEBUG
         Notify(PSTR("\r\nXBOXUSB Init"), 0x80);
@@ -98,12 +98,12 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
                 goto FailUnknownDevice;
         if(PID == XBOX_WIRELESS_PID) {
 #ifdef DEBUG_USB_HOST
-                Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USB communication"), 0x80);
+                Notify(PSTR("\r\nYou have plugged in a wireless Xbox 360 controller - it doesn't support USBHost communication"), 0x80);
 #endif
                 goto FailUnknownDevice;
         } else if(PID == XBOX_WIRELESS_RECEIVER_PID || PID == XBOX_WIRELESS_RECEIVER_THIRD_PARTY_PID) {
 #ifdef DEBUG_USB_HOST
-                Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USB"), 0x80);
+                Notify(PSTR("\r\nThis library only supports Xbox 360 controllers via USBHost"), 0x80);
 #endif
                 goto FailUnknownDevice;
         } else if(PID != XBOX_WIRED_PID && PID != MADCATZ_WIRED_PID && PID != GAMESTOP_WIRED_PID && PID != AFTERGLOW_WIRED_PID && PID != JOYTECH_WIRED_PID) // Check PID

@@ -25,16 +25,16 @@
 #define SWITCH_PRO_PID  0x2009 // Switch Pro Controller
 
 /**
- * This class implements support for the Switch Pro controller via USB.
- * It uses the HIDUniversal class for all the USB communication.
+ * This class implements support for the Switch Pro controller via USBHost.
+ * It uses the HIDUniversal class for all the USBHost communication.
  */
 class SwitchProUSB : public HIDUniversal, public SwitchProParser {
 public:
         /**
          * Constructor for the SwitchProUSB class.
-         * @param  p   Pointer to the USB class instance.
+         * @param  p   Pointer to the USBHost class instance.
          */
-        SwitchProUSB(USB *p) :
+        SwitchProUSB(USBHost *p) :
         HIDUniversal(p) {
                 SwitchProParser::Reset();
         };
@@ -58,13 +58,13 @@ public:
 protected:
         /** @name HIDUniversal implementation */
         /**
-         * Used to parse USB HID data.
+         * Used to parse USBHost HID data.
          * @param hid       Pointer to the HID class.
          * @param is_rpt_id Only used for Hubs.
          * @param len       The length of the incoming data.
          * @param buf       Pointer to the data buffer.
          */
-        virtual void ParseHIDData(USBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
+        virtual void ParseHIDData(HostUSBHID *hid __attribute__((unused)), bool is_rpt_id __attribute__((unused)), uint8_t len, uint8_t *buf) {
                 if (HIDUniversal::VID == SWITCH_PRO_VID && HIDUniversal::PID == SWITCH_PRO_PID)
                         SwitchProParser::Parse(len, buf);
         };
@@ -78,7 +78,7 @@ protected:
                 if (HIDUniversal::VID == SWITCH_PRO_VID && HIDUniversal::PID == SWITCH_PRO_PID) {
                         SwitchProParser::Reset();
 
-                        // We need to send a handshake and disable the timeout or the Pro controller will stop sending data via USB
+                        // We need to send a handshake and disable the timeout or the Pro controller will stop sending data via USBHost
                         // We can not send the commands quickly after each other, so we simply send out the commands at the same
                         // rate as the controller is sending data
                         switchProOutput.sendHandshake = switchProOutput.disableTimeout = true;
@@ -119,7 +119,7 @@ protected:
                 switchProOutput.sendHandshake = false;
 
                 // See: https://github.com/Dan611/hid-procon/blob/master/hid-procon.c
-                //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/USB-HID-Notes.md
+                //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/USBHost-HID-Notes.md
                 uint8_t buf[2] = { 0x80 /* PROCON_REPORT_SEND_USB */, 0x02 /* PROCON_USB_HANDSHAKE */ };
 
                 // Endpoint (control endpoint), Interface (0x00), Report Type (Output 0x02), Report ID (0x80), nbytes, data
@@ -130,7 +130,7 @@ protected:
                 switchProOutput.disableTimeout = false;
 
                 // See: https://github.com/Dan611/hid-procon/blob/master/hid-procon.c
-                //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/USB-HID-Notes.md
+                //      https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/USBHost-HID-Notes.md
                 uint8_t buf[2] = { 0x80 /* PROCON_REPORT_SEND_USB */, 0x04 /* PROCON_USB_ENABLE */ };
 
                 // Endpoint (control endpoint), Interface (0x00), Report Type (Output 0x02), Report ID (0x80), nbytes, data
@@ -140,7 +140,7 @@ protected:
 
         /** @name USBDeviceConfig implementation */
         /**
-         * Used by the USB core to check what this driver support.
+         * Used by the USBHost core to check what this driver support.
          * @param  vid The device's VID.
          * @param  pid The device's PID.
          * @return     Returns true if the device's VID and PID matches this driver.
