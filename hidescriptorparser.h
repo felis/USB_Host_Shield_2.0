@@ -156,6 +156,8 @@ class ReportDescParser2 : public ReportDescParserBase {
         uint8_t *pBuf; // Report buffer pointer
         uint8_t bLen; // Report length
 
+        uint8_t bits_of_byte;
+
 protected:
         // Method should be defined here if virtual.
         virtual uint8_t ParseItem(uint8_t **pp, uint16_t *pcntdn);
@@ -163,7 +165,7 @@ protected:
 public:
 
         ReportDescParser2(uint16_t len, uint8_t *pbuf) :
-        ReportDescParserBase(), rptId(0), useMin(0), useMax(0), fieldCount(0), pBuf(pbuf), bLen(len) {
+        ReportDescParserBase(), rptId(0), useMin(0), useMax(0), fieldCount(0), pBuf(pbuf), bLen(len), bits_of_byte(8) {
         };
 };
 
