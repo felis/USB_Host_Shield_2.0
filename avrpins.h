@@ -126,7 +126,7 @@ e-mail   :  support@circuitsathome.com
 #define MAKE_PORT_AVR_DX(portName, className, ID) MAKE_PORT_AVR_CLASSIC(portName.OUT, portName.DIR, portName.IN, className, ID)
 
 // Indirection layer to add support for AVR ports software architecture variants
-#if  defined(PORT_AVR_CLASSIC)
+#if defined(PORT_AVR_CLASSIC)
   #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_CLASSIC(portName, ddrName, pinName, className, ID)
 #elif defined(PORT_AVR_DX)
   #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_DX(portName, className, ID)
