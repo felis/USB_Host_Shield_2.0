@@ -92,7 +92,7 @@ public:
 };
 
 /* SPI pin definitions. see avrpins.h   */
-#if defined(PIN_SPI_SCK) && defined(PIN_SPI_MOSI) && defined(PIN_SPI_MISO) && defined(PIN_SPI_SS)
+#if defined(PIN_SPI_SCK) && defined(PIN_SPI_MOSI) && defined(PIN_SPI_MISO) && defined(PIN_SPI_SS) && !defined(DXCORE)
 // Use pin defines: https://github.com/arduino/Arduino/pull/4814
 // Based on: https://www.mikeash.com/pyblog/friday-qa-2015-03-20-preprocessor-abuse-and-optional-parentheses.html
 #define NOTHING_EXTRACT
@@ -128,6 +128,8 @@ typedef SPi< P18, P23, P19, P5 > spi;
 typedef SPi< P26, P25, P24, P5 > spi;
 #elif defined(ARDUINO_Seeed_XIAO_nRF52840_Sense)
 typedef SPi< P8, P10, P9, P7 > spi;
+#elif defined(__AVR_AVR64DD32__)
+typedef SPi< Pa6, Pa4, Pa5, Pa7 > spi;
 #else
 #error "No SPI entry in usbhost.h"
 #endif
