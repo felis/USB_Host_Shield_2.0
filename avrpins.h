@@ -43,9 +43,9 @@ e-mail   :  support@circuitsathome.com
 
 // Port definition configuration for classic AVR MCUs or newer Dx AVR MCUs
 #ifdef DXCORE
-#define PORT_AVR_CLASSIC
-#else
 #define PORT_AVR_DX
+#else
+#define PORT_AVR_CLASSIC
 #endif
 
 #ifdef PORTA
