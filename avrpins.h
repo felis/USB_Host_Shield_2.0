@@ -41,6 +41,15 @@ e-mail   :  support@circuitsathome.com
 #define BOARD_BLACK_WIDDOW
 #endif
 
+// Port definition configuration for classic AVR MCUs or newer Dx AVR MCUs
+#if !defined(DXCORE)
+  #define PORT_AVR_CLASSIC
+#elif defined(DXCORE)
+  #define PORT_AVR_DX
+#else
+  #error "unknown AVR port definition, you need to add support for the target MCU"
+#endif
+
 #ifdef PORTA
 #define USE_PORTA
 #endif
@@ -92,8 +101,7 @@ e-mail   :  support@circuitsathome.com
 #endif
 
 //Port definitions for AtTiny, AtMega families.
-
-#define MAKE_PORT(portName, ddrName, pinName, className, ID) \
+#define MAKE_PORT_AVR_CLASSIC(portName, ddrName, pinName, className, ID) \
     class className{\
     public:\
       typedef uint8_t DataT;\
@@ -114,6 +122,18 @@ e-mail   :  support@circuitsathome.com
       enum{Width=sizeof(DataT)*8};\
     };
 
+//Port definitions for AVR Dx family
+#define MAKE_PORT_AVR_DX(portName, className, ID) MAKE_PORT_AVR_CLASSIC(portName.OUT, portName.DIR, portName.IN, className, ID)
+
+// Indirection layer to add support for AVR ports software architecture variants
+#if  defined(PORT_AVR_CLASSIC)
+  #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_CLASSIC(portName, ddrName, pinName, className, ID)
+#elif defined(PORT_AVR_DX)
+  #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_DX(portName, className, ID)
+#else
+  #error "avr core or platform not defined, you'll probably have to add some code to support it"
+#endif
+
 // TCCR registers to set/clear Arduino PWM
 #define MAKE_TCCR(TccrName, className) \
     class className{\
@@ -129,8 +149,8 @@ e-mail   :  support@circuitsathome.com
       enum{Width=sizeof(DataT)*8};\
     };
 
-#ifdef USE_PORTA
 
+#ifdef USE_PORTA
 MAKE_PORT(PORTA, DDRA, PINA, Porta, 'A')
 #endif
 #ifdef USE_PORTB
@@ -884,6 +904,42 @@ public:
 #define P30 Pa6
 #define P31 Pa7
 // Sanguino
+
+
+#elif defined(__AVR_AVR64DD32__)
+//MCU https://www.microchip.com/en-us/product/avr64dd32
+//Core https://github.com/SpenceKonde/DxCore
+#define P0  Pa0
+#define P1  Pa1
+#define P2  Pa2
+#define P3  Pa3
+#define P4  Pa4
+#define P5  Pa5
+#define P6  Pa6
+#define P7  Pa7
+
+#define P8  Pc0
+#define P9  Pc1
+#define P10 Pc2
+#define P11 Pc3
+
+//#define P12 Pd0  // MVIO, NOT an IO pin
+#define P13 Pd1
+#define P14 Pd2
+#define P15 Pd3
+#define P16 Pd4
+#define P17 Pd5
+#define P18 Pd6
+#define P19 Pd7
+
+#define P20 Pf0
+#define P21 Pf1
+#define P22 Pf2
+#define P23 Pf3
+#define P24 Pf4
+#define P25 Pf5
+//#define P26 Pf6  // RESET, not an IO pin unless you use High Voltage UPDI programming (you probably don't)
+//#define P27 Pf7  // UPDI, not an IO pin unless you use High Voltage UPDI programming (you probably don't)
 
 #else
 #error "Please define board in avrpins.h"
