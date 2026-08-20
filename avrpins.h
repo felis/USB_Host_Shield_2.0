@@ -42,12 +42,10 @@ e-mail   :  support@circuitsathome.com
 #endif
 
 // Port definition configuration for classic AVR MCUs or newer Dx AVR MCUs
-#if !defined(DXCORE)
-  #define PORT_AVR_CLASSIC
-#elif defined(DXCORE)
-  #define PORT_AVR_DX
+#ifdef DXCORE
+#define PORT_AVR_CLASSIC
 #else
-  #error "unknown AVR port definition, you need to add support for the target MCU"
+#define PORT_AVR_DX
 #endif
 
 #ifdef PORTA
@@ -126,12 +124,12 @@ e-mail   :  support@circuitsathome.com
 #define MAKE_PORT_AVR_DX(portName, className, ID) MAKE_PORT_AVR_CLASSIC(portName.OUT, portName.DIR, portName.IN, className, ID)
 
 // Indirection layer to add support for AVR ports software architecture variants
-#if  defined(PORT_AVR_CLASSIC)
+#if defined(PORT_AVR_CLASSIC)
   #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_CLASSIC(portName, ddrName, pinName, className, ID)
 #elif defined(PORT_AVR_DX)
   #define MAKE_PORT(portName, ddrName, pinName, className, ID) MAKE_PORT_AVR_DX(portName, className, ID)
 #else
-  #error "avr core or platform not defined, you'll probably have to add some code to support it"
+  #error "AVR core or target MCU not defined, you'll probably have to add some code specific to your MCU ports software architecture to support it. To help you doing that you can lookup and your MCU datasheet and the io$MCU_NAME.h header specific of your MCU in the $ARDUINO_INSTALL/packages/$CORE_NAME/tools/avr-gcc/$AVR-GCC_VERSION_NAME/avr/include/avr/ directory." 
 #endif
 
 // TCCR registers to set/clear Arduino PWM
