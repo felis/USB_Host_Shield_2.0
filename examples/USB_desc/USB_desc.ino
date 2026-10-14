@@ -201,34 +201,59 @@ void printhubdescr(uint8_t *descrptr, uint8_t addr)
 
 uint8_t getconfdescr( uint8_t addr, uint8_t conf )
 {
-  uint8_t buf[ BUFSIZE ];
+  uint8_t buf[ BUFSIZE ] = { 0 };
   uint8_t* buf_ptr = buf;
   uint8_t rcode;
   uint8_t descr_length;
   uint8_t descr_type;
   uint16_t total_length;
   rcode = Usb.getConfDescr( addr, 0, 4, conf, buf );  //get total length
+  if ( rcode )
+    return rcode;
   LOBYTE( total_length ) = buf[ 2 ];
   HIBYTE( total_length ) = buf[ 3 ];
-  if ( total_length > 256 ) {   //check if total length is larger than buffer
+  if ( buf[ 0 ] < sizeof(USB_CONFIGURATION_DESCRIPTOR) ||
+       buf[ 1 ] != USB_DESCRIPTOR_CONFIGURATION || total_length < buf[ 0 ] )
+    return USB_ERROR_FailGetConfDescr;
+  bool truncated = total_length > sizeof(buf);
+  if ( truncated ) {   //check if total length is larger than buffer
     printProgStr(Conf_Trunc_str);
-    total_length = 256;
+    total_length = sizeof(buf);
   }
+  // A successful control transfer may still return fewer bytes than requested.
+  memset(buf, 0, sizeof(buf));
   rcode = Usb.getConfDescr( addr, 0, total_length, conf, buf ); //get the whole descriptor
+  if ( rcode )
+    return rcode;
   while ( buf_ptr < buf + total_length ) { //parsing descriptors
+    uint16_t remaining = buf + total_length - buf_ptr;
+    if ( remaining < 2 )
+      return truncated ? 0 : USB_ERROR_FailGetConfDescr;
     descr_length = *( buf_ptr );
+    if ( descr_length < 2 )
+      return USB_ERROR_FailGetConfDescr;
+    if ( descr_length > remaining )
+      return truncated ? 0 : USB_ERROR_FailGetConfDescr;
     descr_type = *( buf_ptr + 1 );
     switch ( descr_type ) {
       case ( USB_DESCRIPTOR_CONFIGURATION ):
+        if ( descr_length < sizeof(USB_CONFIGURATION_DESCRIPTOR) )
+          return USB_ERROR_FailGetConfDescr;
         printconfdescr( buf_ptr );
         break;
       case ( USB_DESCRIPTOR_INTERFACE ):
+        if ( descr_length < sizeof(USB_INTERFACE_DESCRIPTOR) )
+          return USB_ERROR_FailGetConfDescr;
         printintfdescr( buf_ptr );
         break;
       case ( USB_DESCRIPTOR_ENDPOINT ):
+        if ( descr_length < sizeof(USB_ENDPOINT_DESCRIPTOR) )
+          return USB_ERROR_FailGetConfDescr;
         printepdescr( buf_ptr );
         break;
       case 0x29:
+        if ( descr_length < sizeof(HubDescriptor) )
+          return USB_ERROR_FailGetConfDescr;
         printhubdescr( buf_ptr, addr );
         break;
       default:
@@ -329,7 +354,7 @@ void printunkdescr( uint8_t* descr_ptr )
   print_hex( *(descr_ptr + 1 ), 8 );
   printProgStr(Unk_Contents_str);
   descr_ptr += 2;
-  for ( i = 0; i < length; i++ ) {
+  for ( i = 2; i < length; i++ ) {
     print_hex( *descr_ptr, 8 );
     descr_ptr++;
   }
