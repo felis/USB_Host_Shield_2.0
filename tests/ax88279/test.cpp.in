@@ -1,0 +1,131 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+#include "ax88279.h"
+#include <cassert>
+#include <iostream>
+static unsigned callbacks, stamps;
+static void frame(void *, const uint8_t *, uint16_t n, const AX88279Time *time) {
+    assert(n == 60); ++callbacks; if(time) ++stamps;
+}
+static void timestamp(void *, uint8_t type, uint16_t seq, const AX88279Time &time) {
+    assert(type == 1 && seq == 0x1234 && time.nanoseconds == 123); ++stamps;
+}
+static void le32(uint8_t *p, uint32_t v) { for(unsigned i = 0; i < 4; ++i) p[i] = v >> (8 * i); }
+static std::vector<uint8_t> aggregate(bool stamped) {
+    std::vector<uint8_t> data(stamped ? 96 : 80, 0);
+    data[65] = 8; data[66] = 60;
+    if(stamped) { data[71] = 1; data[72] = 123; data[76] = 1; }
+    le32(data.data() + data.size() - 8, (64 << 13) | 1);
+    return data;
+}
+int main() {
+    // Every setup case uses the production enumeration and control code.
+    for(int mode = 0; mode < 10; ++mode) {
+        USB usb; AX88279 driver(&usb);
+        EpInfo *original = usb.pool.GetUsbDevicePtr(0)->epinfo;
+        if(mode == 1) usb.chip = 0xf0;
+        if(mode == 2) usb.descriptor.idVendor = 1;
+        if(mode == 3) usb.config[22] = 32;
+        if(mode == 4) usb.config[18] = 0;
+        if(mode == 5) usb.shortRequest = 1;
+        if(mode == 7) usb.descriptor.bMaxPacketSize0 = 7;
+        if(mode == 9) usb.shortRequest = 6;
+        if(mode == 8) usb.config[27] = 0x81; // Duplicate/wrong endpoint.
+        uint8_t rc = driver.Init(0, 1, false);
+        if(mode == 0) {
+            assert(rc == 0 && driver.isReady() && usb.epCount == 5);
+            assert(driver.BeginEthernet() == 0);
+            assert(driver.BeginPTP(true) == 0);
+            AX88279Time time; assert(driver.ReadClock(time) == 0 && time.seconds == 1);
+            assert(driver.SetFrequency(-100000) == 0 && driver.SetFrequency(100000) == 0);
+            assert(driver.SetFrequency(100001) == USB_ERROR_INVALID_ARGUMENT);
+            time.seconds = 0x123456789abcULL; time.nanoseconds = 999999999;
+            assert(driver.SetClock(time) == 0);
+            auto clock = usb.registers[std::make_tuple(0x11, 0x1008, 0x12)];
+            assert(clock[4] == 0xbc && clock[9] == 0x12 && clock[10] == 0);
+            time.seconds = 1ULL << 48; assert(driver.SetClock(time) == USB_ERROR_INVALID_ARGUMENT);
+            assert(driver.EnablePPS(false) == 0);
+        } else if(mode == 6) {
+            assert(rc == 0); usb.failRequest = 6; assert(driver.BeginEthernet() == 0x0d);
+            assert(!driver.isEthernetReady());
+        } else {
+            assert(rc != 0 && !driver.isReady() && !usb.pool.allocated && usb.writes == 0);
+        }
+        assert(usb.pool.GetUsbDevicePtr(0)->epinfo == original);
+        driver.Release(); assert(!driver.isReady() && !usb.pool.allocated);
+    }
+    // Exercise the 16-byte interrupt variant and descriptors spanning packets.
+    {
+        USB usb; usb.config[22] = 16;
+        usb.config.push_back(40); usb.config.push_back(0x24);
+        usb.config.resize(93, 0); usb.config[2] = 93;
+        AX88279 driver(&usb);
+        assert(driver.Init(0, 1, false) == 0 && driver.BeginEthernet() == 0);
+    }
+    USB usb; AX88279 driver(&usb);
+    assert(driver.Init(0, 1, false) == 0 && driver.BeginEthernet() == 0 && driver.BeginPTP(false) == 0);
+    for(unsigned length : {60, 64, 120, 1518}) {
+        unsigned bytes = 8 + ((length + 7) & ~7);
+        std::vector<uint8_t> tx(bytes, 0xa5);
+        assert(driver.SendFrame(tx.data(), length, bytes - 1) == AX88279::BUFFER_TOO_SMALL);
+        assert(driver.SendFrame(tx.data(), length, bytes) == 0 && usb.lastOutLength == bytes);
+        assert(tx[8] == 0xa5 && tx[8 + length - 1] == 0xa5);
+    }
+    for(bool withTime : {false, true}) {
+        auto data = aggregate(withTime);
+        callbacks = stamps = 0;
+        assert(AX88279::ParseRx(data.data(), data.size(), frame, nullptr) == 0);
+        assert(callbacks == 1 && stamps == unsigned(withTime));
+        for(unsigned size = 0; size < data.size(); ++size) {
+            callbacks = 0;
+            assert(AX88279::ParseRx(data.data(), size, frame, nullptr) != 0 && !callbacks);
+        }
+        data[66] = 65; callbacks = 0;
+        assert(AX88279::ParseRx(data.data(), data.size(), frame, nullptr) != 0 && !callbacks);
+    }
+    // Invalid second frame must not deliver the first frame.
+    std::vector<uint8_t> multi(152, 0);
+    multi[129] = multi[137] = 8; multi[130] = 60; multi[138] = 65;
+    le32(multi.data() + 144, (128 << 13) | 2); callbacks = 0;
+    assert(AX88279::ParseRx(multi.data(), multi.size(), frame, nullptr) != 0 && !callbacks);
+    multi[138] = 60;
+    assert(AX88279::ParseRx(multi.data(), multi.size(), frame, nullptr) == 0 && callbacks == 2);
+    uint8_t storage[96]; AX88279Buffer buffer(storage, sizeof(storage));
+    auto data = aggregate(true);
+    usb.incoming.push_back({0, {data.begin(), data.begin() + 64}});
+    usb.incoming.push_back({hrNAK, {}});
+    usb.incoming.push_back({0, {data.begin() + 64, data.end()}});
+    assert(driver.Receive(buffer) == 0 && buffer.size == 64 && !buffer.complete);
+    assert(driver.Receive(buffer) == hrNAK && buffer.size == 64);
+    assert(driver.Receive(buffer) == 0 && buffer.complete && buffer.size == 96);
+    buffer.capacity = 64;
+    usb.incoming.push_back({0, std::vector<uint8_t>(64, 0)});
+    usb.incoming.push_back({0, std::vector<uint8_t>(32, 0)});
+    assert(driver.Receive(buffer) == 0 && !buffer.complete);
+    assert(driver.Receive(buffer) == AX88279::BUFFER_TOO_SMALL && buffer.complete && !buffer.size);
+    usb.incoming.push_back({0, {1, 2}});
+    assert(driver.Receive(buffer) == 0 && buffer.complete && buffer.size == 2);
+    // Error mid-transfer drains through the next short packet, then recovers.
+    usb.incoming.push_back({0, std::vector<uint8_t>(64, 0)});
+    usb.incoming.push_back({0x0d, {}}); usb.incoming.push_back({0, {1, 2}});
+    assert(driver.Receive(buffer) == 0); assert(driver.Receive(buffer) == 0x0d);
+    assert(driver.Receive(buffer) == AX88279::BUFFER_TOO_SMALL);
+    std::vector<uint8_t> report(131, 0);
+    for(unsigned bank : {0, 65}) {
+        std::fill(report.begin(), report.end(), 0); report[130] = bank ? 0 : 1;
+        report[bank] = 0x18; report[bank + 1] = 0x34; report[bank + 2] = 0x12; report[bank + 3] = 123;
+        stamps = 0;
+        assert(AX88279::ParseTimestamps(report.data(), report.size(), timestamp, nullptr) == 0 && stamps == 1);
+        assert(AX88279::ParseTimestamps(report.data(), 130, timestamp, nullptr) != 0);
+        le32(report.data() + bank + 3, 1000000000UL); stamps = 0;
+        assert(AX88279::ParseTimestamps(report.data(), report.size(), timestamp, nullptr) != 0 && !stamps);
+    }
+    // Deterministic random input exercises parser bounds with sanitizers enabled.
+    uint32_t state = 42;
+    for(unsigned n = 0; n < 20000; ++n) {
+        std::vector<uint8_t> random(n % 512);
+        for(auto &byte : random) { state = state * 1664525 + 1013904223; byte = state >> 24; }
+        AX88279::ParseRx(random.data(), random.size(), nullptr, nullptr);
+        AX88279::ParseTimestamps(random.data(), random.size(), nullptr, nullptr);
+    }
+    std::cout << "AX88279 enumeration, transport, clock and parser checks passed (including 20000 random inputs)\n";
+}

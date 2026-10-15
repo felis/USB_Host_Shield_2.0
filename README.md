@@ -17,6 +17,11 @@ The shield can be purchased from [TKJ Electronics](http://tkjelectronics.com/): 
 
 For more information about the hardware see the [Hardware Manual](https://chome.nerpa.tech/usb-host-shield-hardware-manual/).
 
+Experimental [AX88279 native Ethernet and PTP hardware clock support](examples/AX88279/README.md)
+is available for supported TimeStick adapters. The driver targets USB full speed
+and a 1000/full Ethernet link; it provides raw frames, hardware timestamps and
+PPS control. AX88279A and other ASIX variants are not supported.
+
 # Developed By
 
 * __Oleg Mazurov__ - <mazurov@gmail.com>
